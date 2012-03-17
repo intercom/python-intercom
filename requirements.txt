@@ -1,0 +1,8 @@
+#
+# Copyright 2012 keyes.ie
+#
+# License: http://jkeyes.mit-license.org/
+#
+requests==0.10.6
+nose==1.1.2
+mock==0.8.0
