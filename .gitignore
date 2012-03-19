@@ -1,3 +1,9 @@
 dist
+venv
+.coverage
+.env
 *.egg-info
 *.pyc
+
+intercom.sublime-project
+intercom.sublime-workspace

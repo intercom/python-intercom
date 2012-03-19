@@ -5,4 +5,8 @@
 #
 requests==0.10.6
 nose==1.1.2
+coverage==3.5.1
 mock==0.8.0
+logilab-common==0.57.1
+logilab-astng==0.23.1
+pylint==0.25.1
