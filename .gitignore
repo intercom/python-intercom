@@ -4,6 +4,8 @@ venv
 .env
 *.egg-info
 *.pyc
+.DS_Store
+_*
 
 intercom.sublime-project
 intercom.sublime-workspace

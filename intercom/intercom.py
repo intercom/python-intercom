@@ -34,6 +34,7 @@ def api_call(func_to_decorate):
     def wrapper(*args, **kwargs):
         """ Decorator closure. """
         response = func_to_decorate(*args, **kwargs)
+        print response.content
         if response.status_code == 401:
             raise AuthError("Invalid API key/username provided.")
         result = json.loads(response.content)
@@ -61,7 +62,7 @@ class Intercom(object):
     @api_call
     def _call(cls, method, url, params=None):
         req_params = {}
-        headers = { 'User-Agent': 'python-intercom/0.1' }
+        headers = { 'User-Agent': 'python-intercom/0.1', 'Accept': 'application/json' }
         if method in ('POST', 'PUT'):
             headers['content-type'] = 'application/json'
             req_params['data'] = json.dumps(params)
@@ -94,7 +95,7 @@ class Intercom(object):
         email or user_id. """
 
         params = { 'email': email, 'user_id': user_id }
-        user_dict = Intercom._call('GET', '%susers' % (Intercom.api_endpoint), params=params)
+        user_dict = Intercom._call('GET', '%sussers' % (Intercom.api_endpoint), params=params)
         return user_dict
 
     @classmethod
