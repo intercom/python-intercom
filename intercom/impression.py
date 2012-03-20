@@ -16,7 +16,6 @@ class Impression(UserId):
         return cls(resp)
 
     def save(self):
-        print "Impression save..."
         resp = Intercom.create_impression(**self)
         self.update(resp)
 

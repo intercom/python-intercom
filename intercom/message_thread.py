@@ -14,7 +14,7 @@ class MessageThread(dict):
     def find(cls, user_id=None, email=None, thread_id=None):
         resp = Intercom.get_message_threads(user_id=user_id, email=email, 
                 thread_id=thread_id)
-        return [MessageThread(mt) for mt in resp]
+        return MessageThread(resp)
 
     @classmethod
     def find_all(cls, user_id=None, email=None):
@@ -23,6 +23,7 @@ class MessageThread(dict):
 
     @classmethod
     def create(cls, user_id=None, email=None, body=None):
+        print "CREATE...."
         resp = Intercom.create_message_thread(user_id=user_id, email=email, 
                 body=body)
         return MessageThread(resp)
@@ -44,10 +45,10 @@ class MessageThread(dict):
     def created_at(self):
         return dict.get(self, 'created_at', None)
 
-    @property
-    def body(self):
-        return dict.get(self, 'body', None)
-
+    def set_body(self, value):
+        self['body'] = value
+    body = property(None, set_body, None)
+    
     @property
     def thread_id(self):
         return dict.get(self, 'thread_id', None)
@@ -60,7 +61,7 @@ class MessageThread(dict):
     def read(self):
         return dict.get(self, 'read', None)
 
-    @thread_id.setter
+    @read.setter
     def read(self, value):
         self['read'] = value
 
@@ -83,14 +84,16 @@ class Message(dict):
         return dict.get(self, 'html', None)
 
     @property
+    @from_timestamp_property
     def created_at(self):
+        print "CREATED AT!"
         return dict.get(self, 'created_at', None)
 
 class MessageAuthor(dict):
 
     @property
     def admin(self):
-        return dict.get(self, 'admin', None)
+        return dict.get(self, 'is_admin', None)
 
     @property
     def email(self):

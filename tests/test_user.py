@@ -5,11 +5,14 @@
 #
 
 import os
+import time
 
-from . import create_response
+from datetime import datetime
 from mock import patch
 from nose.tools import raises
 from unittest import TestCase
+
+from . import create_response
 
 from intercom.intercom import AuthError
 from intercom.user import CustomData
@@ -117,6 +120,29 @@ class UsersTest(TestCase):
         user = User.find_by_email('xxx@example.com')
         self.assertEqual(None, user.user_id)
         self.assertEqual('xxx@example.com', user.email)
+        self.assertEqual('Joe', user.name)
+        self.assertEqual('192.168.1.100', user.last_seen_ip)
+        self.assertEqual('Mozilla/5.0', user.last_seen_user_agent)
+        self.assertEqual(50, user.relationship_score)
+        self.assertTrue(isinstance(user.last_impression_at, datetime))
+        self.assertEqual(1331834352, 
+                time.mktime(user.last_impression_at.timetuple()))
+        self.assertTrue(isinstance(user.created_at, datetime))
+        self.assertEqual(1331764344, 
+                time.mktime(user.created_at.timetuple()))
+        self.assertTrue(1, len(user.social_profiles))
+        profile = user.social_profiles[0]
+        self.assertEqual('twitter', profile.type)
+        self.assertEqual('foo', profile.username)
+        self.assertEqual('http://twitter.com/foo', profile.url)
+        self.assertEqual('1234567', profile.id)
+        self.assertEqual('Santiago', user.location_data['city_name'])
+        self.assertEqual('johnny', user.custom_data['nick'])
+
+    @patch('requests.request', create_response(200, 'get_user_id_valid.json'))
+    def test_find_by_user_id(self):
+        user = User.find_by_user_id(1234)
+        self.assertEqual(1234, user.user_id)
 
     @patch('requests.request', create_response(200, 'update_user_valid.json'))
     def test_save_user(self):
@@ -134,3 +160,29 @@ class UsersTest(TestCase):
         self.assertEqual('joebloggs@example.com', users[0].email)
         self.assertEqual('foobloggs@example.com', users[1].email)
         self.assertEqual('barbloggs@example.com', users[2].email)
+
+    def test_properties(self):
+        user = User()
+        user.email = 'xxx@example.com'
+        user.user_id = 1234
+        user.name = 'Joe'
+        user.last_seen_ip = '192.168.1.100'
+        user.last_seen_user_agent = 'Mozilla/5.0'
+        user.created_at = datetime.fromtimestamp(1331764344)
+        user.custom_data = { 'name': 'Ace' }
+
+        try:
+            # cannot set the relationship score
+            user.relationship_score = 50
+        except AttributeError:
+            pass
+
+        self.assertEqual('xxx@example.com', user.email)
+        self.assertEqual(1234, user.user_id)
+        self.assertEqual('Joe', user.name)
+        self.assertEqual('192.168.1.100', user.last_seen_ip)
+        self.assertEqual('Mozilla/5.0', user.last_seen_user_agent)
+        self.assertEqual(None, user.relationship_score)
+        self.assertEqual(1331764344, 
+                time.mktime(user.created_at.timetuple()))
+        self.assertEqual('Ace', user.custom_data['name'])

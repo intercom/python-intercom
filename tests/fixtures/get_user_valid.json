@@ -1,16 +1,32 @@
 {
     "user_id": null, 
-    "name": null, 
-    "last_seen_ip": null, 
-    "relationship_score": 0, 
+    "name": "Joe", 
+    "last_seen_ip": "192.168.1.100", 
+    "relationship_score": 50, 
     "session_count": 1, 
     "created_at": 1331764344, 
-    "location_data": null, 
-    "social_profiles": [], 
-    "last_impression_at": null, 
+    "location_data": {
+        "city_name": "Santiago",
+        "continent_code": "SA",
+        "country_name": "Chile",
+        "latitude": -33.44999999999999,
+        "longitude": -70.6667,
+        "postal_code": "",
+        "region_name": "12",
+        "timezone": "Chile/Continental",
+        "country_code": "CHL"
+    },
+    "social_profiles": [ { 
+            "type": "twitter",
+            "id": "1234567",
+            "url": "http://twitter.com/foo",
+            "username": "foo"
+        }
+    ], 
+    "last_impression_at": 1331834352, 
     "custom_data": {
         "nick": "johnny"
     }, 
-    "last_seen_user_agent": null, 
+    "last_seen_user_agent": "Mozilla/5.0", 
     "email": "xxx@example.com"
 }

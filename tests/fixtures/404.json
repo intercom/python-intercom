@@ -1,0 +1,6 @@
+{
+  "error": {
+    "type": "not_found",
+    "message": "The User was not found"
+  }
+}
