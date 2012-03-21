@@ -23,7 +23,6 @@ class MessageThread(dict):
 
     @classmethod
     def create(cls, user_id=None, email=None, body=None):
-        print "CREATE...."
         resp = Intercom.create_message_thread(user_id=user_id, email=email, 
                 body=body)
         return MessageThread(resp)
@@ -48,7 +47,7 @@ class MessageThread(dict):
     def set_body(self, value):
         self['body'] = value
     body = property(None, set_body, None)
-    
+
     @property
     def thread_id(self):
         return dict.get(self, 'thread_id', None)
@@ -86,7 +85,6 @@ class Message(dict):
     @property
     @from_timestamp_property
     def created_at(self):
-        print "CREATED AT!"
         return dict.get(self, 'created_at', None)
 
 class MessageAuthor(dict):

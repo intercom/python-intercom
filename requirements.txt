@@ -3,7 +3,7 @@
 #
 # License: http://jkeyes.mit-license.org/
 #
-requests==0.10.6
+requests==0.10.8
 nose==1.1.2
 coverage==3.5.1
 mock==0.8.0
