@@ -127,7 +127,11 @@ class User(UserId):
 
     @property
     def location_data(self):
-        return dict.get(self, 'location_data', None)
+        data = dict.get(self, 'location_data', None)
+        if not isinstance(data, LocationData):
+            data = LocationData(data)
+            dict.__setitem__(self, 'location_data', data)
+        return data
 
     @property
     def custom_data(self):
@@ -177,6 +181,49 @@ class SocialProfile(dict):
     def username(self):
         """ username """
         return self.get('username', None)
+
+    def __setitem__(self, key, value):
+        """ Do not allow items to be set. """
+        raise NotImplementedError
+
+class LocationData(dict):
+    """ Object representing a user's location data """
+
+    @property
+    def city_name(self):
+        return self.get('city_name', None)
+
+    @property
+    def continent_code(self):
+        return self.get('continent_code', None)
+
+    @property
+    def country_name(self):
+        return self.get('country_name', None)
+
+    @property
+    def latitude(self):
+        return self.get('latitude', None)
+
+    @property
+    def longitude(self):
+        return self.get('longitude', None)
+
+    @property
+    def postal_code(self):
+        return self.get('postal_code', None)
+
+    @property
+    def region_name(self):
+        return self.get('region_name', None)
+
+    @property
+    def timezone(self):
+        return self.get('timezone', None)
+
+    @property
+    def country_code(self):
+        return self.get('country_code', None)
 
     def __setitem__(self, key, value):
         """ Do not allow items to be set. """

@@ -16,6 +16,7 @@ from . import create_response
 
 from intercom.intercom import AuthError
 from intercom.user import CustomData
+from intercom.user import LocationData
 from intercom.user import SocialProfile
 from intercom.user import User
 
@@ -132,11 +133,14 @@ class UsersTest(TestCase):
                 time.mktime(user.created_at.timetuple()))
         self.assertTrue(1, len(user.social_profiles))
         profile = user.social_profiles[0]
+        self.assertTrue(isinstance(profile, SocialProfile))
         self.assertEqual('twitter', profile.type)
         self.assertEqual('foo', profile.username)
         self.assertEqual('http://twitter.com/foo', profile.url)
         self.assertEqual('1234567', profile.id)
         self.assertEqual('Santiago', user.location_data['city_name'])
+        self.assertEqual('Santiago', user.location_data.city_name)
+        self.assertTrue(isinstance(user.location_data, LocationData))
         self.assertEqual('johnny', user.custom_data['nick'])
 
     @patch('requests.request', create_response(200, 'get_user_id_valid.json'))
@@ -186,3 +190,38 @@ class UsersTest(TestCase):
         self.assertEqual(1331764344, 
                 time.mktime(user.created_at.timetuple()))
         self.assertEqual('Ace', user.custom_data['name'])
+
+class LocationDataTest(TestCase):
+
+    @raises(AttributeError)
+    def test_setattr(self):
+        location_data = LocationData()
+        location_data.city_name = "Dublin"
+
+    @raises(NotImplementedError)
+    def test_setitem(self):
+        location_data = LocationData()
+        location_data['city_name'] = "Dublin"
+
+    def test_properties(self):
+        location_data = LocationData({
+            "city_name": "Santiago",
+            "continent_code": "SA",
+            "country_name": "Chile",
+            "latitude": -33.44999999999999,
+            "longitude": -70.6667,
+            "postal_code": "",
+            "region_name": "12",
+            "timezone": "Chile/Continental",
+            "country_code": "CHL"
+        })
+
+        self.assertEqual('Santiago', location_data.city_name)
+        self.assertEqual('SA', location_data.continent_code)
+        self.assertEqual('Chile', location_data.country_name)
+        self.assertEqual(-33.44999999999999, location_data.latitude)
+        self.assertEqual(-70.6667, location_data.longitude)
+        self.assertEqual('', location_data.postal_code)
+        self.assertEqual('12', location_data.region_name)
+        self.assertEqual('Chile/Continental', location_data.timezone)
+        self.assertEqual('CHL', location_data.country_code)
