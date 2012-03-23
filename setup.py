@@ -8,7 +8,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 setup(name="python-intercom",
-    version='0.1',
+    version='0.2.0',
     description="Intercom API wrapper",
     long_description=open('README.md').read(),
     author="John Keyes",

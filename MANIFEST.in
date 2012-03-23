@@ -1,5 +1,6 @@
-include LICENSE.md
 include CHANGES.md
+include INSTALL.md
+include LICENSE.md
 include README.md
 recursive-include docs *.rst
 recursive-exclude docs/_build *
