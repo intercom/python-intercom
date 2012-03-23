@@ -1,0 +1,7 @@
+include LICENSE.md
+include CHANGES.md
+include README.md
+recursive-include docs *.rst
+recursive-exclude docs/_build *
+include requirements.txt
+recursive-include tests *.py
