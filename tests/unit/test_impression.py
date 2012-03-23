@@ -14,12 +14,12 @@ from unittest import TestCase
 
 from . import create_response
 
-from intercom.intercom import AuthError
+from intercom.intercom import AuthenticationError
 from intercom import Impression
 
 class ImpressionTest(TestCase):
 
-    @raises(AuthError)
+    @raises(AuthenticationError)
     @patch('requests.request', create_response(401))
     def test_create_impression_identifiers(self):
         Impression.create()

@@ -26,6 +26,9 @@ def to_timestamp_property(func_to_decorate):
     return wrapper
 
 
+from .intercom import AuthenticationError
+from .intercom import ResourceNotFound
+from .intercom import ServerError
 from .intercom import Intercom
 from .user import User
 from .message_thread import MessageThread

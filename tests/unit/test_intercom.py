@@ -11,9 +11,9 @@ from mock import patch
 from nose.tools import raises
 from unittest import TestCase
 
-from intercom.intercom import APIError
-from intercom.intercom import AuthError
-from intercom.intercom import NotFoundError
+from intercom import ServerError
+from intercom import AuthenticationError
+from intercom import ResourceNotFound
 from intercom import Intercom
 from intercom.user import CustomData
 from intercom.user import SocialProfile
@@ -21,7 +21,7 @@ from intercom.user import User
 
 class IntercomUsersTest(TestCase):
 
-    @raises(AuthError)
+    @raises(AuthenticationError)
     @patch('requests.request', create_response(401))
     def test_create_user_identifiers(self):
         Intercom.create_user()
@@ -32,7 +32,7 @@ class IntercomUsersTest(TestCase):
         self.assertEqual(None, resp['user_id'])
         self.assertEqual('xxx@example.com', resp['email'])
 
-    @raises(AuthError)
+    @raises(AuthenticationError)
     @patch('requests.request', create_response(401))
     def test_get_user_identifiers(self):
         Intercom.get_user()
@@ -43,7 +43,7 @@ class IntercomUsersTest(TestCase):
         self.assertEqual(None, resp['user_id'])
         self.assertEqual('xxx@example.com', resp['email'])
 
-    @raises(AuthError)
+    @raises(AuthenticationError)
     @patch('requests.request', create_response(401))
     def test_create_user_identifiers(self):
         Intercom.update_user()
@@ -56,7 +56,7 @@ class IntercomUsersTest(TestCase):
         self.assertEqual('xxx@example.com', resp['email'])
         self.assertEqual('42', resp['custom_data']['age'])
 
-    @raises(AuthError)
+    @raises(AuthenticationError)
     @patch('requests.request', create_response(401))
     def test_get_users_identifiers(self):
         Intercom.create_user()
@@ -68,12 +68,12 @@ class IntercomUsersTest(TestCase):
         self.assertEqual(3, resp['total_count'])
         self.assertEqual(1, resp['total_pages'])
 
-    @raises(NotFoundError)
+    @raises(ResourceNotFound)
     @patch('requests.request', create_response(404, '404.json'))
     def test_not_found(self):
         resp = Intercom.get_users()
 
-    @raises(APIError)
+    @raises(ServerError)
     @patch('requests.request', create_response(500, '500.json'))
     def test_api_error(self):
         resp = Intercom.get_users()

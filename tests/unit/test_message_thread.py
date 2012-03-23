@@ -16,11 +16,11 @@ from . import create_response
 
 from intercom import Intercom
 from intercom.message_thread import MessageThread
-from intercom.intercom import AuthError
+from intercom import AuthenticationError
 
 class MessageThreadTest(TestCase):
 
-    @raises(AuthError)
+    @raises(AuthenticationError)
     @patch('requests.request', create_response(401))
     def test_get_message_threads_identifiers(self):
         MessageThread.find_all()

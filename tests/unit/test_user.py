@@ -14,7 +14,7 @@ from unittest import TestCase
 
 from . import create_response
 
-from intercom.intercom import AuthError
+from intercom import AuthenticationError
 from intercom.user import CustomData
 from intercom.user import LocationData
 from intercom.user import SocialProfile
@@ -105,7 +105,7 @@ class UsersTest(TestCase):
         self.assertEqual(None, user.user_id)
         self.assertEqual('xxx@example.com', user.email)
 
-    @raises(AuthError)
+    @raises(AuthenticationError)
     @patch('requests.request', create_response(401))
     def test_find_identifiers(self):
         User.find()

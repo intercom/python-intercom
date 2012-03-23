@@ -16,16 +16,13 @@ class IntercomError(StandardError):
         super(IntercomError, self).__init__(message)
         self.result = result
 
-class AuthConfigError(IntercomError):
+class AuthenticationError(IntercomError):
     pass
 
-class AuthError(IntercomError):
+class ResourceNotFound(IntercomError):
     pass
 
-class NotFoundError(IntercomError):
-    pass
-
-class APIError(IntercomError):
+class ServerError(IntercomError):
     pass
 
 def api_call(func_to_decorate):
@@ -35,16 +32,16 @@ def api_call(func_to_decorate):
         """ Decorator closure. """
         response = func_to_decorate(*args, **kwargs)
         if response.status_code == 401:
-            raise AuthError("Invalid API key/username provided.")
+            raise AuthenticationError("Invalid API key/username provided.")
         result = json.loads(response.content)
         if response.status_code in (200, 201):
             pass
         else:
             message = result['error']['message']
             if response.status_code == 404:
-                raise NotFoundError(message, result)
+                raise ResourceNotFound(message, result)
             else:
-                raise APIError(message, result)
+                raise ServerError(message, result)
         return result
     return wrapper
 

@@ -1,8 +1,8 @@
 from unittest import TestCase
 
-from intercom.intercom import AuthError
-from intercom.intercom import APIError
-from intercom.intercom import NotFoundError
+from intercom import AuthenticationError
+from intercom import ResourceNotFound
+from intercom import ServerError
 from intercom import Intercom
 from intercom import User
 from intercom import MessageThread
@@ -19,15 +19,15 @@ class IntegrationTest(TestCase):
         user = User.find(email='somebody@example.com')
         self.assertEqual('Somebody', user.name)
 
-    @raises(NotFoundError)
+    @raises(ResourceNotFound)
     def test_not_found(self):
         User.find(email='not-found@example.com')
 
-    @raises(APIError)
+    @raises(ServerError)
     def test_server_error(self):
         User.find(email='server-error@example.com')
 
-    @raises(AuthError)
+    @raises(AuthenticationError)
     def test_bad_api_key(self):
         try:
             Intercom.app_id = 'bad-app-id'
