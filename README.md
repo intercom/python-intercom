@@ -17,7 +17,7 @@ More information on [docs.intercom.io](http://docs.intercom.io/api#authenticatio
 More information on [docs.intercom.io](http://docs.intercom.io/api#getting_all_users "Getting all Users")
 
     from intercom import User
-    for user in User.all:
+    for user in User.all():
         print user.email
 
 ### Getting a User
