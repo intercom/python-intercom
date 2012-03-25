@@ -19,10 +19,7 @@ import sys, os
 #sys.path.insert(0, os.path.abspath('.'))
 docs_dir = os.path.dirname(__file__)
 path_dir = os.path.abspath(os.path.join(docs_dir, '..'))
-print path_dir
 sys.path.insert(0, path_dir)
-from intercom import Intercom
-print Intercom
 
 # -- General configuration -----------------------------------------------------
 
@@ -46,7 +43,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'intercom'
+project = u'python-intercom'
 copyright = u'2012, John Keyes'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -189,7 +186,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'intercom.tex', u'intercom Documentation',
+  ('index', 'python-intercom.tex', u'python-intercom Documentation',
    u'John Keyes', 'manual'),
 ]
 
@@ -219,7 +216,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'intercom', u'intercom Documentation',
+    ('index', 'python-intercom', u'python-intercom Documentation',
      [u'John Keyes'], 1)
 ]
 
@@ -233,8 +230,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'intercom', u'intercom Documentation',
-   u'John Keyes', 'intercom', 'One line description of project.',
+  ('index', 'python-intercom', u'python-intercom Documentation',
+   u'John Keyes', 'python-intercom', 'One line description of project.',
    'Miscellaneous'),
 ]
 
