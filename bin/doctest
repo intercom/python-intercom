@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+
+import doctest
+import os
+import site
+import sys
+
+# at least one module must be specified
+if len(sys.argv) == 1:
+    print "No module specified."
+
+# calculate the working directory
+sdir = os.path.abspath(__file__)
+wd = os.path.dirname(os.path.dirname(sdir))
+site.addsitedir(wd)
+
+# for each module
+for module_path in sys.argv[1:]:
+    print "Testing " + module_path
+    doctest.testfile(module_path, module_relative=False)
