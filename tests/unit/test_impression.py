@@ -29,6 +29,11 @@ class ImpressionTest(TestCase):
         impression = Impression.create(email='xxx@example.com')
         self.assertEqual(0, impression.unread_messages)
 
+        # check params
+        impression = Impression.create(email='xxx@example.com', location="home",
+            user_ip='1.2.3.4', user_agent='Mozilla/5.0')
+        self.assertEqual(0, impression.unread_messages)
+
     def test_properties(self):
         impression = Impression()
         impression.user_ip = '192.168.1.100'

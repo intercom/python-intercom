@@ -112,12 +112,12 @@ class Intercom(object):
 
     @classmethod
     def create_impression(cls, user_id=None, email=None, user_ip=None,
-        user_agent=None):
+        user_agent=None, location=None):
         """ Create an impression. """
         params = { 'email': email, 'user_id': user_id, 'user_ip': user_ip, 
-                'user_agent': user_agent }
+                'user_agent': user_agent, 'location': location }
         user_dict = Intercom._call('POST', Intercom.api_endpoint + 'users/impressions', 
-                params=params)        
+                params=params)
         return user_dict
 
     @classmethod
