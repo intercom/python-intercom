@@ -41,6 +41,10 @@ class IntegrationTest(TestCase):
         threads = MessageThread.find_all(email='somebody@example.com')
         self.assertEqual(1, len(threads))
 
+    def test_message_thread(self):
+        thread = MessageThread.find(email='somebody@example.com', thread_id=5591)
+        self.assertEqual(5591, thread.thread_id)
+
     def test_impression(self):
         impression = Impression.create(email='somebody@example.com')
         self.assertEqual(1, impression.unread_messages)

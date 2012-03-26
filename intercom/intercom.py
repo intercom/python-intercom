@@ -122,7 +122,7 @@ class Intercom(object):
 
     @classmethod
     def get_message_threads(cls, user_id=None, email=None, thread_id=None):
-        params = { 'email': email, 'user_id': user_id }
+        params = { 'email': email, 'user_id': user_id, 'thread_id': thread_id }
         msg_dict = Intercom._call('GET', Intercom.api_endpoint + 'users/message_threads', 
                 params=params)        
         return msg_dict
