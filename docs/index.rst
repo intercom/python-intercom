@@ -1,18 +1,26 @@
-========
-intercom
-========
+===============
+python-intercom
+===============
 
 .. toctree::
    :hidden:
 
    api/modules
+   installation
+   changelog
 
 Installation
 ============
 
-``pip install python-intercom``
+Stable releases of python-intercom can be installed with 
+`pip <http://pip.openplans.org>`_ or you may download a `.tgz` source 
+archive from `pypi <http://pypi.python.org/pypi/python-intercom#downloads>`_.
+See the :doc:`installation` page for more detailed instructions.
 
-Python wrapper for the Intercom API
+If you want to use the latest code, you can grab it from our 
+`Git repository <http://github.com/jkeyes/python-intercom>`_, or `fork it <http://github.com/jkeyes/python-intercom>`_.
+
+Usage
 ===================================
 
 Authentication
@@ -123,10 +131,16 @@ Reply on a Message Thread
 
     message_thread = MessageThread.create(email="ben@intercom.io",
             thread_id=123,
-            body="No much either :(")
+            body="Not much either :(")
+
+Changelog
+=========
+
+The :doc:`changelog` keeps track of changes per release.
 
 pydoc
 =====
 
 View the extensive `pydoc <api/modules.html>`_ which has liberal helpings of
 `doctests` to display usage.
+
