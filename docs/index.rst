@@ -65,12 +65,12 @@ More infomation on `docs.intercom.io <http://docs.intercom.io/api#creating_a_use
 ::
 
     user = User.create(email="ben@intercom.io",
-                       user_id=7902,
-                       name="Ben McRedmond",
-                       created_at=datetime.now(),
-                       custom_data={"plan": "pro"},
-                       last_seen_ip="1.2.3.4",
-                       last_seen_user_agent="ie6")
+            user_id=7902,
+            name="Ben McRedmond",
+            created_at=datetime.now(),
+            custom_data={"plan": "pro"},
+            last_seen_ip="1.2.3.4",
+            last_seen_user_agent="ie6")
 
 Updating a User
 +++++++++++++++
