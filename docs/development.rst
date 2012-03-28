@@ -45,16 +45,6 @@ Generate a code coverage report:
 ::
 
     nosetests --with-coverage --cover-package=intercom tests
-    Name                      Stmts   Miss  Cover   Missing
-    -------------------------------------------------------
-    intercom                     21      0   100%   
-    intercom.impression          25      0   100%   
-    intercom.intercom            85      0   100%   
-    intercom.message_thread      64      0   100%   
-    intercom.user               125      0   100%   
-    -------------------------------------------------------
-    TOTAL                       320      0   100%   
-    -------------------------------------------------------
 
 Pylint
 ------
