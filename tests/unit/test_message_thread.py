@@ -66,6 +66,10 @@ class MessageThreadTest(TestCase):
         self.assertEqual(1331767859, 
                 time.mktime(messages[1].created_at.timetuple()))
 
+    @raises(ValueError)
+    def test_find_no_thread_id(self):
+        message_thread = MessageThread.find(email="xxx@example.com")
+
     @patch('requests.request', create_response(200, 
             'get_message_thread_valid.json'))
     def test_create(self):
