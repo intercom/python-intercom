@@ -5,16 +5,20 @@ import os
 import site
 import sys
 
-# at least one module must be specified
-if len(sys.argv) == 1:
-    print "No module specified."
-
 # calculate the working directory
 sdir = os.path.abspath(__file__)
 wd = os.path.dirname(os.path.dirname(sdir))
 site.addsitedir(wd)
 
+# at least one module must be specified
+if len(sys.argv) == 1:
+    glob_pattern = os.path.join(wd, 'intercom', '*.py')
+    import glob
+    modules = glob.glob(glob_pattern)
+else:
+    modules = sys.argv[1:]
+
 # for each module
-for module_path in sys.argv[1:]:
+for module_path in modules:
     print "Testing " + module_path
     doctest.testfile(module_path, module_relative=False)

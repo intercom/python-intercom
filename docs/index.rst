@@ -3,11 +3,12 @@ python-intercom
 ===============
 
 .. toctree::
-   :hidden:
+    :hidden:
 
-   api/modules
-   installation
-   changelog
+    installation
+    api/modules
+    changelog
+    development
 
 Installation
 ============
@@ -132,6 +133,12 @@ Reply on a Message Thread
     message_thread = MessageThread.create(email="ben@intercom.io",
             thread_id=123,
             body="Not much either :(")
+
+Development
+===========
+
+Our :doc:`development` page has detailed instructions on how to run our
+tests, and to produce coverage and pylint reports.
 
 Changelog
 =========
