@@ -77,3 +77,8 @@ class IntercomUsersTest(TestCase):
     @patch('requests.request', create_response(500, '500.json'))
     def test_api_error(self):
         resp = Intercom.get_users()
+
+    @raises(ServerError)
+    @patch('requests.request', create_response(500, 'invalid.json'))
+    def test_api_error_when_json_is_invalid(self):
+        Intercom.get_users()
