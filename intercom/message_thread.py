@@ -81,7 +81,7 @@ class MessageThread(dict):
         >>> len(message_thread.messages)
         2
         >>> message_thread.messages[0].html
-        u'<p>Hey Intercom, What is up?</p>'
+        u'<p>Hey Intercom, What is up?</p>\n\n<p></p>'
         >>> message_thread.messages[1].html
         u'<p>Are you talking to me?</p>'
 
@@ -142,7 +142,7 @@ class Message(dict):
     >>> type(message.author)
     <class 'intercom.message_thread.MessageAuthor'>
     >>> message.html
-    u'<p>Hey Intercom, What is up?</p>'
+    u'<p>Hey Intercom, What is up?</p>\n\n<p></p>'
     >>> type(message.created_at)
     <type 'datetime.datetime'>
 
