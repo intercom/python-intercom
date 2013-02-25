@@ -2,6 +2,9 @@
 Changelog
 =========
 
+* 0.2.4
+   * Handle invalid JSON responses. (https://github.com/marselester)
+   * Fix to doctests to pass with current Intercom dummy API.
 * 0.2.3
    * Fixed version number of distribution to match documentation.
 * 0.2.2
