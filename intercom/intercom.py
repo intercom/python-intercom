@@ -45,7 +45,10 @@ def api_call(func_to_decorate):
         response = func_to_decorate(*args, **kwargs)
         if response.status_code == 401:
             raise AuthenticationError("Invalid API key/username provided.")
-        result = json.loads(response.content)
+        try:
+            result = json.loads(response.content)
+        except ValueError as err:
+            raise ServerError(err.message)
         if response.status_code in (200, 201):
             pass
         else:
