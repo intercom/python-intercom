@@ -2,6 +2,8 @@
 Changelog
 =========
 
+* 0.2.5
+   * Consistent version numbering (docs and code).
 * 0.2.4
    * Handle invalid JSON responses. (https://github.com/marselester)
    * Fix to doctests to pass with current Intercom dummy API.
