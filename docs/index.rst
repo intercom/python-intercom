@@ -27,7 +27,7 @@ Usage
 Authentication
 ---------------
 
-More information on `docs.intercom.io <http://docs.intercom.io/api#authentication>`_.
+Intercom documentation: `Authentication <http://docs.intercom.io/api#authentication>`_.
 
 ::
 
@@ -41,7 +41,7 @@ Users
 Getting all Users
 +++++++++++++++++
 
-More information on `docs.intercom.io <http://docs.intercom.io/api#getting_all_users>`_.
+Intercom documentation: `Getting all Users <http://docs.intercom.io/api#getting_all_users>`_.
 
 ::
 
@@ -52,7 +52,7 @@ More information on `docs.intercom.io <http://docs.intercom.io/api#getting_all_u
 Getting a User
 ++++++++++++++
 
-More information on `docs.intercom.io <http://docs.intercom.io/api#getting_a_user>`_.
+Intercom documentation: `Getting a User <http://docs.intercom.io/api#getting_a_user>`_.
 
 ::
 
@@ -61,7 +61,7 @@ More information on `docs.intercom.io <http://docs.intercom.io/api#getting_a_use
 Creating a User
 +++++++++++++++
 
-More infomation on `docs.intercom.io <http://docs.intercom.io/api#creating_a_user>`_.
+Intercom documentation: `Creating a User <http://docs.intercom.io/api#creating_a_user>`_.
 
 ::
 
@@ -76,7 +76,7 @@ More infomation on `docs.intercom.io <http://docs.intercom.io/api#creating_a_use
 Updating a User
 +++++++++++++++
 
-More information on `docs.intercom.io <http://docs.intercom.io/api#updating_a_user>`_.
+Intercom documentation: `Updating a User <http://docs.intercom.io/api#updating_a_user>`_.
 
 ::
 
@@ -87,11 +87,25 @@ More information on `docs.intercom.io <http://docs.intercom.io/api#updating_a_us
 Deleting a User
 +++++++++++++++
 
-More information on `docs.intercom.io <http://docs.intercom.io/api#deleting_a_user>`_.
+Intercom documentation: `Deleting a User <http://docs.intercom.io/api#deleting_a_user>`_.
 
 ::
 
     deleted_user = User.delete(email="ben@intercom.io")
+
+Notes
+-----
+
+Creating a Note
++++++++++++++++
+
+Intercom documentation: `Creating a Note <http://docs.intercom.io/api#creating_a_note>`_.
+
+::
+
+    from intercom import Note
+    note = Note.create(email="ben@intercom.io", 
+            body="These are a few of my favourite things.")
 
 Impressions
 -----------
@@ -99,7 +113,7 @@ Impressions
 Creating an Impression
 ++++++++++++++++++++++
 
-More information on `docs.intercom.io <http://docs.intercom.io/api#creating_an_impression>`_.
+Intercom documentation: `Creating an Impression <http://docs.intercom.io/api#creating_an_impression>`_.
 
 ::
 
@@ -113,7 +127,7 @@ Message Threads
 Getting Message Threads
 +++++++++++++++++++++++
 
-More information on `docs.intercom.io <http://docs.intercom.io/api#getting_messages>`_.
+Intercom documentation:  `Getting Message Threads <http://docs.intercom.io/api#getting_messages>`_.
 
 ::
 
@@ -129,13 +143,17 @@ More information on `docs.intercom.io <http://docs.intercom.io/api#getting_messa
 Creating a Message Thread
 +++++++++++++++++++++++++
 
+Intercom documentation:  `Getting a Message Thread <http://docs.intercom.io/api#creating_a_message>`_.
+
 ::
 
     message_thread = MessageThread.create(email="ben@intercom.io", 
             body="Hey Intercom, What is up?")
 
-Reply on a Message Thread
-+++++++++++++++++++++++++
+Replying on a Message Thread
+++++++++++++++++++++++++++++
+
+Intercom documentation:  `Replying on a Message Thread <http://docs.intercom.io/api#replying_to_a_message>`_.
 
 ::
 
