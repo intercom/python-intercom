@@ -19,5 +19,6 @@ setup(name="python-intercom",
     classifiers=[],
     packages=find_packages(),
     include_package_data=True,
-    install_requires=["requests"]
+    install_requires=["requests"],
+    zip_safe=False
 )
