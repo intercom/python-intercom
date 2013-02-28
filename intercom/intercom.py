@@ -77,7 +77,7 @@ class Intercom(object):
 
         req_params = {}
         headers = { 'User-Agent': 'python-intercom/0.2.6', 'Accept': 'application/json' }
-        if method in ('POST', 'PUT', 'DELETE'):
+        if method in ('POST', 'PUT'):
             headers['content-type'] = 'application/json'
             req_params['data'] = json.dumps(params)
         elif method == 'GET':
