@@ -1,10 +1,10 @@
+# coding=utf-8
 #
 # Copyright 2012 keyes.ie
 #
 # License: http://jkeyes.mit-license.org/
 #
 
-import os
 
 from . import create_response
 from mock import patch
@@ -15,9 +15,6 @@ from intercom import ServerError
 from intercom import AuthenticationError
 from intercom import ResourceNotFound
 from intercom import Intercom
-from intercom.user import CustomData
-from intercom.user import SocialProfile
-from intercom.user import User
 
 class IntercomUsersTest(TestCase):
 

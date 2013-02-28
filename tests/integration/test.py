@@ -1,3 +1,10 @@
+# coding=utf-8
+#
+# Copyright 2012 keyes.ie
+#
+# License: http://jkeyes.mit-license.org/
+#
+
 from unittest import TestCase
 
 from intercom import AuthenticationError

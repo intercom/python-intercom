@@ -1,13 +1,10 @@
+# coding=utf-8
 #
 # Copyright 2012 keyes.ie
 #
 # License: http://jkeyes.mit-license.org/
 #
 
-import os
-import time
-
-from datetime import datetime
 from mock import patch
 from nose.tools import raises
 from unittest import TestCase

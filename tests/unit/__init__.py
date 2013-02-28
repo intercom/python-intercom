@@ -1,3 +1,4 @@
+# coding=utf-8
 #
 # Copyright 2012 keyes.ie
 #
@@ -6,7 +7,6 @@
 
 import os
 
-from os import environ as ENV
 from mock import Mock
 
 DIRPATH = os.path.dirname(__file__)

@@ -1,10 +1,10 @@
+# coding=utf-8
 #
 # Copyright 2012 keyes.ie
 #
 # License: http://jkeyes.mit-license.org/
 #
 
-import os
 import time
 
 from datetime import datetime
@@ -14,7 +14,6 @@ from unittest import TestCase
 
 from . import create_response
 
-from intercom import Intercom
 from intercom.message_thread import MessageThread
 from intercom import AuthenticationError
 
