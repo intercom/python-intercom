@@ -84,6 +84,15 @@ More information on `docs.intercom.io <http://docs.intercom.io/api#updating_a_us
     user.name = "Benjamin McRedmond"
     user.save()
 
+Deleting a User
++++++++++++++++
+
+More information on `docs.intercom.io <http://docs.intercom.io/api#deleting_a_user>`_.
+
+::
+
+    deleted_user = User.delete(email="ben@intercom.io")
+
 Impressions
 -----------
 
