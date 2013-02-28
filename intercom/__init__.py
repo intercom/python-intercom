@@ -17,7 +17,8 @@ def from_timestamp_property(func_to_decorate):
     def wrapper(instance):
         """ Closure that converts from timestamp to datetime. """
         value = func_to_decorate(instance)
-        return datetime.fromtimestamp(value)
+        if value:
+            return datetime.fromtimestamp(value)
     return wrapper
 
 def to_timestamp_property(func_to_decorate):
@@ -26,7 +27,8 @@ def to_timestamp_property(func_to_decorate):
     @functools.wraps(func_to_decorate)
     def wrapper(instance, value):
         """ Closure that converts from datetime to timestamp. """
-        value = time.mktime(value.timetuple())
+        if value:
+            value = time.mktime(value.timetuple())
         func_to_decorate(instance, value)
     return wrapper
 
@@ -37,4 +39,5 @@ from .intercom import ServerError
 
 from .impression import Impression
 from .message_thread import MessageThread
+from .note import Note
 from .user import User

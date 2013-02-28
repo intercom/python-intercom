@@ -192,6 +192,23 @@ class Intercom(object):
         return user_dict
 
     @classmethod
+    def create_note(cls, user_id=None, email=None, body=None):
+        """ Create a note.
+
+        >>> result = Intercom.create_note(email="somebody@example.com",
+        ... body="This is the text of my note.")
+        >>> result['html']
+        u'<p>This is the text of my note.</p>'
+        >>> result['user']['email']
+        u'somebody@example.com'
+
+        """
+        params = { 'email': email, 'user_id': user_id, 'body': body }
+        user_dict = Intercom._call('POST', Intercom.api_endpoint + 'users/notes',
+                params=params)
+        return user_dict
+
+    @classmethod
     def get_message_threads(cls, user_id=None, email=None, thread_id=None):
         """ If a thread_id is specified, this returns a specific MessageThread
         (if it can find one), otherwise it returns all MessageThreads for the
