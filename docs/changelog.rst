@@ -2,6 +2,8 @@
 Changelog
 =========
 
+* 0.2.6
+   * Support for delete user.
 * 0.2.5
    * Consistent version numbering (docs and code).
 * 0.2.4
