@@ -110,6 +110,21 @@ class User(UserId): # pylint: disable=R0904
         return cls(resp)
 
     @classmethod
+    def delete(cls, user_id=None, email=None):
+        """ Deletes a user. 
+
+        >>> user = User.delete(email="somebody@example.com")
+        >>> user.user_id
+        u'123'
+        >>> user = User.delete(user_id="123")
+        >>> user.email
+        u'bob@example.com'
+
+        """
+        resp = Intercom.delete_user(user_id=user_id, email=email)
+        return cls(resp)
+
+    @classmethod
     def all(cls):
         """ Return all of the Users. 
 

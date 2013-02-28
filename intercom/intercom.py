@@ -73,9 +73,10 @@ class Intercom(object):
     @api_call
     def _call(cls, method, url, params=None):
         """ Construct an API request, send it to the API, and parse the response. """
+
         req_params = {}
         headers = { 'User-Agent': 'python-intercom/0.2.5', 'Accept': 'application/json' }
-        if method in ('POST', 'PUT'):
+        if method in ('POST', 'PUT', 'DELETE'):
             headers['content-type'] = 'application/json'
             req_params['data'] = json.dumps(params)
         elif method == 'GET':
@@ -159,6 +160,19 @@ class Intercom(object):
         return Intercom._create_or_update_user('PUT', user_id=user_id, email=email,
             name=name, created_at=created_at, custom_data=custom_data,
             last_seen_ip=last_seen_ip, last_seen_user_agent=last_seen_user_agent)
+
+    @classmethod
+    def delete_user(cls, user_id=None, email=None):
+        """ Delete a user.
+
+        >>> user = Intercom.get_user(user_id='7902')
+        >>> user['email']
+        u'bob@example.com'
+
+        """
+        params = { 'email': email, 'user_id': user_id }
+        user_dict = Intercom._call('DELETE', Intercom.api_endpoint + 'users', params)
+        return user_dict
 
     @classmethod
     def create_impression(cls, user_id=None, email=None, user_ip=None,
