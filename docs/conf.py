@@ -51,7 +51,8 @@ copyright = u'2013, John Keyes'
 # built documents.
 #
 # The short X.Y version.
-version = '0.2.6'
+from intercom import VERSION
+version = VERSION
 # The full version, including alpha/beta/rc tags.
 release = version
 

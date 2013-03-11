@@ -37,6 +37,7 @@ from .intercom import AuthenticationError
 from .intercom import Intercom
 from .intercom import ResourceNotFound
 from .intercom import ServerError
+from .intercom import VERSION
 
 from .impression import Impression
 from .message_thread import MessageThread

@@ -18,7 +18,10 @@ import functools
 import json
 import requests
 
+
 DEFAULT_TIMEOUT = 10 # seconds
+VERSION = "0.2.7"
+
 
 class IntercomError(StandardError):
     """ Base error. """
@@ -76,7 +79,10 @@ class Intercom(object):
         """ Construct an API request, send it to the API, and parse the response. """
 
         req_params = {}
-        headers = { 'User-Agent': 'python-intercom/0.2.6', 'Accept': 'application/json' }
+        headers = {
+            'User-Agent': 'python-intercom/' + VERSION,
+            'Accept': 'application/json'
+        }
         if method in ('POST', 'PUT'):
             headers['content-type'] = 'application/json'
             req_params['data'] = json.dumps(params)
