@@ -2,6 +2,9 @@
 Changelog
 =========
 
+* 0.2.7
+   * Update delete user support to send bodyless request.
+   * Add support for user notes.
 * 0.2.6
    * Support for delete user.
 * 0.2.5
