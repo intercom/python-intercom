@@ -7,7 +7,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-from intercom import VERSION
+VERSION = "0.2.7"
 
 setup(
     name="python-intercom",
