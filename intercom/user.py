@@ -199,7 +199,8 @@ class User(UserId):
 
     @property
     def session_count(self):
-        """ Returns how many sessions this User has used on your application. """
+        """ Returns how many sessions this User has used on your
+        application. """
         return dict.get(self, 'session_count', None)
 
     @property
@@ -217,7 +218,8 @@ class User(UserId):
     @created_at.setter
     @to_timestamp_property
     def created_at(self, value):
-        """ Sets the timestamp when this User started using your application. """
+        """ Sets the timestamp when this User started using your
+        application. """
         self['created_at'] = value
 
     @property
@@ -319,8 +321,12 @@ class CustomData(dict):
 
     def __setitem__(self, key, value):
         """ Limits the keys and values. """
-        if not (isinstance(value, numbers.Real) or isinstance(value, basestring)):
-            raise ValueError("custom data only allows string and real number values")
+        if not (
+            isinstance(value, numbers.Real) or
+            isinstance(value, basestring)
+        ):
+            raise ValueError(
+                "custom data only allows string and real number values")
         if not isinstance(key, basestring):
             raise ValueError("custom data only allows string keys")
         super(CustomData, self).__setitem__(key, value)

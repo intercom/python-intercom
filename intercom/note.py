@@ -47,7 +47,8 @@ class Note(UserId):
         u'<p>This is the text of my note.</p>'
 
         """
-        resp = Intercom.create_note(user_id=self.user_id, email=self.email, body=self.body)
+        resp = Intercom.create_note(
+            user_id=self.user_id, email=self.email, body=self.body)
         self.update(resp)
 
     @property
@@ -68,7 +69,8 @@ class Note(UserId):
     @property
     @from_timestamp_property
     def created_at(self):
-        """ Returns the datetime this note was created – set by an API response. """
+        """ Returns the datetime this note was created – set by an
+        API response. """
         return dict.get(self, 'created_at', None)
 
     @property

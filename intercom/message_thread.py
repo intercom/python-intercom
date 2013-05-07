@@ -28,7 +28,8 @@ class MessageThread(dict):
         Traceback (most recent call last):
             ...
         ValueError: No thread_id specified
-        >>> message_thread = MessageThread.find(email="somebody@example.com", thread_id=5591)
+        >>> message_thread = MessageThread.find(email="somebody@example.com",
+        ... thread_id=5591)
         >>> len(message_thread.messages)
         3
         >>> message = message_thread.messages[0]
@@ -46,7 +47,8 @@ class MessageThread(dict):
     def find_all(cls, user_id=None, email=None):
         """ Finds all Messages for a particular user.
 
-        >>> message_threads = MessageThread.find_all(email="somebody@example.com")
+        >>> message_threads = MessageThread.find_all(
+        ... email="somebody@example.com")
         >>> len(message_threads)
         1
 
@@ -73,13 +75,15 @@ class MessageThread(dict):
 
     @classmethod
     def reply(
-            cls, user_id=None, email=None, thread_id=None, body=None, read=None):
+            cls, user_id=None, email=None, thread_id=None, body=None,
+            read=None):
         """ Reply to an existing conversation.
 
         >>> email = "somebody@example.com"
         >>> thread_id = 5591
         >>> body = "Are you talking to me?"
-        >>> message_thread = MessageThread.reply(email=email, thread_id=thread_id, body=body)
+        >>> message_thread = MessageThread.reply(email=email,
+        ... thread_id=thread_id, body=body)
         >>> len(message_thread.messages)
         2
         >>> message_thread.messages[0].html
@@ -141,7 +145,8 @@ class MessageThread(dict):
 class Message(dict):
     """ Object representing a Message in a MessageThread.
 
-    >>> message_thread = MessageThread.find(email="somebody@example.com", thread_id=5591)
+    >>> message_thread = MessageThread.find(email="somebody@example.com",
+    ... thread_id=5591)
     >>> message = message_thread.messages[0]
     >>> type(message.author)
     <class 'intercom.message_thread.MessageAuthor'>
@@ -174,7 +179,8 @@ class Message(dict):
 class MessageAuthor(dict):
     """ Object represting the author of a Message.
 
-    >>> message_thread = MessageThread.find(email="somebody@example.com", thread_id=5591)
+    >>> message_thread = MessageThread.find(email="somebody@example.com",
+    ... thread_id=5591)
     >>> author = message_thread.messages[0].author
     >>> author.admin
     False

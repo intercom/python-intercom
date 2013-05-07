@@ -41,7 +41,8 @@ class ResourceNotFound(IntercomError):
 
 
 class ServerError(IntercomError):
-    """ Raised when the API returns an error other than an auth or not found. """
+    """ Raised when the API returns an error other than an auth or not found.
+    """
     pass
 
 
@@ -81,7 +82,8 @@ class Intercom(object):
     @classmethod
     @api_call
     def _call(cls, method, url, params=None):
-        """ Construct an API request, send it to the API, and parse the response. """
+        """ Construct an API request, send it to the API, and parse the
+        response. """
 
         req_params = {}
         headers = {
@@ -109,7 +111,8 @@ class Intercom(object):
 
     @classmethod
     def get_users(cls):
-        """ Return a dict for the user represented by the specified email or user_id.
+        """ Return a dict for the user represented by the specified email
+        or user_id.
 
         >>> result = Intercom.get_users()
         >>> type(result)
@@ -118,12 +121,13 @@ class Intercom(object):
         3
 
         """
-        user_dict = Intercom._call('GET', '%susers' % (Intercom.api_endpoint))
+        user_dict = Intercom._call('GET', Intercom.api_endpoint + 'users')
         return user_dict
 
     @classmethod
     def get_user(cls, email=None, user_id=None):
-        """ Return a dict for the user represented by the specified email or user_id.
+        """ Return a dict for the user represented by the specified email
+        or user_id.
 
         >>> user = Intercom.get_user(user_id='123')
         >>> user['name']
@@ -132,7 +136,8 @@ class Intercom(object):
         """
 
         params = {'email': email, 'user_id': user_id}
-        user_dict = Intercom._call('GET', '%susers' % (Intercom.api_endpoint), params=params)
+        user_dict = Intercom._call(
+            'GET', Intercom.api_endpoint + 'users', params=params)
         return user_dict
 
     @classmethod
@@ -154,9 +159,10 @@ class Intercom(object):
 
         """
         return Intercom._create_or_update_user(
-            'POST', user_id=user_id, email=email,
-            name=name, created_at=created_at, custom_data=custom_data,
-            last_seen_ip=last_seen_ip, last_seen_user_agent=last_seen_user_agent)
+            'POST', user_id=user_id, email=email, name=name,
+            created_at=created_at, custom_data=custom_data,
+            last_seen_ip=last_seen_ip,
+            last_seen_user_agent=last_seen_user_agent)
 
     @classmethod
     def update_user(
@@ -173,9 +179,10 @@ class Intercom(object):
 
         """
         return Intercom._create_or_update_user(
-            'PUT', user_id=user_id, email=email,
-            name=name, created_at=created_at, custom_data=custom_data,
-            last_seen_ip=last_seen_ip, last_seen_user_agent=last_seen_user_agent)
+            'PUT', user_id=user_id, email=email, name=name,
+            created_at=created_at, custom_data=custom_data,
+            last_seen_ip=last_seen_ip,
+            last_seen_user_agent=last_seen_user_agent)
 
     @classmethod
     def delete_user(cls, user_id=None, email=None):
@@ -190,7 +197,8 @@ class Intercom(object):
             'email': email,
             'user_id': user_id
         }
-        user_dict = Intercom._call('DELETE', Intercom.api_endpoint + 'users', params)
+        user_dict = Intercom._call(
+            'DELETE', Intercom.api_endpoint + 'users', params)
         return user_dict
 
     @classmethod
@@ -243,11 +251,12 @@ class Intercom(object):
         (if it can find one), otherwise it returns all MessageThreads for the
         particular user.
 
-        >>> message_threads = Intercom.get_message_threads(email="somebody@example.com")
+        >>> message_threads = Intercom.get_message_threads(
+        ... email="somebody@example.com")
         >>> type(message_threads)
         <type 'list'>
-        >>> message_thread = Intercom.get_message_threads(email="somebody@example.com",
-        ... thread_id=5591)
+        >>> message_thread = Intercom.get_message_threads(
+        ... email="somebody@example.com", thread_id=5591)
         >>> type(message_thread)
         <type 'dict'>
 
@@ -258,14 +267,16 @@ class Intercom(object):
             'thread_id': thread_id
         }
         msg_dict = Intercom._call(
-            'GET', Intercom.api_endpoint + 'users/message_threads', params=params)
+            'GET', Intercom.api_endpoint + 'users/message_threads',
+            params=params)
         return msg_dict
 
     @classmethod
     def create_message_thread(cls, user_id=None, email=None, body=None):
         """ Create a MessageThread.
 
-        >>> message_thread = Intercom.create_message_thread(email="somebody@example.com",
+        >>> message_thread = Intercom.create_message_thread(
+        ... email="somebody@example.com",
         ... body="Uh, everything's under control. Situation normal.")
         >>> message_thread['thread_id']
         5591
@@ -281,16 +292,20 @@ class Intercom(object):
             'body': body
         }
         user_dict = Intercom._call(
-            'POST', Intercom.api_endpoint + 'users/message_threads', params=params)
+            'POST', Intercom.api_endpoint + 'users/message_threads',
+            params=params)
         return user_dict
 
     @classmethod
     def reply_message_thread(
-            cls, user_id=None, email=None, thread_id=None, body=None, read=None):
+            cls, user_id=None, email=None, thread_id=None, body=None,
+            read=None):
         """ Reply to the specific thread.
 
-        >>> message_thread = Intercom.reply_message_thread(email="somebody@example.com",
-        ... thread_id=5591, body="If you're not talking to me you must be talking to someone")
+        >>> message_thread = Intercom.reply_message_thread(
+        ... email="somebody@example.com",
+        ... thread_id=5591,
+        ... body="If you're not talking to me you must be talking to someone")
         >>> len(message_thread)
         7
         >>> message_thread['thread_id']
@@ -307,5 +322,6 @@ class Intercom(object):
             'read': read
         }
         user_dict = Intercom._call(
-            'PUT', Intercom.api_endpoint + 'users/message_threads', params=params)
+            'PUT', Intercom.api_endpoint + 'users/message_threads',
+            params=params)
         return user_dict
