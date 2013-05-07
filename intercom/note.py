@@ -4,7 +4,7 @@
 #
 # License: http://jkeyes.mit-license.org/
 #
-""" Note module. 
+""" Note module.
 
 >>> from intercom import Intercom
 >>> Intercom.app_id = 'dummy-app-id'
@@ -18,6 +18,7 @@ from . import from_timestamp_property
 from .user import User
 from .user import UserId
 
+
 class Note(UserId):
     """ A note on a User. """
 
@@ -25,7 +26,7 @@ class Note(UserId):
     def create(cls, user_id=None, email=None, body=None):
         """ Create a Note.
 
-        >>> note = Note.create(email="somebody@example.com", 
+        >>> note = Note.create(email="somebody@example.com",
         ...        body="This is the text of my note.")
         >>> note['created_at']
         >>> note.html
@@ -76,4 +77,3 @@ class Note(UserId):
         data = dict.get(self, 'user', None)
         if data:
             return User(**data)
-

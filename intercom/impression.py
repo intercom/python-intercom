@@ -4,7 +4,7 @@
 #
 # License: http://jkeyes.mit-license.org/
 #
-""" Impression module. 
+""" Impression module.
 
 >>> from intercom import Intercom
 >>> Intercom.app_id = 'dummy-app-id'
@@ -16,24 +16,26 @@
 from . import Intercom
 from .user import UserId
 
+
 class Impression(UserId):
-    """ An Impression represents an interaction between a User and your 
+    """ An Impression represents an interaction between a User and your
     application. """
 
     @classmethod
     def create(cls, user_id=None, email=None, user_ip=None, user_agent=None,
-            location=None):
+               location=None):
         """ Create an Impression.
 
-        >>> Impression.create(email="somebody@example.com", 
-        ...        location="/pricing/upgrade", 
-        ...        user_ip="1.2.3.4", 
+        >>> Impression.create(email="somebody@example.com",
+        ...        location="/pricing/upgrade",
+        ...        user_ip="1.2.3.4",
         ...        user_agent="my-service-iphone-app-1.2")
         {u'unread_messages': 1}
 
         """
-        resp = Intercom.create_impression(user_id=user_id, email=email, 
-            user_ip=user_ip, user_agent=user_agent, location=location)
+        resp = Intercom.create_impression(
+            user_id=user_id, email=email, user_ip=user_ip,
+            user_agent=user_agent, location=location)
         return cls(resp)
 
     def save(self):
@@ -64,7 +66,7 @@ class Impression(UserId):
 
     @property
     def location(self):
-        """ The location where this Impression originated e.g. 
+        """ The location where this Impression originated e.g.
         /pricing/upgrade or 'DesktopApp: Pricing' or 'iOS'. """
         return dict.get(self, 'location', None)
 
@@ -86,6 +88,6 @@ class Impression(UserId):
 
     @property
     def unread_messages(self):
-        """ The number of unread messages for the User who made the 
+        """ The number of unread messages for the User who made the
         Impression for the current location. """
         return dict.get(self, 'unread_messages', None)

@@ -4,7 +4,7 @@
 #
 # License: http://jkeyes.mit-license.org/
 #
-""" User module. 
+""" User module.
 
 >>> from intercom import Intercom
 >>> Intercom.app_id = 'dummy-app-id'
@@ -18,6 +18,7 @@ from . import from_timestamp_property
 from . import to_timestamp_property
 
 import numbers
+
 
 class UserId(dict):
     """ Base class for objects that required user_id and email properties. """
@@ -42,11 +43,13 @@ class UserId(dict):
         """ Sets the email address. """
         self['email'] = email
 
-class User(UserId): # pylint: disable=R0904
+
+class User(UserId):
     """ Object representing http://docs.intercom.io/#UserData).  """
 
-    attributes = ('user_id', 'email', 'name', 'created_at', 'custom_data',
-            'last_seen_ip', 'last_seen_user_agent')
+    attributes = (
+        'user_id', 'email', 'name', 'created_at', 'custom_data',
+        'last_seen_ip', 'last_seen_user_agent')
 
     @classmethod
     def find(cls, user_id=None, email=None):
@@ -96,7 +99,8 @@ class User(UserId): # pylint: disable=R0904
         return cls(resp)
 
     @classmethod
-    def create(cls, user_id=None, email=None, name=None, created_at=None, 
+    def create(
+            cls, user_id=None, email=None, name=None, created_at=None,
             custom_data=None, last_seen_ip=None, last_seen_user_agent=None):
         """ Create or update a user.
 
@@ -105,14 +109,15 @@ class User(UserId): # pylint: disable=R0904
         u'Somebody'
 
         """
-        resp = Intercom.create_user(user_id=user_id, email=email, name=name, 
-                created_at=created_at, custom_data=custom_data, 
-                last_seen_ip=last_seen_ip, last_seen_user_agent=last_seen_user_agent)
+        resp = Intercom.create_user(
+            user_id=user_id, email=email, name=name, created_at=created_at,
+            custom_data=custom_data, last_seen_ip=last_seen_ip,
+            last_seen_user_agent=last_seen_user_agent)
         return cls(resp)
 
     @classmethod
     def delete(cls, user_id=None, email=None):
-        """ Deletes a user. 
+        """ Deletes a user.
 
         >>> user = User.delete(email="somebody@example.com")
         >>> user.user_id
@@ -127,7 +132,7 @@ class User(UserId): # pylint: disable=R0904
 
     @classmethod
     def all(cls):
-        """ Return all of the Users. 
+        """ Return all of the Users.
 
         >>> users = User.all()
         >>> len(users)
@@ -140,7 +145,7 @@ class User(UserId): # pylint: disable=R0904
         return [cls(u) for u in resp['users']]
 
     def save(self):
-        """ Creates or updates a User. 
+        """ Creates or updates a User.
 
         >>> user = User()
         >>> user.email = "somebody@example.com"
@@ -151,7 +156,7 @@ class User(UserId): # pylint: disable=R0904
         """
         attrs = {}
         for key in User.attributes:
-            value = dict.get(self, key) 
+            value = dict.get(self, key)
             if value:
                 attrs[key] = value
         resp = Intercom.update_user(**attrs)
@@ -217,7 +222,7 @@ class User(UserId): # pylint: disable=R0904
 
     @property
     def social_profiles(self):
-        """ Returns a list of SocialProfile objects for this User. 
+        """ Returns a list of SocialProfile objects for this User.
 
         >>> users = User.all()
         >>> social_profiles = users[0].social_profiles
@@ -237,7 +242,7 @@ class User(UserId): # pylint: disable=R0904
 
     @property
     def location_data(self):
-        """ Returns a LocationData object for this User. 
+        """ Returns a LocationData object for this User.
 
         >>> users = User.all()
         >>> location_data = users[0].location_data
@@ -275,7 +280,7 @@ class User(UserId): # pylint: disable=R0904
 
     @custom_data.setter
     def custom_data(self, custom_data):
-        """ Sets the CustomData for this User. 
+        """ Sets the CustomData for this User.
 
         >>> user = User(email="somebody@example.com")
         >>> user.custom_data = { 'max_monthly_spend': 200 }
@@ -294,9 +299,10 @@ class User(UserId): # pylint: disable=R0904
             custom_data = CustomData(custom_data)
         self['custom_data'] = custom_data
 
+
 class CustomData(dict):
     """ A dict that limits keys to strings, and values to real numbers
-    and strings. 
+    and strings.
 
     >>> from intercom.user import CustomData
     >>> data = CustomData()
@@ -319,8 +325,9 @@ class CustomData(dict):
             raise ValueError("custom data only allows string keys")
         super(CustomData, self).__setitem__(key, value)
 
-class SocialProfile(dict): # pylint: disable=R0921
-    """ Object representing http://docs.intercom.io/#SocialProfiles) 
+
+class SocialProfile(dict):
+    """ Object representing http://docs.intercom.io/#SocialProfiles)
 
     This object is read-only, and to hint at this __setitem__ is disabled.
 
@@ -341,7 +348,7 @@ class SocialProfile(dict): # pylint: disable=R0921
         return self.get('type', None)
 
     @property
-    def id(self): # pylint: disable=C0103
+    def id(self):
         """ The id """
         return self.get('id', None)
 
@@ -359,7 +366,8 @@ class SocialProfile(dict): # pylint: disable=R0921
         """ Do not allow items to be set. """
         raise NotImplementedError
 
-class LocationData(dict): # pylint: disable=R0921
+
+class LocationData(dict):
     """ Object representing a user's location data
 
     This object is read-only, and to hint at this __setitem__ is disabled.

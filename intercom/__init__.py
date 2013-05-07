@@ -11,8 +11,9 @@ import time
 
 from datetime import datetime
 
+
 def from_timestamp_property(func_to_decorate):
-    """ A decorator for properties to convert the property value from a 
+    """ A decorator for properties to convert the property value from a
     timestamp to a datetime. """
     @functools.wraps(func_to_decorate)
     def wrapper(instance):
@@ -22,8 +23,9 @@ def from_timestamp_property(func_to_decorate):
             return datetime.fromtimestamp(value)
     return wrapper
 
+
 def to_timestamp_property(func_to_decorate):
-    """ A decorator for properties to convert the property value from a 
+    """ A decorator for properties to convert the property value from a
     datetime to a timestamp. """
     @functools.wraps(func_to_decorate)
     def wrapper(instance, value):
@@ -42,3 +44,8 @@ from .impression import Impression
 from .message_thread import MessageThread
 from .note import Note
 from .user import User
+
+__all__ = (
+    AuthenticationError, Intercom, ResourceNotFound, ServerError,
+    Impression, MessageThread, Note, User
+)

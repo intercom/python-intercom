@@ -4,7 +4,7 @@
 #
 # License: http://jkeyes.mit-license.org/
 #
-""" message_thread module. 
+""" message_thread module.
 
 >>> from intercom import Intercom
 >>> Intercom.app_id = 'dummy-app-id'
@@ -15,6 +15,7 @@
 
 from . import Intercom
 from . import from_timestamp_property
+
 
 class MessageThread(dict):
     """ An Intercom conversation between an admin and a User. """
@@ -37,13 +38,13 @@ class MessageThread(dict):
         """
         if thread_id is None:
             raise ValueError("No thread_id specified")
-        resp = Intercom.get_message_threads(user_id=user_id, email=email, 
-                thread_id=thread_id)
+        resp = Intercom.get_message_threads(
+            user_id=user_id, email=email, thread_id=thread_id)
         return MessageThread(resp)
 
     @classmethod
     def find_all(cls, user_id=None, email=None):
-        """ Finds all Messages for a particular user. 
+        """ Finds all Messages for a particular user.
 
         >>> message_threads = MessageThread.find_all(email="somebody@example.com")
         >>> len(message_threads)
@@ -66,13 +67,13 @@ class MessageThread(dict):
         1
 
         """
-        resp = Intercom.create_message_thread(user_id=user_id, email=email, 
-                body=body)
+        resp = Intercom.create_message_thread(
+            user_id=user_id, email=email, body=body)
         return MessageThread(resp)
 
     @classmethod
-    def reply(cls, user_id=None, email=None, thread_id=None, 
-            body=None, read=None):
+    def reply(
+            cls, user_id=None, email=None, thread_id=None, body=None, read=None):
         """ Reply to an existing conversation.
 
         >>> email = "somebody@example.com"
@@ -87,8 +88,9 @@ class MessageThread(dict):
         u'<p>Are you talking to me?</p>'
 
         """
-        resp = Intercom.reply_message_thread(user_id=user_id, email=email, 
-                thread_id=thread_id, read=read, body=body)
+        resp = Intercom.reply_message_thread(
+            user_id=user_id, email=email, thread_id=thread_id,
+            read=read, body=body)
         return MessageThread(resp)
 
     @property
@@ -135,8 +137,9 @@ class MessageThread(dict):
         if messages:
             return [Message(m) for m in messages]
 
+
 class Message(dict):
-    """ Object representing a Message in a MessageThread. 
+    """ Object representing a Message in a MessageThread.
 
     >>> message_thread = MessageThread.find(email="somebody@example.com", thread_id=5591)
     >>> message = message_thread.messages[0]
@@ -167,8 +170,9 @@ class Message(dict):
         """ Returns a datetime for when this Message was created. """
         return dict.get(self, 'created_at', None)
 
+
 class MessageAuthor(dict):
-    """ Object represting the author of a Message. 
+    """ Object represting the author of a Message.
 
     >>> message_thread = MessageThread.find(email="somebody@example.com", thread_id=5591)
     >>> author = message_thread.messages[0].author
@@ -182,7 +186,7 @@ class MessageAuthor(dict):
 
     >>> author.name
     u'Bob'
-    
+
     """
 
     @property
@@ -209,4 +213,3 @@ class MessageAuthor(dict):
     def name(self):
         """ Returns the author's name. """
         return dict.get(self, 'name', None)
-

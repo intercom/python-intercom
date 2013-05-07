@@ -19,7 +19,7 @@ import json
 import pkg_resources
 import requests
 
-DEFAULT_TIMEOUT = 10 # seconds
+DEFAULT_TIMEOUT = 10  # seconds
 VERSION = pkg_resources.require("python-intercom")[0].version
 
 
@@ -29,17 +29,21 @@ class IntercomError(StandardError):
         super(IntercomError, self).__init__(message)
         self.result = result
 
+
 class AuthenticationError(IntercomError):
     """ Raised when a request cannot be authenticated by the API. """
     pass
+
 
 class ResourceNotFound(IntercomError):
     """ Raised when a resource cannot be found e.g. a non-existant User. """
     pass
 
+
 class ServerError(IntercomError):
     """ Raised when the API returns an error other than an auth or not found. """
     pass
+
 
 def api_call(func_to_decorate):
     """ Decorator for handling AWS credentials. """
@@ -63,6 +67,7 @@ def api_call(func_to_decorate):
                 raise ServerError(message, result)
         return result
     return wrapper
+
 
 class Intercom(object):
     """ Intercom API Wrapper """
@@ -90,16 +95,16 @@ class Intercom(object):
             req_params['params'] = params
         req_params['headers'] = headers
 
-        resp = requests.request(method, url, timeout=Intercom.timeout, \
-                auth=(Intercom.app_id, Intercom.api_key),
-                **req_params)
+        resp = requests.request(
+            method, url, timeout=Intercom.timeout,
+            auth=(Intercom.app_id, Intercom.api_key), **req_params)
         return resp
 
     @classmethod
     def _create_or_update_user(cls, method, **kwargs):
         """ Used by create_user and update_user. """
-        user_dict = Intercom._call(method, Intercom.api_endpoint + 'users',
-                params=kwargs)
+        user_dict = Intercom._call(
+            method, Intercom.api_endpoint + 'users', params=kwargs)
         return user_dict
 
     @classmethod
@@ -126,12 +131,13 @@ class Intercom(object):
 
         """
 
-        params = { 'email': email, 'user_id': user_id }
+        params = {'email': email, 'user_id': user_id}
         user_dict = Intercom._call('GET', '%susers' % (Intercom.api_endpoint), params=params)
         return user_dict
 
     @classmethod
-    def create_user(cls, user_id=None, email=None, name=None, created_at=None,
+    def create_user(
+            cls, user_id=None, email=None, name=None, created_at=None,
             custom_data=None, last_seen_ip=None, last_seen_user_agent=None):
         """ Create a user from the available parameters.
 
@@ -147,12 +153,14 @@ class Intercom(object):
         u'smuggler'
 
         """
-        return Intercom._create_or_update_user('POST', user_id=user_id, email=email,
+        return Intercom._create_or_update_user(
+            'POST', user_id=user_id, email=email,
             name=name, created_at=created_at, custom_data=custom_data,
             last_seen_ip=last_seen_ip, last_seen_user_agent=last_seen_user_agent)
 
     @classmethod
-    def update_user(cls, user_id=None, email=None, name=None, created_at=None,
+    def update_user(
+            cls, user_id=None, email=None, name=None, created_at=None,
             custom_data=None, last_seen_ip=None, last_seen_user_agent=None):
         """ Update a user with the available parameters.
 
@@ -164,7 +172,8 @@ class Intercom(object):
         u'Han'
 
         """
-        return Intercom._create_or_update_user('PUT', user_id=user_id, email=email,
+        return Intercom._create_or_update_user(
+            'PUT', user_id=user_id, email=email,
             name=name, created_at=created_at, custom_data=custom_data,
             last_seen_ip=last_seen_ip, last_seen_user_agent=last_seen_user_agent)
 
@@ -177,13 +186,17 @@ class Intercom(object):
         u'bob@example.com'
 
         """
-        params = { 'email': email, 'user_id': user_id }
+        params = {
+            'email': email,
+            'user_id': user_id
+        }
         user_dict = Intercom._call('DELETE', Intercom.api_endpoint + 'users', params)
         return user_dict
 
     @classmethod
-    def create_impression(cls, user_id=None, email=None, user_ip=None,
-        user_agent=None, location=None):
+    def create_impression(
+            cls, user_id=None, email=None, user_ip=None,
+            user_agent=None, location=None):
         """ Create an impression.
 
         >>> result = Intercom.create_impression(email="somebody@example.com",
@@ -192,10 +205,15 @@ class Intercom(object):
         1
 
         """
-        params = { 'email': email, 'user_id': user_id, 'user_ip': user_ip,
-                'user_agent': user_agent, 'location': location }
-        user_dict = Intercom._call('POST', Intercom.api_endpoint + 'users/impressions',
-                params=params)
+        params = {
+            'email': email,
+            'user_id': user_id,
+            'user_ip': user_ip,
+            'user_agent': user_agent,
+            'location': location
+        }
+        user_dict = Intercom._call(
+            'POST', Intercom.api_endpoint + 'users/impressions', params=params)
         return user_dict
 
     @classmethod
@@ -210,9 +228,13 @@ class Intercom(object):
         u'somebody@example.com'
 
         """
-        params = { 'email': email, 'user_id': user_id, 'body': body }
-        user_dict = Intercom._call('POST', Intercom.api_endpoint + 'users/notes',
-                params=params)
+        params = {
+            'email': email,
+            'user_id': user_id,
+            'body': body
+        }
+        user_dict = Intercom._call(
+            'POST', Intercom.api_endpoint + 'users/notes', params=params)
         return user_dict
 
     @classmethod
@@ -230,9 +252,13 @@ class Intercom(object):
         <type 'dict'>
 
         """
-        params = { 'email': email, 'user_id': user_id, 'thread_id': thread_id }
-        msg_dict = Intercom._call('GET', Intercom.api_endpoint + 'users/message_threads',
-                params=params)
+        params = {
+            'email': email,
+            'user_id': user_id,
+            'thread_id': thread_id
+        }
+        msg_dict = Intercom._call(
+            'GET', Intercom.api_endpoint + 'users/message_threads', params=params)
         return msg_dict
 
     @classmethod
@@ -249,14 +275,18 @@ class Intercom(object):
         u"<p>Uh, everything's under control. Situation normal.</p>"
 
         """
-        params = { 'email': email, 'user_id': user_id, 'body': body }
-        user_dict = Intercom._call('POST', Intercom.api_endpoint + 'users/message_threads',
-                params=params)
+        params = {
+            'email': email,
+            'user_id': user_id,
+            'body': body
+        }
+        user_dict = Intercom._call(
+            'POST', Intercom.api_endpoint + 'users/message_threads', params=params)
         return user_dict
 
     @classmethod
-    def reply_message_thread(cls, user_id=None, email=None, thread_id=None,
-            body=None, read=None):
+    def reply_message_thread(
+            cls, user_id=None, email=None, thread_id=None, body=None, read=None):
         """ Reply to the specific thread.
 
         >>> message_thread = Intercom.reply_message_thread(email="somebody@example.com",
@@ -269,8 +299,13 @@ class Intercom(object):
         2
 
         """
-        params = { 'email': email, 'user_id': user_id, 'thread_id': thread_id,
-            'body': body, 'read': read }
-        user_dict = Intercom._call('PUT', Intercom.api_endpoint + 'users/message_threads',
-                params=params)
+        params = {
+            'email': email,
+            'user_id': user_id,
+            'thread_id': thread_id,
+            'body': body,
+            'read': read
+        }
+        user_dict = Intercom._call(
+            'PUT', Intercom.api_endpoint + 'users/message_threads', params=params)
         return user_dict
