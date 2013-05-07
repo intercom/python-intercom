@@ -262,7 +262,7 @@ class Intercom(object):
         >>> message_thread = Intercom.reply_message_thread(email="somebody@example.com",
         ... thread_id=5591, body="If you're not talking to me you must be talking to someone")
         >>> len(message_thread)
-        6
+        7
         >>> message_thread['thread_id']
         5591
         >>> len(message_thread['messages'])
