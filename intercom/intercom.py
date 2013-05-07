@@ -16,11 +16,11 @@ All of the API requests are created, and the API responses are parsed here.
 
 import functools
 import json
+import pkg_resources
 import requests
 
-
 DEFAULT_TIMEOUT = 10 # seconds
-VERSION = "0.2.7"
+VERSION = pkg_resources.require("python-intercom")[0].version
 
 
 class IntercomError(StandardError):
