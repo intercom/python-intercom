@@ -107,6 +107,42 @@ Intercom documentation: `Creating a Note <http://docs.intercom.io/api#creating_a
     note = Note.create(email="ben@intercom.io", 
             body="These are a few of my favourite things.")
 
+
+Tagging
+-------
+
+Getting a Tag
++++++++++++++
+
+Intercom documentation: `Getting a Tag <http://docs.intercom.io/api#getting_a_tag>`_.
+
+::
+
+    from intercom import Tag
+    tag = Tag.find_by_name("Free Trial")
+
+Creating a Tag
+++++++++++++++
+
+Intercom documentation: `Creating a Tag <http://docs.intercom.io/api#creating_a_tag>`_.
+
+::
+
+    from intercom import Tag
+    tag = Tag.create("Free Trial")
+
+Updating a Tag
+++++++++++++++
+
+Intercom documentation: `Updating a Tag <http://docs.intercom.io/api#updating_a_tag>`_.
+
+::
+
+    from intercom import Tag
+    tag = Tag.update("Free Trial", "tag",
+        user_ids=["abc123", "def456"])
+
+
 Impressions
 -----------
 

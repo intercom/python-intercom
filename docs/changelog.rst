@@ -2,6 +2,11 @@
 Changelog
 =========
 
+* 0.2.8
+   * Added support for tagging #13 <https://github.com/jkeyes/python-intercom/issues/13>`_.
+   * Now installs into a clean python environment (https://github.com/vrachil) `#12 <https://github.com/jkeyes/python-intercom/issues/12>`_.
+   * Doctest fix.
+   * PEP8 formatting.
 * 0.2.7
    * Update delete user support to send bodyless request.
    * Add support for user notes.
