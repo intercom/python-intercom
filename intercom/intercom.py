@@ -325,3 +325,78 @@ class Intercom(object):
             'PUT', Intercom.api_endpoint + 'users/message_threads',
             params=params)
         return user_dict
+
+    @classmethod
+    def create_tag(
+            cls, name, tag_or_untag, user_ids=None, emails=None,
+            color=None):
+        """ Create a tag (and maybe tag users).
+
+        >>> tag = Intercom.create_tag("Free Trial", "tag",
+        ... user_ids=["abc123", "def456"])
+        >>> tag.get('id', None)
+        >>> tag['name']
+        u'Free Trial'
+        >>> tag.get('tagged_user_count', None)
+        >>> tag['color']
+        u'green'
+
+        """
+
+        params = {
+            'name': name,
+            'tag_or_untag': tag_or_untag,
+            'user_ids': user_ids,
+            'emails': emails,
+            'color': color
+        }
+        tag_dict = Intercom._call(
+            'POST', Intercom.api_endpoint + 'tags', params=params)
+        return tag_dict
+
+    @classmethod
+    def update_tag(
+            cls, name, tag_or_untag, user_ids=None, emails=None,
+            color=None):
+        """ Update a tag (and maybe tag users).
+
+        >>> tag = Intercom.update_tag("Free Trial", "tag",
+        ... user_ids=["abc123", "def456"])
+        >>> tag.get('id', None)
+        >>> tag['name']
+        u'Free Trial'
+        >>> tag.get('tagged_user_count', None)
+        >>> tag['color']
+        u'green'
+
+        """
+
+        params = {
+            'name': name,
+            'tag_or_untag': tag_or_untag,
+            'user_ids': user_ids,
+            'emails': emails,
+            'color': color
+        }
+        tag_dict = Intercom._call(
+            'PUT', Intercom.api_endpoint + 'tags', params=params)
+        return tag_dict
+
+    @classmethod
+    def get_tag(cls, name=None):
+        """ Return a dict for the tag by the specified name.
+
+        >>> tag = Intercom.get_tag(name="Free Trial")
+        >>> tag.get('id', None)
+        >>> tag['name']
+        u'Free Trial'
+        >>> tag.get('tagged_user_count', None)
+        >>> tag['color']
+        u'green'
+
+        """
+
+        params = {'name': name}
+        tag_dict = Intercom._call(
+            'GET', Intercom.api_endpoint + 'tags', params=params)
+        return tag_dict

@@ -44,8 +44,9 @@ from .impression import Impression
 from .message_thread import MessageThread
 from .note import Note
 from .user import User
+from .tag import Tag
 
 __all__ = (
     AuthenticationError, Intercom, ResourceNotFound, ServerError,
-    Impression, MessageThread, Note, User
+    Impression, MessageThread, Note, User, Tag
 )
