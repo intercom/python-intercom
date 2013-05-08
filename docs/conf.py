@@ -51,8 +51,13 @@ copyright = u'2013, John Keyes'
 # built documents.
 #
 # The short X.Y version.
-from intercom import VERSION
-version = VERSION
+
+import re
+with file(os.path.join(path_dir, 'intercom', 'intercom.py')) as init:
+    source = init.read()
+    m = re.search("__version__ = '(\d+\.\d+\.\d+)'", source, re.M)
+    version = m.groups()[0]
+
 # The full version, including alpha/beta/rc tags.
 release = version
 
