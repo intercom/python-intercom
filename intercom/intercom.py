@@ -14,13 +14,13 @@ All of the API requests are created, and the API responses are parsed here.
 
 """
 
+__version__ = '0.2.8'
+
 import functools
 import json
-import pkg_resources
 import requests
 
 DEFAULT_TIMEOUT = 10  # seconds
-VERSION = pkg_resources.require("python-intercom")[0].version
 
 
 class IntercomError(StandardError):
@@ -87,7 +87,7 @@ class Intercom(object):
 
         req_params = {}
         headers = {
-            'User-Agent': 'python-intercom/' + VERSION,
+            'User-Agent': 'python-intercom/' + __version__,
             'Accept': 'application/json'
         }
         if method in ('POST', 'PUT'):

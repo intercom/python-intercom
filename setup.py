@@ -4,10 +4,15 @@
 # http://jkeyes.mit-license.org/
 #
 
+import re
+
 from setuptools import find_packages
 from setuptools import setup
 
-__version__ = "0.2.8"
+with file('intercom/intercom.py') as init:
+    source = init.read()
+    m = re.search("__version__ = '(\d+\.\d+\.\d+)'", source, re.M)
+    __version__ = m.groups()[0]
 
 setup(
     name="python-intercom",
