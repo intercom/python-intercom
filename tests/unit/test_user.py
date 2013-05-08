@@ -105,6 +105,12 @@ class UsersTest(TestCase):
         self.assertEqual(None, user.user_id)
         self.assertEqual('xxx@example.com', user.email)
 
+    @patch('requests.request', create_response(200, 'delete_user_valid.json'))
+    def test_delete(self):
+        user = User.delete(email='xxx@example.com')
+        self.assertEqual(u'7902', user.user_id)
+        self.assertEqual('ben@intercom.io', user.email)
+
     @raises(AuthenticationError)
     @patch('requests.request', create_response(401))
     def test_find_identifiers(self):

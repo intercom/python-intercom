@@ -45,11 +45,6 @@ class IntercomUsersTest(TestCase):
         self.assertEqual(None, resp['user_id'])
         self.assertEqual('xxx@example.com', resp['email'])
 
-    @raises(AuthenticationError)
-    @patch('requests.request', create_response(401))
-    def test_create_user_identifiers(self):
-        Intercom.update_user()
-
     @patch('requests.request', create_response(200, 'update_user_valid.json'))
     def test_update_user_valid(self):
         resp = Intercom.update_user(

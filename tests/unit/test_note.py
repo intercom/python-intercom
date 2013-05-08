@@ -42,5 +42,7 @@ class NoteTest(TestCase):
     @patch('requests.request', create_response(200, 'create_note_valid.json'))
     def test_save(self):
         note = Note(email='xxx@example.com')
-        note.save()        
+        note.save()
+        self.assertEqual(None, note.created_at)
+        self.assertEqual('123', note.user.user_id)
         self.assertEqual("<p>This is the text of my note.</p>", note.html)
