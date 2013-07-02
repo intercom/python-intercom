@@ -110,7 +110,7 @@ class Intercom(object):
         return user_dict
 
     @classmethod
-    def get_users(cls):
+    def get_users(cls, **kwargs):
         """ Return a dict for the user represented by the specified email
         or user_id.
 
@@ -121,7 +121,7 @@ class Intercom(object):
         3
 
         """
-        user_dict = Intercom._call('GET', Intercom.api_endpoint + 'users')
+        user_dict = Intercom._call('GET', Intercom.api_endpoint + 'users', params=kwargs)
         return user_dict
 
     @classmethod

@@ -141,8 +141,15 @@ class User(UserId):
         u'first.user@example.com'
 
         """
-        resp = Intercom.get_users()
-        return [cls(u) for u in resp['users']]
+        page = 1
+        total_pages = 1
+        users = []
+        while page <= total_pages:
+            resp = Intercom.get_users(page=page)
+            page += 1
+            total_pages = resp['total_pages']
+            users.extend([cls(u) for u in resp['users']])
+        return users
 
     def save(self):
         """ Creates or updates a User.
