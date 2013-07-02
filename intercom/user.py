@@ -49,7 +49,7 @@ class User(UserId):
 
     attributes = (
         'user_id', 'email', 'name', 'created_at', 'custom_data',
-        'last_seen_ip', 'last_seen_user_agent')
+        'last_seen_ip', 'last_seen_user_agent', 'unsubscribed_from_emails')
 
     @classmethod
     def find(cls, user_id=None, email=None):
@@ -141,8 +141,15 @@ class User(UserId):
         u'first.user@example.com'
 
         """
-        resp = Intercom.get_users()
-        return [cls(u) for u in resp['users']]
+        page = 1
+        total_pages = 1
+        users = []
+        while page <= total_pages:
+            resp = Intercom.get_users(page=page)
+            page += 1
+            total_pages = resp['total_pages']
+            users.extend([cls(u) for u in resp['users']])
+        return users
 
     def save(self):
         """ Creates or updates a User.
@@ -157,7 +164,7 @@ class User(UserId):
         attrs = {}
         for key in User.attributes:
             value = dict.get(self, key)
-            if value:
+            if value is not None:
                 attrs[key] = value
         resp = Intercom.update_user(**attrs)
         self.update(resp)
@@ -261,6 +268,16 @@ class User(UserId):
             data = LocationData(data)
             dict.__setitem__(self, 'location_data', data)
         return data
+
+    @property
+    def unsubscribed_from_emails(self):
+        """ Returns whether or not the user has unsubscribed from emails """
+        return dict.get(self, 'unsubscribed_from_emails', None)
+
+    @unsubscribed_from_emails.setter
+    def unsubscribed_from_emails(self, unsubscribed_from_emails):
+        """  Sets whether or not the user has unsubscribed from email """
+        self['unsubscribed_from_emails'] = unsubscribed_from_emails
 
     @property
     def custom_data(self):
