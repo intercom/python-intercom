@@ -110,7 +110,7 @@ class Intercom(object):
         return user_dict
 
     @classmethod
-    def get_users(cls):
+    def get_users(cls, page=None, per_page=None, tag_id=None, tag_name=None):
         """ Return a dict for the user represented by the specified email
         or user_id.
 
@@ -121,7 +121,26 @@ class Intercom(object):
         3
 
         """
-        user_dict = Intercom._call('GET', Intercom.api_endpoint + 'users')
+
+        # collate parameters
+        params = {}
+
+        if page:
+            params['page'] = page
+
+        if per_page:
+            # if per_page is outside bounds use default
+            if per_page < 1 or per_page > 500:
+                per_page = 500
+            params['per_page'] = per_page
+
+        if tag_id:
+            params['tag_id'] = tag_id
+
+        if tag_name:
+            params['tag_name'] = tag_name
+
+        user_dict = Intercom._call('GET', Intercom.api_endpoint + 'users', params=params)
         return user_dict
 
     @classmethod

@@ -5,12 +5,14 @@
 # License: http://jkeyes.mit-license.org/
 #
 
+import json
 import os
 
 from mock import Mock
 
 DIRPATH = os.path.dirname(__file__)
 FIXTURES = os.path.join(DIRPATH, 'fixtures')
+
 
 def create_response(status, fixture=None):
     def request(*args, **kwargs):
@@ -21,3 +23,15 @@ def create_response(status, fixture=None):
             response.content = open(fixture_path).read()
         return response
     return request
+
+
+def local_response():
+    def _call(*args, **kwargs):
+        response = Mock()
+        reply = {}
+        for name, value in kwargs.items():
+            reply[name] = value
+        response.content = json.dumps(reply)
+        response.status_code = 200
+        return response
+    return _call
