@@ -18,7 +18,12 @@ if len(sys.argv) == 1:
 else:
     modules = sys.argv[1:]
 
+exit_code = 0
 # for each module
 for module_path in modules:
     print "Testing " + module_path
-    doctest.testfile(module_path, module_relative=False)
+    failure_count, test_count = doctest.testfile(module_path, module_relative=False)
+    if failure_count and exit_code == 0:
+        exit_code = 1
+
+sys.exit(exit_code)
