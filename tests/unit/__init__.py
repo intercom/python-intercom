@@ -25,12 +25,15 @@ def create_response(status, fixture=None):
     return request
 
 
-def local_response():
+def local_response(**params):
     def _call(*args, **kwargs):
         response = Mock()
         reply = {}
         for name, value in kwargs.items():
             reply[name] = value
+        for name, value in params.items():
+            reply[name] = value
+
         response.content = json.dumps(reply)
         response.status_code = 200
         return response
