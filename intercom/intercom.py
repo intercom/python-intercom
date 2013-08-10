@@ -111,8 +111,23 @@ class Intercom(object):
 
     @classmethod
     def get_users(cls, **kwargs):
-        """ Return a dict for the user represented by the specified email
-        or user_id.
+        """ Returns a paginated list of all users in your application on Intercom.
+
+        **Arguments**
+
+        * ``page``: optional (defaults to 1)
+        * ``per_page``: optional (defaults to 500, max value of 500)
+        * ``tag_id``: optional — query for users that are tagged with a specific tag.
+        * ``tag_name``: optional — query for users that are tagged with a specific tag.
+
+        **Response**
+
+        * ``users``: an array of User objects (same as returned by getting a single User)
+        * ``total_count``: the total number of Users tracked in your Intercom application
+        * ``page``: the current requested page
+        * ``next_page``: the next page number, if any
+        * ``previous_page``: the previous page number, if any
+        * ``total_pages``: the total number of pages
 
         >>> result = Intercom.get_users()
         >>> type(result)
@@ -121,8 +136,7 @@ class Intercom(object):
         3
 
         """
-        user_dict = Intercom._call('GET', Intercom.api_endpoint + 'users', params=kwargs)
-        return user_dict
+        return Intercom._call('GET', Intercom.api_endpoint + 'users', params=kwargs)
 
     @classmethod
     def get_user(cls, email=None, user_id=None):

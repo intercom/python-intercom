@@ -147,7 +147,7 @@ class User(UserId):
         while page <= total_pages:
             resp = Intercom.get_users(page=page)
             page += 1
-            total_pages = resp['total_pages']
+            total_pages = resp.get('total_pages', 0)
             users.extend([cls(u) for u in resp['users']])
         return users
 

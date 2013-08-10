@@ -7,8 +7,11 @@
 
 
 from . import create_response
+from . import local_response
 from mock import patch
 from nose.tools import raises
+from nose.tools import eq_
+from nose.tools import ok_
 from unittest import TestCase
 
 from intercom import ServerError
@@ -79,3 +82,32 @@ class IntercomUsersTest(TestCase):
     @patch('requests.request', create_response(500, 'invalid.json'))
     def test_api_error_when_json_is_invalid(self):
         Intercom.get_users()
+
+    @patch('requests.request', local_response())
+    def test_get_users_params(self):
+        resp = Intercom.get_users()
+        ok_('params' in resp)
+        ok_('page' not in resp['params'])
+        ok_('per_page' not in resp['params'])
+        ok_('tag_id' not in resp['params'])
+        ok_('tag_id' not in resp['params'])
+
+        resp = Intercom.get_users(page=20)
+        ok_('params' in resp)
+        ok_('page' in resp['params'])
+        eq_(resp['params']['page'], 20)
+
+        resp = Intercom.get_users(per_page=10)
+        ok_('params' in resp)
+        ok_('per_page' in resp['params'])
+        eq_(resp['params']['per_page'], 10)
+
+        resp = Intercom.get_users(tag_id=100)
+        ok_('params' in resp)
+        ok_('tag_id' in resp['params'])
+        eq_(resp['params']['tag_id'], 100)
+
+        resp = Intercom.get_users(tag_name="starter")
+        ok_('params' in resp)
+        ok_('tag_name' in resp['params'])
+        eq_(resp['params']['tag_name'], "starter")
