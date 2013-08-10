@@ -49,7 +49,8 @@ class User(UserId):
 
     attributes = (
         'user_id', 'email', 'name', 'created_at', 'custom_data',
-        'last_seen_ip', 'last_seen_user_agent', 'unsubscribed_from_emails')
+        'last_seen_ip', 'last_seen_user_agent', 'last_impression_at',
+        'last_request_at', 'unsubscribed_from_emails')
 
     @classmethod
     def find(cls, user_id=None, email=None):
@@ -99,20 +100,17 @@ class User(UserId):
         return cls(resp)
 
     @classmethod
-    def create(
-            cls, user_id=None, email=None, name=None, created_at=None,
-            custom_data=None, last_seen_ip=None, last_seen_user_agent=None):
+    def create(cls, **kwargs):
         """ Create or update a user.
 
-        >>> user = User.create(email="somebody@example.com")
+        >>> user = User.create(email="somebody@example.com",last_impression_at=1400000000)
         >>> user.name
         u'Somebody'
+        >>> user.last_impression_at.year
+        2014
 
         """
-        resp = Intercom.create_user(
-            user_id=user_id, email=email, name=name, created_at=created_at,
-            custom_data=custom_data, last_seen_ip=last_seen_ip,
-            last_seen_user_agent=last_seen_user_agent)
+        resp = Intercom.create_user(**kwargs)
         return cls(resp)
 
     @classmethod
@@ -200,6 +198,18 @@ class User(UserId):
         self['last_seen_user_agent'] = last_seen_user_agent
 
     @property
+    def last_request_at(self):
+        """ Get last time this User interacted with your application. """
+        return dict.get(self, 'last_request_at', None)
+
+    @last_request_at.setter
+    @to_timestamp_property
+    def last_request_at(self, last_request_at):
+        """ Set time at which this User last made a request your application.
+        """
+        self['last_request_at'] = last_request_at
+
+    @property
     def relationship_score(self):
         """ Returns the relationship score. """
         return dict.get(self, 'relationship_score', None)
@@ -215,6 +225,13 @@ class User(UserId):
     def last_impression_at(self):
         """ Returns the datetime this User last used your application. """
         return dict.get(self, 'last_impression_at', None)
+
+    @last_impression_at.setter
+    @to_timestamp_property
+    def last_impression_at(self, last_impression_at):
+        """ Set time at which this User last made a request your application.
+        """
+        self['last_impression_at'] = last_impression_at
 
     @property
     @from_timestamp_property

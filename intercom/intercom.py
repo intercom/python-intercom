@@ -155,34 +155,53 @@ class Intercom(object):
         return user_dict
 
     @classmethod
-    def create_user(
-            cls, user_id=None, email=None, name=None, created_at=None,
-            custom_data=None, last_seen_ip=None, last_seen_user_agent=None):
-        """ Create a user from the available parameters.
+    def create_user(cls, **kwargs):
+        """ Creates a user.
+
+        N.B. Social and geo location data is fetched asynchronously, so a
+        secondary call to users will be required to fetch it.
+
+        **Arguments**
+
+        - ``user_id``: required (if no email) — a unique string identifier
+          for the user
+        - ``email``: required (if no user_id) — the user's email address
+        - ``name``: The user's full name
+        - ``created_at``: A UNIX timestamp representing the date the user was
+          created
+        - ``custom_data``: A hash of key/value pairs containing any other data
+          about the user you want Intercom to store.
+        - ``last_seen_ip``: An ip address (e.g. "1.2.3.4") representing the
+          last ip address the user visited your application from. (Used for
+          updating location_data)
+        - ``last_seen_user_agent``: The user agent the user last visited your
+          application with.
+        - ``companies``: An array of hashes describing the companies this user
+          belongs to. Currently companies are not returned in the response.
+        - ``last_request_at or last_impression_at``: A UNIX timestamp
+          representing the date the user last visited your application.
+        - ``unsubscribed_from_emails``: A boolean value representing the users
+          unsubscribed status.
+
 
         >>> from datetime import datetime
         >>> import time
         >>> now = time.mktime(datetime.now().timetuple())
         >>> user = Intercom.create_user(user_id='987', email='joe@example.com',
         ... name='Joe Example', created_at=now, last_seen_ip='10.10.10.10',
-        ... custom_data={ 'job_type': 'smuggler'})
+        ... custom_data={ 'job_type': 'smuggler'}, last_request_at=1350000000)
         >>> user['name']
         u'Joe Example'
         >>> user['custom_data']['job_type']
         u'smuggler'
+        >>> user['last_impression_at']
+        1350000000
 
         """
-        return Intercom._create_or_update_user(
-            'POST', user_id=user_id, email=email, name=name,
-            created_at=created_at, custom_data=custom_data,
-            last_seen_ip=last_seen_ip,
-            last_seen_user_agent=last_seen_user_agent)
+        return Intercom._create_or_update_user('POST', **kwargs)
 
     @classmethod
-    def update_user(
-            cls, user_id=None, email=None, name=None, created_at=None,
-            custom_data=None, last_seen_ip=None, last_seen_user_agent=None,
-            unsubscribed_from_emails=None):
+    def update_user(cls, **kwargs):
         """ Update a user with the available parameters.
 
         >>> user = Intercom.get_user(user_id='123')
@@ -193,12 +212,7 @@ class Intercom(object):
         u'Han'
 
         """
-        return Intercom._create_or_update_user(
-            'PUT', user_id=user_id, email=email, name=name,
-            created_at=created_at, custom_data=custom_data,
-            last_seen_ip=last_seen_ip,
-            last_seen_user_agent=last_seen_user_agent,
-            unsubscribed_from_emails=unsubscribed_from_emails)
+        return Intercom._create_or_update_user('PUT', **kwargs)
 
     @classmethod
     def delete_user(cls, user_id=None, email=None):
