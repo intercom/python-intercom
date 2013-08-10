@@ -110,9 +110,24 @@ class Intercom(object):
         return user_dict
 
     @classmethod
-    def get_users(cls, page=None, per_page=None, tag_id=None, tag_name=None):
-        """ Return a dict for the user represented by the specified email
-        or user_id.
+    def get_users(cls, **kwargs):
+        """ Returns a paginated list of all users in your application on Intercom.
+
+        **Arguments**
+
+        * ``page``: optional (defaults to 1)
+        * ``per_page``: optional (defaults to 500, max value of 500)
+        * ``tag_id``: optional — query for users that are tagged with a specific tag.
+        * ``tag_name``: optional — query for users that are tagged with a specific tag.
+
+        **Response**
+
+        * ``users``: an array of User objects (same as returned by getting a single User)
+        * ``total_count``: the total number of Users tracked in your Intercom application
+        * ``page``: the current requested page
+        * ``next_page``: the next page number, if any
+        * ``previous_page``: the previous page number, if any
+        * ``total_pages``: the total number of pages
 
         >>> result = Intercom.get_users()
         >>> type(result)
@@ -121,27 +136,7 @@ class Intercom(object):
         3
 
         """
-
-        # collate parameters
-        params = {}
-
-        if page:
-            params['page'] = page
-
-        if per_page:
-            # if per_page is outside bounds use default
-            if per_page < 1 or per_page > 500:
-                per_page = 500
-            params['per_page'] = per_page
-
-        if tag_id:
-            params['tag_id'] = tag_id
-
-        if tag_name:
-            params['tag_name'] = tag_name
-
-        user_dict = Intercom._call('GET', Intercom.api_endpoint + 'users', params=params)
-        return user_dict
+        return Intercom._call('GET', Intercom.api_endpoint + 'users', params=kwargs)
 
     @classmethod
     def get_user(cls, email=None, user_id=None):
@@ -186,7 +181,8 @@ class Intercom(object):
     @classmethod
     def update_user(
             cls, user_id=None, email=None, name=None, created_at=None,
-            custom_data=None, last_seen_ip=None, last_seen_user_agent=None):
+            custom_data=None, last_seen_ip=None, last_seen_user_agent=None,
+            unsubscribed_from_emails=None):
         """ Update a user with the available parameters.
 
         >>> user = Intercom.get_user(user_id='123')
@@ -201,7 +197,8 @@ class Intercom(object):
             'PUT', user_id=user_id, email=email, name=name,
             created_at=created_at, custom_data=custom_data,
             last_seen_ip=last_seen_ip,
-            last_seen_user_agent=last_seen_user_agent)
+            last_seen_user_agent=last_seen_user_agent,
+            unsubscribed_from_emails=unsubscribed_from_emails)
 
     @classmethod
     def delete_user(cls, user_id=None, email=None):

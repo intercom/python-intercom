@@ -33,7 +33,6 @@ def local_response(**params):
             reply[name] = value
         for name, value in params.items():
             reply[name] = value
-
         response.content = json.dumps(reply)
         response.status_code = 200
         return response

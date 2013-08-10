@@ -172,18 +172,6 @@ class UsersTest(TestCase):
         self.assertEqual('foobloggs@example.com', users[1].email)
         self.assertEqual('barbloggs@example.com', users[2].email)
 
-    @patch('requests.request', local_response(users=[]))
-    def test_get_users_params(self):
-        resp = User.all()
-        resp = User.all(page=20)
-        resp = User.all(per_page=10)
-        resp = User.all(tag_id=100)
-        resp = User.all(tag_name="starter")
-        try:
-            resp = User.all(no_such_param="value")
-        except TypeError:
-            pass
-
     def test_properties(self):
         user = User()
         user.email = 'xxx@example.com'
