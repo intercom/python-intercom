@@ -326,7 +326,7 @@ class Intercom(object):
         ... thread_id=5591,
         ... body="If you're not talking to me you must be talking to someone")
         >>> len(message_thread)
-        7
+        8
         >>> message_thread['thread_id']
         5591
         >>> len(message_thread['messages'])
