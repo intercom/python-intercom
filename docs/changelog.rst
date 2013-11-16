@@ -2,8 +2,12 @@
 Changelog
 =========
 
+* 0.2.9
+   * `unsubscribed_from_emails` attribute added to `User` object. `#15 <https://github.com/jkeyes/python-intercom/pull/15>`_. (https://github.com/sdorazio)
+   * `last_request_at` parameter supported in `Intercom.create_user`. `#16 <https://github.com/jkeyes/python-intercom/issues/16>`_.
+   * page, per_page, tag_id, and tag_name parameters support on `Intercom.get_users`. `#17 <https://github.com/jkeyes/python-intercom/issues/17>`_.
 * 0.2.8
-   * Added support for tagging #13 <https://github.com/jkeyes/python-intercom/issues/13>`_.
+   * Added support for tagging `#13 <https://github.com/jkeyes/python-intercom/issues/13>`_.
    * Now installs into a clean python environment (https://github.com/vrachil) `#12 <https://github.com/jkeyes/python-intercom/issues/12>`_.
    * Doctest fix.
    * PEP8 formatting.
