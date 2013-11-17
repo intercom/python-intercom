@@ -26,6 +26,10 @@ class IntegrationTest(TestCase):
         user = User.find(email='somebody@example.com')
         self.assertEqual('Somebody', user.name)
 
+    def test_delete_user(self):
+        user = User.delete(email="to-delete@example.com")
+        self.assertEqual("to-delete@example.com", user.email)
+
     @raises(ResourceNotFound)
     def test_not_found(self):
         User.find(email='not-found@example.com')
