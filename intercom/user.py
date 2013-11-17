@@ -50,7 +50,7 @@ class User(UserId):
     attributes = (
         'user_id', 'email', 'name', 'created_at', 'custom_data',
         'last_seen_ip', 'last_seen_user_agent', 'last_impression_at',
-        'last_request_at', 'unsubscribed_from_emails')
+        'last_request_at', 'unsubscribed_from_emails', 'companies')
 
     @classmethod
     def find(cls, user_id=None, email=None):
@@ -297,6 +297,59 @@ class User(UserId):
         self['unsubscribed_from_emails'] = unsubscribed_from_emails
 
     @property
+    def company(self):
+        """ Get the company of a user. Currently unsupported by the Intercom
+        API so an AttributeError is raised.
+
+        >>> user = User(email="somebody@example.com")
+        >>> user.companies
+        Traceback (most recent call last):
+            ...
+        AttributeError("company is a write-only property")
+        """
+        raise AttributeError("company is a write-only property")
+
+    @company.setter
+    def company(self, company):
+        """ Sets the company for a user.
+
+        >>> user = User(email="somebody@example.com")
+        >>> user.company = {'id':6, 'name': 'Intercom', 'created_at': 103201}
+        """
+        if isinstance(company, dict):
+            self['companies'] = [Company(**company)]
+        elif isinstance(company, Company):
+            self['companies'] = [company]
+        else:
+            raise ValueError("company must be set as a dict or Company object")
+
+    @property
+    def companies(self):
+        """ Get the companies of a user. Currently unsupported by the Intercom
+        API so an AttributeError is raised.
+
+        >>> user = User(email="somebody@example.com")
+        >>> user.companies
+        Traceback (most recent call last):
+            ...
+        AttributeError("company is a write-only property")
+        """
+        raise AttributeError("companies is a write-only property")
+
+    @companies.setter
+    def companies(self, companies):
+        """ Sets the companies for the user
+
+        >>> user = User(email="somebody@example.com")
+        >>> user.companies = [{'id': 6, 'name': 'Intercom', 'created_at': 103201}]
+        """
+        #Ensure a companies is set as a list.
+        if isinstance(companies, list):
+            self['companies'] = [Company(**c) for c in companies]
+        else:
+            raise ValueError("companies must be set as a list")
+
+    @property
     def custom_data(self):
         """ Returns a CustomData object for this User.
 
@@ -406,6 +459,40 @@ class SocialProfile(dict):
         """ Do not allow items to be set. """
         raise NotImplementedError
 
+class Company(dict):
+    """ Object represents an Intercom Company """
+
+    @property
+    def id(self):
+        """ Returns the company's id. """
+        return dict.get(self, 'id', None)
+
+    @id.setter
+    def id(self, company_id):
+        """ Sets thecompany's id. """
+        self['id'] = company_id
+
+    @property
+    def name(self):
+        """ Returns the company name e.g. Intercom. """
+        return dict.get(self, 'name', None)
+
+    @name.setter
+    def name(self, name):
+        """ Sets the company name. """
+        self['name'] = name
+
+    @property
+    @from_timestamp_property
+    def created_at(self):
+        """ Returns the datetime this Company was created. """
+        return dict.get(self, 'created_at', None)
+
+    @created_at.setter
+    @to_timestamp_property
+    def created_at(self, value):
+        """ Sets the timestamp when this Company was created. """
+        self['created_at'] = value
 
 class LocationData(dict):
     """ Object representing a user's location data

@@ -84,7 +84,6 @@ class Intercom(object):
     def _call(cls, method, url, params=None):
         """ Construct an API request, send it to the API, and parse the
         response. """
-
         req_params = {}
         headers = {
             'User-Agent': 'python-intercom/' + __version__,
