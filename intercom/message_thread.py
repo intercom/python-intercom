@@ -85,11 +85,13 @@ class MessageThread(dict):
         >>> message_thread = MessageThread.reply(email=email,
         ... thread_id=thread_id, body=body)
         >>> len(message_thread.messages)
-        2
+        3
         >>> message_thread.messages[0].html
         u'<p>Hey Intercom, What is up?</p>\n\n<p></p>'
         >>> message_thread.messages[1].html
-        u'<p>Are you talking to me?</p>'
+        u'<p>Not much, you?\n</p>'
+        >>> message_thread.messages[2].html
+        u'<p>Not much either :(</p>\n\n<p></p>'
 
         """
         resp = Intercom.reply_message_thread(

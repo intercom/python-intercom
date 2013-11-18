@@ -24,12 +24,12 @@ class Tag(dict):
         """ Find a tag using params.
 
         >>> tag = Tag.find(name="Free Trial")
-        >>> tag.id
+        >>> tag.id != None
+        True
         >>> tag.name
         u'Free Trial'
         >>> tag.tagged_user_count
-        >>> tag.color
-        u'green'
+        2
 
         """
         resp = Intercom.get_tag(**params)
@@ -40,12 +40,12 @@ class Tag(dict):
         """ Find a tag by name.
 
         >>> tag = Tag.find_by_name("Free Trial")
-        >>> tag.id
+        >>> tag.id != None
+        True
         >>> tag.name
         u'Free Trial'
         >>> tag.tagged_user_count
-        >>> tag.color
-        u'green'
+        2
 
         """
         return Tag.find(name=name)
@@ -58,12 +58,12 @@ class Tag(dict):
 
         >>> tag = Tag.create(user_ids=["abc123", "def456"],
         ...        name="Free Trial", tag_or_untag="tag")
-        >>> tag.id
+        >>> tag.id != None
+        True
         >>> tag.name
         u'Free Trial'
         >>> tag.tagged_user_count
-        >>> tag.color
-        u'green'
+        2
 
         """
         resp = Intercom.create_tag(
@@ -80,8 +80,7 @@ class Tag(dict):
         >>> tag.tag_or_untag = "tag"
         >>> tag.save()
         >>> tag.tagged_user_count
-        >>> tag.color
-        u'green'
+        2
 
         """
         resp = Intercom.update_tag(

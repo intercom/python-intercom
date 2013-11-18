@@ -23,7 +23,7 @@ import requests
 DEFAULT_TIMEOUT = 10  # seconds
 
 
-class IntercomError(StandardError):
+class IntercomError(Exception):
     """ Base error. """
     def __init__(self, message, result=None):
         super(IntercomError, self).__init__(message)
@@ -337,11 +337,11 @@ class Intercom(object):
         ... thread_id=5591,
         ... body="If you're not talking to me you must be talking to someone")
         >>> len(message_thread)
-        8
+        9
         >>> message_thread['thread_id']
         5591
         >>> len(message_thread['messages'])
-        2
+        3
 
         """
         params = {
@@ -364,12 +364,12 @@ class Intercom(object):
 
         >>> tag = Intercom.create_tag("Free Trial", "tag",
         ... user_ids=["abc123", "def456"])
-        >>> tag.get('id', None)
+        >>> tag['id'] != None
+        True
         >>> tag['name']
         u'Free Trial'
-        >>> tag.get('tagged_user_count', None)
-        >>> tag['color']
-        u'green'
+        >>> tag['tagged_user_count']
+        2
 
         """
 
@@ -392,12 +392,12 @@ class Intercom(object):
 
         >>> tag = Intercom.update_tag("Free Trial", "tag",
         ... user_ids=["abc123", "def456"])
-        >>> tag.get('id', None)
+        >>> tag['id'] != None
+        True
         >>> tag['name']
         u'Free Trial'
-        >>> tag.get('tagged_user_count', None)
-        >>> tag['color']
-        u'green'
+        >>> tag['tagged_user_count']
+        2
 
         """
 
@@ -417,12 +417,12 @@ class Intercom(object):
         """ Return a dict for the tag by the specified name.
 
         >>> tag = Intercom.get_tag(name="Free Trial")
-        >>> tag.get('id', None)
+        >>> tag['id'] != None
+        True
         >>> tag['name']
         u'Free Trial'
-        >>> tag.get('tagged_user_count', None)
-        >>> tag['color']
-        u'green'
+        >>> tag['tagged_user_count']
+        2
 
         """
 
