@@ -302,10 +302,11 @@ class User(UserId):
         API so an AttributeError is raised.
 
         >>> user = User(email="somebody@example.com")
-        >>> user.companies
+        >>> user.company
         Traceback (most recent call last):
             ...
-        AttributeError("company is a write-only property")
+        AttributeError: company is a write-only property
+
         """
         raise AttributeError("company is a write-only property")
 
@@ -315,6 +316,7 @@ class User(UserId):
 
         >>> user = User(email="somebody@example.com")
         >>> user.company = {'id':6, 'name': 'Intercom', 'created_at': 103201}
+
         """
         if isinstance(company, dict):
             self['companies'] = [Company(**company)]
@@ -332,7 +334,8 @@ class User(UserId):
         >>> user.companies
         Traceback (most recent call last):
             ...
-        AttributeError("company is a write-only property")
+        AttributeError: companies is a write-only property
+
         """
         raise AttributeError("companies is a write-only property")
 
@@ -342,6 +345,7 @@ class User(UserId):
 
         >>> user = User(email="somebody@example.com")
         >>> user.companies = [{'id': 6, 'name': 'Intercom', 'created_at': 103201}]
+
         """
         #Ensure a companies is set as a list.
         if isinstance(companies, list):
