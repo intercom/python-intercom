@@ -67,14 +67,10 @@ class TagTest(TestCase):
         tag.name = "xyz"
         eq_("xyz", tag.name)
 
-        tag.color = "abc"
-        eq_("abc", tag.color)
-
     @patch('requests.request', create_response(200, 'create_tag_valid.json'))
     def test_create(self):
         tag = Tag.create(name="Poweruser", tag_or_untag="tag")
         eq_(None, tag.id)
-        eq_('green', tag.color)
         eq_(False, tag.segment)
         eq_(None, tag.tagged_user_count)
 
@@ -83,16 +79,13 @@ class TagTest(TestCase):
         tag = Tag()
         tag.save()
         eq_(None, tag.id)
-        eq_('green', tag.color)
 
     @patch('requests.request', create_response(200, 'get_tag_valid.json'))
     def test_find(self):
         tag = Tag.find(name="Poweruser")
         eq_(None, tag.id)
-        eq_('green', tag.color)
 
     @patch('requests.request', create_response(200, 'get_tag_valid.json'))
     def test_find_by_name(self):
         tag = Tag.find_by_name("Poweruser")
         eq_(None, tag.id)
-        eq_('green', tag.color)

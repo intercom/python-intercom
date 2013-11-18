@@ -52,8 +52,7 @@ class Tag(dict):
 
     @classmethod
     def create(
-            cls, name, tag_or_untag, user_ids=None, emails=None,
-            color=None):
+            cls, name, tag_or_untag, user_ids=None, emails=None):
         """ Create a new tag an optionally tag user.
 
         >>> tag = Tag.create(user_ids=["abc123", "def456"],
@@ -67,8 +66,7 @@ class Tag(dict):
 
         """
         resp = Intercom.create_tag(
-            name, tag_or_untag, user_ids=user_ids, emails=emails,
-            color=color)
+            name, tag_or_untag, user_ids=user_ids, emails=emails)
         return cls(resp)
 
     def save(self):
@@ -86,8 +84,7 @@ class Tag(dict):
         resp = Intercom.update_tag(
             self.name, self.get('tag_or_untag', None),
             user_ids=self.get('user_ids', None),
-            emails=self.get('emails', None),
-            color=self.color)
+            emails=self.get('emails', None))
         self.update(resp)
 
     @property
@@ -99,16 +96,6 @@ class Tag(dict):
     def name(self, name):
         """ Get the name of the tag. """
         self['name'] = name
-
-    @property
-    def color(self):
-        """ Get the color of the tag. """
-        return dict.get(self, 'color', None)
-
-    @color.setter
-    def color(self, color):
-        """ Get the color of the tag. """
-        self['color'] = color
 
     @property
     def id(self):

@@ -358,8 +358,7 @@ class Intercom(object):
 
     @classmethod
     def create_tag(
-            cls, name, tag_or_untag, user_ids=None, emails=None,
-            color=None):
+            cls, name, tag_or_untag, user_ids=None, emails=None):
         """ Create a tag (and maybe tag users).
 
         >>> tag = Intercom.create_tag("Free Trial", "tag",
@@ -377,8 +376,7 @@ class Intercom(object):
             'name': name,
             'tag_or_untag': tag_or_untag,
             'user_ids': user_ids,
-            'emails': emails,
-            'color': color
+            'emails': emails
         }
         tag_dict = Intercom._call(
             'POST', Intercom.api_endpoint + 'tags', params=params)
@@ -386,8 +384,7 @@ class Intercom(object):
 
     @classmethod
     def update_tag(
-            cls, name, tag_or_untag, user_ids=None, emails=None,
-            color=None):
+            cls, name, tag_or_untag, user_ids=None, emails=None):
         """ Update a tag (and maybe tag users).
 
         >>> tag = Intercom.update_tag("Free Trial", "tag",
@@ -405,8 +402,7 @@ class Intercom(object):
             'name': name,
             'tag_or_untag': tag_or_untag,
             'user_ids': user_ids,
-            'emails': emails,
-            'color': color
+            'emails': emails
         }
         tag_dict = Intercom._call(
             'PUT', Intercom.api_endpoint + 'tags', params=params)
