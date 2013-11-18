@@ -165,8 +165,7 @@ class UsersTest(TestCase):
         self.assertEqual('Santiago', user.location_data.city_name)
         self.assertTrue(isinstance(user.location_data, LocationData))
         self.assertEqual('johnny', user.custom_data['nick'])
-        with self.assertRaises(AttributeError):
-            user.companies
+        self.assertRaises(AttributeError, lambda: user.companies)
 
     @patch('requests.request', create_response(200, 'get_user_id_valid.json'))
     def test_find_by_user_id(self):
@@ -206,6 +205,7 @@ class UsersTest(TestCase):
         try:
             # cannot set the relationship score
             user.relationship_score = 50
+            self.fail()
         except AttributeError:
             pass
 
@@ -218,8 +218,7 @@ class UsersTest(TestCase):
         self.assertEqual(1331764344,
                 time.mktime(user.created_at.timetuple()))
         self.assertEqual('Ace', user.custom_data['name'])
-        with self.assertRaises(AttributeError):
-            user.companies
+        self.assertRaises(AttributeError, lambda: user.companies)
 
     def test_company(self):
         user = User()
@@ -227,10 +226,12 @@ class UsersTest(TestCase):
             'id': 1,
             'name':' Intercom',
             'created_at': datetime.fromtimestamp(1331764344)}
-        with self.assertRaises(AttributeError):
-            user.company
-        with self.assertRaises(ValueError):
+        self.assertRaises(AttributeError, lambda: user.company)
+        try:
             user.company = ['foo']
+            self.fail()
+        except ValueError:
+            pass
 
     def test_companies(self):
         user = User()
@@ -238,10 +239,12 @@ class UsersTest(TestCase):
             'id': 1,
             'name':' Intercom',
             'created_at': datetime.fromtimestamp(1331764344)}]
-        with self.assertRaises(AttributeError):
-            user.companise
-        with self.assertRaises(ValueError):
+        self.assertRaises(AttributeError, lambda: user.companies)
+        try:
             user.companies = {'foo':'bar'}
+            self.fail()
+        except ValueError:
+            pass
 
 class LocationDataTest(TestCase):
 
