@@ -186,15 +186,15 @@ class Intercom(object):
         >>> from datetime import datetime
         >>> import time
         >>> now = time.mktime(datetime.now().timetuple())
-        >>> user = Intercom.create_user(user_id='987', email='joe@example.com',
-        ... name='Joe Example', created_at=now, last_seen_ip='10.10.10.10',
-        ... custom_data={ 'job_type': 'smuggler'}, last_request_at=1350000000)
+        >>> user = Intercom.create_user(user_id='7902', email='ben@intercom.io',
+        ... name='Ben McRedmond', created_at=now, last_seen_ip='1.2.3.4',
+        ... custom_data={ 'plan': 'pro'}, last_request_at=1300000000)
         >>> user['name']
-        u'Joe Example'
-        >>> user['custom_data']['job_type']
-        u'smuggler'
+        u'Ben McRedmond'
+        >>> user['custom_data']['plan']
+        u'pro'
         >>> user['last_impression_at']
-        1350000000
+        1300000000
 
         """
         return Intercom._create_or_update_user('POST', **kwargs)
