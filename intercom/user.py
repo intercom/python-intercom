@@ -377,7 +377,7 @@ class User(UserId):
 
         >>> user = User(email="somebody@example.com")
         >>> user.custom_data = { 'max_monthly_spend': 200 }
-        >>> type(custom_data)
+        >>> type(user.custom_data)
         <class 'intercom.user.CustomData'>
         >>> user.save()
         >>> len(user.custom_data)
