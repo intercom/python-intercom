@@ -2,6 +2,11 @@
 Changelog
 =========
 
+* 0.2.10
+   * basic support for companies. `#18 <https://github.com/jkeyes/python-intercom/pull/18>`_. (https://github.com/cameronmaske)
+   * fixed User.delete. `#19 <https://github.com/jkeyes/python-intercom/pull/19>`_. (https://github.com/cameronmaske)
+   * updated links to Intercom API docs.
+   * Doctest fixes.
 * 0.2.9
    * `unsubscribed_from_emails` attribute added to `User` object. `#15 <https://github.com/jkeyes/python-intercom/pull/15>`_. (https://github.com/sdorazio)
    * `last_request_at` parameter supported in `Intercom.create_user`. `#16 <https://github.com/jkeyes/python-intercom/issues/16>`_.
