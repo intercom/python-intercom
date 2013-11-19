@@ -49,8 +49,8 @@ class User(UserId):
 
     attributes = (
         'user_id', 'email', 'name', 'created_at', 'custom_data',
-        'last_seen_ip', 'last_seen_user_agent', 'last_impression_at',
-        'last_request_at', 'unsubscribed_from_emails', 'companies')
+        'last_seen_ip', 'last_seen_user_agent', 'companies',
+        'last_impression_at', 'last_request_at', 'unsubscribed_from_emails')
 
     @classmethod
     def find(cls, user_id=None, email=None):
