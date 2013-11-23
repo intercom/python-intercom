@@ -125,7 +125,6 @@ def test_bad_gateway():
 @httpretty.activate
 def test_doctest():
     import doctest
-    import intercom
 
     def request_callback(method, uri, headers):
         parsed_body = httpretty.last_request().parsed_body
