@@ -1,6 +1,6 @@
 {
   "html": "<p>This is a note</p>",
-  "created_at": null,
+  "created_at": 1300000000,
   "user": {
     "intercom_id": "528f2cbb1b393a6e470000e6",
     "email": "somebody@example.com",

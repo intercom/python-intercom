@@ -7,8 +7,6 @@
 """ User module.
 
 >>> from intercom import Intercom
->>> Intercom.app_id = 'dummy-app-id'
->>> Intercom.api_key = 'dummy-api-key'
 >>> from intercom import User
 
 """
@@ -63,9 +61,9 @@ class User(UserId):
         u'Somebody'
         >>> user = User.find(user_id=123)
         >>> user.email
-        u'bob@example.com'
+        u'somebody@example.com'
         >>> user.name
-        u'Bob'
+        u'Somebody'
 
         """
         resp = Intercom.get_user(user_id=user_id, email=email)
@@ -91,9 +89,9 @@ class User(UserId):
 
         >>> user = User.find(user_id=123)
         >>> user.email
-        u'bob@example.com'
+        u'somebody@example.com'
         >>> user.name
-        u'Bob'
+        u'Somebody'
 
         """
         resp = Intercom.get_user(user_id=user_id)
@@ -107,7 +105,7 @@ class User(UserId):
         >>> user.name
         u'Somebody'
         >>> user.last_impression_at.year
-        2014
+        2011
 
         """
         resp = Intercom.create_user(**kwargs)
@@ -122,7 +120,7 @@ class User(UserId):
         u'123'
         >>> user = User.delete(user_id="123")
         >>> user.email
-        u'bob@example.com'
+        u'somebody@example.com'
 
         """
         resp = Intercom.delete_user(user_id=user_id, email=email)
@@ -381,11 +379,7 @@ class User(UserId):
         <class 'intercom.user.CustomData'>
         >>> user.save()
         >>> len(user.custom_data)
-        1
-        >>> user.custom_data['avg_monthly_spend'] = 102
-        >>> user.save()
-        >>> len(user.custom_data)
-        2
+        3
 
         """
         if not isinstance(custom_data, CustomData):

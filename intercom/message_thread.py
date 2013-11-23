@@ -66,7 +66,7 @@ class MessageThread(dict):
         >>> message_thread.thread_id
         5591
         >>> len(message_thread.messages)
-        1
+        3
 
         """
         resp = Intercom.create_message_thread(

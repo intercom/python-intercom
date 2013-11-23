@@ -149,7 +149,7 @@ class Intercom(object):
 
         >>> user = Intercom.get_user(user_id='123')
         >>> user['name']
-        u'Bob'
+        u'Somebody'
 
         """
 
@@ -188,16 +188,13 @@ class Intercom(object):
           unsubscribed status.
 
 
-        >>> from datetime import datetime
-        >>> import time
-        >>> now = time.mktime(datetime.now().timetuple())
         >>> user = Intercom.create_user(user_id='7902', email='ben@intercom.io',
-        ... name='Ben McRedmond', created_at=now, last_seen_ip='1.2.3.4',
-        ... custom_data={ 'plan': 'pro'}, last_request_at=1300000000)
+        ... name='Somebody', created_at=1270000000, last_seen_ip='1.2.3.4',
+        ... custom_data={ 'app_name': 'Genesis'}, last_request_at=1300000000)
         >>> user['name']
-        u'Ben McRedmond'
-        >>> user['custom_data']['plan']
-        u'pro'
+        u'Somebody'
+        >>> user['custom_data']['app_name']
+        u'Genesis'
         >>> user['last_impression_at']
         1300000000
 
@@ -210,10 +207,10 @@ class Intercom(object):
 
         >>> user = Intercom.get_user(user_id='123')
         >>> user['name']
-        u'Bob'
-        >>> user = Intercom.update_user(user_id='123', name='Han')
+        u'Somebody'
+        >>> user = Intercom.update_user(user_id='123', name='Guido')
         >>> user['name']
-        u'Han'
+        u'Guido'
 
         """
         return Intercom._create_or_update_user('PUT', **kwargs)
@@ -222,9 +219,9 @@ class Intercom(object):
     def delete_user(cls, user_id=None, email=None):
         """ Delete a user.
 
-        >>> user = Intercom.get_user(user_id='7902')
+        >>> user = Intercom.get_user(user_id='123')
         >>> user['email']
-        u'bob@example.com'
+        u'somebody@example.com'
 
         """
         params = {
@@ -263,9 +260,9 @@ class Intercom(object):
         """ Create a note.
 
         >>> result = Intercom.create_note(email="somebody@example.com",
-        ... body="This is the text of my note.")
+        ... body="This is a note")
         >>> result['html']
-        u'<p>This is the text of my note.</p>'
+        u'<p>This is a note</p>'
         >>> result['user']['email']
         u'somebody@example.com'
 
@@ -311,13 +308,13 @@ class Intercom(object):
 
         >>> message_thread = Intercom.create_message_thread(
         ... email="somebody@example.com",
-        ... body="Uh, everything's under control. Situation normal.")
+        ... body="Hey Intercom, What is up?")
         >>> message_thread['thread_id']
         5591
         >>> len(message_thread['messages'])
-        1
+        3
         >>> message_thread['messages'][0]['html']
-        u"<p>Uh, everything's under control. Situation normal.</p>"
+        u'<p>Hey Intercom, What is up?</p>\n\n<p></p>'
 
         """
         params = {
