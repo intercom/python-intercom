@@ -57,11 +57,16 @@ def api_call(func_to_decorate):
         try:
             result = json.loads(response.content)
         except ValueError as err:
+            if response.status_code == 404:
+                raise ResourceNotFound("Not found.")
             raise ServerError(err.message)
         if response.status_code in (200, 201):
             pass
         else:
-            message = result['error']['message']
+            # an error state try to get the error message
+            error = result.get('error', {})
+            message = error.get('message', 'Unknown error')
+
             if response.status_code == 404:
                 raise ResourceNotFound(message, result)
             else:
