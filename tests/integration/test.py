@@ -45,14 +45,24 @@ def test_user():
     user = User.find(email='somebody@example.com')
     expect(user.name).to.equal('Somebody')
 
+    httpretty.register_uri(get, r(r"/v1/users\?user_id="), body=fixture('v1-user'), match_querystring=True)
+    user = User.find_by_user_id('123')
+    expect(user.name).to.equal('Somebody')
+
 @httpretty.activate
 def test_not_found():
     httpretty.register_uri(get, r(r"/v1/users\?email=not-found"), status=404, match_querystring=True)
     User.find.when.called_with(email='not-found@example.com').should.throw(ResourceNotFound)
 
+    httpretty.register_uri(get, r(r"/v1/users\?email=not-found"), body=fixture('v1-user_not_found'), status=404, match_querystring=True)
+    User.find.when.called_with(email='not-found@example.com').should.throw(ResourceNotFound)
+
 @httpretty.activate
 def test_server_error():
     httpretty.register_uri(get, r(r"/v1/users\?email=server-error"), status=500, match_querystring=True)
+    User.find.when.called_with(email='server-error@example.com').should.throw(ServerError)
+
+    httpretty.register_uri(get, r(r"/v1/users\?email=server-error"), body=fixture('v1-user_server_error'),  status=500, match_querystring=True)
     User.find.when.called_with(email='server-error@example.com').should.throw(ServerError)
 
 @httpretty.activate

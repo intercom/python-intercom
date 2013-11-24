@@ -196,6 +196,7 @@ class User(UserId):
         self['last_seen_user_agent'] = last_seen_user_agent
 
     @property
+    @from_timestamp_property
     def last_request_at(self):
         """ Get last time this User interacted with your application. """
         return dict.get(self, 'last_request_at', None)
@@ -216,7 +217,7 @@ class User(UserId):
     def session_count(self):
         """ Returns how many sessions this User has used on your
         application. """
-        return dict.get(self, 'session_count', None)
+        return dict.get(self, 'session_count', 0)
 
     @property
     @from_timestamp_property
