@@ -3,9 +3,11 @@ Detailed documentation[2] is available on http://readthedocs.org.
 
 Typical usage:
 
+::
+
     from intercom import Intercom
-    Intercom.app_id = 'dummy-app-id'
-    Intercom.api_key = 'dummy-api-key'
+    Intercom.app_id = 'app-id'
+    Intercom.api_key = 'api-key'
     
     from intercom import User
     for user in User.all():
