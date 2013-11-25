@@ -1,5 +1,6 @@
-Python-intercom is a Python wrapper for the Intercom API[1]. 
-Detailed documentation[2] is available on http://readthedocs.org.
+Python-intercom is a Python wrapper for the `Intercom API <https://api.intercom.io/docs>`_.
+
+Detailed `documentation <http://readthedocs.org/docs/python-intercom/>`_ is available on `http://readthedocs.org <http://readthedocs.org>`_.
 
 Typical usage:
 
@@ -12,6 +13,3 @@ Typical usage:
     from intercom import User
     for user in User.all():
         print user.email
-
-[1] http://docs.intercom.io/api
-[2] http://readthedocs.org/docs/python-intercom/
