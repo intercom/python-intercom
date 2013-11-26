@@ -317,10 +317,10 @@ class User(UserId):
         >>> user.company = {'id':6, 'name': 'Intercom', 'created_at': 103201}
 
         """
-        if isinstance(company, dict):
-            self['companies'] = [Company(**company)]
-        elif isinstance(company, Company):
+        if isinstance(company, Company):
             self['companies'] = [company]
+        elif isinstance(company, dict):
+            self['companies'] = [Company(**company)]
         else:
             raise ValueError("company must be set as a dict or Company object")
 

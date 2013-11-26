@@ -162,6 +162,13 @@ def test_company_properties():
 @raises(ValueError)
 def test_user_company():
     user = User()
+    # use a Company object
+    user.company = Company({
+        'id': 1,
+        'name': 'Intercom',
+        'created_at': datetime.fromtimestamp(1331764344)
+    })
+
     # use a dict object
     user.company = {
         'id': 1,
