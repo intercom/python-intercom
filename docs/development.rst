@@ -61,9 +61,13 @@ Generate a full pylint report:
 
     pylint --rcfile=pylint.conf intercom
 
+Runtime Dependencies
+--------------------
 
-Dependencies
-------------
+* `Requests <http://python-requests.org/>`_ – an HTTP library “for human beings”
+
+Development Dependencies
+------------------------
 
 * `nose <http://readthedocs.org/docs/nose/en/latest/>`_ – makes unit testing easier.
 * `coverage <http://nedbatchelder.com/code/coverage/>`_ – code coverage.

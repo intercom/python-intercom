@@ -8,9 +8,10 @@ The simplest way to install python-intercom is with `pip <http://pip.openplans.o
 
     pip install python-intercom
 
-or you may download a `.tgz` source archive from `pypi <http://pypi.python.org/pypi/python-intercom#downloads>`_.
+or you may download a `.tar.gz` source archive from `pypi <http://pypi.python.org/pypi/python-intercom#downloads>`_:
 
-Dependencies
-~~~~~~~~~~~~
+::
 
-* `Requests <http://python-requests.org/>`_ – an HTTP library “for human beings”
+    tar xf python-intercom.tar.gz
+    cd python-intercom
+    python setup.py install
