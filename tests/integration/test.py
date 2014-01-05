@@ -13,8 +13,10 @@ DIRPATH = os.path.dirname(__file__)
 FIXTURES = os.path.join(DIRPATH, 'fixtures')
 
 from intercom import AuthenticationError
+from intercom import BadGatewayError
 from intercom import ResourceNotFound
 from intercom import ServerError
+from intercom import ServiceUnavailableError
 from intercom import Intercom
 from intercom import User
 from intercom import MessageThread
@@ -167,7 +169,7 @@ def test_endpoints():
 
 @nottest
 @httpretty.activate
-def test_unreachable():
+def test_unreachable_endpoints():
     class ServiceUnavailableError(Exception):
         pass
     httpretty.register_uri(
@@ -181,9 +183,18 @@ def test_unreachable():
         .should.throw(ServiceUnavailableError)
 
 
+@httpretty.activate
+@raises(ServiceUnavailableError)
+def test_unreachable():
+    httpretty.register_uri(
+        get, r(r"/v1/users\?email="),
+        status=503, match_querystring=True)
+    User.find(email='somebody@example.com')
+
+
 @nottest
 @httpretty.activate
-def test_bad_gateway():
+def test_bad_gateway_endpoints():
     class BadGatewayError(Exception):
         pass
     httpretty.register_uri(
@@ -195,6 +206,15 @@ def test_bad_gateway():
     Intercom.endpoints = ("http://example.com", "http://api.example.com")
     User.find.when.called_with(email='not-found@example.com')\
         .should.throw(BadGatewayError)
+
+
+@httpretty.activate
+@raises(BadGatewayError)
+def test_bad_gateway():
+    httpretty.register_uri(
+        get, r(r"/v1/users\?email="),
+        status=502, match_querystring=True)
+    User.find(email='somebody@example.com')
 
 
 @httpretty.activate

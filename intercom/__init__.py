@@ -36,9 +36,11 @@ def to_timestamp_property(func_to_decorate):
     return wrapper
 
 from .intercom import AuthenticationError
+from .intercom import BadGatewayError
 from .intercom import Intercom
 from .intercom import ResourceNotFound
 from .intercom import ServerError
+from .intercom import ServiceUnavailableError
 
 from .impression import Impression
 from .message_thread import MessageThread
@@ -47,6 +49,7 @@ from .user import User
 from .tag import Tag
 
 __all__ = (
-    AuthenticationError, Intercom, ResourceNotFound, ServerError,
-    Impression, MessageThread, Note, User, Tag
+    AuthenticationError, BadGatewayError, Intercom, ResourceNotFound,
+    ServerError, ServiceUnavailableError, Impression, MessageThread,
+    Note, User, Tag
 )

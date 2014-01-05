@@ -35,6 +35,11 @@ class AuthenticationError(IntercomError):
     pass
 
 
+class BadGatewayError(IntercomError):
+    """ Raised when a request does not reach the API due to a 502. """
+    pass
+
+
 class ResourceNotFound(IntercomError):
     """ Raised when a resource cannot be found e.g. a non-existant User. """
     pass
@@ -46,33 +51,34 @@ class ServerError(IntercomError):
     pass
 
 
+class ServiceUnavailableError(IntercomError):
+    """ Raised when the API cannot be handle a request. """
+    pass
+
+
 def api_call(func_to_decorate):
     """ Decorator for handling AWS credentials. """
     @functools.wraps(func_to_decorate)
     def wrapper(*args, **kwargs):
         """ Decorator closure. """
         response = func_to_decorate(*args, **kwargs)
-        if response.status_code == 401:
-            raise AuthenticationError("Invalid API key/username provided.")
-        try:
-            result = json.loads(response.content)
-        except ValueError as err:
-            if response.status_code == 404:
-                raise ResourceNotFound("Not found.")
-            raise ServerError(err.message)
-        if response.status_code in (200, 201):
-            pass
-        else:
-            # an error state try to get the error message
-            error = result.get('error', {})
-            message = error.get('message', 'Unknown error')
-
-            if response.status_code == 404:
-                raise ResourceNotFound(message, result)
-            else:
-                raise ServerError(message, result)
+        raise_errors_on_failure(response)
+        result = json.loads(response.content)
         return result
     return wrapper
+
+
+def raise_errors_on_failure(response):
+    if response.status_code == 404:
+        raise ResourceNotFound("Not found.")
+    elif response.status_code == 401:
+        raise AuthenticationError("Invalid API key/username provided.")
+    elif response.status_code == 500:
+        raise ServerError("Server error.")
+    elif response.status_code == 502:
+        raise BadGatewayError("Bad gateway.")
+    elif response.status_code == 503:
+        raise ServiceUnavailableError("Service unavailable.")
 
 
 class Intercom(object):
