@@ -46,12 +46,20 @@ class ServerError(IntercomError):
     pass
 
 
+class ServiceUnavailable(IntercomError):
+    """ Raised when the API server responds with 503.
+    """
+    pass
+
+
 def api_call(func_to_decorate):
     """ Decorator for handling AWS credentials. """
     @functools.wraps(func_to_decorate)
     def wrapper(*args, **kwargs):
         """ Decorator closure. """
         response = func_to_decorate(*args, **kwargs)
+        if response.status_code == 503:
+            raise ServiceUnavailable
         if response.status_code == 401:
             raise AuthenticationError("Invalid API key/username provided.")
         try:
