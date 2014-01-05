@@ -19,7 +19,9 @@ from intercom import MessageThread
 from intercom import Impression
 from intercom import Note
 from nose.tools import nottest
-from sure import expect
+from nose.tools import eq_
+from nose.tools import ok_
+from nose.tools import raises
 
 Intercom.app_id = 'dummy-app-id'
 Intercom.api_key = 'dummy-secret-key'
@@ -37,47 +39,56 @@ def fixture(fixture):
 @httpretty.activate
 def test_users():
     httpretty.register_uri(get, r(r"/v1/users"), body=fixture('v1-users'))
-    expect(len(User.all())).should.be.greater_than(0)
+    ok_(len(User.all()) > 0)
 
 @httpretty.activate
 def test_user():
     httpretty.register_uri(get, r(r"/v1/users\?email="), body=fixture('v1-user'), match_querystring=True)
     user = User.find(email='somebody@example.com')
-    expect(user.name).to.equal('Somebody')
+    eq_(user.name, 'Somebody')
 
     httpretty.register_uri(get, r(r"/v1/users\?user_id="), body=fixture('v1-user'), match_querystring=True)
     user = User.find_by_user_id('123')
-    expect(user.name).to.equal('Somebody')
+    eq_(user.name, 'Somebody')
 
 @httpretty.activate
+@raises(ResourceNotFound)
 def test_not_found():
     httpretty.register_uri(get, r(r"/v1/users\?email=not-found"), status=404, match_querystring=True)
-    User.find.when.called_with(email='not-found@example.com').should.throw(ResourceNotFound)
-
-    httpretty.register_uri(get, r(r"/v1/users\?email=not-found"), body=fixture('v1-user_not_found'), status=404, match_querystring=True)
-    User.find.when.called_with(email='not-found@example.com').should.throw(ResourceNotFound)
+    User.find(email='not-found@example.com')
 
 @httpretty.activate
+@raises(ResourceNotFound)
+def test_not_found_qs():
+    httpretty.register_uri(get, r(r"/v1/users\?email=not-found"), body=fixture('v1-user_not_found'), status=404, match_querystring=True)
+    User.find(email='not-found@example.com')
+
+@httpretty.activate
+@raises(ServerError)
 def test_server_error():
     httpretty.register_uri(get, r(r"/v1/users\?email=server-error"), status=500, match_querystring=True)
-    User.find.when.called_with(email='server-error@example.com').should.throw(ServerError)
-
-    httpretty.register_uri(get, r(r"/v1/users\?email=server-error"), body=fixture('v1-user_server_error'),  status=500, match_querystring=True)
-    User.find.when.called_with(email='server-error@example.com').should.throw(ServerError)
+    User.find(email='server-error@example.com')
 
 @httpretty.activate
+@raises(ServerError)
+def test_server_error_qs():
+    httpretty.register_uri(get, r(r"/v1/users\?email=server-error"), body=fixture('v1-user_server_error'),  status=500, match_querystring=True)
+    User.find(email='server-error@example.com')
+
+@httpretty.activate
+@raises(AuthenticationError)
 def test_bad_api_key():
     httpretty.register_uri(get, r(r"/v1/users\?email=authentication-error"), status=401, match_querystring=True)
     Intercom.app_id = 'bad-app-id'
     Intercom.api_key = 'bad-secret-key'
-    User.find.when.called_with(email='authentication-error@example.com').should.throw(AuthenticationError)
+    User.find(email='authentication-error@example.com')
 
 @httpretty.activate
 def test_message_threads():
     httpretty.register_uri(get, r(r"/v1/users/message_threads\?email=somebody"), body=fixture('v1-users-message_threads'), match_querystring=True)
     thread = MessageThread.find_all(email='somebody@example.com')[0]
     for attr in ['thread_id', 'read', 'messages', 'created_at', 'updated_at']:
-        expect(getattr(thread, attr)).should.be.ok
+        ok_(getattr(thread, attr))
 
 @nottest
 @httpretty.activate
@@ -91,15 +102,15 @@ def test_message_thread():
 def test_impression():
     httpretty.register_uri(post, r(r"/v1/users/impressions"), body=fixture('v1-users-impressions'))
     impression = Impression.create(email='somebody@example.com')
-    expect(impression.unread_messages).should.be.greater_than(0)
-    # expect(impression.email).to.equal('somebody@example.com')
+    ok_(impression.unread_messages > 0)
+    # eq_(impression.email, 'somebody@example.com')
 
 @httpretty.activate
 def test_note():
     httpretty.register_uri(post, r(r"/v1/users/notes"), body=fixture('v1-users-note'))
     note = Note.create(body="This is a note", email='somebody@example.com')
-    expect(note.html).to.equal("<p>This is a note</p>")
-    expect(note.user.email).to.equal("somebody@example.com")
+    eq_(note.html, "<p>This is a note</p>")
+    eq_(note.user.email, "somebody@example.com")
 
 @nottest
 @httpretty.activate
@@ -108,7 +119,7 @@ def test_endpoints():
     httpretty.register_uri(get, r(r"/v1/users\?email="), body=fixture('v1-user'), match_querystring=True)
     Intercom.endpoints = ("http://127.0.0.7", "https://api.intercom.io")
     user = User.find(email='somebody@example.com')
-    expect(user.name).to.equal('Somebody')
+    eq_(user.name, 'Somebody')
 
 @nottest
 @httpretty.activate
@@ -170,19 +181,19 @@ def test_doctest():
     httpretty.register_uri(post, r(r"/v1/users/impressions"), body=fixture('v1-users-impressions'))
 
     (failure_count, test_count) = doctest.testfile("../../intercom/user.py")
-    expect(failure_count).to.equal(0)
+    eq_(failure_count, 0)
 
     (failure_count, test_count) = doctest.testfile("../../intercom/tag.py")
-    expect(failure_count).to.equal(0)
+    eq_(failure_count, 0)
 
     (failure_count, test_count) = doctest.testfile("../../intercom/note.py")
-    expect(failure_count).to.equal(0)
+    eq_(failure_count, 0)
 
     (failure_count, test_count) = doctest.testfile("../../intercom/message_thread.py")
-    expect(failure_count).to.equal(0)
+    eq_(failure_count, 0)
 
     (failure_count, test_count) = doctest.testfile("../../intercom/impression.py")
-    expect(failure_count).to.equal(0)
+    eq_(failure_count, 0)
 
     (failure_count, test_count) = doctest.testfile("../../intercom/intercom.py")
-    expect(failure_count).to.equal(0)
+    eq_(failure_count, 0)

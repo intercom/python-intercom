@@ -11,20 +11,20 @@ from intercom.user import LocationData
 from intercom.user import SocialProfile
 from intercom.user import User
 from intercom.user import Company
+from nose.tools import eq_
 from nose.tools import raises
-from sure import expect
 
 
 def test_init_no_arg():
     # no arg __init__
     custom_data = CustomData()
-    expect(len(custom_data)).to.equal(0)
+    eq_(0, len(custom_data))
 
 
 def test_init_dict_arg():
     # dict arg __init__
     custom_data = CustomData({'color': 'red'})
-    expect(len(custom_data)).to.equal(1)
+    eq_(1, len(custom_data))
 
 
 def test_string_key():
@@ -86,10 +86,10 @@ def test_attr():
     }
 
     social_profile = SocialProfile(sc_dict)
-    expect(social_profile.type).to.equal('twitter')
-    expect(social_profile.url).to.equal('http://twitter.com/myname')
-    expect(social_profile.username).to.equal('myname')
-    expect(social_profile.id).to.equal('123456789')
+    eq_('twitter', social_profile.type)
+    eq_('http://twitter.com/myname', social_profile.url)
+    eq_('myname', social_profile.username)
+    eq_('123456789', social_profile.id)
 
 
 @raises(NotImplementedError)
@@ -125,18 +125,18 @@ def test_user_properties():
     except AttributeError:
         pass
 
-    expect(user.email).to.equal('somebody@example.com')
-    expect(user.user_id).to.equal(1234)
-    expect(user.name).to.equal('Somebody')
-    expect(user.last_seen_ip).to.equal('192.168.1.100')
-    expect(user.last_seen_user_agent).to.equal('Mozilla/5.0')
-    expect(user.last_request_at).to.equal(last_request_at)
-    expect(user.last_impression_at).to.equal(last_impression_at)
-    expect(user.relationship_score).to.equal(None)
-    expect(user.created_at).to.equal(created_at)
-    expect(user.unsubscribed_from_emails).to.equal(True)
-    expect(user.custom_data['name']).to.equal('Ace')
-    expect(user.session_count).to.equal(0)
+    eq_(user.email, 'somebody@example.com')
+    eq_(user.user_id, 1234)
+    eq_(user.name, 'Somebody')
+    eq_(user.last_seen_ip, '192.168.1.100')
+    eq_(user.last_seen_user_agent, 'Mozilla/5.0')
+    eq_(user.last_request_at, last_request_at)
+    eq_(user.last_impression_at, last_impression_at)
+    eq_(user.relationship_score, None)
+    eq_(user.created_at, created_at)
+    eq_(user.unsubscribed_from_emails, True)
+    eq_(user.custom_data['name'], 'Ace')
+    eq_(user.session_count, 0)
     raises(AttributeError, lambda: user.companies)
 
 
@@ -147,16 +147,16 @@ def test_company_properties():
         'created_at': 1331764344
     }
     company = Company(c_dict)
-    expect(company.id).to.equal(1)
-    expect(company.name).to.equal('Intercom')
-    expect(company.created_at).to.equal(datetime.fromtimestamp(1331764344))
+    eq_(company.id, 1)
+    eq_(company.name, 'Intercom')
+    eq_(company.created_at, datetime.fromtimestamp(1331764344))
 
     company.id = 100
     company.name = 'ACME Inc.'
     company.created_at = datetime.fromtimestamp(1331764300)
-    expect(company.id).to.equal(100)
-    expect(company.name).to.equal('ACME Inc.')
-    expect(company.created_at).to.equal(datetime.fromtimestamp(1331764300))
+    eq_(company.id, 100)
+    eq_(company.name, 'ACME Inc.')
+    eq_(company.created_at, datetime.fromtimestamp(1331764300))
 
 
 @raises(ValueError)
@@ -215,12 +215,12 @@ def test_location_properties():
         "country_code": "CHL"
     })
 
-    expect(location_data.city_name).to.equal('Santiago')
-    expect(location_data.continent_code).to.equal('SA')
-    expect(location_data.country_name).to.equal('Chile')
-    expect(location_data.latitude).to.equal(-33.44999999999999)
-    expect(location_data.longitude).to.equal(-70.6667)
-    expect(location_data.postal_code).to.equal('')
-    expect(location_data.region_name).to.equal('12')
-    expect(location_data.timezone).to.equal('Chile/Continental')
-    expect(location_data.country_code).to.equal('CHL')
+    eq_(location_data.city_name, 'Santiago')
+    eq_(location_data.continent_code, 'SA')
+    eq_(location_data.country_name, 'Chile')
+    eq_(location_data.latitude, -33.44999999999999)
+    eq_(location_data.longitude, -70.6667)
+    eq_(location_data.postal_code, '')
+    eq_(location_data.region_name, '12')
+    eq_(location_data.timezone, 'Chile/Continental')
+    eq_(location_data.country_code, 'CHL')

@@ -6,7 +6,7 @@
 #
 
 from intercom.tag import Tag
-from sure import expect
+from nose.tools import eq_
 from nose.tools import raises
 
 
@@ -19,7 +19,7 @@ def test_writeonly_emails():
 def test_write_emails():
     tag = Tag()
     tag.emails = ["joe@example.com"]
-    expect(tag['emails']).to.equal(["joe@example.com"])
+    eq_(tag['emails'], ["joe@example.com"])
 
 
 @raises(AttributeError)
@@ -31,7 +31,7 @@ def test_writeonly_user_ids():
 def test_write_user_ids():
     tag = Tag()
     tag.user_ids = ["abc123"]
-    expect(tag['user_ids']).to.equal(["abc123"])
+    eq_(tag['user_ids'], ["abc123"])
 
 
 @raises(AttributeError)
@@ -43,7 +43,7 @@ def test_writeonly_tag_or_untag():
 def test_write_tag_or_untag():
     tag = Tag()
     tag.tag_or_untag = "tag"
-    expect(tag['tag_or_untag']).to.equal("tag")
+    eq_(tag['tag_or_untag'], "tag")
 
 
 @raises(AttributeError)
@@ -72,4 +72,4 @@ def test_readonly_id():
 def test_accessor():
     tag = Tag()
     tag.name = "xyz"
-    expect(tag.name).to.equal("xyz")
+    eq_(tag.name, "xyz")

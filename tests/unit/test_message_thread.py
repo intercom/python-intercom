@@ -6,12 +6,13 @@
 #
 
 from intercom.message_thread import MessageThread
-from sure import expect
+from nose.tools import eq_
+from nose.tools import raises
 
 
+@raises(ValueError)
 def test_find_no_thread_id():
-    MessageThread.find.when.called_with(email='xxx@example.com')\
-        .should.throw(ValueError)
+    MessageThread.find(email='xxx@example.com')
 
 
 def test_properties():
@@ -20,8 +21,8 @@ def test_properties():
     message_thread.read = False
     message_thread.body = 'ABCDE'
 
-    expect(message_thread.thread_id).to.equal(12345)
-    expect(message_thread.read).to.equal(False)
+    eq_(message_thread.thread_id, 12345)
+    eq_(message_thread.read, False)
 
     try:
         message_thread.body

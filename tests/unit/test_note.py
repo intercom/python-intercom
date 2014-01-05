@@ -6,7 +6,7 @@
 
 from datetime import datetime
 from intercom import Note
-from sure import expect
+from nose.tools import eq_
 
 
 def test_properties():
@@ -16,6 +16,6 @@ def test_properties():
     note.user_id = '123'
     note.created_at = datetime.fromtimestamp(1331764344)
 
-    expect(note.body).to.equal('xxx')
-    expect(note.email).to.equal('xxx@example.com')
-    expect(note.user_id).to.equal('123')
+    eq_(note.body, 'xxx')
+    eq_(note.email, 'xxx@example.com')
+    eq_(note.user_id, '123')
