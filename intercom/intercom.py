@@ -121,19 +121,24 @@ class Intercom(object):
 
     @classmethod
     def get_users(cls, **kwargs):
-        """ Returns a paginated list of all users in your application on Intercom.
+        """ Returns a paginated list of all users in your application on
+        Intercom.
 
         **Arguments**
 
         * ``page``: optional (defaults to 1)
         * ``per_page``: optional (defaults to 500, max value of 500)
-        * ``tag_id``: optional — query for users that are tagged with a specific tag.
-        * ``tag_name``: optional — query for users that are tagged with a specific tag.
+        * ``tag_id``: optional — query for users that are tagged with a
+          specific tag.
+        * ``tag_name``: optional — query for users that are tagged with a
+          specific tag.
 
         **Response**
 
-        * ``users``: an array of User objects (same as returned by getting a single User)
-        * ``total_count``: the total number of Users tracked in your Intercom application
+        * ``users``: an array of User objects (same as returned by getting a
+          single User)
+        * ``total_count``: the total number of Users tracked in your Intercom
+          application
         * ``page``: the current requested page
         * ``next_page``: the next page number, if any
         * ``previous_page``: the previous page number, if any
@@ -146,7 +151,8 @@ class Intercom(object):
         3
 
         """
-        return Intercom._call('GET', Intercom.api_endpoint + 'users', params=kwargs)
+        return Intercom._call(
+            'GET', Intercom.api_endpoint + 'users', params=kwargs)
 
     @classmethod
     def get_user(cls, email=None, user_id=None):
@@ -194,7 +200,8 @@ class Intercom(object):
           unsubscribed status.
 
 
-        >>> user = Intercom.create_user(user_id='7902', email='ben@intercom.io',
+        >>> user = Intercom.create_user(user_id='7902',
+        ... email='ben@intercom.io',
         ... name='Somebody', created_at=1270000000, last_seen_ip='1.2.3.4',
         ... custom_data={ 'app_name': 'Genesis'}, last_request_at=1300000000)
         >>> user['name']
