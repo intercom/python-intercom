@@ -19,6 +19,8 @@ __version__ = '0.2.10'
 import functools
 import json
 import requests
+import time
+from datetime import datetime
 
 DEFAULT_TIMEOUT = 10  # seconds
 
@@ -63,6 +65,8 @@ def api_call(func_to_decorate):
         """ Decorator closure. """
         response = func_to_decorate(*args, **kwargs)
         raise_errors_on_failure(response)
+        if not response.content.strip():
+            return None
         result = json.loads(response.content)
         return result
     return wrapper
@@ -73,6 +77,8 @@ def raise_errors_on_failure(response):
         raise ResourceNotFound("Not found.")
     elif response.status_code == 401:
         raise AuthenticationError("Invalid API key/username provided.")
+    elif response.status_code == 403:
+        raise AuthenticationError("Not authorized")
     elif response.status_code == 500:
         raise ServerError("Server error.")
     elif response.status_code == 502:
@@ -88,6 +94,7 @@ class Intercom(object):
     api_key = None
     api_version = 1
     api_endpoint = 'https://api.intercom.io/v' + str(api_version) + '/'
+    events_endpoint = "https://api.intercom.io/events"
     timeout = DEFAULT_TIMEOUT
 
     @classmethod
@@ -281,6 +288,27 @@ class Intercom(object):
         user_dict = Intercom._call(
             'POST', Intercom.api_endpoint + 'users/notes', params=params)
         return user_dict
+
+    @classmethod
+    def create_event(cls, user_id=None, email=None, event_name=None,
+                     created=None, metadata=None):
+        """ Create an event.
+        """
+        if isinstance(created, datetime):
+            created = time.mktime(created.timetuple())
+        elif created is None:
+            created = time.mktime(datetime.today().timetuple())
+        params = {
+            'email': email,
+            'user_id': user_id,
+            'created': created,
+            'event_name': event_name
+        }
+        if isinstance(metadata, dict):
+            params['metadata'] = metadata
+        resp = Intercom._call(
+            'POST', Intercom.events_endpoint, params=params)
+        return resp
 
     @classmethod
     def get_message_threads(cls, user_id=None, email=None, thread_id=None):

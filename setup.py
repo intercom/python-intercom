@@ -19,7 +19,7 @@ setup(
     name="python-intercom",
     version=__version__,
     description="Intercom API wrapper",
-    long_description=open('README').read(),
+    long_description=open('README.rst').read(),
     author="John Keyes",
     author_email="john@keyes.ie",
     license="MIT License",
