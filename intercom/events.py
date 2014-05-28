@@ -7,7 +7,6 @@
 """ Intercom API wrapper. """
 
 from . import Intercom
-from . import from_timestamp_property
 
 class Event(dict):
 
