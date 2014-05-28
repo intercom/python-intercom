@@ -19,6 +19,7 @@ __version__ = '0.2.10'
 import functools
 import json
 import requests
+import time
 
 DEFAULT_TIMEOUT = 10  # seconds
 
@@ -63,6 +64,8 @@ def api_call(func_to_decorate):
         """ Decorator closure. """
         response = func_to_decorate(*args, **kwargs)
         raise_errors_on_failure(response)
+        if not response.content.strip():
+            return None
         result = json.loads(response.content)
         return result
     return wrapper
@@ -87,7 +90,7 @@ class Intercom(object):
     app_id = None
     api_key = None
     api_version = 1
-    api_endpoint = 'https://api.intercom.io/v' + str(api_version) + '/'
+    api_endpoint = 'https://api.intercom.io/'
     timeout = DEFAULT_TIMEOUT
 
     @classmethod
@@ -433,3 +436,22 @@ class Intercom(object):
         tag_dict = Intercom._call(
             'GET', Intercom.api_endpoint + 'tags', params=params)
         return tag_dict
+
+    @classmethod
+    def create_event(cls, event_name=None, user_id=None, email=None, metadata=None):
+        """
+        Create an event
+        """
+        params = {
+            'event_name': event_name,
+            'user_id': user_id,
+            'email': email,
+            'created': int(time.time()) 
+         }
+
+         if isinstance(metadata, dict):
+            params['metadata'] = metadata
+
+        call = Intercom._call(
+             'POST', Intercom.api_endpoint + 'events', params=params)
+        return call
