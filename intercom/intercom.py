@@ -65,7 +65,7 @@ def api_call(func_to_decorate):
         response = func_to_decorate(*args, **kwargs)
         raise_errors_on_failure(response)
         if not response.content.strip():
-            return None
+            return ''
         result = json.loads(response.content)
         return result
     return wrapper
@@ -449,7 +449,7 @@ class Intercom(object):
             'created': int(time.time()) 
          }
 
-         if isinstance(metadata, dict):
+        if isinstance(metadata, dict):
             params['metadata'] = metadata
 
         call = Intercom._call(
