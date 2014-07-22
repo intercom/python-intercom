@@ -1,55 +1,224 @@
-# coding=utf-8
-#
-# Copyright 2012 keyes.ie
-#
-# License: http://jkeyes.mit-license.org/
-#
-""" Intercom API wrapper. """
+from datetime import datetime
+import numbers
 
-import functools
+class ArgumentError(Exception):
+    pass
+
+
+class FlatStore(dict):
+
+    def __init__(self, *args, **kwargs):
+        self.update(*args, **kwargs)
+
+    def __setitem__(self, key, value):
+        # print "SETTING ITEM [%s]=[%s]" % (key, value)
+        if not (
+            isinstance(value, numbers.Real) or
+            isinstance(value, basestring)
+        ):
+            raise ValueError(
+                "custom data only allows string and real number values")
+        if not isinstance(key, basestring):
+            raise ValueError("custom data only allows string keys")
+        super(FlatStore, self).__setitem__(key, value)
+
+    def update(self, *args, **kwargs):
+        if args:
+            if len(args) > 1:
+                raise TypeError("update expected at most 1 arguments, "
+                                "got %d" % len(args))
+            other = dict(args[0])
+            for key in other:
+                self[key] = other[key]
+        for key in kwargs:
+            self[key] = kwargs[key]
+
+    def setdefault(self, key, value=None):
+        if key not in self:
+            self[key] = value
+        return self[key]
+
+
+class SetterProperty(object):
+
+    def __init__(self, func, doc=None):
+        self.func = func
+        self.__doc__ = doc if doc is not None else func.__doc__
+
+    def __set__(self, obj, value):
+        return self.func(obj, value)
+
+__version__ = '2.0-alpha'
+
+import copy
+import json
+import random
+import re
+import requests
 import time
 
-from datetime import datetime
+
+RELATED_DOCS_TEXT = "See https://github.com/jkeyes/python-intercom for usage examples."
+COMPATIBILITY_WARNING_TEXT = "It looks like you are upgrading from an older version of python-intercom. Please note that this new version (%s) is not backwards compatible." % (__version__)
+COMPATIBILITY_WORKAROUND_TEXT = "To get rid of this error please set Intercom.app_api_key and don't set Intercom.api_key."
+CONFIGURATION_REQUIRED_TEXT = "You must set both Intercom.app_id and Intercom.app_api_key to use this client."
 
 
-def from_timestamp_property(func_to_decorate):
-    """ A decorator for properties to convert the property value from a
-    timestamp to a datetime. """
-    @functools.wraps(func_to_decorate)
-    def wrapper(instance):
-        """ Closure that converts from timestamp to datetime. """
-        value = func_to_decorate(instance)
-        if value:
-            return datetime.fromtimestamp(value)
-    return wrapper
+
+class _Config(object):
+    app_id = None
+    app_api_key = None
+    hostname = "api.intercom.io"
+    protocol = "https"
+    endpoints = None
+    current_endpoint = None
+    target_base_url = None
+    timeout = 10
+    endpoint_randomized_at = None
+
+class Intercom(object):
+    _config = _Config()
+    _class_register = {}
+
+    @classmethod
+    def send_request_to_path(cls, method, path, params=None):
+        """ Construct an API request, send it to the API, and parse the
+        response. """
+        req_params = {}
+        if '://' in path:
+            url = path
+        else:
+            url = cls.current_endpoint + path
+
+        headers = {
+            'User-Agent': 'python-intercom/' + __version__,
+            'Accept': 'application/json'
+        }
+        if method in ('POST', 'PUT', 'DELETE'):
+            headers['content-type'] = 'application/json'
+            req_params['data'] = json.dumps(params)
+        elif method == 'GET':
+            req_params['params'] = params
+        req_params['headers'] = headers
+
+        resp = requests.request(
+            method, url, timeout=cls._config.timeout,
+            auth=(Intercom.app_id, Intercom.app_api_key), **req_params)
+
+        if resp.content:
+            return json.loads(resp.content)
+
+    @classmethod
+    def get(cls, path, **params):
+        return cls.send_request_to_path('GET', path, params)
+
+    @classmethod
+    def post(cls, path, **params):
+        return cls.send_request_to_path('POST', path, params)
+
+    @classmethod
+    def put(cls, path, **params):
+        return cls.send_request_to_path('PUT', path, params)
+
+    @classmethod
+    def delete(cls, path, **params):
+        print "DELETE %s" % (path)
+        return cls.send_request_to_path('DELETE', path, params)
+
+    class __metaclass__(type):
+
+        @property
+        def app_id(cls):
+            return cls._config.app_id
+
+        @app_id.setter
+        def app_id(cls, value):
+            cls._config.app_id = value
+
+        @property
+        def app_api_key(cls):
+            return cls._config.app_api_key
+
+        @app_api_key.setter
+        def app_api_key(cls, value):
+            cls._config.app_api_key = value
+
+        @property
+        def _random_endpoint(cls):
+            if cls.endpoints:
+                endpoints = copy.copy(cls.endpoints)
+                random.shuffle(endpoints)
+                return endpoints[0]
+
+        @property
+        def _alternative_random_endpoint(cls):
+            endpoints = copy.copy(cls.endpoints)
+            if cls.current_endpoint in endpoints:
+                endpoints.remove(cls.current_endpoint)
+            random.shuffle(endpoints)
+            if endpoints:
+                return endpoints[0]
+
+        @property
+        def _target_base_url(cls):
+            if None in [cls.app_id, cls.app_api_key]:
+                raise ArgumentError('%s %s' % (CONFIGURATION_REQUIRED_TEXT, RELATED_DOCS_TEXT))
+            if cls._config.target_base_url is None:
+                basic_auth_part = '%s:%s@' % (cls.app_id, cls.app_api_key)
+                if cls.current_endpoint:
+                    cls._config.target_base_url = re.sub(
+                        r'(https?:\/\/)(.*)',
+                        '\g<1>%s\g<2>' % (basic_auth_part),
+                        cls.current_endpoint)
+            return cls._config.target_base_url
 
 
-def to_timestamp_property(func_to_decorate):
-    """ A decorator for properties to convert the property value from a
-    datetime to a timestamp. """
-    @functools.wraps(func_to_decorate)
-    def wrapper(instance, value):
-        """ Closure that converts from datetime to timestamp. """
-        if value:
-            value = time.mktime(value.timetuple())
-        func_to_decorate(instance, value)
-    return wrapper
+        @property
+        def hostname(cls):
+            return cls._config.hostname
 
-from .intercom import AuthenticationError
-from .intercom import BadGatewayError
-from .intercom import Intercom
-from .intercom import ResourceNotFound
-from .intercom import ServerError
-from .intercom import ServiceUnavailableError
+        @hostname.setter
+        def hostname(cls, value):
+            cls._config.hostname = value
+            cls.current_endpoint = None
+            cls.endpoints = None
 
-from .impression import Impression
-from .message_thread import MessageThread
-from .note import Note
-from .user import User
-from .tag import Tag
+        @property
+        def protocol(cls):
+            return cls._config.protocol
 
-__all__ = (
-    AuthenticationError, BadGatewayError, Intercom, ResourceNotFound,
-    ServerError, ServiceUnavailableError, Impression, MessageThread,
-    Note, User, Tag
-)
+        @protocol.setter
+        def protocol(cls, value):
+            cls._config.protocol = value
+            cls.current_endpoint = None
+            cls.endpoints = None
+
+        @property
+        def current_endpoint(cls):
+            now = time.mktime(datetime.utcnow().timetuple())
+            expired = cls._config.endpoint_randomized_at < (now - (60 * 5))
+            if cls._config.endpoint_randomized_at is None or expired:
+                cls._config.endpoint_randomized_at = now
+                cls.current_endpoint = cls._random_endpoint
+            return cls._config.current_endpoint
+
+        @current_endpoint.setter
+        def current_endpoint(cls, value):
+            cls._config.current_endpoint = value
+            cls._config.target_base_url = None
+
+        @property
+        def endpoints(cls):
+            if not cls._config.endpoints:
+                return ['%s://%s' % (cls.protocol, cls.hostname)]
+            else:
+                return cls._config.endpoints
+
+        @endpoints.setter
+        def endpoints(cls, value):
+            cls._config.endpoints = value
+            cls.current_endpoint = cls._random_endpoint
+
+        @SetterProperty
+        def endpoint(cls, value):
+            cls.endpoints = [value]

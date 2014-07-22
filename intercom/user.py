@@ -1,559 +1,474 @@
 # coding=utf-8
 #
-# Copyright 2012 keyes.ie
+# Copyright 2014 keyes.ie
 #
 # License: http://jkeyes.mit-license.org/
 #
-""" User module.
 
->>> from intercom import Intercom
->>> from intercom import User
-
-"""
-
-from . import Intercom
-from . import from_timestamp_property
-from . import to_timestamp_property
-
-import numbers
+from intercom import Intercom
+from intercom import FlatStore
+import datetime
+import time
+import types
 
 
-class UserId(dict):
-    """ Base class for objects that required user_id and email properties. """
+class ArgumentError(ValueError):
+    pass
 
-    @property
-    def user_id(self):
-        """ Returns the user_id. """
-        return dict.get(self, 'user_id', None)
+from intercom import utils
 
-    @user_id.setter
-    def user_id(self, user_id):
-        """ Sets the user_id. """
-        self['user_id'] = user_id
+class JsonDeserializer(object):
+
+    def __init__(self, json):
+        self._json = json
+        self._object_type = None
 
     @property
-    def email(self):
-        """ Returns the email address. """
-        return dict.get(self, 'email', None)
+    def _get_object_type(self):
+        if self._object_type is None:
+            self._object_type = self._json.get('type', None)
+            # print "OBJECT TYPE IS ", self._object_type
+            if self._object_type is None:
+                raise Exception('No type field found to faciliate deserialization')
+        return self._object_type
 
-    @email.setter
-    def email(self, email):
-        """ Sets the email address. """
-        self['email'] = email
+    @property
+    def _is_list_type(self):
+        # print "IS LIST TYPE", self._get_object_type
+        return self._get_object_type.endswith('.list')
+
+    @property
+    def _object_entity_key(self):
+        return utils.entity_key_from_type(self._get_object_type)
+
+    def deserialize(self):
+        if self._is_list_type:
+            # print "SELF %s" % (self._json)
+            # print "ENTITY KEY %s" % (self._object_entity_key)
+            # print "  JSON %s" % (self._json[self._object_entity_key])
+            return self.deserialize_collection(self._json[self._object_entity_key])
+        else:
+            return self.deserialize_object(self._json)
+
+    def deserialize_collection(self, collection_json):
+        return [JsonDeserializer(object_json).deserialize() for object_json in collection_json]
+
+    def deserialize_object(self, object_json):
+        entity_class = utils.constantize_singular_resource_name(self._object_entity_key)
+        return entity_class.from_api(object_json)
+    #     return entity_class
+    # print "deserialize %s:%s:%s" % (name, value, type(value))
+
+    # if name[-3:] == "_at":
+    #     if hasattr(value, "timetuple"):
+    #         value = time.mktime(value.timetuple())
+    #     elif hasattr(value, 'keys'):
+    #         print "HAS KEYS [%s:%s]" % (name, value.get('type'))
+    #         if 'type' in value:
+    #             if value['type'][-5:] == '.list':
+    #                 res = []
+    #                 for item in value[name]:
+    #                     obj = Intercom.create_class_instance(name)
+    #                     obj.update(item)
+    #                     res.append(obj)
+    #                 value = res
+    #             else:
+    #                 obj = Intercom.create_class_instance(name)
+    #                 obj.update(value)
+    #                 value = obj
+    #         else:
+    #             print "ELSE NAME %s [%s] [%s]" % (name, self.__class__, value)
+    #             if hasattr(self, 'flat_store_attributes') and name in self.flat_store_attributes:
+    #                 value = FlatStore(value)
+    #             else:
+    #                 obj = Intercom.create_class_instance(name)
+    #                 obj.update(value)
+    #                 value = obj
+    #                 print "CREATED %s" % (type(value))
+    #     elif type(value) == types.ListType:
+    #         print "LIST ATTR"
 
 
-class User(UserId):
-    """ Object representing http://docs.intercom.io/#UserData).  """
+def timestamp_field(attribute):
+    return attribute.endswith('_at')
 
-    attributes = (
-        'user_id', 'email', 'name', 'created_at', 'custom_data',
-        'last_seen_ip', 'last_seen_user_agent', 'companies',
-        'last_impression_at', 'last_request_at', 'unsubscribed_from_emails')
+
+def type_field(attribute):
+    return attribute == "type"
+
+
+def custom_attribute_field(attribute):
+    return attribute == 'custom_attributes'
+
+
+def typed_value(value):
+    return hasattr(value, 'keys') and 'type' in value
+
+
+def datetime_value(value):
+    return hasattr(value, "timetuple")
+
+
+def to_datetime_value(value):
+    if value:
+        return datetime.datetime.fromtimestamp(int(value))
+
+
+def resource_class_to_collection_name(cls):
+    return cls.__name__.lower() + "s"
+
+
+def resource_class_to_name(cls):
+    return cls.__name__.lower()
+
+
+class Resource(object):
+
+    # class __metaclass__(type):
+    #     def __new__(mcs, name, bases, attributes):
+    #         if '__intercom_collection__' not in attributes:
+    #             attributes.update(__intercom_collection__=name.lower() + "s")
+    #         if '__intercom_name__' not in attributes:
+    #             attributes.update(__intercom_name__=name.lower())
+    #         cls = type.__new__(mcs, name, bases, attributes)
+    #         return cls
+
+    def __init__(self, **params):
+        # self.__class__.__intercom_collection__ = self.__class__.__name__.lower() + "s"
+        # self.__class__.__intercom_name__ = self.__class__.__name__.lower()
+        # if '__intercom_collection__' not in attributes:
+        #     attributes.update(__intercom_collection__=name.lower() + "s")
+        # if '__intercom_name__' not in attributes:
+        #     attributes.update(__intercom_name__=name.lower())
+        self.from_dict(params)
+
+        if hasattr(self, 'flat_store_attributes'):
+            for attr in self.flat_store_attributes:
+                if not hasattr(self, attr):
+                    setattr(self, attr, FlatStore())
+
+    def _flat_store_attribute(self, attribute):
+        if hasattr(self, 'flat_store_attributes'):
+            return attribute in self.flat_store_attributes
+        return False
+
 
     @classmethod
-    def find(cls, user_id=None, email=None):
-        """ Find a user by email or user_id.
+    def from_api(cls, response):
+        obj = cls()
+        obj.from_response(response)
+        return obj
 
-        >>> user = User.find(email="somebody@example.com")
-        >>> user.user_id
-        u'123'
-        >>> user.name
-        u'Somebody'
-        >>> user = User.find(user_id=123)
-        >>> user.email
-        u'somebody@example.com'
-        >>> user.name
-        u'Somebody'
+    def from_response(self, response):
+        self.from_dict(response)
 
-        """
-        resp = Intercom.get_user(user_id=user_id, email=email)
-        return cls(resp)
+    def from_dict(self, dict):
+        for attribute, value in dict.items():
+            if type_field(attribute):
+                continue
+            setattr(self, attribute, value)
+
+    @property
+    def attributes(self):
+        return self.__dict__
+
+    def __getattribute__(self, attribute):
+        value = super(Resource, self).__getattribute__(attribute)
+        if timestamp_field(attribute):
+            return to_datetime_value(value)
+        else:
+            return value
+
+    def __setattr__(self, attribute, value):
+        if typed_value(value) and not custom_attribute_field(attribute):
+            value_to_set = JsonDeserializer(value).deserialize()
+        elif self._flat_store_attribute(attribute):
+            value_to_set = FlatStore(value)
+        elif timestamp_field(attribute) and datetime_value(value):
+            value_to_set = time.mktime(value.timetuple())
+        else:
+            value_to_set = value
+        super(Resource, self).__setattr__(attribute, value_to_set)
+        # setattr(self, attribute, value_to_set)
+
+    # def __setattr__(self, name, value):
+    #     print "SET ATTR %s:%s:%s" % (name, value, type(value))
+    #     # print "setattr", name, value
+    #     if name[-3:] == "_at":
+    #         if hasattr(value, "timetuple"):
+    #             value = time.mktime(value.timetuple())
+    #     elif hasattr(value, 'keys'):
+    #         print "NAME %s [%s] [%s]" % (name, self.__class__, value)
+    #         if hasattr(self, 'flat_store_attributes') and name in self.flat_store_attributes:
+    #             value = FlatStore(value)
+    #         else:
+    #             obj = create_class_instance(name)
+    #             obj.update(value)
+    #             value = obj
+    #             print "CREATED %s" % (type(value))
+    #     elif type(value) == types.ListType:
+    #         print "LIST ATTR"
+
+    #     super(Resource, self).__setattr__(name, value)
+
+
+CLASS_REGISTRY = {}
+
+def create_class_instance(class_name):
+
+    if class_name in CLASS_REGISTRY:
+        return CLASS_REGISTRY[class_name]
+
+    class Meta(type):
+        def __new__(mcs, name, bases, attributes):
+            return super(Meta, mcs).__new__(mcs, str(class_name), bases, attributes)
+
+    class DynamicClass(Resource):
+        __metaclass__ = Meta
+
+    dyncls = DynamicClass()
+    CLASS_REGISTRY[class_name] = dyncls
+    return dyncls
+
+
+class Find(object):
 
     @classmethod
-    def find_by_email(cls, email):
-        """ Find a user by email.
+    def find(cls, **params):
+        collection = resource_class_to_collection_name(cls)
+        print "find %s in %s" % (params, collection)
+        if 'id' in params:
+            response = Intercom.get("/%s/%s" % (collection, params['id']))
+        else:
+            response = Intercom.get("/%s" % (collection), **params)
+        return cls(**response)
 
-        >>> user = User.find_by_email("somebody@example.com")
-        >>> user.user_id
-        u'123'
-        >>> user.name
-        u'Somebody'
 
-        """
-        resp = Intercom.get_user(email=email)
-        return cls(resp)
+class CollectionProxy(object):
+
+    def __init__(self, cls, collection, finder_url, finder_params={}):
+        # needed to create class instances of the resource
+        self.collection_cls = cls
+
+        # needed to reference the collection in the response
+        self.collection = collection
+
+        # the original URL to retrieve the resources
+        self.finder_url = finder_url
+
+        # the params to filter the resources
+        self.finder_params = finder_params
+
+        # an iterator over the resources found in the response
+        self.resources = None
+
+        # a link to the next page of results
+        self.next_page = None
+
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.resources is None:
+            # get the first page of results
+            self.get_first_page()
+
+        # try to get a resource if there are no more in the 
+        # current resource iterator (StopIteration is raised)
+        # try to get the next page of results first
+        try:
+            resource = self.resources.next()
+        except StopIteration:
+            self.get_next_page()
+            resource = self.resources.next()
+
+        instance = self.collection_cls(**resource)
+        return instance
+
+    def get_first_page(self):
+        # get the first page of results
+        return self.get_page(self.finder_url, self.finder_params)
+
+    def get_next_page(self):
+        # get the next page of results
+        return self.get_page(self.next_page)
+
+    def get_page(self, url, params={}):
+        # get a page of results
+
+        # if there is no url stop iterating
+        if url is None:
+            raise StopIteration
+
+        response = Intercom.get(url, **params)
+        collection = response[self.collection]
+        # if there are no resources in the response stop iterating
+        if collection is None:
+            raise StopIteration
+
+        # create the resource iterator
+        self.resources = iter(collection)
+        # grab the next page URL if one exists
+        self.next_page = self.extract_next_link(response)
+
+    def paging_info_present(self, response):
+        return 'pages' in response and 'type' in response['pages']
+
+    def extract_next_link(self, response):
+        if self.paging_info_present(response):
+            paging_info = response["pages"]
+            return paging_info["next"]
+
+
+class FindAll(object):
 
     @classmethod
-    def find_by_user_id(cls, user_id):
-        """ Find a user by user_id.
+    def find_all(cls, **params):
+        collection = resource_class_to_collection_name(cls)
+        print "find_all %s in %s" % (params, collection)
+        if 'id' in params and 'type' not in params:
+            finder_url = "/%s/%s" % (collection, params['id'])
+        else:
+            finder_url = "/%s" % (collection)
+        finder_params = params
+        return CollectionProxy(cls, collection, finder_url, finder_params)
 
-        >>> user = User.find(user_id=123)
-        >>> user.email
-        u'somebody@example.com'
-        >>> user.name
-        u'Somebody'
 
-        """
-        resp = Intercom.get_user(user_id=user_id)
-        return cls(resp)
+class IncrementableAttributes(object):
 
-    @classmethod
-    def create(cls, **kwargs):
-        """ Create or update a user.
+    def increment(self, key, value=1):
+        existing_value = self.custom_attributes.get(key, 0)
+        self.custom_attributes[key] = existing_value + value
 
-        >>> user = User.create(email="somebody@example.com",last_impression_at=1400000000)
-        >>> user.name
-        u'Somebody'
-        >>> user.last_impression_at.year
-        2011
 
-        """
-        resp = Intercom.create_user(**kwargs)
-        return cls(resp)
-
-    @classmethod
-    def delete(cls, user_id=None, email=None):
-        """ Deletes a user.
-
-        >>> user = User.delete(email="somebody@example.com")
-        >>> user.user_id
-        u'123'
-        >>> user = User.delete(user_id="123")
-        >>> user.email
-        u'somebody@example.com'
-
-        """
-        resp = Intercom.delete_user(user_id=user_id, email=email)
-        return cls(resp)
+class All(object):
 
     @classmethod
     def all(cls):
-        """ Return all of the Users.
+        collection = resource_class_to_collection_name(cls)
+        print "list %s" % (collection)
+        finder_url = "/%s" % (collection)
+        return CollectionProxy(cls, collection, finder_url)
 
-        >>> users = User.all()
-        >>> len(users)
-        3
-        >>> users[0].email
-        u'first.user@example.com'
 
-        """
-        page = 1
-        total_pages = 1
-        users = []
-        while page <= total_pages:
-            resp = Intercom.get_users(page=page)
-            page += 1
-            total_pages = resp.get('total_pages', 0)
-            users.extend([cls(u) for u in resp['users']])
-        return users
+class Count(object):
+
+    @classmethod
+    def count(cls):
+        response = Intercom.get("/counts/")
+        return response[resource_class_to_name(cls)]['count']
+
+
+class Save(object):
+
+    @classmethod
+    def create(cls, **params):
+        collection = resource_class_to_collection_name(cls)
+        response = Intercom.post("/%s/" % (collection), **params)
+        return cls(**response)
+
+    def from_dict(self, pdict):
+        for key, value in pdict.items():
+            setattr(self, key, value)
+
+    @property
+    def to_dict(self):
+        a_dict = {}
+        for name in self.attributes.keys():
+            a_dict[name] = self.__dict__[name]  # direct access
+        return a_dict
+
+
+    @classmethod
+    def from_api(cls, response):
+        obj = cls()
+        obj.from_response(response)
+        return obj
+
+    def from_response(self, response):
+        self.from_dict(response)
+        return self
 
     def save(self):
-        """ Creates or updates a User.
-
-        >>> user = User()
-        >>> user.email = "somebody@example.com"
-        >>> user.save()
-        >>> user.name
-        u'Somebody'
-
-        """
-        attrs = {}
-        for key in User.attributes:
-            value = dict.get(self, key)
-            if value is not None:
-                attrs[key] = value
-        resp = Intercom.update_user(**attrs)
-        self.update(resp)
-
-    @property
-    def name(self):
-        """ Returns the name e.g. Joe Bloggs. """
-        return dict.get(self, 'name', None)
-
-    @name.setter
-    def name(self, name):
-        """ Sets the name. """
-        self['name'] = name
-
-    @property
-    def last_seen_ip(self):
-        """ Returns the last seen IP address. """
-        return dict.get(self, 'last_seen_ip', None)
-
-    @last_seen_ip.setter
-    def last_seen_ip(self, last_seen_ip):
-        """ Sets the last seen IP address. """
-        self['last_seen_ip'] = last_seen_ip
-
-    @property
-    def last_seen_user_agent(self):
-        """ Returns the last seen User Agent. """
-        return dict.get(self, 'last_seen_user_agent', None)
-
-    @last_seen_user_agent.setter
-    def last_seen_user_agent(self, last_seen_user_agent):
-        """ Sets the last seen User Agent. """
-        self['last_seen_user_agent'] = last_seen_user_agent
-
-    @property
-    @from_timestamp_property
-    def last_request_at(self):
-        """ Get last time this User interacted with your application. """
-        return dict.get(self, 'last_request_at', None)
-
-    @last_request_at.setter
-    @to_timestamp_property
-    def last_request_at(self, last_request_at):
-        """ Set time at which this User last made a request your application.
-        """
-        self['last_request_at'] = last_request_at
-
-    @property
-    def relationship_score(self):
-        """ Returns the relationship score. """
-        return dict.get(self, 'relationship_score', None)
-
-    @property
-    def session_count(self):
-        """ Returns how many sessions this User has used on your
-        application. """
-        return dict.get(self, 'session_count', 0)
-
-    @property
-    @from_timestamp_property
-    def last_impression_at(self):
-        """ Returns the datetime this User last used your application. """
-        return dict.get(self, 'last_impression_at', None)
-
-    @last_impression_at.setter
-    @to_timestamp_property
-    def last_impression_at(self, last_impression_at):
-        """ Set time at which this User last made a request your application.
-        """
-        self['last_impression_at'] = last_impression_at
-
-    @property
-    @from_timestamp_property
-    def created_at(self):
-        """ Returns the datetime this User started using your application. """
-        return dict.get(self, 'created_at', None)
-
-    @created_at.setter
-    @to_timestamp_property
-    def created_at(self, value):
-        """ Sets the timestamp when this User started using your
-        application. """
-        self['created_at'] = value
-
-    @property
-    def social_profiles(self):
-        """ Returns a list of SocialProfile objects for this User.
-
-        >>> users = User.all()
-        >>> social_profiles = users[0].social_profiles
-        >>> len(social_profiles)
-        2
-        >>> type(social_profiles[0])
-        <class 'intercom.user.SocialProfile'>
-        >>> social_profiles[0].type
-        u'twitter'
-        >>> social_profiles[0].url
-        u'http://twitter.com/abc'
-
-        """
-        profiles = dict.get(self, 'social_profiles', None)
-        if profiles:
-            return [SocialProfile(**p) for p in profiles]
-
-    @property
-    def location_data(self):
-        """ Returns a LocationData object for this User.
-
-        >>> users = User.all()
-        >>> location_data = users[0].location_data
-        >>> type(location_data)
-        <class 'intercom.user.LocationData'>
-        >>> location_data.country_name
-        u'Chile'
-        >>> location_data.city_name
-        u'Santiago'
-
-        """
-        data = dict.get(self, 'location_data', None)
-        if not isinstance(data, LocationData):
-            data = LocationData(data)
-            dict.__setitem__(self, 'location_data', data)
-        return data
-
-    @property
-    def unsubscribed_from_emails(self):
-        """ Returns whether or not the user has unsubscribed from emails """
-        return dict.get(self, 'unsubscribed_from_emails', None)
-
-    @unsubscribed_from_emails.setter
-    def unsubscribed_from_emails(self, unsubscribed_from_emails):
-        """  Sets whether or not the user has unsubscribed from email """
-        self['unsubscribed_from_emails'] = unsubscribed_from_emails
-
-    @property
-    def company(self):
-        """ Get the company of a user. Currently unsupported by the Intercom
-        API so an AttributeError is raised.
-
-        >>> user = User(email="somebody@example.com")
-        >>> user.company
-        Traceback (most recent call last):
-            ...
-        AttributeError: company is a write-only property
-
-        """
-        raise AttributeError("company is a write-only property")
-
-    @company.setter
-    def company(self, company):
-        """ Sets the company for a user.
-
-        >>> user = User(email="somebody@example.com")
-        >>> user.company = {'id':6, 'name': 'Intercom', 'created_at': 103201}
-
-        """
-        if isinstance(company, Company):
-            self['companies'] = [company]
-        elif isinstance(company, dict):
-            self['companies'] = [Company(**company)]
+        collection = resource_class_to_collection_name(self.__class__)
+        params = self.__dict__
+        if self.id_present:
+            # update
+            response = Intercom.put('/%s/%s' % (collection, self.id), **params)
         else:
-            raise ValueError("company must be set as a dict or Company object")
+            # create
+            response = Intercom.post('/%s' % (collection), **params)
+        if response:
+            return self.from_response(response)
+
 
     @property
-    def companies(self):
-        """ Get the companies of a user. Currently unsupported by the Intercom
-        API so an AttributeError is raised.
-
-        >>> user = User(email="somebody@example.com")
-        >>> user.companies
-        Traceback (most recent call last):
-            ...
-        AttributeError: companies is a write-only property
-
-        """
-        raise AttributeError("companies is a write-only property")
-
-    @companies.setter
-    def companies(self, companies):
-        """ Sets the companies for the user
-
-        >>> user = User(email="somebody@example.com")
-        >>> user.companies = [{'id': 6, 'name': 'Intercom', 'created_at': 103201}]
-
-        """
-        #Ensure a companies is set as a list.
-        if isinstance(companies, list):
-            self['companies'] = [Company(**c) for c in companies]
-        else:
-            raise ValueError("companies must be set as a list")
+    def id_present(self):
+        return getattr(self, 'id', None) and self.id != ""
 
     @property
-    def custom_data(self):
-        """ Returns a CustomData object for this User.
-
-        >>> users = User.all()
-        >>> custom_data = users[0].custom_data
-        >>> type(custom_data)
-        <class 'intercom.user.CustomData'>
-        >>> custom_data['monthly_spend']
-        155.5
-
-        """
-        data = dict.get(self, 'custom_data', None)
-        if not isinstance(data, CustomData):
-            data = CustomData(data)
-            dict.__setitem__(self, 'custom_data', data)
-        return data
-
-    @custom_data.setter
-    def custom_data(self, custom_data):
-        """ Sets the CustomData for this User.
-
-        >>> user = User(email="somebody@example.com")
-        >>> user.custom_data = { 'max_monthly_spend': 200 }
-        >>> type(user.custom_data)
-        <class 'intercom.user.CustomData'>
-        >>> user.save()
-        >>> len(user.custom_data)
-        3
-
-        """
-        if not isinstance(custom_data, CustomData):
-            custom_data = CustomData(custom_data)
-        self['custom_data'] = custom_data
-
-
-class CustomData(dict):
-    """ A dict that limits keys to strings, and values to real numbers
-    and strings.
-
-    >>> from intercom.user import CustomData
-    >>> data = CustomData()
-    >>> data['a_dict'] = {}
-    Traceback (most recent call last):
-        ...
-    ValueError: custom data only allows string and real number values
-    >>> data[1] = "a string"
-    Traceback (most recent call last):
-        ...
-    ValueError: custom data only allows string keys
-
-    """
-
-    def __setitem__(self, key, value):
-        """ Limits the keys and values. """
-        if not (
-            isinstance(value, numbers.Real) or
-            isinstance(value, basestring)
-        ):
-            raise ValueError(
-                "custom data only allows string and real number values")
-        if not isinstance(key, basestring):
-            raise ValueError("custom data only allows string keys")
-        super(CustomData, self).__setitem__(key, value)
-
-
-class SocialProfile(dict):
-    """ Object representing http://docs.intercom.io/#SocialProfiles)
-
-    This object is read-only, and to hint at this __setitem__ is disabled.
-
-    >>> from intercom.user import SocialProfile
-    >>> profile = SocialProfile(type=u'twitter')
-    >>> profile.type
-    u'twitter'
-    >>> profile['type'] = 'facebook'
-    Traceback (most recent call last):
-        ...
-    NotImplementedError
-
-    """
+    def posted_updates(self):
+        return getattr(self, 'update_verb', None) != 'post'
 
     @property
-    def type(self):
-        """ The type e.g. twitter, facebook, flickr, etc. """
-        return self.get('type', None)
+    def identity_hash(self):
+        identity_vars = getattr(self, 'identity_vars', None)
+        if identity_vars:
+            return {}
 
+
+
+class Delete(object):
+
+    def delete(self):
+        collection = resource_class_to_collection_name(self.__class__)
+        Intercom.delete("/%s/%s/" % (collection, self.id))
+        return self
+
+
+class User(Resource, Find, FindAll, All, Count, Save, Delete, IncrementableAttributes):
     @property
-    def id(self):
-        """ The id """
-        return self.get('id', None)
+    def flat_store_attributes(self):
+        return ['custom_attributes']
 
-    @property
-    def url(self):
-        """ The profile url e.g. http://twitter.com/somebody """
-        return self.get('url', None)
+    # __slots__ = [
+    #     'type', 'id', 'created_at', 'remote_created_at',
+    #     'updated_at', 'user_id', 'email', 'name', 'custom_attributes',
+    #     'last_request_at', 'session_count', 'avatar',
+    #     'unsubscribed_from_emails', 'location_data', 'user_agent_data',
+    #     'last_seen_ip', 'companies', 'social_profiles', 'segments',
+    #     'tags'
+    # ]
 
-    @property
-    def username(self):
-        """ The profile username e.g. somebody """
-        return self.get('username', None)
 
-    def __setitem__(self, key, value):
-        """ Do not allow items to be set. """
-        raise NotImplementedError
+class Company(Resource, Find, Count):
+    pass
 
-class Company(dict):
-    """ Object represents an Intercom Company """
 
-    @property
-    def id(self):
-        """ Returns the company's id. """
-        return dict.get(self, 'id', None)
+class Admin(Resource, Find):
+    pass
 
-    @id.setter
-    def id(self, company_id):
-        """ Sets thecompany's id. """
-        self['id'] = company_id
 
-    @property
-    def name(self):
-        """ Returns the company name e.g. Intercom. """
-        return dict.get(self, 'name', None)
+class Tag(Resource, Find, Count):
+    pass
 
-    @name.setter
-    def name(self, name):
-        """ Sets the company name. """
-        self['name'] = name
 
-    @property
-    @from_timestamp_property
-    def created_at(self):
-        """ Returns the datetime this Company was created. """
-        return dict.get(self, 'created_at', None)
+class Segment(Resource, Find, Count):
+    pass
 
-    @created_at.setter
-    @to_timestamp_property
-    def created_at(self, value):
-        """ Sets the timestamp when this Company was created. """
-        self['created_at'] = value
 
-class LocationData(dict):
-    """ Object representing a user's location data
+class Note(Resource, Find):
+    pass
 
-    This object is read-only, and to hint at this __setitem__ is disabled.
 
-    >>> from intercom.user import SocialProfile
-    >>> profile = SocialProfile(type=u'twitter')
-    >>> profile.type
-    u'twitter'
-    >>> profile['type'] = 'facebook'
-    Traceback (most recent call last):
-        ...
-    NotImplementedError
+class Event(Resource, Find):
+    pass
 
-    """
 
-    @property
-    def city_name(self):
-        """ The city name. """
-        return self.get('city_name', None)
+# class Count(Resource):
+#     pass
 
-    @property
-    def continent_code(self):
-        """ The continent code. """
-        return self.get('continent_code', None)
 
-    @property
-    def country_name(self):
-        """ The country name. """
-        return self.get('country_name', None)
-
-    @property
-    def latitude(self):
-        """ Latitude. """
-        return self.get('latitude', None)
-
-    @property
-    def longitude(self):
-        """ Longitude. """
-        return self.get('longitude', None)
-
-    @property
-    def postal_code(self):
-        """ The postal code. """
-        return self.get('postal_code', None)
-
-    @property
-    def region_name(self):
-        """ The region name. """
-        return self.get('region_name', None)
-
-    @property
-    def timezone(self):
-        """ The timezone. """
-        return self.get('timezone', None)
-
-    @property
-    def country_code(self):
-        """ The country code. """
-        return self.get('country_code', None)
-
-    def __setitem__(self, key, value):
-        """ Do not allow items to be set. """
-        raise NotImplementedError
+class Conversation(Resource, Find):
+    pass
