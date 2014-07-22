@@ -5,61 +5,20 @@
 # License: http://jkeyes.mit-license.org/
 #
 
-from intercom import Intercom
-from intercom import FlatStore
 import datetime
 import time
-import types
+from intercom import FlatStore
 from intercom.api_operations.all import All
 from intercom.api_operations.count import Count
 from intercom.api_operations.delete import Delete
 from intercom.api_operations.find import Find
 from intercom.api_operations.find_all import FindAll
 from intercom.api_operations.save import Save
-from intercom.collection_proxy import CollectionProxy
+from intercom.lib.typed_json_deserializer import JsonDeserializer
 
 
 class ArgumentError(ValueError):
     pass
-
-from intercom import utils
-
-class JsonDeserializer(object):
-
-    def __init__(self, json):
-        self._json = json
-        self._object_type = None
-
-    @property
-    def _get_object_type(self):
-        if self._object_type is None:
-            self._object_type = self._json.get('type', None)
-            # print "OBJECT TYPE IS ", self._object_type
-            if self._object_type is None:
-                raise Exception('No type field found to faciliate deserialization')
-        return self._object_type
-
-    @property
-    def _is_list_type(self):
-        # print "IS LIST TYPE", self._get_object_type
-        return self._get_object_type.endswith('.list')
-
-    @property
-    def _object_entity_key(self):
-        return utils.entity_key_from_type(self._get_object_type)
-
-    def deserialize(self):
-        if self._is_list_type:
-            return self.deserialize_collection(self._json[self._object_entity_key])
-        else:
-            return self.deserialize_object(self._json)
-
-    def deserialize_collection(self, collection_json):
-        return [JsonDeserializer(object_json).deserialize() for object_json in collection_json]
-
-    def deserialize_object(self, object_json):
-        entity_class = utils.constantize_singular_resource_name(self._object_entity_key)
-        return entity_class.from_api(object_json)
 
 
 def timestamp_field(attribute):

@@ -18,7 +18,7 @@ import re
 import time
 
 from datetime import datetime
-from intercom.user import CollectionProxy
+from intercom.collection_proxy import CollectionProxy
 from intercom.user import User
 from nose.tools import eq_
 from nose.tools import ok_
