@@ -11,6 +11,7 @@ import datetime
 import time
 import types
 from intercom.api_operations.all import All
+from intercom.api_operations.count import Count
 from intercom.api_operations.delete import Delete
 from intercom.api_operations.find import Find
 from intercom.api_operations.find_all import FindAll
@@ -235,15 +236,6 @@ class IncrementableAttributes(object):
     def increment(self, key, value=1):
         existing_value = self.custom_attributes.get(key, 0)
         self.custom_attributes[key] = existing_value + value
-
-
-
-class Count(object):
-
-    @classmethod
-    def count(cls):
-        response = Intercom.get("/counts/")
-        return response[utils.resource_class_to_name(cls)]['count']
 
 
 class User(Resource, Find, FindAll, All, Count, Save, Delete, IncrementableAttributes):
