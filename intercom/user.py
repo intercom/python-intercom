@@ -10,6 +10,7 @@ from intercom import FlatStore
 import datetime
 import time
 import types
+from intercom.api_operations.find import Find
 from intercom.api_operations.save import Save
 
 
@@ -222,19 +223,6 @@ def create_class_instance(class_name):
     dyncls = DynamicClass()
     CLASS_REGISTRY[class_name] = dyncls
     return dyncls
-
-
-class Find(object):
-
-    @classmethod
-    def find(cls, **params):
-        collection = utils.resource_class_to_collection_name(cls)
-        print "find %s in %s" % (params, collection)
-        if 'id' in params:
-            response = Intercom.get("/%s/%s" % (collection, params['id']))
-        else:
-            response = Intercom.get("/%s" % (collection), **params)
-        return cls(**response)
 
 
 class CollectionProxy(object):
