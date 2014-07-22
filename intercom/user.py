@@ -11,6 +11,7 @@ import datetime
 import time
 import types
 from intercom.api_operations.all import All
+from intercom.api_operations.delete import Delete
 from intercom.api_operations.find import Find
 from intercom.api_operations.find_all import FindAll
 from intercom.api_operations.save import Save
@@ -243,14 +244,6 @@ class Count(object):
     def count(cls):
         response = Intercom.get("/counts/")
         return response[utils.resource_class_to_name(cls)]['count']
-
-
-class Delete(object):
-
-    def delete(self):
-        collection = utils.resource_class_to_collection_name(self.__class__)
-        Intercom.delete("/%s/%s/" % (collection, self.id))
-        return self
 
 
 class User(Resource, Find, FindAll, All, Count, Save, Delete, IncrementableAttributes):
