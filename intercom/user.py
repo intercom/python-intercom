@@ -50,9 +50,6 @@ class JsonDeserializer(object):
 
     def deserialize(self):
         if self._is_list_type:
-            # print "SELF %s" % (self._json)
-            # print "ENTITY KEY %s" % (self._object_entity_key)
-            # print "  JSON %s" % (self._json[self._object_entity_key])
             return self.deserialize_collection(self._json[self._object_entity_key])
         else:
             return self.deserialize_object(self._json)
@@ -63,37 +60,6 @@ class JsonDeserializer(object):
     def deserialize_object(self, object_json):
         entity_class = utils.constantize_singular_resource_name(self._object_entity_key)
         return entity_class.from_api(object_json)
-    #     return entity_class
-    # print "deserialize %s:%s:%s" % (name, value, type(value))
-
-    # if name[-3:] == "_at":
-    #     if hasattr(value, "timetuple"):
-    #         value = time.mktime(value.timetuple())
-    #     elif hasattr(value, 'keys'):
-    #         print "HAS KEYS [%s:%s]" % (name, value.get('type'))
-    #         if 'type' in value:
-    #             if value['type'][-5:] == '.list':
-    #                 res = []
-    #                 for item in value[name]:
-    #                     obj = Intercom.create_class_instance(name)
-    #                     obj.update(item)
-    #                     res.append(obj)
-    #                 value = res
-    #             else:
-    #                 obj = Intercom.create_class_instance(name)
-    #                 obj.update(value)
-    #                 value = obj
-    #         else:
-    #             print "ELSE NAME %s [%s] [%s]" % (name, self.__class__, value)
-    #             if hasattr(self, 'flat_store_attributes') and name in self.flat_store_attributes:
-    #                 value = FlatStore(value)
-    #             else:
-    #                 obj = Intercom.create_class_instance(name)
-    #                 obj.update(value)
-    #                 value = obj
-    #                 print "CREATED %s" % (type(value))
-    #     elif type(value) == types.ListType:
-    #         print "LIST ATTR"
 
 
 def timestamp_field(attribute):
@@ -123,22 +89,7 @@ def to_datetime_value(value):
 
 class Resource(object):
 
-    # class __metaclass__(type):
-    #     def __new__(mcs, name, bases, attributes):
-    #         if '__intercom_collection__' not in attributes:
-    #             attributes.update(__intercom_collection__=name.lower() + "s")
-    #         if '__intercom_name__' not in attributes:
-    #             attributes.update(__intercom_name__=name.lower())
-    #         cls = type.__new__(mcs, name, bases, attributes)
-    #         return cls
-
     def __init__(self, **params):
-        # self.__class__.__intercom_collection__ = self.__class__.__name__.lower() + "s"
-        # self.__class__.__intercom_name__ = self.__class__.__name__.lower()
-        # if '__intercom_collection__' not in attributes:
-        #     attributes.update(__intercom_collection__=name.lower() + "s")
-        # if '__intercom_name__' not in attributes:
-        #     attributes.update(__intercom_name__=name.lower())
         self.from_dict(params)
 
         if hasattr(self, 'flat_store_attributes'):
@@ -188,27 +139,6 @@ class Resource(object):
         else:
             value_to_set = value
         super(Resource, self).__setattr__(attribute, value_to_set)
-        # setattr(self, attribute, value_to_set)
-
-    # def __setattr__(self, name, value):
-    #     print "SET ATTR %s:%s:%s" % (name, value, type(value))
-    #     # print "setattr", name, value
-    #     if name[-3:] == "_at":
-    #         if hasattr(value, "timetuple"):
-    #             value = time.mktime(value.timetuple())
-    #     elif hasattr(value, 'keys'):
-    #         print "NAME %s [%s] [%s]" % (name, self.__class__, value)
-    #         if hasattr(self, 'flat_store_attributes') and name in self.flat_store_attributes:
-    #             value = FlatStore(value)
-    #         else:
-    #             obj = create_class_instance(name)
-    #             obj.update(value)
-    #             value = obj
-    #             print "CREATED %s" % (type(value))
-    #     elif type(value) == types.ListType:
-    #         print "LIST ATTR"
-
-    #     super(Resource, self).__setattr__(name, value)
 
 
 CLASS_REGISTRY = {}
@@ -239,18 +169,10 @@ class IncrementableAttributes(object):
 
 
 class User(Resource, Find, FindAll, All, Count, Save, Delete, IncrementableAttributes):
+
     @property
     def flat_store_attributes(self):
         return ['custom_attributes']
-
-    # __slots__ = [
-    #     'type', 'id', 'created_at', 'remote_created_at',
-    #     'updated_at', 'user_id', 'email', 'name', 'custom_attributes',
-    #     'last_request_at', 'session_count', 'avatar',
-    #     'unsubscribed_from_emails', 'location_data', 'user_agent_data',
-    #     'last_seen_ip', 'companies', 'social_profiles', 'segments',
-    #     'tags'
-    # ]
 
 
 class Company(Resource, Find, Count):
