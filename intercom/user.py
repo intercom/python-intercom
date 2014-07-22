@@ -10,6 +10,7 @@ from intercom import FlatStore
 import datetime
 import time
 import types
+from intercom.api_operations.save import Save
 
 
 class ArgumentError(ValueError):
@@ -112,14 +113,6 @@ def datetime_value(value):
 def to_datetime_value(value):
     if value:
         return datetime.datetime.fromtimestamp(int(value))
-
-
-def resource_class_to_collection_name(cls):
-    return cls.__name__.lower() + "s"
-
-
-def resource_class_to_name(cls):
-    return cls.__name__.lower()
 
 
 class Resource(object):
@@ -235,7 +228,7 @@ class Find(object):
 
     @classmethod
     def find(cls, **params):
-        collection = resource_class_to_collection_name(cls)
+        collection = utils.resource_class_to_collection_name(cls)
         print "find %s in %s" % (params, collection)
         if 'id' in params:
             response = Intercom.get("/%s/%s" % (collection, params['id']))
@@ -325,7 +318,7 @@ class FindAll(object):
 
     @classmethod
     def find_all(cls, **params):
-        collection = resource_class_to_collection_name(cls)
+        collection = utils.resource_class_to_collection_name(cls)
         print "find_all %s in %s" % (params, collection)
         if 'id' in params and 'type' not in params:
             finder_url = "/%s/%s" % (collection, params['id'])
@@ -346,7 +339,7 @@ class All(object):
 
     @classmethod
     def all(cls):
-        collection = resource_class_to_collection_name(cls)
+        collection = utils.resource_class_to_collection_name(cls)
         print "list %s" % (collection)
         finder_url = "/%s" % (collection)
         return CollectionProxy(cls, collection, finder_url)
@@ -357,72 +350,13 @@ class Count(object):
     @classmethod
     def count(cls):
         response = Intercom.get("/counts/")
-        return response[resource_class_to_name(cls)]['count']
-
-
-class Save(object):
-
-    @classmethod
-    def create(cls, **params):
-        collection = resource_class_to_collection_name(cls)
-        response = Intercom.post("/%s/" % (collection), **params)
-        return cls(**response)
-
-    def from_dict(self, pdict):
-        for key, value in pdict.items():
-            setattr(self, key, value)
-
-    @property
-    def to_dict(self):
-        a_dict = {}
-        for name in self.attributes.keys():
-            a_dict[name] = self.__dict__[name]  # direct access
-        return a_dict
-
-
-    @classmethod
-    def from_api(cls, response):
-        obj = cls()
-        obj.from_response(response)
-        return obj
-
-    def from_response(self, response):
-        self.from_dict(response)
-        return self
-
-    def save(self):
-        collection = resource_class_to_collection_name(self.__class__)
-        params = self.__dict__
-        if self.id_present:
-            # update
-            response = Intercom.put('/%s/%s' % (collection, self.id), **params)
-        else:
-            # create
-            response = Intercom.post('/%s' % (collection), **params)
-        if response:
-            return self.from_response(response)
-
-
-    @property
-    def id_present(self):
-        return getattr(self, 'id', None) and self.id != ""
-
-    @property
-    def posted_updates(self):
-        return getattr(self, 'update_verb', None) != 'post'
-
-    @property
-    def identity_hash(self):
-        identity_vars = getattr(self, 'identity_vars', None)
-        if identity_vars:
-            return {}
-
+        return response[utils.resource_class_to_name(cls)]['count']
 
 
 class Delete(object):
 
     def delete(self):
-        collection = resource_class_to_collection_name(self.__class__)
+        collection = utils.resource_class_to_collection_name(self.__class__)
         Intercom.delete("/%s/%s/" % (collection, self.id))
         return self
 

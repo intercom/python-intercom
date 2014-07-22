@@ -21,28 +21,9 @@ def constantize_singular_resource_name(resource_name):
     return create_class_instance(class_name)
 
 
-if __name__ == "__main__":
-    print pluralize('company')
-    print pluralize('user')
+def resource_class_to_collection_name(cls):
+    return cls.__name__.lower() + "s"
 
-    print entity_key_from_type('company.list')
 
-    print constantize_singular_resource_name('location_data')
-    print constantize_singular_resource_name('companies')
-
-    from intercom.user import User
-    user = User()
-    user.from_dict({
-        'username': 'john', 
-        'companies': {
-            "type": "company.list",
-            "companies": [
-                {
-                    "type": "company",
-                    "id": "xyz"
-                }
-            ]
-        }
-    })
-    print user.username
-    print user.companies[0].__class__.__name__
+def resource_class_to_name(cls):
+    return cls.__name__.lower()
