@@ -10,6 +10,7 @@ from intercom import FlatStore
 import datetime
 import time
 import types
+from intercom.api_operations.all import All
 from intercom.api_operations.find import Find
 from intercom.api_operations.find_all import FindAll
 from intercom.api_operations.save import Save
@@ -234,15 +235,6 @@ class IncrementableAttributes(object):
         existing_value = self.custom_attributes.get(key, 0)
         self.custom_attributes[key] = existing_value + value
 
-
-class All(object):
-
-    @classmethod
-    def all(cls):
-        collection = utils.resource_class_to_collection_name(cls)
-        print "list %s" % (collection)
-        finder_url = "/%s" % (collection)
-        return CollectionProxy(cls, collection, finder_url)
 
 
 class Count(object):
