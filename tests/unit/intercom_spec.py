@@ -1,10 +1,3 @@
-# coding=utf-8
-#
-# Copyright 2014 keyes.ie
-#
-# License: http://jkeyes.mit-license.org/
-#
-
 from describe import expect
 import intercom
 import mock

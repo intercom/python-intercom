@@ -1,10 +1,3 @@
-# coding=utf-8
-#
-# Copyright 2014 keyes.ie
-#
-# License: http://jkeyes.mit-license.org/
-#
-
 from intercom.api_operations.all import All
 from intercom.api_operations.count import Count
 from intercom.api_operations.delete import Delete
