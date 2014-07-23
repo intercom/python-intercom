@@ -1,4 +1,6 @@
 #
 # Runtime dependencies.
 #
-requests==0.10.8
+inflection==0.2.0
+requests==2.3.0
+urllib3==1.7.1
