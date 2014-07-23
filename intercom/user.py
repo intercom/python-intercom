@@ -142,9 +142,5 @@ class Admin(Resource, Find):
     pass
 
 
-class Tag(Resource, Find, Count):
-    pass
-
-
 # class Count(Resource):
 #     pass
