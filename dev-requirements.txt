@@ -1,6 +1,6 @@
 #
 # Development dependencies.
 #
-describe==dev
+https://github.com/jeffh/describe/tarball/dev#egg=describe-dev
 httpretty==0.8.3
 mock==1.0.1
