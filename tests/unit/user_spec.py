@@ -66,7 +66,7 @@ class DescribeIntercomUser:
         expect(1393613864) == time.mktime(user.remote_created_at.timetuple())
         expect(1401970114) == time.mktime(user.updated_at.timetuple())
 
-        from intercom import FlatStore
+        from intercom.lib.flat_store import FlatStore
         from intercom.user import create_class_instance
         Avatar = create_class_instance('Avatar')
         Company = create_class_instance('Company')
