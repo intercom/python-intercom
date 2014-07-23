@@ -16,7 +16,7 @@ from datetime import datetime
 from intercom.collection_proxy import CollectionProxy
 from intercom.lib.flat_store import FlatStore
 from intercom.user import User
-from intercom.user import create_class_instance
+from intercom.utils import create_class_instance
 from tests.unit import test_user_obj
 
 
