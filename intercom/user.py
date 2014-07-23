@@ -146,9 +146,6 @@ class Tag(Resource, Find, Count):
     pass
 
 
-class Segment(Resource, Find, Count):
-    pass
-
 
 class Note(Resource, Find):
     pass
