@@ -1,15 +1,6 @@
 from datetime import datetime
 from .errors import ArgumentError
-
-
-class SetterProperty(object):
-
-    def __init__(self, func, doc=None):
-        self.func = func
-        self.__doc__ = doc if doc is not None else func.__doc__
-
-    def __set__(self, obj, value):
-        return self.func(obj, value)
+from .lib.setter_property import SetterProperty
 
 __version__ = '2.0-alpha'
 
