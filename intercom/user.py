@@ -146,10 +146,5 @@ class Tag(Resource, Find, Count):
     pass
 
 
-
-class Note(Resource, Find):
-    pass
-
-
 # class Count(Resource):
 #     pass
