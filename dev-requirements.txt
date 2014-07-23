@@ -1,6 +1,6 @@
 #
 # Development dependencies.
 #
-describe==1.0.0beta1
+describe==dev
 httpretty==0.8.3
 mock==1.0.1
