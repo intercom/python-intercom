@@ -2,14 +2,14 @@ from datetime import datetime
 from .errors import ArgumentError
 from .lib.setter_property import SetterProperty
 
-__version__ = '2.0-alpha'
-
 import copy
 import json
 import random
 import re
 import requests
 import time
+
+__version__ = '2.0-alpha'
 
 
 RELATED_DOCS_TEXT = "See https://github.com/jkeyes/python-intercom for usage examples."
