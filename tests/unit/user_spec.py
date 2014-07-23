@@ -5,21 +5,20 @@
 # License: http://jkeyes.mit-license.org/
 #
 
-from describe import expect
-import intercom
-import mock
-import time
-from datetime import datetime
-from intercom.user import User
 import httpretty
 import json
-import mock
 import re
+import mock
 import time
 
+from describe import expect
 from datetime import datetime
 from intercom.collection_proxy import CollectionProxy
+from intercom.lib.flat_store import FlatStore
 from intercom.user import User
+from intercom.user import create_class_instance
+from tests.unit import test_user_obj
+
 
 get = httpretty.GET
 post = httpretty.POST
@@ -55,7 +54,6 @@ class DescribeIntercomUser:
             user.foo_property
 
     def it_presents_a_complete_user_record_correctly(self):
-        from tests.unit import test_user_obj
         user = User.from_api(test_user_obj)
         expect('id-from-customers-app') == user.user_id
         expect('bob@example.com') == user.email
@@ -66,8 +64,6 @@ class DescribeIntercomUser:
         expect(1393613864) == time.mktime(user.remote_created_at.timetuple())
         expect(1401970114) == time.mktime(user.updated_at.timetuple())
 
-        from intercom.lib.flat_store import FlatStore
-        from intercom.user import create_class_instance
         Avatar = create_class_instance('Avatar')
         Company = create_class_instance('Company')
         SocialProfile = create_class_instance('SocialProfile')
@@ -144,14 +140,12 @@ class DescribeIntercomUser:
         with expect.to_raise_error(ValueError):
             user.custom_attributes = { 1: { 2: 3}}
 
-        from tests.unit import test_user_obj
         user = User.from_api(test_user_obj)
         with expect.to_raise_error(ValueError):
             user.custom_attributes["thing"] = [1]
 
     @httpretty.activate
     def it_fetches_a_user(self):
-        from tests.unit import test_user_obj
         body = json.dumps(test_user_obj)
 
         httpretty.register_uri(
