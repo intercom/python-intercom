@@ -12,11 +12,15 @@ import time
 __version__ = '2.0-alpha'
 
 
-RELATED_DOCS_TEXT = "See https://github.com/jkeyes/python-intercom for usage examples."
-COMPATIBILITY_WARNING_TEXT = "It looks like you are upgrading from an older version of python-intercom. Please note that this new version (%s) is not backwards compatible." % (__version__)
-COMPATIBILITY_WORKAROUND_TEXT = "To get rid of this error please set Intercom.app_api_key and don't set Intercom.api_key."
-CONFIGURATION_REQUIRED_TEXT = "You must set both Intercom.app_id and Intercom.app_api_key to use this client."
-
+RELATED_DOCS_TEXT = "See https://github.com/jkeyes/python-intercom \
+for usage examples."
+COMPATIBILITY_WARNING_TEXT = "It looks like you are upgrading from \
+an older version of python-intercom. Please note that this new version \
+(%s) is not backwards compatible." % (__version__)
+COMPATIBILITY_WORKAROUND_TEXT = "To get rid of this error please set \
+Intercom.app_api_key and don't set Intercom.api_key."
+CONFIGURATION_REQUIRED_TEXT = "You must set both Intercom.app_id and \
+Intercom.app_api_key to use this client."
 
 
 class _Config(object):
@@ -29,6 +33,7 @@ class _Config(object):
     target_base_url = None
     timeout = 10
     endpoint_randomized_at = None
+
 
 class Intercom(object):
     _config = _Config()
@@ -116,7 +121,8 @@ class Intercom(object):
         @property
         def _target_base_url(cls):
             if None in [cls.app_id, cls.app_api_key]:
-                raise ArgumentError('%s %s' % (CONFIGURATION_REQUIRED_TEXT, RELATED_DOCS_TEXT))
+                raise ArgumentError('%s %s' % (
+                    CONFIGURATION_REQUIRED_TEXT, RELATED_DOCS_TEXT))
             if cls._config.target_base_url is None:
                 basic_auth_part = '%s:%s@' % (cls.app_id, cls.app_api_key)
                 if cls.current_endpoint:
@@ -125,7 +131,6 @@ class Intercom(object):
                         '\g<1>%s\g<2>' % (basic_auth_part),
                         cls.current_endpoint)
             return cls._config.target_base_url
-
 
         @property
         def hostname(cls):

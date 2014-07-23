@@ -45,7 +45,6 @@ class Resource(object):
             return attribute in self.flat_store_attributes
         return False
 
-
     @classmethod
     def from_api(cls, response):
         obj = cls()
@@ -82,4 +81,3 @@ class Resource(object):
         else:
             value_to_set = value
         super(Resource, self).__setattr__(attribute, value_to_set)
-

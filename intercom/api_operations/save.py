@@ -1,6 +1,7 @@
 from intercom import Intercom
 from intercom import utils
 
+
 class Save(object):
 
     @classmethod
@@ -19,7 +20,6 @@ class Save(object):
         for name in self.attributes.keys():
             a_dict[name] = self.__dict__[name]  # direct access
         return a_dict
-
 
     @classmethod
     def from_api(cls, response):
@@ -42,7 +42,6 @@ class Save(object):
             response = Intercom.post('/%s' % (collection), **params)
         if response:
             return self.from_response(response)
-
 
     @property
     def id_present(self):

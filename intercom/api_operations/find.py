@@ -1,6 +1,7 @@
 from intercom import Intercom
 from intercom import utils
 
+
 class Find(object):
 
     @classmethod

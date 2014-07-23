@@ -1,5 +1,6 @@
 import inflection
 
+
 def pluralize(str):
     return inflection.pluralize(str)
 
@@ -30,6 +31,7 @@ def resource_class_to_name(cls):
 
 CLASS_REGISTRY = {}
 
+
 def create_class_instance(class_name):
     from intercom.traits.api_resource import Resource
 
@@ -38,7 +40,8 @@ def create_class_instance(class_name):
 
     class Meta(type):
         def __new__(mcs, name, bases, attributes):
-            return super(Meta, mcs).__new__(mcs, str(class_name), bases, attributes)
+            return super(Meta, mcs).__new__(
+                mcs, str(class_name), bases, attributes)
 
     class DynamicClass(Resource):
         __metaclass__ = Meta

@@ -7,9 +7,10 @@ from intercom.api_operations.save import Save
 from intercom.traits.api_resource import Resource
 from intercom.traits.incrementable_attributes import IncrementableAttributes
 
-class User(Resource, Find, FindAll, All, Count, Save, Delete, IncrementableAttributes):
+
+class User(Resource, Find, FindAll, All, Count, Save, Delete,
+           IncrementableAttributes):
 
     @property
     def flat_store_attributes(self):
         return ['custom_attributes']
-

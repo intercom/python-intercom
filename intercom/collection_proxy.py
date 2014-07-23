@@ -22,7 +22,6 @@ class CollectionProxy(object):
         # a link to the next page of results
         self.next_page = None
 
-
     def __iter__(self):
         return self
 
@@ -31,7 +30,7 @@ class CollectionProxy(object):
             # get the first page of results
             self.get_first_page()
 
-        # try to get a resource if there are no more in the 
+        # try to get a resource if there are no more in the
         # current resource iterator (StopIteration is raised)
         # try to get the next page of results first
         try:
