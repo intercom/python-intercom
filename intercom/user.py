@@ -157,7 +157,3 @@ class Event(Resource, Find):
 
 # class Count(Resource):
 #     pass
-
-
-class Conversation(Resource, Find):
-    pass
