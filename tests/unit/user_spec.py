@@ -20,9 +20,6 @@ import time
 from datetime import datetime
 from intercom.collection_proxy import CollectionProxy
 from intercom.user import User
-from nose.tools import eq_
-from nose.tools import ok_
-from nose.tools import raises
 
 get = httpretty.GET
 post = httpretty.POST
@@ -278,7 +275,7 @@ class DescribeIntercomUser:
     def it_returns_the_total_number_of_users(self):
         with mock.patch.object(User, 'count') as mock_count:
             mock_count.return_value = 100
-            eq_(100, User.count())
+            expect(100) == User.count()
 
     class DescribeIncrementingCustomAttributeFields:
 
