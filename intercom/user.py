@@ -138,9 +138,5 @@ class Company(Resource, Find, Count):
     pass
 
 
-class Admin(Resource, Find):
-    pass
-
-
 # class Count(Resource):
 #     pass
