@@ -6,4 +6,4 @@ install:
   - pip install -r requirements.txt --use-mirrors
   - pip install -r dev-requirements.txt --use-mirrors
 script:  
-  - nosetests tests
+  - PYTHONPATH=. describe tests/unit
