@@ -1,8 +1,6 @@
-from datetime import datetime
 import numbers
-
-class ArgumentError(Exception):
-    pass
+from datetime import datetime
+from .errors import ArgumentError
 
 
 class FlatStore(dict):

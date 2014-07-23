@@ -17,10 +17,6 @@ from intercom.api_operations.save import Save
 from intercom.lib.typed_json_deserializer import JsonDeserializer
 
 
-class ArgumentError(ValueError):
-    pass
-
-
 def timestamp_field(attribute):
     return attribute.endswith('_at')
 
