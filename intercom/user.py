@@ -151,9 +151,5 @@ class Note(Resource, Find):
     pass
 
 
-class Event(Resource, Find):
-    pass
-
-
 # class Count(Resource):
 #     pass
