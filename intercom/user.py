@@ -134,9 +134,5 @@ class User(Resource, Find, FindAll, All, Count, Save, Delete, IncrementableAttri
         return ['custom_attributes']
 
 
-class Company(Resource, Find, Count):
-    pass
-
-
 # class Count(Resource):
 #     pass
