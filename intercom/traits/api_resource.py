@@ -53,6 +53,7 @@ class Resource(object):
 
     def from_response(self, response):
         self.from_dict(response)
+        return self
 
     def from_dict(self, dict):
         for attribute, value in dict.items():
