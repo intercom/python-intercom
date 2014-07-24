@@ -10,7 +10,7 @@ from intercom.collection_proxy import CollectionProxy
 from intercom.lib.flat_store import FlatStore
 from intercom.user import User
 from intercom.utils import create_class_instance
-from tests.unit import test_user_obj
+from tests.unit import test_user
 
 
 get = httpretty.GET
@@ -47,7 +47,7 @@ class DescribeIntercomUser:
             user.foo_property
 
     def it_presents_a_complete_user_record_correctly(self):
-        user = User.from_api(test_user_obj)
+        user = User.from_api(test_user())
         expect('id-from-customers-app') == user.user_id
         expect('bob@example.com') == user.email
         expect('Joe Schmoe') == user.name
@@ -133,13 +133,13 @@ class DescribeIntercomUser:
         with expect.to_raise_error(ValueError):
             user.custom_attributes = { 1: { 2: 3}}
 
-        user = User.from_api(test_user_obj)
+        user = User.from_api(test_user())
         with expect.to_raise_error(ValueError):
             user.custom_attributes["thing"] = [1]
 
     @httpretty.activate
     def it_fetches_a_user(self):
-        body = json.dumps(test_user_obj)
+        body = json.dumps(test_user())
 
         httpretty.register_uri(
             get, r(r"https://api.intercom.io/users\?email="),
