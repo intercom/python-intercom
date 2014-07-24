@@ -215,14 +215,13 @@ def page_of_users(include_next_link=False):
 #   }
 # end
 
-# def test_tag
-#   {
-#     "id" => "4f73428b5e4dfc000b000112",
-#     "name" => "Test Tag",
-#     "segment" => false,
-#     "tagged_user_count" => 2
-#   }
-# end
+test_tag = {
+    "id": "4f73428b5e4dfc000b000112",
+    "name": "Test Tag",
+    "segment": False,
+    "tagged_user_count": 2
+}
+
 
 # def error_on_modify_frozen
 #   RUBY_VERSION =~ /1.8/ ? TypeError : RuntimeError
