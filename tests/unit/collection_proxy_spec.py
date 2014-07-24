@@ -2,8 +2,8 @@ import httpretty
 import json
 import re
 from describe import expect
-from intercom.admin import Admin
-from intercom.collection_proxy import CollectionProxy
+from intercom.user import User
+from tests.unit import page_of_users
 
 get = httpretty.GET
 r = re.compile
@@ -13,43 +13,31 @@ class DescribeIntercomCollectionProxy:
 
     @httpretty.activate
     def it_stops_iterating_if_no_next_link(self):
-        body = json.dumps({})
+        body = json.dumps(page_of_users(include_next_link=False))
         httpretty.register_uri(get, r(r"/users"), body=body)
-        all = Admin.all()
-        expect(all).to.be_instance_of(CollectionProxy)
+        emails = [user.email for user in User.all()]
+        expect(emails) == ['user1@example.com', 'user2@example.com', 'user3@example.com']
 
+    @httpretty.activate
+    def it_keeps_iterating_if_next_link(self):
+        page1 = json.dumps(page_of_users(include_next_link=True))
+        page2 = json.dumps(page_of_users(include_next_link=False))
+        httpretty.register_uri(get, r(r"/users$"), body=page1)
+        httpretty.register_uri(
+            get, r(r'https://api.intercom.io/users\?per_page=50&page=2'), body=page2,
+            match_querystring=True)
+        emails = [user.email for user in User.all()]
+        expect(emails) == ['user1@example.com', 'user2@example.com', 'user3@example.com'] * 2
 
-# require "spec_helper"
+    @httpretty.activate
+    def it_supports_indexed_array_access(self):
+        body = json.dumps(page_of_users(include_next_link=False))
+        httpretty.register_uri(get, r(r"/users"), body=body)
+        expect(User.all()[0].email) == 'user1@example.com'
 
-# describe Intercom::CollectionProxy do
-
-#   it "stops iterating if no next link" do
-#     Intercom.expects(:get).with("/users", {}).returns(page_of_users(include_next_link:false))
-#     emails = []
-#     Intercom::User.all.each { |user| emails << user.email }
-#     emails.must_equal %W(user1@example.com user2@example.com user3@example.com)
-#   end
-
-#   it "keeps iterating if next link" do
-#     Intercom.expects(:get).with("/users", {}).returns(page_of_users(include_next_link:true))
-#     Intercom.expects(:get).with('https://api.intercom.io/users?per_page=50&page=2', {}).returns(page_of_users(include_next_link:false))
-#     emails = []
-#     Intercom::User.all.each { |user| emails << user.email }
-#   end
-
-#   it "supports indexed array access" do
-#     Intercom.expects(:get).with("/users", {}).returns(page_of_users(include_next_link:false))
-#     Intercom::User.all[0].email.must_equal 'user1@example.com'
-#   end
-
-#   it "supports map" do
-#     Intercom.expects(:get).with("/users", {}).returns(page_of_users(include_next_link:false))
-#     emails = Intercom::User.all.map { |user| user.email }
-#     emails.must_equal %W(user1@example.com user2@example.com user3@example.com)
-#   end
-
-#   it "supports querying" do
-#     Intercom.expects(:get).with("/users", {:tag_name => 'Taggart J'}).returns(page_of_users(include_next_link:false))
-#     Intercom::User.find_all(:tag_name => 'Taggart J').map(&:email).must_equal %W(user1@example.com user2@example.com user3@example.com)
-#   end
-# end
+    @httpretty.activate
+    def it_supports_querying(self):
+        body = json.dumps(page_of_users(include_next_link=False))
+        httpretty.register_uri(get, r(r"/users"), body=body)
+        emails = [user.email for user in User.find_all(tag_name='Taggart J')]
+        expect(emails) == ['user1@example.com', 'user2@example.com', 'user3@example.com']

@@ -42,6 +42,11 @@ class CollectionProxy(object):
         instance = self.collection_cls(**resource)
         return instance
 
+    def __getitem__(self, index):
+        for i in range(index):
+            self.next()
+        return self.next()
+
     def get_first_page(self):
         # get the first page of results
         return self.get_page(self.finder_url, self.finder_params)
