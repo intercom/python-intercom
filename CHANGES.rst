@@ -2,6 +2,10 @@
 Changelog
 =========
 
+* 0.2.11
+   * support for events. `#25 <https://github.com/jkeyes/python-intercom/pull/25>`_. (https://github.com/mekza)
+   * using RTD theme for documentation.
+   * updated links to Intercom API docs.
 * 0.2.10
    * basic support for companies. `#18 <https://github.com/jkeyes/python-intercom/pull/18>`_. (https://github.com/cameronmaske)
    * fixed User.delete. `#19 <https://github.com/jkeyes/python-intercom/pull/19>`_. (https://github.com/cameronmaske)
