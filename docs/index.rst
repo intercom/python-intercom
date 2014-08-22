@@ -25,7 +25,7 @@ Usage
 Authentication
 ---------------
 
-Intercom documentation: `Authentication <http://api.intercom.io/docs#authentication>`_.
+Intercom documentation: `Authentication <http://doc.intercom.io/api/v1/#authentication>`_.
 
 ::
 
@@ -39,7 +39,7 @@ Users
 Getting all Users
 +++++++++++++++++
 
-Intercom documentation: `Getting all Users <http://api.intercom.io/docs#getting_all_users>`_.
+Intercom documentation: `Getting all Users <http://doc.intercom.io/api/v1/#getting-all-users>`_.
 
 ::
 
@@ -50,16 +50,16 @@ Intercom documentation: `Getting all Users <http://api.intercom.io/docs#getting_
 Getting a User
 ++++++++++++++
 
-Intercom documentation: `Getting a User <http://api.intercom.io/docs#getting_a_user>`_.
+Intercom documentation: `Getting a User <http://doc.intercom.io/api/v1/#getting-a-user>`_.
 
 ::
 
     user = User.find(email="ben@intercom.io")
 
-Creating a User
-+++++++++++++++
+Create a User
++++++++++++++
 
-Intercom documentation: `Creating a User <http://api.intercom.io/docs#creating_a_user>`_.
+Intercom documentation: `Create a User <http://doc.intercom.io/api/v1/#create-a-user>`_.
 
 ::
 
@@ -74,7 +74,7 @@ Intercom documentation: `Creating a User <http://api.intercom.io/docs#creating_a
 Updating a User
 +++++++++++++++
 
-Intercom documentation: `Updating a User <http://api.intercom.io/docs#updating_a_user>`_.
+Intercom documentation: `Updating a User <http://doc.intercom.io/api/v1/#updating-a-user>`_.
 
 ::
 
@@ -85,7 +85,7 @@ Intercom documentation: `Updating a User <http://api.intercom.io/docs#updating_a
 Deleting a User
 +++++++++++++++
 
-Intercom documentation: `Deleting a User <http://api.intercom.io/docs#deleting_a_user>`_.
+Intercom documentation: `Deleting a User <http://doc.intercom.io/api/v1/#deleting-a-user>`_.
 
 ::
 
@@ -97,7 +97,7 @@ Notes
 Creating a Note
 +++++++++++++++
 
-Intercom documentation: `Creating a Note <http://api.intercom.io/docs#creating_a_note>`_.
+Intercom documentation: `Creating a Note <http://doc.intercom.io/api/v1/#creating-a-note>`_.
 
 ::
 
@@ -112,27 +112,27 @@ Tagging
 Getting a Tag
 +++++++++++++
 
-Intercom documentation: `Getting a Tag <http://api.intercom.io/docs#getting_a_tag>`_.
+Intercom documentation: `Getting a Tag <http://doc.intercom.io/api/v1/#getting-a-tag>`_.
 
 ::
 
     from intercom import Tag
     tag = Tag.find_by_name("Free Trial")
 
-Creating a Tag
-++++++++++++++
+Creating a new Tag
+++++++++++++++++++
 
-Intercom documentation: `Creating a Tag <http://api.intercom.io/docs#creating_a_tag>`_.
+Intercom documentation: `Creating a new Tag <http://doc.intercom.io/api/v1/#create-a-new-tag>`_.
 
 ::
 
     from intercom import Tag
     tag = Tag.create("Free Trial")
 
-Updating a Tag
-++++++++++++++
+Updating an already existing Tag
+++++++++++++++++++++++++++++++++
 
-Intercom documentation: `Updating a Tag <http://api.intercom.io/docs#updating_a_tag>`_.
+Intercom documentation: `Updating a Tag <http://doc.intercom.io/api/v1/#update-an-already-existing-tag>`_.
 
 ::
 
@@ -147,7 +147,7 @@ Impressions
 Creating an Impression
 ++++++++++++++++++++++
 
-Intercom documentation: `Creating an Impression <http://api.intercom.io/docs#creating_an_impression>`_.
+Intercom documentation: `Creating an Impression <http://doc.intercom.io/api/v1/#creating-an-impression>`_.
 
 ::
 
@@ -161,7 +161,7 @@ Message Threads
 Getting Message Threads
 +++++++++++++++++++++++
 
-Intercom documentation:  `Getting Message Threads <http://api.intercom.io/docs#getting_messages>`_.
+Intercom documentation:  `Getting Message Threads <http://doc.intercom.io/api/v1/#getting-message-threads>`_.
 
 ::
 
@@ -177,7 +177,7 @@ Intercom documentation:  `Getting Message Threads <http://api.intercom.io/docs#g
 Creating a Message Thread
 +++++++++++++++++++++++++
 
-Intercom documentation:  `Creating a Message Thread <http://api.intercom.io/docs#creating_a_message>`_.
+Intercom documentation:  `Creating a Message Thread <http://doc.intercom.io/api/v1/#creating-a-message-thread>`_.
 
 ::
 
@@ -187,7 +187,7 @@ Intercom documentation:  `Creating a Message Thread <http://api.intercom.io/docs
 Replying on a Message Thread
 ++++++++++++++++++++++++++++
 
-Intercom documentation:  `Replying on a Message Thread <http://api.intercom.io/docs#replying_to_a_message>`_.
+Intercom documentation:  `Replying on a Message Thread <http://doc.intercom.io/api/v1/#replying-on-a-message-thread>`_.
 
 ::
 
