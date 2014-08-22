@@ -195,6 +195,20 @@ Intercom documentation:  `Replying on a Message Thread <http://api.intercom.io/d
             thread_id=123,
             body="Not much either :(")
 
+Events
+-----------
+
+Submitting Events
++++++++++++++++++
+
+Intercom documentation: `Submitting Events <http://doc.intercom.io/api/v1/#submitting-events>`_.
+
+::
+
+    from intercom import Event
+    impression = Event.create(event_name="sent-invite", 
+            user_id="314159")
+
 Development
 ===========
 
