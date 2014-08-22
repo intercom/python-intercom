@@ -1,6 +1,15 @@
 intercom Package
 ================
 
+:mod:`event` Module
+------------------
+
+.. automodule:: intercom.events
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
 :mod:`intercom` Package
 -----------------------
 
