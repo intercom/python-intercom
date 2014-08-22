@@ -1,5 +1,6 @@
 dist
 venv
+.venv
 .coverage
 .env
 *.egg-info
