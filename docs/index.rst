@@ -3,8 +3,6 @@ python-intercom
 ===============
 
 .. toctree::
-    :hidden:
-
     installation
     api/modules
     changelog
