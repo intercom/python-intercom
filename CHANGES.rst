@@ -2,6 +2,8 @@
 Changelog
 =========
 
+* 0.2.12
+   * include RTD theme in requirements.txt
 * 0.2.11
    * support for events. `#25 <https://github.com/jkeyes/python-intercom/pull/25>`_. (https://github.com/mekza)
    * using RTD theme for documentation.

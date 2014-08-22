@@ -14,7 +14,7 @@ All of the API requests are created, and the API responses are parsed here.
 
 """
 
-__version__ = '0.2.11'
+__version__ = '0.2.12'
 
 import functools
 import json
