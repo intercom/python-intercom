@@ -15,11 +15,14 @@ with file(os.path.join('intercom', 'intercom.py')) as init:
     m = re.search("__version__ = '(\d+\.\d+\.\d+)'", source, re.M)
     __version__ = m.groups()[0]
 
+with open('README.rst') as readme:
+    long_description = readme.read()
+
 setup(
     name="python-intercom",
     version=__version__,
     description="Intercom API wrapper",
-    long_description=open('README.rst').read(),
+    long_description=long_description,
     author="John Keyes",
     author_email="john@keyes.ie",
     license="MIT License",
