@@ -49,8 +49,8 @@ from .user import User
 from .tag import Tag
 from .events import Event
 
-__all__ = (
-    AuthenticationError, BadGatewayError, Intercom, ResourceNotFound,
-    ServerError, ServiceUnavailableError, Impression, MessageThread,
-    Note, User, Tag, Event
-)
+__all__ = [
+    'AuthenticationError', 'BadGatewayError', 'Intercom', 'ResourceNotFound',
+    'ServerError', 'ServiceUnavailableError', 'Impression', 'MessageThread',
+    'Note', 'User', 'Tag', 'Event'
+]
