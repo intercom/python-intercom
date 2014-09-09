@@ -1,7 +1,4 @@
-include CHANGES
-include INSTALL
-include LICENSE
-include README
+include *.rst
 recursive-include docs *.rst
 include requirements.txt
 recursive-include tests *.py
