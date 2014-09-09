@@ -2,6 +2,8 @@
 Changelog
 =========
 
+* 0.2.13
+   * fix wildcard import from `intercom` `#28 https://github.com/jkeyes/python-intercom/pull/28`_. (https://github.com/marselester)
 * 0.2.12
    * include RTD theme in requirements.txt
 * 0.2.11
