@@ -241,3 +241,25 @@ test_tag = {
 #   end
 #   array
 # end
+
+test_subscription = {
+    "type": "notification_subscription",
+    "id": "nsub_123456789",
+    "created_at": 1410368642,
+    "updated_at": 1410368642,
+    "service_type": "web",
+    "app_id": "3qmk5gyg",
+    "url": "http://example.com",
+    "_self": "https://api.intercom.io/subscriptions/nsub_123456789",
+    "topics": ["user.created", "conversation.user.replied", "conversation.admin.replied"],
+    "active": True,
+    "metadata": {},
+    "hub_secret": None,
+    "mode": "point",
+    "links": {
+        "sent": "https://api.intercom.io/subscriptions/nsub_123456789/sent",
+        "retry": "https://api.intercom.io/subscriptions/nsub_123456789/retry",
+        "errors": "https://api.intercom.io/subscriptions/nsub_123456789/errors"
+    },
+    "notes": []
+}
