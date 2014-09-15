@@ -1,7 +1,5 @@
 # coding=utf-8
 #
-# Copyright 2012 keyes.ie
-#
 # License: http://jkeyes.mit-license.org/
 #
 
@@ -87,10 +85,10 @@ def test_user(email="bob@example.com"):
             "type": "social_profile.list",
             "social_profiles": [
                 {
-                    "type": "social_profile", 
-                    "name": "twitter", 
-                    "url": "http://twitter.com/abc", 
-                    "username": "abc", 
+                    "type": "social_profile",
+                    "name": "twitter",
+                    "url": "http://twitter.com/abc",
+                    "username": "abc",
                     "id": None
                 },
                 {
@@ -114,7 +112,7 @@ def test_user(email="bob@example.com"):
                     "username": "abc",
                     "id": "1234242"
                 }
-           ]
+            ]
         },
         "location_data": {
             "type": "location_data",
@@ -148,99 +146,12 @@ def page_of_users(include_next_link=False):
         page["pages"]["next"] = "https://api.intercom.io/users?per_page=50&page=2"
     return page
 
-
-# def test_messages
-#   [test_message, test_message]
-# end
-
-# def test_message
-#   {
-#       "created_at" => 1329837506,
-#       "updated_at" => 1329664706,
-#       "read" => true,
-#       "created_by_user" => true,
-#       "thread_id" => 5591,
-#       "messages" => [
-#           {
-#               "created_at" => 1329837506,
-#               "html" => "<p>Hey Intercom, What is up?</p>\n",
-#               "from" => {
-#                   "email" => "bob@example.com",
-#                   "name" => "Bob",
-#                   "user_id" => "123",
-#                   "is_admin" => false
-#               }
-#           },
-#           {
-#               "created_at" => 1329664706,
-#               "rendered_body" => "<p>Not much, you?</p>\n",
-#               "from" => {
-#                   "name" => "Super Duper Admin",
-#                   "avatar" => {
-#                     "square_25" => "https://static.intercomcdn.com/avatars/13347/square_25/Ruairi_Profile.png?1375368166",
-#                     "square_50" => "https://static.intercomcdn.com/avatars/13347/square_50/Ruairi_Profile.png?1375368166",
-#                     "square_128" => "https://static.intercomcdn.com/avatars/13347/square_128/Ruairi_Profile.png?1375368166"
-#                   },
-#                   "is_admin" => true
-#               }
-#           },
-#           {
-#               "created_at" => 1329664806,
-#               "rendered_body" => "<p>Not much either :(</p>\n",
-#               "from" => {
-#                   "email" => "bob@example.com",
-#                   "name" => "Bob",
-#                   "user_id" => "123",
-#                   "is_admin" => false
-#               }
-#           }
-#       ]
-#   }
-# end
-
-# def page_of_users(include_next_link: false)
-#   all_user =
-#   {
-#      "type"=>"user.list",
-#      "pages"=>
-#       {
-#         "type"=>"pages",
-#         "next"=> (include_next_link ? "https://api.intercom.io/users?per_page=50&page=2" : nil),
-#         "page"=>1,
-#         "per_page"=>50,
-#         "total_pages"=>7
-#       },
-#       "users"=> [test_user("user1@example.com"), test_user("user2@example.com"), test_user("user3@example.com")],
-#       "total_count"=>314
-#   }
-# end
-
 test_tag = {
     "id": "4f73428b5e4dfc000b000112",
     "name": "Test Tag",
     "segment": False,
     "tagged_user_count": 2
 }
-
-
-# def error_on_modify_frozen
-#   RUBY_VERSION =~ /1.8/ ? TypeError : RuntimeError
-# end
-
-# def capture_exception(&block)
-#   begin
-#     block.call
-#   rescue => e
-#     return e
-#   end
-# end
-
-# def unshuffleable_array(array)
-#   def array.shuffle
-#     self
-#   end
-#   array
-# end
 
 test_subscription = {
     "type": "notification_subscription",
