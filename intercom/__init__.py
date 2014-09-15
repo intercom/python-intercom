@@ -81,7 +81,6 @@ class Intercom(object):
 
     @classmethod
     def delete(cls, path, **params):
-        print "DELETE %s" % (path)
         return cls.send_request_to_path('DELETE', path, params)
 
     class __metaclass__(type):

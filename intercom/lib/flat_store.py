@@ -7,7 +7,6 @@ class FlatStore(dict):
         self.update(*args, **kwargs)
 
     def __setitem__(self, key, value):
-        # print "SETTING ITEM [%s]=[%s]" % (key, value)
         if not (
             isinstance(value, numbers.Real) or
             isinstance(value, basestring)

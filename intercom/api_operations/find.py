@@ -7,7 +7,6 @@ class Find(object):
     @classmethod
     def find(cls, **params):
         collection = utils.resource_class_to_collection_name(cls)
-        print "find %s in %s" % (params, collection)
         if 'id' in params:
             response = Intercom.get("/%s/%s" % (collection, params['id']))
         else:
