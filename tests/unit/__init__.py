@@ -250,7 +250,7 @@ test_subscription = {
     "service_type": "web",
     "app_id": "3qmk5gyg",
     "url": "http://example.com",
-    "_self": "https://api.intercom.io/subscriptions/nsub_123456789",
+    "self": "https://api.intercom.io/subscriptions/nsub_123456789",
     "topics": ["user.created", "conversation.user.replied", "conversation.admin.replied"],
     "active": True,
     "metadata": {},

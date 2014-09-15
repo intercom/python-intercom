@@ -32,10 +32,11 @@ def to_datetime_value(value):
 
 class Resource(object):
 
-    def __init__(self, **params):
-        self.from_dict(params)
+    def __init__(_self, **params):
+        _self.from_dict(params)
+        self = _self
 
-        if hasattr(self, 'flat_store_attributes'):
+        if hasattr(_self, 'flat_store_attributes'):
             for attr in self.flat_store_attributes:
                 if not hasattr(self, attr):
                     setattr(self, attr, FlatStore())

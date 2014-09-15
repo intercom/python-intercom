@@ -26,6 +26,8 @@ class DescribeIntercomSubscription:
         subscription = Subscription.find(id="nsub_123456789")
         expect(subscription.topics[0]) == "user.created"
         expect(subscription.topics[1]) == "conversation.user.replied"
+        expect(subscription.self) == \
+            "https://api.intercom.io/subscriptions/nsub_123456789"
 
     @httpretty.activate
     def it_creates_a_subscription(self):
