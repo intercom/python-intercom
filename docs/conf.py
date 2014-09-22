@@ -54,7 +54,7 @@ copyright = u'2013, John Keyes'
 # The short X.Y version.
 
 import re
-with file(os.path.join(path_dir, 'intercom', 'intercom.py')) as init:
+with open(os.path.join(path_dir, 'intercom', 'intercom.py')) as init:
     source = init.read()
     m = re.search("__version__ = '(\d+\.\d+\.\d+)'", source, re.M)
     version = m.groups()[0]
