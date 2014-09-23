@@ -33,6 +33,7 @@ def to_datetime_value(value):
 class Resource(object):
 
     def __init__(_self, **params):
+        _self.changed_attributes = []
         _self.from_dict(params)
         self = _self
 
@@ -40,6 +41,7 @@ class Resource(object):
             for attr in self.flat_store_attributes:
                 if not hasattr(self, attr):
                     setattr(self, attr, FlatStore())
+        _self.changed_attributes = []
 
     def _flat_store_attribute(self, attribute):
         if hasattr(self, 'flat_store_attributes'):
@@ -54,6 +56,7 @@ class Resource(object):
 
     def from_response(self, response):
         self.from_dict(response)
+        self.changed_attributes = []
         return self
 
     def from_dict(self, dict):
@@ -64,7 +67,14 @@ class Resource(object):
 
     @property
     def attributes(self):
-        return self.__dict__
+        res = {}
+        for name, value in self.__dict__.items():
+            if self.submittable_attribute(name, value):
+                res[name] = value
+        return res
+
+    def submittable_attribute(self, name, value):
+        return name in self.changed_attributes or isinstance(value, FlatStore)
 
     def __getattribute__(self, attribute):
         value = super(Resource, self).__getattribute__(attribute)
@@ -82,4 +92,6 @@ class Resource(object):
             value_to_set = time.mktime(value.timetuple())
         else:
             value_to_set = value
+        if attribute != 'changed_attributes':
+            self.__dict__['changed_attributes'].append(attribute)
         super(Resource, self).__setattr__(attribute, value_to_set)

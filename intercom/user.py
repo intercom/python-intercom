@@ -13,6 +13,7 @@ class User(Resource, Find, FindAll, All, Count, Load, Save, Delete,
            IncrementableAttributes):
 
     update_verb = 'post'
+    identity_vars = ['email', 'user_id']
 
     @property
     def flat_store_attributes(self):

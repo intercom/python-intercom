@@ -187,7 +187,7 @@ class Intercom(object):
 
 class ResourceEncoder(JSONEncoder):
     def default(self, o):
-        if hasattr(o, 'from_api'):
+        if hasattr(o, 'attributes'):
             # handle API resources
             return o.attributes
         return super(ResourceEncoder, self).default(o)

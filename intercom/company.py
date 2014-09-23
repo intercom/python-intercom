@@ -6,3 +6,4 @@ from intercom.api_operations.load import Load
 
 class Company(Resource, Count, Find, Load):
     update_verb = 'post'
+    identity_vars = ['id', 'company_id']
