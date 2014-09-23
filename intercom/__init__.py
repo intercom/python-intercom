@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
+
 from datetime import datetime
+from json import JSONEncoder
 from .errors import ArgumentError
 from .lib.setter_property import SetterProperty
 
@@ -55,7 +58,7 @@ class Intercom(object):
         }
         if method in ('POST', 'PUT', 'DELETE'):
             headers['content-type'] = 'application/json'
-            req_params['data'] = json.dumps(params)
+            req_params['data'] = json.dumps(params, cls=ResourceEncoder)
         elif method == 'GET':
             req_params['params'] = params
         req_params['headers'] = headers
@@ -180,3 +183,11 @@ class Intercom(object):
         @SetterProperty
         def endpoint(cls, value):
             cls.endpoints = [value]
+
+
+class ResourceEncoder(JSONEncoder):
+    def default(self, o):
+        if hasattr(o, 'from_api'):
+            # handle API resources
+            return o.attributes
+        return super(ResourceEncoder, self).default(o)
