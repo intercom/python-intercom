@@ -12,6 +12,8 @@ from intercom.traits.incrementable_attributes import IncrementableAttributes
 class User(Resource, Find, FindAll, All, Count, Load, Save, Delete,
            IncrementableAttributes):
 
+    update_verb = 'post'
+
     @property
     def flat_store_attributes(self):
         return ['custom_attributes']

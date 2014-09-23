@@ -5,4 +5,4 @@ from intercom.api_operations.load import Load
 
 
 class Company(Resource, Count, Find, Load):
-    pass
+    update_verb = 'post'

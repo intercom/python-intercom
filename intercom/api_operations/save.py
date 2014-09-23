@@ -34,7 +34,7 @@ class Save(object):
     def save(self):
         collection = utils.resource_class_to_collection_name(self.__class__)
         params = self.__dict__
-        if self.id_present:
+        if self.id_present and not self.posted_updates:
             # update
             response = Intercom.put('/%s/%s' % (collection, self.id), **params)
         else:
@@ -49,7 +49,7 @@ class Save(object):
 
     @property
     def posted_updates(self):
-        return getattr(self, 'update_verb', None) != 'post'
+        return getattr(self, 'update_verb', None) == 'post'
 
     @property
     def identity_hash(self):
