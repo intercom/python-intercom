@@ -66,7 +66,7 @@ user.save()
 user.increment('karma')
 user.save()
 # Iterate over all users
-for user in User.all()
+for user in User.all():
     ...
 ```
 
@@ -75,7 +75,7 @@ for user in User.all()
 ``` python
 from intercom import Admin
 # Iterate over all admins
-for admin in Admin.all()
+for admin in Admin.all():
     ...
 ```
 
@@ -111,7 +111,7 @@ company = Company.find(id="41e66f0313708347cb0000d0")
 company.name = 'Updated company name'
 company.save()
 # Iterate over all companies
-for company in Company.all()
+for company in Company.all():
     ...
 # Get a list of users in a company
 company.users
@@ -126,7 +126,7 @@ tag = Tag.tag_users('blue', ["42ea2f1b93891f6a99000427"])
 # Untag users
 Tag.untag_users('blue', ["42ea2f1b93891f6a99000427"])
 # Iterate over all tags
-for tag in Tag.all()
+for tag in Tag.all():
     ...
 # Iterate over all tags for user
 Tag.find_all_for_user(id='53357ddc3c776629e0000029')
@@ -363,7 +363,7 @@ Subscription.create(url="http://example.com", topics=["user.created"])
 Subscription.find(id="nsub_123456789")
 
 # list subscriptions
-Subscription.all()
+Subscription.all():
 ```
 
 ### Webhooks
