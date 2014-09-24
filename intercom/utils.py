@@ -22,7 +22,7 @@ def constantize_singular_resource_name(resource_name):
 
 
 def resource_class_to_collection_name(cls):
-    return cls.__name__.lower() + "s"
+    return pluralize(cls.__name__.lower())
 
 
 def resource_class_to_name(cls):
