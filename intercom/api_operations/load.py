@@ -10,5 +10,6 @@ class Load(object):
         if 'id' in params:
             response = Intercom.get("/%s/%s" % (collection, params['id']))
         else:
-            raise "Cannot load #{class} as it does not have a valid id."
+            raise Exception(
+                "Cannot load %s as it does not have a valid id." % (cls))
         return cls(**response)
