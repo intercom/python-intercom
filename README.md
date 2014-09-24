@@ -87,18 +87,19 @@ from intercom import User
 # Add a user to one or more companies
 user = User.find(email="bob@example.com")
 user.companies = [
-    {company_id 6, name "Intercom"},
-    {company_id 9, name "Test Company"}
+    {"company_id": 6, "name": "Intercom"},
+    {"company_id": 9, "name": "Test Company"}
 ]
 user.save()
 # You can also pass custom attributes within a company as you do this
 user.companies = [
     {
-        id6,
-        name "Intercom", custom_attributes {
-            referral_source "Google"
-        } 
-    } 
+        "id": 6,
+        "name": "Intercom",
+        "custom_attributes": {
+            "referral_source": "Google"
+        }
+    }
 ]
 user.save()
 # Find a company by company_id
