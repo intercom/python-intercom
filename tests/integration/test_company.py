@@ -86,7 +86,8 @@ class CompanyTest(unittest.TestCase):
         for company in Company.all():
             self.assertTrue(company.id is not None)
 
-    # def test_users(self):
-    #     company = Company.find(id=self.company.id)
-    #     # Get a list of users in a company
-    #     self.assertIsNotNone(company.users)
+    def test_users(self):
+        company = Company.find(id=self.company.id)
+        # Get a list of users in a company
+        for user in company.users:
+            self.assertIsNotNone(user.email)
