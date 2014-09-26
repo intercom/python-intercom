@@ -136,7 +136,7 @@ Tag.find_all_for_user(user_id='3')
 # Tag companies
 tag = Tag.tag_companies('red', ["42ea2f1b93891f6a99000427"])
 # Untag companies
-Tag.untag_users('blue', ["42ea2f1b93891f6a99000427"])
+Tag.untag_companies('blue', ["42ea2f1b93891f6a99000427"])
 # Iterate over all tags for company
 Tag.find_all_for_company(id='43357e2c3c77661e25000026')
 Tag.find_all_for_company(company_id='6')
