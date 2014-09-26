@@ -4,11 +4,11 @@ from intercom import utils
 
 class Load(object):
 
-    @classmethod
-    def load(cls, **params):
+    def load(self):
+        cls = self.__class__
         collection = utils.resource_class_to_collection_name(cls)
-        if 'id' in params:
-            response = Intercom.get("/%s/%s" % (collection, params['id']))
+        if hasattr(self, 'id'):
+            response = Intercom.get("/%s/%s" % (collection, self.id))
         else:
             raise Exception(
                 "Cannot load %s as it does not have a valid id." % (cls))

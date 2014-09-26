@@ -33,6 +33,7 @@ CLASS_REGISTRY = {}
 
 
 def create_class_instance(class_name):
+    from intercom.api_operations.load import Load
     from intercom.traits.api_resource import Resource
 
     if class_name in CLASS_REGISTRY:
@@ -43,7 +44,7 @@ def create_class_instance(class_name):
             return super(Meta, mcs).__new__(
                 mcs, str(class_name), bases, attributes)
 
-    class DynamicClass(Resource):
+    class DynamicClass(Resource, Load):
         __metaclass__ = Meta
 
     dyncls = DynamicClass()
