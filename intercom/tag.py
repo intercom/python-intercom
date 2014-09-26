@@ -44,3 +44,14 @@ class Tag(Resource, All, Count, Find, FindAll, Save):
     @classmethod
     def untag_companies(cls, name, companies):
         return cls._tag_collection(name, 'companies', companies, untag=True)
+
+    @classmethod
+    def find_all_for_user(cls, id=None, email=None, user_id=None):
+        params = {}
+        if id:
+            params['id'] = id
+        if email:
+            params['email'] = email
+        if user_id:
+            params['user_id'] = user_id
+        return Tag.find_all(**params)
