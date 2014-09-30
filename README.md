@@ -187,16 +187,19 @@ for convo Conversation.find_all(type='admin', id=7, open=True):
 # Iterate over closed conversations assigned to an admin
 for convo Conversation.find_all(type='admin', id=7, open=False):
     ...
-# Iterate over closed conversations for assigned an admin, before a certain moment in time
+# Iterate over closed conversations for assigned an admin, before a certain
+# moment in time
 for convo in Conversation.find_all(
         type='admin', id= 7, open= False, before=1374844930):
     ...
 
 # FINDING CONVERSATIONS FOR A USER
-# Iterate over all conversations (read + unread, correct) with a user based on the users email
+# Iterate over all conversations (read + unread, correct) with a user based on
+# the users email
 for convo in Conversation.find_all(email='joe@example.com',type='user'):
     ...
-# Iterate over through all conversations (read + unread) with a user based on the users email
+# Iterate over through all conversations (read + unread) with a user based on 
+# the users email
 for convo in Conversation.find_all(
         email='joe@example.com', type='user', unread=False):
     ...
