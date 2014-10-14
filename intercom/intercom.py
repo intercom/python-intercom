@@ -52,6 +52,11 @@ class ServerError(IntercomError):
     pass
 
 
+class ApiRateLimitExceededError(IntercomError):
+    """ Raised when the API rate limit is exceeded. """
+    pass
+
+
 class ServiceUnavailableError(IntercomError):
     """ Raised when the API cannot be handle a request. """
     pass
@@ -82,6 +87,8 @@ def raise_errors_on_failure(response):
         raise BadGatewayError("Bad gateway.")
     elif response.status_code == 503:
         raise ServiceUnavailableError("Service unavailable.")
+    elif response.status_code == 429:
+        raise ApiRateLimitExceededError("API rate limit exceeded.")
 
 
 class Intercom(object):
@@ -453,7 +460,7 @@ class Intercom(object):
             'event_name': event_name,
             'user_id': user_id,
             'email': email,
-            'created': int(time.time()) 
+            'created': int(time.time())
          }
 
         if isinstance(metadata, dict):
