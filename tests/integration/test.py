@@ -183,6 +183,22 @@ def test_unreachable_endpoints():
         .should.throw(ServiceUnavailableError)
 
 
+@nottest
+@httpretty.activate
+def test_api_rate_limit_exceeded():
+    class ApiRateLimitExceededError(Exception):
+        pass
+    httpretty.register_uri(
+        get, r(r"example\.com"),
+        body=fixture('v1-user'), status=429)
+    Intercom.endpoints = ("http://example.com")
+    User.find.when.called_with(email='somebody@example.com')\
+        .should.throw(ApiRateLimitExceededError)
+    Intercom.endpoints = ("http://example.com", "http://api.example.com")
+    User.find.when.called_with(email='not-found@example.com')\
+        .should.throw(ApiRateLimitExceededError)
+
+
 @httpretty.activate
 @raises(ServiceUnavailableError)
 def test_unreachable():
