@@ -137,8 +137,10 @@ Intercom documentation: `Updating a Tag <http://doc.intercom.io/api/v1/#update-a
 ::
 
     from intercom import Tag
-    tag = Tag.update("Free Trial", "tag",
-        user_ids=["abc123", "def456"])
+    tag = Tag.find_by_name("Free Trial")
+    tag.user_ids = ["abc123", "def456"]
+    tag.tag_or_untag = "tag"
+    tag.save()
 
 
 Impressions
