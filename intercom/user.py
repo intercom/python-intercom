@@ -185,6 +185,16 @@ class User(UserId):
         self['last_seen_ip'] = last_seen_ip
 
     @property
+    def user_agent_data(self):
+        """ Returns the last seen User Agent. """
+        return dict.get(self, 'user_agent_data', None)
+
+    @user_agent_data.setter
+    def user_agent_data(self, user_agent_data):
+        """ Sets the last seen User Agent. """
+        self['user_agent_data'] = user_agent_data
+        
+    @property
     def last_seen_user_agent(self):
         """ Returns the last seen User Agent. """
         return dict.get(self, 'last_seen_user_agent', None)
@@ -253,6 +263,19 @@ class User(UserId):
         """ Sets the timestamp when this User started using your
         application. """
         self['created_at'] = value
+        
+    @property
+    @from_timestamp_property
+    def signed_up_at(self):
+        """ Returns the datetime this User started using your application. """
+        return dict.get(self, 'signed_up_at', None)
+
+    @signed_up_at.setter
+    @to_timestamp_property
+    def signed_up_at(self, value):
+        """ Sets the timestamp when this User started using your
+        application. """
+        self['signed_up_at'] = value
 
     @property
     def social_profiles(self):
