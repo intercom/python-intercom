@@ -14,7 +14,7 @@ All of the API requests are created, and the API responses are parsed here.
 
 """
 
-__version__ = '0.2.13'
+__version__ = '0.3.0'
 
 import functools
 import json
@@ -89,8 +89,7 @@ class Intercom(object):
 
     app_id = None
     api_key = None
-    api_version = 1
-    api_endpoint = 'https://api.intercom.io/v' + str(api_version) + '/'
+    api_endpoint = 'https://api.intercom.io/'
     timeout = DEFAULT_TIMEOUT
 
     @classmethod
@@ -229,7 +228,7 @@ class Intercom(object):
         u'Guido'
 
         """
-        return Intercom._create_or_update_user('PUT', **kwargs)
+        return Intercom._create_or_update_user('POST', **kwargs)
 
     @classmethod
     def delete_user(cls, user_id=None, email=None):

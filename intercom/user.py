@@ -46,9 +46,8 @@ class User(UserId):
     """ Object representing http://docs.intercom.io/#UserData).  """
 
     attributes = (
-        'user_id', 'email', 'name', 'created_at', 'custom_data',
-        'last_seen_ip', 'last_seen_user_agent', 'companies',
-        'last_impression_at', 'last_request_at', 'unsubscribed_from_emails')
+        'user_id', 'email', 'name', 'signed_up_at', 'custom_attributes',
+        'last_seen_ip', 'user_agent_data', 'companies', 'last_request_at', 'update_last_request_at', 'last_seen_user_agent', 'unsubscribed_from_emails')
 
     @classmethod
     def find(cls, user_id=None, email=None):
@@ -186,6 +185,16 @@ class User(UserId):
         self['last_seen_ip'] = last_seen_ip
 
     @property
+    def user_agent_data(self):
+        """ Returns the last seen User Agent. """
+        return dict.get(self, 'user_agent_data', None)
+
+    @user_agent_data.setter
+    def user_agent_data(self, user_agent_data):
+        """ Sets the last seen User Agent. """
+        self['user_agent_data'] = user_agent_data
+        
+    @property
     def last_seen_user_agent(self):
         """ Returns the last seen User Agent. """
         return dict.get(self, 'last_seen_user_agent', None)
@@ -195,6 +204,16 @@ class User(UserId):
         """ Sets the last seen User Agent. """
         self['last_seen_user_agent'] = last_seen_user_agent
 
+    @property
+    def update_last_request_at(self):
+        """ Returns the last seen User Agent. """
+        return dict.get(self, 'update_last_request_at', None)
+
+    @update_last_request_at.setter
+    def update_last_request_at(self, update_last_request_at):
+        """ Sets the last seen User Agent. """
+        self['update_last_request_at'] = update_last_request_at
+        
     @property
     @from_timestamp_property
     def last_request_at(self):
@@ -244,6 +263,19 @@ class User(UserId):
         """ Sets the timestamp when this User started using your
         application. """
         self['created_at'] = value
+        
+    @property
+    @from_timestamp_property
+    def signed_up_at(self):
+        """ Returns the datetime this User started using your application. """
+        return dict.get(self, 'signed_up_at', None)
+
+    @signed_up_at.setter
+    @to_timestamp_property
+    def signed_up_at(self, value):
+        """ Sets the timestamp when this User started using your
+        application. """
+        self['signed_up_at'] = value
 
     @property
     def social_profiles(self):
@@ -353,8 +385,8 @@ class User(UserId):
             raise ValueError("companies must be set as a list")
 
     @property
-    def custom_data(self):
-        """ Returns a CustomData object for this User.
+    def custom_attributes(self):
+        """ Returns a CustomAttributes object for this User.
 
         >>> users = User.all()
         >>> custom_data = users[0].custom_data
@@ -364,15 +396,15 @@ class User(UserId):
         155.5
 
         """
-        data = dict.get(self, 'custom_data', None)
-        if not isinstance(data, CustomData):
-            data = CustomData(data)
-            dict.__setitem__(self, 'custom_data', data)
+        data = dict.get(self, 'custom_attributes', None)
+        if not isinstance(data, CustomAttributes):
+            data = CustomAttributes(data)
+            dict.__setitem__(self, 'custom_attributes', data)
         return data
 
-    @custom_data.setter
-    def custom_data(self, custom_data):
-        """ Sets the CustomData for this User.
+    @custom_attributes.setter
+    def custom_attributes(self, custom_attributes):
+        """ Sets the CustomAttributes for this User.
 
         >>> user = User(email="somebody@example.com")
         >>> user.custom_data = { 'max_monthly_spend': 200 }
@@ -383,17 +415,17 @@ class User(UserId):
         3
 
         """
-        if not isinstance(custom_data, CustomData):
-            custom_data = CustomData(custom_data)
-        self['custom_data'] = custom_data
+        if not isinstance(custom_attributes, CustomAttributes):
+            custom_attributes = CustomAttributes(custom_attributes)
+        self['custom_attributes'] = custom_attributes
 
 
-class CustomData(dict):
+class CustomAttributes(dict):
     """ A dict that limits keys to strings, and values to real numbers
     and strings.
 
-    >>> from intercom.user import CustomData
-    >>> data = CustomData()
+    >>> from intercom.user import CustomAttributes
+    >>> data = CustomAttributes()
     >>> data['a_dict'] = {}
     Traceback (most recent call last):
         ...
@@ -409,13 +441,14 @@ class CustomData(dict):
         """ Limits the keys and values. """
         if not (
             isinstance(value, numbers.Real) or
-            isinstance(value, basestring)
+            isinstance(value, basestring) or
+            isinstance(value, bool)
         ):
             raise ValueError(
-                "custom data only allows string and real number values")
+                "custom attributes only allows string and real number values")
         if not isinstance(key, basestring):
-            raise ValueError("custom data only allows string keys")
-        super(CustomData, self).__setitem__(key, value)
+            raise ValueError("custom attributes only allows string keys")
+        super(CustomAttributes, self).__setitem__(key, value)
 
 
 class SocialProfile(dict):
