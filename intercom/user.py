@@ -441,7 +441,8 @@ class CustomAttributes(dict):
         """ Limits the keys and values. """
         if not (
             isinstance(value, numbers.Real) or
-            isinstance(value, basestring)
+            isinstance(value, basestring) or
+            isinstance(value, bool)
         ):
             raise ValueError(
                 "custom attributes only allows string and real number values")
