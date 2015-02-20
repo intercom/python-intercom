@@ -73,7 +73,7 @@ def api_call(func_to_decorate):
 
 def raise_errors_on_failure(response):
     if response.status_code == 404:
-        raise ResourceNotFound("Not found.")
+        raise ResourceNotFound("Either the URL or the user being referred to was not found.")
     elif response.status_code == 401:
         raise AuthenticationError("Invalid API key/username provided.")
     elif response.status_code == 500:
