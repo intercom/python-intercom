@@ -111,15 +111,15 @@ class Intercom(object):
         req_params['headers'] = headers
 
         resp = requests.request(
-            method, url, timeout=Intercom.timeout,
-            auth=(Intercom.app_id, Intercom.api_key), **req_params)
+            method, url, timeout=cls.timeout,
+            auth=(cls.app_id, cls.api_key), **req_params)
         return resp
 
     @classmethod
     def _create_or_update_user(cls, method, **kwargs):
         """ Used by create_user and update_user. """
-        user_dict = Intercom._call(
-            method, Intercom.api_endpoint + 'users', params=kwargs)
+        user_dict = cls._call(
+            method, cls.api_endpoint + 'users', params=kwargs)
         return user_dict
 
     @classmethod
@@ -169,8 +169,8 @@ class Intercom(object):
         """
 
         params = {'email': email, 'user_id': user_id}
-        user_dict = Intercom._call(
-            'GET', Intercom.api_endpoint + 'users', params=params)
+        user_dict = cls._call(
+            'GET', cls.api_endpoint + 'users', params=params)
         return user_dict
 
     @classmethod
@@ -215,7 +215,7 @@ class Intercom(object):
         1300000000
 
         """
-        return Intercom._create_or_update_user('POST', **kwargs)
+        return cls._create_or_update_user('POST', **kwargs)
 
     @classmethod
     def update_user(cls, **kwargs):
@@ -229,7 +229,7 @@ class Intercom(object):
         u'Guido'
 
         """
-        return Intercom._create_or_update_user('PUT', **kwargs)
+        return cls._create_or_update_user('PUT', **kwargs)
 
     @classmethod
     def delete_user(cls, user_id=None, email=None):
@@ -244,8 +244,8 @@ class Intercom(object):
             'email': email,
             'user_id': user_id
         }
-        user_dict = Intercom._call(
-            'DELETE', Intercom.api_endpoint + 'users', params)
+        user_dict = cls._call(
+            'DELETE', cls.api_endpoint + 'users', params)
         return user_dict
 
     @classmethod
@@ -267,8 +267,8 @@ class Intercom(object):
             'user_agent': user_agent,
             'location': location
         }
-        user_dict = Intercom._call(
-            'POST', Intercom.api_endpoint + 'users/impressions', params=params)
+        user_dict = cls._call(
+            'POST', cls.api_endpoint + 'users/impressions', params=params)
         return user_dict
 
     @classmethod
@@ -288,8 +288,8 @@ class Intercom(object):
             'user_id': user_id,
             'body': body
         }
-        user_dict = Intercom._call(
-            'POST', Intercom.api_endpoint + 'users/notes', params=params)
+        user_dict = cls._call(
+            'POST', cls.api_endpoint + 'users/notes', params=params)
         return user_dict
 
     @classmethod
@@ -313,8 +313,8 @@ class Intercom(object):
             'user_id': user_id,
             'thread_id': thread_id
         }
-        msg_dict = Intercom._call(
-            'GET', Intercom.api_endpoint + 'users/message_threads',
+        msg_dict = cls._call(
+            'GET', cls.api_endpoint + 'users/message_threads',
             params=params)
         return msg_dict
 
@@ -338,8 +338,8 @@ class Intercom(object):
             'user_id': user_id,
             'body': body
         }
-        user_dict = Intercom._call(
-            'POST', Intercom.api_endpoint + 'users/message_threads',
+        user_dict = cls._call(
+            'POST', cls.api_endpoint + 'users/message_threads',
             params=params)
         return user_dict
 
@@ -368,8 +368,8 @@ class Intercom(object):
             'body': body,
             'read': read
         }
-        user_dict = Intercom._call(
-            'PUT', Intercom.api_endpoint + 'users/message_threads',
+        user_dict = cls._call(
+            'PUT', cls.api_endpoint + 'users/message_threads',
             params=params)
         return user_dict
 
@@ -395,8 +395,8 @@ class Intercom(object):
             'user_ids': user_ids,
             'emails': emails
         }
-        tag_dict = Intercom._call(
-            'POST', Intercom.api_endpoint + 'tags', params=params)
+        tag_dict = cls._call(
+            'POST', cls.api_endpoint + 'tags', params=params)
         return tag_dict
 
     @classmethod
@@ -421,8 +421,8 @@ class Intercom(object):
             'user_ids': user_ids,
             'emails': emails
         }
-        tag_dict = Intercom._call(
-            'PUT', Intercom.api_endpoint + 'tags', params=params)
+        tag_dict = cls._call(
+            'PUT', cls.api_endpoint + 'tags', params=params)
         return tag_dict
 
     @classmethod
@@ -440,8 +440,8 @@ class Intercom(object):
         """
 
         params = {'name': name}
-        tag_dict = Intercom._call(
-            'GET', Intercom.api_endpoint + 'tags', params=params)
+        tag_dict = cls._call(
+            'GET', cls.api_endpoint + 'tags', params=params)
         return tag_dict
 
     @classmethod
@@ -453,12 +453,12 @@ class Intercom(object):
             'event_name': event_name,
             'user_id': user_id,
             'email': email,
-            'created': int(time.time()) 
+            'created': int(time.time())
          }
 
         if isinstance(metadata, dict):
             params['metadata'] = metadata
 
-        call = Intercom._call(
-             'POST', Intercom.api_endpoint + 'events', params=params)
+        call = cls._call(
+             'POST', cls.api_endpoint + 'events', params=params)
         return call
