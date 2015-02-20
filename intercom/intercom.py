@@ -454,11 +454,11 @@ class Intercom(object):
             'user_id': user_id,
             'email': email,
             'created': int(time.time())
-         }
+        }
 
         if isinstance(metadata, dict):
             params['metadata'] = metadata
 
         call = cls._call(
-             'POST', cls.api_endpoint + 'events', params=params)
+             'POST', 'https://api.intercom.io/events', params=params)
         return call
