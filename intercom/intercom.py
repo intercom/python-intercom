@@ -91,6 +91,8 @@ class Intercom(object):
     api_key = None
     api_version = 1
     api_endpoint = 'https://api.intercom.io/v' + str(api_version) + '/'
+    api_endpoint_v2 = 'https://api.intercom.io/'
+
     timeout = DEFAULT_TIMEOUT
 
     @classmethod
@@ -436,7 +438,6 @@ class Intercom(object):
         u'Free Trial'
         >>> tag['tagged_user_count']
         2
-
         """
 
         params = {'name': name}
@@ -461,4 +462,17 @@ class Intercom(object):
 
         call = cls._call(
              'POST', 'https://api.intercom.io/events', params=params)
+        return call
+
+    @classmethod
+    def create_or_update_company(cls, company):
+        """
+        :param dict company: if `company_id` in `company` is not found, a new
+         company will be created. See [1] for more info on dictionary
+         attributes, etc.
+
+        [1] https://doc.intercom.io/api/#create-or-update-company
+        """
+        url = "{}companies".format(cls.api_endpoint_v2)
+        call = cls._call('POST', url, params=company)
         return call
