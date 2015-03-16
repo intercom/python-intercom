@@ -40,7 +40,7 @@ class DescribeIntercomTraitsApiResource:
         self.api_resource.foo_at = 1401200468
         expect(1401200468) == self.api_resource_obj.__getattribute__('foo_at')
 
-    def it_accepts_unix_timestamps_into_dynamically_defined_data_getters(self):
+    def it_exposes_dates_correctly_for_dynamically_defined_getters(self):
         self.api_resource.foo_at = 1401200468
         expect(datetime.fromtimestamp(1401200468)) == self.api_resource.foo_at
 
