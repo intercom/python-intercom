@@ -32,6 +32,8 @@ class JsonDeserializer(object):
             return self.deserialize_object(self._json)
 
     def deserialize_collection(self, collection_json):
+        if collection_json is None:
+            return []
         return [JsonDeserializer(object_json).deserialize()
                 for object_json in collection_json]
 
