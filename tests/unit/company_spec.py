@@ -9,7 +9,7 @@ get = httpretty.GET
 r = re.compile
 
 
-class DescribeIntercomCompany2:
+class DescribeIntercomCompany:
 
     @httpretty.activate
     def it_raises_error_if_no_response_on_find(self):
