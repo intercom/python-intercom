@@ -1,3 +1,4 @@
+from intercom import HttpError
 from intercom import Intercom
 from intercom import utils
 
@@ -12,4 +13,8 @@ class Load(object):
         else:
             raise Exception(
                 "Cannot load %s as it does not have a valid id." % (cls))
+
+        if response is None:
+            raise HttpError('Http Error - No response entity returned')
+
         return cls(**response)

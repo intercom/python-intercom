@@ -1,3 +1,4 @@
+from intercom import HttpError
 from intercom import Intercom
 
 
@@ -63,6 +64,9 @@ class CollectionProxy(object):
             raise StopIteration
 
         response = Intercom.get(url, **params)
+        if response is None:
+            raise HttpError('Http Error - No response entity returned')
+
         collection = response[self.collection]
         # if there are no resources in the response stop iterating
         if collection is None:

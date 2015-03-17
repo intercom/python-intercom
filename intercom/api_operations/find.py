@@ -1,3 +1,4 @@
+from intercom import HttpError
 from intercom import Intercom
 from intercom import utils
 
@@ -11,4 +12,8 @@ class Find(object):
             response = Intercom.get("/%s/%s" % (collection, params['id']))
         else:
             response = Intercom.get("/%s" % (collection), **params)
+
+        if response is None:
+            raise HttpError('Http Error - No response entity returned')
+
         return cls(**response)

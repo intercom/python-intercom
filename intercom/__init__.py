@@ -3,6 +3,7 @@
 from datetime import datetime
 from json import JSONEncoder
 from .errors import ArgumentError
+from .errors import HttpError
 from .lib.setter_property import SetterProperty
 
 import copy
