@@ -404,3 +404,18 @@ BadRequestError
 RateLimitExceeded
 AttributeNotSetError # Raised when you try to call a getter that does not exist on an object
 ```
+
+
+## Running the Tests
+
+Unit tests:
+
+```bash
+PYTHONPATH=. describe tests/unit
+```
+
+Integration tests:
+
+```bash
+PYTHONPATH=. INTERCOM_APP_ID=xxx INTERCOM_APP_API_KEY=xxx nosetests tests/integration
+```
