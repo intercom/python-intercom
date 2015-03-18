@@ -198,7 +198,7 @@ for convo in Conversation.find_all(
 # the users email
 for convo in Conversation.find_all(email='joe@example.com',type='user'):
     ...
-# Iterate over through all conversations (read + unread) with a user based on 
+# Iterate over through all conversations (read + unread) with a user based on
 # the users email
 for convo in Conversation.find_all(
         email='joe@example.com', type='user', unread=False):
@@ -226,7 +226,7 @@ conversation.reply(
     message_type= comment', body='foo')
 # Admin (identified by email) replies with a comment
 conversation.reply(
-    type='admin', email='bob@example.com', 
+    type='admin', email='bob@example.com',
     message_type='comment', body='bar')
 
 # MARKING A CONVERSATION AS READ
@@ -271,7 +271,7 @@ Tag.count()
 
 ``` python
 # InApp message from admin to user
-Message.create({
+Message.create(**{
     "message_type": "inapp",
     "body": "What's up :)",
     "from": {
@@ -285,7 +285,7 @@ Message.create({
 })
 
 # Email message from admin to user
-Message.create({
+Message.create(**{
     "message_type": "email",
     "subject": "Hey there",
     "body": "What's up :)",
@@ -301,7 +301,7 @@ Message.create({
 })
 
 # Message from a user
-Message.create({
+Message.create(**{
     "from": {
         "type": "user",
         "id": "536e564f316c83104c000020"
