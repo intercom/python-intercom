@@ -103,6 +103,15 @@ class DescribeIntercomUser:
         expect(user.unsubscribed_from_emails)
         expect("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11") == user.user_agent_data
 
+    def it_allows_update_last_request_at(self):
+        payload = {
+            'user_id': '1224242',
+            'update_last_request_at': True,
+            'custom_attributes': {}
+        }
+        httpretty.register_uri(post, r("/users"), body=json.dumps(payload))
+        User(user_id='1224242', update_last_request_at=True)
+
     def it_allows_easy_setting_of_custom_data(self):
         now = datetime.utcnow()
         now_ts = time.mktime(now.timetuple())
@@ -163,19 +172,18 @@ class DescribeIntercomUser:
         expect(user.email) == 'jo@example.com'
         expect(user.custom_attributes) == {}
 
-
     @httpretty.activate
     def it_saves_a_user_with_a_company(self):
         user = User(
             email="jo@example.com", user_id="i-1224242",
-            companies=[{'company_id': 6, 'name': 'Intercom'},{'company_id': 8, 'name': 'Intercom2'}])
-     
+            company={'company_id': 6, 'name': 'Intercom'})
+
         body = json.dumps({
             'email': 'jo@example.com',
             'user_id': 'i-1224242',
             'companies': [{
                 'company_id': 6,
-                'name': 'Intercom2'
+                'name': 'Intercom'
             }]
         })
         httpretty.register_uri(
@@ -183,9 +191,45 @@ class DescribeIntercomUser:
         user.save()
         expect(user.email) == 'jo@example.com'
         expect(len(user.companies)) == 1
-        # from intercom.user import create_class_instance
-        # Company = create_class_instance('Company')
-        # expect(user.companies[0]).to.be_instance_of(Company.__class__)
+
+    @httpretty.activate
+    def it_saves_a_user_with_companies(self):
+        user = User(
+            email="jo@example.com", user_id="i-1224242",
+            companies=[{'company_id': 6, 'name': 'Intercom'}])
+        body = json.dumps({
+            'email': 'jo@example.com',
+            'user_id': 'i-1224242',
+            'companies': [{
+                'company_id': 6,
+                'name': 'Intercom'
+            }]
+        })
+        httpretty.register_uri(
+            post, r(r"/users"), body=body)
+        user.save()
+        expect(user.email) == 'jo@example.com'
+        expect(len(user.companies)) == 1
+
+    @httpretty.activate
+    def it_can_save_a_user_with_a_none_email(self):
+        user = User(
+            email=None, user_id="i-1224242",
+            companies=[{'company_id': 6, 'name': 'Intercom'}])
+        body = json.dumps({
+            'custom_attributes': {},
+            'email': None,
+            'user_id': 'i-1224242',
+            'companies': [{
+                'company_id': 6,
+                'name': 'Intercom'
+            }]
+        })
+        httpretty.register_uri(
+            post, r(r"/users"), body=body)
+        user.save()
+        expect(user.email) is None
+        expect(user.user_id) is 'i-1224242'
 
     @httpretty.activate
     def it_deletes_a_user(self):
