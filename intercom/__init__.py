@@ -3,7 +3,7 @@
 from datetime import datetime
 from json import JSONEncoder
 from .errors import ArgumentError
-from .errors import HttpError
+from .errors import HttpError  # noqa
 from .lib.setter_property import SetterProperty
 
 import copy
@@ -13,7 +13,7 @@ import re
 import requests
 import time
 
-__version__ = '2.0-alpha'
+__version__ = '2.0.alpha'
 
 
 RELATED_DOCS_TEXT = "See https://github.com/jkeyes/python-intercom \
@@ -39,9 +39,109 @@ class _Config(object):
     endpoint_randomized_at = None
 
 
+class IntercomType(type):  # noqa
+
+    @property
+    def app_id(self):
+        return self._config.app_id
+
+    @app_id.setter
+    def app_id(self, value):
+        self._config.app_id = value
+
+    @property
+    def app_api_key(self):
+        return self._config.app_api_key
+
+    @app_api_key.setter
+    def app_api_key(self, value):
+        self._config.app_api_key = value
+
+    @property
+    def _random_endpoint(self):
+        if self.endpoints:
+            endpoints = copy.copy(self.endpoints)
+            random.shuffle(endpoints)
+            return endpoints[0]
+
+    @property
+    def _alternative_random_endpoint(self):
+        endpoints = copy.copy(self.endpoints)
+        if self.current_endpoint in endpoints:
+            endpoints.remove(self.current_endpoint)
+        random.shuffle(endpoints)
+        if endpoints:
+            return endpoints[0]
+
+    @property
+    def _target_base_url(self):
+        if None in [self.app_id, self.app_api_key]:
+            raise ArgumentError('%s %s' % (
+                CONFIGURATION_REQUIRED_TEXT, RELATED_DOCS_TEXT))
+        if self._config.target_base_url is None:
+            basic_auth_part = '%s:%s@' % (self.app_id, self.app_api_key)
+            if self.current_endpoint:
+                self._config.target_base_url = re.sub(
+                    r'(https?:\/\/)(.*)',
+                    '\g<1>%s\g<2>' % (basic_auth_part),
+                    self.current_endpoint)
+        return self._config.target_base_url
+
+    @property
+    def hostname(self):
+        return self._config.hostname
+
+    @hostname.setter
+    def hostname(self, value):
+        self._config.hostname = value
+        self.current_endpoint = None
+        self.endpoints = None
+
+    @property
+    def protocol(self):
+        return self._config.protocol
+
+    @protocol.setter
+    def protocol(self, value):
+        self._config.protocol = value
+        self.current_endpoint = None
+        self.endpoints = None
+
+    @property
+    def current_endpoint(self):
+        now = time.mktime(datetime.utcnow().timetuple())
+        expired = self._config.endpoint_randomized_at < (now - (60 * 5))
+        if self._config.endpoint_randomized_at is None or expired:
+            self._config.endpoint_randomized_at = now
+            self.current_endpoint = self._random_endpoint
+        return self._config.current_endpoint
+
+    @current_endpoint.setter
+    def current_endpoint(self, value):
+        self._config.current_endpoint = value
+        self._config.target_base_url = None
+
+    @property
+    def endpoints(self):
+        if not self._config.endpoints:
+            return ['%s://%s' % (self.protocol, self.hostname)]
+        else:
+            return self._config.endpoints
+
+    @endpoints.setter
+    def endpoints(self, value):
+        self._config.endpoints = value
+        self.current_endpoint = self._random_endpoint
+
+    @SetterProperty
+    def endpoint(self, value):
+        self.endpoints = [value]
+
+
 class Intercom(object):
     _config = _Config()
     _class_register = {}
+    __metaclass__ = IntercomType
 
     @classmethod
     def send_request_to_path(cls, method, path, params=None):
@@ -68,6 +168,7 @@ class Intercom(object):
             method, url, timeout=cls._config.timeout,
             auth=(Intercom.app_id, Intercom.app_api_key), **req_params)
 
+        print resp.status_code, resp.content
         if resp.content:
             return json.loads(resp.content)
 
@@ -86,104 +187,6 @@ class Intercom(object):
     @classmethod
     def delete(cls, path, **params):
         return cls.send_request_to_path('DELETE', path, params)
-
-    class __metaclass__(type):
-
-        @property
-        def app_id(cls):
-            return cls._config.app_id
-
-        @app_id.setter
-        def app_id(cls, value):
-            cls._config.app_id = value
-
-        @property
-        def app_api_key(cls):
-            return cls._config.app_api_key
-
-        @app_api_key.setter
-        def app_api_key(cls, value):
-            cls._config.app_api_key = value
-
-        @property
-        def _random_endpoint(cls):
-            if cls.endpoints:
-                endpoints = copy.copy(cls.endpoints)
-                random.shuffle(endpoints)
-                return endpoints[0]
-
-        @property
-        def _alternative_random_endpoint(cls):
-            endpoints = copy.copy(cls.endpoints)
-            if cls.current_endpoint in endpoints:
-                endpoints.remove(cls.current_endpoint)
-            random.shuffle(endpoints)
-            if endpoints:
-                return endpoints[0]
-
-        @property
-        def _target_base_url(cls):
-            if None in [cls.app_id, cls.app_api_key]:
-                raise ArgumentError('%s %s' % (
-                    CONFIGURATION_REQUIRED_TEXT, RELATED_DOCS_TEXT))
-            if cls._config.target_base_url is None:
-                basic_auth_part = '%s:%s@' % (cls.app_id, cls.app_api_key)
-                if cls.current_endpoint:
-                    cls._config.target_base_url = re.sub(
-                        r'(https?:\/\/)(.*)',
-                        '\g<1>%s\g<2>' % (basic_auth_part),
-                        cls.current_endpoint)
-            return cls._config.target_base_url
-
-        @property
-        def hostname(cls):
-            return cls._config.hostname
-
-        @hostname.setter
-        def hostname(cls, value):
-            cls._config.hostname = value
-            cls.current_endpoint = None
-            cls.endpoints = None
-
-        @property
-        def protocol(cls):
-            return cls._config.protocol
-
-        @protocol.setter
-        def protocol(cls, value):
-            cls._config.protocol = value
-            cls.current_endpoint = None
-            cls.endpoints = None
-
-        @property
-        def current_endpoint(cls):
-            now = time.mktime(datetime.utcnow().timetuple())
-            expired = cls._config.endpoint_randomized_at < (now - (60 * 5))
-            if cls._config.endpoint_randomized_at is None or expired:
-                cls._config.endpoint_randomized_at = now
-                cls.current_endpoint = cls._random_endpoint
-            return cls._config.current_endpoint
-
-        @current_endpoint.setter
-        def current_endpoint(cls, value):
-            cls._config.current_endpoint = value
-            cls._config.target_base_url = None
-
-        @property
-        def endpoints(cls):
-            if not cls._config.endpoints:
-                return ['%s://%s' % (cls.protocol, cls.hostname)]
-            else:
-                return cls._config.endpoints
-
-        @endpoints.setter
-        def endpoints(cls, value):
-            cls._config.endpoints = value
-            cls.current_endpoint = cls._random_endpoint
-
-        @SetterProperty
-        def endpoint(cls, value):
-            cls.endpoints = [value]
 
 
 class ResourceEncoder(JSONEncoder):
