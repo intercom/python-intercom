@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
+
 import httpretty
 import json
-import re
 import mock
+import re
 import time
 
-from describe import expect
 from datetime import datetime
+from describe import expect
 from intercom.collection_proxy import CollectionProxy
 from intercom.lib.flat_store import FlatStore
 from intercom.user import User
@@ -22,10 +24,11 @@ r = re.compile
 
 class DescribeIntercomUser:
 
-
     def it_to_dict_itself(self):
         created_at = datetime.utcnow()
-        user = User(email="jim@example.com", user_id="12345", created_at=created_at, name="Jim Bob")
+        user = User(
+            email="jim@example.com", user_id="12345",
+            created_at=created_at, name="Jim Bob")
         as_dict = user.to_dict
         expect(as_dict["email"]) == "jim@example.com"
         expect(as_dict["user_id"]) == "12345"
@@ -35,13 +38,14 @@ class DescribeIntercomUser:
     def it_presents_created_at_and_last_impression_at_as_datetime(self):
         now = datetime.utcnow()
         now_ts = time.mktime(now.timetuple())
-        user = User.from_api({'created_at': now_ts, 'last_impression_at': now_ts})
+        user = User.from_api(
+            {'created_at': now_ts, 'last_impression_at': now_ts})
         expect(user.created_at).to.be_instance_of(datetime)
         expect(now.strftime('%c')) == user.created_at.strftime('%c')
         expect(user.last_impression_at).to.be_instance_of(datetime)
         expect(now.strftime('%c')) == user.last_impression_at.strftime('%c')
 
-    def it_throws_an_attribute_error_on_trying_to_access_an_attribute_that_has_not_been_set(self):
+    def it_throws_an_attribute_error_on_trying_to_access_an_attribute_that_has_not_been_set(self):  # noqa
         with expect.to_raise_error(AttributeError):
             user = User()
             user.foo_property
@@ -57,12 +61,13 @@ class DescribeIntercomUser:
         expect(1393613864) == time.mktime(user.remote_created_at.timetuple())
         expect(1401970114) == time.mktime(user.updated_at.timetuple())
 
-        Avatar = create_class_instance('Avatar')
-        Company = create_class_instance('Company')
-        SocialProfile = create_class_instance('SocialProfile')
-        LocationData = create_class_instance('LocationData')
+        Avatar = create_class_instance('Avatar')  # noqa
+        Company = create_class_instance('Company')  # noqa
+        SocialProfile = create_class_instance('SocialProfile')  # noqa
+        LocationData = create_class_instance('LocationData')  # noqa
         expect(user.avatar).to.be_instance_of(Avatar.__class__)
-        expect('https://graph.facebook.com/1/picture?width=24&height=24') == user.avatar.image_url
+        img_url = 'https://graph.facebook.com/1/picture?width=24&height=24'
+        expect(img_url) == user.avatar.image_url
 
         expect(user.companies).to.be_instance_of(list)
         expect(1) == len(user.companies)
@@ -71,21 +76,24 @@ class DescribeIntercomUser:
         expect('bbbbbbbbbbbbbbbbbbbbbbbb') == user.companies[0].id
         expect('the-app-id') == user.companies[0].app_id
         expect('Company 1') == user.companies[0].name
-        expect(1390936440) == time.mktime(user.companies[0].remote_created_at.timetuple())
-        expect(1401970114) == time.mktime(user.companies[0].created_at.timetuple())
-        expect(1401970114) == time.mktime(user.companies[0].updated_at.timetuple())
-        expect(1401970113) == time.mktime(user.companies[0].last_request_at.timetuple())
+        expect(1390936440) == time.mktime(
+            user.companies[0].remote_created_at.timetuple())
+        expect(1401970114) == time.mktime(
+            user.companies[0].created_at.timetuple())
+        expect(1401970114) == time.mktime(
+            user.companies[0].updated_at.timetuple())
+        expect(1401970113) == time.mktime(
+            user.companies[0].last_request_at.timetuple())
         expect(0) == user.companies[0].monthly_spend
         expect(0) == user.companies[0].session_count
         expect(1) == user.companies[0].user_count
         expect([]) == user.companies[0].tag_ids
 
-
         expect(user.custom_attributes).to.be_instance_of(FlatStore)
         expect('b') == user.custom_attributes["a"]
         expect(2) == user.custom_attributes["b"]
 
-        expect(4) ==  len(user.social_profiles)
+        expect(4) == len(user.social_profiles)
         twitter_account = user.social_profiles[0]
         expect(twitter_account).to.be_instance_of(SocialProfile.__class__)
         expect('twitter') == twitter_account.name
@@ -101,7 +109,7 @@ class DescribeIntercomUser:
         expect('IRL') == user.location_data.country_code
 
         expect(user.unsubscribed_from_emails)
-        expect("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11") == user.user_agent_data
+        expect("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11") == user.user_agent_data  # noqa
 
     def it_allows_update_last_request_at(self):
         payload = {
@@ -120,7 +128,8 @@ class DescribeIntercomUser:
         user.custom_attributes["mad"] = 123
         user.custom_attributes["other"] = now_ts
         user.custom_attributes["thing"] = "yay"
-        expect(user.to_dict["custom_attributes"]) == {"mad": 123, "other": now_ts, "thing": "yay"}
+        attrs = {"mad": 123, "other": now_ts, "thing": "yay"}
+        expect(user.to_dict["custom_attributes"]) == attrs
 
     def it_allows_easy_setting_of_multiple_companies(self):
         user = User()
@@ -137,10 +146,10 @@ class DescribeIntercomUser:
             user.custom_attributes["thing"] = [1]
 
         with expect.to_raise_error(ValueError):
-            user.custom_attributes["thing"] = { 1: 2 }
+            user.custom_attributes["thing"] = {1: 2}
 
         with expect.to_raise_error(ValueError):
-            user.custom_attributes = { 1: { 2: 3}}
+            user.custom_attributes = {1: {2: 3}}
 
         user = User.from_api(test_user())
         with expect.to_raise_error(ValueError):
@@ -160,7 +169,7 @@ class DescribeIntercomUser:
     @httpretty.activate
     def it_saves_a_user_always_sends_custom_attributes(self):
         user = User(email="jo@example.com", user_id="i-1224242")
-     
+
         body = json.dumps({
             'email': 'jo@example.com',
             'user_id': 'i-1224242',
@@ -272,7 +281,7 @@ class DescribeIntercomUser:
         }
         httpretty.register_uri(post, r("/users"), body=json.dumps(payload))
         user = User.create(email="jo@example.com", remote_created_at=None)
-        expect(user.remote_created_at) == None
+        expect(user.remote_created_at) is None
 
     @httpretty.activate
     def it_gets_sets_rw_keys(self):
@@ -298,8 +307,8 @@ class DescribeIntercomUser:
         user = User.from_api({'new_param': 'some value'})
         expect('some value') == user.new_param
 
-    def it_returns_a_CollectionProxy_for_all_without_making_any_requests(self):
-        with mock.patch('intercom.Intercom.send_request_to_path', new_callable=mock.NonCallableMock):
+    def it_returns_a_collectionproxy_for_all_without_making_any_requests(self):
+        with mock.patch('intercom.Intercom.send_request_to_path', new_callable=mock.NonCallableMock):  # noqa
             res = User.all()
             expect(res).to.be_instance_of(CollectionProxy)
 
@@ -340,7 +349,7 @@ class DescribeIntercomUser:
             self.user.increment('new_field', 3)
             expect(self.user.to_dict['custom_attributes']['new_field']) == 3
 
-        def it_can_call_increment_on_the_same_key_twice_and_increment_by_2(self):
+        def it_can_call_increment_on_the_same_key_twice_and_increment_by_2(self):  # noqa
             self.user.increment('mad')
             self.user.increment('mad')
             expect(self.user.to_dict['custom_attributes']['mad']) == 125
