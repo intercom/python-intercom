@@ -2,7 +2,7 @@ import httpretty
 import json
 import re
 from describe import expect
-from intercom.user import User
+from intercom import User
 from tests.unit import page_of_users
 
 get = httpretty.GET

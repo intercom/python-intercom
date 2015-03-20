@@ -4,8 +4,8 @@ import re
 import time
 from datetime import datetime
 from describe import expect
-from intercom.user import User
-from intercom.message import Message
+from intercom import User
+from intercom import Message
 
 post = httpretty.POST
 r = re.compile

@@ -10,7 +10,7 @@ from datetime import datetime
 from describe import expect
 from intercom.collection_proxy import CollectionProxy
 from intercom.lib.flat_store import FlatStore
-from intercom.user import User
+from intercom import User
 from intercom.utils import create_class_instance
 from tests.unit import test_user
 
@@ -308,7 +308,7 @@ class DescribeIntercomUser:
         expect('some value') == user.new_param
 
     def it_returns_a_collectionproxy_for_all_without_making_any_requests(self):
-        with mock.patch('intercom.Intercom.send_request_to_path', new_callable=mock.NonCallableMock):  # noqa
+        with mock.patch('intercom.Request.send_request_to_path', new_callable=mock.NonCallableMock):  # noqa
             res = User.all()
             expect(res).to.be_instance_of(CollectionProxy)
 

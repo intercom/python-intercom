@@ -3,7 +3,7 @@ import json
 import re
 
 from describe import expect
-from intercom.subscription import Subscription
+from intercom import Subscription
 from tests.unit import test_subscription
 
 

@@ -1,4 +1,3 @@
-from intercom import Intercom
 from intercom import utils
 
 
@@ -6,6 +5,7 @@ class Save(object):
 
     @classmethod
     def create(cls, **params):
+        from intercom import Intercom
         collection = utils.resource_class_to_collection_name(cls)
         response = Intercom.post("/%s/" % (collection), **params)
         return cls(**response)
@@ -34,6 +34,7 @@ class Save(object):
         return self
 
     def save(self):
+        from intercom import Intercom
         collection = utils.resource_class_to_collection_name(self.__class__)
         params = self.attributes
         if self.id_present and not self.posted_updates:

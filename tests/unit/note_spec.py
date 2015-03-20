@@ -2,7 +2,7 @@ import httpretty
 import json
 import re
 from describe import expect
-from intercom.note import Note
+from intercom import Note
 
 post = httpretty.POST
 r = re.compile

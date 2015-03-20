@@ -1,19 +1,30 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from json import JSONEncoder
 from .errors import ArgumentError
 from .errors import HttpError  # noqa
 from .lib.setter_property import SetterProperty
+from .request import Request
+from .admin import Admin
+from .company import Company
+from .event import Event
+from .message import Message
+from .note import Note
+from .notification import Notification
+from .user import User
+from .subscription import Subscription
+from .tag import Tag
 
 import copy
-import json
 import random
 import re
-import requests
 import time
 
 __version__ = '2.0.alpha'
+
+__all__ = (
+    Admin, Company, Event, Message, Note, Notification, Subscription, Tag, User
+)
 
 
 RELATED_DOCS_TEXT = "See https://github.com/jkeyes/python-intercom \
@@ -35,7 +46,6 @@ class _Config(object):
     endpoints = None
     current_endpoint = None
     target_base_url = None
-    timeout = 10
     endpoint_randomized_at = None
 
 
@@ -56,6 +66,10 @@ class IntercomType(type):  # noqa
     @app_api_key.setter
     def app_api_key(self, value):
         self._config.app_api_key = value
+
+    @property
+    def _auth(self):
+        return (self.app_id, self.app_api_key)
 
     @property
     def _random_endpoint(self):
@@ -144,54 +158,25 @@ class Intercom(object):
     __metaclass__ = IntercomType
 
     @classmethod
-    def send_request_to_path(cls, method, path, params=None):
-        """ Construct an API request, send it to the API, and parse the
-        response. """
-        req_params = {}
+    def get_url(cls, path):
         if '://' in path:
             url = path
         else:
             url = cls.current_endpoint + path
-
-        headers = {
-            'User-Agent': 'python-intercom/' + __version__,
-            'Accept': 'application/json'
-        }
-        if method in ('POST', 'PUT', 'DELETE'):
-            headers['content-type'] = 'application/json'
-            req_params['data'] = json.dumps(params, cls=ResourceEncoder)
-        elif method == 'GET':
-            req_params['params'] = params
-        req_params['headers'] = headers
-
-        resp = requests.request(
-            method, url, timeout=cls._config.timeout,
-            auth=(Intercom.app_id, Intercom.app_api_key), **req_params)
-
-        print resp.status_code, resp.content
-        if resp.content:
-            return json.loads(resp.content)
+        return url
 
     @classmethod
     def get(cls, path, **params):
-        return cls.send_request_to_path('GET', path, params)
+        return Request.send_request_to_path('GET', cls.get_url(path), cls._auth, params)
 
     @classmethod
     def post(cls, path, **params):
-        return cls.send_request_to_path('POST', path, params)
+        return Request.send_request_to_path('POST', cls.get_url(path), cls._auth, params)
 
     @classmethod
     def put(cls, path, **params):
-        return cls.send_request_to_path('PUT', path, params)
+        return Request.send_request_to_path('PUT', cls.get_url(path), cls._auth, params)
 
     @classmethod
     def delete(cls, path, **params):
-        return cls.send_request_to_path('DELETE', path, params)
-
-
-class ResourceEncoder(JSONEncoder):
-    def default(self, o):
-        if hasattr(o, 'attributes'):
-            # handle API resources
-            return o.attributes
-        return super(ResourceEncoder, self).default(o)
+        return Request.send_request_to_path('DELETE', cls.get_url(path), cls._auth, params)

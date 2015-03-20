@@ -1,11 +1,11 @@
 from intercom import HttpError
-from intercom import Intercom
 from intercom import utils
 
 
 class Load(object):
 
     def load(self):
+        from intercom import Intercom
         cls = self.__class__
         collection = utils.resource_class_to_collection_name(cls)
         if hasattr(self, 'id'):

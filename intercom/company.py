@@ -1,10 +1,10 @@
-from intercom.user import Resource
 from intercom.api_operations.all import All
 from intercom.api_operations.count import Count
 from intercom.api_operations.find import Find
 from intercom.api_operations.load import Load
 from intercom.api_operations.save import Save
 from intercom.extended_api_operations.users import Users
+from intercom.traits.api_resource import Resource
 
 
 class Company(Resource, Count, Find, All, Save, Load, Users):
