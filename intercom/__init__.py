@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from .errors import (ArgumentError, HttpError, IntercomError, # noqa
-    ResourceNotFound, AuthenticationError, ServerError, BadGatewayError,
-    ServiceUnavailableError)  # noqa
+from .errors import (ArgumentError, AuthenticationError, # noqa
+    BadGatewayError, BadRequestError, HttpError, IntercomError,
+    MultipleMatchingUsersError, RateLimitExceeded, ResourceNotFound,
+    ServerError, ServiceUnavailableError, UnexpectedError)
 from .lib.setter_property import SetterProperty
 from .request import Request
 from .admin import Admin  # noqa
