@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import datetime
 import time
 
@@ -32,15 +34,16 @@ def to_datetime_value(value):
 
 class Resource(object):
 
-    def __init__(_self, **params):
+    def __init__(_self, **params):  # noqa
+        # intercom includes a 'self' field in the JSON, to avoid the naming
+        # conflict we go with _self here
         _self.changed_attributes = []
         _self.from_dict(params)
-        self = _self
 
         if hasattr(_self, 'flat_store_attributes'):
-            for attr in self.flat_store_attributes:
-                if not hasattr(self, attr):
-                    setattr(self, attr, FlatStore())
+            for attr in _self.flat_store_attributes:
+                if not hasattr(_self, attr):
+                    setattr(_self, attr, FlatStore())
         _self.changed_attributes = []
 
     def _flat_store_attribute(self, attribute):

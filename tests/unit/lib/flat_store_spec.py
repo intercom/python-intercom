@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from describe import expect
 from intercom.lib.flat_store import FlatStore
 

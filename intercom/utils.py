@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import inflection
 
 
@@ -40,9 +42,9 @@ def create_class_instance(class_name):
         return CLASS_REGISTRY[class_name]
 
     class Meta(type):
-        def __new__(mcs, name, bases, attributes):
-            return super(Meta, mcs).__new__(
-                mcs, str(class_name), bases, attributes)
+        def __new__(cls, name, bases, attributes):
+            return super(Meta, cls).__new__(
+                cls, str(class_name), bases, attributes)
 
     class DynamicClass(Resource, Load):
         __metaclass__ = Meta

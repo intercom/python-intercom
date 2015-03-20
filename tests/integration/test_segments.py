@@ -5,7 +5,7 @@ import time
 import unittest
 from datetime import datetime
 from intercom import Intercom
-from intercom.segment import Segment
+from intercom import Segment
 
 Intercom.app_id = os.environ.get('INTERCOM_APP_ID')
 Intercom.app_api_key = os.environ.get('INTERCOM_APP_API_KEY')

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from datetime import datetime
 from describe import expect
 from intercom.traits.api_resource import Resource
@@ -25,7 +27,7 @@ class DescribeIntercomTraitsApiResource:
         expect(self.api_resource).to_not.have_attr('type')
 
     def it_coerces_time_on_parsing_json(self):
-        expect(datetime.fromtimestamp(1374056196)) == self.api_resource.created_at
+        expect(datetime.fromtimestamp(1374056196)) == self.api_resource.created_at  # noqa
 
     def it_dynamically_defines_accessors_for_non_existent_properties(self):
         expect(self.api_resource).to_not.have_attr('spiders')
@@ -44,8 +46,8 @@ class DescribeIntercomTraitsApiResource:
         self.api_resource.foo_at = 1401200468
         expect(datetime.fromtimestamp(1401200468)) == self.api_resource.foo_at
 
-    # def it_throws_regular_error_when_non_existant_getter_is_called_that_is_backed_by_an_instance_variable(self):
-    #     super(Resource, self.api_resource).__setattr__('bar', 'you cant see me')
+    # def it_throws_regular_error_when_non_existant_getter_is_called_that_is_backed_by_an_instance_variable(self):  # noqa
+    #     super(Resource, self.api_resource).__setattr__('bar', 'you cant see me')  # noqa
     #     print self.api_resource.bar
 
     def it_throws_attribute_error_when_non_existent_attribute_is_called(self):
@@ -60,9 +62,9 @@ class DescribeIntercomTraitsApiResource:
         with expect.to_raise_error(AttributeError):
             self.api_resource.flubber('a', 'b')
 
-    def it_create_an_initialized_resource_equal_to_a_from_response_resource(self):
+    def it_create_an_initialized_resource_equal_to_a_from_response_resource(self):  # noqa
         initialized_api_resource = Resource(**self.object_json)
         for key in self.object_json.keys():
             if key == "type":
                 continue
-            expect(getattr(initialized_api_resource, key)) == getattr(self.api_resource, key)
+            expect(getattr(initialized_api_resource, key)) == getattr(self.api_resource, key)  # noqa

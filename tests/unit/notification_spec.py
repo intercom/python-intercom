@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from describe import expect
-from intercom.notification import Notification
+from intercom import Notification
 from intercom.utils import create_class_instance
 from tests.unit import test_conversation_notification
 from tests.unit import test_user_notification

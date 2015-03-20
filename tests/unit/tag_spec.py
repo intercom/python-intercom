@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+
 import httpretty
 import json
 import re
 from describe import expect
-from intercom.tag import Tag
+from intercom import Tag
 from tests.unit import test_tag
 
 get = httpretty.GET

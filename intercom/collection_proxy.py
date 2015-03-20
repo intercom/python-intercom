@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
+
 from intercom import HttpError
-from intercom import Intercom
 
 
 class CollectionProxy(object):
@@ -58,6 +59,7 @@ class CollectionProxy(object):
 
     def get_page(self, url, params={}):
         # get a page of results
+        from intercom import Intercom
 
         # if there is no url stop iterating
         if url is None:

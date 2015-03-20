@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+
 import httpretty
 import json
 import re
 from describe import expect
 import intercom
-from intercom.company import Company
+from intercom import Company
 
 get = httpretty.GET
 r = re.compile

@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
+
 from intercom import HttpError
-from intercom import Intercom
 from intercom import utils
 
 
@@ -7,6 +8,7 @@ class Find(object):
 
     @classmethod
     def find(cls, **params):
+        from intercom import Intercom
         collection = utils.resource_class_to_collection_name(cls)
         if 'id' in params:
             response = Intercom.get("/%s/%s" % (collection, params['id']))

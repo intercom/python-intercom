@@ -1,6 +1,6 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 
-from intercom.user import Resource
+from intercom.traits.api_resource import Resource
 
 
 class Notification(Resource):

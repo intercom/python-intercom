@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
+
 import httpretty
 import json
 import re
 import time
 from datetime import datetime
 from describe import expect
-from intercom.user import User
-from intercom.event import Event
+from intercom import User
+from intercom import Event
 
 post = httpretty.POST
 r = re.compile

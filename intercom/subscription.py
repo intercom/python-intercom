@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from intercom.api_operations.find import Find
 from intercom.api_operations.delete import Delete
 from intercom.api_operations.find_all import FindAll

@@ -1,17 +1,19 @@
-from intercom import Intercom
+# -*- coding: utf-8 -*-
+
 from intercom import utils
-from intercom.user import Resource
 from intercom.api_operations.all import All
 from intercom.api_operations.count import Count
 from intercom.api_operations.find import Find
 from intercom.api_operations.find_all import FindAll
 from intercom.api_operations.save import Save
+from intercom.traits.api_resource import Resource
 
 
 class Tag(Resource, All, Count, Find, FindAll, Save):
 
     @classmethod
     def _tag_collection(cls, name, collection_name, objects, untag=False):
+        from intercom import Intercom
         collection = utils.resource_class_to_collection_name(cls)
 
         object_ids = []

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class SetterProperty(object):
 
     def __init__(self, func, doc=None):

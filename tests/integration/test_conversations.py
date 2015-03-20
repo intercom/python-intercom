@@ -3,9 +3,9 @@
 import os
 import unittest
 from intercom import Intercom
-from intercom.admin import Admin
-from intercom.conversation import Conversation
-from intercom.user import User
+from intercom import Admin
+from intercom import Conversation
+from intercom import User
 
 Intercom.app_id = os.environ.get('INTERCOM_APP_ID')
 Intercom.app_api_key = os.environ.get('INTERCOM_APP_API_KEY')
@@ -93,14 +93,16 @@ class ConversationTest(unittest.TestCase):
         # Getting the subject of a part (only applies to email-based
         # conversations)
         self.assertEqual(conversation.conversation_message.subject, "")
-        # Get the part_type of the first part
-        self.assertIsNotNone(conversation.conversation_parts[0].part_type)
-        # Get the body of the second part
-        self.assertIsNotNone(conversation.conversation_parts[1].body)
+        for part in conversation.conversation_parts:
+            # There is a part_type
+            self.assertIsNotNone(part.part_type)
+            # There is a body
+            self.assertIsNotNone(part.body)
 
     # def test_reply(self):
     #     # REPLYING TO CONVERSATIONS
-    #     convo_id = Conversation.find_all(type='admin', id=self.admin.id)[0].id
+        # convo_id = Conversation.find_all(
+        #     type='admin', id=self.admin.id)[0].id
     #     conversation = Conversation.find(id=convo_id)
     #     num_parts = len(conversation.conversation_parts)
     #     # User (identified by email) replies with a comment
