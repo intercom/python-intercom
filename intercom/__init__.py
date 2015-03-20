@@ -7,11 +7,13 @@ from .lib.setter_property import SetterProperty
 from .request import Request
 from .admin import Admin
 from .company import Company
+from .conversation import Conversation
 from .event import Event
 from .message import Message
 from .note import Note
 from .notification import Notification
 from .user import User
+from .segment import Segment
 from .subscription import Subscription
 from .tag import Tag
 
@@ -23,7 +25,8 @@ import time
 __version__ = '2.0.alpha'
 
 __all__ = (
-    Admin, Company, Event, Message, Note, Notification, Subscription, Tag, User
+    Admin, Company, Conversation, Event, Message, Note, Notification,
+    Segment, Subscription, Tag, User
 )
 
 

@@ -3,8 +3,8 @@
 import os
 import unittest
 from intercom import Intercom
-from intercom.tag import Tag
-from intercom.user import User
+from intercom import Tag
+from intercom import User
 
 Intercom.app_id = os.environ.get('INTERCOM_APP_ID')
 Intercom.app_api_key = os.environ.get('INTERCOM_APP_API_KEY')
