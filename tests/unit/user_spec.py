@@ -10,7 +10,9 @@ from datetime import datetime
 from describe import expect
 from intercom.collection_proxy import CollectionProxy
 from intercom.lib.flat_store import FlatStore
+from intercom import Intercom
 from intercom import User
+from intercom import MultipleMatchingUsersError
 from intercom.utils import create_class_instance
 from tests.unit import test_user
 
@@ -316,6 +318,21 @@ class DescribeIntercomUser:
         with mock.patch.object(User, 'count') as mock_count:
             mock_count.return_value = 100
             expect(100) == User.count()
+
+    @httpretty.activate
+    def it_raises_a_multiple_matching_users_error_when_receiving_a_conflict(self):  # noqa
+        payload = {
+            'type': 'error.list',
+            'errors': [
+                {
+                    'code': 'conflict',
+                    'message': 'Multiple existing users match this email address - must be more specific using user_id'  # noqa
+                }
+            ]
+        }
+        httpretty.register_uri(get, r("/users"), body=json.dumps(payload))
+        with expect.to_raise_error(MultipleMatchingUsersError):
+            Intercom.get('/users')
 
     class DescribeIncrementingCustomAttributeFields:
 
