@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class IncrementableAttributes(object):
 
     def increment(self, key, value=1):
