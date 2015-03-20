@@ -38,34 +38,32 @@ CONFIGURATION_REQUIRED_TEXT = "You must set both Intercom.app_id and \
 Intercom.app_api_key to use this client."
 
 
-class _Config(object):
-    app_id = None
-    app_api_key = None
-    hostname = "api.intercom.io"
-    protocol = "https"
-    endpoints = None
-    current_endpoint = None
-    target_base_url = None
-    endpoint_randomized_at = None
-
-
 class IntercomType(type):  # noqa
+
+    _app_id = None
+    _app_api_key = None
+    _hostname = "api.intercom.io"
+    _protocol = "https"
+    _endpoints = None
+    _current_endpoint = None
+    _target_base_url = None
+    _endpoint_randomized_at = None
 
     @property
     def app_id(self):
-        return self._config.app_id
+        return self._app_id
 
     @app_id.setter
     def app_id(self, value):
-        self._config.app_id = value
+        self._app_id = value
 
     @property
     def app_api_key(self):
-        return self._config.app_api_key
+        return self._app_api_key
 
     @app_api_key.setter
     def app_api_key(self, value):
-        self._config.app_api_key = value
+        self._app_api_key = value
 
     @property
     def _auth(self):
@@ -88,63 +86,63 @@ class IntercomType(type):  # noqa
             return endpoints[0]
 
     @property
-    def _target_base_url(self):
+    def target_base_url(self):
         if None in [self.app_id, self.app_api_key]:
             raise ArgumentError('%s %s' % (
                 CONFIGURATION_REQUIRED_TEXT, RELATED_DOCS_TEXT))
-        if self._config.target_base_url is None:
+        if self._target_base_url is None:
             basic_auth_part = '%s:%s@' % (self.app_id, self.app_api_key)
             if self.current_endpoint:
-                self._config.target_base_url = re.sub(
+                self._target_base_url = re.sub(
                     r'(https?:\/\/)(.*)',
                     '\g<1>%s\g<2>' % (basic_auth_part),
                     self.current_endpoint)
-        return self._config.target_base_url
+        return self._target_base_url
 
     @property
     def hostname(self):
-        return self._config.hostname
+        return self._hostname
 
     @hostname.setter
     def hostname(self, value):
-        self._config.hostname = value
+        self._hostname = value
         self.current_endpoint = None
         self.endpoints = None
 
     @property
     def protocol(self):
-        return self._config.protocol
+        return self._protocol
 
     @protocol.setter
     def protocol(self, value):
-        self._config.protocol = value
+        self._protocol = value
         self.current_endpoint = None
         self.endpoints = None
 
     @property
     def current_endpoint(self):
         now = time.mktime(datetime.utcnow().timetuple())
-        expired = self._config.endpoint_randomized_at < (now - (60 * 5))
-        if self._config.endpoint_randomized_at is None or expired:
-            self._config.endpoint_randomized_at = now
-            self.current_endpoint = self._random_endpoint
-        return self._config.current_endpoint
+        expired = self._endpoint_randomized_at < (now - (60 * 5))
+        if self._endpoint_randomized_at is None or expired:
+            self._endpoint_randomized_at = now
+            self._current_endpoint = self._random_endpoint
+        return self._current_endpoint
 
     @current_endpoint.setter
     def current_endpoint(self, value):
-        self._config.current_endpoint = value
-        self._config.target_base_url = None
+        self._current_endpoint = value
+        self._target_base_url = None
 
     @property
     def endpoints(self):
-        if not self._config.endpoints:
+        if not self._endpoints:
             return ['%s://%s' % (self.protocol, self.hostname)]
         else:
-            return self._config.endpoints
+            return self._endpoints
 
     @endpoints.setter
     def endpoints(self, value):
-        self._config.endpoints = value
+        self._endpoints = value
         self.current_endpoint = self._random_endpoint
 
     @SetterProperty
@@ -153,7 +151,6 @@ class IntercomType(type):  # noqa
 
 
 class Intercom(object):
-    _config = _Config()
     _class_register = {}
     __metaclass__ = IntercomType
 
@@ -166,17 +163,22 @@ class Intercom(object):
         return url
 
     @classmethod
+    def request(cls, method, path, params):
+        return Request.send_request_to_path(
+            method, cls.get_url(path), cls._auth, params)
+
+    @classmethod
     def get(cls, path, **params):
-        return Request.send_request_to_path('GET', cls.get_url(path), cls._auth, params)
+        return cls.request('GET', path, params)
 
     @classmethod
     def post(cls, path, **params):
-        return Request.send_request_to_path('POST', cls.get_url(path), cls._auth, params)
+        return cls.request('POST', path, params)
 
     @classmethod
     def put(cls, path, **params):
-        return Request.send_request_to_path('PUT', cls.get_url(path), cls._auth, params)
+        return cls.request('PUT', path, params)
 
     @classmethod
     def delete(cls, path, **params):
-        return Request.send_request_to_path('DELETE', cls.get_url(path), cls._auth, params)
+        return cls.request('DELETE', path, params)
