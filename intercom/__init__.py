@@ -1,21 +1,22 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from .errors import ArgumentError
-from .errors import HttpError  # noqa
+from .errors import (ArgumentError, HttpError, IntercomError, # noqa
+    ResourceNotFound, AuthenticationError, ServerError, BadGatewayError,
+    ServiceUnavailableError)  # noqa
 from .lib.setter_property import SetterProperty
 from .request import Request
-from .admin import Admin
-from .company import Company
-from .conversation import Conversation
-from .event import Event
-from .message import Message
-from .note import Note
-from .notification import Notification
-from .user import User
-from .segment import Segment
-from .subscription import Subscription
-from .tag import Tag
+from .admin import Admin  # noqa
+from .company import Company  # noqa
+from .conversation import Conversation  # noqa
+from .event import Event  # noqa
+from .message import Message  # noqa
+from .note import Note  # noqa
+from .notification import Notification  # noqa
+from .user import User  # noqa
+from .segment import Segment  # noqa
+from .subscription import Subscription  # noqa
+from .tag import Tag  # noqa
 
 import copy
 import random
@@ -23,11 +24,6 @@ import re
 import time
 
 __version__ = '2.0.alpha'
-
-__all__ = (
-    Admin, Company, Conversation, Event, Message, Note, Notification,
-    Segment, Subscription, Tag, User
-)
 
 
 RELATED_DOCS_TEXT = "See https://github.com/jkeyes/python-intercom \

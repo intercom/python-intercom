@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .errors import HttpError  # noqa
+from . import errors
 
 import json
 import requests
@@ -32,8 +32,25 @@ class Request(object):
             method, url, timeout=cls.timeout,
             auth=auth, **req_params)
 
+        cls.raise_errors_on_failure(resp)
+
         if resp.content:
             return json.loads(resp.content)
+
+    @classmethod
+    def raise_errors_on_failure(cls, resp):
+        if resp.status_code == 404:
+            raise errors.ResourceNotFound('Resource Not Found')
+        elif resp.status_code == 401:
+            raise errors.AuthenticationError('Unauthorized')
+        elif resp.status_code == 403:
+            raise errors.AuthenticationError('Forbidden')
+        elif resp.status_code == 500:
+            raise errors.ServerError('Server Error')
+        elif resp.status_code == 502:
+            raise errors.BadGatewayError('Bad Gateway Error')
+        elif resp.status_code == 503:
+            raise errors.ServiceUnavailableError('Service Unavailable')
 
 
 class ResourceEncoder(json.JSONEncoder):
