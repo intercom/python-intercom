@@ -1,4 +1,4 @@
-from intercom.user import Resource
+from intercom.traits.api_resource import Resource
 from intercom.api_operations.all import All
 from intercom.api_operations.find import Find
 
