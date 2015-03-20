@@ -28,6 +28,6 @@ setup(
     classifiers=[],
     packages=find_packages(),
     include_package_data=True,
-    install_requires=["requests", "inflection"],
+    install_requires=["requests", "inflection", "certifi"],
     zip_safe=False
 )

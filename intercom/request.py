@@ -2,6 +2,7 @@
 
 from . import errors
 
+import certifi
 import json
 import requests
 
@@ -27,10 +28,9 @@ class Request(object):
         elif method == 'GET':
             req_params['params'] = params
         req_params['headers'] = headers
-
         resp = requests.request(
             method, url, timeout=cls.timeout,
-            auth=auth, **req_params)
+            auth=auth, verify=certifi.where(), **req_params)
 
         cls.raise_errors_on_failure(resp)
 
