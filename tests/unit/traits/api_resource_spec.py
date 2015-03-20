@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from datetime import datetime
 from describe import expect
 from intercom.traits.api_resource import Resource

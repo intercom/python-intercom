@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from describe import expect
 import intercom
 import mock

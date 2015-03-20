@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from intercom.api_operations.all import All
 from intercom.api_operations.count import Count
 from intercom.api_operations.delete import Delete

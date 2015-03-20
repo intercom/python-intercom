@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from intercom import HttpError
 from intercom import utils
 

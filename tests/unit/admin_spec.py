@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from describe import expect
 from describe import patch
 from intercom import Request

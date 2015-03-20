@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from intercom import utils
 from intercom.collection_proxy import CollectionProxy
 

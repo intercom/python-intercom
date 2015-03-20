@@ -40,30 +40,14 @@ Intercom.app_api_key to use this client."
 
 class IntercomType(type):  # noqa
 
-    _app_id = None
-    _app_api_key = None
+    app_id = None
+    app_api_key = None
     _hostname = "api.intercom.io"
     _protocol = "https"
     _endpoints = None
     _current_endpoint = None
     _target_base_url = None
     _endpoint_randomized_at = None
-
-    @property
-    def app_id(self):
-        return self._app_id
-
-    @app_id.setter
-    def app_id(self, value):
-        self._app_id = value
-
-    @property
-    def app_api_key(self):
-        return self._app_api_key
-
-    @app_api_key.setter
-    def app_api_key(self, value):
-        self._app_api_key = value
 
     @property
     def _auth(self):
