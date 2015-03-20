@@ -18,7 +18,7 @@ class DescribeIntercomCollectionProxy:
         body = json.dumps(page_of_users(include_next_link=False))
         httpretty.register_uri(get, r(r"/users"), body=body)
         emails = [user.email for user in User.all()]
-        expect(emails) == ['user1@example.com', 'user2@example.com', 'user3@example.com']
+        expect(emails) == ['user1@example.com', 'user2@example.com', 'user3@example.com']  # noqa
 
     @httpretty.activate
     def it_keeps_iterating_if_next_link(self):
@@ -26,10 +26,10 @@ class DescribeIntercomCollectionProxy:
         page2 = json.dumps(page_of_users(include_next_link=False))
         httpretty.register_uri(get, r(r"/users$"), body=page1)
         httpretty.register_uri(
-            get, r(r'https://api.intercom.io/users\?per_page=50&page=2'), body=page2,
-            match_querystring=True)
+            get, r(r'https://api.intercom.io/users\?per_page=50&page=2'),
+            body=page2, match_querystring=True)
         emails = [user.email for user in User.all()]
-        expect(emails) == ['user1@example.com', 'user2@example.com', 'user3@example.com'] * 2
+        expect(emails) == ['user1@example.com', 'user2@example.com', 'user3@example.com'] * 2  # noqa
 
     @httpretty.activate
     def it_supports_indexed_array_access(self):
@@ -42,4 +42,4 @@ class DescribeIntercomCollectionProxy:
         body = json.dumps(page_of_users(include_next_link=False))
         httpretty.register_uri(get, r(r"/users"), body=body)
         emails = [user.email for user in User.find_all(tag_name='Taggart J')]
-        expect(emails) == ['user1@example.com', 'user2@example.com', 'user3@example.com']
+        expect(emails) == ['user1@example.com', 'user2@example.com', 'user3@example.com']  # noqa

@@ -23,7 +23,7 @@ class DescribeIntercom:
             self.intercom.app_id = 'abc123'
             self.intercom.app_api_key = 'super-secret-key'
 
-        def it_raises_argumenterror_if_no_app_id_or_app_api_key_specified(self):
+        def it_raises_argumenterror_if_no_app_id_or_app_api_key_specified(self):  # noqa
             self.intercom.app_id = None
             self.intercom.app_api_key = None
             with expect.to_raise_error(intercom.ArgumentError):
@@ -58,21 +58,21 @@ class DescribeIntercom:
 
             def it_prefers_endpoints(self):
                 self.intercom.endpoint = "https://localhost:7654"
-                expect(self.intercom.target_base_url) == "https://abc123:super-secret-key@localhost:7654"
+                expect(self.intercom.target_base_url) == "https://abc123:super-secret-key@localhost:7654"  # noqa
 
                 # turn off the shuffle
                 with mock.patch("random.shuffle") as mock_shuffle:
-                    mock_shuffle.return_value = ["http://example.com", "https://localhost:7654"]
-                    self.intercom.endpoints = ["http://example.com", "https://localhost:7654"]
+                    mock_shuffle.return_value = ["http://example.com", "https://localhost:7654"]  # noqa
+                    self.intercom.endpoints = ["http://example.com", "https://localhost:7654"]  # noqa
                     expect(self.intercom.target_base_url) == \
                         'http://abc123:super-secret-key@example.com'
 
             def it_has_endpoints(self):
                 expect(self.intercom.endpoints) == ["https://api.intercom.io"]
-                self.intercom.endpoints = ["http://example.com","https://localhost:7654"]
-                expect(self.intercom.endpoints) == ["http://example.com","https://localhost:7654"]
+                self.intercom.endpoints = ["http://example.com", "https://localhost:7654"]  # noqa
+                expect(self.intercom.endpoints) == ["http://example.com", "https://localhost:7654"]  # noqa
 
-            def it_should_randomize_endpoints_if_last_checked_endpoint_is_gt_5_minutes_ago(self):
+            def it_should_randomize_endpoints_if_last_checked_endpoint_is_gt_5_minutes_ago(self):  # noqa
                 now = time.mktime(datetime.utcnow().timetuple())
                 self.intercom._endpoint_randomized_at = now
                 self.intercom.endpoints = ["http://alternative"]
@@ -82,4 +82,3 @@ class DescribeIntercom:
                 expect(self.intercom.current_endpoint) == "http://start"
                 self.intercom._endpoint_randomized_at = now - 360
                 expect(self.intercom.current_endpoint) == "http://alternative"
-

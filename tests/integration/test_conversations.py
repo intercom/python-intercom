@@ -101,7 +101,8 @@ class ConversationTest(unittest.TestCase):
 
     # def test_reply(self):
     #     # REPLYING TO CONVERSATIONS
-    #     convo_id = Conversation.find_all(type='admin', id=self.admin.id)[0].id
+        # convo_id = Conversation.find_all(
+        #     type='admin', id=self.admin.id)[0].id
     #     conversation = Conversation.find(id=convo_id)
     #     num_parts = len(conversation.conversation_parts)
     #     # User (identified by email) replies with a comment
