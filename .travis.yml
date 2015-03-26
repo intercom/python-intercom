@@ -8,4 +8,4 @@ install:
 script:
   - which nosetests
   - nosetests --version
-  - ./tests/run_tests.sh
+  - nosetests tests/unit/test_admin.py
