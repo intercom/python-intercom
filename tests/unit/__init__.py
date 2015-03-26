@@ -24,9 +24,9 @@ def local_response(**params):
     def _call(*args, **kwargs):
         response = Mock()
         reply = {}
-        for name, value in kwargs.items():
+        for name, value in list(kwargs.items()):
             reply[name] = value
-        for name, value in params.items():
+        for name, value in list(params.items()):
             reply[name] = value
         response.content = json.dumps(reply)
         response.status_code = 200
@@ -34,7 +34,7 @@ def local_response(**params):
     return _call
 
 
-def test_user(email="bob@example.com"):
+def a_test_user(email="bob@example.com"):
     return {
         "type": "user",
         "id": "aaaaaaaaaaaaaaaaaaaaaaaa",
@@ -136,7 +136,10 @@ def page_of_users(include_next_link=False):
             "per_page": 50,
             "total_pages": 7
         },
-        "users": [test_user("user1@example.com"), test_user("user2@example.com"), test_user("user3@example.com")],
+        "users": [
+            a_test_user("user1@example.com"),
+            a_test_user("user2@example.com"),
+            a_test_user("user3@example.com")],
         "total_count": 314
     }
     if include_next_link:

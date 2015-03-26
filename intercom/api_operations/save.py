@@ -13,13 +13,13 @@ class Save(object):
         return cls(**response)
 
     def from_dict(self, pdict):
-        for key, value in pdict.items():
+        for key, value in list(pdict.items()):
             setattr(self, key, value)
 
     @property
     def to_dict(self):
         a_dict = {}
-        for name in self.__dict__.keys():
+        for name in list(self.__dict__.keys()):
             if name == "changed_attributes":
                 continue
             a_dict[name] = self.__dict__[name]  # direct access

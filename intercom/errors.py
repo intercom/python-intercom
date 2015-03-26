@@ -13,6 +13,7 @@ class IntercomError(Exception):
 
     def __init__(self, message=None, context=None):
         super(IntercomError, self).__init__(message)
+        self.message = message
         self.context = context
 
 

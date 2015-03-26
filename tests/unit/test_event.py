@@ -4,18 +4,22 @@ import httpretty
 import json
 import re
 import time
+import unittest
+
 from datetime import datetime
-from describe import expect
 from intercom import User
 from intercom import Event
+from nose.tools import eq_
+from nose.tools import ok_
+from nose.tools import istest
 
 post = httpretty.POST
 r = re.compile
 
 
-class DescribeIntercomEvent:
+class EventTest(unittest.TestCase):
 
-    def before_each(self, context):
+    def setUp(self):  # noqa
         now = time.mktime(datetime.utcnow().timetuple())
         self.user = User(
             email="jim@example.com",
@@ -24,6 +28,7 @@ class DescribeIntercomEvent:
             name="Jim Bob")
         self.created_time = now - 300
 
+    @istest
     @httpretty.activate
     def it_creates_an_event_with_metadata(self):
         data = {
@@ -40,10 +45,11 @@ class DescribeIntercomEvent:
             post, r(r'/events/$'), body=json.dumps(data), status=202)
         event = Event.create(**data)
 
-        expect('Eventful 1') == event.event_name
-        expect(event).to.have_attr('metadata')
-        expect('pi@example.com') == event.metadata['invitee_email']
+        eq_('Eventful 1', event.event_name)
+        ok_(hasattr(event, 'metadata'))
+        eq_('pi@example.com', event.metadata['invitee_email'])
 
+    @istest
     @httpretty.activate
     def it_creates_an_event_without_metadata(self):
         data = {
@@ -54,5 +60,5 @@ class DescribeIntercomEvent:
             post, r(r'/events/$'), body=json.dumps(data), status=202)
         event = Event.create(**data)
 
-        expect('sale of item') == event.event_name
-        expect(event).to_not.have_attr('metadata')
+        eq_('sale of item', event.event_name)
+        ok_(not hasattr(event, 'metadata'))

@@ -63,7 +63,7 @@ class Resource(object):
         return self
 
     def from_dict(self, dict):
-        for attribute, value in dict.items():
+        for attribute, value in list(dict.items()):
             if type_field(attribute):
                 continue
             setattr(self, attribute, value)
@@ -71,7 +71,7 @@ class Resource(object):
     @property
     def attributes(self):
         res = {}
-        for name, value in self.__dict__.items():
+        for name, value in list(self.__dict__.items()):
             if self.submittable_attribute(name, value):
                 res[name] = value
         return res

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import inflection
+import six
 
 
 def pluralize(str):
@@ -46,8 +47,9 @@ def create_class_instance(class_name):
             return super(Meta, cls).__new__(
                 cls, str(class_name), bases, attributes)
 
+    @six.add_metaclass(Meta)
     class DynamicClass(Resource, Load):
-        __metaclass__ = Meta
+        pass
 
     dyncls = DynamicClass()
     CLASS_REGISTRY[class_name] = dyncls
