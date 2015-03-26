@@ -4,30 +4,31 @@ import os
 import unittest
 from intercom import Intercom
 from intercom import Tag
-from intercom import User
+from . import delete
+from . import get_or_create_company
+from . import get_or_create_user
+from . import get_timestamp
 
 Intercom.app_id = os.environ.get('INTERCOM_APP_ID')
 Intercom.app_api_key = os.environ.get('INTERCOM_APP_API_KEY')
 
 
 class TagTest(unittest.TestCase):
-    email = "ada@example.com"
 
     @classmethod
     def setup_class(cls):
-        # get user
-        cls.user = User.find(email=cls.email)
-        if not hasattr(cls.user, 'user_id'):
-            # Create a user
-            cls.user = User.create(
-                email=cls.email,
-                user_id="ada",
-                name="Ada Lovelace")
-            cls.user.companies = [
-                {"company_id": 6, "name": "Intercom"},
-                {"company_id": 9, "name": "Test Company"}
-            ]
-            cls.user.save()
+        nowstamp = get_timestamp()
+        cls.company = get_or_create_company(nowstamp)
+        cls.user = get_or_create_user(nowstamp)
+        cls.user.companies = [
+            {"company_id": cls.company.id, "name": cls.company.name}
+        ]
+        cls.user.save()
+
+    @classmethod
+    def teardown_class(cls):
+        delete(cls.company)
+        delete(cls.user)
 
     def test_tag_users(self):
         # Tag users
