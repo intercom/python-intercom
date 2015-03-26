@@ -9,3 +9,15 @@ script:
   - which nosetests
   - nosetests --version
   - nosetests tests/unit/test_admin.py
+  - nosetests tests/unit/test_collection_proxy.py
+  - nosetests tests/unit/test_company.py
+  - nosetests tests/unit/test_event.py
+  - nosetests tests/unit/test_intercom.py
+  - nosetests tests/unit/test_message.py
+  - nosetests tests/unit/test_note.py
+  - nosetests tests/unit/test_notification.py
+  - nosetests tests/unit/test_request.py
+  - nosetests tests/unit/test_subscription.py
+  - nosetests tests/unit/test_tag.py
+  - nosetests tests/unit/test_user.py
+
