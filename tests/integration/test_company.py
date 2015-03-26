@@ -1,46 +1,45 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
 import os
-import time
 import unittest
-from intercom import Intercom
 from intercom import Company
+from intercom import Intercom
 from intercom import User
+from . import delete
+from . import get_or_create_user
+from . import get_or_create_company
+from . import get_timestamp
 
 Intercom.app_id = os.environ.get('INTERCOM_APP_ID')
 Intercom.app_api_key = os.environ.get('INTERCOM_APP_API_KEY')
 
 
 class CompanyTest(unittest.TestCase):
-    email = "ada@example.com"
 
     @classmethod
     def setup_class(cls):
-        # get company
-        cls.company = Company.all()[0]
-        # get user
-        cls.user = User.find(email=cls.email)
-        if not hasattr(cls.user, 'user_id'):
-            # Create a user
-            cls.user = User.create(
-                email=cls.email,
-                user_id="ada",
-                name="Ada Lovelace")
+        nowstamp = get_timestamp()
+        cls.company = get_or_create_company(nowstamp)
+        cls.user = get_or_create_user(nowstamp)
+
+    @classmethod
+    def teardown_class(cls):
+        delete(cls.company)
+        delete(cls.user)
 
     def test_add_user(self):
-        user = User.find(email=self.email)
+        user = User.find(email=self.user.email)
         user.companies = [
             {"company_id": 6, "name": "Intercom"},
             {"company_id": 9, "name": "Test Company"}
         ]
         user.save()
-        user = User.find(email=self.email)
+        user = User.find(email=self.user.email)
         self.assertEqual(len(user.companies), 2)
         self.assertEqual(user.companies[0].company_id, "9")
 
     def test_add_user_custom_attributes(self):
-        user = User.find(email=self.email)
+        user = User.find(email=self.user.email)
         user.companies = [
             {
                 "id": 6,
@@ -51,7 +50,7 @@ class CompanyTest(unittest.TestCase):
             }
         ]
         user.save()
-        user = User.find(email=self.email)
+        user = User.find(email=self.user.email)
         self.assertEqual(len(user.companies), 2)
         self.assertEqual(user.companies[0].company_id, "9")
 
@@ -74,8 +73,8 @@ class CompanyTest(unittest.TestCase):
         # Find a company by id
         company = Company.find(id=self.company.id)
         # Update a company
-        now = datetime.utcnow()
-        updated_name = 'Company %s' % (time.mktime(now.timetuple()))
+        now = get_timestamp()
+        updated_name = 'Company %s' % (now)
         company.name = updated_name
         company.save()
         company = Company.find(id=self.company.id)

@@ -5,40 +5,53 @@ import unittest
 from intercom import Intercom
 from intercom import Admin
 from intercom import Conversation
-from intercom import User
+from intercom import Message
+from . import delete
+from . import get_or_create_user
+from . import get_timestamp
 
 Intercom.app_id = os.environ.get('INTERCOM_APP_ID')
 Intercom.app_api_key = os.environ.get('INTERCOM_APP_API_KEY')
 
 
 class ConversationTest(unittest.TestCase):
-    email = "ada@example.com"
-
     @classmethod
     def setup_class(cls):
         # get admin
-        cls.admin = Admin.all()[0]
+        cls.admin = Admin.all()[1]
+
         # get user
-        cls.user = User.find(email=cls.email)
-        if not hasattr(cls.user, 'user_id'):
-            # Create a user
-            cls.user = User.create(
-                email=cls.email,
-                user_id="ada",
-                name="Ada Lovelace")
-            cls.user.companies = [
-                {"company_id": 6, "name": "Intercom"},
-                {"company_id": 9, "name": "Test Company"}
-            ]
-            cls.user.save()
+        timestamp = get_timestamp()
+        cls.user = get_or_create_user(timestamp)
+        cls.email = cls.user.email
+
+        # send user message
+        message_data = {
+            'from': {
+                'type': "user",
+                'id': cls.user.id
+            },
+            'body': "Hey"
+        }
+        cls.user_message = Message.create(**message_data)
+
+        conversations = Conversation.find_all()
+        user_init_conv = conversations[0]
+        # send admin reply
+        cls.admin_conv = user_init_conv.reply(
+            type='admin', admin_id=cls.admin.id,
+            message_type='comment', body='There')
+
+    @classmethod
+    def teardown_class(cls):
+        delete(cls.user)
 
     def test_find_all_admin(self):
         # FINDING CONVERSATIONS FOR AN ADMIN
         # Iterate over all conversations (open and closed) assigned to an admin
-
         for convo in Conversation.find_all(type='admin', id=self.admin.id):
             self.assertIsNotNone(convo.id)
-            self.__class__.convo_id = convo.id
+            self.admin_conv.id = convo.id
 
     def test_find_all_open_admin(self):
         # Iterate over all open conversations assigned to an admin
@@ -99,33 +112,29 @@ class ConversationTest(unittest.TestCase):
             # There is a body
             self.assertIsNotNone(part.body)
 
-    # def test_reply(self):
-    #     # REPLYING TO CONVERSATIONS
-        # convo_id = Conversation.find_all(
-        #     type='admin', id=self.admin.id)[0].id
-    #     conversation = Conversation.find(id=convo_id)
-    #     num_parts = len(conversation.conversation_parts)
-    #     # User (identified by email) replies with a comment
-    #     conversation.reply(
-    #         type='user', email=self.email,
-    #         message_type='comment', body='foo')
-    #     # Admin (identified by email) replies with a comment
-    #     conversation.reply(
-    #         type='admin', email=self.admin.email,
-    #         message_type='comment', body='bar')
-    #     conversation = Conversation.find(id=convo_id)
-    #     self.assertEqual(num_parts + 2, len(conversation.conversation_parts))
+    def test_reply(self):
+        # REPLYING TO CONVERSATIONS
+        conversation = Conversation.find(id=self.admin_conv.id)
+        num_parts = len(conversation.conversation_parts)
+        # User (identified by email) replies with a comment
+        conversation.reply(
+            type='user', email=self.email,
+            message_type='comment', body='foo')
+        # Admin (identified by admin_id) replies with a comment
+        conversation.reply(
+            type='admin', admin_id=self.admin.id,
+            message_type='comment', body='bar')
+        conversation = Conversation.find(id=self.admin_conv.id)
+        self.assertEqual(num_parts + 2, len(conversation.conversation_parts))
 
     def test_mark_read(self):
         # MARKING A CONVERSATION AS READ
-        convo_id = Conversation.find_all(type='admin', id=self.admin.id)[0].id
-        conversation = Conversation.find(id=convo_id)
+        conversation = Conversation.find(id=self.admin_conv.id)
         conversation.read = False
         conversation.save()
-        conversation = Conversation.find(id=convo_id)
-        # CANNOT MARK AS UNREAD VIA API
-        # self.assertFalse(conversation.read)
+        conversation = Conversation.find(id=self.admin_conv.id)
+        self.assertFalse(conversation.read)
         conversation.read = True
         conversation.save()
-        conversation = Conversation.find(id=convo_id)
+        conversation = Conversation.find(id=self.admin_conv.id)
         self.assertTrue(conversation.read)
