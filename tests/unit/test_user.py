@@ -18,7 +18,7 @@ from nose.tools import assert_raises
 from nose.tools import eq_
 from nose.tools import ok_
 from nose.tools import istest
-from tests.unit import a_test_user
+from tests.unit import get_user
 
 
 get = httpretty.GET
@@ -61,7 +61,7 @@ class UserTest(unittest.TestCase):
 
     @istest
     def it_presents_a_complete_user_record_correctly(self):
-        user = User.from_api(a_test_user())
+        user = User.from_api(get_user())
         eq_('id-from-customers-app', user.user_id)
         eq_('bob@example.com', user.email)
         eq_('Joe Schmoe', user.name)
@@ -165,14 +165,14 @@ class UserTest(unittest.TestCase):
         with assert_raises(ValueError):
             user.custom_attributes = {1: {2: 3}}
 
-        user = User.from_api(a_test_user())
+        user = User.from_api(get_user())
         with assert_raises(ValueError):
             user.custom_attributes["thing"] = [1]
 
     @istest
     @httpretty.activate
     def it_fetches_a_user(self):
-        body = json.dumps(a_test_user())
+        body = json.dumps(get_user())
 
         httpretty.register_uri(
             get, r(r"https://api.intercom.io/users\?email="),

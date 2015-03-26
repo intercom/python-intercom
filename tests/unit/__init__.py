@@ -34,7 +34,7 @@ def local_response(**params):
     return _call
 
 
-def a_test_user(email="bob@example.com"):
+def get_user(email="bob@example.com"):
     return {
         "type": "user",
         "id": "aaaaaaaaaaaaaaaaaaaaaaaa",
@@ -137,9 +137,9 @@ def page_of_users(include_next_link=False):
             "total_pages": 7
         },
         "users": [
-            a_test_user("user1@example.com"),
-            a_test_user("user2@example.com"),
-            a_test_user("user3@example.com")],
+            get_user("user1@example.com"),
+            get_user("user2@example.com"),
+            get_user("user3@example.com")],
         "total_count": 314
     }
     if include_next_link:

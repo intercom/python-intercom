@@ -29,9 +29,11 @@ class CollectionProxyTest(unittest.TestCase):
     def it_keeps_iterating_if_next_link(self):
         page1 = json.dumps(page_of_users(include_next_link=True))
         page2 = json.dumps(page_of_users(include_next_link=False))
-        httpretty.register_uri(get, r(r"/users$"), body=page1)
         httpretty.register_uri(
-            get, r(r'/users\?per_page=50&page=2$'),
+            get, r(r"https://api.intercom.io/users$"), body=page1,
+            match_querystring=True)
+        httpretty.register_uri(
+            get, r(r"https://api.intercom.io/users\?per_page=50&page=2"),
             body=page2, match_querystring=True)
         emails = [user.email for user in User.all()]
         eq_(emails, ['user1@example.com', 'user2@example.com', 'user3@example.com'] * 2)  # noqa
