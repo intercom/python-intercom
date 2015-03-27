@@ -9,6 +9,7 @@ from .lib.setter_property import SetterProperty
 from .request import Request
 from .admin import Admin  # noqa
 from .company import Company  # noqa
+from .count import Count  # noqa
 from .conversation import Conversation  # noqa
 from .event import Event  # noqa
 from .message import Message  # noqa
