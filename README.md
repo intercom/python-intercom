@@ -393,16 +393,19 @@ Note that models generated from webhook notifications might differ slightly from
 ### Errors
 You do not need to deal with the HTTP response from an API call directly. If there is an unsuccessful response then an error that is a subclass of `intercom.Error` will be raised. If desired, you can get at the http_code of an `Error` via it's `http_code` method.
 
-The list of different error subclasses are listed below. As they all inherit off `Error` you can choose to except `Error` or the more specific error subclass:
+The list of different error subclasses are listed below. As they all inherit off `IntercomError` you can choose to except `IntercomError` or the more specific error subclass:
 
 ```python
 AuthenticationError
 ServerError
 ServiceUnavailableError
 ResourceNotFound
+BadGatewayError
 BadRequestError
 RateLimitExceeded
-AttributeNotSetError # Raised when you try to call a getter that does not exist on an object
+MultipleMatchingUsersError
+HttpError
+UnexpectedError
 ```
 
 

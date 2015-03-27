@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 
 
-class ArgumentError(ValueError):
-    pass
-
-
-class HttpError(Exception):
-    pass
-
-
 class IntercomError(Exception):
 
     def __init__(self, message=None, context=None):
         super(IntercomError, self).__init__(message)
         self.message = message
         self.context = context
+
+
+class ArgumentError(ValueError, IntercomError):
+    pass
+
+
+class HttpError(IntercomError):
+    pass
 
 
 class ResourceNotFound(IntercomError):
