@@ -54,6 +54,11 @@ class CompanyTest(unittest.TestCase):
         self.assertEqual(len(user.companies), 2)
         self.assertEqual(user.companies[0].company_id, "9")
 
+        # check the custom attributes
+        company = Company.find(company_id=6)
+        self.assertEqual(
+            company.custom_attributes['referral_source'], "Google")
+
     def test_find_by_company_id(self):
         # Find a company by company_id
         company = Company.find(company_id=self.company.company_id)

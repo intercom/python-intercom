@@ -48,12 +48,21 @@ class Tag(Resource, All, Count, Find, FindAll, Save):
         return cls._tag_collection(name, 'companies', companies, untag=True)
 
     @classmethod
-    def find_all_for_user(cls, id=None, email=None, user_id=None):
-        params = {}
-        if id:
-            params['id'] = id
-        if email:
-            params['email'] = email
-        if user_id:
-            params['user_id'] = user_id
+    def find_all_for_user(cls, **kwargs):
+        return cls.find_all_for('user', **kwargs)
+
+    @classmethod
+    def find_all_for_company(cls, **kwargs):
+        return cls.find_all_for('company', **kwargs)
+
+    @classmethod
+    def find_all_for(cls, taggable_type, **kwargs):
+        params = {
+            'taggable_type': taggable_type
+        }
+        res_id = kwargs.pop('id', None)
+        if res_id:
+            params['taggable_id'] = res_id
+        params.update(kwargs)
+
         return Tag.find_all(**params)
