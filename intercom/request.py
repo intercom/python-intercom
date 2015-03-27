@@ -40,7 +40,7 @@ class Request(object):
     @classmethod
     def parse_body(cls, resp):
         try:
-            body = json.loads(resp.content)
+            body = json.loads(resp.content.decode())
         except ValueError:
             cls.raise_errors_on_failure(resp)
         if body.get('type') == 'error.list':

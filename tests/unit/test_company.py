@@ -3,30 +3,36 @@
 import httpretty
 import json
 import re
-from describe import expect
 import intercom
+import unittest
+
 from intercom import Company
+from nose.tools import assert_raises
+from nose.tools import istest
 
 get = httpretty.GET
 r = re.compile
 
 
-class DescribeIntercomCompany:
+class CompanyTest(unittest.TestCase):
 
+    @istest
     @httpretty.activate
     def it_raises_error_if_no_response_on_find(self):
         httpretty.register_uri(
             get, r(r'/companies$'), body=None, status=200)
-        with expect.to_raise_error(intercom.HttpError):
+        with assert_raises(intercom.HttpError):
             Company.find(company_id='4')
 
+    @istest
     @httpretty.activate
     def it_raises_error_if_no_response_on_find_all(self):
         httpretty.register_uri(
             get, r(r'/companies$'), body=None, status=200)
-        with expect.to_raise_error(intercom.HttpError):
+        with assert_raises(intercom.HttpError):
             [x for x in Company.all()]
 
+    @istest
     @httpretty.activate
     def it_raises_error_on_load(self):
         data = {
@@ -40,5 +46,5 @@ class DescribeIntercomCompany:
         company = Company.find(company_id='4')
         httpretty.register_uri(
             get, r(r'/companies/aaaaaaaaaaaaaaaaaaaaaaaa$'), body=None, status=200)  # noqa
-        with expect.to_raise_error(intercom.HttpError):
+        with assert_raises(intercom.HttpError):
             company.load()

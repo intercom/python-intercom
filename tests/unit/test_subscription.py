@@ -3,11 +3,12 @@
 import httpretty
 import json
 import re
+import unittest
 
-from describe import expect
 from intercom import Subscription
+from nose.tools import eq_
+from nose.tools import istest
 from tests.unit import test_subscription
-
 
 get = httpretty.GET
 post = httpretty.POST
@@ -15,8 +16,9 @@ post = httpretty.POST
 r = re.compile
 
 
-class DescribeIntercomSubscription:
+class SubscriptionTest(unittest.TestCase):
 
+    @istest
     @httpretty.activate
     def it_gets_a_subscription(self):
         body = json.dumps(test_subscription)
@@ -26,11 +28,12 @@ class DescribeIntercomSubscription:
             body=body)
 
         subscription = Subscription.find(id="nsub_123456789")
-        expect(subscription.topics[0]) == "user.created"
-        expect(subscription.topics[1]) == "conversation.user.replied"
-        expect(subscription.self) == \
-            "https://api.intercom.io/subscriptions/nsub_123456789"
+        eq_(subscription.topics[0], "user.created")
+        eq_(subscription.topics[1], "conversation.user.replied")
+        eq_(subscription.self,
+            "https://api.intercom.io/subscriptions/nsub_123456789")
 
+    @istest
     @httpretty.activate
     def it_creates_a_subscription(self):
         body = json.dumps(test_subscription)
@@ -42,5 +45,5 @@ class DescribeIntercomSubscription:
             url="http://example.com",
             topics=["user.created"]
         )
-        expect(subscription.topics[0]) == "user.created"
-        expect(subscription.url) == "http://example.com"
+        eq_(subscription.topics[0], "user.created")
+        eq_(subscription.url, "http://example.com")

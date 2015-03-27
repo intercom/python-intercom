@@ -22,6 +22,7 @@ from .tag import Tag  # noqa
 import copy
 import random
 import re
+import six
 import time
 
 __version__ = '2.0.alpha'
@@ -47,7 +48,7 @@ class IntercomType(type):  # noqa
     _endpoints = None
     _current_endpoint = None
     _target_base_url = None
-    _endpoint_randomized_at = None
+    _endpoint_randomized_at = 0
 
     @property
     def _auth(self):
@@ -134,9 +135,9 @@ class IntercomType(type):  # noqa
         self.endpoints = [value]
 
 
+@six.add_metaclass(IntercomType)
 class Intercom(object):
     _class_register = {}
-    __metaclass__ = IntercomType
 
     @classmethod
     def get_url(cls, path):

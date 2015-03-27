@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import six
 from intercom import HttpError
 
 
-class CollectionProxy(object):
+class CollectionProxy(six.Iterator):
 
     def __init__(self, cls, collection, finder_url, finder_params={}):
         # needed to create class instances of the resource
@@ -27,7 +28,7 @@ class CollectionProxy(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         if self.resources is None:
             # get the first page of results
             self.get_first_page()
@@ -36,18 +37,18 @@ class CollectionProxy(object):
         # current resource iterator (StopIteration is raised)
         # try to get the next page of results first
         try:
-            resource = self.resources.next()
+            resource = six.next(self.resources)
         except StopIteration:
             self.get_next_page()
-            resource = self.resources.next()
+            resource = six.next(self.resources)
 
         instance = self.collection_cls(**resource)
         return instance
 
     def __getitem__(self, index):
         for i in range(index):
-            self.next()
-        return self.next()
+            six.next(self)
+        return six.next(self)
 
     def get_first_page(self):
         # get the first page of results

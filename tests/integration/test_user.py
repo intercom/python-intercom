@@ -27,7 +27,6 @@ class UserTest(unittest.TestCase):
     def test_find_by_email(self):
         # Find user by email
         user = User.find(email=self.email)
-        print user
         self.assertEqual(self.email, user.email)
 
     def test_find_by_user_id(self):

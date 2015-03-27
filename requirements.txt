@@ -5,3 +5,4 @@ certifi
 inflection==0.3.0
 requests==2.6.0
 urllib3==1.10.2
+six==1.9.0
