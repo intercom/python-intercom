@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import errors
+from datetime import datetime
 
 import certifi
 import json
@@ -33,6 +34,7 @@ class Request(object):
             auth=auth, verify=certifi.where(), **req_params)
 
         cls.raise_errors_on_failure(resp)
+        cls.set_rate_limit_details(resp)
 
         if resp.content:
             return cls.parse_body(resp)
@@ -46,6 +48,22 @@ class Request(object):
         if body.get('type') == 'error.list':
             cls.raise_application_errors_on_failure(body, resp.status_code)
         return body
+
+    @classmethod
+    def set_rate_limit_details(cls, resp):
+        rate_limit_details = {}
+        headers = resp.headers
+        limit = headers.get('x-ratelimit-limit', None)
+        remaining = headers.get('x-ratelimit-remaining', None)
+        reset = headers.get('x-ratelimit-reset', None)
+        if limit:
+            rate_limit_details['limit'] = int(limit)
+        if remaining:
+            rate_limit_details['remaining'] = int(remaining)
+        if reset:
+            rate_limit_details['reset_at'] = datetime.fromtimestamp(int(reset))
+        from intercom import Intercom
+        Intercom.rate_limit_details = rate_limit_details
 
     @classmethod
     def raise_errors_on_failure(cls, resp):
