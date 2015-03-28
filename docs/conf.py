@@ -44,7 +44,9 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'python-intercom'
-copyright = u'2013, John Keyes'
+from datetime import datetime
+now = datetime.now()
+copyright = u'%s, John Keyes' % (now.year)
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -53,9 +55,9 @@ copyright = u'2013, John Keyes'
 # The short X.Y version.
 
 import re
-with file(os.path.join(path_dir, 'intercom', 'intercom.py')) as init:
+with open(os.path.join(path_dir, 'intercom', '__init__.py')) as init:
     source = init.read()
-    m = re.search("__version__ = '(\d+\.\d+\.\d+)'", source, re.M)
+    m = re.search("__version__ = '(\d+\.\d+\.(\d+|[a-z]+))'", source, re.M)
     version = m.groups()[0]
 
 # The full version, including alpha/beta/rc tags.
@@ -100,7 +102,13 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+
+try:
+    import sphinx_rtd_theme
+    html_theme = "sphinx_rtd_theme"
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+except ImportError:
+    html_theme = 'default'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

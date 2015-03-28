@@ -2,6 +2,9 @@
 Changelog
 =========
 
+* 2.0.alpha
+   * support for Intercom API v2
+   * support for Python 3
 * 0.2.10
    * basic support for companies. `#18 <https://github.com/jkeyes/python-intercom/pull/18>`_. (https://github.com/cameronmaske)
    * fixed User.delete. `#19 <https://github.com/jkeyes/python-intercom/pull/19>`_. (https://github.com/cameronmaske)
