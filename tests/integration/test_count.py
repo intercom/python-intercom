@@ -31,6 +31,7 @@ class CountTest(unittest.TestCase):
     def teardown_class(cls):
         delete(cls.company)
         delete(cls.user)
+        print(Intercom.rate_limit_details)
 
     def test_user_counts_for_each_tag(self):
         # Get User Tag Count Object

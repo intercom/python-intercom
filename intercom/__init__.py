@@ -50,6 +50,7 @@ class IntercomType(type):  # noqa
     _current_endpoint = None
     _target_base_url = None
     _endpoint_randomized_at = 0
+    _rate_limit_details = {}
 
     @property
     def _auth(self):
@@ -94,6 +95,14 @@ class IntercomType(type):  # noqa
         self._hostname = value
         self.current_endpoint = None
         self.endpoints = None
+
+    @property
+    def rate_limit_details(self):
+        return self._rate_limit_details
+
+    @rate_limit_details.setter
+    def rate_limit_details(self, value):
+        self._rate_limit_details = value
 
     @property
     def protocol(self):

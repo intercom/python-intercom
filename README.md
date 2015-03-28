@@ -408,17 +408,25 @@ HttpError
 UnexpectedError
 ```
 
+### Rate Limiting
+
+Calling `Intercom.rate_limit_details` returns a dict that contains details about your app's current rate limit.
+
+```python
+Intercom.rate_limit_details
+# {'limit': 500, 'reset_at': datetime.datetime(2015, 3, 28, 13, 22), 'remaining': 497}
+```
 
 ## Running the Tests
 
 Unit tests:
 
 ```bash
-PYTHONPATH=. describe tests/unit
+nosetests tests/unit
 ```
 
 Integration tests:
 
 ```bash
-PYTHONPATH=. INTERCOM_APP_ID=xxx INTERCOM_APP_API_KEY=xxx nosetests tests/integration
+INTERCOM_APP_ID=xxx INTERCOM_APP_API_KEY=xxx nosetests tests/integration
 ```
