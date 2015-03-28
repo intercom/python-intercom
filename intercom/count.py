@@ -3,13 +3,14 @@
 import six
 
 from intercom.api_operations.find import Find
-from intercom.generic_handlers.count import CountType
+from intercom.generic_handlers.count import Counter
+from intercom.generic_handlers.base_handler import BaseHandler
 from intercom.api_operations.count import Count as CountOperation
 from intercom.traits.api_resource import Resource
 
 
-@six.add_metaclass(CountType)
-class Count(Resource, Find, CountOperation):
+@six.add_metaclass(BaseHandler)
+class Count(Resource, Find, CountOperation, Counter):
 
     @classmethod
     def fetch_for_app(cls):

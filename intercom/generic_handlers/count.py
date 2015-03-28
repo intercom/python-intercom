@@ -2,13 +2,18 @@
 
 import re
 
-count_breakdown_matcher = re.compile(r'(\w+)_counts_for_each_(\w+)')
 
-class CountType(type):  # noqa
+class Counter():
 
-    def __getattr__(cls, name):  # noqa
-        match = count_breakdown_matcher.search(name)
-        if match:
-            entity_to_count = match.group(1)
-            count_context = match.group(2)
-            return cls.do_broken_down_count(entity_to_count, count_context)
+    count_breakdown_matcher = re.compile(r'(\w+)_counts_for_each_(\w+)')
+
+    @classmethod
+    def handles_attr(cls, name):
+        return cls.count_breakdown_matcher.search(name) is not None
+
+    @classmethod
+    def _get(cls, entity, name):
+        match = cls.count_breakdown_matcher.search(name)
+        entity_to_count = match.group(1)
+        count_context = match.group(2)
+        return entity.do_broken_down_count(entity_to_count, count_context)
