@@ -1,23 +1,8 @@
 #
 # Development dependencies.
 #
-<<<<<<< HEAD
-nose==1.1.2
-coverage==3.5.1
-mock==0.8.0
-logilab-common==0.57.1
-logilab-astng==0.23.1
-pylint==0.25.1
-Pygments==1.5
-Jinja2==2.6
-docutils==0.8.1
-Sphinx==1.1.3
-httpretty==0.7.0
-sphinx_rtd_theme==0.1.6
-=======
 nose==1.3.4
 httpretty==0.8.6
 mock==1.0.1
 coverage==3.7.1
 Sphinx==1.3.1
->>>>>>> dacbc256348c5eb9fae027b8fb7bf4551baaf3f8
