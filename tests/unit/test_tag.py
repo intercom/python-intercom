@@ -1,75 +1,48 @@
-# coding=utf-8
-#
-# Copyright 2012 keyes.ie
-#
-# License: http://jkeyes.mit-license.org/
-#
+# -*- coding: utf-8 -*-
 
-from intercom.tag import Tag
+import httpretty
+import json
+import re
+import unittest
+
+from intercom import Tag
 from nose.tools import eq_
-from nose.tools import raises
+from nose.tools import istest
+from tests.unit import test_tag
+
+get = httpretty.GET
+post = httpretty.POST
+r = re.compile
 
 
-@raises(AttributeError)
-def test_writeonly_emails():
-    tag = Tag()
-    tag.emails
+class TagTest(unittest.TestCase):
 
+    @istest
+    @httpretty.activate
+    def it_gets_a_tag(self):
+        httpretty.register_uri(
+            get, r(r'/tags'), body=json.dumps(test_tag))
+        tag = Tag.find(name="Test Tag")
+        eq_(tag.name, "Test Tag")
 
-def test_write_emails():
-    tag = Tag()
-    tag.emails = ["joe@example.com"]
-    eq_(tag['emails'], ["joe@example.com"])
+    @istest
+    @httpretty.activate
+    def it_creates_a_tag(self):
+        httpretty.register_uri(
+            post, r(r'/tags'), body=json.dumps(test_tag))
+        tag = Tag.create(name="Test Tag")
+        eq_(tag.name, "Test Tag")
 
-
-@raises(AttributeError)
-def test_writeonly_user_ids():
-    tag = Tag()
-    tag.user_ids
-
-
-def test_write_user_ids():
-    tag = Tag()
-    tag.user_ids = ["abc123"]
-    eq_(tag['user_ids'], ["abc123"])
-
-
-@raises(AttributeError)
-def test_writeonly_tag_or_untag():
-    tag = Tag()
-    tag.tag_or_untag
-
-
-def test_write_tag_or_untag():
-    tag = Tag()
-    tag.tag_or_untag = "tag"
-    eq_(tag['tag_or_untag'], "tag")
-
-
-@raises(AttributeError)
-def test_readonly_segment():
-    tag = Tag()
-    tag.segment = "segment"
-
-
-def test_segment():
-    tag = Tag(segment="segment")
-    tag.segment
-
-
-@raises(AttributeError)
-def test_readonly_user_count():
-    tag = Tag()
-    tag.tagged_user_count = 0
-
-
-@raises(AttributeError)
-def test_readonly_id():
-    tag = Tag()
-    tag.id = 0
-
-
-def test_accessor():
-    tag = Tag()
-    tag.name = "xyz"
-    eq_(tag.name, "xyz")
+    @istest
+    @httpretty.activate
+    def it_tags_users(self):
+        params = {
+            'name': 'Test Tag',
+            'user_ids': ['abc123', 'def456'],
+            'tag_or_untag': 'tag'
+        }
+        httpretty.register_uri(
+            post, r(r'/tags'), body=json.dumps(test_tag))
+        tag = Tag.create(**params)
+        eq_(tag.name, "Test Tag")
+        eq_(tag.tagged_user_count, 2)

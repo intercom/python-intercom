@@ -10,9 +10,9 @@ import re
 from setuptools import find_packages
 from setuptools import setup
 
-with open(os.path.join('intercom', 'intercom.py')) as init:
+with open(os.path.join('intercom', '__init__.py')) as init:
     source = init.read()
-    m = re.search("__version__ = '(\d+\.\d+\.\d+)'", source, re.M)
+    m = re.search("__version__ = '(\d+\.\d+\.(\d+|[a-z]+))'", source, re.M)
     __version__ = m.groups()[0]
 
 with open('README.rst') as readme:
@@ -31,6 +31,6 @@ setup(
     classifiers=[],
     packages=find_packages(),
     include_package_data=True,
-    install_requires=["requests"],
+    install_requires=["requests", "inflection", "certifi"],
     zip_safe=False
 )

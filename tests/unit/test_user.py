@@ -1,226 +1,404 @@
-# coding=utf-8
-#
-# Copyright 2012 keyes.ie
-#
-# License: http://jkeyes.mit-license.org/
-#
+# -*- coding: utf-8 -*-
+
+import httpretty
+import json
+import mock
+import re
+import time
+import unittest
 
 from datetime import datetime
-from intercom.user import CustomData
-from intercom.user import LocationData
-from intercom.user import SocialProfile
-from intercom.user import User
-from intercom.user import Company
+from intercom.collection_proxy import CollectionProxy
+from intercom.lib.flat_store import FlatStore
+from intercom import Intercom
+from intercom import User
+from intercom import MultipleMatchingUsersError
+from intercom.utils import create_class_instance
+from nose.tools import assert_raises
 from nose.tools import eq_
-from nose.tools import raises
+from nose.tools import ok_
+from nose.tools import istest
+from tests.unit import get_user
 
 
-def test_init_no_arg():
-    # no arg __init__
-    custom_data = CustomData()
-    eq_(0, len(custom_data))
+get = httpretty.GET
+post = httpretty.POST
+delete = httpretty.DELETE
+
+r = re.compile
 
 
-def test_init_dict_arg():
-    # dict arg __init__
-    custom_data = CustomData({'color': 'red'})
-    eq_(1, len(custom_data))
+class UserTest(unittest.TestCase):
+
+    @istest
+    def it_to_dict_itself(self):
+        created_at = datetime.utcnow()
+        user = User(
+            email="jim@example.com", user_id="12345",
+            created_at=created_at, name="Jim Bob")
+        as_dict = user.to_dict
+        eq_(as_dict["email"], "jim@example.com")
+        eq_(as_dict["user_id"], "12345")
+        eq_(as_dict["created_at"], time.mktime(created_at.timetuple()))
+        eq_(as_dict["name"], "Jim Bob")
+
+    @istest
+    def it_presents_created_at_and_last_impression_at_as_datetime(self):
+        now = datetime.utcnow()
+        now_ts = time.mktime(now.timetuple())
+        user = User.from_api(
+            {'created_at': now_ts, 'last_impression_at': now_ts})
+        self.assertIsInstance(user.created_at, datetime)
+        eq_(now.strftime('%c'), user.created_at.strftime('%c'))
+        self.assertIsInstance(user.last_impression_at, datetime)
+        eq_(now.strftime('%c'), user.last_impression_at.strftime('%c'))
+
+    @istest
+    def it_throws_an_attribute_error_on_trying_to_access_an_attribute_that_has_not_been_set(self):  # noqa
+        with assert_raises(AttributeError):
+            user = User()
+            user.foo_property
+
+    @istest
+    def it_presents_a_complete_user_record_correctly(self):
+        user = User.from_api(get_user())
+        eq_('id-from-customers-app', user.user_id)
+        eq_('bob@example.com', user.email)
+        eq_('Joe Schmoe', user.name)
+        eq_('the-app-id', user.app_id)
+        eq_(123, user.session_count)
+        eq_(1401970114, time.mktime(user.created_at.timetuple()))
+        eq_(1393613864, time.mktime(user.remote_created_at.timetuple()))
+        eq_(1401970114, time.mktime(user.updated_at.timetuple()))
+
+        Avatar = create_class_instance('Avatar')  # noqa
+        Company = create_class_instance('Company')  # noqa
+        SocialProfile = create_class_instance('SocialProfile')  # noqa
+        LocationData = create_class_instance('LocationData')  # noqa
+        self.assertIsInstance(user.avatar, Avatar.__class__)
+        img_url = 'https://graph.facebook.com/1/picture?width=24&height=24'
+        eq_(img_url, user.avatar.image_url)
+
+        self.assertIsInstance(user.companies, list)
+        eq_(1, len(user.companies))
+        self.assertIsInstance(user.companies[0], Company.__class__)
+        eq_('123', user.companies[0].company_id)
+        eq_('bbbbbbbbbbbbbbbbbbbbbbbb', user.companies[0].id)
+        eq_('the-app-id', user.companies[0].app_id)
+        eq_('Company 1', user.companies[0].name)
+        eq_(1390936440, time.mktime(
+            user.companies[0].remote_created_at.timetuple()))
+        eq_(1401970114, time.mktime(
+            user.companies[0].created_at.timetuple()))
+        eq_(1401970114, time.mktime(
+            user.companies[0].updated_at.timetuple()))
+        eq_(1401970113, time.mktime(
+            user.companies[0].last_request_at.timetuple()))
+        eq_(0, user.companies[0].monthly_spend)
+        eq_(0, user.companies[0].session_count)
+        eq_(1, user.companies[0].user_count)
+        eq_([], user.companies[0].tag_ids)
+
+        self.assertIsInstance(user.custom_attributes, FlatStore)
+        eq_('b', user.custom_attributes["a"])
+        eq_(2, user.custom_attributes["b"])
+
+        eq_(4, len(user.social_profiles))
+        twitter_account = user.social_profiles[0]
+        self.assertIsInstance(twitter_account, SocialProfile.__class__)
+        eq_('twitter', twitter_account.name)
+        eq_('abc', twitter_account.username)
+        eq_('http://twitter.com/abc', twitter_account.url)
+
+        self.assertIsInstance(user.location_data, LocationData.__class__)
+        eq_('Dublin', user.location_data.city_name)
+        eq_('EU', user.location_data.continent_code)
+        eq_('Ireland', user.location_data.country_name)
+        eq_('90', user.location_data.latitude)
+        eq_('10', user.location_data.longitude)
+        eq_('IRL', user.location_data.country_code)
+
+        ok_(user.unsubscribed_from_emails)
+        eq_("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11", user.user_agent_data)  # noqa
+
+    @istest
+    def it_allows_update_last_request_at(self):
+        payload = {
+            'user_id': '1224242',
+            'update_last_request_at': True,
+            'custom_attributes': {}
+        }
+        httpretty.register_uri(post, r("/users"), body=json.dumps(payload))
+        User(user_id='1224242', update_last_request_at=True)
+
+    @istest
+    def it_allows_easy_setting_of_custom_data(self):
+        now = datetime.utcnow()
+        now_ts = time.mktime(now.timetuple())
+
+        user = User()
+        user.custom_attributes["mad"] = 123
+        user.custom_attributes["other"] = now_ts
+        user.custom_attributes["thing"] = "yay"
+        attrs = {"mad": 123, "other": now_ts, "thing": "yay"}
+        eq_(user.to_dict["custom_attributes"], attrs)
+
+    @istest
+    def it_allows_easy_setting_of_multiple_companies(self):
+        user = User()
+        companies = [
+            {"name": "Intercom", "company_id": "6"},
+            {"name": "Test", "company_id": "9"},
+        ]
+        user.companies = companies
+        eq_(user.to_dict["companies"], companies)
+
+    @istest
+    def it_rejects_nested_data_structures_in_custom_attributes(self):
+        user = User()
+        with assert_raises(ValueError):
+            user.custom_attributes["thing"] = [1]
+
+        with assert_raises(ValueError):
+            user.custom_attributes["thing"] = {1: 2}
+
+        with assert_raises(ValueError):
+            user.custom_attributes = {1: {2: 3}}
+
+        user = User.from_api(get_user())
+        with assert_raises(ValueError):
+            user.custom_attributes["thing"] = [1]
+
+    @istest
+    @httpretty.activate
+    def it_fetches_a_user(self):
+        body = json.dumps(get_user())
+
+        httpretty.register_uri(
+            get, r(r"https://api.intercom.io/users\?email="),
+            body=body, match_querystring=True)
+        user = User.find(email='somebody@example.com')
+        eq_(user.email, 'bob@example.com')
+        eq_(user.name, 'Joe Schmoe')
+
+    @istest
+    @httpretty.activate
+    def it_saves_a_user_always_sends_custom_attributes(self):
+        user = User(email="jo@example.com", user_id="i-1224242")
+
+        body = json.dumps({
+            'email': 'jo@example.com',
+            'user_id': 'i-1224242',
+            'custom_attributes': {}
+        })
+        httpretty.register_uri(
+            post, r(r"/users"), body=body)
+        user.save()
+        eq_(user.email, 'jo@example.com')
+        eq_(user.custom_attributes, {})
+
+    @istest
+    @httpretty.activate
+    def it_saves_a_user_with_a_company(self):
+        user = User(
+            email="jo@example.com", user_id="i-1224242",
+            company={'company_id': 6, 'name': 'Intercom'})
+
+        body = json.dumps({
+            'email': 'jo@example.com',
+            'user_id': 'i-1224242',
+            'companies': [{
+                'company_id': 6,
+                'name': 'Intercom'
+            }]
+        })
+        httpretty.register_uri(
+            post, r(r"/users"), body=body)
+        user.save()
+        eq_(user.email, 'jo@example.com')
+        eq_(len(user.companies), 1)
+
+    @istest
+    @httpretty.activate
+    def it_saves_a_user_with_companies(self):
+        user = User(
+            email="jo@example.com", user_id="i-1224242",
+            companies=[{'company_id': 6, 'name': 'Intercom'}])
+        body = json.dumps({
+            'email': 'jo@example.com',
+            'user_id': 'i-1224242',
+            'companies': [{
+                'company_id': 6,
+                'name': 'Intercom'
+            }]
+        })
+        httpretty.register_uri(
+            post, r(r"/users"), body=body)
+        user.save()
+        eq_(user.email, 'jo@example.com')
+        eq_(len(user.companies), 1)
+
+    @istest
+    @httpretty.activate
+    def it_can_save_a_user_with_a_none_email(self):
+        user = User(
+            email=None, user_id="i-1224242",
+            companies=[{'company_id': 6, 'name': 'Intercom'}])
+        body = json.dumps({
+            'custom_attributes': {},
+            'email': None,
+            'user_id': 'i-1224242',
+            'companies': [{
+                'company_id': 6,
+                'name': 'Intercom'
+            }]
+        })
+        httpretty.register_uri(
+            post, r(r"/users"), body=body)
+        user.save()
+        ok_(user.email is None)
+        eq_(user.user_id, 'i-1224242')
+
+    @istest
+    @httpretty.activate
+    def it_deletes_a_user(self):
+        user = User(id="1")
+        httpretty.register_uri(
+            delete, r(r"https://api.intercom.io/users/1"), body='{}')
+        user = user.delete()
+        eq_(user.id, "1")
+
+    @istest
+    @httpretty.activate
+    def it_can_use_user_create_for_convenience(self):
+        payload = {
+            'email': 'jo@example.com',
+            'user_id': 'i-1224242',
+            'custom_attributes': {}
+        }
+        httpretty.register_uri(post, r(r"/users"), body=json.dumps(payload))
+        user = User.create(email="jo@example.com", user_id="i-1224242")
+        eq_(payload, user.to_dict)
+
+    @istest
+    @httpretty.activate
+    def it_updates_the_user_with_attributes_set_by_the_server(self):
+        payload = {
+            'email': 'jo@example.com',
+            'user_id': 'i-1224242',
+            'custom_attributes': {},
+            'session_count': 4
+        }
+        httpretty.register_uri(post, r(r"/users"), body=json.dumps(payload))
+
+        user = User.create(email="jo@example.com", user_id="i-1224242")
+        eq_(payload, user.to_dict)
+
+    @istest
+    @httpretty.activate
+    def it_allows_setting_dates_to_none_without_converting_them_to_0(self):
+        payload = {
+            'email': 'jo@example.com',
+            'custom_attributes': {},
+            'remote_created_at': None
+        }
+        httpretty.register_uri(post, r("/users"), body=json.dumps(payload))
+        user = User.create(email="jo@example.com", remote_created_at=None)
+        ok_(user.remote_created_at is None)
+
+    @istest
+    @httpretty.activate
+    def it_gets_sets_rw_keys(self):
+        created_at = datetime.utcnow()
+        payload = {
+            'email': 'me@example.com',
+            'user_id': 'abc123',
+            'name': 'Bob Smith',
+            'last_seen_ip': '1.2.3.4',
+            'last_seen_user_agent': 'ie6',
+            'created_at': time.mktime(created_at.timetuple())
+        }
+        httpretty.register_uri(post, r("/users"), body=json.dumps(payload))
+        user = User(**payload)
+        expected_keys = ['custom_attributes']
+        expected_keys.extend(list(payload.keys()))
+        eq_(sorted(expected_keys), sorted(user.to_dict.keys()))
+        for key in list(payload.keys()):
+            eq_(payload[key], user.to_dict[key])
+
+    @istest
+    @httpretty.activate
+    def it_will_allow_extra_attributes_in_response_from_api(self):
+        user = User.from_api({'new_param': 'some value'})
+        eq_('some value', user.new_param)
+
+    @istest
+    def it_returns_a_collectionproxy_for_all_without_making_any_requests(self):
+        with mock.patch('intercom.Request.send_request_to_path', new_callable=mock.NonCallableMock):  # noqa
+            res = User.all()
+            self.assertIsInstance(res, CollectionProxy)
+
+    @istest
+    def it_returns_the_total_number_of_users(self):
+        with mock.patch.object(User, 'count') as mock_count:
+            mock_count.return_value = 100
+            eq_(100, User.count())
+
+    @istest
+    @httpretty.activate
+    def it_raises_a_multiple_matching_users_error_when_receiving_a_conflict(self):  # noqa
+        payload = {
+            'type': 'error.list',
+            'errors': [
+                {
+                    'code': 'conflict',
+                    'message': 'Multiple existing users match this email address - must be more specific using user_id'  # noqa
+                }
+            ]
+        }
+        httpretty.register_uri(get, r("/users"), body=json.dumps(payload))
+        with assert_raises(MultipleMatchingUsersError):
+            Intercom.get('/users')
 
 
-def test_string_key():
-    # string keys are allowed
-    custom_data = CustomData()
-    custom_data['a'] = 'b'
+class DescribeIncrementingCustomAttributeFields(unittest.TestCase):
 
+    def setUp(self):  # noqa
+        created_at = datetime.utcnow()
+        params = {
+            'email': 'jo@example.com',
+            'user_id': 'i-1224242',
+            'custom_attributes': {
+                'mad': 123,
+                'another': 432,
+                'other': time.mktime(created_at.timetuple()),
+                'thing': 'yay'
+            }
+        }
+        self.user = User(**params)
 
-@raises(ValueError)
-def test_numeric_key():
-    # numeric keys are not allowed
-    custom_data = CustomData()
-    custom_data[1] = 'a'
+    @istest
+    def it_increments_up_by_1_with_no_args(self):
+        self.user.increment('mad')
+        eq_(self.user.to_dict['custom_attributes']['mad'], 124)
 
+    @istest
+    def it_increments_up_by_given_value(self):
+        self.user.increment('mad', 4)
+        eq_(self.user.to_dict['custom_attributes']['mad'], 127)
 
-@raises(ValueError)
-def test_dict_key():
-    # dict keys are not allowed
-    custom_data = CustomData()
-    custom_data[{'a': 'b'}] = 'c'
+    @istest
+    def it_increments_down_by_given_value(self):
+        self.user.increment('mad', -1)
+        eq_(self.user.to_dict['custom_attributes']['mad'], 122)
 
+    @istest
+    def it_can_increment_new_custom_data_fields(self):
+        self.user.increment('new_field', 3)
+        eq_(self.user.to_dict['custom_attributes']['new_field'], 3)
 
-def test_numeric_values():
-    # numeric values are allowed
-    custom_data = CustomData()
-    custom_data['a'] = 1
-    custom_data['b'] = 3.14
-    custom_data['c'] = 0177
-    custom_data['d'] = 0x7F
-
-
-@raises(ValueError)
-def test_complex_number_values():
-    # complex numeber values are allowed
-    custom_data = CustomData()
-    custom_data['a'] = complex(1.0, 0.2)
-
-
-@raises(ValueError)
-def test_dict_value():
-    # dict values are not allowed
-    custom_data = CustomData()
-    custom_data['a'] = {'b': 'c'}
-
-
-@raises(ValueError)
-def test_list_value():
-    # list values are not allowed
-    custom_data = CustomData()
-    custom_data['a'] = ['b', 'c']
-
-
-def test_attr():
-    sc_dict = {
-        'type': 'twitter',
-        'url': 'http://twitter.com/myname',
-        'username': 'myname',
-        'id': '123456789'
-    }
-
-    social_profile = SocialProfile(sc_dict)
-    eq_('twitter', social_profile.type)
-    eq_('http://twitter.com/myname', social_profile.url)
-    eq_('myname', social_profile.username)
-    eq_('123456789', social_profile.id)
-
-
-@raises(NotImplementedError)
-def test_setitem():
-    social_profile = SocialProfile()
-    social_profile['type'] = 'facebook'
-
-
-def test_user_properties():
-
-    created_at = datetime.fromtimestamp(1331764344)
-    last_request_at = datetime.fromtimestamp(1331764345)
-    last_impression_at = datetime.fromtimestamp(1331764346)
-    user = User()
-    user.email = 'somebody@example.com'
-    user.user_id = 1234
-    user.name = 'Somebody'
-    user.last_seen_ip = '192.168.1.100'
-    user.last_seen_user_agent = 'Mozilla/5.0'
-    user.last_request_at = last_request_at
-    user.last_impression_at = last_impression_at
-    user.created_at = created_at
-    user.unsubscribed_from_emails = True
-    user.custom_data = {'name': 'Ace'}
-    user.companies = [{
-        'id': 1,
-        'name': 'Intercom',
-        'created_at': created_at}]
-    try:
-        # cannot set the relationship score
-        user.relationship_score = 50
-        raise AttributeError
-    except AttributeError:
-        pass
-
-    eq_(user.email, 'somebody@example.com')
-    eq_(user.user_id, 1234)
-    eq_(user.name, 'Somebody')
-    eq_(user.last_seen_ip, '192.168.1.100')
-    eq_(user.last_seen_user_agent, 'Mozilla/5.0')
-    eq_(user.last_request_at, last_request_at)
-    eq_(user.last_impression_at, last_impression_at)
-    eq_(user.relationship_score, None)
-    eq_(user.created_at, created_at)
-    eq_(user.unsubscribed_from_emails, True)
-    eq_(user.custom_data['name'], 'Ace')
-    eq_(user.session_count, 0)
-    raises(AttributeError, lambda: user.companies)
-
-
-def test_company_properties():
-    c_dict = {
-        'id': 1,
-        'name': 'Intercom',
-        'created_at': 1331764344
-    }
-    company = Company(c_dict)
-    eq_(company.id, 1)
-    eq_(company.name, 'Intercom')
-    eq_(company.created_at, datetime.fromtimestamp(1331764344))
-
-    company.id = 100
-    company.name = 'ACME Inc.'
-    company.created_at = datetime.fromtimestamp(1331764300)
-    eq_(company.id, 100)
-    eq_(company.name, 'ACME Inc.')
-    eq_(company.created_at, datetime.fromtimestamp(1331764300))
-
-
-@raises(ValueError)
-def test_user_company():
-    user = User()
-    # use a Company object
-    user.company = Company({
-        'id': 1,
-        'name': 'Intercom',
-        'created_at': datetime.fromtimestamp(1331764344)
-    })
-
-    # use a dict object
-    user.company = {
-        'id': 1,
-        'name': 'Intercom',
-        'created_at': datetime.fromtimestamp(1331764344)
-    }
-    raises(AttributeError, lambda: user.company)
-    user.company = ['foo']
-
-
-@raises(ValueError)
-def test_user_companies():
-    user = User()
-    user.companies = [{
-        'id': 1,
-        'name': 'Intercom',
-        'created_at': datetime.fromtimestamp(1331764344)}]
-    raises(AttributeError, lambda: user.companies)
-    user.companies = {'foo': 'bar'}
-
-
-@raises(AttributeError)
-def test_location_setattr():
-    location_data = LocationData()
-    location_data.city_name = "Dublin"
-
-
-@raises(NotImplementedError)
-def test_location_setitem():
-    location_data = LocationData()
-    location_data['city_name'] = "Dublin"
-
-
-def test_location_properties():
-    location_data = LocationData({
-        "city_name": "Santiago",
-        "continent_code": "SA",
-        "country_name": "Chile",
-        "latitude": -33.44999999999999,
-        "longitude": -70.6667,
-        "postal_code": "",
-        "region_name": "12",
-        "timezone": "Chile/Continental",
-        "country_code": "CHL"
-    })
-
-    eq_(location_data.city_name, 'Santiago')
-    eq_(location_data.continent_code, 'SA')
-    eq_(location_data.country_name, 'Chile')
-    eq_(location_data.latitude, -33.44999999999999)
-    eq_(location_data.longitude, -70.6667)
-    eq_(location_data.postal_code, '')
-    eq_(location_data.region_name, '12')
-    eq_(location_data.timezone, 'Chile/Continental')
-    eq_(location_data.country_code, 'CHL')
+    @istest
+    def it_can_call_increment_on_the_same_key_twice_and_increment_by_2(self):  # noqa
+        self.user.increment('mad')
+        self.user.increment('mad')
+        eq_(self.user.to_dict['custom_attributes']['mad'], 125)

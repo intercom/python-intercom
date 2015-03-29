@@ -1,5 +1,8 @@
 #
 # Runtime dependencies.
 #
-requests==0.10.8
-sphinx_rtd_theme==0.1.6
+certifi
+inflection==0.3.0
+requests==2.6.0
+urllib3==1.10.2
+six==1.9.0

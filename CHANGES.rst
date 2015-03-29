@@ -2,6 +2,9 @@
 Changelog
 =========
 
+* 2.0.alpha
+   * support for Intercom API v2
+   * support for Python 3
 * 0.2.13
    * fix wildcard import from `intercom` `#28 https://github.com/jkeyes/python-intercom/pull/28`_. (https://github.com/marselester)
 * 0.2.12
