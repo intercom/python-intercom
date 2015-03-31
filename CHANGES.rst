@@ -2,6 +2,8 @@
 Changelog
 =========
 
+* 2.0.beta (not yet released)
+   * Fixed `UnboundLocalError` in `Request.parse_body`.
 * 2.0.alpha
    * support for Intercom API v2
    * support for Python 3
