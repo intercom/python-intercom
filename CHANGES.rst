@@ -2,6 +2,9 @@
 Changelog
 =========
 
+* 2.0.beta (not yet released)
+   * fixed `UnboundLocalError` in `Request.parse_body`.
+   * added support for replies with an empty body.
 * 2.0.alpha
    * support for Intercom API v2
    * support for Python 3

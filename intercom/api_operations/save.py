@@ -10,7 +10,8 @@ class Save(object):
         from intercom import Intercom
         collection = utils.resource_class_to_collection_name(cls)
         response = Intercom.post("/%s/" % (collection), **params)
-        return cls(**response)
+        if response:  # may be empty if we received a 202
+            return cls(**response)
 
     def from_dict(self, pdict):
         for key, value in list(pdict.items()):
