@@ -1,20 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import httpretty
-import json
-import re
 import time
 import unittest
 
 from datetime import datetime
 from intercom import User
+from intercom import Intercom
 from intercom import Event
-from nose.tools import eq_
-from nose.tools import ok_
+from mock import patch
 from nose.tools import istest
-
-post = httpretty.POST
-r = re.compile
 
 
 class EventTest(unittest.TestCase):
@@ -29,7 +24,6 @@ class EventTest(unittest.TestCase):
         self.created_time = now - 300
 
     @istest
-    @httpretty.activate
     def it_creates_an_event_with_metadata(self):
         data = {
             'event_name': 'Eventful 1',
@@ -41,13 +35,10 @@ class EventTest(unittest.TestCase):
                 'found_date': 12909364407
             }
         }
-        httpretty.register_uri(
-            post, r(r'/events/$'), body=json.dumps(data), status=202)
-        event = Event.create(**data)
 
-        eq_('Eventful 1', event.event_name)
-        ok_(hasattr(event, 'metadata'))
-        eq_('pi@example.com', event.metadata['invitee_email'])
+        with patch.object(Intercom, 'post', return_value=data) as mock_method:
+            Event.create(**data)
+            mock_method.assert_called_once_with('/events/', **data)
 
     @istest
     @httpretty.activate
@@ -56,9 +47,6 @@ class EventTest(unittest.TestCase):
             'event_name': 'sale of item',
             'email': 'joe@example.com',
         }
-        httpretty.register_uri(
-            post, r(r'/events/$'), body=json.dumps(data), status=202)
-        event = Event.create(**data)
-
-        eq_('sale of item', event.event_name)
-        ok_(not hasattr(event, 'metadata'))
+        with patch.object(Intercom, 'post', return_value=data) as mock_method:
+            Event.create(**data)
+            mock_method.assert_called_once_with('/events/', **data)
