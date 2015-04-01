@@ -42,7 +42,10 @@ class Request(object):
     @classmethod
     def parse_body(cls, resp):
         try:
-            body = json.loads(resp.content.decode())
+            decoded_body = resp.content.decode()
+            if not decoded_body:  # return early for empty responses (issue-72)
+                return
+            body = json.loads(decoded_body)
             if body.get('type') == 'error.list':
                 cls.raise_application_errors_on_failure(body, resp.status_code)
             return body
