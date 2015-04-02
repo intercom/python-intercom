@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import httpretty
 import json
 import mock
-import re
 import time
 import unittest
 
@@ -14,18 +12,13 @@ from intercom import Intercom
 from intercom import User
 from intercom import MultipleMatchingUsersError
 from intercom.utils import create_class_instance
+from mock import Mock
+from mock import patch
 from nose.tools import assert_raises
 from nose.tools import eq_
 from nose.tools import ok_
 from nose.tools import istest
 from tests.unit import get_user
-
-
-get = httpretty.GET
-post = httpretty.POST
-delete = httpretty.DELETE
-
-r = re.compile
 
 
 class UserTest(unittest.TestCase):
@@ -128,8 +121,10 @@ class UserTest(unittest.TestCase):
             'update_last_request_at': True,
             'custom_attributes': {}
         }
-        httpretty.register_uri(post, r("/users"), body=json.dumps(payload))
-        User(user_id='1224242', update_last_request_at=True)
+        with patch.object(Intercom, 'post', return_value=payload) as mock_method:
+            User.create(user_id='1224242', update_last_request_at=True)
+            mock_method.assert_called_once_with(
+                '/users/', update_last_request_at=True, user_id='1224242')
 
     @istest
     def it_allows_easy_setting_of_custom_data(self):
@@ -170,81 +165,87 @@ class UserTest(unittest.TestCase):
             user.custom_attributes["thing"] = [1]
 
     @istest
-    @httpretty.activate
     def it_fetches_a_user(self):
-        body = json.dumps(get_user())
-
-        httpretty.register_uri(
-            get, r(r"https://api.intercom.io/users\?email="),
-            body=body, match_querystring=True)
-        user = User.find(email='somebody@example.com')
-        eq_(user.email, 'bob@example.com')
-        eq_(user.name, 'Joe Schmoe')
+        with patch.object(Intercom, 'get', return_value=get_user()) as mock_method:  # noqa
+            user = User.find(email='somebody@example.com')
+            eq_(user.email, 'bob@example.com')
+            eq_(user.name, 'Joe Schmoe')
+            mock_method.assert_called_once_with('/users', email='somebody@example.com')  # noqa
 
     @istest
-    @httpretty.activate
+    # @httpretty.activate
     def it_saves_a_user_always_sends_custom_attributes(self):
         user = User(email="jo@example.com", user_id="i-1224242")
 
-        body = json.dumps({
+        body = {
             'email': 'jo@example.com',
             'user_id': 'i-1224242',
             'custom_attributes': {}
-        })
-        httpretty.register_uri(
-            post, r(r"/users"), body=body)
-        user.save()
-        eq_(user.email, 'jo@example.com')
-        eq_(user.custom_attributes, {})
+        }
+
+        with patch.object(Intercom, 'post', return_value=body) as mock_method:
+            user.save()
+            eq_(user.email, 'jo@example.com')
+            eq_(user.custom_attributes, {})
+            mock_method.assert_called_once_with(
+                '/users',
+                email="jo@example.com", user_id="i-1224242",
+                custom_attributes={})
 
     @istest
-    @httpretty.activate
     def it_saves_a_user_with_a_company(self):
         user = User(
             email="jo@example.com", user_id="i-1224242",
             company={'company_id': 6, 'name': 'Intercom'})
 
-        body = json.dumps({
+        body = {
             'email': 'jo@example.com',
             'user_id': 'i-1224242',
             'companies': [{
                 'company_id': 6,
                 'name': 'Intercom'
             }]
-        })
-        httpretty.register_uri(
-            post, r(r"/users"), body=body)
-        user.save()
-        eq_(user.email, 'jo@example.com')
-        eq_(len(user.companies), 1)
+        }
+        with patch.object(Intercom, 'post', return_value=body) as mock_method:
+            user.save()
+            eq_(user.email, 'jo@example.com')
+            eq_(len(user.companies), 1)
+            mock_method.assert_called_once_with(
+                '/users',
+                email="jo@example.com", user_id="i-1224242",
+                company={'company_id': 6, 'name': 'Intercom'},
+                custom_attributes={})
 
     @istest
-    @httpretty.activate
     def it_saves_a_user_with_companies(self):
         user = User(
             email="jo@example.com", user_id="i-1224242",
             companies=[{'company_id': 6, 'name': 'Intercom'}])
-        body = json.dumps({
+        print ("+++++>", user.changed_attributes)
+        body = {
             'email': 'jo@example.com',
             'user_id': 'i-1224242',
             'companies': [{
                 'company_id': 6,
                 'name': 'Intercom'
             }]
-        })
-        httpretty.register_uri(
-            post, r(r"/users"), body=body)
-        user.save()
-        eq_(user.email, 'jo@example.com')
-        eq_(len(user.companies), 1)
+        }
+        with patch.object(Intercom, 'post', return_value=body) as mock_method:
+            user.save()
+            eq_(user.email, 'jo@example.com')
+            eq_(len(user.companies), 1)
+            mock_method.assert_called_once_with(
+                '/users',
+                email="jo@example.com", user_id="i-1224242",
+                companies=[{'company_id': 6, 'name': 'Intercom'}],
+                custom_attributes={})
 
     @istest
-    @httpretty.activate
     def it_can_save_a_user_with_a_none_email(self):
         user = User(
             email=None, user_id="i-1224242",
             companies=[{'company_id': 6, 'name': 'Intercom'}])
-        body = json.dumps({
+        body = {
             'custom_attributes': {},
             'email': None,
             'user_id': 'i-1224242',
@@ -252,36 +253,38 @@ class UserTest(unittest.TestCase):
                 'company_id': 6,
                 'name': 'Intercom'
             }]
-        })
-        httpretty.register_uri(
-            post, r(r"/users"), body=body)
-        user.save()
-        ok_(user.email is None)
-        eq_(user.user_id, 'i-1224242')
+        }
+        with patch.object(Intercom, 'post', return_value=body) as mock_method:
+            user.save()
+            ok_(user.email is None)
+            eq_(user.user_id, 'i-1224242')
+            mock_method.assert_called_once_with(
+                '/users',
+                email=None, user_id="i-1224242",
+                companies=[{'company_id': 6, 'name': 'Intercom'}],
+                custom_attributes={})
 
     @istest
-    @httpretty.activate
     def it_deletes_a_user(self):
         user = User(id="1")
-        httpretty.register_uri(
-            delete, r(r"https://api.intercom.io/users/1"), body='{}')
-        user = user.delete()
-        eq_(user.id, "1")
+        with patch.object(Intercom, 'delete', return_value={}) as mock_method:
+            user = user.delete()
+            eq_(user.id, "1")
+            mock_method.assert_called_once_with('/users/1/')
 
     @istest
-    @httpretty.activate
     def it_can_use_user_create_for_convenience(self):
         payload = {
             'email': 'jo@example.com',
             'user_id': 'i-1224242',
             'custom_attributes': {}
         }
-        httpretty.register_uri(post, r(r"/users"), body=json.dumps(payload))
-        user = User.create(email="jo@example.com", user_id="i-1224242")
-        eq_(payload, user.to_dict)
+        with patch.object(Intercom, 'post', return_value=payload) as mock_method:  # noqa
+            user = User.create(email="jo@example.com", user_id="i-1224242")
+            eq_(payload, user.to_dict)
+            mock_method.assert_called_once_with('/users/', email="jo@example.com", user_id="i-1224242")  # noqa
 
     @istest
-    @httpretty.activate
     def it_updates_the_user_with_attributes_set_by_the_server(self):
         payload = {
             'email': 'jo@example.com',
@@ -289,25 +292,24 @@ class UserTest(unittest.TestCase):
             'custom_attributes': {},
             'session_count': 4
         }
-        httpretty.register_uri(post, r(r"/users"), body=json.dumps(payload))
-
-        user = User.create(email="jo@example.com", user_id="i-1224242")
-        eq_(payload, user.to_dict)
+        with patch.object(Intercom, 'post', return_value=payload) as mock_method:
+            user = User.create(email="jo@example.com", user_id="i-1224242")
+            eq_(payload, user.to_dict)
+            mock_method.assert_called_once_with('/users/', email="jo@example.com", user_id="i-1224242")  # noqa
 
     @istest
-    @httpretty.activate
     def it_allows_setting_dates_to_none_without_converting_them_to_0(self):
         payload = {
             'email': 'jo@example.com',
             'custom_attributes': {},
             'remote_created_at': None
         }
-        httpretty.register_uri(post, r("/users"), body=json.dumps(payload))
-        user = User.create(email="jo@example.com", remote_created_at=None)
-        ok_(user.remote_created_at is None)
+        with patch.object(Intercom, 'post', return_value=payload) as mock_method:
+            user = User.create(email="jo@example.com", remote_created_at=None)
+            ok_(user.remote_created_at is None)
+            mock_method.assert_called_once_with('/users/', email="jo@example.com", remote_created_at=None)  # noqa
 
     @istest
-    @httpretty.activate
     def it_gets_sets_rw_keys(self):
         created_at = datetime.utcnow()
         payload = {
@@ -318,7 +320,6 @@ class UserTest(unittest.TestCase):
             'last_seen_user_agent': 'ie6',
             'created_at': time.mktime(created_at.timetuple())
         }
-        httpretty.register_uri(post, r("/users"), body=json.dumps(payload))
         user = User(**payload)
         expected_keys = ['custom_attributes']
         expected_keys.extend(list(payload.keys()))
@@ -327,7 +328,6 @@ class UserTest(unittest.TestCase):
             eq_(payload[key], user.to_dict[key])
 
     @istest
-    @httpretty.activate
     def it_will_allow_extra_attributes_in_response_from_api(self):
         user = User.from_api({'new_param': 'some value'})
         eq_('some value', user.new_param)
@@ -345,7 +345,7 @@ class UserTest(unittest.TestCase):
             eq_(100, User.count())
 
     @istest
-    @httpretty.activate
+    # @httpretty.activate
     def it_raises_a_multiple_matching_users_error_when_receiving_a_conflict(self):  # noqa
         payload = {
             'type': 'error.list',
@@ -356,9 +356,17 @@ class UserTest(unittest.TestCase):
                 }
             ]
         }
-        httpretty.register_uri(get, r("/users"), body=json.dumps(payload))
-        with assert_raises(MultipleMatchingUsersError):
-            Intercom.get('/users')
+        headers = {
+            'x-ratelimit-limit': 500,
+            'x-ratelimit-remaining': 500,
+            'x-ratelimit-reset': 1427932858
+        }
+        content = json.dumps(payload).encode('utf-8')
+        resp = Mock(content=content, status_code=200, headers=headers)
+        with patch('requests.request') as mock_method:
+            mock_method.return_value = resp
+            with assert_raises(MultipleMatchingUsersError):
+                Intercom.get('/users')
 
 
 class DescribeIncrementingCustomAttributeFields(unittest.TestCase):

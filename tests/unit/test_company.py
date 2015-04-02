@@ -1,39 +1,34 @@
 # -*- coding: utf-8 -*-
 
-import httpretty
-import json
-import re
 import intercom
 import unittest
 
 from intercom import Company
+from intercom import Intercom
+from mock import call
+from mock import patch
 from nose.tools import assert_raises
+from nose.tools import eq_
 from nose.tools import istest
-
-get = httpretty.GET
-r = re.compile
 
 
 class CompanyTest(unittest.TestCase):
 
     @istest
-    @httpretty.activate
     def it_raises_error_if_no_response_on_find(self):
-        httpretty.register_uri(
-            get, r(r'/companies$'), body=None, status=200)
-        with assert_raises(intercom.HttpError):
-            Company.find(company_id='4')
+        with patch.object(Intercom, 'get', return_value=None) as mock_method:
+            with assert_raises(intercom.HttpError):
+                Company.find(company_id='4')
+            mock_method.assert_called_once_with('/companies', company_id='4')
 
     @istest
-    @httpretty.activate
     def it_raises_error_if_no_response_on_find_all(self):
-        httpretty.register_uri(
-            get, r(r'/companies$'), body=None, status=200)
-        with assert_raises(intercom.HttpError):
-            [x for x in Company.all()]
+        with patch.object(Intercom, 'get', return_value=None) as mock_method:
+            with assert_raises(intercom.HttpError):
+                [x for x in Company.all()]
+            mock_method.assert_called_once_with('/companies')
 
     @istest
-    @httpretty.activate
     def it_raises_error_on_load(self):
         data = {
             'type': 'user',
@@ -41,10 +36,10 @@ class CompanyTest(unittest.TestCase):
             'company_id': '4',
             'name': 'MyCo'
         }
-        httpretty.register_uri(
-            get, r(r'/companies$'), body=json.dumps(data), status=200)
-        company = Company.find(company_id='4')
-        httpretty.register_uri(
-            get, r(r'/companies/aaaaaaaaaaaaaaaaaaaaaaaa$'), body=None, status=200)  # noqa
-        with assert_raises(intercom.HttpError):
-            company.load()
+        side_effect = [data, None]
+        with patch.object(Intercom, 'get', side_effect=side_effect) as mock_method:  # noqa
+            company = Company.find(company_id='4')
+            with assert_raises(intercom.HttpError):
+                company.load()
+            eq_([call('/companies', company_id='4'), call('/companies/aaaaaaaaaaaaaaaaaaaaaaaa')],  # noqa
+                mock_method.mock_calls)

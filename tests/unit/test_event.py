@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import httpretty
 import time
 import unittest
 
@@ -41,7 +40,6 @@ class EventTest(unittest.TestCase):
             mock_method.assert_called_once_with('/events/', **data)
 
     @istest
-    @httpretty.activate
     def it_creates_an_event_without_metadata(self):
         data = {
             'event_name': 'sale of item',
