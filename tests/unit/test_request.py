@@ -40,7 +40,6 @@ class RequestTest(unittest.TestCase):
                 Request.send_request_to_path('GET', 'notes', ('x', 'y'), resp)
 
     @istest
-    # @httpretty.activate
     def it_raises_authentication_error_forbidden(self):
         resp = Mock(content='{}', status_code=403)
         with patch('requests.request') as mock_method:
@@ -49,7 +48,6 @@ class RequestTest(unittest.TestCase):
                 Request.send_request_to_path('GET', 'notes', ('x', 'y'), resp)
 
     @istest
-    # @httpretty.activate
     def it_raises_server_error(self):
         resp = Mock(content='{}', status_code=500)
         with patch('requests.request') as mock_method:
@@ -58,7 +56,6 @@ class RequestTest(unittest.TestCase):
                 Request.send_request_to_path('GET', 'notes', ('x', 'y'), resp)
 
     @istest
-    # @httpretty.activate
     def it_raises_bad_gateway_error(self):
         resp = Mock(content='{}', status_code=502)
         with patch('requests.request') as mock_method:
@@ -67,7 +64,6 @@ class RequestTest(unittest.TestCase):
                 Request.send_request_to_path('GET', 'notes', ('x', 'y'), resp)
 
     @istest
-    # @httpretty.activate
     def it_raises_service_unavailable_error(self):
         resp = Mock(content='{}', status_code=503)
         with patch('requests.request') as mock_method:

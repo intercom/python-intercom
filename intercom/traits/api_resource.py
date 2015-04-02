@@ -78,7 +78,7 @@ class Resource(object):
         return res
 
     def submittable_attribute(self, name, value):
-        return name in self.changed_attributes or (isinstance(value, FlatStore) and name in self.flat_store_attributes)  # noqa
+        return name in self.changed_attributes or (isinstance(value, FlatStore) and name in self.flat_store_attributes)  # noqa
 
     def __getattribute__(self, attribute):
         value = super(Resource, self).__getattribute__(attribute)

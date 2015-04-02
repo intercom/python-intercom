@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import httpretty
 import json
 import mock
-import re
 import time
 import unittest
 
@@ -21,13 +19,6 @@ from nose.tools import eq_
 from nose.tools import ok_
 from nose.tools import istest
 from tests.unit import get_user
-
-
-get = httpretty.GET
-post = httpretty.POST
-delete = httpretty.DELETE
-
-r = re.compile
 
 
 class UserTest(unittest.TestCase):
@@ -130,8 +121,10 @@ class UserTest(unittest.TestCase):
             'update_last_request_at': True,
             'custom_attributes': {}
         }
-        httpretty.register_uri(post, r("/users"), body=json.dumps(payload))
-        User(user_id='1224242', update_last_request_at=True)
+        with patch.object(Intercom, 'post', return_value=payload) as mock_method:
+            User.create(user_id='1224242', update_last_request_at=True)
+            mock_method.assert_called_once_with(
+                '/users/', update_last_request_at=True, user_id='1224242')
 
     @istest
     def it_allows_easy_setting_of_custom_data(self):

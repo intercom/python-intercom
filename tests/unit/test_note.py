@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import httpretty
-import json
-import re
 import unittest
 
 from intercom import Intercom
@@ -11,30 +8,21 @@ from mock import patch
 from nose.tools import eq_
 from nose.tools import istest
 
-post = httpretty.POST
-r = re.compile
-
 
 class NoteTest(unittest.TestCase):
 
     @istest
-    @httpretty.activate
     def it_creates_a_note(self):
         data = {
             'body': '<p>Note to leave on user</p>',
             'created_at': 1234567890
         }
         with patch.object(Intercom, 'post', return_value=data) as mock_method:
-            # message = Message.create(**data)
-            # eq_('halp', message.body)
-            # httpretty.register_uri(
-            #     post, r(r'/notes/$'), body=json.dumps(data))
             note = Note.create(body="Note to leave on user")
-            mock_method.assert_called_once_with('/notes/', body="Note to leave on user")
+            mock_method.assert_called_once_with('/notes/', body="Note to leave on user")  # noqa
             eq_(note.body, "<p>Note to leave on user</p>")
 
     @istest
-    @httpretty.activate
     def it_sets_gets_allowed_keys(self):
         params = {
             'body': 'Note body',

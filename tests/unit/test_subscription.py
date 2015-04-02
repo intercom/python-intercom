@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import httpretty
-import re
 import unittest
 
 from intercom import Intercom
@@ -10,11 +8,6 @@ from mock import patch
 from nose.tools import eq_
 from nose.tools import istest
 from tests.unit import test_subscription
-
-get = httpretty.GET
-post = httpretty.POST
-
-r = re.compile
 
 
 class SubscriptionTest(unittest.TestCase):
