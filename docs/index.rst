@@ -9,6 +9,7 @@ python-intercom
     api/modules
     changelog
     development
+    authors
 
 Installation
 ============
