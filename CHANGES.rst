@@ -10,7 +10,7 @@ Changelog
    * Added support for Intercom API v2.
    * Added support for Python 3.
 * 0.2.13
-   * Fixed wildcard import from `intercom` `#28 https://github.com/jkeyes/python-intercom/pull/28`_. (https://github.com/marselester)
+   * Fixed wildcard import from `intercom` `#28 <https://github.com/jkeyes/python-intercom/pull/28>`_. (https://github.com/marselester)
 * 0.2.12
    * Added RTD theme to requirements.txt
 * 0.2.11
