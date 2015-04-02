@@ -33,18 +33,17 @@ def to_datetime_value(value):
 
 
 class Resource(object):
+    changed_attributes = []
 
     def __init__(_self, **params):  # noqa
         # intercom includes a 'self' field in the JSON, to avoid the naming
         # conflict we go with _self here
-        _self.changed_attributes = []
         _self.from_dict(params)
 
         if hasattr(_self, 'flat_store_attributes'):
             for attr in _self.flat_store_attributes:
                 if not hasattr(_self, attr):
                     setattr(_self, attr, FlatStore())
-        _self.changed_attributes = []
 
     def _flat_store_attribute(self, attribute):
         if hasattr(self, 'flat_store_attributes'):
@@ -59,7 +58,6 @@ class Resource(object):
 
     def from_response(self, response):
         self.from_dict(response)
-        self.changed_attributes = []
         return self
 
     def from_dict(self, dict):
@@ -67,6 +65,9 @@ class Resource(object):
             if type_field(attribute):
                 continue
             setattr(self, attribute, value)
+        if hasattr(self, 'id'):
+            # already exists in Intercom
+            self.changed_attributes = []
 
     @property
     def attributes(self):
@@ -77,7 +78,7 @@ class Resource(object):
         return res
 
     def submittable_attribute(self, name, value):
-        return name in self.changed_attributes or isinstance(value, FlatStore)
+        return name in self.changed_attributes or (isinstance(value, FlatStore) and name in self.flat_store_attributes)  # noqa
 
     def __getattribute__(self, attribute):
         value = super(Resource, self).__getattribute__(attribute)
@@ -96,5 +97,5 @@ class Resource(object):
         else:
             value_to_set = value
         if attribute != 'changed_attributes':
-            self.__dict__['changed_attributes'].append(attribute)
+            self.changed_attributes.append(attribute)
         super(Resource, self).__setattr__(attribute, value_to_set)

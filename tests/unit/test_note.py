@@ -5,7 +5,9 @@ import json
 import re
 import unittest
 
+from intercom import Intercom
 from intercom import Note
+from mock import patch
 from nose.tools import eq_
 from nose.tools import istest
 
@@ -22,10 +24,14 @@ class NoteTest(unittest.TestCase):
             'body': '<p>Note to leave on user</p>',
             'created_at': 1234567890
         }
-        httpretty.register_uri(
-            post, r(r'/notes/$'), body=json.dumps(data))
-        note = Note.create(body="Note to leave on user")
-        eq_(note.body, "<p>Note to leave on user</p>")
+        with patch.object(Intercom, 'post', return_value=data) as mock_method:
+            # message = Message.create(**data)
+            # eq_('halp', message.body)
+            # httpretty.register_uri(
+            #     post, r(r'/notes/$'), body=json.dumps(data))
+            note = Note.create(body="Note to leave on user")
+            mock_method.assert_called_once_with('/notes/', body="Note to leave on user")
+            eq_(note.body, "<p>Note to leave on user</p>")
 
     @istest
     @httpretty.activate
