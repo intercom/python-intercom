@@ -3,51 +3,52 @@ Changelog
 =========
 
 * 2.0.beta (not yet released)
-   * fixed `UnboundLocalError` in `Request.parse_body`.
-   * added support for replies with an empty body.
+   * Fixed `UnboundLocalError` in `Request.parse_body`.
+   * Added support for replies with an empty body.
+   * Fixed a bug in identifying changed attributes when creating new resources.
 * 2.0.alpha
-   * support for Intercom API v2
-   * support for Python 3
+   * Added support for Intercom API v2.
+   * Added support for Python 3.
 * 0.2.13
-   * fix wildcard import from `intercom` `#28 https://github.com/jkeyes/python-intercom/pull/28`_. (https://github.com/marselester)
+   * Fixed wildcard import from `intercom` `#28 https://github.com/jkeyes/python-intercom/pull/28`_. (https://github.com/marselester)
 * 0.2.12
-   * include RTD theme in requirements.txt
+   * Added RTD theme to requirements.txt
 * 0.2.11
-   * support for events. `#25 <https://github.com/jkeyes/python-intercom/pull/25>`_. (https://github.com/mekza)
-   * using RTD theme for documentation.
-   * updated links to Intercom API docs.
+   * Added support for events. `#25 <https://github.com/jkeyes/python-intercom/pull/25>`_. (https://github.com/mekza)
+   * Using RTD theme for documentation.
+   * Fixed links to Intercom API docs.
 * 0.2.10
-   * basic support for companies. `#18 <https://github.com/jkeyes/python-intercom/pull/18>`_. (https://github.com/cameronmaske)
-   * fixed User.delete. `#19 <https://github.com/jkeyes/python-intercom/pull/19>`_. (https://github.com/cameronmaske)
-   * updated links to Intercom API docs.
-   * Doctest fixes.
+   * Added basic support for companies. `#18 <https://github.com/jkeyes/python-intercom/pull/18>`_. (https://github.com/cameronmaske)
+   * Fixed User.delete. `#19 <https://github.com/jkeyes/python-intercom/pull/19>`_. (https://github.com/cameronmaske)
+   * Fixed links to Intercom API docs.
+   * Fixed doctests.
 * 0.2.9
-   * `unsubscribed_from_emails` attribute added to `User` object. `#15 <https://github.com/jkeyes/python-intercom/pull/15>`_. (https://github.com/sdorazio)
-   * `last_request_at` parameter supported in `Intercom.create_user`. `#16 <https://github.com/jkeyes/python-intercom/issues/16>`_.
-   * page, per_page, tag_id, and tag_name parameters support on `Intercom.get_users`. `#17 <https://github.com/jkeyes/python-intercom/issues/17>`_.
+   * Added `unsubscribed_from_emails` attribute to `User` object. `#15 <https://github.com/jkeyes/python-intercom/pull/15>`_. (https://github.com/sdorazio)
+   * Added support for `last_request_at` parameter in `Intercom.create_user`. `#16 <https://github.com/jkeyes/python-intercom/issues/16>`_.
+   * Added support for page, per_page, tag_id, and tag_name parameters on `Intercom.get_users`. `#17 <https://github.com/jkeyes/python-intercom/issues/17>`_.
 * 0.2.8
    * Added support for tagging `#13 <https://github.com/jkeyes/python-intercom/issues/13>`_.
-   * Now installs into a clean python environment (https://github.com/vrachil) `#12 <https://github.com/jkeyes/python-intercom/issues/12>`_.
-   * Doctest fix.
-   * PEP8 formatting.
+   * Fixed installation into a clean python environment (https://github.com/vrachil) `#12 <https://github.com/jkeyes/python-intercom/issues/12>`_.
+   * Fixed doctest.
+   * Updated PEP8 formatting.
 * 0.2.7
-   * Update delete user support to send bodyless request.
-   * Add support for user notes.
+   * Fixed delete user support to send bodyless request.
+   * Added support for user notes.
 * 0.2.6
-   * Support for delete user.
+   * Added support for delete user.
 * 0.2.5
-   * Consistent version numbering (docs and code).
+   * Fixed consistent version numbering (docs and code).
 * 0.2.4
-   * Handle invalid JSON responses. (https://github.com/marselester)
-   * Fix to doctests to pass with current Intercom dummy API.
+   * Fixed handling of invalid JSON responses. (https://github.com/marselester)
+   * Fixed doctests to pass with current Intercom dummy API.
 * 0.2.3
    * Fixed version number of distribution to match documentation.
 * 0.2.2
-   * Finished docstrings and doctests.
+   * Updated docstrings and doctests.
 * 0.2.1
    * Added some docstrings.
 * 0.2
-   * created source distribution `#2 <https://github.com/jkeyes/python-intercom/issues/2>`_.
-   * renamed errors `#1 <https://github.com/jkeyes/python-intercom/issues/1>`_.
+   * Created source distribution: `#2 <https://github.com/jkeyes/python-intercom/issues/2>`_.
+   * Fixed error names: `#1 <https://github.com/jkeyes/python-intercom/issues/1>`_.
 * 0.1
-   * initial release
+   * Initial release.
