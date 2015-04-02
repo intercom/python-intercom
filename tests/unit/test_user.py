@@ -361,7 +361,7 @@ class UserTest(unittest.TestCase):
             'x-ratelimit-remaining': 500,
             'x-ratelimit-reset': 1427932858
         }
-        content = json.dumps(payload)
+        content = json.dumps(payload).encode('utf-8')
         resp = Mock(content=content, status_code=200, headers=headers)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp

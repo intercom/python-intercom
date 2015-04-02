@@ -82,7 +82,7 @@ class RequestTest(unittest.TestCase):
                 }
             ]
         }
-        content = json.dumps(payload)
+        content = json.dumps(payload).encode('utf-8')
         resp = Mock(content=content, status_code=200, headers=headers)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
@@ -104,7 +104,7 @@ class RequestTest(unittest.TestCase):
                 }
             ]
         }
-        content = json.dumps(payload)
+        content = json.dumps(payload).encode('utf-8')
         resp = Mock(content=content, status_code=200, headers=headers)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
@@ -130,7 +130,7 @@ class RequestTest(unittest.TestCase):
         for code in ['missing_parameter', 'parameter_invalid', 'bad_request']:
             payload['errors'][0]['type'] = code
 
-            content = json.dumps(payload)
+            content = json.dumps(payload).encode('utf-8')
             resp = Mock(content=content, status_code=200, headers=headers)
             with patch('requests.request') as mock_method:
                 mock_method.return_value = resp
@@ -151,7 +151,7 @@ class RequestTest(unittest.TestCase):
         for code in ['unauthorized', 'forbidden']:
             payload['errors'][0]['type'] = code
 
-            content = json.dumps(payload)
+            content = json.dumps(payload).encode('utf-8')
             resp = Mock(content=content, status_code=200, headers=headers)
             with patch('requests.request') as mock_method:
                 mock_method.return_value = resp
@@ -169,7 +169,7 @@ class RequestTest(unittest.TestCase):
                 }
             ]
         }
-        content = json.dumps(payload)
+        content = json.dumps(payload).encode('utf-8')
         resp = Mock(content=content, status_code=200, headers=headers)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
@@ -187,7 +187,7 @@ class RequestTest(unittest.TestCase):
                 }
             ]
         }
-        content = json.dumps(payload)
+        content = json.dumps(payload).encode('utf-8')
         resp = Mock(content=content, status_code=200, headers=headers)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
@@ -205,7 +205,7 @@ class RequestTest(unittest.TestCase):
                 }
             ]
         }
-        content = json.dumps(payload)
+        content = json.dumps(payload).encode('utf-8')
         resp = Mock(content=content, status_code=200, headers=headers)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
@@ -223,7 +223,7 @@ class RequestTest(unittest.TestCase):
                 }
             ]
         }
-        content = json.dumps(payload)
+        content = json.dumps(payload).encode('utf-8')
         resp = Mock(content=content, status_code=200, headers=headers)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
