@@ -21,5 +21,4 @@ class Issue72Test(unittest.TestCase):
             'created_at': int(time.time()),
             'email': 'me@example.com'
         }
-        print data
         Event.create(**data)
