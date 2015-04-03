@@ -283,5 +283,5 @@ test_conversation_notification = {
     "first_sent_at": 1410335293,
     "created_at": 1410335293,
     "links": {},
-    "self": None
+    "self": "http://example.com/resource/url/"
 }
