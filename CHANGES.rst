@@ -2,7 +2,7 @@
 Changelog
 =========
 
-* 2.0.beta (not yet released)
+* 2.0.beta
    * Fixed `UnboundLocalError` in `Request.parse_body`. (`#72 <https://github.com/jkeyes/python-intercom/issues/72>`_)
    * Added support for replies with an empty body. (`#72 <https://github.com/jkeyes/python-intercom/issues/72>`_)
    * Fixed a bug in identifying changed attributes when creating new resources. (`#77 <https://github.com/jkeyes/python-intercom/issues/77>`_)
