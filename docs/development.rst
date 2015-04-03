@@ -51,3 +51,8 @@ Development Dependencies
 * `mock <http://www.voidspace.org.uk/python/mock/>`_ – patching methods for unit testing.
 * `Sphinx <http://sphinx.pocoo.org/>`_ – documentation decorator.
 
+
+Authors
+-------
+
+.. include:: ../AUTHORS.rst

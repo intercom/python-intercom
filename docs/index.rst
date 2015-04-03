@@ -6,9 +6,10 @@ python-intercom
     :hidden:
 
     installation
-    api/modules
+    faq
     changelog
     development
+    api/modules
 
 Installation
 ============
