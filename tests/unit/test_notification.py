@@ -81,3 +81,8 @@ class NotificationTest(unittest.TestCase):
         }
         payload = Notification(**user_notification)
         eq_(payload.model.tags, [])
+
+    @istest
+    def it_has_self_attribute(self):
+        payload = Notification(**test_conversation_notification)
+        eq_('http://example.com/resource/url/', payload.self)
