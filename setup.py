@@ -31,6 +31,6 @@ setup(
     classifiers=[],
     packages=find_packages(),
     include_package_data=True,
-    install_requires=["requests", "inflection", "certifi"],
+    install_requires=["requests", "inflection", "certifi", "six"],
     zip_safe=False
 )
