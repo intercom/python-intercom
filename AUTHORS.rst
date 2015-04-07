@@ -2,12 +2,12 @@ python-intercom is written and maintained by John Keyes and various
 contributors:
 
 Development Lead
-^^^^^^^^^^^^^^^^
+----------------
 
 - John Keyes <john@keyes.ie> `@jkeyes <https://github.com/jkeyes>`_
 
 Patches and Suggestions
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 - `vrachnis <https://github.com/vrachnis>`_
 - `sdorazio <https://github.com/sdorazio>`_
@@ -18,7 +18,8 @@ Patches and Suggestions
 - `Robert Elliott <https://github.com/greenafrican>`_
 
 Intercom
-^^^^^^^^
+--------
+
 - `Darragh Curran <https://github.com/darragh>`_
 - `Bill de hÓra <https://github.com/dehora>`_
 - `Jeff Gardner <https://github.com/erskingardner>`_

@@ -1,6 +1,4 @@
 # python-intercom
-=================
-
 
 [ ![PyPI Version](https://img.shields.io/pypi/v/python-intercom.svg) ](https://pypi.python.org/pypi/python-intercom)
 [ ![PyPI Downloads](https://img.shields.io/pypi/dm/python-intercom.svg) ](https://pypi.python.org/pypi/python-intercom)
