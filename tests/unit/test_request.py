@@ -25,7 +25,7 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_raises_resource_not_found(self):
-        resp = Mock(content='{}', status_code=404)
+        resp = Mock(text='{}', status_code=404)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ResourceNotFound):
@@ -33,7 +33,7 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_raises_authentication_error_unauthorized(self):
-        resp = Mock(content='{}', status_code=401)
+        resp = Mock(text='{}', status_code=401)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.AuthenticationError):
@@ -41,7 +41,7 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_raises_authentication_error_forbidden(self):
-        resp = Mock(content='{}', status_code=403)
+        resp = Mock(text='{}', status_code=403)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.AuthenticationError):
@@ -49,7 +49,7 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_raises_server_error(self):
-        resp = Mock(content='{}', status_code=500)
+        resp = Mock(text='{}', status_code=500)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ServerError):
@@ -57,7 +57,7 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_raises_bad_gateway_error(self):
-        resp = Mock(content='{}', status_code=502)
+        resp = Mock(text='{}', status_code=502)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.BadGatewayError):
@@ -65,7 +65,7 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_raises_service_unavailable_error(self):
-        resp = Mock(content='{}', status_code=503)
+        resp = Mock(text='{}', status_code=503)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ServiceUnavailableError):
@@ -83,7 +83,7 @@ class RequestTest(unittest.TestCase):
             ]
         }
         content = json.dumps(payload).encode('utf-8')
-        resp = Mock(content=content, status_code=200, headers=headers)
+        resp = Mock(text=content, status_code=200, headers=headers)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             try:
@@ -105,7 +105,7 @@ class RequestTest(unittest.TestCase):
             ]
         }
         content = json.dumps(payload).encode('utf-8')
-        resp = Mock(content=content, status_code=200, headers=headers)
+        resp = Mock(text=content, status_code=200, headers=headers)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             try:
@@ -131,7 +131,7 @@ class RequestTest(unittest.TestCase):
             payload['errors'][0]['type'] = code
 
             content = json.dumps(payload).encode('utf-8')
-            resp = Mock(content=content, status_code=200, headers=headers)
+            resp = Mock(text=content, status_code=200, headers=headers)
             with patch('requests.request') as mock_method:
                 mock_method.return_value = resp
                 with assert_raises(intercom.BadRequestError):
@@ -152,7 +152,7 @@ class RequestTest(unittest.TestCase):
             payload['errors'][0]['type'] = code
 
             content = json.dumps(payload).encode('utf-8')
-            resp = Mock(content=content, status_code=200, headers=headers)
+            resp = Mock(text=content, status_code=200, headers=headers)
             with patch('requests.request') as mock_method:
                 mock_method.return_value = resp
                 with assert_raises(intercom.AuthenticationError):
@@ -170,7 +170,7 @@ class RequestTest(unittest.TestCase):
             ]
         }
         content = json.dumps(payload).encode('utf-8')
-        resp = Mock(content=content, status_code=200, headers=headers)
+        resp = Mock(text=content, status_code=200, headers=headers)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ResourceNotFound):
@@ -188,7 +188,7 @@ class RequestTest(unittest.TestCase):
             ]
         }
         content = json.dumps(payload).encode('utf-8')
-        resp = Mock(content=content, status_code=200, headers=headers)
+        resp = Mock(text=content, status_code=200, headers=headers)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.RateLimitExceeded):
@@ -206,7 +206,7 @@ class RequestTest(unittest.TestCase):
             ]
         }
         content = json.dumps(payload).encode('utf-8')
-        resp = Mock(content=content, status_code=200, headers=headers)
+        resp = Mock(text=content, status_code=200, headers=headers)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ServiceUnavailableError):
@@ -224,7 +224,7 @@ class RequestTest(unittest.TestCase):
             ]
         }
         content = json.dumps(payload).encode('utf-8')
-        resp = Mock(content=content, status_code=200, headers=headers)
+        resp = Mock(text=content, status_code=200, headers=headers)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.MultipleMatchingUsersError):
