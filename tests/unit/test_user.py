@@ -12,13 +12,13 @@ from intercom import Intercom
 from intercom import User
 from intercom import MultipleMatchingUsersError
 from intercom.utils import create_class_instance
-from mock import Mock
 from mock import patch
 from nose.tools import assert_raises
 from nose.tools import eq_
 from nose.tools import ok_
 from nose.tools import istest
 from tests.unit import get_user
+from tests.unit import mock_response
 
 
 class UserTest(unittest.TestCase):
@@ -221,7 +221,6 @@ class UserTest(unittest.TestCase):
         user = User(
             email="jo@example.com", user_id="i-1224242",
             companies=[{'company_id': 6, 'name': 'Intercom'}])
-        print ("+++++>", user.changed_attributes)
         body = {
             'email': 'jo@example.com',
             'user_id': 'i-1224242',
@@ -345,7 +344,6 @@ class UserTest(unittest.TestCase):
             eq_(100, User.count())
 
     @istest
-    # @httpretty.activate
     def it_raises_a_multiple_matching_users_error_when_receiving_a_conflict(self):  # noqa
         payload = {
             'type': 'error.list',
@@ -356,17 +354,32 @@ class UserTest(unittest.TestCase):
                 }
             ]
         }
-        headers = {
-            'x-ratelimit-limit': 500,
-            'x-ratelimit-remaining': 500,
-            'x-ratelimit-reset': 1427932858
-        }
+        # create bytes content
         content = json.dumps(payload).encode('utf-8')
-        resp = Mock(content=content, status_code=200, headers=headers)
+        # create mock response
+        resp = mock_response(content)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(MultipleMatchingUsersError):
                 Intercom.get('/users')
+
+    @istest
+    def it_handles_accented_characters(self):
+        # create a user dict with a name that contains accented characters
+        payload = get_user(name='Jóe Schmö')
+        # create bytes content
+        content = json.dumps(payload).encode('utf-8')
+        # create mock response
+        resp = mock_response(content)
+        with patch('requests.request') as mock_method:
+            mock_method.return_value = resp
+            user = User.find(email='bob@example.com')
+            try:
+                # Python 2
+                eq_(unicode('Jóe Schmö', 'utf-8'), user.name)
+            except NameError:
+                # Python 3
+                eq_('Jóe Schmö', user.name)
 
 
 class DescribeIncrementingCustomAttributeFields(unittest.TestCase):

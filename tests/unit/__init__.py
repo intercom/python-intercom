@@ -34,13 +34,24 @@ def local_response(**params):
     return _call
 
 
-def get_user(email="bob@example.com"):
+def mock_response(content, status_code=200, encoding='utf-8', headers=None):
+    if headers is None:
+        headers = {
+            'x-ratelimit-limit': 500,
+            'x-ratelimit-remaining': 500,
+            'x-ratelimit-reset': 1427932858
+        }
+    return Mock(
+        content=content, status_code=status_code, encoding=encoding, headers=headers)
+
+
+def get_user(email="bob@example.com", name="Joe Schmoe"):
     return {
         "type": "user",
         "id": "aaaaaaaaaaaaaaaaaaaaaaaa",
         "user_id": 'id-from-customers-app',
         "email": email,
-        "name": "Joe Schmoe",
+        "name": name,
         "avatar": {
             "type": "avatar",
             "image_url": "https://graph.facebook.com/1/picture?width=24&height=24"
