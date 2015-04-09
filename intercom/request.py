@@ -42,7 +42,7 @@ class Request(object):
     @classmethod
     def parse_body(cls, resp):
         try:
-            decoded_body = resp.content.decode()
+            decoded_body = resp.text
             if not decoded_body:  # return early for empty responses (issue-72)
                 return
             body = json.loads(decoded_body)
