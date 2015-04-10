@@ -16,6 +16,7 @@ Patches and Suggestions
 - `Marsel Mavletkulov <https://github.com/marselester>`_
 - `Grant McConnaughey <https://github.com/grantmcconnaughey>`_
 - `Robert Elliott <https://github.com/greenafrican>`_
+- `Jared Morse <https://github.com/jarcoal>`_
 
 Intercom
 ~~~~~~~~
