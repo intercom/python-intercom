@@ -5,7 +5,10 @@ from datetime import datetime
 
 import certifi
 import json
+import logging
 import requests
+
+logger = logging.getLogger('intercom.request')
 
 
 class Request(object):
@@ -29,9 +32,26 @@ class Request(object):
         elif method == 'GET':
             req_params['params'] = params
         req_params['headers'] = headers
+
+        # request logging
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug("Sending %s request to: %s", method, url)
+            logger.debug("  headers: %s", headers)
+            if method == 'GET':
+                logger.debug("  params: %s", req_params['params'])
+            else:
+                logger.debug("  params: %s", req_params['data'])
+
         resp = requests.request(
             method, url, timeout=cls.timeout,
             auth=auth, verify=certifi.where(), **req_params)
+
+        # response logging
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug("Response received from %s", url)
+            logger.debug("  encoding=%s status:%s",
+                         resp.encoding, resp.status_code)
+            logger.debug("  content:\n%s", resp.content)
 
         cls.raise_errors_on_failure(resp)
         cls.set_rate_limit_details(resp)
