@@ -1,7 +1,7 @@
 python-intercom
 ===============
 
-|PyPI Version| |PyPI Downloads| |Travis CI Build|
+|PyPI Version| |PyPI Downloads| |Travis CI Build| |Coverage Status|
 
 Python bindings for the Intercom API (https://api.intercom.io).
 
@@ -480,3 +480,5 @@ Integration tests:
    :target: https://pypi.python.org/pypi/python-intercom
 .. |Travis CI Build| image:: https://travis-ci.org/jkeyes/python-intercom.svg
    :target: https://travis-ci.org/jkeyes/python-intercom
+.. |Coverage Status| image:: https://coveralls.io/repos/jkeyes/intercom-python/badge.svg?branch=coveralls
+   :target: https://coveralls.io/r/jkeyes/intercom-python?branch=coveralls

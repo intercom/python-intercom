@@ -3,6 +3,7 @@
 [ ![PyPI Version](https://img.shields.io/pypi/v/python-intercom.svg) ](https://pypi.python.org/pypi/python-intercom)
 [ ![PyPI Downloads](https://img.shields.io/pypi/dm/python-intercom.svg) ](https://pypi.python.org/pypi/python-intercom)
 [ ![Travis CI Build](https://travis-ci.org/jkeyes/python-intercom.svg) ](https://travis-ci.org/jkeyes/python-intercom)
+[![Coverage Status](https://coveralls.io/repos/jkeyes/intercom-python/badge.svg?branch=coveralls)](https://coveralls.io/r/jkeyes/intercom-python?branch=coveralls)
 
 Python bindings for the Intercom API (https://api.intercom.io).
 
