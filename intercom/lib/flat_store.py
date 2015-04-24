@@ -12,7 +12,8 @@ class FlatStore(dict):
     def __setitem__(self, key, value):
         if not (
             isinstance(value, numbers.Real) or
-            isinstance(value, six.string_types)
+            isinstance(value, six.string_types) or
+            value is None
         ):
             raise ValueError(
                 "custom data only allows string and real number values")
