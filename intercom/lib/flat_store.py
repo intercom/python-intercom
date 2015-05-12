@@ -10,7 +10,7 @@ class FlatStore(dict):
         self.update(*args, **kwargs)
 
     def __setitem__(self, key, value):
-        if not (
+        if value is not None and not (
             isinstance(value, numbers.Real) or
             isinstance(value, six.string_types) or
             value is None
