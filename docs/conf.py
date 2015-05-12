@@ -58,7 +58,7 @@ copyright = u'%s, John Keyes' % (now.year)
 import re
 with open(os.path.join(path_dir, 'intercom', '__init__.py')) as init:
     source = init.read()
-    m = re.search("__version__ = '(\d+\.\d+\.(\d+|[a-z]+))'", source, re.M)
+    m = re.search("__version__ = '(\d+\.\d+(\.(\d+|[a-z]+))?)'", source, re.M)
     version = m.groups()[0]
 
 # The full version, including alpha/beta/rc tags.
