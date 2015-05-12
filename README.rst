@@ -1,7 +1,10 @@
 python-intercom
 ===============
 
-|PyPI Version| |PyPI Downloads| |Travis CI Build| |Coverage Status|
+| |PyPI Version|
+| |PyPI Downloads|
+| |Travis CI Build|
+| |Coverage Status|
 
 Python bindings for the Intercom API (https://api.intercom.io).
 
@@ -376,12 +379,14 @@ your behalf
         }
     )
 
-The metadata key values in the example are treated as follows- -
-order\_date: a Date (key ends with '\_date'). - stripe\_invoice: The
-identifier of the Stripe invoice (has a 'stripe\_invoice' key) -
-order\_number: a Rich Link (value contains 'url' and 'value' keys) -
-price: An Amount in US Dollars (value contains 'amount' and 'currency'
-keys)
+The metadata key values in the example are treated as follows-
+
+-  order\_date: a Date (key ends with '\_date').
+-  stripe\_invoice: The identifier of the Stripe invoice (has a
+   'stripe\_invoice' key)
+-  order\_number: a Rich Link (value contains 'url' and 'value' keys)
+-  price: An Amount in US Dollars (value contains 'amount' and
+   'currency' keys)
 
 Subscriptions
 ~~~~~~~~~~~~~
@@ -480,5 +485,5 @@ Integration tests:
    :target: https://pypi.python.org/pypi/python-intercom
 .. |Travis CI Build| image:: https://travis-ci.org/jkeyes/python-intercom.svg
    :target: https://travis-ci.org/jkeyes/python-intercom
-.. |Coverage Status| image:: https://coveralls.io/repos/jkeyes/intercom-python/badge.svg?branch=coveralls
-   :target: https://coveralls.io/r/jkeyes/intercom-python?branch=coveralls
+.. |Coverage Status| image:: https://coveralls.io/repos/jkeyes/python-intercom/badge.svg?branch=master
+   :target: https://coveralls.io/r/jkeyes/python-intercom?branch=master
