@@ -62,10 +62,13 @@ class Request(object):
     @classmethod
     def parse_body(cls, resp):
         try:
-            # use supplied encoding to decode the response content
-            decoded_body = resp.content.decode(resp.encoding)
-            if not decoded_body:  # return early for empty responses (issue-72)
+            # return early for empty responses (issue-72)
+            if not resp.content or not resp.content.strip():
                 return
+            # use supplied encoding to decode the response content
+            decoded_body = resp.content.decode(
+                resp.encoding or resp.apparent_encoding
+            )
             body = json.loads(decoded_body)
             if body.get('type') == 'error.list':
                 cls.raise_application_errors_on_failure(body, resp.status_code)
