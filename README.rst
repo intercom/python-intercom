@@ -1,10 +1,7 @@
 python-intercom
 ===============
 
-| |PyPI Version|
-| |PyPI Downloads|
-| |Travis CI Build|
-| |Coverage Status|
+|PyPI Version| |PyPI Downloads| |Travis CI Build| |Coverage Status|
 
 Python bindings for the Intercom API (https://api.intercom.io).
 
