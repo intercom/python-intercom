@@ -1,7 +1,7 @@
 Changelog
 =========
 
-* 2.0 (not released)
+* 2.0.0
    * Added support for non-ASCII character sets. (`#86 <https://github.com/jkeyes/python-intercom/pull/86>`_)
    * Fixed response handling where no encoding is specified. (`#81 <https://github.com/jkeyes/python-intercom/pull/91>`_)
    * Added support for `None` values in `FlatStore`. (`#88 <https://github.com/jkeyes/python-intercom/pull/88>`_)
