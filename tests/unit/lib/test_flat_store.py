@@ -35,3 +35,9 @@ class IntercomFlatStore(unittest.TestCase):
         data = FlatStore(a=1, b=2)
         eq_(data["a"], 1)
         eq_(data["b"], 2)
+
+    @istest
+    def it_sets_null_entries(self):
+        data = FlatStore()
+        data["a"] = None
+        eq_(data["a"], None)
