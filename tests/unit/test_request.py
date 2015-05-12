@@ -249,8 +249,14 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_needs_encoding_or_apparent_encoding(self):
+        payload = '{}'
+
+        if not hasattr(payload, 'decode'):
+            # python 3
+            payload = payload.encode('utf-8')
+
         resp = mock_response(
-            '{}', status_code=200, encoding=None, headers=None)
+            payload, status_code=200, encoding=None, headers=None)
 
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
