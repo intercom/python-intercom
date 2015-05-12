@@ -17,6 +17,9 @@ Patches and Suggestions
 - `Grant McConnaughey <https://github.com/grantmcconnaughey>`_
 - `Robert Elliott <https://github.com/greenafrican>`_
 - `Jared Morse <https://github.com/jarcoal>`_
+- `neocortex <https://github.com/neocortex>`_
+- `jacoor <https://github.com/jacoor>`_
+- `maiiku <https://github.com/maiiku>`_
 
 Intercom
 ~~~~~~~~
