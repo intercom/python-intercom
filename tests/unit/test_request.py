@@ -224,3 +224,35 @@ class RequestTest(unittest.TestCase):
             mock_method.return_value = resp
             with assert_raises(intercom.MultipleMatchingUsersError):
                 Intercom.get('/users')
+
+    @istest
+    def it_handles_empty_responses(self):
+        resp = mock_response('', status_code=202)
+        with patch('requests.request') as mock_method:
+            mock_method.return_value = resp
+            Request.send_request_to_path('GET', 'events', ('x', 'y'), resp)
+
+        resp = mock_response(' ', status_code=202)
+        with patch('requests.request') as mock_method:
+            mock_method.return_value = resp
+            Request.send_request_to_path('GET', 'events', ('x', 'y'), resp)
+
+    @istest
+    def it_handles_no_encoding(self):
+        resp = mock_response(
+            ' ', status_code=200, encoding=None, headers=None)
+        resp.apparent_encoding = 'utf-8'
+
+        with patch('requests.request') as mock_method:
+            mock_method.return_value = resp
+            Request.send_request_to_path('GET', 'events', ('x', 'y'), resp)
+
+    @istest
+    def it_needs_encoding_or_apparent_encoding(self):
+        resp = mock_response(
+            '{}', status_code=200, encoding=None, headers=None)
+
+        with patch('requests.request') as mock_method:
+            mock_method.return_value = resp
+            with assert_raises(TypeError):
+                Request.send_request_to_path('GET', 'events', ('x', 'y'), resp)
