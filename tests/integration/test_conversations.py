@@ -110,7 +110,8 @@ class ConversationTest(unittest.TestCase):
             # There is a part_type
             self.assertIsNotNone(part.part_type)
             # There is a body
-            self.assertIsNotNone(part.body)
+            if not part.part_type == 'assignment':
+                self.assertIsNotNone(part.body)
 
     def test_reply(self):
         # REPLYING TO CONVERSATIONS
@@ -126,6 +127,32 @@ class ConversationTest(unittest.TestCase):
             message_type='comment', body='bar')
         conversation = Conversation.find(id=self.admin_conv.id)
         self.assertEqual(num_parts + 2, len(conversation.conversation_parts))
+
+    def test_open(self):
+        # OPENING CONVERSATIONS
+        conversation = Conversation.find(id=self.admin_conv.id)
+        conversation.close_conversation(admin_id=self.admin.id, body='Closing message')
+        self.assertFalse(conversation.open)
+        conversation.open_conversation(admin_id=self.admin.id, body='Opening message')
+        conversation = Conversation.find(id=self.admin_conv.id)
+        self.assertTrue(conversation.open)
+
+    def test_close(self):
+        # CLOSING CONVERSATIONS
+        conversation = Conversation.find(id=self.admin_conv.id)
+        self.assertTrue(conversation.open)
+        conversation.close_conversation(admin_id=self.admin.id, body='Closing message')
+        conversation = Conversation.find(id=self.admin_conv.id)
+        self.assertFalse(conversation.open)
+
+    def test_assignment(self):
+        # ASSIGNING CONVERSATIONS
+        conversation = Conversation.find(id=self.admin_conv.id)
+        num_parts = len(conversation.conversation_parts)
+        conversation.assign(assignee_id=self.admin.id, admin_id=self.admin.id)
+        conversation = Conversation.find(id=self.admin_conv.id)
+        self.assertEqual(num_parts + 1, len(conversation.conversation_parts))
+        self.assertEqual("assignment", conversation.conversation_parts[-1].part_type)
 
     def test_mark_read(self):
         # MARKING A CONVERSATION AS READ
