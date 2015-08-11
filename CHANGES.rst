@@ -1,6 +1,9 @@
 Changelog
 =========
 
+* 2.0.1 [coming-soon]
+   * Ensuring identity_hash only contains variables with valid values. (`#100 <https://github.com/jkeyes/python-intercom/issues/100>`_)
+   * Adding support for unique_user_constraint and parameter_not_found errors. (`#97 <https://github.com/jkeyes/python-intercom/issues/97>`_)
 * 2.0.0
    * Added support for non-ASCII character sets. (`#86 <https://github.com/jkeyes/python-intercom/pull/86>`_)
    * Fixed response handling where no encoding is specified. (`#81 <https://github.com/jkeyes/python-intercom/pull/91>`_)
