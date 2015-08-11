@@ -298,3 +298,9 @@ class RequestTest(unittest.TestCase):
             mock_method.return_value = resp
             with assert_raises(TypeError):
                 Request.send_request_to_path('GET', 'events', ('x', 'y'), resp)
+
+    @istest
+    def it_allows_the_timeout_to_be_changed(self):
+        eq_(10, intercom.Request.timeout)
+        intercom.Request.timeout = 3
+        eq_(3, intercom.Request.timeout)
