@@ -423,3 +423,24 @@ class DescribeIncrementingCustomAttributeFields(unittest.TestCase):
         self.user.increment('mad')
         self.user.increment('mad')
         eq_(self.user.to_dict['custom_attributes']['mad'], 125)
+
+    @istest
+    def it_can_save_after_increment(self):  # noqa
+        user = User(
+            email=None, user_id="i-1224242",
+            companies=[{'company_id': 6, 'name': 'Intercom'}])
+        body = {
+            'custom_attributes': {},
+            'email': "",
+            'user_id': 'i-1224242',
+            'companies': [{
+                'company_id': 6,
+                'name': 'Intercom'
+            }]
+        }
+        with patch.object(Intercom, 'post', return_value=body) as mock_method:  # noqa
+            user.increment('mad')
+            eq_(user.to_dict['custom_attributes']['mad'], 1)
+            user.save()
+            ok_('email' not in user.identity_hash)
+            ok_('user_id' in user.identity_hash)

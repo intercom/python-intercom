@@ -63,5 +63,7 @@ class Save(object):
         identity_vars = getattr(self, 'identity_vars', [])
         parts = {}
         for var in identity_vars:
-            parts[var] = getattr(self, var, None)
+            id_var = getattr(self, var, None)
+            if id_var:  # only present id var if it is not blank or None
+                parts[var] = id_var
         return parts
