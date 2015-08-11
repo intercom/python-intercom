@@ -127,13 +127,13 @@ class Request(object):
                     error_details, http_code)
             error_class = errors.UnexpectedError
         else:
-            message = error_details['message']
+            message = error_details.get('message')
         raise error_class(message, error_context)
 
     @classmethod
     def message_for_unexpected_error_with_type(cls, error_details, http_code):  # noqa
-        error_type = error_details['type']
-        message = error_details['message']
+        error_type = error_details.get('type')
+        message = error_details.get('message')
         return "The error of type '%s' is not recognized. It occurred with the message: %s and http_code: '%s'. Please contact Intercom with these details." % (error_type, message, http_code)  # noqa
 
     @classmethod

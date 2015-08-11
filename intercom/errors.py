@@ -59,8 +59,10 @@ error_codes = {
     'bad_request': BadRequestError,
     'missing_parameter': BadRequestError,
     'parameter_invalid': BadRequestError,
+    'parameter_not_found': BadRequestError,
     'not_found': ResourceNotFound,
     'rate_limit_exceeded': RateLimitExceeded,
     'service_unavailable': ServiceUnavailableError,
     'conflict': MultipleMatchingUsersError,
+    'unique_user_constraint': MultipleMatchingUsersError
 }

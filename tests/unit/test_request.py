@@ -226,6 +226,42 @@ class RequestTest(unittest.TestCase):
                 Intercom.get('/users')
 
     @istest
+    def it_handles_no_error_type(self):
+        payload = {
+            'errors': [
+                {
+                    'code': 'unique_user_constraint',
+                    'message': 'User already exists.'
+                }
+            ],
+            'request_id': '00000000-0000-0000-0000-000000000000',
+            'type': 'error.list'
+        }
+        content = json.dumps(payload).encode('utf-8')
+        resp = mock_response(content)
+        with patch('requests.request') as mock_method:
+            mock_method.return_value = resp
+            with assert_raises(intercom.MultipleMatchingUsersError):
+                Intercom.get('/users')
+
+        payload = {
+            'errors': [
+                {
+                    'code': 'parameter_not_found',
+                    'message': 'missing data parameter'
+                }
+            ],
+            'request_id': None,
+            'type': 'error.list'
+        }
+        content = json.dumps(payload).encode('utf-8')
+        resp = mock_response(content)
+        with patch('requests.request') as mock_method:
+            mock_method.return_value = resp
+            with assert_raises(intercom.BadRequestError):
+                Intercom.get('/users')
+
+    @istest
     def it_handles_empty_responses(self):
         resp = mock_response('', status_code=202)
         with patch('requests.request') as mock_method:
