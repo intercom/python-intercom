@@ -1,6 +1,8 @@
 Changelog
 =========
 
+* 2.1.1
+   * No runtime changes.
 * 2.1.0
    * Adding interface support for opens, closes, and assignments of conversations. (`#101 <https://github.com/jkeyes/python-intercom/pull/101>`_)
    * Ensuring identity_hash only contains variables with valid values. (`#100 <https://github.com/jkeyes/python-intercom/issues/100>`_)

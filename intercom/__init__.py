@@ -26,7 +26,7 @@ import re
 import six
 import time
 
-__version__ = '2.1.0'
+__version__ = '2.1.1'
 
 
 RELATED_DOCS_TEXT = "See https://github.com/jkeyes/python-intercom \
