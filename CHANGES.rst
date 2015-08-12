@@ -1,7 +1,7 @@
 Changelog
 =========
 
-* 2.0.1 [coming-soon]
+* 2.1.0
    * Adding interface support for opens, closes, and assignments of conversations. (`#101 <https://github.com/jkeyes/python-intercom/pull/101>`_)
    * Ensuring identity_hash only contains variables with valid values. (`#100 <https://github.com/jkeyes/python-intercom/issues/100>`_)
    * Adding support for unique_user_constraint and parameter_not_found errors. (`#97 <https://github.com/jkeyes/python-intercom/issues/97>`_)
