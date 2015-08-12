@@ -231,6 +231,12 @@ conversation.reply(
 conversation.reply(
     type='admin', email='bob@example.com',
     message_type='comment', body='bar')
+# Admin (identified by id) opens a conversation
+conversation.open_conversation(admin_id=7)
+# Admin (identified by id) closes a conversation
+conversation.close_conversation(admin_id=7)
+# Admin (identified by id) assigns a conversation to an assignee
+conversation.assign(assignee_id=8, admin_id=7)
 
 # MARKING A CONVERSATION AS READ
 conversation.read = True
