@@ -6,8 +6,9 @@ from intercom.collection_proxy import CollectionProxy
 
 class All(object):
 
-    @classmethod
-    def all(cls):
-        collection = utils.resource_class_to_collection_name(cls)
+    def all(self):
+        collection = utils.resource_class_to_collection_name(
+            self.collection_class)
         finder_url = "/%s" % (collection)
-        return CollectionProxy(cls, collection, finder_url)
+        return CollectionProxy(
+            self.client, self.collection_class, collection, finder_url)

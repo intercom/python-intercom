@@ -69,6 +69,14 @@ class Resource(object):
             # already exists in Intercom
             self.changed_attributes = []
 
+    def to_dict(self):
+        a_dict = {}
+        for name in list(self.__dict__.keys()):
+            if name == "changed_attributes":
+                continue
+            a_dict[name] = self.__dict__[name]  # direct access
+        return a_dict
+
     @property
     def attributes(self):
         res = {}

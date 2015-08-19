@@ -4,8 +4,8 @@ import intercom
 import json
 import unittest
 
-from intercom import Intercom
-from intercom import Request
+from intercom.client import Client
+from intercom.request import Request
 from intercom import UnexpectedError
 from mock import Mock
 from mock import patch
@@ -18,13 +18,17 @@ from tests.unit import mock_response
 
 class RequestTest(unittest.TestCase):
 
+    def setUp(self):
+        self.client = Client()
+
     @istest
     def it_raises_resource_not_found(self):
         resp = mock_response('{}', status_code=404)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ResourceNotFound):
-                Request.send_request_to_path('GET', 'notes', ('x', 'y'), resp)
+                request = Request('GET', 'notes')
+                request.send_request_to_path('', ('x', 'y'), resp)
 
     @istest
     def it_raises_authentication_error_unauthorized(self):
@@ -32,7 +36,8 @@ class RequestTest(unittest.TestCase):
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.AuthenticationError):
-                Request.send_request_to_path('GET', 'notes', ('x', 'y'), resp)
+                request = Request('GET', 'notes')
+                request.send_request_to_path('', ('x', 'y'), resp)
 
     @istest
     def it_raises_authentication_error_forbidden(self):
@@ -40,7 +45,8 @@ class RequestTest(unittest.TestCase):
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.AuthenticationError):
-                Request.send_request_to_path('GET', 'notes', ('x', 'y'), resp)
+                request = Request('GET', 'notes')
+                request.send_request_to_path('', ('x', 'y'), resp)
 
     @istest
     def it_raises_server_error(self):
@@ -48,7 +54,8 @@ class RequestTest(unittest.TestCase):
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ServerError):
-                Request.send_request_to_path('GET', 'notes', ('x', 'y'), resp)
+                request = Request('GET', 'notes')
+                request.send_request_to_path('', ('x', 'y'), resp)
 
     @istest
     def it_raises_bad_gateway_error(self):
@@ -56,7 +63,8 @@ class RequestTest(unittest.TestCase):
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.BadGatewayError):
-                Request.send_request_to_path('GET', 'notes', ('x', 'y'), resp)
+                request = Request('GET', 'notes')
+                request.send_request_to_path('', ('x', 'y'), resp)
 
     @istest
     def it_raises_service_unavailable_error(self):
@@ -64,7 +72,8 @@ class RequestTest(unittest.TestCase):
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ServiceUnavailableError):
-                Request.send_request_to_path('GET', 'notes', ('x', 'y'), resp)
+                request = Request('GET', 'notes')
+                request.send_request_to_path('', ('x', 'y'), resp)
 
     @istest
     def it_raises_an_unexpected_typed_error(self):
@@ -82,7 +91,7 @@ class RequestTest(unittest.TestCase):
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             try:
-                Intercom.get('/users')
+                self.client.get('/users', {})
                 self.fail('UnexpectedError not raised.')
             except (UnexpectedError) as err:
                 ok_("The error of type 'hopper' is not recognized" in err.message)  # noqa
@@ -104,7 +113,7 @@ class RequestTest(unittest.TestCase):
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             try:
-                Intercom.get('/users')
+                self.client.get('/users', {})
                 self.fail('UnexpectedError not raised.')
             except (UnexpectedError) as err:
                 ok_("An unexpected error occured." in err.message)
@@ -130,7 +139,7 @@ class RequestTest(unittest.TestCase):
             with patch('requests.request') as mock_method:
                 mock_method.return_value = resp
                 with assert_raises(intercom.BadRequestError):
-                    Intercom.get('/users')
+                    self.client.get('/users', {})
 
     @istest
     def it_raises_an_authentication_error(self):
@@ -151,7 +160,7 @@ class RequestTest(unittest.TestCase):
             with patch('requests.request') as mock_method:
                 mock_method.return_value = resp
                 with assert_raises(intercom.AuthenticationError):
-                    Intercom.get('/users')
+                    self.client.get('/users', {})
 
     @istest
     def it_raises_resource_not_found_by_type(self):
@@ -169,7 +178,7 @@ class RequestTest(unittest.TestCase):
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ResourceNotFound):
-                Intercom.get('/users')
+                self.client.get('/users', {})
 
     @istest
     def it_raises_rate_limit_exceeded(self):
@@ -187,7 +196,7 @@ class RequestTest(unittest.TestCase):
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.RateLimitExceeded):
-                Intercom.get('/users')
+                self.client.get('/users', {})
 
     @istest
     def it_raises_a_service_unavailable_error(self):
@@ -205,7 +214,7 @@ class RequestTest(unittest.TestCase):
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ServiceUnavailableError):
-                Intercom.get('/users')
+                self.client.get('/users', {})
 
     @istest
     def it_raises_a_multiple_matching_users_error(self):
@@ -223,7 +232,7 @@ class RequestTest(unittest.TestCase):
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.MultipleMatchingUsersError):
-                Intercom.get('/users')
+                self.client.get('/users', {})
 
     @istest
     def it_handles_no_error_type(self):
@@ -242,7 +251,7 @@ class RequestTest(unittest.TestCase):
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.MultipleMatchingUsersError):
-                Intercom.get('/users')
+                self.client.get('/users', {})
 
         payload = {
             'errors': [
@@ -259,19 +268,21 @@ class RequestTest(unittest.TestCase):
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.BadRequestError):
-                Intercom.get('/users')
+                self.client.get('/users', {})
 
     @istest
     def it_handles_empty_responses(self):
         resp = mock_response('', status_code=202)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
-            Request.send_request_to_path('GET', 'events', ('x', 'y'), resp)
+            request = Request('GET', 'events')
+            request.send_request_to_path('', ('x', 'y'), resp)
 
         resp = mock_response(' ', status_code=202)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
-            Request.send_request_to_path('GET', 'events', ('x', 'y'), resp)
+            request = Request('GET', 'events')
+            request.send_request_to_path('', ('x', 'y'), resp)
 
     @istest
     def it_handles_no_encoding(self):
@@ -281,7 +292,8 @@ class RequestTest(unittest.TestCase):
 
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
-            Request.send_request_to_path('GET', 'events', ('x', 'y'), resp)
+            request = Request('GET', 'events')
+            request.send_request_to_path('', ('x', 'y'), resp)
 
     @istest
     def it_needs_encoding_or_apparent_encoding(self):
@@ -301,6 +313,7 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_allows_the_timeout_to_be_changed(self):
-        eq_(10, intercom.Request.timeout)
-        intercom.Request.timeout = 3
-        eq_(3, intercom.Request.timeout)
+        from intercom.request import Request
+        eq_(10, Request.timeout)
+        Request.timeout = 3
+        eq_(3, Request.timeout)

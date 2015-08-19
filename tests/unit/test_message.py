@@ -4,9 +4,8 @@ import time
 import unittest
 
 from datetime import datetime
-from intercom import Intercom
-from intercom import User
-from intercom import Message
+from intercom.client import Client
+from intercom.user import User
 from mock import patch
 from nose.tools import eq_
 from nose.tools import istest
@@ -15,6 +14,7 @@ from nose.tools import istest
 class MessageTest(unittest.TestCase):
 
     def setUp(self):  # noqa
+        self.client = Client()
         now = time.mktime(datetime.utcnow().timetuple())
         self.user = User(
             email="jim@example.com",
@@ -32,9 +32,9 @@ class MessageTest(unittest.TestCase):
             },
             'body': 'halp'
         }
-        with patch.object(Intercom, 'post', return_value=data) as mock_method:
-            message = Message.create(**data)
-            mock_method.assert_called_once_with('/messages/', **data)
+        with patch.object(Client, 'post', return_value=data) as mock_method:
+            message = self.client.messages.create(**data)
+            mock_method.assert_called_once_with('/messages/', data)
             eq_('halp', message.body)
 
     @istest
@@ -52,8 +52,8 @@ class MessageTest(unittest.TestCase):
             'message_type': 'inapp'
         }
 
-        with patch.object(Intercom, 'post', return_value=data) as mock_method:
-            message = Message.create(**data)
-            mock_method.assert_called_once_with('/messages/', **data)
+        with patch.object(Client, 'post', return_value=data) as mock_method:
+            message = self.client.messages.create(**data)
+            mock_method.assert_called_once_with('/messages/', data)
             eq_('halp', message.body)
             eq_('inapp', message.message_type)

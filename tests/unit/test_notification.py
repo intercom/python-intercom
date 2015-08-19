@@ -2,7 +2,7 @@
 
 import unittest
 
-from intercom import Notification
+from intercom.notification import Notification
 from intercom.utils import create_class_instance
 from nose.tools import eq_
 from nose.tools import istest

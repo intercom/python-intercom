@@ -6,9 +6,14 @@ from intercom import HttpError
 
 class CollectionProxy(six.Iterator):
 
-    def __init__(self, cls, collection, finder_url, finder_params={}):
+    def __init__(
+            self, client, collection_cls, collection,
+            finder_url, finder_params={}):
+
+        self.client = client
+
         # needed to create class instances of the resource
-        self.collection_cls = cls
+        self.collection_cls = collection_cls
 
         # needed to reference the collection in the response
         self.collection = collection
@@ -42,6 +47,7 @@ class CollectionProxy(six.Iterator):
             self.get_next_page()
             resource = six.next(self.resources)
 
+        print "COLL CLASS", self.collection_cls
         instance = self.collection_cls(**resource)
         return instance
 
@@ -60,13 +66,14 @@ class CollectionProxy(six.Iterator):
 
     def get_page(self, url, params={}):
         # get a page of results
-        from intercom import Intercom
+        # from intercom import Intercom
 
         # if there is no url stop iterating
         if url is None:
             raise StopIteration
 
-        response = Intercom.get(url, **params)
+        print ">>>>>>", url, params
+        response = self.client.get(url, params)
         if response is None:
             raise HttpError('Http Error - No response entity returned')
 

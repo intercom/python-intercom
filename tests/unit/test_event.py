@@ -4,9 +4,8 @@ import time
 import unittest
 
 from datetime import datetime
-from intercom import User
-from intercom import Intercom
-from intercom import Event
+from intercom.client import Client
+from intercom.user import User
 from mock import patch
 from nose.tools import istest
 
@@ -14,6 +13,7 @@ from nose.tools import istest
 class EventTest(unittest.TestCase):
 
     def setUp(self):  # noqa
+        self.client = Client()
         now = time.mktime(datetime.utcnow().timetuple())
         self.user = User(
             email="jim@example.com",
@@ -35,9 +35,9 @@ class EventTest(unittest.TestCase):
             }
         }
 
-        with patch.object(Intercom, 'post', return_value=data) as mock_method:
-            Event.create(**data)
-            mock_method.assert_called_once_with('/events/', **data)
+        with patch.object(Client, 'post', return_value=data) as mock_method:
+            self.client.events.create(**data)
+            mock_method.assert_called_once_with('/events/', data)
 
     @istest
     def it_creates_an_event_without_metadata(self):
@@ -45,6 +45,6 @@ class EventTest(unittest.TestCase):
             'event_name': 'sale of item',
             'email': 'joe@example.com',
         }
-        with patch.object(Intercom, 'post', return_value=data) as mock_method:
-            Event.create(**data)
-            mock_method.assert_called_once_with('/events/', **data)
+        with patch.object(Client, 'post', return_value=data) as mock_method:
+            self.client.events.create(**data)
+            mock_method.assert_called_once_with('/events/', data)
