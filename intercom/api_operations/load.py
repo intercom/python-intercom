@@ -9,10 +9,8 @@ class Load(object):
     def load(self, resource):
         collection = utils.resource_class_to_collection_name(
             self.collection_class)
-        print "RESOURCE", resource, hasattr(resource, 'id')
         if hasattr(resource, 'id'):
             response = self.client.get("/%s/%s" % (collection, resource.id), {})  # noqa
-            print "RESPONSE", response
         else:
             raise Exception(
                 "Cannot load %s as it does not have a valid id." % (

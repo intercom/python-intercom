@@ -47,7 +47,6 @@ class CollectionProxy(six.Iterator):
             self.get_next_page()
             resource = six.next(self.resources)
 
-        print "COLL CLASS", self.collection_cls
         instance = self.collection_cls(**resource)
         return instance
 
@@ -72,7 +71,6 @@ class CollectionProxy(six.Iterator):
         if url is None:
             raise StopIteration
 
-        print ">>>>>>", url, params
         response = self.client.get(url, params)
         if response is None:
             raise HttpError('Http Error - No response entity returned')

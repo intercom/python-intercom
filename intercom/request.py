@@ -16,7 +16,6 @@ class Request(object):
     timeout = 10
 
     def __init__(self, http_method, path):
-        print "INIT>>>>", path
         self.http_method = http_method
         self.path = path
 
@@ -30,7 +29,6 @@ class Request(object):
         req_params = {}
 
         # full URL
-        print "BASE URL ->", base_url, " PATH ->", self.path
         url = base_url + self.path
 
         headers = {

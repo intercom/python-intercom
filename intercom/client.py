@@ -74,13 +74,11 @@ class Client(object):
         return self._execute_request(req, params)
 
     def post(self, path, params):
-        print "CLIENT POST :("
         from intercom import request
         req = request.Request('POST', path)
         return self._execute_request(req, params)
 
     def delete(self, path, params):
-        print "CLIENT DELETE :("
         from intercom import request
         req = request.Request('DELETE', path)
         return self._execute_request(req, params)
