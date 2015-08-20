@@ -7,7 +7,6 @@ import unittest
 from intercom.client import Client
 from intercom.request import Request
 from intercom import UnexpectedError
-from mock import Mock
 from mock import patch
 from nose.tools import assert_raises
 from nose.tools import eq_
@@ -23,7 +22,7 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_raises_resource_not_found(self):
-        resp = mock_response('{}', status_code=404)
+        resp = mock_response(None, status_code=404)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ResourceNotFound):
@@ -32,7 +31,7 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_raises_authentication_error_unauthorized(self):
-        resp = mock_response('{}', status_code=401)
+        resp = mock_response(None, status_code=401)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.AuthenticationError):
@@ -41,7 +40,7 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_raises_authentication_error_forbidden(self):
-        resp = mock_response('{}', status_code=403)
+        resp = mock_response(None, status_code=403)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.AuthenticationError):
@@ -50,7 +49,7 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_raises_server_error(self):
-        resp = Mock(encoding="utf-8", content='{}', status_code=500)
+        resp = mock_response(None, status_code=500)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ServerError):
@@ -59,7 +58,7 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_raises_bad_gateway_error(self):
-        resp = mock_response('{}', status_code=502)
+        resp = mock_response(None, status_code=502)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.BadGatewayError):
@@ -68,7 +67,7 @@ class RequestTest(unittest.TestCase):
 
     @istest
     def it_raises_service_unavailable_error(self):
-        resp = mock_response('{}', status_code=503)
+        resp = mock_response(None, status_code=503)
         with patch('requests.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ServiceUnavailableError):
