@@ -37,9 +37,9 @@ class Save(object):
 
     def save(self, obj):
         collection = utils.resource_class_to_collection_name(
-            self.collection_class)
+            obj.__class__)
         params = obj.attributes
-        if hasattr(obj, 'id_present') and not hasattr(obj, 'posted_updates'):
+        if self.id_present(obj) and not self.posted_updates(obj):
             # update
             response = self.client.put('/%s/%s' % (collection, obj.id), params)
         else:
@@ -49,13 +49,11 @@ class Save(object):
         if response:
             return obj.from_response(response)
 
-    @property
-    def id_present(self):
-        return getattr(self, 'id', None) and self.id != ""
+    def id_present(self, obj):
+        return getattr(obj, 'id', None) and obj.id != ""
 
-    @property
-    def posted_updates(self):
-        return getattr(self, 'update_verb', None) == 'post'
+    def posted_updates(self, obj):
+        return getattr(obj, 'update_verb', None) == 'post'
 
     def identity_hash(self, obj):
         identity_vars = getattr(obj, 'identity_vars', [])

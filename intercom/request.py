@@ -63,25 +63,24 @@ class Request(object):
                          resp.encoding, resp.status_code)
             logger.debug("  content:\n%s", resp.content)
 
+        parsed_body = self.parse_body(resp)
         self.raise_errors_on_failure(resp)
         self.set_rate_limit_details(resp)
-
-        if resp.content and resp.content.strip():
-            # parse non empty bodies
-            return self.parse_body(resp)
+        return parsed_body
 
     def parse_body(self, resp):
-        try:
-            # use supplied or inferred encoding to decode the
-            # response content
-            decoded_body = resp.content.decode(
-                resp.encoding or resp.apparent_encoding)
-            body = json.loads(decoded_body)
-            if body.get('type') == 'error.list':
-                self.raise_application_errors_on_failure(body, resp.status_code)  # noqa
-            return body
-        except ValueError:
-            self.raise_errors_on_failure(resp)
+        if resp.content and resp.content.strip():
+            try:
+                # use supplied or inferred encoding to decode the
+                # response content
+                decoded_body = resp.content.decode(
+                    resp.encoding or resp.apparent_encoding)
+                body = json.loads(decoded_body)
+                if body.get('type') == 'error.list':
+                    self.raise_application_errors_on_failure(body, resp.status_code)  # noqa
+                return body
+            except ValueError:
+                self.raise_errors_on_failure(resp)
 
     def set_rate_limit_details(self, resp):
         rate_limit_details = {}

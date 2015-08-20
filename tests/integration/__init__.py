@@ -3,9 +3,9 @@
 import time
 
 from datetime import datetime
-from intercom import Company
+# from intercom import Company
 from intercom import ResourceNotFound
-from intercom import User
+# from intercom import User
 
 
 def get_timestamp():
@@ -13,14 +13,14 @@ def get_timestamp():
     return int(time.mktime(now.timetuple()))
 
 
-def get_or_create_user(timestamp):
+def get_or_create_user(client, timestamp):
     # get user
     email = '%s@example.com' % (timestamp)
     try:
-        user = User.find(email=email)
+        user = client.users.find(email=email)
     except ResourceNotFound:
         # Create a user
-        user = User.create(
+        user = client.users.create(
             email=email,
             user_id=timestamp,
             name="Ada %s" % (timestamp))
@@ -28,22 +28,30 @@ def get_or_create_user(timestamp):
     return user
 
 
-def get_or_create_company(timestamp):
+def get_or_create_company(client, timestamp):
     name = 'Company %s' % (timestamp)
 
     # get company
     try:
-        company = Company.find(name=name)
+        company = client.companies.find(name=name)
     except ResourceNotFound:
         # Create a company
-        company = Company.create(
+        company = client.companies.create(
             company_id=timestamp, name=name)
     return company
 
 
-def delete(resource):
+def delete_user(client, resource):
     try:
-        resource.delete()
+        client.users.delete(resource)
+    except ResourceNotFound:
+        # not much we can do here
+        pass
+
+
+def delete_company(client, resource):
+    try:
+        client.companies.delete(resource)
     except ResourceNotFound:
         # not much we can do here
         pass

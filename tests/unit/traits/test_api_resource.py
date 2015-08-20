@@ -57,10 +57,10 @@ class IntercomTraitsApiResource(unittest.TestCase):
         self.api_resource.foo_at = 1401200468
         eq_(datetime.fromtimestamp(1401200468), self.api_resource.foo_at)
 
-    # @istest
-    # def it_throws_regular_error_when_non_existant_getter_is_called_that_is_backed_by_an_instance_variable(self):  # noqa
-    #     super(Resource, self.api_resource).__setattr__('bar', 'you cant see me')  # noqa
-    #     print (self.api_resource.bar)
+    @istest
+    def it_throws_regular_error_when_non_existant_getter_is_called_that_is_backed_by_an_instance_variable(self):  # noqa
+        super(Resource, self.api_resource).__setattr__('bar', 'you cant see me')  # noqa
+        self.api_resource.bar
 
     @istest
     def it_throws_attribute_error_when_non_existent_attribute_is_called(self):

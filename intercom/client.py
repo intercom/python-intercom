@@ -49,6 +49,11 @@ class Client(object):
         return note.Note(self)
 
     @property
+    def segments(self):
+        from intercom.service import segment
+        return segment.Segment(self)
+
+    @property
     def subscriptions(self):
         from intercom.service import subscription
         return subscription.Subscription(self)
@@ -76,6 +81,11 @@ class Client(object):
     def post(self, path, params):
         from intercom import request
         req = request.Request('POST', path)
+        return self._execute_request(req, params)
+
+    def put(self, path, params):
+        from intercom import request
+        req = request.Request('PUT', path)
         return self._execute_request(req, params)
 
     def delete(self, path, params):

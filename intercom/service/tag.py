@@ -14,15 +14,15 @@ class Tag(BaseService, All, Find, FindAll, Save):
     def collection_class(self):
         return tag.Tag
 
-    def tag(self, params):
+    def tag(self, **params):
         params['tag_or_untag'] = 'tag'
-        self.create(params)
+        return self.create(**params)
 
-    def untag(self, params):
+    def untag(self, **params):
         params['tag_or_untag'] = 'untag'
-        for user_or_company in self.users_or_companies(params):
+        for user_or_company in self._users_or_companies(params):
             user_or_company['untag'] = True
-        self.create(params)
+        return self.create(**params)
 
     def _users_or_companies(self, params):
         if 'users' in params:

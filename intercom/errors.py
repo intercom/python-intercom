@@ -57,6 +57,7 @@ error_codes = {
     'unauthorized': AuthenticationError,
     'forbidden': AuthenticationError,
     'bad_request': BadRequestError,
+    'action_forbidden': BadRequestError,
     'missing_parameter': BadRequestError,
     'parameter_invalid': BadRequestError,
     'parameter_not_found': BadRequestError,
