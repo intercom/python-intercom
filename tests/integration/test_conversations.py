@@ -115,7 +115,7 @@ class ConversationTest(unittest.TestCase):
             if not part.part_type == 'assignment':
                 self.assertIsNotNone(part.body)
 
-    def test_reply(self):
+    def test_a_reply(self):
         # REPLYING TO CONVERSATIONS
         conversation = intercom.conversations.find(id=self.admin_conv.id)
         num_parts = len(conversation.conversation_parts)
