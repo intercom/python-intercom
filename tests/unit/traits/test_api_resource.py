@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+import calendar
 
 import unittest
 
 from datetime import datetime
+from pytz import utc
 from intercom.traits.api_resource import Resource
 from nose.tools import assert_raises
 from nose.tools import eq_
@@ -34,7 +36,8 @@ class IntercomTraitsApiResource(unittest.TestCase):
 
     @istest
     def it_coerces_time_on_parsing_json(self):
-        eq_(datetime.fromtimestamp(1374056196), self.api_resource.created_at)
+        dt = datetime.utcfromtimestamp(1374056196).replace(tzinfo=utc)
+        eq_(dt, self.api_resource.created_at)
 
     @istest
     def it_dynamically_defines_accessors_for_non_existent_properties(self):
@@ -55,7 +58,8 @@ class IntercomTraitsApiResource(unittest.TestCase):
     @istest
     def it_exposes_dates_correctly_for_dynamically_defined_getters(self):
         self.api_resource.foo_at = 1401200468
-        eq_(datetime.fromtimestamp(1401200468), self.api_resource.foo_at)
+        dt = datetime.utcfromtimestamp(1401200468).replace(tzinfo=utc)
+        eq_(dt, self.api_resource.foo_at)
 
     # @istest
     # def it_throws_regular_error_when_non_existant_getter_is_called_that_is_backed_by_an_instance_variable(self):  # noqa

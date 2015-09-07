@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import calendar
 
 import json
 import mock
@@ -32,13 +33,13 @@ class UserTest(unittest.TestCase):
         as_dict = user.to_dict
         eq_(as_dict["email"], "jim@example.com")
         eq_(as_dict["user_id"], "12345")
-        eq_(as_dict["created_at"], time.mktime(created_at.timetuple()))
+        eq_(as_dict["created_at"], calendar.timegm(created_at.utctimetuple()))
         eq_(as_dict["name"], "Jim Bob")
 
     @istest
     def it_presents_created_at_and_last_impression_at_as_datetime(self):
         now = datetime.utcnow()
-        now_ts = time.mktime(now.timetuple())
+        now_ts = calendar.timegm(now.utctimetuple())
         user = User.from_api(
             {'created_at': now_ts, 'last_impression_at': now_ts})
         self.assertIsInstance(user.created_at, datetime)
@@ -60,9 +61,9 @@ class UserTest(unittest.TestCase):
         eq_('Joe Schmoe', user.name)
         eq_('the-app-id', user.app_id)
         eq_(123, user.session_count)
-        eq_(1401970114, time.mktime(user.created_at.timetuple()))
-        eq_(1393613864, time.mktime(user.remote_created_at.timetuple()))
-        eq_(1401970114, time.mktime(user.updated_at.timetuple()))
+        eq_(1401970114, calendar.timegm(user.created_at.utctimetuple()))
+        eq_(1393613864, calendar.timegm(user.remote_created_at.utctimetuple()))
+        eq_(1401970114, calendar.timegm(user.updated_at.utctimetuple()))
 
         Avatar = create_class_instance('Avatar')  # noqa
         Company = create_class_instance('Company')  # noqa
@@ -79,14 +80,14 @@ class UserTest(unittest.TestCase):
         eq_('bbbbbbbbbbbbbbbbbbbbbbbb', user.companies[0].id)
         eq_('the-app-id', user.companies[0].app_id)
         eq_('Company 1', user.companies[0].name)
-        eq_(1390936440, time.mktime(
-            user.companies[0].remote_created_at.timetuple()))
-        eq_(1401970114, time.mktime(
-            user.companies[0].created_at.timetuple()))
-        eq_(1401970114, time.mktime(
-            user.companies[0].updated_at.timetuple()))
-        eq_(1401970113, time.mktime(
-            user.companies[0].last_request_at.timetuple()))
+        eq_(1390936440, calendar.timegm(
+            user.companies[0].remote_created_at.utctimetuple()))
+        eq_(1401970114, calendar.timegm(
+            user.companies[0].created_at.utctimetuple()))
+        eq_(1401970114, calendar.timegm(
+            user.companies[0].updated_at.utctimetuple()))
+        eq_(1401970113, calendar.timegm(
+            user.companies[0].last_request_at.utctimetuple()))
         eq_(0, user.companies[0].monthly_spend)
         eq_(0, user.companies[0].session_count)
         eq_(1, user.companies[0].user_count)
@@ -129,7 +130,7 @@ class UserTest(unittest.TestCase):
     @istest
     def it_allows_easy_setting_of_custom_data(self):
         now = datetime.utcnow()
-        now_ts = time.mktime(now.timetuple())
+        now_ts = calendar.timegm(now.utctimetuple())
 
         user = User()
         user.custom_attributes["mad"] = 123
@@ -317,7 +318,7 @@ class UserTest(unittest.TestCase):
             'name': 'Bob Smith',
             'last_seen_ip': '1.2.3.4',
             'last_seen_user_agent': 'ie6',
-            'created_at': time.mktime(created_at.timetuple())
+            'created_at': calendar.timegm(created_at.utctimetuple())
         }
         user = User(**payload)
         expected_keys = ['custom_attributes']
@@ -392,7 +393,7 @@ class DescribeIncrementingCustomAttributeFields(unittest.TestCase):
             'custom_attributes': {
                 'mad': 123,
                 'another': 432,
-                'other': time.mktime(created_at.timetuple()),
+                'other': calendar.timegm(created_at.utctimetuple()),
                 'thing': 'yay'
             }
         }
