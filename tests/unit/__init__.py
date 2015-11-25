@@ -45,9 +45,9 @@ def mock_response(content, status_code=200, encoding='utf-8', headers=None):
         content=content, status_code=status_code, encoding=encoding, headers=headers)
 
 
-def get_user(email="bob@example.com", name="Joe Schmoe"):
+def get_user_or_contact(type, email, name):
     return {
-        "type": "user",
+        "type": type,
         "id": "aaaaaaaaaaaaaaaaaaaaaaaa",
         "user_id": 'id-from-customers-app',
         "email": email,
@@ -57,7 +57,6 @@ def get_user(email="bob@example.com", name="Joe Schmoe"):
             "image_url": "https://graph.facebook.com/1/picture?width=24&height=24"
         },
         "app_id": "the-app-id",
-        "created_at": 1323422442,
         "custom_attributes": {"a": "b", "b": 2},
         "companies": {
             "type": "company.list",
@@ -82,7 +81,6 @@ def get_user(email="bob@example.com", name="Joe Schmoe"):
                 }
             ]
         },
-        "session_count": 123,
         "unsubscribed_from_emails": True,
         "last_request_at": 1401970113,
         "created_at": 1401970114,
@@ -135,6 +133,16 @@ def get_user(email="bob@example.com", name="Joe Schmoe"):
             "country_code": "IRL"
         }
     }
+
+
+def get_user(email="bob@example.com", name="Joe Schmoe"):
+    user = get_user_or_contact('user', email, name)
+    user.update({"session_count": 123})
+    return user
+
+
+def get_contact(email="bob@example.com", name="Joe Schmoe"):
+    return get_user_or_contact('contact', email, name)
 
 
 def page_of_users(include_next_link=False):
