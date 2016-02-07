@@ -14,7 +14,8 @@ from intercom.traits.incrementable_attributes import IncrementableAttributes
 class Contact(Resource, Find, FindAll, All, Count, Load, Save, Delete,
               IncrementableAttributes):
 
-    identity_vars = ['email']
+    update_verb = 'post'
+    identity_vars = ['id', 'user_id']
 
     @property
     def flat_store_attributes(self):
