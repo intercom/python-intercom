@@ -6,7 +6,7 @@ from .errors import (ArgumentError, AuthenticationError, # noqa
     MultipleMatchingUsersError, RateLimitExceeded, ResourceNotFound,
     ServerError, ServiceUnavailableError, UnexpectedError)
 
-__version__ = '3.0-dev'
+__version__ = '3.0b1'
 
 
 RELATED_DOCS_TEXT = "See https://github.com/jkeyes/python-intercom \
