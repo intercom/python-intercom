@@ -33,9 +33,13 @@ def to_datetime_value(value):
 
 
 class Resource(object):
+    client = None
     changed_attributes = []
 
-    def __init__(_self, **params):  # noqa
+    def __init__(_self, *args, **params):  # noqa
+        if args:
+            _self.client = args[0]
+
         # intercom includes a 'self' field in the JSON, to avoid the naming
         # conflict we go with _self here
         _self.from_dict(params)

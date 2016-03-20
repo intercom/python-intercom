@@ -445,3 +445,98 @@ class DescribeIncrementingCustomAttributeFields(unittest.TestCase):
             user.increment('mad')
             eq_(user.to_dict()['custom_attributes']['mad'], 1)
             self.client.users.save(user)
+
+
+class DescribeBulkOperations(unittest.TestCase):  # noqa
+
+    def setUp(self):  # noqa
+        self.client = Client()
+
+        self.job = {
+            "app_id": "app_id",
+            "id": "super_awesome_job",
+            "created_at": 1446033421,
+            "completed_at": 1446048736,
+            "closing_at": 1446034321,
+            "updated_at": 1446048736,
+            "name": "api_bulk_job",
+            "state": "completed",
+            "links": {
+                "error": "https://api.intercom.io/jobs/super_awesome_job/error",
+                "self": "https://api.intercom.io/jobs/super_awesome_job"
+            },
+            "tasks": [
+                {
+                    "id": "super_awesome_task",
+                    "item_count": 2,
+                    "created_at": 1446033421,
+                    "started_at": 1446033709,
+                    "completed_at": 1446033709,
+                    "state": "completed"
+                }
+            ]
+        }
+
+        self.bulk_request = {
+            "items": [
+                {
+                    "method": "post",
+                    "data_type": "user",
+                    "data": {
+                        "user_id": 25,
+                        "email": "alice@example.com"
+                    }
+                },
+                {
+                    "method": "delete",
+                    "data_type": "user",
+                    "data": {
+                        "user_id": 26,
+                        "email": "bob@example.com"
+                    }
+                }
+            ]
+        }
+
+        self.users_to_create = [
+            {
+                "user_id": 25,
+                "email": "alice@example.com"
+            }
+        ]
+
+        self.users_to_delete = [
+            {
+                "user_id": 26,
+                "email": "bob@example.com"
+            }
+        ]
+
+        created_at = datetime.utcnow()
+        params = {
+            'email': 'jo@example.com',
+            'user_id': 'i-1224242',
+            'custom_attributes': {
+                'mad': 123,
+                'another': 432,
+                'other': time.mktime(created_at.timetuple()),
+                'thing': 'yay'
+            }
+        }
+        self.user = User(**params)
+
+    @istest
+    def it_submits_a_bulk_job(self):  # noqa
+        with patch.object(Client, 'post', return_value=self.job) as mock_method:  # noqa
+            self.client.users.submit_bulk_job(
+                create_items=self.users_to_create, delete_items=self.users_to_delete)
+            mock_method.assert_called_once_with('/bulk/users', self.bulk_request)
+
+    @istest
+    def it_adds_users_to_an_existing_bulk_job(self):  # noqa
+        self.bulk_request['job'] = {'id': 'super_awesome_job'}
+        with patch.object(Client, 'post', return_value=self.job) as mock_method:  # noqa
+            self.client.users.submit_bulk_job(
+                create_items=self.users_to_create, delete_items=self.users_to_delete,
+                job_id='super_awesome_job')
+            mock_method.assert_called_once_with('/bulk/users', self.bulk_request)
