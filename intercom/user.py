@@ -7,7 +7,7 @@ from intercom.traits.incrementable_attributes import IncrementableAttributes
 class User(Resource, IncrementableAttributes):
 
     update_verb = 'post'
-    identity_vars = ['email', 'user_id']
+    identity_vars = ['id', 'email', 'user_id']
 
     @property
     def flat_store_attributes(self):
