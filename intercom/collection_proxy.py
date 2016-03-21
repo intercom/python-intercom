@@ -2,6 +2,7 @@
 
 import six
 from intercom import HttpError
+from intercom import utils
 
 
 class CollectionProxy(six.Iterator):
@@ -11,6 +12,12 @@ class CollectionProxy(six.Iterator):
             finder_url, finder_params={}):
 
         self.client = client
+
+        # resource name
+        self.resource_name = utils.resource_class_to_collection_name(collection_cls)
+
+        # resource class
+        self.resource_class = collection_cls
 
         # needed to create class instances of the resource
         self.collection_cls = collection_cls

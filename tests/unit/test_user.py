@@ -273,7 +273,7 @@ class UserTest(unittest.TestCase):
         with patch.object(Client, 'delete', return_value={}) as mock_method:
             user = self.client.users.delete(user)
             eq_(user.id, "1")
-            mock_method.assert_called_once_with('/users/1/', {})
+            mock_method.assert_called_once_with('/users/1', {})
 
     @istest
     def it_can_use_user_create_for_convenience(self):

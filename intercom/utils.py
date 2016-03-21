@@ -25,6 +25,8 @@ def constantize_singular_resource_name(resource_name):
 
 
 def resource_class_to_collection_name(cls):
+    if hasattr(cls, 'collection_name'):
+        return cls.collection_name
     return pluralize(cls.__name__.lower())
 
 
