@@ -13,11 +13,11 @@ Documentation <http://readthedocs.org/docs/python-intercom/>`__.
 Upgrading information
 ---------------------
 
-Version 2 of python-intercom is **not backwards compatible** with
+Version 3 of python-intercom is **not backwards compatible** with
 previous versions.
 
-One change you will need to make as part of the upgrade is to set
-``Intercom.app_api_key`` and not set ``Intercom.api_key``.
+Version 3 moves away from a global setup approach to the use of an
+Intercom Client.
 
 Installation
 ------------
@@ -29,13 +29,16 @@ Installation
 Basic Usage
 -----------
 
-Configure your access credentials
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Configure your client
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
-    Intercom.app_id = "my_app_id"
-    Intercom.app_api_key = "my-super-crazy-api-key"
+    from intercom.client import Client
+    intercom = Client(app_id='my_app_id', api_key='my_api_key')
+
+You can get your app_id from the URL when you're logged into Intercom (it's the alphanumeric just after /apps/) and your API key from the API keys integration settings page (under your app settings - integrations in Intercom).
+
 
 Resources
 ~~~~~~~~~
@@ -45,18 +48,18 @@ Resources this API supports:
 ::
 
     https://api.intercom.io/users
+    https://api.intercom.io/contacts
     https://api.intercom.io/companies
+    https://api.intercom.io/counts
     https://api.intercom.io/tags
     https://api.intercom.io/notes
     https://api.intercom.io/segments
     https://api.intercom.io/events
     https://api.intercom.io/conversations
     https://api.intercom.io/messages
-    https://api.intercom.io/counts
     https://api.intercom.io/subscriptions
-
-Additionally, the library can handle incoming webhooks from Intercom and
-convert to ``intercom`` models.
+    https://api.intercom.io/jobs
+    https://api.intercom.io/bulk
 
 Examples
 ~~~~~~~~
@@ -66,35 +69,42 @@ Users
 
 .. code:: python
 
-    from intercom import User
     # Find user by email
-    user = User.find(email="bob@example.com")
+    user = intercom.users.find(email="bob@example.com")
     # Find user by user_id
-    user = User.find(user_id="1")
+    user = intercom.users.find(user_id="1")
     # Find user by id
-    user = User.find(id="1")
+    user = intercom.users.find(id="1")
     # Create a user
-    user = User.create(email="bob@example.com", name="Bob Smith")
+    user = intercom.users.create(email="bob@example.com", name="Bob Smith")
     # Delete a user
-    deleted_user = User.find(id="1").delete()
+    user = intercom.users.find(id="1")
+    deleted_user = intercom.users.delete(user)
     # Update custom_attributes for a user
     user.custom_attributes["average_monthly_spend"] = 1234.56
-    user.save()
+    intercom.users.save(user)
     # Perform incrementing
     user.increment('karma')
-    user.save()
+    intercom.users.save()
     # Iterate over all users
-    for user in User.all():
+    for user in intercom.users.all():
         ...
+
+    # Bulk operations.
+    # Submit bulk job, to create users, if any of the items in create_items match an existing user that user will be updated
+    intercom.users.submit_bulk_job(create_items=[{'user_id': 25, 'email': 'alice@example.com'}, {'user_id': 25, 'email': 'bob@example.com'}])
+    # Submit bulk job, to delete users
+    intercom.users.submit_bulk_job(delete_items=[{'user_id': 25, 'email': 'alice@example.com'}, {'user_id': 25, 'email': 'bob@example.com'}])
+    # Submit bulk job, to add items to existing job
+    intercom.users.submit_bulk_job(create_items=[{'user_id': 25, 'email': 'alice@example.com'}], delete_items=[{'user_id': 25, 'email': 'bob@example.com'}], 'job_id': 'job_abcd1234')
 
 Admins
 ^^^^^^
 
 .. code:: python
 
-    from intercom import Admin
     # Iterate over all admins
-    for admin in Admin.all():
+    for admin in intercom.admins.all():
         ...
 
 Companies
@@ -102,79 +112,63 @@ Companies
 
 .. code:: python
 
-    from intercom import Company
-    from intercom import User
     # Add a user to one or more companies
-    user = User.find(email="bob@example.com")
+    user = intercom.users.find(email='bob@example.com')
     user.companies = [
-        {"company_id": 6, "name": "Intercom"},
-        {"company_id": 9, "name": "Test Company"}
+        {'company_id': 6, 'name': 'Intercom'},
+        {'company_id': 9, 'name': 'Test Company'}
     ]
-    user.save()
+    intercom.users.save(user)
     # You can also pass custom attributes within a company as you do this
     user.companies = [
         {
-            "id": 6,
-            "name": "Intercom",
-            "custom_attributes": {
-                "referral_source": "Google"
+            'id': 6,
+            'name': 'Intercom',
+            'custom_attributes': {
+                'referral_source': 'Google'
             }
         }
     ]
-    user.save()
+    intercom.users.save(user)
     # Find a company by company_id
-    company = Company.find(company_id="44")
+    company = intercom.companies.find(company_id='44')
     # Find a company by name
-    company = Company.find(name="Some company")
+    company = intercom.companies.find(name='Some company')
     # Find a company by id
-    company = Company.find(id="41e66f0313708347cb0000d0")
+    company = intercom.companies.find(id='41e66f0313708347cb0000d0')
     # Update a company
     company.name = 'Updated company name'
-    company.save()
+    intercom.companies.save(company)
     # Iterate over all companies
-    for company in Company.all():
+    for company in intercom.companies.all():
         ...
     # Get a list of users in a company
-    company.users
+    intercom.companies.users(company.id)
 
 Tags
 ^^^^
 
 .. code:: python
 
-    from intercom import Tag
     # Tag users
-    tag = Tag.tag_users('blue', ["42ea2f1b93891f6a99000427"])
+    tag = intercom.tags.tag_users(name='blue', users=[{'email': 'test1@example.com'}])
     # Untag users
-    Tag.untag_users('blue', ["42ea2f1b93891f6a99000427"])
+    intercom.tags.untag_users(name='blue', users=[{'user_id': '42ea2f1b93891f6a99000427'}])
     # Iterate over all tags
-    for tag in Tag.all():
+    for tag in intercom.tags.all():
         ...
-    # Iterate over all tags for user
-    Tag.find_all_for_user(id='53357ddc3c776629e0000029')
-    Tag.find_all_for_user(email='declan+declan@intercom.io')
-    Tag.find_all_for_user(user_id='3')
     # Tag companies
-    tag = Tag.tag_companies('red', ["42ea2f1b93891f6a99000427"])
-    # Untag companies
-    Tag.untag_companies('blue', ["42ea2f1b93891f6a99000427"])
-    # Iterate over all tags for company
-    Tag.find_all_for_company(id='43357e2c3c77661e25000026')
-    Tag.find_all_for_company(company_id='6')
+    tag = intercom.tags.tag(name='blue', companies=[{'id': '42ea2f1b93891f6a99000427'}])
 
 Segments
 ^^^^^^^^
 
 .. code:: python
 
-    from intercom import Segment
     # Find a segment
-    segment = Segment.find(id=segment_id)
-    # Update a segment
-    segment.name = 'Updated name'
-    segment.save()
+    segment = intercom.segments.find(id=segment_id)
     # Iterate over all segments
-    for segment in Segment.all():
+    for segment in intercom.segments.all():
         ...
 
 Notes
@@ -183,16 +177,16 @@ Notes
 .. code:: python
 
     # Find a note by id
-    note = Note.find(id=note)
+    note = intercom.notes.find(id=note)
     # Create a note for a user
-    note = Note.create(
+    note = intercom.notes.create(
         body="<p>Text for the note</p>",
         email='joe@example.com')
     # Iterate over all notes for a user via their email address
-    for note in Note.find_all(email='joe@example.com'):
+    for note in intercom.notes.find_all(email='joe@example.com'):
         ...
     # Iterate over all notes for a user via their user_id
-    for note in Note.find_all(user_id='123'):
+    for note in intercom.notes.find_all(user_id='123'):
         ...
 
 Conversations
@@ -200,40 +194,39 @@ Conversations
 
 .. code:: python
 
-    from intercom import Conversation
     # FINDING CONVERSATIONS FOR AN ADMIN
     # Iterate over all conversations (open and closed) assigned to an admin
-    for convo in Conversation.find_all(type='admin', id='7'):
+    for convo in intercom.conversations.find_all(type='admin', id='7'):
         ...
     # Iterate over all open conversations assigned to an admin
-    for convo Conversation.find_all(type='admin', id=7, open=True):
+    for convo in intercom.conversations.find_all(type='admin', id=7, open=True):
         ...
     # Iterate over closed conversations assigned to an admin
-    for convo Conversation.find_all(type='admin', id=7, open=False):
+    for convo intercom.conversations.find_all(type='admin', id=7, open=False):
         ...
     # Iterate over closed conversations for assigned an admin, before a certain
     # moment in time
-    for convo in Conversation.find_all(
+    for convo in intercom.conversations.find_all(
             type='admin', id= 7, open= False, before=1374844930):
         ...
 
     # FINDING CONVERSATIONS FOR A USER
     # Iterate over all conversations (read + unread, correct) with a user based on
     # the users email
-    for convo in Conversation.find_all(email='joe@example.com',type='user'):
+    for convo in intercom.onversations.find_all(email='joe@example.com',type='user'):
         ...
     # Iterate over through all conversations (read + unread) with a user based on
     # the users email
-    for convo in Conversation.find_all(
+    for convo in intercom.conversations.find_all(
             email='joe@example.com', type='user', unread=False):
         ...
     # Iterate over all unread conversations with a user based on the users email
-    for convo in Conversation.find_all(
+    for convo in intercom.conversations.find_all(
             email='joe@example.com', type='user', unread=true):
         ...
 
     # FINDING A SINGLE CONVERSATION
-    conversation = Conversation.find(id='1')
+    conversation = intercom.conversations.find(id='1')
 
     # INTERACTING WITH THE PARTS OF A CONVERSATION
     # Getting the subject of a part (only applies to email-based conversations)
@@ -245,52 +238,45 @@ Conversations
 
     # REPLYING TO CONVERSATIONS
     # User (identified by email) replies with a comment
-    conversation.reply(
+    intercom.conversations.reply(
         type='user', email='joe@example.com',
-        message_type= comment', body='foo')
+        message_type='comment', body='foo')
     # Admin (identified by email) replies with a comment
-    conversation.reply(
+    intercom.conversations.reply(
         type='admin', email='bob@example.com',
         message_type='comment', body='bar')
+    # User (identified by email) replies with a comment and attachment
+    intercom.conversations.reply(id=conversation.id, type='user', email='joe@example.com', message_type='comment', body='foo', attachment_urls=['http://www.example.com/attachment.jpg'])
+
+    # Open
+    intercom.conversations.open(id=conversation.id, admin_id='123')
+
+    # Close
+    intercom.conversations.close(id=conversation.id, admin_id='123')
+
+    # Assign
+    intercom.conversations.assign(id=conversation.id, admin_id='123', assignee_id='124')
+
+    # Reply and Open
+    intercom.conversations.reply(id=conversation.id, type='admin', admin_id='123', message_type='open', body='bar')
+
+    # Reply and Close
+    intercom.conversations.reply(id=conversation.id, type='admin', admin_id='123', message_type='close', body='bar')
+
+    # ASSIGNING CONVERSATIONS TO ADMINS
+    intercom.conversations.reply(id=conversation.id, type='admin', assignee_id=assignee_admin.id, admin_id=admin.id, message_type='assignment')
 
     # MARKING A CONVERSATION AS READ
-    conversation.read = True
-    conversation.save()
+    intercom.conversations.mark_read(conversation.id)
 
-Counts
-^^^^^^
-
-.. code:: python
-
-    from intercom import Count
-    # Get Conversation per Admin
-    conversation_counts_for_each_admin = Count.conversation_counts_for_each_admin()
-    for count in conversation_counts_for_each_admin:
-        print "Admin: %s (id: %s) Open: %s Closed: %s" % (
-            count.name, count.id, count.open, count.closed)
-    # Get User Tag Count Object
-    Count.user_counts_for_each_tag()
-    # Get User Segment Count Object
-    Count.user_counts_for_each_segment()
-    # Get Company Segment Count Object
-    Count.company_counts_for_each_segment()
-    # Get Company Tag Count Object
-    Count.company_counts_for_each_tag()
-    # Get Company User Count Object
-    Count.company_counts_for_each_user()
-    # Get total count of companies, users, segments or tags across app
-    Company.count()
-    User.count()
-    Segment.count()
-    Tag.count()
-
-Full loading of and embedded entity
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Full loading of an embedded entity
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
-        # Given a converation with a partial user, load the full user. This can be done for any entity
-        conversation.user.load()
+    # Given a conversation with a partial user, load the full user. This can be
+    # done for any entity
+    intercom.users.load(conversation.user)
 
 Sending messages
 ^^^^^^^^^^^^^^^^
@@ -298,7 +284,7 @@ Sending messages
 .. code:: python
 
     # InApp message from admin to user
-    Message.create(**{
+    intercom.messages.create(**{
         "message_type": "inapp",
         "body": "What's up :)",
         "from": {
@@ -312,7 +298,7 @@ Sending messages
     })
 
     # Email message from admin to user
-    Message.create(**{
+    intercom.messages.create(**{
         "message_type": "email",
         "subject": "Hey there",
         "body": "What's up :)",
@@ -328,7 +314,7 @@ Sending messages
     })
 
     # Message from a user
-    Message.create(**{
+    intercom.messages.create(**{
         "from": {
             "type": "user",
             "id": "536e564f316c83104c000020"
@@ -336,20 +322,41 @@ Sending messages
         "body": "halp"
     })
 
+    # Message from admin to contact
+    intercom.messages.create(**{
+        'body': 'How can I help :)',
+        'from': {
+            'type': 'admin',
+            'id': '1234'
+        },
+        'to': {
+            'type': 'contact',
+            'id': '536e5643as316c83104c400671'
+        }
+    })
+
+    # Message from a contact
+    intercom.messages.create(**{
+        'from' => {
+            'type': 'contact',
+            'id': '536e5643as316c83104c400671'
+        },
+        'body': 'halp'
+    })
+
 Events
 ^^^^^^
 
 .. code:: python
 
-    from intercom import Event
-    Event.create(
-        event_name="invited-friend",
+    intercom.events.create(
+        event_name='invited-friend',
         created_at=time.mktime(),
         email=user.email,
         metadata={
-            "invitee_email": "pi@example.org",
-            "invite_code": "ADDAFRIEND",
-            "found_date": 12909364407
+            'invitee_email': 'pi@example.org',
+            'invite_code': 'ADDAFRIEND',
+            'found_date': 12909364407
         }
     )
 
@@ -358,20 +365,20 @@ your behalf
 
 .. code:: python
 
-    Event.create(
+    intercom.events.create(
         event_name="placed-order",
         email=current_user.email,
         created_at=1403001013
         metadata={
-            "order_date": time.mktime(),
-            "stripe_invoice": 'inv_3434343434',
-            "order_number": {
-                "value": '3434-3434',
-                "url": 'https://example.org/orders/3434-3434'
+            'order_date': time.mktime(),
+            'stripe_invoice': 'inv_3434343434',
+            'order_number': {
+                'value': '3434-3434',
+                'url': 'https://example.org/orders/3434-3434'
             },
-            "price": {
-                "currency": 'usd',
-                "amount": 2999
+            'price': {
+                'currency': 'usd',
+                'amount': 2999
             }
         }
     )
@@ -385,6 +392,88 @@ The metadata key values in the example are treated as follows-
 -  price: An Amount in US Dollars (value contains 'amount' and
    'currency' keys)
 
+Bulk operations.
+
+.. code:: python
+
+    # Submit bulk job, to create events
+    intercom.events.submit_bulk_job(create_items: [
+        {
+            'event_name': 'ordered-item',
+            'created_at': 1438944980,
+            'user_id': '314159',
+            'metadata': {
+                'order_date': 1438944980,
+                'stripe_invoice': 'inv_3434343434'
+            }
+        },
+        {
+            'event_name': 'invited-friend',
+            'created_at': 1438944979,
+            'user_id': '314159',
+            'metadata': {
+                'invitee_email': 'pi@example.org',
+                'invite_code': 'ADDAFRIEND'
+            }
+        }
+    ])
+
+    # Submit bulk job, to add items to existing job
+    intercom.events.submit_bulk_job(create_items=[
+        {
+            'event_name': 'ordered-item',
+            'created_at': 1438944980,
+            'user_id': '314159',
+            'metadata': {
+                'order_date': 1438944980,
+                'stripe_invoice': 'inv_3434343434'
+            }
+        },
+        {
+            'event_name': 'invited-friend',
+            'created_at': 1438944979,
+            'user_id': "314159",
+            'metadata': {
+                'invitee_email': 'pi@example.org',
+                'invite_code': 'ADDAFRIEND'
+            }
+        }
+        ], job_id='job_abcd1234')
+
+Contacts
+^^^^^^^^
+
+Contacts represent logged out users of your application.
+
+.. code:: python
+
+    # Create a contact
+    contact = intercom.contacts.create(email="some_contact@example.com")
+
+    # Update a contact
+    contact.custom_attributes['foo'] = 'bar'
+    intercom.contacts.save(contact)
+
+    # Find contacts by email
+    contacts = intercom.contacts.find_all(email="some_contact@example.com")
+
+    # Convert a contact into a user
+    intercom.contacts.convert(contact, user)
+
+    # Delete a contact
+    intercom.contacts.delete(contact)
+
+Counts
+^^^^^^
+
+.. code:: python
+
+    # App-wide counts
+    intercom.counts.for_app
+
+    # Users in segment counts
+    intercom.counts.for_type(type='user', count='segment')
+
 Subscriptions
 ~~~~~~~~~~~~~
 
@@ -392,38 +481,26 @@ Subscribe to events in Intercom to receive webhooks.
 
 .. code:: python
 
-    from intercom import Subscription
     # create a subscription
-    Subscription.create(url="http://example.com", topics=["user.created"])
+    intercom.subscriptions.create(url='http://example.com', topics=['user.created'])
 
     # fetch a subscription
-    Subscription.find(id="nsub_123456789")
+    intercom.subscriptions.find(id='nsub_123456789')
 
     # list subscriptions
-    Subscription.all():
+    intercom.subscriptions.all():
+        ...
 
-Webhooks
-~~~~~~~~
+Bulk jobs
+^^^^^^^^^
 
 .. code:: python
 
-    from intercom import Notification
-    # create a payload from the notification hash (from json).
-    payload = Intercom::Notification.new(notification_hash)
+    # fetch a job
+    intercom.jobs.find(id='job_abcd1234')
 
-    payload.type
-    # 'user.created'
-
-    payload.model_type
-    # User
-
-    user = payload.model
-    # Instance of User
-
-Note that models generated from webhook notifications might differ
-slightly from models directly acquired via the API. If this presents a
-problem, calling ``payload.load`` will load the model from the API using
-the ``id`` field.
+    # fetch a job's error feed
+    intercom.jobs.errors(id='job_abcd1234')
 
 Errors
 ~~~~~~
@@ -442,6 +519,7 @@ or the more specific error subclass:
     AuthenticationError
     ServerError
     ServiceUnavailableError
+    ServiceConnectionError
     ResourceNotFound
     BadGatewayError
     BadRequestError
@@ -453,13 +531,13 @@ or the more specific error subclass:
 Rate Limiting
 ~~~~~~~~~~~~~
 
-Calling ``Intercom.rate_limit_details`` returns a dict that contains
+Calling your clients ``rate_limit_details`` returns a dict that contains
 details about your app's current rate limit.
 
 .. code:: python
 
-    Intercom.rate_limit_details
-    # {'limit': 500, 'reset_at': datetime.datetime(2015, 3, 28, 13, 22), 'remaining': 497}
+    intercom.rate_limit_details
+    # {'limit': 180, 'remaining': 179, 'reset_at': datetime.datetime(2014, 10, 07, 14, 58)}
 
 Running the Tests
 -----------------
