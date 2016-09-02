@@ -68,15 +68,15 @@ class CollectionProxy(six.Iterator):
 
     def get_next_page(self):
         # get the next page of results
-        # Do this by re-applying the finder_params to the next_page url, since Intercom's API seems to drop these.
+
+        # Do this by re-applying the finder_params to the next_page url, since
+        # Intercom's API seems to drop these
         from urlparse import urlparse, parse_qs, urlunparse
         from urllib import urlencode
         url = urlparse(self.next_page)
         new_query = parse_qs(url.query)
         new_query.update(self.finder_params)
-        url.query = urlencode(new_query)
-        new_next_page = urlunparse(url)
-        return self.get_page(new_next_page)
+        return self.get_page(self.next_page, new_query)
 
     def get_page(self, url, params={}):
         # get a page of results
