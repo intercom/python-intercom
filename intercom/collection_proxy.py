@@ -96,7 +96,7 @@ class CollectionProxy(six.Iterator):
         # grab the next page URL if one exists
         self.next_page = self.extract_next_link(response)
 
-        logger.debug("COLLECTION_PROXY: NEXT PAGE = %s" % self.next_page)
+        logger.info("COLLECTION_PROXY: NEXT PAGE = %s" % self.next_page)
 
     def paging_info_present(self, response):
         return 'pages' in response and 'type' in response['pages']

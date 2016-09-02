@@ -88,7 +88,7 @@ class Client(object):
 
     def get(self, path, params):
         from intercom import request
-        logger.debug("CLIENT: GETTING PATH %s AND PARAMS %s" % (path, params))
+        logger.info("CLIENT: GETTING PATH %s AND PARAMS %s" % (path, params))
         req = request.Request('GET', path)
         return self._execute_request(req, params)
 

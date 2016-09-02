@@ -30,8 +30,6 @@ class Request(object):
         from intercom import __version__
         req_params = {}
 
-        print "YOU ARE NOT INSANE"
-
         # full URL
         url = base_url + self.path
 
@@ -56,7 +54,7 @@ class Request(object):
             else:
                 logger.debug("  params: %s", req_params['data'])
 
-        logger.debug("REQUEST: ACTUALLY MAKING REQUEST WITH URL %s, AUTH %s, AND PARAMS %s" % (url, auth, req_params))
+        logger.info("REQUEST: ACTUALLY MAKING REQUEST WITH URL %s, AUTH %s, AND PARAMS %s" % (url, auth, req_params))
 
         resp = requests.request(
             self.http_method, url, timeout=self.timeout,
