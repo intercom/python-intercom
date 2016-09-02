@@ -18,8 +18,10 @@ class Request(object):
     def __init__(self, http_method, path):
         self.http_method = http_method
         self.path = path
+        logger.debug("REQUEST: INIT WITH METHOD %s AND PATH %s" % (http_method, path))
 
     def execute(self, base_url, auth, params):
+        logger.debug("REQUEST: EXECUTE WITH BASE_URL %s AUTH %s PARAMS %s" % (base_url, auth, params))
         return self.send_request_to_path(base_url, auth, params)
 
     def send_request_to_path(self, base_url, auth, params=None):
@@ -51,6 +53,8 @@ class Request(object):
                 logger.debug("  params: %s", req_params['params'])
             else:
                 logger.debug("  params: %s", req_params['data'])
+
+        logger.info("REQUEST: ACTUALLY MAKING REQUEST WITH URL %s, AUTH %s, AND PARAMS %s" % (url, auth, req_params))
 
         resp = requests.request(
             self.http_method, url, timeout=self.timeout,

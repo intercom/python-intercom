@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import logging
+
+logger = logging.getLogger('intercom.request')
 
 
 class Client(object):
@@ -85,6 +88,7 @@ class Client(object):
 
     def get(self, path, params):
         from intercom import request
+        logger.info("CLIENT: GETTING PATH %s AND PARAMS %s" % (path, params))
         req = request.Request('GET', path)
         return self._execute_request(req, params)
 

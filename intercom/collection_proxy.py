@@ -4,6 +4,10 @@ import six
 from intercom import HttpError
 from intercom import utils
 
+import logging
+
+logger = logging.getLogger('intercom.request')
+
 
 class CollectionProxy(six.Iterator):
 
@@ -92,10 +96,16 @@ class CollectionProxy(six.Iterator):
         # grab the next page URL if one exists
         self.next_page = self.extract_next_link(response)
 
+        logger.info("COLLECTION_PROXY: NEXT PAGE = %s" % self.next_page)
+
     def paging_info_present(self, response):
         return 'pages' in response and 'type' in response['pages']
 
     def extract_next_link(self, response):
+        from urlparse import urlparse
         if self.paging_info_present(response):
-            paging_info = response["pages"]
-            return paging_info["next"]
+            paging_info = response['pages']
+            if 'next' in paging_info and paging_info['next'] != None:
+                url = urlparse(paging_info['next'])
+                return "%s?%s" % (url.path, url.query)
+
