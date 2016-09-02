@@ -30,6 +30,8 @@ class Request(object):
         from intercom import __version__
         req_params = {}
 
+        print "YOU ARE NOT INSANE"
+
         # full URL
         url = base_url + self.path
 
