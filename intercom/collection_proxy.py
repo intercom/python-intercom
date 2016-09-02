@@ -101,5 +101,5 @@ class CollectionProxy(six.Iterator):
             paging_info = response['pages']
             if 'next' in paging_info and paging_info['next'] != None:
                 url = urlparse(paging_info['next'])
-                return url.path
+                return "%s?%s" % (url.path, url.query)
 
