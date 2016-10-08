@@ -28,13 +28,12 @@ Usage
 Authentication
 ---------------
 
-Intercom documentation: `Authentication <http://api.intercom.io/docs#authentication>`_.
+Intercom documentation: `Authentication <https://developers.intercom.com/docs#authentication>`_.
 
 ::
 
-    from intercom import Intercom
-    Intercom.app_id = 'dummy-app-id'
-    Intercom.app_api_key = 'dummy-api-key'
+    from intercom.client import Client
+    intercom = Client(personal_access_token='my_personal_access_token')
 
 Users
 -----

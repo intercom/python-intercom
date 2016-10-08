@@ -7,8 +7,7 @@ import time
 from intercom.client import Client
 
 intercom = Client(
-    os.environ.get('INTERCOM_APP_ID'),
-    os.environ.get('INTERCOM_API_KEY'))
+    os.environ.get('INTERCOM_PERSONAL_ACCESS_TOKEN'))
 
 
 class Issue72Test(unittest.TestCase):

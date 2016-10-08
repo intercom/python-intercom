@@ -35,10 +35,9 @@ Configure your client
 .. code:: python
 
     from intercom.client import Client
-    intercom = Client(app_id='my_app_id', api_key='my_api_key')
+    intercom = Client(personal_access_token='my_personal_access_token')
 
-You can get your app_id from the URL when you're logged into Intercom (it's the alphanumeric just after /apps/) and your API key from the API keys integration settings page (under your app settings - integrations in Intercom).
-
+Note that certain resources will require an extended scope access token : `Setting up Personal Access Tokens <https://developers.intercom.com/docs/personal-access-tokens>`_
 
 Resources
 ~~~~~~~~~
@@ -552,7 +551,7 @@ Integration tests:
 
 .. code:: bash
 
-    INTERCOM_APP_ID=xxx INTERCOM_APP_API_KEY=xxx nosetests tests/integration
+    INTERCOM_PERSONAL_ACCESS_TOKEN=xxx nosetests tests/integration
 
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/python-intercom.svg
    :target: https://pypi.python.org/pypi/python-intercom
