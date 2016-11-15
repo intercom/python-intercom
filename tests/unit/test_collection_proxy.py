@@ -30,7 +30,7 @@ class CollectionProxyTest(unittest.TestCase):
         side_effect = [page1, page2]
         with patch.object(Client, 'get', side_effect=side_effect) as mock_method:  # noqa
             emails = [user.email for user in self.client.users.all()]
-            eq_([call('/users', {}), call('https://api.intercom.io/users?per_page=50&page=2', {})],  # noqa
+            eq_([call('/users', {}), call('/users?per_page=50&page=2', {})],  # noqa
                 mock_method.mock_calls)
             eq_(emails, ['user1@example.com', 'user2@example.com', 'user3@example.com'] * 2)  # noqa
 
