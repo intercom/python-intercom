@@ -25,10 +25,10 @@ If you want to use the latest code, you can grab it from our
 Usage
 ===================================
 
-Authentication
----------------
+Authorization
+-------------
 
-Intercom documentation: `Authentication <http://api.intercom.io/docs#authentication>`_.
+Intercom documentation: `Personal Access Tokens <https://developers.intercom.com/reference#personal-access-tokens-1>`_.
 
 ::
 
@@ -42,7 +42,7 @@ Users
 Create or Update User
 +++++++++++++++++++++
 
-Intercom documentation: `Create or Update Users <https://doc.intercom.io/api/#create-or-update-user>`_.
+Intercom documentation: `Create or Update Users <https://developers.intercom.io/reference#create-or-update-user>`_.
 
 ::
 
@@ -52,7 +52,7 @@ Intercom documentation: `Create or Update Users <https://doc.intercom.io/api/#cr
 Updating the Last Seen Time
 +++++++++++++++++++++++++++
 
-Intercom documentation: `Updating the Last Seen Time <https://doc.intercom.io/api/#updating-the-last-seen-time>`_.
+Intercom documentation: `Updating the Last Seen Time <https://developers.intercom.io/reference#updating-the-last-seen-time>`_.
 
 ::
 
@@ -61,7 +61,7 @@ Intercom documentation: `Updating the Last Seen Time <https://doc.intercom.io/ap
 List Users
 ++++++++++
 
-Intercom documentation: `List Users <https://doc.intercom.io/api/#list-users>`_.
+Intercom documentation: `List Users <https://developers.intercom.io/reference#list-users>`_.
 
 ::
 
@@ -71,7 +71,7 @@ Intercom documentation: `List Users <https://doc.intercom.io/api/#list-users>`_.
 List by Tag, Segment, Company
 +++++++++++++++++++++++++++++
 
-Intercom documentation: `List by Tag, Segment, Company <https://doc.intercom.io/api/#list-by-tag-segment-company>`_.
+Intercom documentation: `List by Tag, Segment, Company <https://developers.intercom.io/reference#list-by-tag-segment-company>`_.
 
 ::
 
@@ -85,7 +85,7 @@ Intercom documentation: `List by Tag, Segment, Company <https://doc.intercom.io/
 View a User
 +++++++++++
 
-Intercom documentation: `View a User <https://doc.intercom.io/api/#view-a-user>`_.
+Intercom documentation: `View a User <https://developers.intercom.io/reference#view-a-user>`_.
 
 ::
 
@@ -101,7 +101,7 @@ Intercom documentation: `View a User <https://doc.intercom.io/api/#view-a-user>`
 Delete a User
 +++++++++++++
 
-Intercom documentation: `Deleting a User <https://doc.intercom.io/api/#delete-a-user>`_.
+Intercom documentation: `Deleting a User <https://developers.intercom.io/reference#delete-a-user>`_.
 
 ::
 
@@ -121,7 +121,7 @@ Companies
 Create or Update Company
 ++++++++++++++++++++++++
 
-Intercom documentation: `Create or Update Company <https://doc.intercom.io/api/#create-or-update-company>`_.
+Intercom documentation: `Create or Update Company <https://developers.intercom.io/reference#create-or-update-company>`_.
 
 ::
 
@@ -130,7 +130,7 @@ Intercom documentation: `Create or Update Company <https://doc.intercom.io/api/#
 List Companies
 ++++++++++++++
 
-Intercom documentation: `List Companies <https://doc.intercom.io/api/#list-companies>`_.
+Intercom documentation: `List Companies <https://developers.intercom.io/reference#list-companies>`_.
 
 ::
 
@@ -140,7 +140,7 @@ Intercom documentation: `List Companies <https://doc.intercom.io/api/#list-compa
 List by Tag or Segment
 ++++++++++++++++++++++
 
-Intercom documentation: `List by Tag or Segment <https://doc.intercom.io/api/#list-by-tag-or-segment>`_.
+Intercom documentation: `List by Tag or Segment <https://developers.intercom.io/reference#list-by-tag-or-segment>`_.
 
 ::
 
@@ -153,7 +153,7 @@ Intercom documentation: `List by Tag or Segment <https://doc.intercom.io/api/#li
 View a Company
 ++++++++++++++
 
-Intercom documentation: `View a Company <https://doc.intercom.io/api/#view-a-company>`_.
+Intercom documentation: `View a Company <https://developers.intercom.io/reference#view-a-company>`_.
 
 ::
 
@@ -162,7 +162,7 @@ Intercom documentation: `View a Company <https://doc.intercom.io/api/#view-a-com
 List Company Users
 ++++++++++++++++++
 
-Intercom documentation: `List Company Users <https://doc.intercom.io/api/#list-company-users>`_.
+Intercom documentation: `List Company Users <https://developers.intercom.io/reference#list-company-users>`_.
 
 ::
 
@@ -176,7 +176,7 @@ Admins
 List Admins
 +++++++++++
 
-Intercom documentation: `List Admins <https://doc.intercom.io/api/#list-admins>`_.
+Intercom documentation: `List Admins <https://developers.intercom.io/reference#list-admins>`_.
 
 ::
 
@@ -190,7 +190,7 @@ Tags
 Create and Update Tags
 ++++++++++++++++++++++
 
-Intercom documentation: `Create and Update Tags <https://doc.intercom.io/api/?ruby#create-and-update-tags>`_.
+Intercom documentation: `Create and Update Tags <https://developers.intercom.io/reference#create-and-update-tags>`_.
 
 ::
 
@@ -206,7 +206,7 @@ Intercom documentation: `Create and Update Tags <https://doc.intercom.io/api/?ru
 Tag or Untag Users & Companies
 ++++++++++++++++++++++++++++++
 
-Intercom documentation: `Tag or Untag Users & Companies <https://doc.intercom.io/api/#tag-or-untag-users--companies>`_.
+Intercom documentation: `Tag or Untag Users & Companies <https://developers.intercom.io/reference#tag-or-untag-users-companies-leads-contacts>`_.
 
 ::
 
@@ -219,7 +219,7 @@ Intercom documentation: `Tag or Untag Users & Companies <https://doc.intercom.io
 Delete a Tag
 ++++++++++++
 
-Intercom documentation: `Delete a Tag <https://doc.intercom.io/api/?ruby#delete-a-tag>`_.
+Intercom documentation: `Delete a Tag <https://developers.intercom.io/reference#delete-a-tag>`_.
 
 ::
 
@@ -229,7 +229,7 @@ Intercom documentation: `Delete a Tag <https://doc.intercom.io/api/?ruby#delete-
 List Tags for an App
 ++++++++++++++++++++
 
-Intercom Documentation: `List Tags for an App <https://doc.intercom.io/api/#list-tags-for-an-app>`_.
+Intercom Documentation: `List Tags for an App <https://developers.intercom.io/reference#list-tags-for-an-app>`_.
 
 ::
 
@@ -242,7 +242,7 @@ Segments
 List Segments
 +++++++++++++
 
-Intercom Documentation: `List Segments <https://doc.intercom.io/api/#list-segments>`_.
+Intercom Documentation: `List Segments <https://developers.intercom.io/reference#list-segments>`_.
 
 ::
 
@@ -254,7 +254,7 @@ Intercom Documentation: `List Segments <https://doc.intercom.io/api/#list-segmen
 View a Segment
 ++++++++++++++
 
-Intercom Documentation: `View a Segment <https://doc.intercom.io/api/#view-a-segment>`_.
+Intercom Documentation: `View a Segment <https://developers.intercom.io/reference#view-a-segment>`_.
 
 ::
 
@@ -266,7 +266,7 @@ Notes
 Create a Note
 +++++++++++++
 
-Intercom documentation: `Create a Note <https://doc.intercom.io/api/#create-a-note>`_.
+Intercom documentation: `Create a Note <https://developers.intercom.io/reference#create-a-note>`_.
 
 ::
 
@@ -278,7 +278,7 @@ Intercom documentation: `Create a Note <https://doc.intercom.io/api/#create-a-no
 List Notes for a User
 +++++++++++++++++++++
 
-Intercom documentation: `List Notes for a User <https://doc.intercom.io/api/#list-notes-for-a-user>`_.
+Intercom documentation: `List Notes for a User <https://developers.intercom.io/reference#list-notes-for-a-user>`_.
 
 ::
 
@@ -293,7 +293,7 @@ Intercom documentation: `List Notes for a User <https://doc.intercom.io/api/#lis
 View a Note
 +++++++++++
 
-Intercom documentation: `View a Note <https://doc.intercom.io/api/#view-a-note>`_.
+Intercom documentation: `View a Note <https://developers.intercom.io/reference#view-a-note>`_.
 
 ::
 
@@ -305,7 +305,7 @@ Events
 Submitting Events
 +++++++++++++++++
 
-Intercom documentation: `Submitting Events <https://doc.intercom.io/api/#submitting-events>`_.
+Intercom documentation: `Submitting Events <https://developers.intercom.io/reference#submitting-events>`_.
 
 ::
 
@@ -319,7 +319,7 @@ Counts
 Getting counts
 ++++++++++++++
 
-Intercom documentation: `Creating a Tag <https://doc.intercom.io/api/#getting-counts>`_.
+Intercom documentation: `Creating a Tag <https://developers.intercom.io/reference#getting-counts>`_.
 
 ::
 
@@ -355,7 +355,7 @@ Conversations
 Admin Initiated Conversation
 ++++++++++++++++++++++++++++
 
-Intercom documentation: `Admin Initiated Conversation <https://doc.intercom.io/api/#admin-initiated-conversation>`_.
+Intercom documentation: `Admin Initiated Conversation <https://developers.intercom.io/reference#admin-initiated-conversation>`_.
 
 ::
 
@@ -379,7 +379,7 @@ Intercom documentation: `Admin Initiated Conversation <https://doc.intercom.io/a
 User Initiated Conversation
 +++++++++++++++++++++++++++
 
-Intercom documentation: `User Initiated Conversation <https://doc.intercom.io/api/#user-initiated-conversation>`_.
+Intercom documentation: `User Initiated Conversation <https://developers.intercom.io/reference#user-or-contact-initiated-conversation>`_.
 
 ::
 
@@ -395,7 +395,7 @@ Intercom documentation: `User Initiated Conversation <https://doc.intercom.io/ap
 List Conversations
 ++++++++++++++++++
 
-Intercom documentation: `List Conversations <https://doc.intercom.io/api/#list-conversations>`_.
+Intercom documentation: `List Conversations <https://developers.intercom.io/reference#list-conversations>`_.
 
 ::
 
@@ -406,7 +406,7 @@ Intercom documentation: `List Conversations <https://doc.intercom.io/api/#list-c
 Get a Single Conversation
 +++++++++++++++++++++++++
 
-Intercom documentation: `Get a Single Conversation <https://doc.intercom.io/api/#get-a-single-conversation>`_.
+Intercom documentation: `Get a Single Conversation <https://developers.intercom.io/reference#get-a-single-conversation>`_.
 
 ::
 
@@ -415,7 +415,7 @@ Intercom documentation: `Get a Single Conversation <https://doc.intercom.io/api/
 Replying to a Conversation
 ++++++++++++++++++++++++++
 
-Intercom documentation: `Replying to a Conversation <https://doc.intercom.io/api/#replying-to-a-conversation>`_.
+Intercom documentation: `Replying to a Conversation <https://developers.intercom.io/reference#replying-to-a-conversation>`_.
 
 ::
 
@@ -425,7 +425,7 @@ Intercom documentation: `Replying to a Conversation <https://doc.intercom.io/api
 Marking a Conversation as Read
 ++++++++++++++++++++++++++++++
 
-Intercom documentation: `Marking a Conversation as Read <https://doc.intercom.io/api/#marking-a-conversation-as-read>`_.
+Intercom documentation: `Marking a Conversation as Read <https://developers.intercom.io/reference#marking-a-conversation-as-read>`_.
 
 ::
 
@@ -439,7 +439,7 @@ Webhooks and Notifications
 Manage Subscriptions
 ++++++++++++++++++++
 
-Intercom documentation: `Manage Subscriptions <https://doc.intercom.io/api/#manage-subscriptions>`_.
+Intercom documentation: `Manage Subscriptions <https://developers.intercom.io/reference#manage-subscriptions>`_.
 
 ::
 
@@ -450,7 +450,7 @@ Intercom documentation: `Manage Subscriptions <https://doc.intercom.io/api/#mana
 View a Subscription
 +++++++++++++++++++
 
-Intercom documentation: `View a Subscription <https://doc.intercom.io/api/#view-a-subscription>`_.
+Intercom documentation: `View a Subscription <https://developers.intercom.io/reference#view-a-subscription>`_.
 
 ::
 
@@ -459,7 +459,7 @@ Intercom documentation: `View a Subscription <https://doc.intercom.io/api/#view-
 List Subscriptions
 ++++++++++++++++++
 
-Intercom documentation: `List Subscriptions <https://doc.intercom.io/api/#list-subscriptions>`_.
+Intercom documentation: `List Subscriptions <https://developers.intercom.io/reference#list-subscriptions>`_.
 
 ::
 
