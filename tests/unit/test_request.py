@@ -234,6 +234,24 @@ class RequestTest(unittest.TestCase):
                 self.client.get('/users', {})
 
     @istest
+    def it_raises_token_unauthorized(self):
+        payload = {
+            'type': 'error.list',
+            'errors': [
+                {
+                    'type': 'token_unauthorized',
+                    'message': 'The PAT is not authorized for this action.'
+                }
+            ]
+        }
+        content = json.dumps(payload).encode('utf-8')
+        resp = mock_response(content)
+        with patch('requests.request') as mock_method:
+            mock_method.return_value = resp
+            with assert_raises(intercom.TokenUnauthorizedError):
+                self.client.get('/users', {})
+
+    @istest
     def it_handles_no_error_type(self):
         payload = {
             'errors': [
