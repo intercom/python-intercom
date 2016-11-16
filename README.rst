@@ -5,7 +5,7 @@ python-intercom
 
 Python bindings for the Intercom API (https://api.intercom.io).
 
-`API Documentation <https://api.intercom.io/docs>`__.
+`API Documentation <https://developers.intercom.com/reference>`__.
 
 `Package
 Documentation <http://readthedocs.org/docs/python-intercom/>`__.
