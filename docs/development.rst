@@ -15,7 +15,7 @@ Run the integration tests:
 ::
 
     # THESE SHOULD ONLY BE RUN ON A TEST APP!
-    INTERCOM_APP_ID=xxx INTERCOM_APP_API_KEY=xxx nosetests tests/integration
+    INTERCOM_PERSONAL_ACCESS_TOKEN=xxx nosetests tests/integration
 
 Generate the Documentation
 --------------------------

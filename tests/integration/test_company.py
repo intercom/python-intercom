@@ -10,8 +10,7 @@ from . import get_or_create_company
 from . import get_timestamp
 
 intercom = Client(
-    os.environ.get('INTERCOM_APP_ID'),
-    os.environ.get('INTERCOM_API_KEY'))
+    os.environ.get('INTERCOM_PERSONAL_ACCESS_TOKEN'))
 
 
 class CompanyTest(unittest.TestCase):
