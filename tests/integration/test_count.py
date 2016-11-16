@@ -1,22 +1,19 @@
 # -*- coding: utf-8 -*-
+"""Integration test for Intercom Counts."""
 
 import os
 import unittest
-from intercom import Intercom
-from intercom import Company
-from intercom import Count
-from intercom import Segment
-from intercom import Tag
-from intercom import User
+from intercom.client import Client
 from nose.tools import eq_
 from nose.tools import ok_
+from . import delete_company
+from . import delete_user
 from . import get_timestamp
 from . import get_or_create_company
 from . import get_or_create_user
-from . import delete
 
-Intercom.app_id = os.environ.get('INTERCOM_APP_ID')
-Intercom.app_api_key = os.environ.get('INTERCOM_APP_API_KEY')
+intercom = Client(
+    os.environ.get('INTERCOM_PERSONAL_ACCESS_TOKEN'))
 
 
 class CountTest(unittest.TestCase):
@@ -24,61 +21,54 @@ class CountTest(unittest.TestCase):
     @classmethod
     def setup_class(cls):
         nowstamp = get_timestamp()
-        cls.company = get_or_create_company(nowstamp)
-        cls.user = get_or_create_user(nowstamp)
+        cls.company = get_or_create_company(intercom, nowstamp)
+        cls.user = get_or_create_user(intercom, nowstamp)
 
     @classmethod
     def teardown_class(cls):
-        delete(cls.company)
-        delete(cls.user)
+        delete_company(intercom, cls.company)
+        delete_user(intercom, cls.user)
 
     def test_user_counts_for_each_tag(self):
         # Get User Tag Count Object
-        Tag.tag_users('blue', [self.user.id])
-        counts = Count.user_counts_for_each_tag
-        Tag.untag_users('blue', [self.user.id])
-        for count in counts:
+        intercom.tags.tag(name='blue', users=[{'id': self.user.id}])
+        counts = intercom.counts.for_type(type='user', count='tag')
+        intercom.tags.untag(name='blue', users=[{'id': self.user.id}])
+        for count in counts.user['tag']:
             if 'blue' in count:
                 eq_(count['blue'], 1)
 
     def test_user_counts_for_each_segment(self):
         # Get User Segment Count Object
-        counts = Count.user_counts_for_each_segment
+        counts = intercom.counts.for_type(type='user', count='segment')
         ok_(counts)
 
     def test_company_counts_for_each_segment(self):
         # Get Company Segment Count Object
-        counts = Count.company_counts_for_each_segment
+        counts = intercom.counts.for_type(type='company', count='segment')
         ok_(counts)
 
     def test_company_counts_for_each_tag(self):
         # Get Company Tag Count Object
-        Tag.tag_companies('blue', [self.company.id])
-        counts = Count.company_counts_for_each_tag
-        Tag.untag_companies('blue', [self.company.id])
-        # for count in counts:
-        #     if 'blue' in count:
-        #         eq_(count['blue'], 1)
+        intercom.tags.tag(name='blue', companies=[{'id': self.company.id}])
+        intercom.counts.for_type(type='company', count='tag')
+        intercom.tags.untag(name='blue', companies=[{'id': self.company.id}])
 
     def test_company_counts_for_each_user(self):
         # Get Company User Count Object
         self.user.companies = [
             {"company_id": self.company.company_id}
         ]
-        self.user.save()
-        counts = Count.company_counts_for_each_user
-        for count in counts:
+        intercom.users.save(self.user)
+        counts = intercom.counts.for_type(type='company', count='user')
+        for count in counts.company['user']:
             if self.company.name in count:
                 eq_(count[self.company.name], 1)
 
-    def test_total_company_count(self):
-        ok_(Company.count() >= 0)
-
-    def test_total_user_count(self):
-        ok_(User.count() >= 0)
-
-    def test_total_segment_count(self):
-        ok_(Segment.count() >= 0)
-
-    def test_total_tag_count(self):
-        ok_(Tag.count() >= 0)
+    def test_global(self):
+        counts = intercom.counts.for_app()
+        ok_(counts.company >= 0)
+        ok_(counts.tag >= 0)
+        ok_(counts.segment >= 0)
+        ok_(counts.user >= 0)
+        ok_(counts.lead >= 0)
