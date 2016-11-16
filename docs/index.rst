@@ -32,9 +32,8 @@ Intercom documentation: `Personal Access Tokens <https://developers.intercom.com
 
 ::
 
-    from intercom import Intercom
-    Intercom.app_id = 'dummy-app-id'
-    Intercom.app_api_key = 'dummy-api-key'
+    from intercom.client import Client
+    intercom = Client(personal_access_token='my_personal_access_token')
 
 Users
 -----

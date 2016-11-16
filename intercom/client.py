@@ -3,15 +3,14 @@
 
 class Client(object):
 
-    def __init__(self, app_id='my_app_id', api_key='my_api_key'):
-        self.app_id = app_id
-        self.api_key = api_key
+    def __init__(self, personal_access_token='my_personal_access_token'):
+        self.personal_access_token = personal_access_token
         self.base_url = 'https://api.intercom.io'
         self.rate_limit_details = {}
 
     @property
     def _auth(self):
-        return (self.app_id, self.api_key)
+        return (self.personal_access_token, '')
 
     @property
     def admins(self):

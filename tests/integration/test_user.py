@@ -8,8 +8,7 @@ from . import get_or_create_user
 from . import delete_user
 
 intercom = Client(
-    os.environ.get('INTERCOM_APP_ID'),
-    os.environ.get('INTERCOM_API_KEY'))
+    os.environ.get('INTERCOM_PERSONAL_ACCESS_TOKEN'))
 
 
 class UserTest(unittest.TestCase):
