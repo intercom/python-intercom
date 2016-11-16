@@ -1,6 +1,16 @@
 Changelog
 =========
 
+* 3.0b3
+   * Added UTC datetime everywhere. (`#130 <https://github.com/jkeyes/python-intercom/pull/130>`_)
+   * Fixed connection error when paginating. (`#125 <https://github.com/jkeyes/python-intercom/pull/125>`_)
+   * Added Personal Access Token support. (`#123 <https://github.com/jkeyes/python-intercom/pull/123>`_)
+   * Fixed links to Intercom API documentation. (`#115 <https://github.com/jkeyes/python-intercom/pull/115>`_)
+* 3.0b2
+   * Added support for Leads. (`#113 <https://github.com/jkeyes/python-intercom/pull/113>`_)
+   * Added support for Bulk API. (`#112 <https://github.com/jkeyes/python-intercom/pull/112>`_)
+* 3.0b1
+   * Moved to new client based approach. (`#108 <https://github.com/jkeyes/python-intercom/pull/108>`_)
 * 2.1.1
    * No runtime changes.
 * 2.1.0
