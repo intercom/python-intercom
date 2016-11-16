@@ -2,6 +2,7 @@ Changelog
 =========
 
 * 3.0b3
+   * Added TokenUnauthorizedError. (`#134 <https://github.com/jkeyes/python-intercom/pull/134>`_)
    * Added UTC datetime everywhere. (`#130 <https://github.com/jkeyes/python-intercom/pull/130>`_)
    * Fixed connection error when paginating. (`#125 <https://github.com/jkeyes/python-intercom/pull/125>`_)
    * Added Personal Access Token support. (`#123 <https://github.com/jkeyes/python-intercom/pull/123>`_)
