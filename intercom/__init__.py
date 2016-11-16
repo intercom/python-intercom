@@ -4,7 +4,7 @@
 from .errors import (ArgumentError, AuthenticationError, # noqa
     BadGatewayError, BadRequestError, HttpError, IntercomError,
     MultipleMatchingUsersError, RateLimitExceeded, ResourceNotFound,
-    ServerError, ServiceUnavailableError, UnexpectedError)
+    ServerError, ServiceUnavailableError, UnexpectedError, TokenUnauthorizedError)
 
 __version__ = '3.0b2'
 
