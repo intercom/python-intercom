@@ -2,6 +2,7 @@
 
 from . import errors
 from datetime import datetime
+from pytz import utc
 
 import certifi
 import json
@@ -93,7 +94,8 @@ class Request(object):
         if remaining:
             rate_limit_details['remaining'] = int(remaining)
         if reset:
-            rate_limit_details['reset_at'] = datetime.fromtimestamp(int(reset))
+            reset_at = datetime.utcfromtimestamp(int(reset)).replace(tzinfo=utc)
+            rate_limit_details['reset_at'] = reset_at
         self.rate_limit_details = rate_limit_details
 
     def raise_errors_on_failure(self, resp):

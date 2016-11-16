@@ -36,6 +36,6 @@ setup(
     ],
     packages=find_packages(),
     include_package_data=True,
-    install_requires=["requests", "inflection", "certifi", "six"],
+    install_requires=["requests", "inflection", "certifi", "six", "pytz"],
     zip_safe=False
 )

@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import calendar
 import datetime
 import time
 
 from intercom.lib.flat_store import FlatStore
 from intercom.lib.typed_json_deserializer import JsonDeserializer
+from pytz import utc
 
 
 def type_field(attribute):
@@ -29,7 +31,7 @@ def datetime_value(value):
 
 def to_datetime_value(value):
     if value:
-        return datetime.datetime.fromtimestamp(int(value))
+        return datetime.datetime.utcfromtimestamp(int(value)).replace(tzinfo=utc)
 
 
 class Resource(object):
@@ -105,7 +107,7 @@ class Resource(object):
         elif self._flat_store_attribute(attribute):
             value_to_set = FlatStore(value)
         elif timestamp_field(attribute) and datetime_value(value):
-            value_to_set = time.mktime(value.timetuple())
+            value_to_set = calendar.timegm(value.utctimetuple())
         else:
             value_to_set = value
         if attribute != 'changed_attributes':
