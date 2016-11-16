@@ -84,7 +84,7 @@ Users
     intercom.users.save(user)
     # Perform incrementing
     user.increment('karma')
-    intercom.users.save()
+    intercom.users.save(user)
     # Iterate over all users
     for user in intercom.users.all():
         ...
@@ -468,7 +468,7 @@ Counts
 .. code:: python
 
     # App-wide counts
-    intercom.counts.for_app
+    intercom.counts.for_app()
 
     # Users in segment counts
     intercom.counts.for_type(type='user', count='segment')
