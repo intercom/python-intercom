@@ -46,7 +46,7 @@ Intercom documentation: `Create or Update Users <https://developers.intercom.io/
 ::
 
     from intercom import User
-    User.create(id='1234', email='bob@example.com')
+    User.create(user_id='1234', email='bob@example.com')
 
 Updating the Last Seen Time
 +++++++++++++++++++++++++++
