@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-
+"""Collection module for Conversations."""
 from intercom.traits.api_resource import Resource
 
 
 class Conversation(Resource):
-    pass
+    """Collection class for Converations."""
