@@ -1,6 +1,8 @@
 Changelog
 =========
 
+* 3.0b4
+   * Added conversation.mark_read method. (`#136 <https://github.com/jkeyes/python-intercom/pull/136>`_)
 * 3.0b3
    * Added TokenUnauthorizedError. (`#134 <https://github.com/jkeyes/python-intercom/pull/134>`_)
    * Added UTC datetime everywhere. (`#130 <https://github.com/jkeyes/python-intercom/pull/130>`_)
