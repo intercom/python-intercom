@@ -6,6 +6,7 @@ venv
 *.egg-info
 *.pyc
 .DS_Store
+htmlcov
 docs/_build
 
 intercom.sublime-project
