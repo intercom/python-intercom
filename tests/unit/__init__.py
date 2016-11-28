@@ -137,6 +137,30 @@ def get_user(email="bob@example.com", name="Joe Schmoe"):
     }
 
 
+def get_company(name):
+    return {
+        "type": "company",
+        "id": "531ee472cce572a6ec000006",
+        "name": name,
+        "plan": {
+            "type": "plan",
+            "id": "1",
+            "name": "Paid"
+        },
+        "company_id": "6",
+        "remote_created_at": 1394531169,
+        "created_at": 1394533506,
+        "updated_at": 1396874658,
+        "monthly_spend": 49,
+        "session_count": 26,
+        "user_count": 10,
+        "custom_attributes": {
+            "paid_subscriber": True,
+            "team_mates": 0
+        }
+    }
+
+
 def page_of_users(include_next_link=False):
     page = {
         "type": "user.list",
@@ -156,6 +180,29 @@ def page_of_users(include_next_link=False):
     if include_next_link:
         page["pages"]["next"] = "https://api.intercom.io/users?per_page=50&page=2"
     return page
+
+
+def page_of_companies(include_next_link=False):
+    page = {
+        "type": "company.list",
+        "pages": {
+            "type": "pages",
+            "page": 1,
+            "next": None,
+            "per_page": 50,
+            "total_pages": 7
+        },
+        "companies": [
+            get_company('ACME A'),
+            get_company('ACME B'),
+            get_company('ACME C')
+        ],
+        "total_count": 3
+    }
+    if include_next_link:
+        page["pages"]["next"] = "https://api.intercom.io/companies?per_page=50&page=2"
+    return page
+
 
 test_tag = {
     "id": "4f73428b5e4dfc000b000112",
