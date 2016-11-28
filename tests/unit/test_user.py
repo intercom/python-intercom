@@ -20,6 +20,7 @@ from nose.tools import ok_
 from nose.tools import istest
 from tests.unit import get_user
 from tests.unit import mock_response
+from tests.unit import page_of_users
 
 
 class UserTest(unittest.TestCase):
@@ -178,6 +179,13 @@ class UserTest(unittest.TestCase):
             eq_(user.name, 'Joe Schmoe')
             mock_method.assert_called_once_with(
                 '/users', {'email': 'somebody@example.com'})  # noqa
+
+    @istest
+    def it_gets_users_by_tag(self):
+        with patch.object(Client, 'get', return_value=page_of_users(False)) as mock_method:
+            users = self.client.users.by_tag(124)
+            for user in users:
+                ok_(hasattr(user, 'avatar'))
 
     @istest
     def it_saves_a_user_always_sends_custom_attributes(self):
