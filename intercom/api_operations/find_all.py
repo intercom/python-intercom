@@ -8,6 +8,8 @@ from intercom.collection_proxy import CollectionProxy
 class FindAll(object):
     """A mixin that provides `find_all` functionality."""
 
+    proxy_class = CollectionProxy
+
     def find_all(self, **params):
         """Find all instances of the resource based on the supplied parameters."""
         collection = utils.resource_class_to_collection_name(
@@ -17,6 +19,6 @@ class FindAll(object):
         else:
             finder_url = "/%s" % (collection)
         finder_params = params
-        return CollectionProxy(
+        return self.proxy_class(
             self.client, self.collection_class, collection,
             finder_url, finder_params)
