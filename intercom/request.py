@@ -12,7 +12,7 @@ logger = logging.getLogger('intercom.request')
 
 
 class Request(object):
-
+    session = None
     timeout = 10
 
     @classmethod
@@ -41,8 +41,9 @@ class Request(object):
                 logger.debug("  params: %s", req_params['params'])
             else:
                 logger.debug("  params: %s", req_params['data'])
-
-        resp = requests.request(
+        if cls.session is None:
+            cls.session = requests.Session()
+        resp = cls.session.request(
             method, url, timeout=cls.timeout,
             auth=auth, verify=certifi.where(), **req_params)
 
