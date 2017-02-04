@@ -12,7 +12,7 @@ from setuptools import setup
 
 with open(os.path.join('intercom', '__init__.py')) as init:
     source = init.read()
-    m = re.search("__version__ = '(\d+\.\d+(\.(\d+|[a-z]+))?)'", source, re.M)
+    m = re.search("__version__ = '(.*)'", source, re.M)
     __version__ = m.groups()[0]
 
 with open('README.rst') as readme:
@@ -28,9 +28,14 @@ setup(
     license="MIT License",
     url="http://github.com/jkeyes/python-intercom",
     keywords='Intercom crm python',
-    classifiers=[],
+    classifiers=[
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+    ],
     packages=find_packages(),
     include_package_data=True,
-    install_requires=["requests", "inflection", "certifi", "six"],
+    install_requires=["requests", "inflection", "certifi", "six", "pytz"],
     zip_safe=False
 )

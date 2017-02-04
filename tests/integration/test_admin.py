@@ -2,17 +2,16 @@
 
 import os
 import unittest
-from intercom import Intercom
-from intercom import Admin
+from intercom.client import Client
 
-Intercom.app_id = os.environ.get('INTERCOM_APP_ID')
-Intercom.app_api_key = os.environ.get('INTERCOM_APP_API_KEY')
+intercom = Client(
+    os.environ.get('INTERCOM_PERSONAL_ACCESS_TOKEN'))
 
 
 class AdminTest(unittest.TestCase):
 
     def test(self):
         # Iterate over all admins
-        for admin in Admin.all():
+        for admin in intercom.admins.all():
             self.assertIsNotNone(admin.id)
             self.assertIsNotNone(admin.email)

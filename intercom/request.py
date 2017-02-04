@@ -2,6 +2,7 @@
 
 from . import errors
 from datetime import datetime
+from pytz import utc
 
 import certifi
 import json
@@ -15,35 +16,45 @@ class Request(object):
 
     timeout = 10
 
-    @classmethod
-    def send_request_to_path(cls, method, url, auth, params=None):
+    def __init__(self, http_method, path):
+        self.http_method = http_method
+        self.path = path
+
+    def execute(self, base_url, auth, params):
+        return self.send_request_to_path(base_url, auth, params)
+
+    def send_request_to_path(self, base_url, auth, params=None):
         """ Construct an API request, send it to the API, and parse the
         response. """
         from intercom import __version__
         req_params = {}
 
+        # full URL
+        url = base_url + self.path
+
         headers = {
             'User-Agent': 'python-intercom/' + __version__,
+            'AcceptEncoding': 'gzip, deflate',
             'Accept': 'application/json'
         }
-        if method in ('POST', 'PUT', 'DELETE'):
+        if self.http_method in ('POST', 'PUT', 'DELETE'):
             headers['content-type'] = 'application/json'
             req_params['data'] = json.dumps(params, cls=ResourceEncoder)
-        elif method == 'GET':
+        elif self.http_method == 'GET':
             req_params['params'] = params
         req_params['headers'] = headers
 
         # request logging
         if logger.isEnabledFor(logging.DEBUG):
-            logger.debug("Sending %s request to: %s", method, url)
+            logger.debug("Sending %s request to: %s", self.http_method, url)
             logger.debug("  headers: %s", headers)
-            if method == 'GET':
+            if self.http_method == 'GET':
                 logger.debug("  params: %s", req_params['params'])
             else:
                 logger.debug("  params: %s", req_params['data'])
 
         resp = requests.request(
-            method, url, timeout=cls.timeout,
+            self.http_method, url, timeout=self.timeout,
             auth=auth, verify=certifi.where(), **req_params)
 
         # response logging
@@ -53,29 +64,26 @@ class Request(object):
                          resp.encoding, resp.status_code)
             logger.debug("  content:\n%s", resp.content)
 
-        cls.raise_errors_on_failure(resp)
-        cls.set_rate_limit_details(resp)
+        parsed_body = self.parse_body(resp)
+        self.raise_errors_on_failure(resp)
+        self.set_rate_limit_details(resp)
+        return parsed_body
 
+    def parse_body(self, resp):
         if resp.content and resp.content.strip():
-            # parse non empty bodies
-            return cls.parse_body(resp)
+            try:
+                # use supplied or inferred encoding to decode the
+                # response content
+                decoded_body = resp.content.decode(
+                    resp.encoding or resp.apparent_encoding)
+                body = json.loads(decoded_body)
+                if body.get('type') == 'error.list':
+                    self.raise_application_errors_on_failure(body, resp.status_code)  # noqa
+                return body
+            except ValueError:
+                self.raise_errors_on_failure(resp)
 
-    @classmethod
-    def parse_body(cls, resp):
-        try:
-            # use supplied or inferred encoding to decode the
-            # response content
-            decoded_body = resp.content.decode(
-                resp.encoding or resp.apparent_encoding)
-            body = json.loads(decoded_body)
-            if body.get('type') == 'error.list':
-                cls.raise_application_errors_on_failure(body, resp.status_code)
-            return body
-        except ValueError:
-            cls.raise_errors_on_failure(resp)
-
-    @classmethod
-    def set_rate_limit_details(cls, resp):
+    def set_rate_limit_details(self, resp):
         rate_limit_details = {}
         headers = resp.headers
         limit = headers.get('x-ratelimit-limit', None)
@@ -86,12 +94,11 @@ class Request(object):
         if remaining:
             rate_limit_details['remaining'] = int(remaining)
         if reset:
-            rate_limit_details['reset_at'] = datetime.fromtimestamp(int(reset))
-        from intercom import Intercom
-        Intercom.rate_limit_details = rate_limit_details
+            reset_at = datetime.utcfromtimestamp(int(reset)).replace(tzinfo=utc)
+            rate_limit_details['reset_at'] = reset_at
+        self.rate_limit_details = rate_limit_details
 
-    @classmethod
-    def raise_errors_on_failure(cls, resp):
+    def raise_errors_on_failure(self, resp):
         if resp.status_code == 404:
             raise errors.ResourceNotFound('Resource Not Found')
         elif resp.status_code == 401:
@@ -105,8 +112,7 @@ class Request(object):
         elif resp.status_code == 503:
             raise errors.ServiceUnavailableError('Service Unavailable')
 
-    @classmethod
-    def raise_application_errors_on_failure(cls, error_list_details, http_code):  # noqa
+    def raise_application_errors_on_failure(self, error_list_details, http_code):  # noqa
         # Currently, we don't support multiple errors
         error_details = error_list_details['errors'][0]
         error_code = error_details.get('type')
@@ -120,24 +126,22 @@ class Request(object):
         if error_class is None:
             # unexpected error
             if error_code:
-                message = cls.message_for_unexpected_error_with_type(
+                message = self.message_for_unexpected_error_with_type(
                     error_details, http_code)
             else:
-                message = cls.message_for_unexpected_error_without_type(
+                message = self.message_for_unexpected_error_without_type(
                     error_details, http_code)
             error_class = errors.UnexpectedError
         else:
             message = error_details.get('message')
         raise error_class(message, error_context)
 
-    @classmethod
-    def message_for_unexpected_error_with_type(cls, error_details, http_code):  # noqa
+    def message_for_unexpected_error_with_type(self, error_details, http_code):  # noqa
         error_type = error_details.get('type')
         message = error_details.get('message')
         return "The error of type '%s' is not recognized. It occurred with the message: %s and http_code: '%s'. Please contact Intercom with these details." % (error_type, message, http_code)  # noqa
 
-    @classmethod
-    def message_for_unexpected_error_without_type(cls, error_details, http_code):  # noqa
+    def message_for_unexpected_error_without_type(self, error_details, http_code):  # noqa
         message = error_details['message']
         return "An unexpected error occured. It occurred with the message: %s and http_code: '%s'. Please contact Intercom with these details." % (message, http_code)  # noqa
 

@@ -17,9 +17,14 @@ Patches and Suggestions
 - `Grant McConnaughey <https://github.com/grantmcconnaughey>`_
 - `Robert Elliott <https://github.com/greenafrican>`_
 - `Jared Morse <https://github.com/jarcoal>`_
-- `neocortex <https://github.com/neocortex>`_
+- `Rafael <https://github.com/neocortex>`_
 - `jacoor <https://github.com/jacoor>`_
 - `maiiku <https://github.com/maiiku>`_
+- `Piotr Kilczuk <https://github.com/centralniak>`_
+- `Forrest Scofield <https://github.com/fscofield>`_
+- `Jordan Feldstein <https://github.com/jfeldstein>`_
+- `François Voron <https://github.com/frankie567>`_
+- `Gertjan Oude Lohuis <https://github.com/gertjanol>`_
 
 Intercom
 ~~~~~~~~

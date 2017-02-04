@@ -25,16 +25,15 @@ If you want to use the latest code, you can grab it from our
 Usage
 ===================================
 
-Authentication
----------------
+Authorization
+-------------
 
-Intercom documentation: `Basic Authorization <https://developers.intercom.io/reference#authorization>`_.
+Intercom documentation: `Personal Access Tokens <https://developers.intercom.com/reference#personal-access-tokens-1>`_.
 
 ::
 
-    from intercom import Intercom
-    Intercom.app_id = 'dummy-app-id'
-    Intercom.app_api_key = 'dummy-api-key'
+    from intercom.client import Client
+    intercom = Client(personal_access_token='my_personal_access_token')
 
 Users
 -----
@@ -46,8 +45,7 @@ Intercom documentation: `Create or Update Users <https://developers.intercom.io/
 
 ::
 
-    from intercom import User
-    User.create(id='1234', email='bob@example.com')
+    intercom.users.create(user_id='1234', email='bob@example.com')
 
 Updating the Last Seen Time
 +++++++++++++++++++++++++++
@@ -56,7 +54,7 @@ Intercom documentation: `Updating the Last Seen Time <https://developers.interco
 
 ::
 
-    user = User.create(used_id='25', last_request_at=datetime.now())
+    user = intercom.users.create(used_id='25', last_request_at=datetime.utcnow())
 
 List Users
 ++++++++++
@@ -65,7 +63,7 @@ Intercom documentation: `List Users <https://developers.intercom.io/reference#li
 
 ::
 
-    for user in User.all():
+    for user in intercom.users.all():
         ...
 
 List by Tag, Segment, Company
@@ -76,10 +74,10 @@ Intercom documentation: `List by Tag, Segment, Company <https://developers.inter
 ::
 
     # tag request
-    User.find_all(tag_id='30126')
+    intercom.users.find_all(tag_id='30126')
     
     # segment request
-    User.find_all(segment_id='30126')
+    intercom.users.find_all(segment_id='30126')
 
 
 View a User
@@ -90,13 +88,13 @@ Intercom documentation: `View a User <https://developers.intercom.io/reference#v
 ::
 
     # ID request
-    User.find(id='1')
+    intercom.users.find(id='1')
     
     # User ID request
-    User.find(user_id='1')
+    intercom.users.find(user_id='1')
     
     # Email request
-    User.find(email='bob@example.com')
+    intercom.users.find(email='bob@example.com')
 
 Delete a User
 +++++++++++++
@@ -106,13 +104,13 @@ Intercom documentation: `Deleting a User <https://developers.intercom.io/referen
 ::
 
     # ID Delete Request
-    deleted_user = User.find(id='1').delete()
+    deleted_user = intercom.users.find(id='1').delete()
     
     # User ID Delete Request
-    deleted_user = User.find(user_id='1').delete()
+    deleted_user = intercom.users.find(user_id='1').delete()
     
     # Email Delete Request
-    deleted_user = User.find(email='bob@example.com').delete()
+    deleted_user = intercom.users.find(email='bob@example.com').delete()
 
 
 Companies
@@ -125,7 +123,7 @@ Intercom documentation: `Create or Update Company <https://developers.intercom.i
 
 ::
 
-    Company.create(company_id=6, name="Blue Sun", plan="Paid")
+    intercom.companies.create(company_id=6, name="Blue Sun", plan="Paid")
 
 List Companies
 ++++++++++++++
@@ -134,7 +132,7 @@ Intercom documentation: `List Companies <https://developers.intercom.io/referenc
 
 ::
 
-    for company in Company.all():
+    for company in intercom.companies.all():
         ...
 
 List by Tag or Segment
@@ -145,10 +143,10 @@ Intercom documentation: `List by Tag or Segment <https://developers.intercom.io/
 ::
 
     # tag request
-    Company.find(tag_id="1234")
+    intercom.companies.find(tag_id="1234")
 
     # segment request
-    Company.find(segment_id="4567")
+    intercom.companies.find(segment_id="4567")
 
 View a Company
 ++++++++++++++
@@ -157,7 +155,7 @@ Intercom documentation: `View a Company <https://developers.intercom.io/referenc
 
 ::
 
-    Company.find(id="41e66f0313708347cb0000d0")
+    intercom.companies.find(id="41e66f0313708347cb0000d0")
 
 List Company Users
 ++++++++++++++++++
@@ -166,7 +164,7 @@ Intercom documentation: `List Company Users <https://developers.intercom.io/refe
 
 ::
 
-    company = Company.find(id="41e66f0313708347cb0000d0")
+    company = intercom.companies.find(id="41e66f0313708347cb0000d0")
     for user in company.users:
         ...
 
@@ -180,8 +178,7 @@ Intercom documentation: `List Admins <https://developers.intercom.io/reference#l
 
 ::
 
-    from intercom import Admin
-    for admin in Admin.all():
+    for admin in intercom.admins.all():
         ...
 
 Tags
@@ -194,13 +191,11 @@ Intercom documentation: `Create and Update Tags <https://developers.intercom.io/
 
 ::
 
-    from intercom import Tag
-    
     # Create Request
-    tag = Tag.create(name='Independentt')
+    tag = intercom.tags.create(name='Independentt')
     
     # Update Request
-    Tag.tag_users(name='Independent', id=tag.id)
+    intercom.tags.tag_users(name='Independent', id=tag.id)
     
 
 Tag or Untag Users & Companies
@@ -211,10 +206,10 @@ Intercom documentation: `Tag or Untag Users & Companies <https://developers.inte
 ::
 
     # Multi-User Tag Request
-    Tag.tag_users('Independent', ["42ea2f1b93891f6a99000427", "42ea2f1b93891f6a99000428"])
+    intercom.tags.tag_users('Independent', ["42ea2f1b93891f6a99000427", "42ea2f1b93891f6a99000428"])
     
     # Untag Request
-    Tag.untag_users('blue', ["42ea2f1b93891f6a99000427"])
+    intercom.tags.untag_users('blue', ["42ea2f1b93891f6a99000427"])
 
 Delete a Tag
 ++++++++++++
@@ -223,7 +218,7 @@ Intercom documentation: `Delete a Tag <https://developers.intercom.io/reference#
 
 ::
 
-    tag.delete()
+    intercom.tags.delete()
 
 
 List Tags for an App
@@ -233,7 +228,7 @@ Intercom Documentation: `List Tags for an App <https://developers.intercom.io/re
 
 ::
 
-    for tag in Tag.all():
+    for intercom.tags in Tag.all():
         ...
 
 Segments
@@ -246,9 +241,7 @@ Intercom Documentation: `List Segments <https://developers.intercom.io/reference
 
 ::
 
-    from intercom import Segment
-    
-    for segment in Segment.all():
+    for segment in intercom.segments.all():
         ...
 
 View a Segment
@@ -258,7 +251,7 @@ Intercom Documentation: `View a Segment <https://developers.intercom.io/referenc
 
 ::
 
-    Segment.find(id='1234')
+    intercom.segments.find(id='1234')
 
 Notes
 -----
@@ -270,9 +263,7 @@ Intercom documentation: `Create a Note <https://developers.intercom.io/reference
 
 ::
 
-    from intercom import Note
-    
-    Note.create(email="joe@exampe.com", body="Text for the note")
+    intercom.notes.create(email="joe@exampe.com", body="Text for the note")
 
 
 List Notes for a User
@@ -283,11 +274,11 @@ Intercom documentation: `List Notes for a User <https://developers.intercom.io/r
 ::
 
     # User ID Request
-    for note in Note.find_all(user_id='123'):
+    for note in intercom.notes.find_all(user_id='123'):
         ...
     
     # User Email Request
-    for note in Note.find_all(email='foo@bar.com'):
+    for note in intercom.notes.find_all(email='foo@bar.com'):
         ...
 
 View a Note
@@ -297,7 +288,7 @@ Intercom documentation: `View a Note <https://developers.intercom.io/reference#v
 
 ::
 
-    Note.find(id='1234')
+    intercom.notes.find(id='1234')
 
 Events
 ------
@@ -309,8 +300,7 @@ Intercom documentation: `Submitting Events <https://developers.intercom.io/refer
 
 ::
 
-    from intercom import Event
-    Event.create(event_name="Eventful 1", email=user.email, created_at=1403001013)
+    intercom.events.create(event_name="Eventful 1", email=user.email, created_at=1403001013)
 
 
 Counts
@@ -319,35 +309,27 @@ Counts
 Getting counts
 ++++++++++++++
 
-Intercom documentation: `Creating a Tag <https://developers.intercom.io/reference#getting-counts>`_.
+Intercom documentation: `Getting Counts <https://developers.intercom.io/reference#getting-counts>`_.
 
 ::
 
-    from intercom import Count
-    
     # Conversation Admin Count
-    Count.conversation_counts_for_each_admin
+    intercom.counts.for_type(type='converation', count='admin')
     
     # User Tag Count
-    Count.user_counts_for_each_tag
+    intercom.counts.for_type(type='user', count='tag')
     
     # User Segment Count
-    Count.user_counts_for_each_segment
-    
-    # Company Segment Count
-    Count.company_counts_for_each_segment
-    
+    intercom.counts.for_type(type='user', count='segment')
+
     # Company Tag Count
-    Count.company_counts_for_each_tag
-    
+    intercom.counts.for_type(type='company', count='tag')
+
     # Company User Count
-    Count.company_counts_for_each_user
+    intercom.counts.for_type(type='company', count='user')
     
     # Global App Counts
-    Company.count
-    User.count
-    Segment.count
-    Tag.count
+    intercom.counts.for_type()
 
 Conversations
 -------------
@@ -359,7 +341,6 @@ Intercom documentation: `Admin Initiated Conversation <https://developers.interc
 
 ::
 
-    from intercom import Message
     message_data = {
         'message_type': 'email',
         'subject': 'This Land',
@@ -374,7 +355,7 @@ Intercom documentation: `Admin Initiated Conversation <https://developers.interc
             'id': "536e564f316c83104c000020"
         }
     }
-    Message.create(**message_data)
+    intercom.messages.create(**message_data)
 
 User Initiated Conversation
 +++++++++++++++++++++++++++
@@ -390,7 +371,7 @@ Intercom documentation: `User Initiated Conversation <https://developers.interco
         },
         'body': "Hey"
     }
-    Message.create(**message_data)
+    intercom.messages.create(**message_data)
 
 List Conversations
 ++++++++++++++++++
@@ -399,8 +380,7 @@ Intercom documentation: `List Conversations <https://developers.intercom.io/refe
 
 ::
 
-    from intercom import Conversation
-    Conversation.find_all(type='admin', id=25, open=True)
+    intercom.conversations.find_all(type='admin', id=25, open=True)
 
 
 Get a Single Conversation
@@ -410,7 +390,7 @@ Intercom documentation: `Get a Single Conversation <https://developers.intercom.
 
 ::
 
-    Conversation.find(id='147')
+    intercom.conversations.find(id='147')
 
 Replying to a Conversation
 ++++++++++++++++++++++++++
@@ -443,8 +423,7 @@ Intercom documentation: `Manage Subscriptions <https://developers.intercom.io/re
 
 ::
 
-    from intercom import Subscription
-    Subscription.create(service_type='web', url='http://example.com', topics=['all'])
+    intercom.subscriptions.create(service_type='web', url='http://example.com', topics=['all'])
 
 
 View a Subscription
@@ -454,7 +433,7 @@ Intercom documentation: `View a Subscription <https://developers.intercom.io/ref
 
 ::
 
-    Subscription.find(id='123')
+    intercom.subscriptions.find(id='123')
 
 List Subscriptions
 ++++++++++++++++++
@@ -463,7 +442,7 @@ Intercom documentation: `List Subscriptions <https://developers.intercom.io/refe
 
 ::
 
-    for subscription in Subscription.all():
+    for subscription in intercom.subscriptions.all():
         ...
 
 Development

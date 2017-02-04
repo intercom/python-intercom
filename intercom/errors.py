@@ -53,10 +53,15 @@ class UnexpectedError(IntercomError):
     pass
 
 
+class TokenUnauthorizedError(IntercomError):
+    pass
+
+
 error_codes = {
     'unauthorized': AuthenticationError,
     'forbidden': AuthenticationError,
     'bad_request': BadRequestError,
+    'action_forbidden': BadRequestError,
     'missing_parameter': BadRequestError,
     'parameter_invalid': BadRequestError,
     'parameter_not_found': BadRequestError,
@@ -64,5 +69,6 @@ error_codes = {
     'rate_limit_exceeded': RateLimitExceeded,
     'service_unavailable': ServiceUnavailableError,
     'conflict': MultipleMatchingUsersError,
-    'unique_user_constraint': MultipleMatchingUsersError
+    'unique_user_constraint': MultipleMatchingUsersError,
+    'token_unauthorized': TokenUnauthorizedError
 }

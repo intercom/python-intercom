@@ -1,69 +1,49 @@
 # -*- coding: utf-8 -*-
+"""Operation to create or save an instance of a particular resource."""
 
 from intercom import utils
 
 
 class Save(object):
+    """A mixin that provides `create` and `save` functionality."""
 
-    @classmethod
-    def create(cls, **params):
-        from intercom import Intercom
-        collection = utils.resource_class_to_collection_name(cls)
-        response = Intercom.post("/%s/" % (collection), **params)
+    def create(self, **params):
+        """Create an instance of the resource from the supplied parameters."""
+        collection = utils.resource_class_to_collection_name(
+            self.collection_class)
+        response = self.client.post("/%s/" % (collection), params)
         if response:  # may be empty if we received a 202
-            return cls(**response)
+            return self.collection_class(**response)
 
-    def from_dict(self, pdict):
-        for key, value in list(pdict.items()):
-            setattr(self, key, value)
-
-    @property
-    def to_dict(self):
-        a_dict = {}
-        for name in list(self.__dict__.keys()):
-            if name == "changed_attributes":
-                continue
-            a_dict[name] = self.__dict__[name]  # direct access
-        return a_dict
-
-    @classmethod
-    def from_api(cls, response):
-        obj = cls()
-        obj.from_response(response)
-        return obj
-
-    def from_response(self, response):
-        self.from_dict(response)
-        return self
-
-    def save(self):
-        from intercom import Intercom
-        collection = utils.resource_class_to_collection_name(self.__class__)
-        params = self.attributes
-        if self.id_present and not self.posted_updates:
+    def save(self, obj):
+        """Save the instance of the resource."""
+        collection = utils.resource_class_to_collection_name(
+            obj.__class__)
+        params = obj.attributes
+        if self.id_present(obj) and not self.posted_updates(obj):
             # update
-            response = Intercom.put('/%s/%s' % (collection, self.id), **params)
+            response = self.client.put('/%s/%s' % (collection, obj.id), params)
         else:
             # create
-            params.update(self.identity_hash)
-            response = Intercom.post('/%s' % (collection), **params)
+            params.update(self.identity_hash(obj))
+            response = self.client.post('/%s' % (collection), params)
         if response:
-            return self.from_response(response)
+            return obj.from_response(response)
 
-    @property
-    def id_present(self):
-        return getattr(self, 'id', None) and self.id != ""
+    def id_present(self, obj):
+        """Return whether the obj has an `id` attribute with a value."""
+        return getattr(obj, 'id', None) and obj.id != ""
 
-    @property
-    def posted_updates(self):
-        return getattr(self, 'update_verb', None) == 'post'
+    def posted_updates(self, obj):
+        """Return whether the updates to this object have been posted to Intercom."""
+        return getattr(obj, 'update_verb', None) == 'post'
 
-    @property
-    def identity_hash(self):
-        identity_vars = getattr(self, 'identity_vars', [])
+    def identity_hash(self, obj):
+        """Return the identity_hash for this object."""
+        identity_vars = getattr(obj, 'identity_vars', [])
         parts = {}
         for var in identity_vars:
-            id_var = getattr(self, var, None)
+            id_var = getattr(obj, var, None)
             if id_var:  # only present id var if it is not blank or None
                 parts[var] = id_var
         return parts
