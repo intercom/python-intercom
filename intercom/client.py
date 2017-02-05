@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import requests
+
 
 class Client(object):
 
@@ -7,6 +9,7 @@ class Client(object):
         self.personal_access_token = personal_access_token
         self.base_url = 'https://api.intercom.io'
         self.rate_limit_details = {}
+        self.http_session = requests.Session()
 
     @property
     def _auth(self):
@@ -84,20 +87,20 @@ class Client(object):
 
     def get(self, path, params):
         from intercom import request
-        req = request.Request('GET', path)
+        req = request.Request('GET', path, self.http_session)
         return self._execute_request(req, params)
 
     def post(self, path, params):
         from intercom import request
-        req = request.Request('POST', path)
+        req = request.Request('POST', path, self.http_session)
         return self._execute_request(req, params)
 
     def put(self, path, params):
         from intercom import request
-        req = request.Request('PUT', path)
+        req = request.Request('PUT', path, self.http_session)
         return self._execute_request(req, params)
 
     def delete(self, path, params):
         from intercom import request
-        req = request.Request('DELETE', path)
+        req = request.Request('DELETE', path, self.http_session)
         return self._execute_request(req, params)

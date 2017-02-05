@@ -16,9 +16,11 @@ class Request(object):
 
     timeout = 10
 
-    def __init__(self, http_method, path):
+    def __init__(self, http_method, path, http_session=None):
         self.http_method = http_method
         self.path = path
+        self.http_session = http_session
+
 
     def execute(self, base_url, auth, params):
         return self.send_request_to_path(base_url, auth, params)
@@ -53,9 +55,14 @@ class Request(object):
             else:
                 logger.debug("  params: %s", req_params['data'])
 
-        resp = requests.request(
-            self.http_method, url, timeout=self.timeout,
-            auth=auth, verify=certifi.where(), **req_params)
+        if self.http_session is None:
+            resp = requests.request(
+                self.http_method, url, timeout=self.timeout,
+                auth=auth, verify=certifi.where(), **req_params)
+        else:
+            resp = self.http_session.request(
+                self.http_method, url, timeout=self.timeout,
+                auth=auth, verify=certifi.where(), **req_params)
 
         # response logging
         if logger.isEnabledFor(logging.DEBUG):

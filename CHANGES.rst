@@ -1,6 +1,9 @@
 Changelog
 =========
 
+* 3.0.1
+   * Added support for HTTP keep-alive. (`#146 <https://github.com/jkeyes/python-intercom/pull/146>`_)
+* 3.0
 * 3.0b4
    * Added conversation.mark_read method. (`#136 <https://github.com/jkeyes/python-intercom/pull/136>`_)
 * 3.0b3
