@@ -359,6 +359,9 @@ Events
         }
     )
 
+    # Retrieve event list for user with id:'123abc'
+    intercom.events.find_all(type='user', "intercom_user_id"="123abc)
+
 Metadata Objects support a few simple types that Intercom can present on
 your behalf
 

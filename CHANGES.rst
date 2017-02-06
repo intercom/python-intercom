@@ -1,6 +1,8 @@
 Changelog
 =========
 
+* 3.0.2
+   * Added multipage support for Event.find_all. (`#147 <https://github.com/jkeyes/python-intercom/pull/147>`_)
 * 3.0.1
    * Added support for HTTP keep-alive. (`#146 <https://github.com/jkeyes/python-intercom/pull/146>`_)
 * 3.0
