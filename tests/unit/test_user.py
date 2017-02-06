@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import calendar
 
 import calendar
 import json
@@ -404,7 +405,7 @@ class DescribeIncrementingCustomAttributeFields(unittest.TestCase):
             'custom_attributes': {
                 'mad': 123,
                 'another': 432,
-                'other': time.mktime(created_at.timetuple()),
+                'other': calendar.timegm(created_at.utctimetuple()),
                 'thing': 'yay'
             }
         }

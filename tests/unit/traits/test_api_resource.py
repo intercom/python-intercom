@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+import calendar
 
 import unittest
 
 from datetime import datetime
+from pytz import utc
 from intercom.traits.api_resource import Resource
 from nose.tools import assert_raises
 from nose.tools import eq_
