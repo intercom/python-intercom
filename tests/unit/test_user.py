@@ -368,7 +368,7 @@ class UserTest(unittest.TestCase):
         content = json.dumps(payload).encode('utf-8')
         # create mock response
         resp = mock_response(content)
-        with patch('requests.request') as mock_method:
+        with patch('requests.sessions.Session.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(MultipleMatchingUsersError):
                 self.client.get('/users', {})
@@ -381,7 +381,7 @@ class UserTest(unittest.TestCase):
         content = json.dumps(payload).encode('utf-8')
         # create mock response
         resp = mock_response(content)
-        with patch('requests.request') as mock_method:
+        with patch('requests.sessions.Session.request') as mock_method:
             mock_method.return_value = resp
             user = self.client.users.find(email='bob@example.com')
             try:

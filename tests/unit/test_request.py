@@ -87,7 +87,7 @@ class RequestTest(unittest.TestCase):
         }
         content = json.dumps(payload).encode('utf-8')
         resp = mock_response(content)
-        with patch('requests.request') as mock_method:
+        with patch('requests.sessions.Session.request') as mock_method:
             mock_method.return_value = resp
             try:
                 self.client.get('/users', {})
@@ -109,7 +109,7 @@ class RequestTest(unittest.TestCase):
         }
         content = json.dumps(payload).encode('utf-8')
         resp = mock_response(content)
-        with patch('requests.request') as mock_method:
+        with patch('requests.sessions.Session.request') as mock_method:
             mock_method.return_value = resp
             try:
                 self.client.get('/users', {})
@@ -135,7 +135,7 @@ class RequestTest(unittest.TestCase):
 
             content = json.dumps(payload).encode('utf-8')
             resp = mock_response(content)
-            with patch('requests.request') as mock_method:
+        with patch('requests.sessions.Session.request') as mock_method:
                 mock_method.return_value = resp
                 with assert_raises(intercom.BadRequestError):
                     self.client.get('/users', {})
@@ -156,7 +156,7 @@ class RequestTest(unittest.TestCase):
 
             content = json.dumps(payload).encode('utf-8')
             resp = mock_response(content)
-            with patch('requests.request') as mock_method:
+            with patch('requests.sessions.Session.request') as mock_method:
                 mock_method.return_value = resp
                 with assert_raises(intercom.AuthenticationError):
                     self.client.get('/users', {})
@@ -174,7 +174,7 @@ class RequestTest(unittest.TestCase):
         }
         content = json.dumps(payload).encode('utf-8')
         resp = mock_response(content)
-        with patch('requests.request') as mock_method:
+        with patch('requests.sessions.Session.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ResourceNotFound):
                 self.client.get('/users', {})
@@ -192,7 +192,7 @@ class RequestTest(unittest.TestCase):
         }
         content = json.dumps(payload).encode('utf-8')
         resp = mock_response(content)
-        with patch('requests.request') as mock_method:
+        with patch('requests.sessions.Session.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.RateLimitExceeded):
                 self.client.get('/users', {})
@@ -210,7 +210,7 @@ class RequestTest(unittest.TestCase):
         }
         content = json.dumps(payload).encode('utf-8')
         resp = mock_response(content)
-        with patch('requests.request') as mock_method:
+        with patch('requests.sessions.Session.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.ServiceUnavailableError):
                 self.client.get('/users', {})
@@ -228,7 +228,7 @@ class RequestTest(unittest.TestCase):
         }
         content = json.dumps(payload).encode('utf-8')
         resp = mock_response(content)
-        with patch('requests.request') as mock_method:
+        with patch('requests.sessions.Session.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.MultipleMatchingUsersError):
                 self.client.get('/users', {})
@@ -246,7 +246,7 @@ class RequestTest(unittest.TestCase):
         }
         content = json.dumps(payload).encode('utf-8')
         resp = mock_response(content)
-        with patch('requests.request') as mock_method:
+        with patch('requests.sessions.Session.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.TokenUnauthorizedError):
                 self.client.get('/users', {})
@@ -265,7 +265,7 @@ class RequestTest(unittest.TestCase):
         }
         content = json.dumps(payload).encode('utf-8')
         resp = mock_response(content)
-        with patch('requests.request') as mock_method:
+        with patch('requests.sessions.Session.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.MultipleMatchingUsersError):
                 self.client.get('/users', {})
@@ -282,7 +282,7 @@ class RequestTest(unittest.TestCase):
         }
         content = json.dumps(payload).encode('utf-8')
         resp = mock_response(content)
-        with patch('requests.request') as mock_method:
+        with patch('requests.sessions.Session.request') as mock_method:
             mock_method.return_value = resp
             with assert_raises(intercom.BadRequestError):
                 self.client.get('/users', {})
