@@ -6,8 +6,11 @@ import unittest
 from datetime import datetime
 from intercom.client import Client
 from intercom.user import User
+from mock import call
 from mock import patch
+from nose.tools import eq_
 from nose.tools import istest
+from tests.unit import page_of_events
 
 
 class EventTest(unittest.TestCase):
@@ -21,6 +24,29 @@ class EventTest(unittest.TestCase):
             created_at=now,
             name="Jim Bob")
         self.created_time = now - 300
+
+    @istest
+    def it_stops_iterating_if_no_next_link(self):
+        body = page_of_events(include_next_link=False)
+        with patch.object(Client, 'get', return_value=body) as mock_method:  # noqa
+            event_names = [event.event_name for event in self.client.events.find_all(
+                type='user', email='joe@example.com')]
+            mock_method.assert_called_once_with(
+                '/events', {'type': 'user', 'email': 'joe@example.com'})
+            eq_(event_names, ['invited-friend', 'bought-sub'])  # noqa
+
+    @istest
+    def it_keeps_iterating_if_next_link(self):
+        page1 = page_of_events(include_next_link=True)
+        page2 = page_of_events(include_next_link=False)
+        side_effect = [page1, page2]
+        with patch.object(Client, 'get', side_effect=side_effect) as mock_method:  # noqa
+            event_names = [event.event_name for event in self.client.events.find_all(
+                type='user', email='joe@example.com')]
+            eq_([call('/events', {'type': 'user', 'email': 'joe@example.com'}),
+                 call('/events?type=user&intercom_user_id=55a3b&before=144474756550', {})],  # noqa
+                mock_method.mock_calls)
+            eq_(event_names, ['invited-friend', 'bought-sub'] * 2)  # noqa
 
     @istest
     def it_creates_an_event_with_metadata(self):

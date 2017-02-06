@@ -161,6 +161,20 @@ def get_company(name):
     }
 
 
+def get_event(name="the-event-name"):
+    return {
+        "type": "event",
+        "event_name": name,
+        "created_at": 1389913941,
+        "user_id": "314159",
+        "metadata": {
+            "type": "user",
+            "invitee_email": "pi@example.org",
+            "invite_code": "ADDAFRIEND"
+        }
+    }
+
+
 def page_of_users(include_next_link=False):
     page = {
         "type": "user.list",
@@ -179,6 +193,21 @@ def page_of_users(include_next_link=False):
     }
     if include_next_link:
         page["pages"]["next"] = "https://api.intercom.io/users?per_page=50&page=2"
+    return page
+
+
+def page_of_events(include_next_link=False):
+    page = {
+        "type": "event.list",
+        "pages": {
+            "next": None,
+        },
+        "events": [
+            get_event("invited-friend"),
+            get_event("bought-sub")],
+    }
+    if include_next_link:
+        page["pages"]["next"] = "https://api.intercom.io/events?type=user&intercom_user_id=55a3b&before=144474756550"  # noqa
     return page
 
 
