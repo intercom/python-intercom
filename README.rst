@@ -562,5 +562,5 @@ Integration tests:
    :target: https://pypi.python.org/pypi/python-intercom
 .. |Travis CI Build| image:: https://travis-ci.org/jkeyes/python-intercom.svg
    :target: https://travis-ci.org/jkeyes/python-intercom
-.. |Coverage Status| image:: https://coveralls.io/repos/jkeyes/python-intercom/badge.svg?branch=master
-   :target: https://coveralls.io/r/jkeyes/python-intercom?branch=master
+.. |Coverage Status| image:: https://coveralls.io/repos/github/jkeyes/python-intercom/badge.svg?branch=master
+   :target: https://coveralls.io/github/jkeyes/python-intercom?branch=master
