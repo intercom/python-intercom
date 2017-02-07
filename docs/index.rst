@@ -104,13 +104,16 @@ Intercom documentation: `Deleting a User <https://developers.intercom.io/referen
 ::
 
     # ID Delete Request
-    deleted_user = intercom.users.find(id='1').delete()
+    user = intercom.users.find(id='1')
+    deleted_user = intercom.users.delete(user)
     
     # User ID Delete Request
-    deleted_user = intercom.users.find(user_id='1').delete()
+    user = intercom.users.find(user_id='1')
+    deleted_user = intercom.users.delete(user)
     
     # Email Delete Request
-    deleted_user = intercom.users.find(email='bob@example.com').delete()
+    user = intercom.users.find(email='bob@example.com')
+    deleted_user = intercom.users.delete(user)
 
 
 Companies
