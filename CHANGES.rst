@@ -1,6 +1,7 @@
 Changelog
 =========
-
+* 3.0.3
+   * Removed `count` API operation, this is supported via `client.counts` now. (`#152 <https://github.com/jkeyes/python-intercom/pull/152>`_)
 * 3.0.2
    * Added multipage support for Event.find_all. (`#147 <https://github.com/jkeyes/python-intercom/pull/147>`_)
 * 3.0.1
