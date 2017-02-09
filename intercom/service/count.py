@@ -16,12 +16,3 @@ class Count(BaseService, Find):
 
     def for_type(self, type, count=None):
         return self.find(type=type, count=count)
-
-    # @classmethod
-    # def do_broken_down_count(cls, entity_to_count, count_context):
-    #     result = cls.fetch_broken_down_count(entity_to_count, count_context)
-    #     return getattr(result, entity_to_count)[count_context]
-
-    # @classmethod
-    # def fetch_broken_down_count(cls, entity_to_count, count_context):
-    #     return Count.find(type=entity_to_count, count=count_context)
