@@ -355,7 +355,23 @@ test_conversation_notification = {
             },
             "conversation_parts": {
                 "type": "conversation_part.list",
-                "conversation_parts": []
+                "conversation_parts": [
+                    {
+                        "type": "conversation_part",
+                        "id": "4412",
+                        "part_type": "comment",
+                        "body": "<p>Hi Jane, it's all great thanks!</p>",
+                        "created_at": 1400857494,
+                        "updated_at": 1400857494,
+                        "notified_at": 1400857587,
+                        "assigned_to": None,
+                        "author": {
+                            "type": "user",
+                            "id": "536e564f316c83104c000020"
+                        },
+                        "attachments": []
+                    }
+                ]
             },
             "open": None,
             "read": True,
