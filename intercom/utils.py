@@ -21,7 +21,7 @@ def entity_key_from_type(type):
 
 def constantize_singular_resource_name(resource_name):
     class_name = inflection.camelize(resource_name)
-    return create_class_instance(class_name)
+    return define_lightweight_class(resource_name, class_name)
 
 
 def resource_class_to_collection_name(cls):
@@ -37,7 +37,8 @@ def resource_class_to_name(cls):
 CLASS_REGISTRY = {}
 
 
-def create_class_instance(class_name):
+def define_lightweight_class(resource_name, class_name):
+    """Return a lightweight class for deserialized payload objects."""
     from intercom.api_operations.load import Load
     from intercom.traits.api_resource import Resource
 
@@ -51,8 +52,8 @@ def create_class_instance(class_name):
 
     @six.add_metaclass(Meta)
     class DynamicClass(Resource, Load):
-        pass
+        resource_type = resource_name
 
-    dyncls = DynamicClass()
+    dyncls = DynamicClass
     CLASS_REGISTRY[class_name] = dyncls
     return dyncls

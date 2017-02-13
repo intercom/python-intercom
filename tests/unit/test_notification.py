@@ -3,7 +3,7 @@
 import unittest
 
 from intercom.notification import Notification
-from intercom.utils import create_class_instance
+from intercom.utils import define_lightweight_class
 from nose.tools import eq_
 from nose.tools import istest
 from tests.unit import test_conversation_notification
@@ -18,12 +18,12 @@ class NotificationTest(unittest.TestCase):
         self.assertIsInstance(payload, Notification)
 
     @istest
-    def it_returns_correct_model_type_for_user(self):
+    def it_returns_correct_resource_type_for_part(self):
         payload = Notification(**test_user_notification)
-        User = create_class_instance('User')  # noqa
+        User = define_lightweight_class('user', 'User')  # noqa
 
-        self.assertIsInstance(payload.model, User.__class__)
-        eq_(payload.model_type, User.__class__)
+        self.assertIsInstance(payload.model.__class__, User.__class__)
+        eq_(payload.model_type.__class__, User.__class__)
 
     @istest
     def it_returns_correct_user_notification_topic(self):
@@ -32,21 +32,21 @@ class NotificationTest(unittest.TestCase):
 
     @istest
     def it_returns_instance_of_user(self):
-        User = create_class_instance('User')  # noqa
+        User = define_lightweight_class('user', 'User')  # noqa
         payload = Notification(**test_user_notification)
-        self.assertIsInstance(payload.model, User.__class__)
+        self.assertIsInstance(payload.model.__class__, User.__class__)
 
     @istest
     def it_returns_instance_of_conversation(self):
-        Conversation = create_class_instance('Conversation')  # noqa
+        Conversation = define_lightweight_class('conversation', 'Conversation')  # noqa
         payload = Notification(**test_conversation_notification)
-        self.assertIsInstance(payload.model, Conversation.__class__)
+        self.assertIsInstance(payload.model.__class__, Conversation.__class__)
 
     @istest
     def it_returns_correct_model_type_for_conversation(self):
-        Conversation = create_class_instance('Conversation')  # noqa
+        Conversation = define_lightweight_class('conversation', 'Conversation')  # noqa
         payload = Notification(**test_conversation_notification)
-        eq_(payload.model_type, Conversation.__class__)
+        eq_(payload.model_type.__class__, Conversation.__class__)
 
     @istest
     def it_returns_correct_conversation_notification_topic(self):
@@ -55,9 +55,16 @@ class NotificationTest(unittest.TestCase):
 
     @istest
     def it_returns_inner_user_object_for_conversation(self):
-        User = create_class_instance('User')  # noqa
+        User = define_lightweight_class('user', 'User')  # noqa
         payload = Notification(**test_conversation_notification)
-        self.assertIsInstance(payload.model.user, User.__class__)
+        self.assertIsInstance(payload.model.user.__class__, User.__class__)
+
+    @istest
+    def it_returns_inner_conversation_parts_for_conversation(self):
+        payload = Notification(**test_conversation_notification)
+        conversation_parts = payload.data.item.conversation_parts
+        eq_(1, len(conversation_parts))
+        eq_('conversation_part', conversation_parts[0].resource_type)
 
     @istest
     def it_returns_inner_user_object_with_nil_tags(self):

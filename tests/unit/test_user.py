@@ -12,7 +12,7 @@ from intercom.lib.flat_store import FlatStore
 from intercom.client import Client
 from intercom.user import User
 from intercom import MultipleMatchingUsersError
-from intercom.utils import create_class_instance
+from intercom.utils import define_lightweight_class
 from mock import patch
 from nose.tools import assert_raises
 from nose.tools import eq_
@@ -69,17 +69,17 @@ class UserTest(unittest.TestCase):
         eq_(1393613864, calendar.timegm(user.remote_created_at.utctimetuple()))
         eq_(1401970114, calendar.timegm(user.updated_at.utctimetuple()))
 
-        Avatar = create_class_instance('Avatar')  # noqa
-        Company = create_class_instance('Company')  # noqa
-        SocialProfile = create_class_instance('SocialProfile')  # noqa
-        LocationData = create_class_instance('LocationData')  # noqa
-        self.assertIsInstance(user.avatar, Avatar.__class__)
+        Avatar = define_lightweight_class('avatar', 'Avatar')  # noqa
+        Company = define_lightweight_class('company', 'Company')  # noqa
+        SocialProfile = define_lightweight_class('social_profile', 'SocialProfile')  # noqa
+        LocationData = define_lightweight_class('locaion_data', 'LocationData')  # noqa
+        self.assertIsInstance(user.avatar.__class__, Avatar.__class__)
         img_url = 'https://graph.facebook.com/1/picture?width=24&height=24'
         eq_(img_url, user.avatar.image_url)
 
         self.assertIsInstance(user.companies, list)
         eq_(1, len(user.companies))
-        self.assertIsInstance(user.companies[0], Company.__class__)
+        self.assertIsInstance(user.companies[0].__class__, Company.__class__)
         eq_('123', user.companies[0].company_id)
         eq_('bbbbbbbbbbbbbbbbbbbbbbbb', user.companies[0].id)
         eq_('the-app-id', user.companies[0].app_id)
@@ -103,12 +103,12 @@ class UserTest(unittest.TestCase):
 
         eq_(4, len(user.social_profiles))
         twitter_account = user.social_profiles[0]
-        self.assertIsInstance(twitter_account, SocialProfile.__class__)
+        self.assertIsInstance(twitter_account.__class__, SocialProfile.__class__)
         eq_('twitter', twitter_account.name)
         eq_('abc', twitter_account.username)
         eq_('http://twitter.com/abc', twitter_account.url)
 
-        self.assertIsInstance(user.location_data, LocationData.__class__)
+        self.assertIsInstance(user.location_data.__class__, LocationData.__class__)
         eq_('Dublin', user.location_data.city_name)
         eq_('EU', user.location_data.continent_code)
         eq_('Ireland', user.location_data.country_name)
@@ -182,7 +182,7 @@ class UserTest(unittest.TestCase):
 
     @istest
     def it_gets_users_by_tag(self):
-        with patch.object(Client, 'get', return_value=page_of_users(False)) as mock_method:
+        with patch.object(Client, 'get', return_value=page_of_users(False)):
             users = self.client.users.by_tag(124)
             for user in users:
                 ok_(hasattr(user, 'avatar'))

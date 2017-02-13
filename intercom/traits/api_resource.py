@@ -74,6 +74,7 @@ class Resource(object):
         if hasattr(self, 'id'):
             # already exists in Intercom
             self.changed_attributes = []
+        return self
 
     def to_dict(self):
         a_dict = {}
