@@ -1,5 +1,7 @@
 Changelog
 =========
+* 3.0.4
+   * Added `resource_type` attribute to lightweight classes. (`#153 <https://github.com/jkeyes/python-intercom/pull/153>`_)
 * 3.0.3
    * Removed `count` API operation, this is supported via `client.counts` now. (`#152 <https://github.com/jkeyes/python-intercom/pull/152>`_)
 * 3.0.2
