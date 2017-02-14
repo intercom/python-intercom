@@ -1,5 +1,7 @@
 Changelog
 =========
+* 3.0.5
+   * Increased default request timeout to 90 seconds. This can also be set by the `INTERCOM_REQUEST_TIMEOUT` environment variable. (`#154 <https://github.com/jkeyes/python-intercom/pull/154>`_)
 * 3.0.4
    * Added `resource_type` attribute to lightweight classes. (`#153 <https://github.com/jkeyes/python-intercom/pull/153>`_)
 * 3.0.3
