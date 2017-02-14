@@ -7,20 +7,30 @@ from pytz import utc
 import certifi
 import json
 import logging
+import os
 import requests
 
 logger = logging.getLogger('intercom.request')
 
 
+def configure_timeout():
+    """Configure the request timeout."""
+    timeout = os.getenv('INTERCOM_REQUEST_TIMEOUT', '90')
+    try:
+        return int(timeout)
+    except ValueError:
+        logger.warning('%s is not a valid timeout value.', timeout)
+    return 90
+
+
 class Request(object):
 
-    timeout = 10
+    timeout = configure_timeout()
 
     def __init__(self, http_method, path, http_session=None):
         self.http_method = http_method
         self.path = path
         self.http_session = http_session
-
 
     def execute(self, base_url, auth, params):
         return self.send_request_to_path(base_url, auth, params)
