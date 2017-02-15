@@ -1,5 +1,7 @@
 Changelog
 =========
+* 3.1.0
+   * Added support for the Scroll API. (`#156 <https://github.com/jkeyes/python-intercom/pull/156>`_)
 * 3.0.5
    * Increased default request timeout to 90 seconds. This can also be set by the `INTERCOM_REQUEST_TIMEOUT` environment variable. (`#154 <https://github.com/jkeyes/python-intercom/pull/154>`_)
 * 3.0.4
