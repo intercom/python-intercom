@@ -196,6 +196,24 @@ def page_of_users(include_next_link=False):
     return page
 
 
+def users_scroll(include_users=False):  # noqa
+    # a "page" of results from the Scroll API
+    if include_users:
+        users = [
+            get_user("user1@example.com"),
+            get_user("user2@example.com"),
+            get_user("user3@example.com")
+        ]
+    else:
+        users = []
+
+    return {
+        "type": "user.list",
+        "scroll_param": "da6bbbac-25f6-4f07-866b-b911082d7",
+        "users": users
+    }
+
+
 def page_of_events(include_next_link=False):
     page = {
         "type": "event.list",

@@ -8,11 +8,12 @@ from intercom.api_operations.find_all import FindAll
 from intercom.api_operations.delete import Delete
 from intercom.api_operations.save import Save
 from intercom.api_operations.load import Load
+from intercom.api_operations.scroll import Scroll
 from intercom.extended_api_operations.tags import Tags
 from intercom.service.base_service import BaseService
 
 
-class User(BaseService, All, Find, FindAll, Delete, Save, Load, Submit, Tags):
+class User(BaseService, All, Find, FindAll, Delete, Save, Load, Submit, Tags, Scroll):
 
     @property
     def collection_class(self):
