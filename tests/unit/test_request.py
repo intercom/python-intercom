@@ -327,7 +327,7 @@ class RequestTest(unittest.TestCase):
             mock_method.return_value = resp
             with assert_raises(TypeError):
                 request = Request('GET', 'events')
-                request.send_request_to_path('', ('x', 'y'), resp)
+                request.execute('', ('x', 'y'), resp)
 
     @istest
     def it_allows_the_timeout_to_be_changed(self):

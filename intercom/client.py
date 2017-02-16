@@ -1,15 +1,19 @@
 # -*- coding: utf-8 -*-
 
 import requests
+import time
+from datetime import datetime
+from pytz import utc
 
 
 class Client(object):
 
-    def __init__(self, personal_access_token='my_personal_access_token'):
+    def __init__(self, personal_access_token='my_personal_access_token', throttle=False):
         self.personal_access_token = personal_access_token
         self.base_url = 'https://api.intercom.io'
         self.rate_limit_details = {}
         self.http_session = requests.Session()
+        self.throttle = throttle
 
     @property
     def _auth(self):
@@ -81,6 +85,16 @@ class Client(object):
         return job.Job(self)
 
     def _execute_request(self, request, params):
+        # throttle
+        if self.throttle and self.rate_limit_details.get('remaining', None) == 0:
+            # wait until the we've reached the reset time
+            utcnow = datetime.utcnow().replace(tzinfo=utc)
+            if utcnow < self.rate_limit_details['reset_at']:
+                # the delta between the times
+                delta = self.rate_limit_details['reset_at'] - utcnow
+                # sleep until one second after the reset
+                time.sleep(delta.seconds + 1)
+
         result = request.execute(self.base_url, self._auth, params)
         self.rate_limit_details = request.rate_limit_details
         return result

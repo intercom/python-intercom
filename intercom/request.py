@@ -33,7 +33,10 @@ class Request(object):
         self.http_session = http_session
 
     def execute(self, base_url, auth, params):
-        return self.send_request_to_path(base_url, auth, params)
+        resp = self.send_request_to_path(base_url, auth, params)
+        parsed_body = self.parse_body(resp)
+        self.set_rate_limit_details(resp)
+        return parsed_body
 
     def send_request_to_path(self, base_url, auth, params=None):
         """ Construct an API request, send it to the API, and parse the
@@ -81,10 +84,8 @@ class Request(object):
                          resp.encoding, resp.status_code)
             logger.debug("  content:\n%s", resp.content)
 
-        parsed_body = self.parse_body(resp)
         self.raise_errors_on_failure(resp)
-        self.set_rate_limit_details(resp)
-        return parsed_body
+        return resp
 
     def parse_body(self, resp):
         if resp.content and resp.content.strip():
