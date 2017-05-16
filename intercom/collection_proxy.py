@@ -37,6 +37,9 @@ class CollectionProxy(six.Iterator):
         # a link to the next page of results
         self.next_page = None
 
+        # total number of records in collection
+        self.total_count = None
+
     def __iter__(self):
         return self
 
@@ -56,6 +59,12 @@ class CollectionProxy(six.Iterator):
 
         instance = self.collection_cls(**resource)
         return instance
+
+    def __len__(self):
+        if self.total_count is None:
+            self.get_first_page()
+
+        return self.total_count
 
     def __getitem__(self, index):
         for i in range(index):
@@ -82,6 +91,7 @@ class CollectionProxy(six.Iterator):
         if response is None:
             raise HttpError('Http Error - No response entity returned')
 
+        self.total_count = response["total_count"]
         collection = response[self.collection]
         # if there are no resources in the response stop iterating
         if collection is None:
