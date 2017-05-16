@@ -64,6 +64,9 @@ class CollectionProxy(six.Iterator):
         if self.total_count is None:
             self.get_first_page()
 
+        if self.total_count is None:
+            raise NotImplementedError("len() is not supported for this connection proxy")
+
         return self.total_count
 
     def __getitem__(self, index):
@@ -91,7 +94,7 @@ class CollectionProxy(six.Iterator):
         if response is None:
             raise HttpError('Http Error - No response entity returned')
 
-        self.total_count = response["total_count"]
+        self.total_count = response.get("total_count")
         collection = response[self.collection]
         # if there are no resources in the response stop iterating
         if collection is None:
