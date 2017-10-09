@@ -317,7 +317,7 @@ Intercom documentation: `Getting Counts <https://developers.intercom.io/referenc
 ::
 
     # Conversation Admin Count
-    intercom.counts.for_type(type='converation', count='admin')
+    intercom.counts.for_type(type='conversation', count='admin')
     
     # User Tag Count
     intercom.counts.for_type(type='user', count='tag')
