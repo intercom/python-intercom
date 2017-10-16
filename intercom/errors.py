@@ -45,6 +45,10 @@ class RateLimitExceeded(IntercomError):
     pass
 
 
+class ResourceNotRestorable(IntercomError):
+    pass
+
+
 class MultipleMatchingUsersError(IntercomError):
     pass
 
@@ -57,6 +61,10 @@ class TokenUnauthorizedError(IntercomError):
     pass
 
 
+class TokenNotFoundError(IntercomError):
+    pass
+
+
 error_codes = {
     'unauthorized': AuthenticationError,
     'forbidden': AuthenticationError,
@@ -65,10 +73,18 @@ error_codes = {
     'missing_parameter': BadRequestError,
     'parameter_invalid': BadRequestError,
     'parameter_not_found': BadRequestError,
+    'client_error': BadRequestError,
+    'type_mismatch': BadRequestError,
     'not_found': ResourceNotFound,
+    'not_restorable': ResourceNotRestorable,
     'rate_limit_exceeded': RateLimitExceeded,
     'service_unavailable': ServiceUnavailableError,
+    'server_error': ServiceUnavailableError,
     'conflict': MultipleMatchingUsersError,
     'unique_user_constraint': MultipleMatchingUsersError,
-    'token_unauthorized': TokenUnauthorizedError
+    'token_unauthorized': TokenUnauthorizedError,
+    'token_not_found': TokenNotFoundError,
+    'token_revoked': TokenNotFoundError,
+    'token_blocked': TokenNotFoundError,
+    'token_expired': TokenNotFoundError
 }
