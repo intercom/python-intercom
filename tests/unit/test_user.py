@@ -405,7 +405,8 @@ class DescribeIncrementingCustomAttributeFields(unittest.TestCase):
                 'mad': 123,
                 'another': 432,
                 'other': time.mktime(created_at.timetuple()),
-                'thing': 'yay'
+                'thing': 'yay',
+                'logins': None,
             }
         }
         self.user = User(**params)
@@ -429,6 +430,11 @@ class DescribeIncrementingCustomAttributeFields(unittest.TestCase):
     def it_can_increment_new_custom_data_fields(self):
         self.user.increment('new_field', 3)
         eq_(self.user.to_dict()['custom_attributes']['new_field'], 3)
+
+    @istest
+    def it_can_increment_none_values(self):
+        self.user.increment('logins')
+        eq_(self.user.to_dict()['custom_attributes']['logins'], 1)
 
     @istest
     def it_can_call_increment_on_the_same_key_twice_and_increment_by_2(self):  # noqa

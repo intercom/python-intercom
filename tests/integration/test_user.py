@@ -57,6 +57,10 @@ class UserTest(unittest.TestCase):
         user.increment('karma')
         intercom.users.save(user)
         self.assertEqual(user.custom_attributes["karma"], karma + 2)
+        user.custom_attributes['logins'] = None
+        user.increment('logins')
+        intercom.users.save(user)
+        self.assertEqual(user.custom_attributes['logins'], 1)
 
     def test_iterate(self):
         # Iterate over all users
