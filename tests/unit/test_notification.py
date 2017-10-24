@@ -67,6 +67,12 @@ class NotificationTest(unittest.TestCase):
         eq_('conversation_part', conversation_parts[0].resource_type)
 
     @istest
+    def it_returns_datetimes_for_conversations(self):
+        payload = Notification(**test_conversation_notification)
+        eq_(2014, payload.data.item.created_at.year)
+        eq_(2017, payload.data.item.waiting_since.year)
+
+    @istest
     def it_returns_inner_user_object_with_nil_tags(self):
         user_notification = {
             "type": "notification_event",
