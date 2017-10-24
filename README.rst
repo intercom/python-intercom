@@ -350,7 +350,7 @@ Events
 
     intercom.events.create(
         event_name='invited-friend',
-        created_at=time.mktime(),
+        created_at=time.mktime(time.localtime()),
         email=user.email,
         metadata={
             'invitee_email': 'pi@example.org',
@@ -370,9 +370,9 @@ your behalf
     intercom.events.create(
         event_name="placed-order",
         email=current_user.email,
-        created_at=1403001013
+        created_at=1403001013,
         metadata={
-            'order_date': time.mktime(),
+            'order_date': time.mktime(time.localtime()),
             'stripe_invoice': 'inv_3434343434',
             'order_number': {
                 'value': '3434-3434',
