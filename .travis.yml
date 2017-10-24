@@ -3,9 +3,11 @@ language: python
 python:
   - 2.7
   - 3.4
+  - 3.5
+  - 3.6
 install: 
-  - pip install -r requirements.txt --use-mirrors
-  - pip install -r dev-requirements.txt --use-mirrors
+  - pip install -r requirements.txt
+  - pip install -r dev-requirements.txt
 script:
   - nosetests --with-coverag tests/unit
 after_success:
