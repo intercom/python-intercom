@@ -70,7 +70,7 @@ class Conversation(BaseService, Find, FindAll, Save, Load):
         response = self.client.post(self.reply_url(_id), reply_data)
         return self.collection_class().from_response(response)
 
-    def add_customer_to_conversation(self, data):
+    def add_customer_to_conversation(self, **data):
         """Add a customer to a conversation."""
         _id = data.pop('id')
         response = self.client.post(self.customers_url(_id), data)
