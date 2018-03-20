@@ -25,7 +25,15 @@ class Conversation(BaseService, Find, FindAll, Save, Load):
 
     def resource_url(self, _id):
         """Return the URL for the specified resource in this collection."""
-        return "/%s/%s/reply" % (self.collection, _id)
+        return "/%s/%s/" % (self.collection, _id)
+
+    def reply_url(self, _id):
+        """URL for reply resources."""
+        return '%sreply' % self.resource_url(_id)
+
+    def customers_url(self, _id):
+        """URL for customer resources"""
+        return '%scustomers' % self.resource_url(_id)
 
     def reply(self, **reply_data):
         """Reply to a message."""
@@ -52,12 +60,18 @@ class Conversation(BaseService, Find, FindAll, Save, Load):
     def mark_read(self, _id):
         """Mark a conversation as read."""
         data = {'read': True}
-        response = self.client.put(self.resource_url(_id), data)
+        response = self.client.put(self.reply_url(_id), data)
         return self.collection_class().from_response(response)
 
     def __reply(self, reply_data):
         """Send requests to the resource handler."""
         _id = reply_data.pop('id')
         reply_data['conversation_id'] = _id
-        response = self.client.post(self.resource_url(_id), reply_data)
+        response = self.client.post(self.reply_url(_id), reply_data)
+        return self.collection_class().from_response(response)
+
+    def add_customer_to_conversation(self, data):
+        """Add a customer to a conversation."""
+        _id = data.pop('id')
+        response = self.client.post(self.customers_url(_id), data)
         return self.collection_class().from_response(response)
