@@ -416,6 +416,40 @@ Intercom documentation: `Marking a Conversation as Read <https://developers.inte
     conversation.save()
 
 
+Add a User to a Conversation as an Admin
+++++++++++++++++++++++++++++++
+
+Intercom documentation: `Adding to group conversations as admin <https://developers.intercom.com/reference#adding-to-group-conversations-as-admin>`_.
+
+::
+
+    message_data = {
+        'id': conversation_id,
+        'admin_id': '781236',
+        'customer': {
+            'intercom_user_id': '58c1c78946a0aa9ef45b098a',
+        }
+    }
+    intercom.conversations.add_customer_to_conversation(**message_data)
+
+
+Add a User to a Conversation as a Customer
+++++++++++++++++++++++++++++++
+
+Intercom documentation: `Adding to group conversations as customer <https://developers.intercom.com/reference#adding-to-group-conversations-as-customer>`_.
+
+::
+
+    message_data = {
+        'id': conversation_id,
+        'intercom_user_id': '55c1c78946b0aa9ef45b09ff',
+        'customer': {
+            'intercom_user_id': '58c1c78946a0aa9ef45b098a',
+        }
+    }
+    intercom.conversations.add_customer_to_conversation(**message_data)
+
+
 Webhooks and Notifications
 --------------------------
 
