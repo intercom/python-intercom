@@ -350,7 +350,7 @@ Events
 
     intercom.events.create(
         event_name='invited-friend',
-        created_at=time.mktime(time.localtime()),
+        created_at=int(time.mktime(time.localtime())),
         email=user.email,
         metadata={
             'invitee_email': 'pi@example.org',
