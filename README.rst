@@ -150,9 +150,9 @@ Tags
 .. code:: python
 
     # Tag users
-    tag = intercom.tags.tag_users(name='blue', users=[{'email': 'test1@example.com'}])
+    tag = intercom.tags.tag(name='blue', users=[{'email': 'test1@example.com'}])
     # Untag users
-    intercom.tags.untag_users(name='blue', users=[{'user_id': '42ea2f1b93891f6a99000427'}])
+    intercom.tags.untag(name='blue', users=[{'user_id': '42ea2f1b93891f6a99000427'}])
     # Iterate over all tags
     for tag in intercom.tags.all():
         ...
