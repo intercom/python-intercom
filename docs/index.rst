@@ -14,12 +14,12 @@ python-intercom
 Installation
 ============
 
-Stable releases of python-intercom can be installed with 
-`pip <http://pip.openplans.org>`_ or you may download a `.tgz` source 
+Stable releases of python-intercom can be installed with
+`pip <http://pip.openplans.org>`_ or you may download a `.tgz` source
 archive from `pypi <http://pypi.python.org/pypi/python-intercom#downloads>`_.
 See the :doc:`installation` page for more detailed instructions.
 
-If you want to use the latest code, you can grab it from our 
+If you want to use the latest code, you can grab it from our
 `Git repository <http://github.com/jkeyes/python-intercom>`_, or `fork it <http://github.com/jkeyes/python-intercom>`_.
 
 Usage
@@ -28,7 +28,7 @@ Usage
 Authorization
 -------------
 
-Intercom documentation: `Personal Access Tokens <https://developers.intercom.com/reference#personal-access-tokens-1>`_.
+Intercom documentation: `Personal Access Tokens <https://developers.intercom.com/intercom-api-reference/reference#section-access-tokens>`_.
 
 ::
 
@@ -75,7 +75,7 @@ Intercom documentation: `List by Tag, Segment, Company <https://developers.inter
 
     # tag request
     intercom.users.find_all(tag_id='30126')
-    
+
     # segment request
     intercom.users.find_all(segment_id='30126')
 
@@ -89,10 +89,10 @@ Intercom documentation: `View a User <https://developers.intercom.io/reference#v
 
     # ID request
     intercom.users.find(id='1')
-    
+
     # User ID request
     intercom.users.find(user_id='1')
-    
+
     # Email request
     intercom.users.find(email='bob@example.com')
 
@@ -106,11 +106,11 @@ Intercom documentation: `Deleting a User <https://developers.intercom.io/referen
     # ID Delete Request
     user = intercom.users.find(id='1')
     deleted_user = intercom.users.delete(user)
-    
+
     # User ID Delete Request
     user = intercom.users.find(user_id='1')
     deleted_user = intercom.users.delete(user)
-    
+
     # Email Delete Request
     user = intercom.users.find(email='bob@example.com')
     deleted_user = intercom.users.delete(user)
@@ -196,10 +196,10 @@ Intercom documentation: `Create and Update Tags <https://developers.intercom.io/
 
     # Create Request
     tag = intercom.tags.create(name='Independentt')
-    
+
     # Update Request
-    intercom.tags.tag_users(name='Independent', id=tag.id)
-    
+    intercom.tags.tag(name='Independent', id=tag.id)
+
 
 Tag or Untag Users & Companies
 ++++++++++++++++++++++++++++++
@@ -209,19 +209,10 @@ Intercom documentation: `Tag or Untag Users & Companies <https://developers.inte
 ::
 
     # Multi-User Tag Request
-    intercom.tags.tag_users('Independent', ["42ea2f1b93891f6a99000427", "42ea2f1b93891f6a99000428"])
-    
+    intercom.tags.tag(name='Independent', users=["42ea2f1b93891f6a99000427", "42ea2f1b93891f6a99000428"])
+
     # Untag Request
-    intercom.tags.untag_users('blue', ["42ea2f1b93891f6a99000427"])
-
-Delete a Tag
-++++++++++++
-
-Intercom documentation: `Delete a Tag <https://developers.intercom.io/reference#delete-a-tag>`_.
-
-::
-
-    intercom.tags.delete()
+    intercom.tags.untag(name='blue', users=["42ea2f1b93891f6a99000427"])
 
 
 List Tags for an App
@@ -279,7 +270,7 @@ Intercom documentation: `List Notes for a User <https://developers.intercom.io/r
     # User ID Request
     for note in intercom.notes.find_all(user_id='123'):
         ...
-    
+
     # User Email Request
     for note in intercom.notes.find_all(email='foo@bar.com'):
         ...
@@ -318,10 +309,10 @@ Intercom documentation: `Getting Counts <https://developers.intercom.io/referenc
 
     # Conversation Admin Count
     intercom.counts.for_type(type='conversation', count='admin')
-    
+
     # User Tag Count
     intercom.counts.for_type(type='user', count='tag')
-    
+
     # User Segment Count
     intercom.counts.for_type(type='user', count='segment')
 
@@ -330,7 +321,7 @@ Intercom documentation: `Getting Counts <https://developers.intercom.io/referenc
 
     # Company User Count
     intercom.counts.for_type(type='company', count='user')
-    
+
     # Global App Counts
     intercom.counts.for_type()
 
