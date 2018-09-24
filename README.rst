@@ -3,9 +3,9 @@ python-intercom
 
 |PyPI Version| |PyPI Downloads| |Travis CI Build| |Coverage Status|
 
-Python bindings for the Intercom API (https://api.intercom.io).
+Python bindings for the Intercom API (https://developers.intercom.com/intercom-api-reference).
 
-`API Documentation <https://developers.intercom.com/reference>`__.
+`API Documentation <https://developers.intercom.com/intercom-api-reference/reference>`__.
 
 `Package
 Documentation <http://readthedocs.org/docs/python-intercom/>`__.
@@ -88,14 +88,6 @@ Users
     # Iterate over all users
     for user in intercom.users.all():
         ...
-
-    # Bulk operations.
-    # Submit bulk job, to create users, if any of the items in create_items match an existing user that user will be updated
-    intercom.users.submit_bulk_job(create_items=[{'user_id': 25, 'email': 'alice@example.com'}, {'user_id': 25, 'email': 'bob@example.com'}])
-    # Submit bulk job, to delete users
-    intercom.users.submit_bulk_job(delete_items=[{'user_id': 25, 'email': 'alice@example.com'}, {'user_id': 25, 'email': 'bob@example.com'}])
-    # Submit bulk job, to add items to existing job
-    intercom.users.submit_bulk_job(create_items=[{'user_id': 25, 'email': 'alice@example.com'}], delete_items=[{'user_id': 25, 'email': 'bob@example.com'}], 'job_id': 'job_abcd1234')
 
 Admins
 ^^^^^^
@@ -348,9 +340,11 @@ Events
 
 .. code:: python
 
+    import time
+
     intercom.events.create(
         event_name='invited-friend',
-        created_at=time.mktime(time.localtime()),
+        created_at=int(time.mktime(time.localtime())),
         email=user.email,
         metadata={
             'invitee_email': 'pi@example.org',
@@ -366,6 +360,8 @@ Metadata Objects support a few simple types that Intercom can present on
 your behalf
 
 .. code:: python
+
+    current_user = intercom.users.find(id="1")
 
     intercom.events.create(
         event_name="placed-order",
@@ -394,54 +390,6 @@ The metadata key values in the example are treated as follows-
 -  price: An Amount in US Dollars (value contains 'amount' and
    'currency' keys)
 
-Bulk operations.
-
-.. code:: python
-
-    # Submit bulk job, to create events
-    intercom.events.submit_bulk_job(create_items: [
-        {
-            'event_name': 'ordered-item',
-            'created_at': 1438944980,
-            'user_id': '314159',
-            'metadata': {
-                'order_date': 1438944980,
-                'stripe_invoice': 'inv_3434343434'
-            }
-        },
-        {
-            'event_name': 'invited-friend',
-            'created_at': 1438944979,
-            'user_id': '314159',
-            'metadata': {
-                'invitee_email': 'pi@example.org',
-                'invite_code': 'ADDAFRIEND'
-            }
-        }
-    ])
-
-    # Submit bulk job, to add items to existing job
-    intercom.events.submit_bulk_job(create_items=[
-        {
-            'event_name': 'ordered-item',
-            'created_at': 1438944980,
-            'user_id': '314159',
-            'metadata': {
-                'order_date': 1438944980,
-                'stripe_invoice': 'inv_3434343434'
-            }
-        },
-        {
-            'event_name': 'invited-friend',
-            'created_at': 1438944979,
-            'user_id': "314159",
-            'metadata': {
-                'invitee_email': 'pi@example.org',
-                'invite_code': 'ADDAFRIEND'
-            }
-        }
-        ], job_id='job_abcd1234')
-
 Contacts
 ^^^^^^^^
 
@@ -450,20 +398,21 @@ Contacts represent logged out users of your application.
 .. code:: python
 
     # Create a contact
-    contact = intercom.contacts.create(email="some_contact@example.com")
+    contact = intercom.leads.create(email="some_contact@example.com")
 
     # Update a contact
     contact.custom_attributes['foo'] = 'bar'
-    intercom.contacts.save(contact)
+    intercom.leads.save(contact)
 
     # Find contacts by email
-    contacts = intercom.contacts.find_all(email="some_contact@example.com")
+    contacts = intercom.leads.find_all(email="some_contact@example.com")
 
-    # Convert a contact into a user
-    intercom.contacts.convert(contact, user)
+    # Merge a contact into a user
+    user = intercom.users.find(id="1")
+    intercom.leads.convert(contact, user)
 
     # Delete a contact
-    intercom.contacts.delete(contact)
+    intercom.leads.delete(contact)
 
 Counts
 ^^^^^^
@@ -492,17 +441,6 @@ Subscribe to events in Intercom to receive webhooks.
     # list subscriptions
     intercom.subscriptions.all():
         ...
-
-Bulk jobs
-^^^^^^^^^
-
-.. code:: python
-
-    # fetch a job
-    intercom.jobs.find(id='job_abcd1234')
-
-    # fetch a job's error feed
-    intercom.jobs.errors(id='job_abcd1234')
 
 Errors
 ~~~~~~
