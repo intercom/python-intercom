@@ -204,7 +204,7 @@ Conversations
     # FINDING CONVERSATIONS FOR A USER
     # Iterate over all conversations (read + unread, correct) with a user based on
     # the users email
-    for convo in intercom.onversations.find_all(email='joe@example.com',type='user'):
+    for convo in intercom.conversations.find_all(email='joe@example.com',type='user'):
         ...
     # Iterate over through all conversations (read + unread) with a user based on
     # the users email
