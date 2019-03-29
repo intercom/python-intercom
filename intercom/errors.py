@@ -53,6 +53,10 @@ class MultipleMatchingUsersError(IntercomError):
     pass
 
 
+class ScrollAlreadyExists(IntercomError):
+    pass
+
+
 class UnexpectedError(IntercomError):
     pass
 
@@ -83,6 +87,7 @@ error_codes = {
     'server_error': ServiceUnavailableError,
     'conflict': MultipleMatchingUsersError,
     'unique_user_constraint': MultipleMatchingUsersError,
+    'scroll_exists': ScrollAlreadyExists,
     'token_unauthorized': TokenUnauthorizedError,
     'token_not_found': TokenNotFoundError,
     'token_revoked': TokenNotFoundError,
