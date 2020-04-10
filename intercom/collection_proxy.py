@@ -82,7 +82,11 @@ class CollectionProxy(six.Iterator):
         if response is None:
             raise HttpError('Http Error - No response entity returned')
 
-        collection = response[self.collection]
+        if self.collection in response:
+            collection = response[self.collection]
+        else:
+            collection = response['data']
+
         # if there are no resources in the response stop iterating
         if collection is None:
             raise StopIteration
@@ -90,14 +94,18 @@ class CollectionProxy(six.Iterator):
         # create the resource iterator
         self.resources = iter(collection)
         # grab the next page URL if one exists
-        self.next_page = self.extract_next_link(response)
+        self.next_page = self.extract_next_link(url, response)
 
     def paging_info_present(self, response):
         return 'pages' in response and 'type' in response['pages']
 
-    def extract_next_link(self, response):
+    def extract_next_link(self, url, response):
         if self.paging_info_present(response):
             paging_info = response["pages"]
-            if paging_info["next"]:
+            if paging_info["next"] and isinstance(paging_info['next'], str) :
                 next_parsed = six.moves.urllib.parse.urlparse(paging_info["next"])
                 return '{}?{}'.format(next_parsed.path, next_parsed.query)
+            else:
+                #cursor based pagination
+                return '{}?{}'.format(six.moves.urllib.parse.urlparse(url).path, paging_info['next']['starting_after'])
+
