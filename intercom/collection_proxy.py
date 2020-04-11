@@ -109,7 +109,6 @@ class CollectionProxy(six.Iterator):
                 return '{}?{}'.format(next_parsed.path, next_parsed.query)
             else:
                 #cursor based pagination
-                print paging_info
                 return '{}?starting_after={}'.format(six.moves.urllib.parse.urlparse(url).path, paging_info['next']['starting_after'])
             
 
