@@ -10,7 +10,7 @@ from datetime import datetime
 from intercom.collection_proxy import CollectionProxy
 from intercom.lib.flat_store import FlatStore
 from intercom.client import Client
-from intercom.contacts import Contact
+from intercom.contact import Contact
 from intercom import MultipleMatchingUsersError
 from intercom.utils import define_lightweight_class
 from mock import patch
