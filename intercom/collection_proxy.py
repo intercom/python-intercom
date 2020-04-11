@@ -104,7 +104,7 @@ class CollectionProxy(six.Iterator):
             paging_info = response["pages"]
             if 'next' not in paging_info or paging_info['next'] == None:
                 return None
-            elif paging_info["next"] and (isinstance(paging_info['next'], unicode) or isinstance(paging_info['next'], str)):
+            elif paging_info["next"] and (isinstance(paging_info['next'], six.text_type) or isinstance(paging_info['next'], str)):
                 next_parsed = six.moves.urllib.parse.urlparse(paging_info["next"])
                 return '{}?{}'.format(next_parsed.path, next_parsed.query)
             else:
