@@ -68,7 +68,7 @@ class CollectionProxy(six.Iterator):
 
     def get_next_page(self):
         # get the next page of results
-        return self.get_page(self.next_page)
+        return self.get_page(self.next_page, self.finder_params)
 
     def get_page(self, url, params={}):
         # get a page of results
