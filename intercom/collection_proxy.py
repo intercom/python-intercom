@@ -102,7 +102,7 @@ class CollectionProxy(six.Iterator):
     def extract_next_link(self, url, response):
         if self.paging_info_present(response):
             paging_info = response["pages"]
-            if 'next' not in paging_info:
+            if 'next' not in paging_info or paging_info['next'] == None:
                 return None
             elif paging_info["next"] and isinstance(paging_info['next'], unicode):
                 next_parsed = six.moves.urllib.parse.urlparse(paging_info["next"])
