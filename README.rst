@@ -1,4 +1,4 @@
-python-intercom
+python-intercom The Amazing project
 ===============
 
 |PyPI Version| |PyPI Downloads| |Travis CI Build| |Coverage Status|
