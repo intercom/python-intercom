@@ -1,4 +1,4 @@
-python-intercom
+python-intercom, for Everyone
 ===============
 
 |PyPI Version| |PyPI Downloads| |Travis CI Build| |Coverage Status|
