@@ -8,7 +8,7 @@ Not officially supported
 Please note that this is NOT an official Intercom SDK. The third party that maintained it reached out to us to note that they were unable to host it any longer. 
 As it was being used by some Intercom customers we offered to host it to allow the current Python community to continue to use it. 
 However, it will not be maintained or updated by Intercom. It is a community maintained SDK.
-Please see `here <https://developers.intercom.com/building-apps/docs/sdks-plugins>`__ for the official list of Intercom SDKs
+Please see `here <https://developers.intercom.com/building-apps/docs/sdks-plugins>`__ for the official list of Intercom SDKs.
 
 Python bindings for the Intercom API (https://developers.intercom.com/intercom-api-reference).
 
