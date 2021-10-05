@@ -10,5 +10,7 @@ env
 htmlcov
 docs/_build
 
+.idea/
+
 intercom.sublime-project
 intercom.sublime-workspace
