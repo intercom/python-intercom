@@ -12,6 +12,20 @@ def get_timestamp():
     now = datetime.utcnow()
     return int(time.mktime(now.timetuple()))
 
+def get_or_create_contact(client, timestamp):
+    # get user
+    email = '%s@example.com' % (timestamp)
+    try:
+        user = client.contacts.find(email=email)
+    except ResourceNotFound:
+        # Create a user
+        contact = client.contacts.create(
+            email=email,
+            user_id=timestamp,
+            name="Ada %s" % (timestamp))
+        time.sleep(5)
+    return contact
+
 
 def get_or_create_user(client, timestamp):
     # get user
