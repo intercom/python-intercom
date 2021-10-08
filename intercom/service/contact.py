@@ -9,11 +9,12 @@ from intercom.api_operations.search import Search
 from intercom.api_operations.delete import Delete
 from intercom.api_operations.save import Save
 from intercom.api_operations.load import Load
+from intercom.api_operations.merge import Merge
 from intercom.extended_api_operations.tags import Tags
 from intercom.service.base_service import BaseService
 
 
-class Contact(BaseService, All, Find, FindAll, Delete, Save, Load, Submit, Tags, Search):
+class Contact(BaseService, All, Find, FindAll, Delete, Save, Load, Submit, Tags, Search, Merge):
 
     @property
     def collection_class(self):
