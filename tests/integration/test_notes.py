@@ -43,15 +43,15 @@ class NoteTest(unittest.TestCase):
         notes = intercom.notes.find_all(email=self.email)
         for note in notes:
             self.assertTrue(note.id is not None)
-            user = intercom.users.load(note.user)
+            user = intercom.contacts.load(note.user)
             self.assertEqual(user.email, self.email)
             break
 
     def test_find_all_id(self):
-        user = intercom.users.find(email=self.email)
+        user = intercom.contacts.find(email=self.email)
 
         # Iterate over all notes for a user via their email address
         for note in intercom.notes.find_all(user_id=user.user_id):
             self.assertTrue(note.id is not None)
-            user = intercom.users.load(note.user)
+            user = intercom.contacts.load(note.user)
             self.assertEqual(user.email, self.email)

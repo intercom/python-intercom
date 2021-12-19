@@ -15,20 +15,20 @@ intercom = Client(
 class Issue73Test(unittest.TestCase):
 
     def test(self):
-        user = intercom.users.create(email='bingo@example.com')
+        user = intercom.contacts.create(email='bingo@example.com')
         # store current session count
         session_count = user.session_count
 
         # register a new session
         user.new_session = True
-        intercom.users.save(user)
+        intercom.contacts.save(user)
 
         # count has increased by 1
         self.assertEquals(session_count + 1, user.session_count)
 
         # register a new session
         user.new_session = True
-        intercom.users.save(user)
+        intercom.contacts.save(user)
 
         # count has increased by 1
         self.assertEquals(session_count + 2, user.session_count)

@@ -27,18 +27,18 @@ class CompanyTest(unittest.TestCase):
         delete_user(intercom, cls.user)
 
     def test_add_user(self):
-        user = intercom.users.find(email=self.user.email)
+        user = intercom.contacts.find(email=self.user.email)
         user.companies = [
             {"company_id": 6, "name": "Intercom"},
             {"company_id": 9, "name": "Test Company"}
         ]
-        intercom.users.save(user)
-        user = intercom.users.find(email=self.user.email)
+        intercom.contacts.save(user)
+        user = intercom.contacts.find(email=self.user.email)
         self.assertEqual(len(user.companies), 2)
         self.assertEqual(user.companies[0].company_id, "9")
 
     def test_add_user_custom_attributes(self):
-        user = intercom.users.find(email=self.user.email)
+        user = intercom.contacts.find(email=self.user.email)
         user.companies = [
             {
                 "id": 6,
@@ -48,8 +48,8 @@ class CompanyTest(unittest.TestCase):
                 }
             }
         ]
-        intercom.users.save(user)
-        user = intercom.users.find(email=self.user.email)
+        intercom.contacts.save(user)
+        user = intercom.contacts.find(email=self.user.email)
         self.assertEqual(len(user.companies), 2)
         self.assertEqual(user.companies[0].company_id, "9")
 
@@ -92,5 +92,5 @@ class CompanyTest(unittest.TestCase):
     def test_users(self):
         company = intercom.companies.find(id=self.company.id)
         # Get a list of users in a company
-        for user in intercom.companies.users(company.id):
+        for user in intercom.companies.contacts(company.id):
             self.assertIsNotNone(user.email)

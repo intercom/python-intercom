@@ -13,7 +13,7 @@ from intercom.extended_api_operations.tags import Tags
 from intercom.service.base_service import BaseService
 
 
-class User(BaseService, All, Find, FindAll, Delete, Save, Load, Submit, Tags, Scroll):
+class Contact(BaseService, All, Find, FindAll, Delete, Save, Load, Submit, Tags, Scroll):
 
     @property
     def collection_class(self):

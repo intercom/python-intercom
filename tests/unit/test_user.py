@@ -127,7 +127,7 @@ class UserTest(unittest.TestCase):
             'custom_attributes': {}
         }
         with patch.object(Client, 'post', return_value=payload) as mock_method:
-            self.client.users.create(
+            self.client.contacts.create(
                 user_id='1224242', update_last_request_at=True)
             mock_method.assert_called_once_with(
                 '/users/',
@@ -174,7 +174,7 @@ class UserTest(unittest.TestCase):
     @istest
     def it_fetches_a_user(self):
         with patch.object(Client, 'get', return_value=get_user()) as mock_method:  # noqa
-            user = self.client.users.find(email='somebody@example.com')
+            user = self.client.contacts.find(email='somebody@example.com')
             eq_(user.email, 'bob@example.com')
             eq_(user.name, 'Joe Schmoe')
             mock_method.assert_called_once_with(
@@ -183,7 +183,7 @@ class UserTest(unittest.TestCase):
     @istest
     def it_gets_users_by_tag(self):
         with patch.object(Client, 'get', return_value=page_of_users(False)):
-            users = self.client.users.by_tag(124)
+            users = self.client.contacts.by_tag(124)
             for user in users:
                 ok_(hasattr(user, 'avatar'))
 
@@ -198,7 +198,7 @@ class UserTest(unittest.TestCase):
 
         with patch.object(Client, 'post', return_value=body) as mock_method:
             user = Contact(email="jo@example.com", user_id="i-1224242")
-            self.client.users.save(user)
+            self.client.contacts.save(user)
             eq_(user.email, 'jo@example.com')
             eq_(user.custom_attributes, {})
             mock_method.assert_called_once_with(
@@ -220,7 +220,7 @@ class UserTest(unittest.TestCase):
             user = Contact(
                 email="jo@example.com", user_id="i-1224242",
                 company={'company_id': 6, 'name': 'Intercom'})
-            self.client.users.save(user)
+            self.client.contacts.save(user)
             eq_(user.email, 'jo@example.com')
             eq_(len(user.companies), 1)
             mock_method.assert_called_once_with(
@@ -243,7 +243,7 @@ class UserTest(unittest.TestCase):
             user = Contact(
                 email="jo@example.com", user_id="i-1224242",
                 companies=[{'company_id': 6, 'name': 'Intercom'}])
-            self.client.users.save(user)
+            self.client.contacts.save(user)
             eq_(user.email, 'jo@example.com')
             eq_(len(user.companies), 1)
             mock_method.assert_called_once_with(
@@ -267,7 +267,7 @@ class UserTest(unittest.TestCase):
             }]
         }
         with patch.object(Client, 'post', return_value=body) as mock_method:
-            self.client.users.save(user)
+            self.client.contacts.save(user)
             ok_(user.email is None)
             eq_(user.user_id, 'i-1224242')
             mock_method.assert_called_once_with(
@@ -280,7 +280,7 @@ class UserTest(unittest.TestCase):
     def it_deletes_a_user(self):
         user = Contact(id="1")
         with patch.object(Client, 'delete', return_value={}) as mock_method:
-            user = self.client.users.delete(user)
+            user = self.client.contacts.delete(user)
             eq_(user.id, "1")
             mock_method.assert_called_once_with('/users/1', {})
 
@@ -292,7 +292,7 @@ class UserTest(unittest.TestCase):
             'custom_attributes': {}
         }
         with patch.object(Client, 'post', return_value=payload) as mock_method:  # noqa
-            user = self.client.users.create(email="jo@example.com", user_id="i-1224242")  # noqa
+            user = self.client.contacts.create(email="jo@example.com", user_id="i-1224242")  # noqa
             eq_(payload, user.to_dict())
             mock_method.assert_called_once_with(
                 '/users/', {'email': "jo@example.com", 'user_id': "i-1224242"})  # noqa
@@ -306,7 +306,7 @@ class UserTest(unittest.TestCase):
             'session_count': 4
         }
         with patch.object(Client, 'post', return_value=payload) as mock_method:  # noqa
-            user = self.client.users.create(email="jo@example.com", user_id="i-1224242")  # noqa
+            user = self.client.contacts.create(email="jo@example.com", user_id="i-1224242")  # noqa
             eq_(payload, user.to_dict())
             mock_method.assert_called_once_with(
                 '/users/',
@@ -320,7 +320,7 @@ class UserTest(unittest.TestCase):
             'remote_created_at': None
         }
         with patch.object(Client, 'post', return_value=payload) as mock_method:
-            user = self.client.users.create(email="jo@example.com", remote_created_at=None)  # noqa
+            user = self.client.contacts.create(email="jo@example.com", remote_created_at=None)  # noqa
             ok_(user.remote_created_at is None)
             mock_method.assert_called_once_with('/users/', {'email': "jo@example.com", 'remote_created_at': None})  # noqa
 
@@ -350,7 +350,7 @@ class UserTest(unittest.TestCase):
     @istest
     def it_returns_a_collectionproxy_for_all_without_making_any_requests(self):
         with mock.patch('intercom.request.Request.send_request_to_path', new_callable=mock.NonCallableMock):  # noqa
-            res = self.client.users.all()
+            res = self.client.contacts.all()
             self.assertIsInstance(res, CollectionProxy)
 
     @istest
@@ -383,7 +383,7 @@ class UserTest(unittest.TestCase):
         resp = mock_response(content)
         with patch('requests.sessions.Session.request') as mock_method:
             mock_method.return_value = resp
-            user = self.client.users.find(email='bob@example.com')
+            user = self.client.contacts.find(email='bob@example.com')
             try:
                 # Python 2
                 eq_(unicode('Jóe Schmö', 'utf-8'), user.name)
@@ -459,7 +459,7 @@ class DescribeIncrementingCustomAttributeFields(unittest.TestCase):
         with patch.object(Client, 'post', return_value=body) as mock_method:  # noqa
             user.increment('mad')
             eq_(user.to_dict()['custom_attributes']['mad'], 1)
-            self.client.users.save(user)
+            self.client.contacts.save(user)
 
 
 class DescribeBulkOperations(unittest.TestCase):  # noqa
@@ -543,7 +543,7 @@ class DescribeBulkOperations(unittest.TestCase):  # noqa
     @istest
     def it_submits_a_bulk_job(self):  # noqa
         with patch.object(Client, 'post', return_value=self.job) as mock_method:  # noqa
-            self.client.users.submit_bulk_job(
+            self.client.contacts.submit_bulk_job(
                 create_items=self.users_to_create, delete_items=self.users_to_delete)
             mock_method.assert_called_once_with('/bulk/users', self.bulk_request)
 
@@ -551,7 +551,7 @@ class DescribeBulkOperations(unittest.TestCase):  # noqa
     def it_adds_users_to_an_existing_bulk_job(self):  # noqa
         self.bulk_request['job'] = {'id': 'super_awesome_job'}
         with patch.object(Client, 'post', return_value=self.job) as mock_method:  # noqa
-            self.client.users.submit_bulk_job(
+            self.client.contacts.submit_bulk_job(
                 create_items=self.users_to_create, delete_items=self.users_to_delete,
                 job_id='super_awesome_job')
             mock_method.assert_called_once_with('/bulk/users', self.bulk_request)

@@ -17,10 +17,10 @@ def get_or_create_user(client, timestamp):
     # get user
     email = '%s@example.com' % (timestamp)
     try:
-        user = client.users.find(email=email)
+        user = client.contacts.find(email=email)
     except ResourceNotFound:
         # Create a user
-        user = client.users.create(
+        user = client.contacts.create(
             email=email,
             user_id=timestamp,
             name="Ada %s" % (timestamp))
@@ -43,7 +43,7 @@ def get_or_create_company(client, timestamp):
 
 def delete_user(client, resource):
     try:
-        client.users.delete(resource)
+        client.contacts.delete(resource)
     except ResourceNotFound:
         # not much we can do here
         pass

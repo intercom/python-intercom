@@ -59,7 +59,7 @@ class CountTest(unittest.TestCase):
         self.user.companies = [
             {"company_id": self.company.company_id}
         ]
-        intercom.users.save(self.user)
+        intercom.contacts.save(self.user)
         counts = intercom.counts.for_type(type='company', count='user')
         for count in counts.company['user']:
             if self.company.name in count:

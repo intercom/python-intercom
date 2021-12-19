@@ -66,9 +66,9 @@ class Client(object):
         return tag.Tag(self)
 
     @property
-    def users(self):
-        from intercom.service import user
-        return user.User(self)
+    def contacts(self):
+        from intercom.service import contact
+        return contact.Contact(self)
 
     @property
     def leads(self):

@@ -23,7 +23,7 @@ class TagTest(unittest.TestCase):
         cls.user.companies = [
             {"company_id": cls.company.id, "name": cls.company.name}
         ]
-        intercom.users.save(cls.user)
+        intercom.contacts.save(cls.user)
 
     @classmethod
     def teardown_class(cls):
@@ -34,14 +34,14 @@ class TagTest(unittest.TestCase):
         # Tag users
         tag = intercom.tags.tag(name='blue', users=[{'id': self.user.id}])
         self.assertEqual(tag.name, 'blue')
-        user = intercom.users.find(email=self.user.email)
+        user = intercom.contacts.find(email=self.user.email)
         self.assertEqual(1, len(user.tags))
 
     def test_untag_users(self):
         # Untag users
         tag = intercom.tags.untag(name='blue', users=[{'id': self.user.id}])
         self.assertEqual(tag.name, 'blue')
-        user = intercom.users.find(email=self.user.email)
+        user = intercom.contacts.find(email=self.user.email)
         self.assertEqual(0, len(user.tags))
 
     def test_all(self):
