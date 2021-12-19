@@ -5,8 +5,7 @@ from intercom.traits.incrementable_attributes import IncrementableAttributes
 
 
 class Contact(Resource, IncrementableAttributes):
-
-    update_verb = 'post'
+    update_verb = 'put'
     identity_vars = ['id', 'email', 'external_id']
 
     @property
