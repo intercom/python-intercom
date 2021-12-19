@@ -6,7 +6,7 @@ import unittest
 from intercom.collection_proxy import CollectionProxy
 from intercom.client import Client
 from intercom.lead import Lead
-from intercom.user import User
+from intercom.contact import Contact
 from mock import patch
 from nose.tools import istest
 from tests.unit import get_user
@@ -40,7 +40,7 @@ class LeadTest(unittest.TestCase):  # noqa
     @istest
     def it_can_convert(self):  # noqa
         lead = Lead.from_api({'user_id': 'contact_id'})
-        user = User.from_api({'id': 'user_id'})
+        user = Contact.from_api({'id': 'user_id'})
 
         with patch.object(Client, 'post', returns=get_user()) as mock_method:  # noqa
             self.client.leads.convert(lead, user)

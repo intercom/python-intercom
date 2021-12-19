@@ -10,7 +10,7 @@ from datetime import datetime
 from intercom.collection_proxy import CollectionProxy
 from intercom.lib.flat_store import FlatStore
 from intercom.client import Client
-from intercom.user import User
+from intercom.contact import Contact
 from intercom import MultipleMatchingUsersError
 from intercom.utils import define_lightweight_class
 from mock import patch
@@ -31,7 +31,7 @@ class UserTest(unittest.TestCase):
     @istest
     def it_to_dict_itself(self):
         created_at = datetime.utcnow()
-        user = User(
+        user = Contact(
             email="jim@example.com", user_id="12345",
             created_at=created_at, name="Jim Bob")
         as_dict = user.to_dict()
@@ -44,7 +44,7 @@ class UserTest(unittest.TestCase):
     def it_presents_created_at_and_last_impression_at_as_datetime(self):
         now = datetime.utcnow()
         now_ts = calendar.timegm(now.utctimetuple())
-        user = User.from_api(
+        user = Contact.from_api(
             {'created_at': now_ts, 'last_impression_at': now_ts})
         self.assertIsInstance(user.created_at, datetime)
         eq_(now.strftime('%c'), user.created_at.strftime('%c'))
@@ -54,12 +54,12 @@ class UserTest(unittest.TestCase):
     @istest
     def it_throws_an_attribute_error_on_trying_to_access_an_attribute_that_has_not_been_set(self):  # noqa
         with assert_raises(AttributeError):
-            user = User()
+            user = Contact()
             user.foo_property
 
     @istest
     def it_presents_a_complete_user_record_correctly(self):
-        user = User.from_api(get_user())
+        user = Contact.from_api(get_user())
         eq_('id-from-customers-app', user.user_id)
         eq_('bob@example.com', user.email)
         eq_('Joe Schmoe', user.name)
@@ -138,7 +138,7 @@ class UserTest(unittest.TestCase):
         now = datetime.utcnow()
         now_ts = calendar.timegm(now.utctimetuple())
 
-        user = User()
+        user = Contact()
         user.custom_attributes["mad"] = 123
         user.custom_attributes["other"] = now_ts
         user.custom_attributes["thing"] = "yay"
@@ -147,7 +147,7 @@ class UserTest(unittest.TestCase):
 
     @istest
     def it_allows_easy_setting_of_multiple_companies(self):
-        user = User()
+        user = Contact()
         companies = [
             {"name": "Intercom", "company_id": "6"},
             {"name": "Test", "company_id": "9"},
@@ -157,7 +157,7 @@ class UserTest(unittest.TestCase):
 
     @istest
     def it_rejects_nested_data_structures_in_custom_attributes(self):
-        user = User()
+        user = Contact()
         with assert_raises(ValueError):
             user.custom_attributes["thing"] = [1]
 
@@ -167,7 +167,7 @@ class UserTest(unittest.TestCase):
         with assert_raises(ValueError):
             user.custom_attributes = {1: {2: 3}}
 
-        user = User.from_api(get_user())
+        user = Contact.from_api(get_user())
         with assert_raises(ValueError):
             user.custom_attributes["thing"] = [1]
 
@@ -197,7 +197,7 @@ class UserTest(unittest.TestCase):
         }
 
         with patch.object(Client, 'post', return_value=body) as mock_method:
-            user = User(email="jo@example.com", user_id="i-1224242")
+            user = Contact(email="jo@example.com", user_id="i-1224242")
             self.client.users.save(user)
             eq_(user.email, 'jo@example.com')
             eq_(user.custom_attributes, {})
@@ -217,7 +217,7 @@ class UserTest(unittest.TestCase):
             }]
         }
         with patch.object(Client, 'post', return_value=body) as mock_method:
-            user = User(
+            user = Contact(
                 email="jo@example.com", user_id="i-1224242",
                 company={'company_id': 6, 'name': 'Intercom'})
             self.client.users.save(user)
@@ -240,7 +240,7 @@ class UserTest(unittest.TestCase):
             }]
         }
         with patch.object(Client, 'post', return_value=body) as mock_method:
-            user = User(
+            user = Contact(
                 email="jo@example.com", user_id="i-1224242",
                 companies=[{'company_id': 6, 'name': 'Intercom'}])
             self.client.users.save(user)
@@ -254,7 +254,7 @@ class UserTest(unittest.TestCase):
 
     @istest
     def it_can_save_a_user_with_a_none_email(self):
-        user = User(
+        user = Contact(
             email=None, user_id="i-1224242",
             companies=[{'company_id': 6, 'name': 'Intercom'}])
         body = {
@@ -278,7 +278,7 @@ class UserTest(unittest.TestCase):
 
     @istest
     def it_deletes_a_user(self):
-        user = User(id="1")
+        user = Contact(id="1")
         with patch.object(Client, 'delete', return_value={}) as mock_method:
             user = self.client.users.delete(user)
             eq_(user.id, "1")
@@ -335,7 +335,7 @@ class UserTest(unittest.TestCase):
             'last_seen_user_agent': 'ie6',
             'created_at': calendar.timegm(created_at.utctimetuple())
         }
-        user = User(**payload)
+        user = Contact(**payload)
         expected_keys = ['custom_attributes']
         expected_keys.extend(list(payload.keys()))
         eq_(sorted(expected_keys), sorted(user.to_dict().keys()))
@@ -344,7 +344,7 @@ class UserTest(unittest.TestCase):
 
     @istest
     def it_will_allow_extra_attributes_in_response_from_api(self):
-        user = User.from_api({'new_param': 'some value'})
+        user = Contact.from_api({'new_param': 'some value'})
         eq_('some value', user.new_param)
 
     @istest
@@ -409,7 +409,7 @@ class DescribeIncrementingCustomAttributeFields(unittest.TestCase):
                 'logins': None,
             }
         }
-        self.user = User(**params)
+        self.user = Contact(**params)
 
     @istest
     def it_increments_up_by_1_with_no_args(self):
@@ -444,7 +444,7 @@ class DescribeIncrementingCustomAttributeFields(unittest.TestCase):
 
     @istest
     def it_can_save_after_increment(self):  # noqa
-        user = User(
+        user = Contact(
             email=None, user_id="i-1224242",
             companies=[{'company_id': 6, 'name': 'Intercom'}])
         body = {
@@ -538,7 +538,7 @@ class DescribeBulkOperations(unittest.TestCase):  # noqa
                 'thing': 'yay'
             }
         }
-        self.user = User(**params)
+        self.user = Contact(**params)
 
     @istest
     def it_submits_a_bulk_job(self):  # noqa

@@ -5,7 +5,7 @@ import unittest
 
 from datetime import datetime
 from intercom.client import Client
-from intercom.user import User
+from intercom.contact import Contact
 from mock import call
 from mock import patch
 from nose.tools import eq_
@@ -18,7 +18,7 @@ class EventTest(unittest.TestCase):
     def setUp(self):  # noqa
         self.client = Client()
         now = time.mktime(datetime.utcnow().timetuple())
-        self.user = User(
+        self.user = Contact(
             email="jim@example.com",
             user_id="12345",
             created_at=now,

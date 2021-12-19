@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Operation to return all users for a particular Company."""
 
-from intercom import utils, user
+from intercom import utils, contact
 from intercom.collection_proxy import CollectionProxy
 
 
@@ -14,4 +14,4 @@ class Users(object):
             self.collection_class)
         finder_url = "/%s/%s/contacts" % (collection, id)
         return CollectionProxy(
-            self.client, user.User, "users", finder_url)
+            self.client, contact.Contact, "users", finder_url)
