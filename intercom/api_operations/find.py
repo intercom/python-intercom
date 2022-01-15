@@ -16,7 +16,7 @@ class Find(object):
             response = self.client.get(
                 "/%s/%s" % (collection, params['id']), {})
         else:
-            response = self.client.get("/%s" % (collection), params)
+            response = self.client.get("/%s/search" % collection, params)
 
         if response is None:
             raise HttpError('Http Error - No response entity returned')
