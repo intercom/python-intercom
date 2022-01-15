@@ -13,12 +13,16 @@ class Find(object):
         collection = utils.resource_class_to_collection_name(
             self.collection_class)
         if 'id' in params:
-            response = self.client.get(
+            object_data = self.client.get(
                 "/%s/%s" % (collection, params['id']), {})
         else:
             response = self.client.post("/%s/search" % collection, params)
+            data_list = response["data"]
+            if len(data_list) > 1:
+                raise Exception("There is more than 1 result (%s)" % len(data_list))
+            object_data = data_list[0]
 
-        if response is None:
+        if object_data is None:
             raise HttpError('Http Error - No response entity returned')
 
-        return self.collection_class(**response)
+        return self.collection_class(**object_data)
