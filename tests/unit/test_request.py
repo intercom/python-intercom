@@ -234,6 +234,24 @@ class RequestTest(unittest.TestCase):
                 self.client.get('/users', {})
 
     @istest
+    def it_raises_a_scroll_already_exists_error(self):
+        payload = {
+            'type': 'error.list',
+            'errors': [
+                {
+                    'type': 'scroll_exists',
+                    'message': 'scroll already exists for this app'
+                }
+            ],
+        }
+        content = json.dumps(payload).encode('utf-8')
+        resp = mock_response(content)
+        with patch('requests.sessions.Session.request') as mock_method:
+            mock_method.return_value = resp
+            with assert_raises(intercom.ScrollAlreadyExists):
+                self.client.get('/users/scroll', {})
+
+    @istest
     def it_raises_token_unauthorized(self):
         payload = {
             'type': 'error.list',
