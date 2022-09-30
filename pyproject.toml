@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "python-intercom"
+name = "intercom"
 version = "4.0.0"
 description = "Intercom API wrapper"
 authors = ["Dimosthenis Schizas <dimos@hackthebox.eu>"]
