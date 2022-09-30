@@ -1,14 +1,13 @@
 sudo: false
 language: python
 python:
-  - 2.7
-  - 3.4
-  - 3.5
-  - 3.6
-install: 
+  - 3.7
+  - 3.8
+  - 3.9
+  - 3.10
+install:
   - pip install -r requirements.txt
   - pip install -r dev-requirements.txt
 script:
   - nosetests --with-coverag tests/unit
-after_success:
-  coveralls --verbose
+after_success: coveralls --verbose

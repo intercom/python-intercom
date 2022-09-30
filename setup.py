@@ -7,8 +7,7 @@
 import os
 import re
 
-from setuptools import find_packages
-from setuptools import setup
+from setuptools import find_packages, setup
 
 with open(os.path.join('intercom', '__init__.py')) as init:
     source = init.read()
@@ -29,10 +28,11 @@ setup(
     url="http://github.com/jkeyes/python-intercom",
     keywords='Intercom crm python',
     classifiers=[
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
     ],
     packages=find_packages(),
     include_package_data=True,
