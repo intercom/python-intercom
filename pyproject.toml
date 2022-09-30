@@ -6,7 +6,7 @@ authors = ["Dimosthenis Schizas <dimos@hackthebox.eu>"]
 license = "MIT License"
 
 [tool.poetry.dependencies]
-python = "3.8.12"
+python = "^3.8"
 certifi = "^2022.9.24"
 inflection = "^0.5.1"
 pytz = "^2022.2.1"
