@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
 """Operation to return all users for a particular Company."""
 
+from deprecated import deprecated
+
 from intercom import user, utils
 from intercom.collection_proxy import CollectionProxy
 
 
+@deprecated(
+    """Users is no longer available as a resource. 
+    In order to see information and take action on users, 
+    you should use the Contacts API."""
+)
 class Users(object):
     """A mixin that provides `users` functionality to Company."""
 
