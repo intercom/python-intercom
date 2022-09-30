@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import time
-
 from datetime import datetime
+
 # from intercom import Company
 from intercom import ResourceNotFound
+
 # from intercom import User
 
 
@@ -15,7 +16,7 @@ def get_timestamp():
 
 def get_or_create_user(client, timestamp):
     # get user
-    email = '%s@example.com' % (timestamp)
+    email = f"{timestamp}@example.com"
     try:
         user = client.users.find(email=email)
     except ResourceNotFound:
@@ -23,13 +24,13 @@ def get_or_create_user(client, timestamp):
         user = client.users.create(
             email=email,
             user_id=timestamp,
-            name="Ada %s" % (timestamp))
+            name=f"Ada {timestamp}"
         time.sleep(5)
     return user
 
 
 def get_or_create_company(client, timestamp):
-    name = 'Company %s' % (timestamp)
+    name = f"Company {timestamp}"
 
     # get company
     try:

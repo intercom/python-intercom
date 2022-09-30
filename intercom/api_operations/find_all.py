@@ -15,9 +15,9 @@ class FindAll(object):
         collection = utils.resource_class_to_collection_name(
             self.collection_class)
         if 'id' in params and 'type' not in params:
-            finder_url = "/%s/%s" % (collection, params['id'])
+            finder_url = f"/{collection}/{params['id']}"
         else:
-            finder_url = "/%s" % (collection)
+            finder_url = f"/{collection}"
         finder_params = params
         return self.proxy_class(
             self.client, self.collection_class, collection,

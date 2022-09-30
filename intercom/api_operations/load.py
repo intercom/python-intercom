@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """Operation to load an instance of a particular resource."""
 
-from intercom import HttpError
-from intercom import utils
+from intercom import HttpError, utils
 
 
 class Load(object):
@@ -13,11 +12,11 @@ class Load(object):
         collection = utils.resource_class_to_collection_name(
             self.collection_class)
         if hasattr(resource, 'id'):
-            response = self.client.get("/%s/%s" % (collection, resource.id), {})  # noqa
+            response = self.client.get(f"/{collection}/{resource.id}", {})  # noqa
         else:
             raise Exception(
-                "Cannot load %s as it does not have a valid id." % (
-                    self.collection_class))
+                f"Cannot load {self.collection_class} as it does not have a valid id."
+            )
 
         if response is None:
             raise HttpError('Http Error - No response entity returned')

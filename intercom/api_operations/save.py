@@ -11,7 +11,7 @@ class Save(object):
         """Create an instance of the resource from the supplied parameters."""
         collection = utils.resource_class_to_collection_name(
             self.collection_class)
-        response = self.client.post("/%s/" % (collection), params)
+        response = self.client.post(f"/{collection}/", params)
         if response:  # may be empty if we received a 202
             return self.collection_class(**response)
 
@@ -22,11 +22,11 @@ class Save(object):
         params = obj.attributes
         if self.id_present(obj) and not self.posted_updates(obj):
             # update
-            response = self.client.put('/%s/%s' % (collection, obj.id), params)
+            response = self.client.put(f"/{collection}/{obj.id}", params)
         else:
             # create
             params.update(self.identity_hash(obj))
-            response = self.client.post('/%s' % (collection), params)
+            response = self.client.post(f"/{collection}", params)
         if response:
             return obj.from_response(response)
 

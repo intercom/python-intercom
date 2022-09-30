@@ -12,6 +12,6 @@ class Tags(object):
         """Return a CollectionProxy to all the tagged resources."""
         collection = utils.resource_class_to_collection_name(
             self.collection_class)
-        finder_url = "/%s?tag_id=%s" % (collection, _id)
+        finder_url = f"/{collection}?tag_id={_id}"
         return CollectionProxy(
             self.client, self.collection_class, collection, finder_url)

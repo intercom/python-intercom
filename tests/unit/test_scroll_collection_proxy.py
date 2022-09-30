@@ -2,13 +2,11 @@
 """Test module for Scroll Collection Proxy."""
 import unittest
 
+from mock import call, patch
+from nose.tools import assert_raises, eq_, istest
+
 from intercom import HttpError
 from intercom.client import Client
-from mock import call
-from mock import patch
-from nose.tools import assert_raises
-from nose.tools import eq_
-from nose.tools import istest
 from tests.unit import users_scroll
 
 
@@ -22,7 +20,7 @@ class CollectionProxyTest(unittest.TestCase):  # noqa
         body = users_scroll(include_users=False)
         with patch.object(Client, 'get', return_value=body) as mock_method:
             emails = [user.email for user in self.client.users.scroll()]
-            mock_method.assert_called('/users/scroll', {})
+            mock_method.assert_called_with('/users/scroll', {})
             eq_(emails, [])  # noqa
 
     @istest
