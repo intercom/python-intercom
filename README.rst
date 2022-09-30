@@ -472,6 +472,7 @@ or the more specific error subclass:
     BadRequestError
     RateLimitExceeded
     MultipleMatchingUsersError
+    MultipleMatchingContactsError
     HttpError
     UnexpectedError
 

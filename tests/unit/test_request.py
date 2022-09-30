@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import intercom
 import json
 import unittest
 
+from mock import patch
+from nose.tools import assert_raises, eq_, istest, ok_
+
+import intercom
+from intercom import UnexpectedError
 from intercom.client import Client
 from intercom.request import Request
-from intercom import UnexpectedError
-from mock import patch
-from nose.tools import assert_raises
-from nose.tools import eq_
-from nose.tools import ok_
-from nose.tools import istest
 from tests.unit import mock_response
 
 
@@ -230,7 +228,7 @@ class RequestTest(unittest.TestCase):
         resp = mock_response(content)
         with patch('requests.sessions.Session.request') as mock_method:
             mock_method.return_value = resp
-            with assert_raises(intercom.MultipleMatchingUsersError):
+            with assert_raises(intercom.MultipleMatchingContactsError):
                 self.client.get('/users', {})
 
     @istest
@@ -342,6 +340,7 @@ class RequestTest(unittest.TestCase):
     @istest
     def it_allows_the_timeout_to_be_configured(self):
         import os
+
         from intercom.request import configure_timeout
 
         # check the default

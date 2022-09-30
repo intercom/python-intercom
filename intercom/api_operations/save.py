@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Operation to create or save an instance of a particular resource."""
 
+from tkinter import E
+
 from intercom import utils
 
 
@@ -18,7 +20,8 @@ class Save(object):
     def save(self, obj):
         """Save the instance of the resource."""
         collection = utils.resource_class_to_collection_name(
-            obj.__class__)
+            obj.__class__
+        )
         params = obj.attributes
         if self.id_present(obj) and not self.posted_updates(obj):
             # update
@@ -27,7 +30,9 @@ class Save(object):
             # create
             params.update(self.identity_hash(obj))
             response = self.client.post(f"/{collection}", params)
-        if response:
+        if obj.__class__ == response.__class__:
+            return response
+        else:
             return obj.from_response(response)
 
     def id_present(self, obj):

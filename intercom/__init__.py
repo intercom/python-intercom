@@ -3,9 +3,10 @@
 # from datetime import datetime
 from .errors import (ArgumentError, AuthenticationError, BadGatewayError,
                      BadRequestError, HttpError, IntercomError,
-                     MultipleMatchingUsersError, RateLimitExceeded,
-                     ResourceNotFound, ServerError, ServiceUnavailableError,
-                     TokenUnauthorizedError, UnexpectedError)
+                     MultipleMatchingContactsError, MultipleMatchingUsersError,
+                     RateLimitExceeded, ResourceNotFound, ServerError,
+                     ServiceUnavailableError, TokenUnauthorizedError,
+                     UnexpectedError)
 
 __version__ = '3.1.0'
 
