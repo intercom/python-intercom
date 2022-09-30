@@ -1,9 +1,11 @@
 #
 # Runtime dependencies.
 #
-certifi
-inflection==0.3.0
-pytz==2016.7
-requests==2.20.1
-urllib3==1.24.2
-six==1.9.0
+certifi==2022.9.24; python_version >= "3.6"
+charset-normalizer==2.1.1; python_version >= "3.7" and python_version < "4" and python_full_version >= "3.6.0"
+idna==2.7; python_version >= "3.7" and python_version < "4"
+inflection==0.5.1; python_version >= "3.5"
+pytz==2022.2.1
+requests==2.28.1; python_version >= "3.7" and python_version < "4"
+six==1.16.0; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.3.0")
+urllib3==1.26.12; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.6.0" and python_version < "4")
