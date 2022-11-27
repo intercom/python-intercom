@@ -8,7 +8,7 @@ from intercom import utils
 class Find(object):
     """A mixin that provides `find` functionality."""
 
-    def find(self, **params):
+    def find(self, force_only_one=True, **params):
         """Find the instance of the resource based on the supplied parameters."""
         collection = utils.resource_class_to_collection_name(
             self.collection_class)
@@ -18,9 +18,12 @@ class Find(object):
         else:
             response = self.client.post("/%s/search" % collection, params)
             data_list = response["data"]
-            if len(data_list) > 1:
-                raise Exception("There is more than 1 result (%s)" % len(data_list))
-            object_data = data_list[0]
+            if force_only_one:
+                if len(data_list) > 1:
+                    raise Exception("There is more than 1 result (%s)" % len(data_list))
+                object_data = data_list[0]
+            else:
+                object_data = response
 
         if object_data is None:
             raise HttpError('Http Error - No response entity returned')
