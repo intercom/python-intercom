@@ -19,7 +19,7 @@ with open('README.rst') as readme:
     long_description = readme.read()
 
 setup(
-    name="python-intercom",
+    name="singular-python-intercom",
     version=__version__,
     description="Intercom API wrapper",
     long_description=long_description,
