@@ -53,6 +53,10 @@ class MultipleMatchingUsersError(IntercomError):
     pass
 
 
+class MultipleMatchingContactsError(IntercomError):
+    pass
+
+
 class UnexpectedError(IntercomError):
     pass
 
@@ -81,7 +85,7 @@ error_codes = {
     'rate_limit_exceeded': RateLimitExceeded,
     'service_unavailable': ServiceUnavailableError,
     'server_error': ServiceUnavailableError,
-    'conflict': MultipleMatchingUsersError,
+    'conflict': MultipleMatchingContactsError,
     'unique_user_constraint': MultipleMatchingUsersError,
     'token_unauthorized': TokenUnauthorizedError,
     'token_not_found': TokenNotFoundError,

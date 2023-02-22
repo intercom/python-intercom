@@ -12,6 +12,6 @@ class All(object):
         """Return a CollectionProxy for the resource."""
         collection = utils.resource_class_to_collection_name(
             self.collection_class)
-        finder_url = "/%s" % (collection)
+        finder_url = f"/{collection}"
         return CollectionProxy(
             self.client, self.collection_class, collection, finder_url)

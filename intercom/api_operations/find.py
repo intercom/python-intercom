@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """Operation to find an instance of a particular resource."""
 
-from intercom import HttpError
-from intercom import utils
+from intercom import HttpError, utils
 
 
 class Find(object):
@@ -13,10 +12,9 @@ class Find(object):
         collection = utils.resource_class_to_collection_name(
             self.collection_class)
         if 'id' in params:
-            response = self.client.get(
-                "/%s/%s" % (collection, params['id']), {})
+            response = self.client.get(f"/{collection}/{params['id']}", {})
         else:
-            response = self.client.get("/%s" % (collection), params)
+            response = self.client.get(f"/{collection}", params)
 
         if response is None:
             raise HttpError('Http Error - No response entity returned')

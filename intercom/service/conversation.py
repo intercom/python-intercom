@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """Service module for Conversations."""
 
-from intercom import conversation
-from intercom import utils
+from intercom import conversation, utils
 from intercom.api_operations.find import Find
 from intercom.api_operations.find_all import FindAll
 from intercom.api_operations.load import Load
@@ -25,7 +24,7 @@ class Conversation(BaseService, Find, FindAll, Save, Load):
 
     def resource_url(self, _id):
         """Return the URL for the specified resource in this collection."""
-        return "/%s/%s/reply" % (self.collection, _id)
+        return f"/{self.collection}/{_id}/reply"
 
     def reply(self, **reply_data):
         """Reply to a message."""

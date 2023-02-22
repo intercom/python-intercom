@@ -26,6 +26,11 @@ class Client(object):
         return company.Company(self)
 
     @property
+    def contacts(self):
+        from intercom.service import contact
+        return contact.Contact(self)
+
+    @property
     def conversations(self):
         from intercom.service import conversation
         return conversation.Conversation(self)

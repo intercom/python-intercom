@@ -2,12 +2,11 @@
 
 import os
 import unittest
+
 from intercom.client import Client
-from . import delete_company
-from . import delete_user
-from . import get_or_create_user
-from . import get_or_create_company
-from . import get_timestamp
+
+from . import (delete_company, delete_user, get_or_create_company,
+               get_or_create_user, get_timestamp)
 
 intercom = Client(
     os.environ.get('INTERCOM_PERSONAL_ACCESS_TOKEN'))
@@ -78,7 +77,7 @@ class CompanyTest(unittest.TestCase):
         company = intercom.companies.find(id=self.company.id)
         # Update a company
         now = get_timestamp()
-        updated_name = 'Company %s' % (now)
+        updated_name = f"Company {now}"
         company.name = updated_name
         intercom.companies.save(company)
         company = intercom.companies.find(id=self.company.id)

@@ -38,7 +38,7 @@ class Submit(object):
         if job_id:
             bulk_request['job'] = {'id': job_id}
 
-        response = self.client.post('/bulk/%s' % (collection_name), bulk_request)
+        response = self.client.post(f"/bulk/{collection_name}", bulk_request)
         if not response:
             raise HttpError('HTTP Error - No response entity returned.')
         return Job().from_response(response)
@@ -51,7 +51,7 @@ class LoadErrorFeed(object):
         """Return errors for the Bulk API job specified."""
         from intercom.errors import HttpError
         from intercom.job import Job
-        response = self.client.get("/jobs/%s/error" % (id), {})
+        response = self.client.get(f"/jobs/{id}/error", {})
         if not response:
             raise HttpError('Http Error - No response entity returned.')
         return Job.from_api(response)

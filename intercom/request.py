@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from . import errors
-from datetime import datetime
-from pytz import utc
-
-import certifi
 import json
 import logging
 import os
+from datetime import datetime
+
+import certifi
 import requests
+from pytz import utc
+
+from . import errors
 
 logger = logging.getLogger('intercom.request')
 

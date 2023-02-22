@@ -11,5 +11,5 @@ class Delete(object):
         """Delete the specified instance of this resource."""
         collection = utils.resource_class_to_collection_name(
             self.collection_class)
-        self.client.delete("/%s/%s" % (collection, obj.id), {})
+        self.client.delete(f"/{collection}/{obj.id}", {})
         return obj
