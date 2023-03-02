@@ -14,7 +14,7 @@ def type_field(attribute):
 
 
 def timestamp_field(attribute):
-    return attribute.endswith('_at')
+    return attribute.endswith('_at') or attribute == "waiting_since"
 
 
 def custom_attribute_field(attribute):
