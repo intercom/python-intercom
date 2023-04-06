@@ -44,7 +44,7 @@ class EventTest(unittest.TestCase):
             event_names = [event.event_name for event in self.client.events.find_all(
                 type='user', email='joe@example.com')]
             eq_([call('/events', {'type': 'user', 'email': 'joe@example.com'}),
-                 call('/events?type=user&intercom_user_id=55a3b&before=144474756550', {})],  # noqa
+                 call('/events?type=user&intercom_user_id=55a3b&before=144474756550', {'type': 'user', 'email': 'joe@example.com'})],  # noqa
                 mock_method.mock_calls)
             eq_(event_names, ['invited-friend', 'bought-sub'] * 2)  # noqa
 
