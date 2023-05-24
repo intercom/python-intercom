@@ -18,3 +18,12 @@ class User(BaseService, All, Find, FindAll, Delete, Save, Load, Submit, Tags, Sc
     @property
     def collection_class(self):
         return user.User
+
+    def archive(self, obj):
+        """Archive a user. This used to be called 'delete', but now is called 'archive'."""
+        return self.delete(obj)
+
+    def permanent_delete(self, intercom_user_id):
+        """Request permanent deletion of a user."""
+        response = self.client.post('/user_delete_requests', {'intercom_user_id': intercom_user_id})
+        return response['id']
