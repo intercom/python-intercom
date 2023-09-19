@@ -76,6 +76,7 @@ error_codes = {
     'client_error': BadRequestError,
     'type_mismatch': BadRequestError,
     'not_found': ResourceNotFound,
+    'company_not_found': ResourceNotFound,
     'admin_not_found': ResourceNotFound,
     'not_restorable': ResourceNotRestorable,
     'rate_limit_exceeded': RateLimitExceeded,
