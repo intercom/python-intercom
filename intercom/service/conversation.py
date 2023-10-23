@@ -25,7 +25,7 @@ class Conversation(BaseService, Find, FindAll, Save, Load):
 
     def resource_url(self, _id):
         """Return the URL for the specified resource in this collection."""
-        return "/%s/%s/reply" % (self.collection, _id)
+        return "/%s/%s" % (self.collection, _id)
 
     def reply(self, **reply_data):
         """Reply to a message."""
@@ -55,9 +55,21 @@ class Conversation(BaseService, Find, FindAll, Save, Load):
         response = self.client.put(self.resource_url(_id), data)
         return self.collection_class().from_response(response)
 
+    def add_user(self, _id, user_id, admin_id):
+        """Add user to conversation"""
+        data = {"admin_id": admin_id, "customer": {"intercom_user_id": user_id}}
+        response = self.client.post(self.resource_url(_id) + "/customers", data)
+        self.collection_class().from_response(response)
+
+    def remove_user(self, _id, user_id, admin_id):
+        """Remove user from a conversation"""
+        data = {"admin_id": admin_id}
+        response = self.client.delete(self.resource_url(_id) + "/customers/%s" % user_id, data)
+        self.collection_class().from_response(response)
+
     def __reply(self, reply_data):
         """Send requests to the resource handler."""
         _id = reply_data.pop('id')
         reply_data['conversation_id'] = _id
-        response = self.client.post(self.resource_url(_id), reply_data)
+        response = self.client.post(self.resource_url(_id) + "/reply", reply_data)
         return self.collection_class().from_response(response)
