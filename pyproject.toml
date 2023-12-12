@@ -1,0 +1,166 @@
+[project]
+name = "intercom"
+version = "0.0.1"
+description = "The official Python library for the intercom API"
+readme = "README.md"
+license = "Apache-2.0"
+authors = [
+{ name = "Intercom", email = "dev-feedback@intercom.com" },
+]
+dependencies = [
+    "httpx>=0.23.0, <1",
+    "pydantic>=1.9.0, <3",
+    "typing-extensions>=4.5, <5",
+    "anyio>=3.5.0, <5",
+    "distro>=1.7.0, <2",
+    "sniffio",
+
+]
+requires-python = ">= 3.7"
+classifiers = [
+  "Typing :: Typed",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Operating System :: OS Independent",
+  "Operating System :: POSIX",
+  "Operating System :: MacOS",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: Microsoft :: Windows",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "License :: OSI Approved :: Apache Software License"
+]
+
+
+
+[project.urls]
+Homepage = "https://github.com/intercom/intercom-python"
+Repository = "https://github.com/intercom/intercom-python"
+
+
+
+[tool.rye]
+managed = true
+# version pins are in requirements-dev.lock
+dev-dependencies = [
+    "pyright",
+    "mypy",
+    "black",
+    "respx",
+    "pytest",
+    "pytest-asyncio",
+    "ruff",
+    "isort",
+    "time-machine",
+    "nox",
+    "dirty-equals>=0.6.0",
+
+]
+
+[tool.rye.scripts]
+format = { chain = [
+  "format:black",
+  "format:docs",
+  "format:ruff",
+  "format:isort",
+]}
+"format:black" = "black ."
+"format:docs" = "python bin/blacken-docs.py README.md api.md"
+"format:ruff" = "ruff --fix ."
+"format:isort" = "isort ."
+
+"check:ruff" = "ruff ."
+
+typecheck = { chain = [
+  "typecheck:pyright",
+  "typecheck:mypy"
+]}
+"typecheck:pyright" = "pyright"
+"typecheck:verify-types" = "pyright --verifytypes intercom --ignoreexternal"
+"typecheck:mypy" = "mypy ."
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = [
+  "src/*"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/intercom"]
+
+[tool.black]
+line-length = 120
+target-version = ["py37"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--tb=short"
+xfail_strict = true
+asyncio_mode = "auto"
+filterwarnings = [
+  "error"
+]
+
+[tool.pyright]
+# this enables practically every flag given by pyright.
+# there are a couple of flags that are still disabled by
+# default in strict mode as they are experimental and niche.
+typeCheckingMode = "strict"
+pythonVersion = "3.7"
+
+exclude = [
+    "_dev",
+    ".venv",
+    ".nox",
+]
+
+reportImplicitOverride = true
+
+reportImportCycles = false
+reportPrivateUsage = false
+
+[tool.isort]
+profile = "black"
+length_sort = true
+extra_standard_library = ["typing_extensions"]
+
+[tool.ruff]
+line-length = 120
+output-format = "grouped"
+target-version = "py37"
+select = [
+  # bugbear rules
+  "B",
+  # remove unused imports
+  "F401",
+  # bare except statements
+  "E722",
+  # unused arguments
+  "ARG",
+  # print statements
+  "T201",
+  "T203",
+]
+ignore = [
+  # mutable defaults
+  "B006",
+]
+unfixable = [
+  # disable auto fix for print statements
+  "T201",
+  "T203",
+]
+ignore-init-module-imports = true
+
+
+[tool.ruff.per-file-ignores]
+"bin/**.py" = ["T201", "T203"]
+"tests/**.py" = ["T201", "T203"]
+"examples/**.py" = ["T201", "T203"]

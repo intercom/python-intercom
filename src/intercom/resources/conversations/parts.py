@@ -1,0 +1,433 @@
+# File generated from our OpenAPI spec by Stainless.
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, overload
+from typing_extensions import Literal
+
+import httpx
+
+from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._utils import required_args, maybe_transform
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
+from ..._base_client import make_request_options
+from ...types.shared import Conversation
+from ...types.conversations import part_create_params
+
+if TYPE_CHECKING:
+    from ..._client import Intercom, AsyncIntercom
+
+__all__ = ["Parts", "AsyncParts"]
+
+
+class Parts(SyncAPIResource):
+    with_raw_response: PartsWithRawResponse
+
+    def __init__(self, client: Intercom) -> None:
+        super().__init__(client)
+        self.with_raw_response = PartsWithRawResponse(self)
+
+    @overload
+    def create(
+        self,
+        id: str,
+        *,
+        admin_id: str,
+        message_type: Literal["close"],
+        type: Literal["admin"],
+        body: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Conversation:
+        """You can close a conversation.
+
+        You can snooze a conversation to reopen on a
+        future date. You can open a conversation which is `snoozed` or `closed`. You can
+        assign a conversation to an admin and/or team.
+
+        Args:
+          admin_id: The id of the admin who is performing the action.
+
+          body: Optionally you can leave a message in the conversation to provide additional
+              context to the user and other teammates.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create(
+        self,
+        id: str,
+        *,
+        admin_id: str,
+        message_type: Literal["snoozed"],
+        snoozed_until: int,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Conversation:
+        """You can close a conversation.
+
+        You can snooze a conversation to reopen on a
+        future date. You can open a conversation which is `snoozed` or `closed`. You can
+        assign a conversation to an admin and/or team.
+
+        Args:
+          admin_id: The id of the admin who is performing the action.
+
+          snoozed_until: The time you want the conversation to reopen.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create(
+        self,
+        id: str,
+        *,
+        admin_id: str,
+        message_type: Literal["open"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Conversation:
+        """You can close a conversation.
+
+        You can snooze a conversation to reopen on a
+        future date. You can open a conversation which is `snoozed` or `closed`. You can
+        assign a conversation to an admin and/or team.
+
+        Args:
+          admin_id: The id of the admin who is performing the action.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create(
+        self,
+        id: str,
+        *,
+        admin_id: str,
+        assignee_id: str,
+        message_type: Literal["assignment"],
+        type: Literal["admin", "team"],
+        body: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Conversation:
+        """You can close a conversation.
+
+        You can snooze a conversation to reopen on a
+        future date. You can open a conversation which is `snoozed` or `closed`. You can
+        assign a conversation to an admin and/or team.
+
+        Args:
+          admin_id: The id of the admin who is performing the action.
+
+          assignee_id: The
+              ` id`` of the  `admin`or`team`which will be assigned the conversation.\nA conversation can be assigned both an admin and a team.\nSet`0`
+              if you want this assign to no admin or team (ie. Unassigned).
+
+          body: Optionally you can send a response in the conversation when it is assigned.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(
+        ["admin_id", "message_type", "type"],
+        ["admin_id", "message_type", "snoozed_until"],
+        ["admin_id", "message_type"],
+        ["admin_id", "assignee_id", "message_type", "type"],
+    )
+    def create(
+        self,
+        id: str,
+        *,
+        admin_id: str,
+        message_type: Literal["close"] | Literal["snoozed"] | Literal["open"] | Literal["assignment"],
+        type: Literal["admin"] | Literal["admin", "team"] | NotGiven = NOT_GIVEN,
+        body: str | NotGiven = NOT_GIVEN,
+        snoozed_until: int | NotGiven = NOT_GIVEN,
+        assignee_id: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Conversation:
+        return self._post(
+            f"/conversations/{id}/parts",
+            body=maybe_transform(
+                {
+                    "admin_id": admin_id,
+                    "message_type": message_type,
+                    "type": type,
+                    "body": body,
+                    "snoozed_until": snoozed_until,
+                    "assignee_id": assignee_id,
+                },
+                part_create_params.PartCreateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Conversation,
+        )
+
+
+class AsyncParts(AsyncAPIResource):
+    with_raw_response: AsyncPartsWithRawResponse
+
+    def __init__(self, client: AsyncIntercom) -> None:
+        super().__init__(client)
+        self.with_raw_response = AsyncPartsWithRawResponse(self)
+
+    @overload
+    async def create(
+        self,
+        id: str,
+        *,
+        admin_id: str,
+        message_type: Literal["close"],
+        type: Literal["admin"],
+        body: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Conversation:
+        """You can close a conversation.
+
+        You can snooze a conversation to reopen on a
+        future date. You can open a conversation which is `snoozed` or `closed`. You can
+        assign a conversation to an admin and/or team.
+
+        Args:
+          admin_id: The id of the admin who is performing the action.
+
+          body: Optionally you can leave a message in the conversation to provide additional
+              context to the user and other teammates.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create(
+        self,
+        id: str,
+        *,
+        admin_id: str,
+        message_type: Literal["snoozed"],
+        snoozed_until: int,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Conversation:
+        """You can close a conversation.
+
+        You can snooze a conversation to reopen on a
+        future date. You can open a conversation which is `snoozed` or `closed`. You can
+        assign a conversation to an admin and/or team.
+
+        Args:
+          admin_id: The id of the admin who is performing the action.
+
+          snoozed_until: The time you want the conversation to reopen.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create(
+        self,
+        id: str,
+        *,
+        admin_id: str,
+        message_type: Literal["open"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Conversation:
+        """You can close a conversation.
+
+        You can snooze a conversation to reopen on a
+        future date. You can open a conversation which is `snoozed` or `closed`. You can
+        assign a conversation to an admin and/or team.
+
+        Args:
+          admin_id: The id of the admin who is performing the action.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create(
+        self,
+        id: str,
+        *,
+        admin_id: str,
+        assignee_id: str,
+        message_type: Literal["assignment"],
+        type: Literal["admin", "team"],
+        body: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Conversation:
+        """You can close a conversation.
+
+        You can snooze a conversation to reopen on a
+        future date. You can open a conversation which is `snoozed` or `closed`. You can
+        assign a conversation to an admin and/or team.
+
+        Args:
+          admin_id: The id of the admin who is performing the action.
+
+          assignee_id: The
+              ` id`` of the  `admin`or`team`which will be assigned the conversation.\nA conversation can be assigned both an admin and a team.\nSet`0`
+              if you want this assign to no admin or team (ie. Unassigned).
+
+          body: Optionally you can send a response in the conversation when it is assigned.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(
+        ["admin_id", "message_type", "type"],
+        ["admin_id", "message_type", "snoozed_until"],
+        ["admin_id", "message_type"],
+        ["admin_id", "assignee_id", "message_type", "type"],
+    )
+    async def create(
+        self,
+        id: str,
+        *,
+        admin_id: str,
+        message_type: Literal["close"] | Literal["snoozed"] | Literal["open"] | Literal["assignment"],
+        type: Literal["admin"] | Literal["admin", "team"] | NotGiven = NOT_GIVEN,
+        body: str | NotGiven = NOT_GIVEN,
+        snoozed_until: int | NotGiven = NOT_GIVEN,
+        assignee_id: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Conversation:
+        return await self._post(
+            f"/conversations/{id}/parts",
+            body=maybe_transform(
+                {
+                    "admin_id": admin_id,
+                    "message_type": message_type,
+                    "type": type,
+                    "body": body,
+                    "snoozed_until": snoozed_until,
+                    "assignee_id": assignee_id,
+                },
+                part_create_params.PartCreateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Conversation,
+        )
+
+
+class PartsWithRawResponse:
+    def __init__(self, parts: Parts) -> None:
+        self.create = to_raw_response_wrapper(
+            parts.create,
+        )
+
+
+class AsyncPartsWithRawResponse:
+    def __init__(self, parts: AsyncParts) -> None:
+        self.create = async_to_raw_response_wrapper(
+            parts.create,
+        )
