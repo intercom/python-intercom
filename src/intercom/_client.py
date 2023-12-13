@@ -49,7 +49,6 @@ ENVIRONMENTS: Dict[str, str] = {
 class Intercom(SyncAPIClient):
     me: resources.Me
     admins: resources.Admins
-    ai: resources.AI
     articles: resources.Articles
     help_center: resources.HelpCenter
     companies: resources.Companies
@@ -151,7 +150,6 @@ class Intercom(SyncAPIClient):
 
         self.me = resources.Me(self)
         self.admins = resources.Admins(self)
-        self.ai = resources.AI(self)
         self.articles = resources.Articles(self)
         self.help_center = resources.HelpCenter(self)
         self.companies = resources.Companies(self)
@@ -285,7 +283,6 @@ class Intercom(SyncAPIClient):
 class AsyncIntercom(AsyncAPIClient):
     me: resources.AsyncMe
     admins: resources.AsyncAdmins
-    ai: resources.AsyncAI
     articles: resources.AsyncArticles
     help_center: resources.AsyncHelpCenter
     companies: resources.AsyncCompanies
@@ -387,7 +384,6 @@ class AsyncIntercom(AsyncAPIClient):
 
         self.me = resources.AsyncMe(self)
         self.admins = resources.AsyncAdmins(self)
-        self.ai = resources.AsyncAI(self)
         self.articles = resources.AsyncArticles(self)
         self.help_center = resources.AsyncHelpCenter(self)
         self.companies = resources.AsyncCompanies(self)
@@ -522,7 +518,6 @@ class IntercomWithRawResponse:
     def __init__(self, client: Intercom) -> None:
         self.me = resources.MeWithRawResponse(client.me)
         self.admins = resources.AdminsWithRawResponse(client.admins)
-        self.ai = resources.AIWithRawResponse(client.ai)
         self.articles = resources.ArticlesWithRawResponse(client.articles)
         self.help_center = resources.HelpCenterWithRawResponse(client.help_center)
         self.companies = resources.CompaniesWithRawResponse(client.companies)
@@ -550,7 +545,6 @@ class AsyncIntercomWithRawResponse:
     def __init__(self, client: AsyncIntercom) -> None:
         self.me = resources.AsyncMeWithRawResponse(client.me)
         self.admins = resources.AsyncAdminsWithRawResponse(client.admins)
-        self.ai = resources.AsyncAIWithRawResponse(client.ai)
         self.articles = resources.AsyncArticlesWithRawResponse(client.articles)
         self.help_center = resources.AsyncHelpCenterWithRawResponse(client.help_center)
         self.companies = resources.AsyncCompaniesWithRawResponse(client.companies)

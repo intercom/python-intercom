@@ -43,7 +43,6 @@ class Tickets(SyncAPIResource):
         *,
         contacts: List[ticket_create_params.Contact],
         ticket_type_id: str,
-        created_at: int | NotGiven = NOT_GIVEN,
         ticket_attributes: Dict[str, Union[Optional[str], float, bool, List[object]]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -60,8 +59,6 @@ class Tickets(SyncAPIResource):
               one is allowed
 
           ticket_type_id: The ID of the type of ticket you want to create
-
-          created_at: The time the ticket was created. If not provided, the current time will be used.
 
           ticket_attributes: The attributes set on the ticket. When setting the default title and description
               attributes, the attribute keys that should be used are `_default_title_` and
@@ -87,7 +84,6 @@ class Tickets(SyncAPIResource):
                 {
                     "contacts": contacts,
                     "ticket_type_id": ticket_type_id,
-                    "created_at": created_at,
                     "ticket_attributes": ticket_attributes,
                 },
                 ticket_create_params.TicketCreateParams,
@@ -107,7 +103,6 @@ class Tickets(SyncAPIResource):
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        created_at: int | NotGiven = NOT_GIVEN,
         email: str | NotGiven = NOT_GIVEN,
         intercom_user_id: str | NotGiven = NOT_GIVEN,
         user_id: str | NotGiven = NOT_GIVEN,
@@ -129,8 +124,6 @@ class Tickets(SyncAPIResource):
 
           attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
               URLs.
-
-          created_at: The time the reply was created. If not provided, the current time will be used.
 
           email: The email you have defined for the user.
 
@@ -158,7 +151,6 @@ class Tickets(SyncAPIResource):
         type: Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
-        created_at: int | NotGiven = NOT_GIVEN,
         reply_options: List[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -182,8 +174,6 @@ class Tickets(SyncAPIResource):
           body: The text body of the reply.\nNotes accept some HTML formatting. Must be present
               for comment and note message types.
 
-          created_at: The time the reply was created. If not provided, the current time will be used.
-
           reply_options: The quick reply options to display. Must be present for quick_reply message
               types.
 
@@ -206,7 +196,6 @@ class Tickets(SyncAPIResource):
         message_type: Literal["comment"] | Literal["comment", "note", "quick_reply"],
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        created_at: int | NotGiven = NOT_GIVEN,
         email: str | NotGiven = NOT_GIVEN,
         intercom_user_id: str | NotGiven = NOT_GIVEN,
         user_id: str | NotGiven = NOT_GIVEN,
@@ -227,7 +216,6 @@ class Tickets(SyncAPIResource):
                     "message_type": message_type,
                     "type": type,
                     "attachment_urls": attachment_urls,
-                    "created_at": created_at,
                     "email": email,
                     "intercom_user_id": intercom_user_id,
                     "user_id": user_id,
@@ -425,7 +413,6 @@ class AsyncTickets(AsyncAPIResource):
         *,
         contacts: List[ticket_create_params.Contact],
         ticket_type_id: str,
-        created_at: int | NotGiven = NOT_GIVEN,
         ticket_attributes: Dict[str, Union[Optional[str], float, bool, List[object]]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -442,8 +429,6 @@ class AsyncTickets(AsyncAPIResource):
               one is allowed
 
           ticket_type_id: The ID of the type of ticket you want to create
-
-          created_at: The time the ticket was created. If not provided, the current time will be used.
 
           ticket_attributes: The attributes set on the ticket. When setting the default title and description
               attributes, the attribute keys that should be used are `_default_title_` and
@@ -469,7 +454,6 @@ class AsyncTickets(AsyncAPIResource):
                 {
                     "contacts": contacts,
                     "ticket_type_id": ticket_type_id,
-                    "created_at": created_at,
                     "ticket_attributes": ticket_attributes,
                 },
                 ticket_create_params.TicketCreateParams,
@@ -489,7 +473,6 @@ class AsyncTickets(AsyncAPIResource):
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        created_at: int | NotGiven = NOT_GIVEN,
         email: str | NotGiven = NOT_GIVEN,
         intercom_user_id: str | NotGiven = NOT_GIVEN,
         user_id: str | NotGiven = NOT_GIVEN,
@@ -511,8 +494,6 @@ class AsyncTickets(AsyncAPIResource):
 
           attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
               URLs.
-
-          created_at: The time the reply was created. If not provided, the current time will be used.
 
           email: The email you have defined for the user.
 
@@ -540,7 +521,6 @@ class AsyncTickets(AsyncAPIResource):
         type: Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
-        created_at: int | NotGiven = NOT_GIVEN,
         reply_options: List[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -564,8 +544,6 @@ class AsyncTickets(AsyncAPIResource):
           body: The text body of the reply.\nNotes accept some HTML formatting. Must be present
               for comment and note message types.
 
-          created_at: The time the reply was created. If not provided, the current time will be used.
-
           reply_options: The quick reply options to display. Must be present for quick_reply message
               types.
 
@@ -588,7 +566,6 @@ class AsyncTickets(AsyncAPIResource):
         message_type: Literal["comment"] | Literal["comment", "note", "quick_reply"],
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        created_at: int | NotGiven = NOT_GIVEN,
         email: str | NotGiven = NOT_GIVEN,
         intercom_user_id: str | NotGiven = NOT_GIVEN,
         user_id: str | NotGiven = NOT_GIVEN,
@@ -609,7 +586,6 @@ class AsyncTickets(AsyncAPIResource):
                     "message_type": message_type,
                     "type": type,
                     "attachment_urls": attachment_urls,
-                    "created_at": created_at,
                     "email": email,
                     "intercom_user_id": intercom_user_id,
                     "user_id": user_id,

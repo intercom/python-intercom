@@ -86,7 +86,7 @@ class TestVisitors:
             user={
                 "id": "8a88a590-e1c3-41e2-a502-e0649dbf721c",
                 "user_id": "8a88a590-e1c3-41e2-a502-e0649dbf721c",
-                "email": "winstonsmith@truth.org",
+                "email": "foo@bar.com",
             },
             visitor={
                 "id": "8a88a590-e1c3-41e2-a502-e0649dbf721c",
@@ -209,7 +209,7 @@ class TestAsyncVisitors:
             user={
                 "id": "8a88a590-e1c3-41e2-a502-e0649dbf721c",
                 "user_id": "8a88a590-e1c3-41e2-a502-e0649dbf721c",
-                "email": "winstonsmith@truth.org",
+                "email": "foo@bar.com",
             },
             visitor={
                 "id": "8a88a590-e1c3-41e2-a502-e0649dbf721c",

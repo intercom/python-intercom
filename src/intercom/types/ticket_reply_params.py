@@ -27,9 +27,6 @@ class ContactReplyTicketRequest(TypedDict, total=False):
     You can include up to 5 URLs.
     """
 
-    created_at: int
-    """The time the reply was created. If not provided, the current time will be used."""
-
     email: str
     """The email you have defined for the user."""
 
@@ -59,9 +56,6 @@ class AdminReplyTicketRequest(TypedDict, total=False):
 
     Must be present for comment and note message types.
     """
-
-    created_at: int
-    """The time the reply was created. If not provided, the current time will be used."""
 
     reply_options: List[AdminReplyTicketRequestReplyOption]
     """The quick reply options to display.

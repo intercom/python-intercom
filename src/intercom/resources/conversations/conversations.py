@@ -17,7 +17,6 @@ from .search import (
     AsyncSearchWithRawResponse,
 )
 from ...types import (
-    ConversationDeleted,
     conversation_list_params,
     conversation_create_params,
     conversation_redact_params,
@@ -285,37 +284,6 @@ class Conversations(SyncAPIResource):
                 ),
             ),
             cast_to=PaginatedResponse,
-        )
-
-    def delete(
-        self,
-        id: int,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ConversationDeleted:
-        """
-        You can delete a single conversation.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._delete(
-            f"/conversations/{id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ConversationDeleted,
         )
 
     def convert(
@@ -724,37 +692,6 @@ class AsyncConversations(AsyncAPIResource):
             cast_to=PaginatedResponse,
         )
 
-    async def delete(
-        self,
-        id: int,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ConversationDeleted:
-        """
-        You can delete a single conversation.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._delete(
-            f"/conversations/{id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ConversationDeleted,
-        )
-
     async def convert(
         self,
         id: int,
@@ -945,9 +882,6 @@ class ConversationsWithRawResponse:
         self.list = to_raw_response_wrapper(
             conversations.list,
         )
-        self.delete = to_raw_response_wrapper(
-            conversations.delete,
-        )
         self.convert = to_raw_response_wrapper(
             conversations.convert,
         )
@@ -976,9 +910,6 @@ class AsyncConversationsWithRawResponse:
         )
         self.list = async_to_raw_response_wrapper(
             conversations.list,
-        )
-        self.delete = async_to_raw_response_wrapper(
-            conversations.delete,
         )
         self.convert = async_to_raw_response_wrapper(
             conversations.convert,

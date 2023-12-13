@@ -54,40 +54,6 @@ Methods:
 
 - <code title="get /admins/activity_logs">client.admins.activity_logs.<a href="./src/intercom/resources/admins/activity_logs.py">list</a>(\*\*<a href="src/intercom/types/admins/activity_log_list_params.py">params</a>) -> <a href="./src/intercom/types/admins/activity_log_list.py">ActivityLogList</a></code>
 
-# AI
-
-## ContentImportSources
-
-Types:
-
-```python
-from intercom.types.ai import ContentImportSource, ContentImportSourcesList
-```
-
-Methods:
-
-- <code title="post /ai/content_import_sources">client.ai.content_import_sources.<a href="./src/intercom/resources/ai/content_import_sources.py">create</a>(\*\*<a href="src/intercom/types/ai/content_import_source_create_params.py">params</a>) -> <a href="./src/intercom/types/ai/content_import_source.py">ContentImportSource</a></code>
-- <code title="get /ai/content_import_sources/{id}">client.ai.content_import_sources.<a href="./src/intercom/resources/ai/content_import_sources.py">retrieve</a>(id) -> <a href="./src/intercom/types/ai/content_import_source.py">ContentImportSource</a></code>
-- <code title="put /ai/content_import_sources/{id}">client.ai.content_import_sources.<a href="./src/intercom/resources/ai/content_import_sources.py">update</a>(id, \*\*<a href="src/intercom/types/ai/content_import_source_update_params.py">params</a>) -> <a href="./src/intercom/types/ai/content_import_source.py">ContentImportSource</a></code>
-- <code title="get /ai/content_import_sources">client.ai.content_import_sources.<a href="./src/intercom/resources/ai/content_import_sources.py">list</a>() -> <a href="./src/intercom/types/ai/content_import_sources_list.py">ContentImportSourcesList</a></code>
-- <code title="delete /ai/content_import_sources/{id}">client.ai.content_import_sources.<a href="./src/intercom/resources/ai/content_import_sources.py">delete</a>(id) -> None</code>
-
-## ExternalPages
-
-Types:
-
-```python
-from intercom.types.ai import ExternalPage, ExternalPagesList
-```
-
-Methods:
-
-- <code title="post /ai/external_pages">client.ai.external_pages.<a href="./src/intercom/resources/ai/external_pages.py">create</a>(\*\*<a href="src/intercom/types/ai/external_page_create_params.py">params</a>) -> <a href="./src/intercom/types/ai/external_page.py">ExternalPage</a></code>
-- <code title="get /ai/external_pages/{id}">client.ai.external_pages.<a href="./src/intercom/resources/ai/external_pages.py">retrieve</a>(id) -> <a href="./src/intercom/types/ai/external_page.py">ExternalPage</a></code>
-- <code title="put /ai/external_pages/{id}">client.ai.external_pages.<a href="./src/intercom/resources/ai/external_pages.py">update</a>(id, \*\*<a href="src/intercom/types/ai/external_page_update_params.py">params</a>) -> <a href="./src/intercom/types/ai/external_page.py">ExternalPage</a></code>
-- <code title="get /ai/external_pages">client.ai.external_pages.<a href="./src/intercom/resources/ai/external_pages.py">list</a>() -> <a href="./src/intercom/types/ai/external_pages_list.py">ExternalPagesList</a></code>
-- <code title="delete /ai/external_pages/{id}">client.ai.external_pages.<a href="./src/intercom/resources/ai/external_pages.py">remove_all</a>(id) -> <a href="./src/intercom/types/ai/external_page.py">ExternalPage</a></code>
-
 # Articles
 
 Types:
@@ -286,19 +252,12 @@ Methods:
 
 # Conversations
 
-Types:
-
-```python
-from intercom.types import ConversationDeleted
-```
-
 Methods:
 
 - <code title="post /conversations">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">create</a>(\*\*<a href="src/intercom/types/conversation_create_params.py">params</a>) -> <a href="./src/intercom/types/shared/message.py">Message</a></code>
 - <code title="get /conversations/{id}">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">retrieve</a>(id, \*\*<a href="src/intercom/types/conversation_retrieve_params.py">params</a>) -> <a href="./src/intercom/types/shared/conversation.py">Conversation</a></code>
 - <code title="put /conversations/{id}">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">update</a>(id, \*\*<a href="src/intercom/types/conversation_update_params.py">params</a>) -> <a href="./src/intercom/types/shared/conversation.py">Conversation</a></code>
 - <code title="get /conversations">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">list</a>(\*\*<a href="src/intercom/types/conversation_list_params.py">params</a>) -> <a href="./src/intercom/types/shared/paginated_response.py">PaginatedResponse</a></code>
-- <code title="delete /conversations/{id}">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">delete</a>(id) -> <a href="./src/intercom/types/conversation_deleted.py">ConversationDeleted</a></code>
 - <code title="post /conversations/{id}/convert">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">convert</a>(id, \*\*<a href="src/intercom/types/conversation_convert_params.py">params</a>) -> <a href="./src/intercom/types/shared/ticket.py">Optional[Ticket]</a></code>
 - <code title="post /conversations/redact">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">redact</a>(\*\*<a href="src/intercom/types/conversation_redact_params.py">params</a>) -> <a href="./src/intercom/types/shared/conversation.py">Conversation</a></code>
 

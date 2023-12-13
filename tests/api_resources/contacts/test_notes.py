@@ -35,7 +35,7 @@ class TestNotes:
             0,
             body="Hello",
             admin_id="string",
-            contact_id="653a6a6e35824d7a15ffe989",
+            contact_id="654b70866abd01feb7c11043",
         )
         assert_matches_type(Note, note, path=["response"])
 
@@ -85,7 +85,7 @@ class TestAsyncNotes:
             0,
             body="Hello",
             admin_id="string",
-            contact_id="653a6a6e35824d7a15ffe989",
+            contact_id="654b70866abd01feb7c11043",
         )
         assert_matches_type(Note, note, path=["response"])
 

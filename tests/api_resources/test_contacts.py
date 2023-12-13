@@ -157,8 +157,8 @@ class TestContacts:
     @parametrize
     def test_method_merge_with_all_params(self, client: Intercom) -> None:
         contact = client.contacts.merge(
-            from_="653a6a8835824d7a15ffe9a6",
-            into="653a6a8835824d7a15ffe9a7",
+            from_="654b709a6abd01feb7c11060",
+            into="654b709a6abd01feb7c11061",
         )
         assert_matches_type(Contact, contact, path=["response"])
 
@@ -353,8 +353,8 @@ class TestAsyncContacts:
     @parametrize
     async def test_method_merge_with_all_params(self, client: AsyncIntercom) -> None:
         contact = await client.contacts.merge(
-            from_="653a6a8835824d7a15ffe9a6",
-            into="653a6a8835824d7a15ffe9a7",
+            from_="654b709a6abd01feb7c11060",
+            into="654b709a6abd01feb7c11061",
         )
         assert_matches_type(Contact, contact, path=["response"])
 

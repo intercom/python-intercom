@@ -39,7 +39,6 @@ from .data_attribute_list import DataAttributeList as DataAttributeList
 from .segment_list_params import SegmentListParams as SegmentListParams
 from .ticket_reply_params import TicketReplyParams as TicketReplyParams
 from .contact_merge_params import ContactMergeParams as ContactMergeParams
-from .conversation_deleted import ConversationDeleted as ConversationDeleted
 from .ticket_create_params import TicketCreateParams as TicketCreateParams
 from .ticket_search_params import TicketSearchParams as TicketSearchParams
 from .article_create_params import ArticleCreateParams as ArticleCreateParams

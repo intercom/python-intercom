@@ -243,7 +243,7 @@ class Ticket(BaseModel):
     There is a limit of 500 parts.
     """
 
-    ticket_state: Optional[Literal["submitted", "in_progress", "waiting_on_customer", "resolved", "closed"]] = None
+    ticket_state: Optional[Literal["submitted", "in_progress", "waiting_on_customer", "on_hold", "resolved"]] = None
     """The state the ticket is currenly in"""
 
     ticket_type: Optional[TicketType] = None

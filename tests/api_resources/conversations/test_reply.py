@@ -38,7 +38,6 @@ class TestReply:
             message_type="comment",
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
-            created_at=1590000000,
             email="string",
             intercom_user_id="string",
             user_id="string",
@@ -76,21 +75,6 @@ class TestReply:
             type="admin",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             body="Hello there!",
-            created_at=1590000000,
-            reply_options=[
-                {
-                    "text": "string",
-                    "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                },
-                {
-                    "text": "string",
-                    "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                },
-                {
-                    "text": "string",
-                    "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                },
-            ],
         )
         assert_matches_type(Conversation, reply, path=["response"])
 
@@ -130,7 +114,6 @@ class TestAsyncReply:
             message_type="comment",
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
-            created_at=1590000000,
             email="string",
             intercom_user_id="string",
             user_id="string",
@@ -168,21 +151,6 @@ class TestAsyncReply:
             type="admin",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             body="Hello there!",
-            created_at=1590000000,
-            reply_options=[
-                {
-                    "text": "string",
-                    "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                },
-                {
-                    "text": "string",
-                    "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                },
-                {
-                    "text": "string",
-                    "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                },
-            ],
         )
         assert_matches_type(Conversation, reply, path=["response"])
 

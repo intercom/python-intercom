@@ -33,7 +33,7 @@ class TestCustomers:
             "string",
             admin_id="string",
             customer={
-                "intercom_user_id": "653a6b2a35824d7a15ffe9f5",
+                "intercom_user_id": "654b71376abd01feb7c110af",
                 "customer": {"intercom_user_id": "6329bd9ffe4e2e91dac76188"},
             },
         )
@@ -67,7 +67,7 @@ class TestAsyncCustomers:
             "string",
             admin_id="string",
             customer={
-                "intercom_user_id": "653a6b2a35824d7a15ffe9f5",
+                "intercom_user_id": "654b71376abd01feb7c110af",
                 "customer": {"intercom_user_id": "6329bd9ffe4e2e91dac76188"},
             },
         )

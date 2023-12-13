@@ -25,7 +25,7 @@ class TestTickets:
     @parametrize
     def test_method_create(self, client: Intercom) -> None:
         ticket = client.tickets.create(
-            contacts=[{"id": "653a6c5035824d7a15ffeae7"}],
+            contacts=[{"id": "654b84736abd01feb7c111a1"}],
             ticket_type_id="string",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
@@ -33,9 +33,8 @@ class TestTickets:
     @parametrize
     def test_method_create_with_all_params(self, client: Intercom) -> None:
         ticket = client.tickets.create(
-            contacts=[{"id": "653a6c5035824d7a15ffeae7"}],
+            contacts=[{"id": "654b84736abd01feb7c111a1"}],
             ticket_type_id="string",
-            created_at=1590000000,
             ticket_attributes={
                 "title": "example",
                 "description": "there is a problem",
@@ -46,7 +45,7 @@ class TestTickets:
     @parametrize
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.tickets.with_raw_response.create(
-            contacts=[{"id": "653a6c5035824d7a15ffeae7"}],
+            contacts=[{"id": "654b84736abd01feb7c111a1"}],
             ticket_type_id="string",
         )
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -71,7 +70,6 @@ class TestTickets:
             message_type="comment",
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
-            created_at=1590000000,
             email="string",
             intercom_user_id="string",
             user_id="string",
@@ -109,7 +107,6 @@ class TestTickets:
             type="admin",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             body="Hello there!",
-            created_at=1590000000,
             reply_options=[
                 {
                     "text": "string",
@@ -198,8 +195,8 @@ class TestTickets:
         ticket = client.tickets.update_by_id(
             "string",
             assignment={
-                "admin_id": "991266719",
-                "assignee_id": "991266721",
+                "admin_id": "991269042",
+                "assignee_id": "991269044",
             },
             is_shared=True,
             open=True,
@@ -230,7 +227,7 @@ class TestAsyncTickets:
     @parametrize
     async def test_method_create(self, client: AsyncIntercom) -> None:
         ticket = await client.tickets.create(
-            contacts=[{"id": "653a6c5035824d7a15ffeae7"}],
+            contacts=[{"id": "654b84736abd01feb7c111a1"}],
             ticket_type_id="string",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
@@ -238,9 +235,8 @@ class TestAsyncTickets:
     @parametrize
     async def test_method_create_with_all_params(self, client: AsyncIntercom) -> None:
         ticket = await client.tickets.create(
-            contacts=[{"id": "653a6c5035824d7a15ffeae7"}],
+            contacts=[{"id": "654b84736abd01feb7c111a1"}],
             ticket_type_id="string",
-            created_at=1590000000,
             ticket_attributes={
                 "title": "example",
                 "description": "there is a problem",
@@ -251,7 +247,7 @@ class TestAsyncTickets:
     @parametrize
     async def test_raw_response_create(self, client: AsyncIntercom) -> None:
         response = await client.tickets.with_raw_response.create(
-            contacts=[{"id": "653a6c5035824d7a15ffeae7"}],
+            contacts=[{"id": "654b84736abd01feb7c111a1"}],
             ticket_type_id="string",
         )
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -276,7 +272,6 @@ class TestAsyncTickets:
             message_type="comment",
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
-            created_at=1590000000,
             email="string",
             intercom_user_id="string",
             user_id="string",
@@ -314,7 +309,6 @@ class TestAsyncTickets:
             type="admin",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             body="Hello there!",
-            created_at=1590000000,
             reply_options=[
                 {
                     "text": "string",
@@ -403,8 +397,8 @@ class TestAsyncTickets:
         ticket = await client.tickets.update_by_id(
             "string",
             assignment={
-                "admin_id": "991266719",
-                "assignee_id": "991266721",
+                "admin_id": "991269042",
+                "assignee_id": "991269044",
             },
             is_shared=True,
             open=True,

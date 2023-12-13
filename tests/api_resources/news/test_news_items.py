@@ -24,7 +24,7 @@ class TestNewsItems:
     @parametrize
     def test_method_create(self, client: Intercom) -> None:
         news_item = client.news.news_items.create(
-            sender_id=991266564,
+            sender_id=991268887,
             title="Halloween is here!",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
@@ -32,14 +32,14 @@ class TestNewsItems:
     @parametrize
     def test_method_create_with_all_params(self, client: Intercom) -> None:
         news_item = client.news.news_items.create(
-            sender_id=991266564,
+            sender_id=991268887,
             title="Halloween is here!",
             body="<p>New costumes in store for this spooky season</p>",
             deliver_silently=True,
             labels=["Product", "Update", "New"],
             newsfeed_assignments=[
                 {
-                    "newsfeed_id": 3,
+                    "newsfeed_id": 103,
                     "published_at": 1664638214,
                 }
             ],
@@ -51,7 +51,7 @@ class TestNewsItems:
     @parametrize
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.news.news_items.with_raw_response.create(
-            sender_id=991266564,
+            sender_id=991268887,
             title="Halloween is here!",
         )
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -78,7 +78,7 @@ class TestNewsItems:
     def test_method_update(self, client: Intercom) -> None:
         news_item = client.news.news_items.update(
             0,
-            sender_id=991266575,
+            sender_id=991268898,
             title="Christmas is here!",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
@@ -87,7 +87,7 @@ class TestNewsItems:
     def test_method_update_with_all_params(self, client: Intercom) -> None:
         news_item = client.news.news_items.update(
             0,
-            sender_id=991266575,
+            sender_id=991268898,
             title="Christmas is here!",
             body="<p>New gifts in store for the jolly season</p>",
             deliver_silently=True,
@@ -115,7 +115,7 @@ class TestNewsItems:
     def test_raw_response_update(self, client: Intercom) -> None:
         response = client.news.news_items.with_raw_response.update(
             0,
-            sender_id=991266575,
+            sender_id=991268898,
             title="Christmas is here!",
         )
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -159,7 +159,7 @@ class TestAsyncNewsItems:
     @parametrize
     async def test_method_create(self, client: AsyncIntercom) -> None:
         news_item = await client.news.news_items.create(
-            sender_id=991266564,
+            sender_id=991268887,
             title="Halloween is here!",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
@@ -167,14 +167,14 @@ class TestAsyncNewsItems:
     @parametrize
     async def test_method_create_with_all_params(self, client: AsyncIntercom) -> None:
         news_item = await client.news.news_items.create(
-            sender_id=991266564,
+            sender_id=991268887,
             title="Halloween is here!",
             body="<p>New costumes in store for this spooky season</p>",
             deliver_silently=True,
             labels=["Product", "Update", "New"],
             newsfeed_assignments=[
                 {
-                    "newsfeed_id": 3,
+                    "newsfeed_id": 103,
                     "published_at": 1664638214,
                 }
             ],
@@ -186,7 +186,7 @@ class TestAsyncNewsItems:
     @parametrize
     async def test_raw_response_create(self, client: AsyncIntercom) -> None:
         response = await client.news.news_items.with_raw_response.create(
-            sender_id=991266564,
+            sender_id=991268887,
             title="Halloween is here!",
         )
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -213,7 +213,7 @@ class TestAsyncNewsItems:
     async def test_method_update(self, client: AsyncIntercom) -> None:
         news_item = await client.news.news_items.update(
             0,
-            sender_id=991266575,
+            sender_id=991268898,
             title="Christmas is here!",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
@@ -222,7 +222,7 @@ class TestAsyncNewsItems:
     async def test_method_update_with_all_params(self, client: AsyncIntercom) -> None:
         news_item = await client.news.news_items.update(
             0,
-            sender_id=991266575,
+            sender_id=991268898,
             title="Christmas is here!",
             body="<p>New gifts in store for the jolly season</p>",
             deliver_silently=True,
@@ -250,7 +250,7 @@ class TestAsyncNewsItems:
     async def test_raw_response_update(self, client: AsyncIntercom) -> None:
         response = await client.news.news_items.with_raw_response.update(
             0,
-            sender_id=991266575,
+            sender_id=991268898,
             title="Christmas is here!",
         )
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"

@@ -23,16 +23,16 @@ class TestDataExports:
     @parametrize
     def test_method_content_data(self, client: Intercom) -> None:
         data_export = client.data_exports.content_data(
-            created_at_after=1698309467,
-            created_at_before=1698327467,
+            created_at_after=1699425120,
+            created_at_before=1699443120,
         )
         assert_matches_type(DataExport, data_export, path=["response"])
 
     @parametrize
     def test_raw_response_content_data(self, client: Intercom) -> None:
         response = client.data_exports.with_raw_response.content_data(
-            created_at_after=1698309467,
-            created_at_before=1698327467,
+            created_at_after=1699425120,
+            created_at_before=1699443120,
         )
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         data_export = response.parse()
@@ -47,16 +47,16 @@ class TestAsyncDataExports:
     @parametrize
     async def test_method_content_data(self, client: AsyncIntercom) -> None:
         data_export = await client.data_exports.content_data(
-            created_at_after=1698309467,
-            created_at_before=1698327467,
+            created_at_after=1699425120,
+            created_at_before=1699443120,
         )
         assert_matches_type(DataExport, data_export, path=["response"])
 
     @parametrize
     async def test_raw_response_content_data(self, client: AsyncIntercom) -> None:
         response = await client.data_exports.with_raw_response.content_data(
-            created_at_after=1698309467,
-            created_at_before=1698327467,
+            created_at_after=1699425120,
+            created_at_before=1699443120,
         )
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         data_export = response.parse()

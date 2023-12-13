@@ -25,7 +25,7 @@ class TestCompanies:
     def test_method_create(self, client: Intercom) -> None:
         company = client.contacts.companies.create(
             path_id="string",
-            body_id="653a6a5235824d7a15ffe94a",
+            body_id="654b70746abd01feb7c11004",
         )
         assert_matches_type(Company, company, path=["response"])
 
@@ -33,7 +33,7 @@ class TestCompanies:
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.contacts.companies.with_raw_response.create(
             path_id="string",
-            body_id="653a6a5235824d7a15ffe94a",
+            body_id="654b70746abd01feb7c11004",
         )
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         company = response.parse()
@@ -83,7 +83,7 @@ class TestAsyncCompanies:
     async def test_method_create(self, client: AsyncIntercom) -> None:
         company = await client.contacts.companies.create(
             path_id="string",
-            body_id="653a6a5235824d7a15ffe94a",
+            body_id="654b70746abd01feb7c11004",
         )
         assert_matches_type(Company, company, path=["response"])
 
@@ -91,7 +91,7 @@ class TestAsyncCompanies:
     async def test_raw_response_create(self, client: AsyncIntercom) -> None:
         response = await client.contacts.companies.with_raw_response.create(
             path_id="string",
-            body_id="653a6a5235824d7a15ffe94a",
+            body_id="654b70746abd01feb7c11004",
         )
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         company = response.parse()

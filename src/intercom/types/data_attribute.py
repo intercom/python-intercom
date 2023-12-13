@@ -46,10 +46,10 @@ class DataAttribute(BaseModel):
     label: Optional[str] = None
     """Readable name of the attribute (i.e. name you see in the UI)"""
 
-    model: Optional[Literal["contact", "company", "conversation"]] = None
+    model: Optional[Literal["contact", "company"]] = None
     """
-    Value is `contact` for user/lead attributes, `company` for company attributes
-    and `conversation` for conversation attributes..
+    Value is `contact` for user/lead attributes and `company` for company
+    attributes.
     """
 
     name: Optional[str] = None

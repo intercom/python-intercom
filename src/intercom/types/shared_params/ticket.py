@@ -245,7 +245,7 @@ class Ticket(TypedDict, total=False):
     There is a limit of 500 parts.
     """
 
-    ticket_state: Literal["submitted", "in_progress", "waiting_on_customer", "resolved", "closed"]
+    ticket_state: Literal["submitted", "in_progress", "waiting_on_customer", "on_hold", "resolved"]
     """The state the ticket is currenly in"""
 
     ticket_type: Optional[TicketType]

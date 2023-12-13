@@ -37,7 +37,6 @@ class Reply(SyncAPIResource):
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        created_at: int | NotGiven = NOT_GIVEN,
         email: str | NotGiven = NOT_GIVEN,
         intercom_user_id: str | NotGiven = NOT_GIVEN,
         user_id: str | NotGiven = NOT_GIVEN,
@@ -59,8 +58,6 @@ class Reply(SyncAPIResource):
 
           attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
               URLs.
-
-          created_at: The time the reply was created. If not provided, the current time will be used.
 
           email: The email you have defined for the user.
 
@@ -84,12 +81,10 @@ class Reply(SyncAPIResource):
         id: Union[str, Literal["last"]],
         *,
         admin_id: str,
-        message_type: Literal["comment", "note", "quick_reply"],
+        message_type: Literal["comment", "note"],
         type: Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
-        created_at: int | NotGiven = NOT_GIVEN,
-        reply_options: List[reply_create_params.AdminReplyConversationRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -112,11 +107,6 @@ class Reply(SyncAPIResource):
           body: The text body of the reply.\nNotes accept some HTML formatting.\nMust be present
               for comment and note message types.
 
-          created_at: The time the reply was created. If not provided, the current time will be used.
-
-          reply_options: The quick reply options to display.\nMust be present for quick_reply message
-              types.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -133,15 +123,13 @@ class Reply(SyncAPIResource):
         id: Union[str, Literal["last"]],
         *,
         body: str | NotGiven = NOT_GIVEN,
-        message_type: Literal["comment"] | Literal["comment", "note", "quick_reply"],
+        message_type: Literal["comment"] | Literal["comment", "note"],
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        created_at: int | NotGiven = NOT_GIVEN,
         email: str | NotGiven = NOT_GIVEN,
         intercom_user_id: str | NotGiven = NOT_GIVEN,
         user_id: str | NotGiven = NOT_GIVEN,
         admin_id: str | NotGiven = NOT_GIVEN,
-        reply_options: List[reply_create_params.AdminReplyConversationRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -157,12 +145,10 @@ class Reply(SyncAPIResource):
                     "message_type": message_type,
                     "type": type,
                     "attachment_urls": attachment_urls,
-                    "created_at": created_at,
                     "email": email,
                     "intercom_user_id": intercom_user_id,
                     "user_id": user_id,
                     "admin_id": admin_id,
-                    "reply_options": reply_options,
                 },
                 reply_create_params.ReplyCreateParams,
             ),
@@ -189,7 +175,6 @@ class AsyncReply(AsyncAPIResource):
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        created_at: int | NotGiven = NOT_GIVEN,
         email: str | NotGiven = NOT_GIVEN,
         intercom_user_id: str | NotGiven = NOT_GIVEN,
         user_id: str | NotGiven = NOT_GIVEN,
@@ -211,8 +196,6 @@ class AsyncReply(AsyncAPIResource):
 
           attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
               URLs.
-
-          created_at: The time the reply was created. If not provided, the current time will be used.
 
           email: The email you have defined for the user.
 
@@ -236,12 +219,10 @@ class AsyncReply(AsyncAPIResource):
         id: Union[str, Literal["last"]],
         *,
         admin_id: str,
-        message_type: Literal["comment", "note", "quick_reply"],
+        message_type: Literal["comment", "note"],
         type: Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
-        created_at: int | NotGiven = NOT_GIVEN,
-        reply_options: List[reply_create_params.AdminReplyConversationRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -264,11 +245,6 @@ class AsyncReply(AsyncAPIResource):
           body: The text body of the reply.\nNotes accept some HTML formatting.\nMust be present
               for comment and note message types.
 
-          created_at: The time the reply was created. If not provided, the current time will be used.
-
-          reply_options: The quick reply options to display.\nMust be present for quick_reply message
-              types.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -285,15 +261,13 @@ class AsyncReply(AsyncAPIResource):
         id: Union[str, Literal["last"]],
         *,
         body: str | NotGiven = NOT_GIVEN,
-        message_type: Literal["comment"] | Literal["comment", "note", "quick_reply"],
+        message_type: Literal["comment"] | Literal["comment", "note"],
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        created_at: int | NotGiven = NOT_GIVEN,
         email: str | NotGiven = NOT_GIVEN,
         intercom_user_id: str | NotGiven = NOT_GIVEN,
         user_id: str | NotGiven = NOT_GIVEN,
         admin_id: str | NotGiven = NOT_GIVEN,
-        reply_options: List[reply_create_params.AdminReplyConversationRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -309,12 +283,10 @@ class AsyncReply(AsyncAPIResource):
                     "message_type": message_type,
                     "type": type,
                     "attachment_urls": attachment_urls,
-                    "created_at": created_at,
                     "email": email,
                     "intercom_user_id": intercom_user_id,
                     "user_id": user_id,
                     "admin_id": admin_id,
-                    "reply_options": reply_options,
                 },
                 reply_create_params.ReplyCreateParams,
             ),

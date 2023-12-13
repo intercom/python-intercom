@@ -12,7 +12,7 @@ class DataAttributeCreateParams(TypedDict, total=False):
     data_type: Required[Literal["string", "integer", "float", "boolean", "datetime", "date"]]
     """The type of data stored for this attribute."""
 
-    model: Required[Literal["contact", "company", "conversation"]]
+    model: Required[Literal["contact", "company"]]
     """The model that the data attribute belongs to."""
 
     name: Required[str]
