@@ -332,25 +332,7 @@ class RequestTest(unittest.TestCase):
     @istest
     def it_allows_the_timeout_to_be_changed(self):
         from intercom.request import Request
-        try:
-            eq_(90, Request.timeout)
-            Request.timeout = 3
-            eq_(3, Request.timeout)
-        finally:
-            Request.timeout = 90
-
-    @istest
-    def it_allows_the_timeout_to_be_configured(self):
-        import os
-        from intercom.request import configure_timeout
-
-        # check the default
-        eq_(90, configure_timeout())
-
-        # override the default
-        os.environ['INTERCOM_REQUEST_TIMEOUT'] = '20'
-        eq_(20, configure_timeout())
-
-        # ignore bad timeouts, reset to default 90
-        os.environ['INTERCOM_REQUEST_TIMEOUT'] = 'abc'
-        eq_(90, configure_timeout())
+        request = Request('GET', '/')
+        eq_(90, request.timeout)
+        request = Request('GET', '/', timeout=3)
+        eq_(3, request.timeout)
