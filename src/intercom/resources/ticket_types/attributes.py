@@ -1,32 +1,42 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 from typing_extensions import Literal
 
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
-from ...types.shared import TicketTypeAttribute
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
 from ...types.ticket_types import attribute_create_params, attribute_update_params
+from ...types.shared.ticket_type_attribute import TicketTypeAttribute
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["Attributes", "AsyncAttributes"]
+__all__ = ["AttributesResource", "AsyncAttributesResource"]
 
 
-class Attributes(SyncAPIResource):
-    with_raw_response: AttributesWithRawResponse
+class AttributesResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AttributesResourceWithRawResponse:
+        return AttributesResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AttributesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AttributesResourceWithStreamingResponse:
+        return AttributesResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -87,6 +97,8 @@ class Attributes(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not ticket_type_id:
+            raise ValueError(f"Expected a non-empty value for `ticket_type_id` but received {ticket_type_id!r}")
         return self._post(
             f"/ticket_types/{ticket_type_id}/attributes",
             body=maybe_transform(
@@ -171,6 +183,10 @@ class Attributes(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not ticket_type_id:
+            raise ValueError(f"Expected a non-empty value for `ticket_type_id` but received {ticket_type_id!r}")
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._put(
             f"/ticket_types/{ticket_type_id}/attributes/{id}",
             body=maybe_transform(
@@ -195,12 +211,14 @@ class Attributes(SyncAPIResource):
         )
 
 
-class AsyncAttributes(AsyncAPIResource):
-    with_raw_response: AsyncAttributesWithRawResponse
+class AsyncAttributesResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncAttributesResourceWithRawResponse:
+        return AsyncAttributesResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncAttributesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncAttributesResourceWithStreamingResponse:
+        return AsyncAttributesResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -261,9 +279,11 @@ class AsyncAttributes(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not ticket_type_id:
+            raise ValueError(f"Expected a non-empty value for `ticket_type_id` but received {ticket_type_id!r}")
         return await self._post(
             f"/ticket_types/{ticket_type_id}/attributes",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "data_type": data_type,
                     "description": description,
@@ -345,9 +365,13 @@ class AsyncAttributes(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not ticket_type_id:
+            raise ValueError(f"Expected a non-empty value for `ticket_type_id` but received {ticket_type_id!r}")
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._put(
             f"/ticket_types/{ticket_type_id}/attributes/{id}",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "allow_multiple_values": allow_multiple_values,
                     "archived": archived,
@@ -369,8 +393,10 @@ class AsyncAttributes(AsyncAPIResource):
         )
 
 
-class AttributesWithRawResponse:
-    def __init__(self, attributes: Attributes) -> None:
+class AttributesResourceWithRawResponse:
+    def __init__(self, attributes: AttributesResource) -> None:
+        self._attributes = attributes
+
         self.create = to_raw_response_wrapper(
             attributes.create,
         )
@@ -379,11 +405,37 @@ class AttributesWithRawResponse:
         )
 
 
-class AsyncAttributesWithRawResponse:
-    def __init__(self, attributes: AsyncAttributes) -> None:
+class AsyncAttributesResourceWithRawResponse:
+    def __init__(self, attributes: AsyncAttributesResource) -> None:
+        self._attributes = attributes
+
         self.create = async_to_raw_response_wrapper(
             attributes.create,
         )
         self.update = async_to_raw_response_wrapper(
+            attributes.update,
+        )
+
+
+class AttributesResourceWithStreamingResponse:
+    def __init__(self, attributes: AttributesResource) -> None:
+        self._attributes = attributes
+
+        self.create = to_streamed_response_wrapper(
+            attributes.create,
+        )
+        self.update = to_streamed_response_wrapper(
+            attributes.update,
+        )
+
+
+class AsyncAttributesResourceWithStreamingResponse:
+    def __init__(self, attributes: AsyncAttributesResource) -> None:
+        self._attributes = attributes
+
+        self.create = async_to_streamed_response_wrapper(
+            attributes.create,
+        )
+        self.update = async_to_streamed_response_wrapper(
             attributes.update,
         )

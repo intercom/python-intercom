@@ -1,10 +1,11 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
 import time
-import asyncio
 from typing import TYPE_CHECKING
+
+import anyio
 
 if TYPE_CHECKING:
     from ._client import Intercom, AsyncIntercom
@@ -39,4 +40,4 @@ class AsyncAPIResource:
         self._get_api_list = client.get_api_list
 
     async def _sleep(self, seconds: float) -> None:
-        await asyncio.sleep(seconds)
+        await anyio.sleep(seconds)

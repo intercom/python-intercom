@@ -1,8 +1,8 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import List, Union
+from typing import Union, Iterable
 from typing_extensions import Required, TypedDict
 
 __all__ = [
@@ -29,7 +29,7 @@ class CreateOrUpdateTagRequest(TypedDict, total=False):
 
 
 class TagCompanyRequest(TypedDict, total=False):
-    companies: Required[List[TagCompanyRequestCompany]]
+    companies: Required[Iterable[TagCompanyRequestCompany]]
     """The id or company_id of the company can be passed as input parameters."""
 
     name: Required[str]
@@ -45,7 +45,7 @@ class TagCompanyRequestCompany(TypedDict, total=False):
 
 
 class UntagCompanyRequest(TypedDict, total=False):
-    companies: Required[List[UntagCompanyRequestCompany]]
+    companies: Required[Iterable[UntagCompanyRequestCompany]]
     """The id or company_id of the company can be passed as input parameters."""
 
     name: Required[str]
@@ -67,7 +67,7 @@ class TagMultipleUsersRequest(TypedDict, total=False):
     name: Required[str]
     """The name of the tag, which will be created if not found."""
 
-    users: Required[List[TagMultipleUsersRequestUser]]
+    users: Required[Iterable[TagMultipleUsersRequestUser]]
 
 
 class TagMultipleUsersRequestUser(TypedDict, total=False):

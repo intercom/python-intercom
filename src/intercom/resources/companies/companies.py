@@ -1,142 +1,70 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict
+from typing import Dict, Optional
 
 import httpx
 
-from ...types import DeletedCompanyObject, company_create_update_params
+from ...types import company_list_params, company_create_params, company_scroll_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
 from .contacts import (
-    Contacts,
-    AsyncContacts,
-    ContactsWithRawResponse,
-    AsyncContactsWithRawResponse,
+    ContactsResource,
+    AsyncContactsResource,
+    ContactsResourceWithRawResponse,
+    AsyncContactsResourceWithRawResponse,
+    ContactsResourceWithStreamingResponse,
+    AsyncContactsResourceWithStreamingResponse,
 )
 from .segments import (
-    Segments,
-    AsyncSegments,
-    SegmentsWithRawResponse,
-    AsyncSegmentsWithRawResponse,
+    SegmentsResource,
+    AsyncSegmentsResource,
+    SegmentsResourceWithRawResponse,
+    AsyncSegmentsResourceWithRawResponse,
+    SegmentsResourceWithStreamingResponse,
+    AsyncSegmentsResourceWithStreamingResponse,
 )
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
-from ...types.shared import Company
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
+from ...types.company_list import CompanyList
+from ...types.company_scroll import CompanyScroll
+from ...types.shared.company import Company
+from ...types.deleted_company_object import DeletedCompanyObject
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["Companies", "AsyncCompanies"]
+__all__ = ["CompaniesResource", "AsyncCompaniesResource"]
 
 
-class Companies(SyncAPIResource):
-    contacts: Contacts
-    segments: Segments
-    with_raw_response: CompaniesWithRawResponse
+class CompaniesResource(SyncAPIResource):
+    @cached_property
+    def contacts(self) -> ContactsResource:
+        return ContactsResource(self._client)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.contacts = Contacts(client)
-        self.segments = Segments(client)
-        self.with_raw_response = CompaniesWithRawResponse(self)
+    @cached_property
+    def segments(self) -> SegmentsResource:
+        return SegmentsResource(self._client)
 
-    def retrieve(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Company:
-        """
-        You can fetch a single company.
+    @cached_property
+    def with_raw_response(self) -> CompaniesResourceWithRawResponse:
+        return CompaniesResourceWithRawResponse(self)
 
-        Args:
-          extra_headers: Send extra headers
+    @cached_property
+    def with_streaming_response(self) -> CompaniesResourceWithStreamingResponse:
+        return CompaniesResourceWithStreamingResponse(self)
 
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._get(
-            f"/companies/{id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Company,
-        )
-
-    def update(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Company:
-        """
-        You can update a single company
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._put(
-            f"/companies/{id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Company,
-        )
-
-    def delete(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DeletedCompanyObject:
-        """
-        You can delete a single company.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._delete(
-            f"/companies/{id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=DeletedCompanyObject,
-        )
-
-    def create_update(
+    def create(
         self,
         *,
         company_id: str | NotGiven = NOT_GIVEN,
@@ -212,7 +140,7 @@ class Companies(SyncAPIResource):
                     "size": size,
                     "website": website,
                 },
-                company_create_update_params.CompanyCreateUpdateParams,
+                company_create_params.CompanyCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -220,19 +148,7 @@ class Companies(SyncAPIResource):
             cast_to=Company,
         )
 
-
-class AsyncCompanies(AsyncAPIResource):
-    contacts: AsyncContacts
-    segments: AsyncSegments
-    with_raw_response: AsyncCompaniesWithRawResponse
-
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.contacts = AsyncContacts(client)
-        self.segments = AsyncSegments(client)
-        self.with_raw_response = AsyncCompaniesWithRawResponse(self)
-
-    async def retrieve(
+    def retrieve(
         self,
         id: str,
         *,
@@ -255,7 +171,9 @@ class AsyncCompanies(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._get(
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._get(
             f"/companies/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -263,7 +181,7 @@ class AsyncCompanies(AsyncAPIResource):
             cast_to=Company,
         )
 
-    async def update(
+    def update(
         self,
         id: str,
         *,
@@ -286,7 +204,9 @@ class AsyncCompanies(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._put(
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._put(
             f"/companies/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -294,7 +214,74 @@ class AsyncCompanies(AsyncAPIResource):
             cast_to=Company,
         )
 
-    async def delete(
+    def list(
+        self,
+        *,
+        filter: company_list_params.Filter,
+        order: str | NotGiven = NOT_GIVEN,
+        page: str | NotGiven = NOT_GIVEN,
+        per_page: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompanyList:
+        """You can list companies.
+
+        The company list is sorted by the `last_request_at`
+        field and by default is ordered descending, most recently requested first.
+
+        Note that the API does not include companies who have no associated users in
+        list responses.
+
+        > 📘
+        >
+        > When using the Companies endpoint and the pages object to iterate through the
+        > returned companies, there is a limit of 10,000 Companies that can be returned.
+        > If you need to list or iterate on more than 10,000 Companies, please use the
+        > [Scroll API](https://developers.intercom.com/reference#iterating-over-all-companies).
+
+        Args:
+          filter: The `id` of the tag to filter by.
+
+          order: `asc` or `desc`. Return the companies in ascending or descending order. Defaults
+              to desc
+
+          page: what page of results to fetch. Defaults to first page
+
+          per_page: how many results per page. Defaults to 15
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/companies/list",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "filter": filter,
+                        "order": order,
+                        "page": page,
+                        "per_page": per_page,
+                    },
+                    company_list_params.CompanyListParams,
+                ),
+            ),
+            cast_to=CompanyList,
+        )
+
+    def delete(
         self,
         id: str,
         *,
@@ -317,7 +304,9 @@ class AsyncCompanies(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._delete(
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._delete(
             f"/companies/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -325,7 +314,84 @@ class AsyncCompanies(AsyncAPIResource):
             cast_to=DeletedCompanyObject,
         )
 
-    async def create_update(
+    def scroll(
+        self,
+        *,
+        scroll_param: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Optional[CompanyScroll]:
+        """
+        The `list all companies` functionality does not work well for huge datasets, and can result in errors and performance problems when paging deeply. The Scroll API provides an efficient mechanism for iterating over all companies in a dataset.
+
+        - Each app can only have 1 scroll open at a time. You'll get an error message if
+          you try to have more than one open per app.
+        - If the scroll isn't used for 1 minute, it expires and calls with that scroll
+          param will fail
+        - If the end of the scroll is reached, "companies" will be empty and the scroll
+          parameter will expire
+
+        > 📘 Scroll Parameter
+        >
+        > You can get the first page of companies by simply sending a GET request to the
+        > scroll endpoint. For subsequent requests you will need to use the scroll
+        > parameter from the response.
+
+        > ❗️ Scroll network timeouts
+        >
+        > Since scroll is often used on large datasets network errors such as timeouts
+        > can be encountered. When this occurs you will need to restart your scroll
+        > query as it is not possible to continue from a specific point when using
+        > scroll.
+        >
+        > When this occurs you will see a HTTP 500 error with the following message:
+        > "Request failed due to an internal network error. Please restart the scroll
+        > operation."
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/companies/scroll",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"scroll_param": scroll_param}, company_scroll_params.CompanyScrollParams),
+            ),
+            cast_to=CompanyScroll,
+        )
+
+
+class AsyncCompaniesResource(AsyncAPIResource):
+    @cached_property
+    def contacts(self) -> AsyncContactsResource:
+        return AsyncContactsResource(self._client)
+
+    @cached_property
+    def segments(self) -> AsyncSegmentsResource:
+        return AsyncSegmentsResource(self._client)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncCompaniesResourceWithRawResponse:
+        return AsyncCompaniesResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncCompaniesResourceWithStreamingResponse:
+        return AsyncCompaniesResourceWithStreamingResponse(self)
+
+    async def create(
         self,
         *,
         company_id: str | NotGiven = NOT_GIVEN,
@@ -389,7 +455,7 @@ class AsyncCompanies(AsyncAPIResource):
         """
         return await self._post(
             "/companies",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "company_id": company_id,
                     "custom_attributes": custom_attributes,
@@ -401,7 +467,7 @@ class AsyncCompanies(AsyncAPIResource):
                     "size": size,
                     "website": website,
                 },
-                company_create_update_params.CompanyCreateUpdateParams,
+                company_create_params.CompanyCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -409,40 +475,357 @@ class AsyncCompanies(AsyncAPIResource):
             cast_to=Company,
         )
 
+    async def retrieve(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Company:
+        """
+        You can fetch a single company.
 
-class CompaniesWithRawResponse:
-    def __init__(self, companies: Companies) -> None:
-        self.contacts = ContactsWithRawResponse(companies.contacts)
-        self.segments = SegmentsWithRawResponse(companies.segments)
+        Args:
+          extra_headers: Send extra headers
 
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._get(
+            f"/companies/{id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Company,
+        )
+
+    async def update(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Company:
+        """
+        You can update a single company
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._put(
+            f"/companies/{id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Company,
+        )
+
+    async def list(
+        self,
+        *,
+        filter: company_list_params.Filter,
+        order: str | NotGiven = NOT_GIVEN,
+        page: str | NotGiven = NOT_GIVEN,
+        per_page: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompanyList:
+        """You can list companies.
+
+        The company list is sorted by the `last_request_at`
+        field and by default is ordered descending, most recently requested first.
+
+        Note that the API does not include companies who have no associated users in
+        list responses.
+
+        > 📘
+        >
+        > When using the Companies endpoint and the pages object to iterate through the
+        > returned companies, there is a limit of 10,000 Companies that can be returned.
+        > If you need to list or iterate on more than 10,000 Companies, please use the
+        > [Scroll API](https://developers.intercom.com/reference#iterating-over-all-companies).
+
+        Args:
+          filter: The `id` of the tag to filter by.
+
+          order: `asc` or `desc`. Return the companies in ascending or descending order. Defaults
+              to desc
+
+          page: what page of results to fetch. Defaults to first page
+
+          per_page: how many results per page. Defaults to 15
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/companies/list",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "filter": filter,
+                        "order": order,
+                        "page": page,
+                        "per_page": per_page,
+                    },
+                    company_list_params.CompanyListParams,
+                ),
+            ),
+            cast_to=CompanyList,
+        )
+
+    async def delete(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DeletedCompanyObject:
+        """
+        You can delete a single company.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._delete(
+            f"/companies/{id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DeletedCompanyObject,
+        )
+
+    async def scroll(
+        self,
+        *,
+        scroll_param: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Optional[CompanyScroll]:
+        """
+        The `list all companies` functionality does not work well for huge datasets, and can result in errors and performance problems when paging deeply. The Scroll API provides an efficient mechanism for iterating over all companies in a dataset.
+
+        - Each app can only have 1 scroll open at a time. You'll get an error message if
+          you try to have more than one open per app.
+        - If the scroll isn't used for 1 minute, it expires and calls with that scroll
+          param will fail
+        - If the end of the scroll is reached, "companies" will be empty and the scroll
+          parameter will expire
+
+        > 📘 Scroll Parameter
+        >
+        > You can get the first page of companies by simply sending a GET request to the
+        > scroll endpoint. For subsequent requests you will need to use the scroll
+        > parameter from the response.
+
+        > ❗️ Scroll network timeouts
+        >
+        > Since scroll is often used on large datasets network errors such as timeouts
+        > can be encountered. When this occurs you will need to restart your scroll
+        > query as it is not possible to continue from a specific point when using
+        > scroll.
+        >
+        > When this occurs you will see a HTTP 500 error with the following message:
+        > "Request failed due to an internal network error. Please restart the scroll
+        > operation."
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/companies/scroll",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"scroll_param": scroll_param}, company_scroll_params.CompanyScrollParams
+                ),
+            ),
+            cast_to=CompanyScroll,
+        )
+
+
+class CompaniesResourceWithRawResponse:
+    def __init__(self, companies: CompaniesResource) -> None:
+        self._companies = companies
+
+        self.create = to_raw_response_wrapper(
+            companies.create,
+        )
         self.retrieve = to_raw_response_wrapper(
             companies.retrieve,
         )
         self.update = to_raw_response_wrapper(
             companies.update,
         )
+        self.list = to_raw_response_wrapper(
+            companies.list,
+        )
         self.delete = to_raw_response_wrapper(
             companies.delete,
         )
-        self.create_update = to_raw_response_wrapper(
-            companies.create_update,
+        self.scroll = to_raw_response_wrapper(
+            companies.scroll,
         )
 
+    @cached_property
+    def contacts(self) -> ContactsResourceWithRawResponse:
+        return ContactsResourceWithRawResponse(self._companies.contacts)
 
-class AsyncCompaniesWithRawResponse:
-    def __init__(self, companies: AsyncCompanies) -> None:
-        self.contacts = AsyncContactsWithRawResponse(companies.contacts)
-        self.segments = AsyncSegmentsWithRawResponse(companies.segments)
+    @cached_property
+    def segments(self) -> SegmentsResourceWithRawResponse:
+        return SegmentsResourceWithRawResponse(self._companies.segments)
 
+
+class AsyncCompaniesResourceWithRawResponse:
+    def __init__(self, companies: AsyncCompaniesResource) -> None:
+        self._companies = companies
+
+        self.create = async_to_raw_response_wrapper(
+            companies.create,
+        )
         self.retrieve = async_to_raw_response_wrapper(
             companies.retrieve,
         )
         self.update = async_to_raw_response_wrapper(
             companies.update,
         )
+        self.list = async_to_raw_response_wrapper(
+            companies.list,
+        )
         self.delete = async_to_raw_response_wrapper(
             companies.delete,
         )
-        self.create_update = async_to_raw_response_wrapper(
-            companies.create_update,
+        self.scroll = async_to_raw_response_wrapper(
+            companies.scroll,
         )
+
+    @cached_property
+    def contacts(self) -> AsyncContactsResourceWithRawResponse:
+        return AsyncContactsResourceWithRawResponse(self._companies.contacts)
+
+    @cached_property
+    def segments(self) -> AsyncSegmentsResourceWithRawResponse:
+        return AsyncSegmentsResourceWithRawResponse(self._companies.segments)
+
+
+class CompaniesResourceWithStreamingResponse:
+    def __init__(self, companies: CompaniesResource) -> None:
+        self._companies = companies
+
+        self.create = to_streamed_response_wrapper(
+            companies.create,
+        )
+        self.retrieve = to_streamed_response_wrapper(
+            companies.retrieve,
+        )
+        self.update = to_streamed_response_wrapper(
+            companies.update,
+        )
+        self.list = to_streamed_response_wrapper(
+            companies.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            companies.delete,
+        )
+        self.scroll = to_streamed_response_wrapper(
+            companies.scroll,
+        )
+
+    @cached_property
+    def contacts(self) -> ContactsResourceWithStreamingResponse:
+        return ContactsResourceWithStreamingResponse(self._companies.contacts)
+
+    @cached_property
+    def segments(self) -> SegmentsResourceWithStreamingResponse:
+        return SegmentsResourceWithStreamingResponse(self._companies.segments)
+
+
+class AsyncCompaniesResourceWithStreamingResponse:
+    def __init__(self, companies: AsyncCompaniesResource) -> None:
+        self._companies = companies
+
+        self.create = async_to_streamed_response_wrapper(
+            companies.create,
+        )
+        self.retrieve = async_to_streamed_response_wrapper(
+            companies.retrieve,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            companies.update,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            companies.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            companies.delete,
+        )
+        self.scroll = async_to_streamed_response_wrapper(
+            companies.scroll,
+        )
+
+    @cached_property
+    def contacts(self) -> AsyncContactsResourceWithStreamingResponse:
+        return AsyncContactsResourceWithStreamingResponse(self._companies.contacts)
+
+    @cached_property
+    def segments(self) -> AsyncSegmentsResourceWithStreamingResponse:
+        return AsyncSegmentsResourceWithStreamingResponse(self._companies.segments)

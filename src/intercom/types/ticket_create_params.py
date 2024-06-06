@@ -1,15 +1,15 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Optional
+from typing import Dict, Union, Iterable, Optional
 from typing_extensions import Required, TypedDict
 
 __all__ = ["TicketCreateParams", "Contact", "ContactID", "ContactExternalID", "ContactEmail"]
 
 
 class TicketCreateParams(TypedDict, total=False):
-    contacts: Required[List[Contact]]
+    contacts: Required[Iterable[Contact]]
     """The list of contacts (users or leads) affected by this ticket.
 
     Currently only one is allowed
@@ -18,7 +18,7 @@ class TicketCreateParams(TypedDict, total=False):
     ticket_type_id: Required[str]
     """The ID of the type of ticket you want to create"""
 
-    ticket_attributes: Dict[str, Union[Optional[str], float, bool, List[object]]]
+    ticket_attributes: Dict[str, Union[Optional[str], float, bool, Iterable[object]]]
     """The attributes set on the ticket.
 
     When setting the default title and description attributes, the attribute keys

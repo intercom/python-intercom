@@ -1,37 +1,47 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 import httpx
 
-from ...types import DataExport
 from .content import (
-    Content,
-    AsyncContent,
-    ContentWithRawResponse,
-    AsyncContentWithRawResponse,
+    ContentResource,
+    AsyncContentResource,
+    ContentResourceWithRawResponse,
+    AsyncContentResourceWithRawResponse,
+    ContentResourceWithStreamingResponse,
+    AsyncContentResourceWithStreamingResponse,
 )
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
+from .content.content import ContentResource, AsyncContentResource
+from ...types.data_export import DataExport
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["Export", "AsyncExport"]
+__all__ = ["ExportResource", "AsyncExportResource"]
 
 
-class Export(SyncAPIResource):
-    content: Content
-    with_raw_response: ExportWithRawResponse
+class ExportResource(SyncAPIResource):
+    @cached_property
+    def content(self) -> ContentResource:
+        return ContentResource(self._client)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.content = Content(client)
-        self.with_raw_response = ExportWithRawResponse(self)
+    @cached_property
+    def with_raw_response(self) -> ExportResourceWithRawResponse:
+        return ExportResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> ExportResourceWithStreamingResponse:
+        return ExportResourceWithStreamingResponse(self)
 
     def cancel(
         self,
@@ -56,6 +66,8 @@ class Export(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_identifier:
+            raise ValueError(f"Expected a non-empty value for `job_identifier` but received {job_identifier!r}")
         return self._post(
             f"/export/cancel/{job_identifier}",
             options=make_request_options(
@@ -65,14 +77,18 @@ class Export(SyncAPIResource):
         )
 
 
-class AsyncExport(AsyncAPIResource):
-    content: AsyncContent
-    with_raw_response: AsyncExportWithRawResponse
+class AsyncExportResource(AsyncAPIResource):
+    @cached_property
+    def content(self) -> AsyncContentResource:
+        return AsyncContentResource(self._client)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.content = AsyncContent(client)
-        self.with_raw_response = AsyncExportWithRawResponse(self)
+    @cached_property
+    def with_raw_response(self) -> AsyncExportResourceWithRawResponse:
+        return AsyncExportResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncExportResourceWithStreamingResponse:
+        return AsyncExportResourceWithStreamingResponse(self)
 
     async def cancel(
         self,
@@ -97,6 +113,8 @@ class AsyncExport(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_identifier:
+            raise ValueError(f"Expected a non-empty value for `job_identifier` but received {job_identifier!r}")
         return await self._post(
             f"/export/cancel/{job_identifier}",
             options=make_request_options(
@@ -106,19 +124,53 @@ class AsyncExport(AsyncAPIResource):
         )
 
 
-class ExportWithRawResponse:
-    def __init__(self, export: Export) -> None:
-        self.content = ContentWithRawResponse(export.content)
+class ExportResourceWithRawResponse:
+    def __init__(self, export: ExportResource) -> None:
+        self._export = export
 
         self.cancel = to_raw_response_wrapper(
             export.cancel,
         )
 
+    @cached_property
+    def content(self) -> ContentResourceWithRawResponse:
+        return ContentResourceWithRawResponse(self._export.content)
 
-class AsyncExportWithRawResponse:
-    def __init__(self, export: AsyncExport) -> None:
-        self.content = AsyncContentWithRawResponse(export.content)
+
+class AsyncExportResourceWithRawResponse:
+    def __init__(self, export: AsyncExportResource) -> None:
+        self._export = export
 
         self.cancel = async_to_raw_response_wrapper(
             export.cancel,
         )
+
+    @cached_property
+    def content(self) -> AsyncContentResourceWithRawResponse:
+        return AsyncContentResourceWithRawResponse(self._export.content)
+
+
+class ExportResourceWithStreamingResponse:
+    def __init__(self, export: ExportResource) -> None:
+        self._export = export
+
+        self.cancel = to_streamed_response_wrapper(
+            export.cancel,
+        )
+
+    @cached_property
+    def content(self) -> ContentResourceWithStreamingResponse:
+        return ContentResourceWithStreamingResponse(self._export.content)
+
+
+class AsyncExportResourceWithStreamingResponse:
+    def __init__(self, export: AsyncExportResource) -> None:
+        self._export = export
+
+        self.cancel = async_to_streamed_response_wrapper(
+            export.cancel,
+        )
+
+    @cached_property
+    def content(self) -> AsyncContentResourceWithStreamingResponse:
+        return AsyncContentResourceWithStreamingResponse(self._export.content)

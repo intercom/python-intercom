@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import inspect
 import traceback
 import contextlib
 from typing import Any, TypeVar, Iterator, cast
@@ -8,7 +9,14 @@ from datetime import date, datetime
 from typing_extensions import Literal, get_args, get_origin, assert_type
 
 from intercom._types import NoneType
-from intercom._utils import is_dict, is_list, is_list_type, is_union_type
+from intercom._utils import (
+    is_dict,
+    is_list,
+    is_list_type,
+    is_union_type,
+    extract_type_arg,
+    is_annotated_type,
+)
 from intercom._compat import PYDANTIC_V2, field_outer_type, get_model_fields
 from intercom._models import BaseModel
 
@@ -43,6 +51,10 @@ def assert_matches_type(
     path: list[str],
     allow_none: bool = False,
 ) -> None:
+    # unwrap `Annotated[T, ...]` -> `T`
+    if is_annotated_type(type_):
+        type_ = extract_type_arg(type_, 0)
+
     if allow_none and value is None:
         return
 
@@ -63,6 +75,8 @@ def assert_matches_type(
         assert isinstance(value, bool)
     elif origin == float:
         assert isinstance(value, float)
+    elif origin == bytes:
+        assert isinstance(value, bytes)
     elif origin == datetime:
         assert isinstance(value, datetime)
     elif origin == date:
@@ -83,7 +97,22 @@ def assert_matches_type(
             assert_matches_type(key_type, key, path=[*path, "<dict key>"])
             assert_matches_type(items_type, item, path=[*path, "<dict item>"])
     elif is_union_type(type_):
-        for i, variant in enumerate(get_args(type_)):
+        variants = get_args(type_)
+
+        try:
+            none_index = variants.index(type(None))
+        except ValueError:
+            pass
+        else:
+            # special case Optional[T] for better error messages
+            if len(variants) == 2:
+                if value is None:
+                    # valid
+                    return
+
+                return assert_matches_type(type_=variants[not none_index], value=value, path=path)
+
+        for i, variant in enumerate(variants):
             try:
                 assert_matches_type(variant, value, path=[*path, f"variant {i}"])
                 return
@@ -95,6 +124,8 @@ def assert_matches_type(
     elif issubclass(origin, BaseModel):
         assert isinstance(value, type_)
         assert assert_matches_model(type_, cast(Any, value), path=path)
+    elif inspect.isclass(origin) and origin.__name__ == "HttpxBinaryResponseContent":
+        assert value.__class__.__name__ == "HttpxBinaryResponseContent"
     else:
         assert None, f"Unhandled field type: {type_}"
 

@@ -1,8 +1,8 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Optional
+from typing import Dict, Union, Iterable, Optional
 from typing_extensions import Required, TypedDict
 
 __all__ = ["ConversationConvertParams"]
@@ -12,7 +12,7 @@ class ConversationConvertParams(TypedDict, total=False):
     ticket_type_id: Required[str]
     """The ID of the type of ticket you want to convert the conversation to"""
 
-    attributes: Dict[str, Union[Optional[str], float, bool, List[object]]]
+    attributes: Dict[str, Union[Optional[str], float, bool, Iterable[object]]]
     """The attributes set on the ticket.
 
     When setting the default title and description attributes, the attribute keys

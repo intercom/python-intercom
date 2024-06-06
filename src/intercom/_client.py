@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -19,12 +19,18 @@ from ._types import (
     ProxiesTypes,
     RequestOptions,
 )
-from ._utils import is_given, get_async_library
+from ._utils import (
+    is_given,
+    get_async_library,
+)
 from ._version import __version__
-from ._streaming import Stream as Stream
-from ._streaming import AsyncStream as AsyncStream
+from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import IntercomError, APIStatusError
-from ._base_client import DEFAULT_MAX_RETRIES, SyncAPIClient, AsyncAPIClient
+from ._base_client import (
+    DEFAULT_MAX_RETRIES,
+    SyncAPIClient,
+    AsyncAPIClient,
+)
 
 __all__ = [
     "ENVIRONMENTS",
@@ -47,30 +53,31 @@ ENVIRONMENTS: Dict[str, str] = {
 
 
 class Intercom(SyncAPIClient):
-    me: resources.Me
-    admins: resources.Admins
-    articles: resources.Articles
-    help_center: resources.HelpCenter
-    companies: resources.Companies
-    contacts: resources.Contacts
-    conversations: resources.Conversations
-    data_attributes: resources.DataAttributes
-    data_events: resources.DataEvents
-    data_exports: resources.DataExports
-    export: resources.Export
-    download: resources.Download
-    messages: resources.Messages
-    news: resources.News
-    notes: resources.Notes
-    segments: resources.Segments
-    subscription_types: resources.SubscriptionTypes
-    phone_call_redirects: resources.PhoneCallRedirects
-    tags: resources.Tags
-    teams: resources.Teams
-    ticket_types: resources.TicketTypes
-    tickets: resources.Tickets
-    visitors: resources.Visitors
+    me: resources.MeResource
+    admins: resources.AdminsResource
+    articles: resources.ArticlesResource
+    help_center: resources.HelpCenterResource
+    companies: resources.CompaniesResource
+    contacts: resources.ContactsResource
+    conversations: resources.ConversationsResource
+    data_attributes: resources.DataAttributesResource
+    data_events: resources.DataEventsResource
+    data_exports: resources.DataExportsResource
+    export: resources.ExportResource
+    download: resources.DownloadResource
+    messages: resources.MessagesResource
+    news: resources.NewsResource
+    notes: resources.NotesResource
+    segments: resources.SegmentsResource
+    subscription_types: resources.SubscriptionTypesResource
+    phone_call_redirects: resources.PhoneCallRedirectsResource
+    tags: resources.TagsResource
+    teams: resources.TeamsResource
+    ticket_types: resources.TicketTypesResource
+    tickets: resources.TicketsResource
+    visitors: resources.VisitorsResource
     with_raw_response: IntercomWithRawResponse
+    with_streaming_response: IntercomWithStreamedResponse
 
     # client options
     bearer_token: str
@@ -87,7 +94,9 @@ class Intercom(SyncAPIClient):
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
-        # Configure a custom httpx client. See the [httpx documentation](https://www.python-httpx.org/api/#client) for more details.
+        # Configure a custom httpx client.
+        # We provide a `DefaultHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
+        # See the [httpx documentation](https://www.python-httpx.org/api/#client) for more details.
         http_client: httpx.Client | None = None,
         # Enable or disable schema validation for data returned by the API.
         # When enabled an error APIResponseValidationError is raised
@@ -148,30 +157,31 @@ class Intercom(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.me = resources.Me(self)
-        self.admins = resources.Admins(self)
-        self.articles = resources.Articles(self)
-        self.help_center = resources.HelpCenter(self)
-        self.companies = resources.Companies(self)
-        self.contacts = resources.Contacts(self)
-        self.conversations = resources.Conversations(self)
-        self.data_attributes = resources.DataAttributes(self)
-        self.data_events = resources.DataEvents(self)
-        self.data_exports = resources.DataExports(self)
-        self.export = resources.Export(self)
-        self.download = resources.Download(self)
-        self.messages = resources.Messages(self)
-        self.news = resources.News(self)
-        self.notes = resources.Notes(self)
-        self.segments = resources.Segments(self)
-        self.subscription_types = resources.SubscriptionTypes(self)
-        self.phone_call_redirects = resources.PhoneCallRedirects(self)
-        self.tags = resources.Tags(self)
-        self.teams = resources.Teams(self)
-        self.ticket_types = resources.TicketTypes(self)
-        self.tickets = resources.Tickets(self)
-        self.visitors = resources.Visitors(self)
+        self.me = resources.MeResource(self)
+        self.admins = resources.AdminsResource(self)
+        self.articles = resources.ArticlesResource(self)
+        self.help_center = resources.HelpCenterResource(self)
+        self.companies = resources.CompaniesResource(self)
+        self.contacts = resources.ContactsResource(self)
+        self.conversations = resources.ConversationsResource(self)
+        self.data_attributes = resources.DataAttributesResource(self)
+        self.data_events = resources.DataEventsResource(self)
+        self.data_exports = resources.DataExportsResource(self)
+        self.export = resources.ExportResource(self)
+        self.download = resources.DownloadResource(self)
+        self.messages = resources.MessagesResource(self)
+        self.news = resources.NewsResource(self)
+        self.notes = resources.NotesResource(self)
+        self.segments = resources.SegmentsResource(self)
+        self.subscription_types = resources.SubscriptionTypesResource(self)
+        self.phone_call_redirects = resources.PhoneCallRedirectsResource(self)
+        self.tags = resources.TagsResource(self)
+        self.teams = resources.TeamsResource(self)
+        self.ticket_types = resources.TicketTypesResource(self)
+        self.tickets = resources.TicketsResource(self)
+        self.visitors = resources.VisitorsResource(self)
         self.with_raw_response = IntercomWithRawResponse(self)
+        self.with_streaming_response = IntercomWithStreamedResponse(self)
 
     @property
     @override
@@ -281,30 +291,31 @@ class Intercom(SyncAPIClient):
 
 
 class AsyncIntercom(AsyncAPIClient):
-    me: resources.AsyncMe
-    admins: resources.AsyncAdmins
-    articles: resources.AsyncArticles
-    help_center: resources.AsyncHelpCenter
-    companies: resources.AsyncCompanies
-    contacts: resources.AsyncContacts
-    conversations: resources.AsyncConversations
-    data_attributes: resources.AsyncDataAttributes
-    data_events: resources.AsyncDataEvents
-    data_exports: resources.AsyncDataExports
-    export: resources.AsyncExport
-    download: resources.AsyncDownload
-    messages: resources.AsyncMessages
-    news: resources.AsyncNews
-    notes: resources.AsyncNotes
-    segments: resources.AsyncSegments
-    subscription_types: resources.AsyncSubscriptionTypes
-    phone_call_redirects: resources.AsyncPhoneCallRedirects
-    tags: resources.AsyncTags
-    teams: resources.AsyncTeams
-    ticket_types: resources.AsyncTicketTypes
-    tickets: resources.AsyncTickets
-    visitors: resources.AsyncVisitors
+    me: resources.AsyncMeResource
+    admins: resources.AsyncAdminsResource
+    articles: resources.AsyncArticlesResource
+    help_center: resources.AsyncHelpCenterResource
+    companies: resources.AsyncCompaniesResource
+    contacts: resources.AsyncContactsResource
+    conversations: resources.AsyncConversationsResource
+    data_attributes: resources.AsyncDataAttributesResource
+    data_events: resources.AsyncDataEventsResource
+    data_exports: resources.AsyncDataExportsResource
+    export: resources.AsyncExportResource
+    download: resources.AsyncDownloadResource
+    messages: resources.AsyncMessagesResource
+    news: resources.AsyncNewsResource
+    notes: resources.AsyncNotesResource
+    segments: resources.AsyncSegmentsResource
+    subscription_types: resources.AsyncSubscriptionTypesResource
+    phone_call_redirects: resources.AsyncPhoneCallRedirectsResource
+    tags: resources.AsyncTagsResource
+    teams: resources.AsyncTeamsResource
+    ticket_types: resources.AsyncTicketTypesResource
+    tickets: resources.AsyncTicketsResource
+    visitors: resources.AsyncVisitorsResource
     with_raw_response: AsyncIntercomWithRawResponse
+    with_streaming_response: AsyncIntercomWithStreamedResponse
 
     # client options
     bearer_token: str
@@ -321,7 +332,9 @@ class AsyncIntercom(AsyncAPIClient):
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
-        # Configure a custom httpx client. See the [httpx documentation](https://www.python-httpx.org/api/#asyncclient) for more details.
+        # Configure a custom httpx client.
+        # We provide a `DefaultAsyncHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
+        # See the [httpx documentation](https://www.python-httpx.org/api/#asyncclient) for more details.
         http_client: httpx.AsyncClient | None = None,
         # Enable or disable schema validation for data returned by the API.
         # When enabled an error APIResponseValidationError is raised
@@ -382,30 +395,31 @@ class AsyncIntercom(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.me = resources.AsyncMe(self)
-        self.admins = resources.AsyncAdmins(self)
-        self.articles = resources.AsyncArticles(self)
-        self.help_center = resources.AsyncHelpCenter(self)
-        self.companies = resources.AsyncCompanies(self)
-        self.contacts = resources.AsyncContacts(self)
-        self.conversations = resources.AsyncConversations(self)
-        self.data_attributes = resources.AsyncDataAttributes(self)
-        self.data_events = resources.AsyncDataEvents(self)
-        self.data_exports = resources.AsyncDataExports(self)
-        self.export = resources.AsyncExport(self)
-        self.download = resources.AsyncDownload(self)
-        self.messages = resources.AsyncMessages(self)
-        self.news = resources.AsyncNews(self)
-        self.notes = resources.AsyncNotes(self)
-        self.segments = resources.AsyncSegments(self)
-        self.subscription_types = resources.AsyncSubscriptionTypes(self)
-        self.phone_call_redirects = resources.AsyncPhoneCallRedirects(self)
-        self.tags = resources.AsyncTags(self)
-        self.teams = resources.AsyncTeams(self)
-        self.ticket_types = resources.AsyncTicketTypes(self)
-        self.tickets = resources.AsyncTickets(self)
-        self.visitors = resources.AsyncVisitors(self)
+        self.me = resources.AsyncMeResource(self)
+        self.admins = resources.AsyncAdminsResource(self)
+        self.articles = resources.AsyncArticlesResource(self)
+        self.help_center = resources.AsyncHelpCenterResource(self)
+        self.companies = resources.AsyncCompaniesResource(self)
+        self.contacts = resources.AsyncContactsResource(self)
+        self.conversations = resources.AsyncConversationsResource(self)
+        self.data_attributes = resources.AsyncDataAttributesResource(self)
+        self.data_events = resources.AsyncDataEventsResource(self)
+        self.data_exports = resources.AsyncDataExportsResource(self)
+        self.export = resources.AsyncExportResource(self)
+        self.download = resources.AsyncDownloadResource(self)
+        self.messages = resources.AsyncMessagesResource(self)
+        self.news = resources.AsyncNewsResource(self)
+        self.notes = resources.AsyncNotesResource(self)
+        self.segments = resources.AsyncSegmentsResource(self)
+        self.subscription_types = resources.AsyncSubscriptionTypesResource(self)
+        self.phone_call_redirects = resources.AsyncPhoneCallRedirectsResource(self)
+        self.tags = resources.AsyncTagsResource(self)
+        self.teams = resources.AsyncTeamsResource(self)
+        self.ticket_types = resources.AsyncTicketTypesResource(self)
+        self.tickets = resources.AsyncTicketsResource(self)
+        self.visitors = resources.AsyncVisitorsResource(self)
         self.with_raw_response = AsyncIntercomWithRawResponse(self)
+        self.with_streaming_response = AsyncIntercomWithStreamedResponse(self)
 
     @property
     @override
@@ -516,56 +530,118 @@ class AsyncIntercom(AsyncAPIClient):
 
 class IntercomWithRawResponse:
     def __init__(self, client: Intercom) -> None:
-        self.me = resources.MeWithRawResponse(client.me)
-        self.admins = resources.AdminsWithRawResponse(client.admins)
-        self.articles = resources.ArticlesWithRawResponse(client.articles)
-        self.help_center = resources.HelpCenterWithRawResponse(client.help_center)
-        self.companies = resources.CompaniesWithRawResponse(client.companies)
-        self.contacts = resources.ContactsWithRawResponse(client.contacts)
-        self.conversations = resources.ConversationsWithRawResponse(client.conversations)
-        self.data_attributes = resources.DataAttributesWithRawResponse(client.data_attributes)
-        self.data_events = resources.DataEventsWithRawResponse(client.data_events)
-        self.data_exports = resources.DataExportsWithRawResponse(client.data_exports)
-        self.export = resources.ExportWithRawResponse(client.export)
-        self.download = resources.DownloadWithRawResponse(client.download)
-        self.messages = resources.MessagesWithRawResponse(client.messages)
-        self.news = resources.NewsWithRawResponse(client.news)
-        self.notes = resources.NotesWithRawResponse(client.notes)
-        self.segments = resources.SegmentsWithRawResponse(client.segments)
-        self.subscription_types = resources.SubscriptionTypesWithRawResponse(client.subscription_types)
-        self.phone_call_redirects = resources.PhoneCallRedirectsWithRawResponse(client.phone_call_redirects)
-        self.tags = resources.TagsWithRawResponse(client.tags)
-        self.teams = resources.TeamsWithRawResponse(client.teams)
-        self.ticket_types = resources.TicketTypesWithRawResponse(client.ticket_types)
-        self.tickets = resources.TicketsWithRawResponse(client.tickets)
-        self.visitors = resources.VisitorsWithRawResponse(client.visitors)
+        self.me = resources.MeResourceWithRawResponse(client.me)
+        self.admins = resources.AdminsResourceWithRawResponse(client.admins)
+        self.articles = resources.ArticlesResourceWithRawResponse(client.articles)
+        self.help_center = resources.HelpCenterResourceWithRawResponse(client.help_center)
+        self.companies = resources.CompaniesResourceWithRawResponse(client.companies)
+        self.contacts = resources.ContactsResourceWithRawResponse(client.contacts)
+        self.conversations = resources.ConversationsResourceWithRawResponse(client.conversations)
+        self.data_attributes = resources.DataAttributesResourceWithRawResponse(client.data_attributes)
+        self.data_events = resources.DataEventsResourceWithRawResponse(client.data_events)
+        self.data_exports = resources.DataExportsResourceWithRawResponse(client.data_exports)
+        self.export = resources.ExportResourceWithRawResponse(client.export)
+        self.download = resources.DownloadResourceWithRawResponse(client.download)
+        self.messages = resources.MessagesResourceWithRawResponse(client.messages)
+        self.news = resources.NewsResourceWithRawResponse(client.news)
+        self.notes = resources.NotesResourceWithRawResponse(client.notes)
+        self.segments = resources.SegmentsResourceWithRawResponse(client.segments)
+        self.subscription_types = resources.SubscriptionTypesResourceWithRawResponse(client.subscription_types)
+        self.phone_call_redirects = resources.PhoneCallRedirectsResourceWithRawResponse(client.phone_call_redirects)
+        self.tags = resources.TagsResourceWithRawResponse(client.tags)
+        self.teams = resources.TeamsResourceWithRawResponse(client.teams)
+        self.ticket_types = resources.TicketTypesResourceWithRawResponse(client.ticket_types)
+        self.tickets = resources.TicketsResourceWithRawResponse(client.tickets)
+        self.visitors = resources.VisitorsResourceWithRawResponse(client.visitors)
 
 
 class AsyncIntercomWithRawResponse:
     def __init__(self, client: AsyncIntercom) -> None:
-        self.me = resources.AsyncMeWithRawResponse(client.me)
-        self.admins = resources.AsyncAdminsWithRawResponse(client.admins)
-        self.articles = resources.AsyncArticlesWithRawResponse(client.articles)
-        self.help_center = resources.AsyncHelpCenterWithRawResponse(client.help_center)
-        self.companies = resources.AsyncCompaniesWithRawResponse(client.companies)
-        self.contacts = resources.AsyncContactsWithRawResponse(client.contacts)
-        self.conversations = resources.AsyncConversationsWithRawResponse(client.conversations)
-        self.data_attributes = resources.AsyncDataAttributesWithRawResponse(client.data_attributes)
-        self.data_events = resources.AsyncDataEventsWithRawResponse(client.data_events)
-        self.data_exports = resources.AsyncDataExportsWithRawResponse(client.data_exports)
-        self.export = resources.AsyncExportWithRawResponse(client.export)
-        self.download = resources.AsyncDownloadWithRawResponse(client.download)
-        self.messages = resources.AsyncMessagesWithRawResponse(client.messages)
-        self.news = resources.AsyncNewsWithRawResponse(client.news)
-        self.notes = resources.AsyncNotesWithRawResponse(client.notes)
-        self.segments = resources.AsyncSegmentsWithRawResponse(client.segments)
-        self.subscription_types = resources.AsyncSubscriptionTypesWithRawResponse(client.subscription_types)
-        self.phone_call_redirects = resources.AsyncPhoneCallRedirectsWithRawResponse(client.phone_call_redirects)
-        self.tags = resources.AsyncTagsWithRawResponse(client.tags)
-        self.teams = resources.AsyncTeamsWithRawResponse(client.teams)
-        self.ticket_types = resources.AsyncTicketTypesWithRawResponse(client.ticket_types)
-        self.tickets = resources.AsyncTicketsWithRawResponse(client.tickets)
-        self.visitors = resources.AsyncVisitorsWithRawResponse(client.visitors)
+        self.me = resources.AsyncMeResourceWithRawResponse(client.me)
+        self.admins = resources.AsyncAdminsResourceWithRawResponse(client.admins)
+        self.articles = resources.AsyncArticlesResourceWithRawResponse(client.articles)
+        self.help_center = resources.AsyncHelpCenterResourceWithRawResponse(client.help_center)
+        self.companies = resources.AsyncCompaniesResourceWithRawResponse(client.companies)
+        self.contacts = resources.AsyncContactsResourceWithRawResponse(client.contacts)
+        self.conversations = resources.AsyncConversationsResourceWithRawResponse(client.conversations)
+        self.data_attributes = resources.AsyncDataAttributesResourceWithRawResponse(client.data_attributes)
+        self.data_events = resources.AsyncDataEventsResourceWithRawResponse(client.data_events)
+        self.data_exports = resources.AsyncDataExportsResourceWithRawResponse(client.data_exports)
+        self.export = resources.AsyncExportResourceWithRawResponse(client.export)
+        self.download = resources.AsyncDownloadResourceWithRawResponse(client.download)
+        self.messages = resources.AsyncMessagesResourceWithRawResponse(client.messages)
+        self.news = resources.AsyncNewsResourceWithRawResponse(client.news)
+        self.notes = resources.AsyncNotesResourceWithRawResponse(client.notes)
+        self.segments = resources.AsyncSegmentsResourceWithRawResponse(client.segments)
+        self.subscription_types = resources.AsyncSubscriptionTypesResourceWithRawResponse(client.subscription_types)
+        self.phone_call_redirects = resources.AsyncPhoneCallRedirectsResourceWithRawResponse(
+            client.phone_call_redirects
+        )
+        self.tags = resources.AsyncTagsResourceWithRawResponse(client.tags)
+        self.teams = resources.AsyncTeamsResourceWithRawResponse(client.teams)
+        self.ticket_types = resources.AsyncTicketTypesResourceWithRawResponse(client.ticket_types)
+        self.tickets = resources.AsyncTicketsResourceWithRawResponse(client.tickets)
+        self.visitors = resources.AsyncVisitorsResourceWithRawResponse(client.visitors)
+
+
+class IntercomWithStreamedResponse:
+    def __init__(self, client: Intercom) -> None:
+        self.me = resources.MeResourceWithStreamingResponse(client.me)
+        self.admins = resources.AdminsResourceWithStreamingResponse(client.admins)
+        self.articles = resources.ArticlesResourceWithStreamingResponse(client.articles)
+        self.help_center = resources.HelpCenterResourceWithStreamingResponse(client.help_center)
+        self.companies = resources.CompaniesResourceWithStreamingResponse(client.companies)
+        self.contacts = resources.ContactsResourceWithStreamingResponse(client.contacts)
+        self.conversations = resources.ConversationsResourceWithStreamingResponse(client.conversations)
+        self.data_attributes = resources.DataAttributesResourceWithStreamingResponse(client.data_attributes)
+        self.data_events = resources.DataEventsResourceWithStreamingResponse(client.data_events)
+        self.data_exports = resources.DataExportsResourceWithStreamingResponse(client.data_exports)
+        self.export = resources.ExportResourceWithStreamingResponse(client.export)
+        self.download = resources.DownloadResourceWithStreamingResponse(client.download)
+        self.messages = resources.MessagesResourceWithStreamingResponse(client.messages)
+        self.news = resources.NewsResourceWithStreamingResponse(client.news)
+        self.notes = resources.NotesResourceWithStreamingResponse(client.notes)
+        self.segments = resources.SegmentsResourceWithStreamingResponse(client.segments)
+        self.subscription_types = resources.SubscriptionTypesResourceWithStreamingResponse(client.subscription_types)
+        self.phone_call_redirects = resources.PhoneCallRedirectsResourceWithStreamingResponse(
+            client.phone_call_redirects
+        )
+        self.tags = resources.TagsResourceWithStreamingResponse(client.tags)
+        self.teams = resources.TeamsResourceWithStreamingResponse(client.teams)
+        self.ticket_types = resources.TicketTypesResourceWithStreamingResponse(client.ticket_types)
+        self.tickets = resources.TicketsResourceWithStreamingResponse(client.tickets)
+        self.visitors = resources.VisitorsResourceWithStreamingResponse(client.visitors)
+
+
+class AsyncIntercomWithStreamedResponse:
+    def __init__(self, client: AsyncIntercom) -> None:
+        self.me = resources.AsyncMeResourceWithStreamingResponse(client.me)
+        self.admins = resources.AsyncAdminsResourceWithStreamingResponse(client.admins)
+        self.articles = resources.AsyncArticlesResourceWithStreamingResponse(client.articles)
+        self.help_center = resources.AsyncHelpCenterResourceWithStreamingResponse(client.help_center)
+        self.companies = resources.AsyncCompaniesResourceWithStreamingResponse(client.companies)
+        self.contacts = resources.AsyncContactsResourceWithStreamingResponse(client.contacts)
+        self.conversations = resources.AsyncConversationsResourceWithStreamingResponse(client.conversations)
+        self.data_attributes = resources.AsyncDataAttributesResourceWithStreamingResponse(client.data_attributes)
+        self.data_events = resources.AsyncDataEventsResourceWithStreamingResponse(client.data_events)
+        self.data_exports = resources.AsyncDataExportsResourceWithStreamingResponse(client.data_exports)
+        self.export = resources.AsyncExportResourceWithStreamingResponse(client.export)
+        self.download = resources.AsyncDownloadResourceWithStreamingResponse(client.download)
+        self.messages = resources.AsyncMessagesResourceWithStreamingResponse(client.messages)
+        self.news = resources.AsyncNewsResourceWithStreamingResponse(client.news)
+        self.notes = resources.AsyncNotesResourceWithStreamingResponse(client.notes)
+        self.segments = resources.AsyncSegmentsResourceWithStreamingResponse(client.segments)
+        self.subscription_types = resources.AsyncSubscriptionTypesResourceWithStreamingResponse(
+            client.subscription_types
+        )
+        self.phone_call_redirects = resources.AsyncPhoneCallRedirectsResourceWithStreamingResponse(
+            client.phone_call_redirects
+        )
+        self.tags = resources.AsyncTagsResourceWithStreamingResponse(client.tags)
+        self.teams = resources.AsyncTeamsResourceWithStreamingResponse(client.teams)
+        self.ticket_types = resources.AsyncTicketTypesResourceWithStreamingResponse(client.ticket_types)
+        self.tickets = resources.AsyncTicketsResourceWithStreamingResponse(client.tickets)
+        self.visitors = resources.AsyncVisitorsResourceWithStreamingResponse(client.visitors)
 
 
 Client = Intercom

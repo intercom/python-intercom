@@ -1,24 +1,21 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
 import os
+from typing import Any, cast
 
 import pytest
 
 from intercom import Intercom, AsyncIntercom
 from tests.utils import assert_matches_type
 from intercom.types import DataExport
-from intercom._client import Intercom, AsyncIntercom
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
-bearer_token = "My Bearer Token"
 
 
 class TestDataExports:
-    strict_client = Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
-    loose_client = Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
-    parametrize = pytest.mark.parametrize("client", [strict_client, loose_client], ids=["strict", "loose"])
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_content_data(self, client: Intercom) -> None:
@@ -34,30 +31,60 @@ class TestDataExports:
             created_at_after=1699425120,
             created_at_before=1699443120,
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         data_export = response.parse()
         assert_matches_type(DataExport, data_export, path=["response"])
+
+    @parametrize
+    def test_streaming_response_content_data(self, client: Intercom) -> None:
+        with client.data_exports.with_streaming_response.content_data(
+            created_at_after=1699425120,
+            created_at_before=1699443120,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            data_export = response.parse()
+            assert_matches_type(DataExport, data_export, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
 
 class TestAsyncDataExports:
-    strict_client = AsyncIntercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
-    loose_client = AsyncIntercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
-    parametrize = pytest.mark.parametrize("client", [strict_client, loose_client], ids=["strict", "loose"])
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    async def test_method_content_data(self, client: AsyncIntercom) -> None:
-        data_export = await client.data_exports.content_data(
+    async def test_method_content_data(self, async_client: AsyncIntercom) -> None:
+        data_export = await async_client.data_exports.content_data(
             created_at_after=1699425120,
             created_at_before=1699443120,
         )
         assert_matches_type(DataExport, data_export, path=["response"])
 
     @parametrize
-    async def test_raw_response_content_data(self, client: AsyncIntercom) -> None:
-        response = await client.data_exports.with_raw_response.content_data(
+    async def test_raw_response_content_data(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.data_exports.with_raw_response.content_data(
             created_at_after=1699425120,
             created_at_before=1699443120,
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        data_export = response.parse()
+        data_export = await response.parse()
         assert_matches_type(DataExport, data_export, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_content_data(self, async_client: AsyncIntercom) -> None:
+        async with async_client.data_exports.with_streaming_response.content_data(
+            created_at_after=1699425120,
+            created_at_before=1699443120,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            data_export = await response.parse()
+            assert_matches_type(DataExport, data_export, path=["response"])
+
+        assert cast(Any, response.is_closed) is True

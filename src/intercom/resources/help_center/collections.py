@@ -1,36 +1,44 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 
 import httpx
 
+from ...types import shared_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform
-from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
-from ...types.help_center import (
-    Collection,
-    CollectionList,
-    DeletedCollectionObject,
-    collection_create_params,
-    collection_update_params,
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
 )
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
+from ...types.help_center import collection_create_params, collection_update_params
+from ...types.help_center.collection import Collection
+from ...types.help_center.collection_list import CollectionList
+from ...types.help_center.deleted_collection_object import DeletedCollectionObject
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["Collections", "AsyncCollections"]
+__all__ = ["CollectionsResource", "AsyncCollectionsResource"]
 
 
-class Collections(SyncAPIResource):
-    with_raw_response: CollectionsWithRawResponse
+class CollectionsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> CollectionsResourceWithRawResponse:
+        return CollectionsResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = CollectionsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> CollectionsResourceWithStreamingResponse:
+        return CollectionsResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -39,7 +47,7 @@ class Collections(SyncAPIResource):
         description: str | NotGiven = NOT_GIVEN,
         help_center_id: Optional[int] | NotGiven = NOT_GIVEN,
         parent_id: Optional[str] | NotGiven = NOT_GIVEN,
-        translated_content: Optional[collection_create_params.TranslatedContent] | NotGiven = NOT_GIVEN,
+        translated_content: Optional[shared_params.GroupTranslatedContent] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -132,7 +140,7 @@ class Collections(SyncAPIResource):
         description: str | NotGiven = NOT_GIVEN,
         name: str | NotGiven = NOT_GIVEN,
         parent_id: Optional[str] | NotGiven = NOT_GIVEN,
-        translated_content: Optional[collection_update_params.TranslatedContent] | NotGiven = NOT_GIVEN,
+        translated_content: Optional[shared_params.GroupTranslatedContent] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -243,12 +251,14 @@ class Collections(SyncAPIResource):
         )
 
 
-class AsyncCollections(AsyncAPIResource):
-    with_raw_response: AsyncCollectionsWithRawResponse
+class AsyncCollectionsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncCollectionsResourceWithRawResponse:
+        return AsyncCollectionsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncCollectionsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncCollectionsResourceWithStreamingResponse:
+        return AsyncCollectionsResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -257,7 +267,7 @@ class AsyncCollections(AsyncAPIResource):
         description: str | NotGiven = NOT_GIVEN,
         help_center_id: Optional[int] | NotGiven = NOT_GIVEN,
         parent_id: Optional[str] | NotGiven = NOT_GIVEN,
-        translated_content: Optional[collection_create_params.TranslatedContent] | NotGiven = NOT_GIVEN,
+        translated_content: Optional[shared_params.GroupTranslatedContent] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -295,7 +305,7 @@ class AsyncCollections(AsyncAPIResource):
         """
         return await self._post(
             "/help_center/collections",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "name": name,
                     "description": description,
@@ -350,7 +360,7 @@ class AsyncCollections(AsyncAPIResource):
         description: str | NotGiven = NOT_GIVEN,
         name: str | NotGiven = NOT_GIVEN,
         parent_id: Optional[str] | NotGiven = NOT_GIVEN,
-        translated_content: Optional[collection_update_params.TranslatedContent] | NotGiven = NOT_GIVEN,
+        translated_content: Optional[shared_params.GroupTranslatedContent] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -385,7 +395,7 @@ class AsyncCollections(AsyncAPIResource):
         """
         return await self._put(
             f"/help_center/collections/{id}",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "description": description,
                     "name": name,
@@ -461,8 +471,10 @@ class AsyncCollections(AsyncAPIResource):
         )
 
 
-class CollectionsWithRawResponse:
-    def __init__(self, collections: Collections) -> None:
+class CollectionsResourceWithRawResponse:
+    def __init__(self, collections: CollectionsResource) -> None:
+        self._collections = collections
+
         self.create = to_raw_response_wrapper(
             collections.create,
         )
@@ -480,8 +492,10 @@ class CollectionsWithRawResponse:
         )
 
 
-class AsyncCollectionsWithRawResponse:
-    def __init__(self, collections: AsyncCollections) -> None:
+class AsyncCollectionsResourceWithRawResponse:
+    def __init__(self, collections: AsyncCollectionsResource) -> None:
+        self._collections = collections
+
         self.create = async_to_raw_response_wrapper(
             collections.create,
         )
@@ -495,5 +509,47 @@ class AsyncCollectionsWithRawResponse:
             collections.list,
         )
         self.delete = async_to_raw_response_wrapper(
+            collections.delete,
+        )
+
+
+class CollectionsResourceWithStreamingResponse:
+    def __init__(self, collections: CollectionsResource) -> None:
+        self._collections = collections
+
+        self.create = to_streamed_response_wrapper(
+            collections.create,
+        )
+        self.retrieve = to_streamed_response_wrapper(
+            collections.retrieve,
+        )
+        self.update = to_streamed_response_wrapper(
+            collections.update,
+        )
+        self.list = to_streamed_response_wrapper(
+            collections.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            collections.delete,
+        )
+
+
+class AsyncCollectionsResourceWithStreamingResponse:
+    def __init__(self, collections: AsyncCollectionsResource) -> None:
+        self._collections = collections
+
+        self.create = async_to_streamed_response_wrapper(
+            collections.create,
+        )
+        self.retrieve = async_to_streamed_response_wrapper(
+            collections.retrieve,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            collections.update,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            collections.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
             collections.delete,
         )

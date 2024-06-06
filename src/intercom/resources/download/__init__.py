@@ -1,25 +1,33 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from .content import (
-    Content,
-    AsyncContent,
-    ContentWithRawResponse,
-    AsyncContentWithRawResponse,
+    ContentResource,
+    AsyncContentResource,
+    ContentResourceWithRawResponse,
+    AsyncContentResourceWithRawResponse,
+    ContentResourceWithStreamingResponse,
+    AsyncContentResourceWithStreamingResponse,
 )
 from .download import (
-    Download,
-    AsyncDownload,
-    DownloadWithRawResponse,
-    AsyncDownloadWithRawResponse,
+    DownloadResource,
+    AsyncDownloadResource,
+    DownloadResourceWithRawResponse,
+    AsyncDownloadResourceWithRawResponse,
+    DownloadResourceWithStreamingResponse,
+    AsyncDownloadResourceWithStreamingResponse,
 )
 
 __all__ = [
-    "Content",
-    "AsyncContent",
-    "ContentWithRawResponse",
-    "AsyncContentWithRawResponse",
-    "Download",
-    "AsyncDownload",
-    "DownloadWithRawResponse",
-    "AsyncDownloadWithRawResponse",
+    "ContentResource",
+    "AsyncContentResource",
+    "ContentResourceWithRawResponse",
+    "AsyncContentResourceWithRawResponse",
+    "ContentResourceWithStreamingResponse",
+    "AsyncContentResourceWithStreamingResponse",
+    "DownloadResource",
+    "AsyncDownloadResource",
+    "DownloadResourceWithRawResponse",
+    "AsyncDownloadResourceWithRawResponse",
+    "DownloadResourceWithStreamingResponse",
+    "AsyncDownloadResourceWithStreamingResponse",
 ]

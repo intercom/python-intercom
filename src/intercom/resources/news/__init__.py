@@ -1,30 +1,47 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .news import News, AsyncNews, NewsWithRawResponse, AsyncNewsWithRawResponse
+from .news import (
+    NewsResource,
+    AsyncNewsResource,
+    NewsResourceWithRawResponse,
+    AsyncNewsResourceWithRawResponse,
+    NewsResourceWithStreamingResponse,
+    AsyncNewsResourceWithStreamingResponse,
+)
 from .newsfeeds import (
-    Newsfeeds,
-    AsyncNewsfeeds,
-    NewsfeedsWithRawResponse,
-    AsyncNewsfeedsWithRawResponse,
+    NewsfeedsResource,
+    AsyncNewsfeedsResource,
+    NewsfeedsResourceWithRawResponse,
+    AsyncNewsfeedsResourceWithRawResponse,
+    NewsfeedsResourceWithStreamingResponse,
+    AsyncNewsfeedsResourceWithStreamingResponse,
 )
 from .news_items import (
-    NewsItems,
-    AsyncNewsItems,
-    NewsItemsWithRawResponse,
-    AsyncNewsItemsWithRawResponse,
+    NewsItemsResource,
+    AsyncNewsItemsResource,
+    NewsItemsResourceWithRawResponse,
+    AsyncNewsItemsResourceWithRawResponse,
+    NewsItemsResourceWithStreamingResponse,
+    AsyncNewsItemsResourceWithStreamingResponse,
 )
 
 __all__ = [
-    "NewsItems",
-    "AsyncNewsItems",
-    "NewsItemsWithRawResponse",
-    "AsyncNewsItemsWithRawResponse",
-    "Newsfeeds",
-    "AsyncNewsfeeds",
-    "NewsfeedsWithRawResponse",
-    "AsyncNewsfeedsWithRawResponse",
-    "News",
-    "AsyncNews",
-    "NewsWithRawResponse",
-    "AsyncNewsWithRawResponse",
+    "NewsItemsResource",
+    "AsyncNewsItemsResource",
+    "NewsItemsResourceWithRawResponse",
+    "AsyncNewsItemsResourceWithRawResponse",
+    "NewsItemsResourceWithStreamingResponse",
+    "AsyncNewsItemsResourceWithStreamingResponse",
+    "NewsfeedsResource",
+    "AsyncNewsfeedsResource",
+    "NewsfeedsResourceWithRawResponse",
+    "AsyncNewsfeedsResourceWithRawResponse",
+    "NewsfeedsResourceWithStreamingResponse",
+    "AsyncNewsfeedsResourceWithStreamingResponse",
+    "NewsResource",
+    "AsyncNewsResource",
+    "NewsResourceWithRawResponse",
+    "AsyncNewsResourceWithRawResponse",
+    "NewsResourceWithStreamingResponse",
+    "AsyncNewsResourceWithStreamingResponse",
 ]

@@ -1,29 +1,35 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 import httpx
 
-from ..types import Team, TeamList
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from .._base_client import make_request_options
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..types.team import Team
+from .._base_client import (
+    make_request_options,
+)
+from ..types.team_list import TeamList
 
-if TYPE_CHECKING:
-    from .._client import Intercom, AsyncIntercom
-
-__all__ = ["Teams", "AsyncTeams"]
+__all__ = ["TeamsResource", "AsyncTeamsResource"]
 
 
-class Teams(SyncAPIResource):
-    with_raw_response: TeamsWithRawResponse
+class TeamsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> TeamsResourceWithRawResponse:
+        return TeamsResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = TeamsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> TeamsResourceWithStreamingResponse:
+        return TeamsResourceWithStreamingResponse(self)
 
     def retrieve(
         self,
@@ -49,6 +55,8 @@ class Teams(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/teams/{id}",
             options=make_request_options(
@@ -77,12 +85,14 @@ class Teams(SyncAPIResource):
         )
 
 
-class AsyncTeams(AsyncAPIResource):
-    with_raw_response: AsyncTeamsWithRawResponse
+class AsyncTeamsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncTeamsResourceWithRawResponse:
+        return AsyncTeamsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncTeamsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncTeamsResourceWithStreamingResponse:
+        return AsyncTeamsResourceWithStreamingResponse(self)
 
     async def retrieve(
         self,
@@ -108,6 +118,8 @@ class AsyncTeams(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/teams/{id}",
             options=make_request_options(
@@ -136,8 +148,10 @@ class AsyncTeams(AsyncAPIResource):
         )
 
 
-class TeamsWithRawResponse:
-    def __init__(self, teams: Teams) -> None:
+class TeamsResourceWithRawResponse:
+    def __init__(self, teams: TeamsResource) -> None:
+        self._teams = teams
+
         self.retrieve = to_raw_response_wrapper(
             teams.retrieve,
         )
@@ -146,11 +160,37 @@ class TeamsWithRawResponse:
         )
 
 
-class AsyncTeamsWithRawResponse:
-    def __init__(self, teams: AsyncTeams) -> None:
+class AsyncTeamsResourceWithRawResponse:
+    def __init__(self, teams: AsyncTeamsResource) -> None:
+        self._teams = teams
+
         self.retrieve = async_to_raw_response_wrapper(
             teams.retrieve,
         )
         self.list = async_to_raw_response_wrapper(
+            teams.list,
+        )
+
+
+class TeamsResourceWithStreamingResponse:
+    def __init__(self, teams: TeamsResource) -> None:
+        self._teams = teams
+
+        self.retrieve = to_streamed_response_wrapper(
+            teams.retrieve,
+        )
+        self.list = to_streamed_response_wrapper(
+            teams.list,
+        )
+
+
+class AsyncTeamsResourceWithStreamingResponse:
+    def __init__(self, teams: AsyncTeamsResource) -> None:
+        self._teams = teams
+
+        self.retrieve = async_to_streamed_response_wrapper(
+            teams.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
             teams.list,
         )

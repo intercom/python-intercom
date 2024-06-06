@@ -1,29 +1,34 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
-
-from typing import TYPE_CHECKING
 
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
-from ...types.shared import Conversation
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
+from ...types.shared.conversation import Conversation
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["RunAssignmentRules", "AsyncRunAssignmentRules"]
+__all__ = ["RunAssignmentRulesResource", "AsyncRunAssignmentRulesResource"]
 
 
-class RunAssignmentRules(SyncAPIResource):
-    with_raw_response: RunAssignmentRulesWithRawResponse
+class RunAssignmentRulesResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> RunAssignmentRulesResourceWithRawResponse:
+        return RunAssignmentRulesResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = RunAssignmentRulesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> RunAssignmentRulesResourceWithStreamingResponse:
+        return RunAssignmentRulesResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -48,6 +53,8 @@ class RunAssignmentRules(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
             f"/conversations/{id}/run_assignment_rules",
             options=make_request_options(
@@ -57,12 +64,14 @@ class RunAssignmentRules(SyncAPIResource):
         )
 
 
-class AsyncRunAssignmentRules(AsyncAPIResource):
-    with_raw_response: AsyncRunAssignmentRulesWithRawResponse
+class AsyncRunAssignmentRulesResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncRunAssignmentRulesResourceWithRawResponse:
+        return AsyncRunAssignmentRulesResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncRunAssignmentRulesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncRunAssignmentRulesResourceWithStreamingResponse:
+        return AsyncRunAssignmentRulesResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -87,6 +96,8 @@ class AsyncRunAssignmentRules(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
             f"/conversations/{id}/run_assignment_rules",
             options=make_request_options(
@@ -96,15 +107,37 @@ class AsyncRunAssignmentRules(AsyncAPIResource):
         )
 
 
-class RunAssignmentRulesWithRawResponse:
-    def __init__(self, run_assignment_rules: RunAssignmentRules) -> None:
+class RunAssignmentRulesResourceWithRawResponse:
+    def __init__(self, run_assignment_rules: RunAssignmentRulesResource) -> None:
+        self._run_assignment_rules = run_assignment_rules
+
         self.create = to_raw_response_wrapper(
             run_assignment_rules.create,
         )
 
 
-class AsyncRunAssignmentRulesWithRawResponse:
-    def __init__(self, run_assignment_rules: AsyncRunAssignmentRules) -> None:
+class AsyncRunAssignmentRulesResourceWithRawResponse:
+    def __init__(self, run_assignment_rules: AsyncRunAssignmentRulesResource) -> None:
+        self._run_assignment_rules = run_assignment_rules
+
         self.create = async_to_raw_response_wrapper(
+            run_assignment_rules.create,
+        )
+
+
+class RunAssignmentRulesResourceWithStreamingResponse:
+    def __init__(self, run_assignment_rules: RunAssignmentRulesResource) -> None:
+        self._run_assignment_rules = run_assignment_rules
+
+        self.create = to_streamed_response_wrapper(
+            run_assignment_rules.create,
+        )
+
+
+class AsyncRunAssignmentRulesResourceWithStreamingResponse:
+    def __init__(self, run_assignment_rules: AsyncRunAssignmentRulesResource) -> None:
+        self._run_assignment_rules = run_assignment_rules
+
+        self.create = async_to_streamed_response_wrapper(
             run_assignment_rules.create,
         )

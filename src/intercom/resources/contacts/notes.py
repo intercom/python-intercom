@@ -1,31 +1,40 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
-
-from typing import TYPE_CHECKING
 
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
-from ...types.shared import Note
-from ...types.contacts import NoteList, note_create_params
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
+from ...types.contacts import note_create_params
+from ...types.shared.note import Note
+from ...types.contacts.note_list import NoteList
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["Notes", "AsyncNotes"]
+__all__ = ["NotesResource", "AsyncNotesResource"]
 
 
-class Notes(SyncAPIResource):
-    with_raw_response: NotesWithRawResponse
+class NotesResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> NotesResourceWithRawResponse:
+        return NotesResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = NotesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> NotesResourceWithStreamingResponse:
+        return NotesResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -107,12 +116,14 @@ class Notes(SyncAPIResource):
         )
 
 
-class AsyncNotes(AsyncAPIResource):
-    with_raw_response: AsyncNotesWithRawResponse
+class AsyncNotesResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncNotesResourceWithRawResponse:
+        return AsyncNotesResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncNotesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncNotesResourceWithStreamingResponse:
+        return AsyncNotesResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -148,7 +159,7 @@ class AsyncNotes(AsyncAPIResource):
         """
         return await self._post(
             f"/contacts/{id}/notes",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "body": body,
                     "admin_id": admin_id,
@@ -194,8 +205,10 @@ class AsyncNotes(AsyncAPIResource):
         )
 
 
-class NotesWithRawResponse:
-    def __init__(self, notes: Notes) -> None:
+class NotesResourceWithRawResponse:
+    def __init__(self, notes: NotesResource) -> None:
+        self._notes = notes
+
         self.create = to_raw_response_wrapper(
             notes.create,
         )
@@ -204,11 +217,37 @@ class NotesWithRawResponse:
         )
 
 
-class AsyncNotesWithRawResponse:
-    def __init__(self, notes: AsyncNotes) -> None:
+class AsyncNotesResourceWithRawResponse:
+    def __init__(self, notes: AsyncNotesResource) -> None:
+        self._notes = notes
+
         self.create = async_to_raw_response_wrapper(
             notes.create,
         )
         self.list = async_to_raw_response_wrapper(
+            notes.list,
+        )
+
+
+class NotesResourceWithStreamingResponse:
+    def __init__(self, notes: NotesResource) -> None:
+        self._notes = notes
+
+        self.create = to_streamed_response_wrapper(
+            notes.create,
+        )
+        self.list = to_streamed_response_wrapper(
+            notes.list,
+        )
+
+
+class AsyncNotesResourceWithStreamingResponse:
+    def __init__(self, notes: AsyncNotesResource) -> None:
+        self._notes = notes
+
+        self.create = async_to_streamed_response_wrapper(
+            notes.create,
+        )
+        self.list = async_to_streamed_response_wrapper(
             notes.list,
         )

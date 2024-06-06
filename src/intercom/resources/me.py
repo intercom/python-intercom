@@ -1,29 +1,36 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 
 import httpx
 
-from ..types import AdminWithApp
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from .._base_client import make_request_options
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from .._base_client import (
+    make_request_options,
+)
+from ..types.admin_with_app import AdminWithApp
 
-if TYPE_CHECKING:
-    from .._client import Intercom, AsyncIntercom
-
-__all__ = ["Me", "AsyncMe"]
+__all__ = ["MeResource", "AsyncMeResource"]
 
 
-class Me(SyncAPIResource):
-    with_raw_response: MeWithRawResponse
+class MeResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> MeResourceWithRawResponse:
+        return MeResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = MeWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> MeResourceWithStreamingResponse:
+        return MeResourceWithStreamingResponse(self)
 
     def retrieve(
         self,
@@ -55,12 +62,14 @@ class Me(SyncAPIResource):
         )
 
 
-class AsyncMe(AsyncAPIResource):
-    with_raw_response: AsyncMeWithRawResponse
+class AsyncMeResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncMeResourceWithRawResponse:
+        return AsyncMeResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncMeWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncMeResourceWithStreamingResponse:
+        return AsyncMeResourceWithStreamingResponse(self)
 
     async def retrieve(
         self,
@@ -92,15 +101,37 @@ class AsyncMe(AsyncAPIResource):
         )
 
 
-class MeWithRawResponse:
-    def __init__(self, me: Me) -> None:
+class MeResourceWithRawResponse:
+    def __init__(self, me: MeResource) -> None:
+        self._me = me
+
         self.retrieve = to_raw_response_wrapper(
             me.retrieve,
         )
 
 
-class AsyncMeWithRawResponse:
-    def __init__(self, me: AsyncMe) -> None:
+class AsyncMeResourceWithRawResponse:
+    def __init__(self, me: AsyncMeResource) -> None:
+        self._me = me
+
         self.retrieve = async_to_raw_response_wrapper(
+            me.retrieve,
+        )
+
+
+class MeResourceWithStreamingResponse:
+    def __init__(self, me: MeResource) -> None:
+        self._me = me
+
+        self.retrieve = to_streamed_response_wrapper(
+            me.retrieve,
+        )
+
+
+class AsyncMeResourceWithStreamingResponse:
+    def __init__(self, me: AsyncMeResource) -> None:
+        self._me = me
+
+        self.retrieve = async_to_streamed_response_wrapper(
             me.retrieve,
         )

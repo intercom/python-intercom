@@ -16,14 +16,12 @@ from typing import (
     overload,
 )
 from pathlib import Path
-from typing_extensions import Required, Annotated, TypeGuard, get_args, get_origin
+from typing_extensions import TypeGuard
 
 import sniffio
 
-from .._types import Headers, NotGiven, FileTypes, NotGivenOr, HeadersLike
-from .._compat import is_union as _is_union
-from .._compat import parse_date as parse_date
-from .._compat import parse_datetime as parse_datetime
+from .._types import NotGiven, FileTypes, NotGivenOr, HeadersLike
+from .._compat import parse_date as parse_date, parse_datetime as parse_datetime
 
 _T = TypeVar("_T")
 _TupleT = TypeVar("_TupleT", bound=Tuple[object, ...])
@@ -166,36 +164,8 @@ def is_list(obj: object) -> TypeGuard[list[object]]:
     return isinstance(obj, list)
 
 
-def is_annotated_type(typ: type) -> bool:
-    return get_origin(typ) == Annotated
-
-
-def is_list_type(typ: type) -> bool:
-    return (get_origin(typ) or typ) == list
-
-
-def is_union_type(typ: type) -> bool:
-    return _is_union(get_origin(typ))
-
-
-def is_required_type(typ: type) -> bool:
-    return get_origin(typ) == Required
-
-
-# Extracts T from Annotated[T, ...] or from Required[Annotated[T, ...]]
-def strip_annotated_type(typ: type) -> type:
-    if is_required_type(typ) or is_annotated_type(typ):
-        return strip_annotated_type(cast(type, get_args(typ)[0]))
-
-    return typ
-
-
-def extract_type_arg(typ: type, index: int) -> type:
-    args = get_args(typ)
-    try:
-        return cast(type, args[index])
-    except IndexError as err:
-        raise RuntimeError(f"Expected type {typ} to have a type argument at index {index} but it did not") from err
+def is_iterable(obj: object) -> TypeGuard[Iterable[object]]:
+    return isinstance(obj, Iterable)
 
 
 def deepcopy_minimal(item: _T) -> _T:
@@ -244,13 +214,15 @@ def required_args(*variants: Sequence[str]) -> Callable[[CallableT], CallableT]:
     def foo(*, a: str) -> str:
         ...
 
+
     @overload
     def foo(*, b: bool) -> str:
         ...
 
+
     # This enforces the same constraints that a static type checker would
     # i.e. that either a or b must be passed to the function
-    @required_args(['a'], ['b'])
+    @required_args(["a"], ["b"])
     def foo(*, a: str | None = None, b: bool | None = None) -> str:
         ...
     ```
@@ -293,6 +265,8 @@ def required_args(*variants: Sequence[str]) -> Callable[[CallableT], CallableT]:
                     )
                     msg = f"Missing required arguments; Expected either {variations} arguments to be given"
                 else:
+                    assert len(variants) > 0
+
                     # TODO: this error message is not deterministic
                     missing = list(set(variants[0]) - given_params)
                     if len(missing) > 1:
@@ -396,7 +370,6 @@ def file_from_path(path: str) -> FileTypes:
 def get_required_header(headers: HeadersLike, header: str) -> str:
     lower_header = header.lower()
     if isinstance(headers, Mapping):
-        headers = cast(Headers, headers)
         for k, v in headers.items():
             if k.lower() == lower_header and isinstance(v, str):
                 return v
@@ -417,3 +390,13 @@ def get_async_library() -> str:
         return sniffio.current_async_library()
     except Exception:
         return "false"
+
+
+def lru_cache(*, maxsize: int | None = 128) -> Callable[[CallableT], CallableT]:
+    """A version of functools.lru_cache that retains the type signature
+    for the wrapped function arguments.
+    """
+    wrapper = functools.lru_cache(  # noqa: TID251
+        maxsize=maxsize,
+    )
+    return cast(Any, wrapper)  # type: ignore[no-any-return]

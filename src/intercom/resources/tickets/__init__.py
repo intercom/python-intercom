@@ -1,20 +1,33 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .tags import Tags, AsyncTags, TagsWithRawResponse, AsyncTagsWithRawResponse
+from .tags import (
+    TagsResource,
+    AsyncTagsResource,
+    TagsResourceWithRawResponse,
+    AsyncTagsResourceWithRawResponse,
+    TagsResourceWithStreamingResponse,
+    AsyncTagsResourceWithStreamingResponse,
+)
 from .tickets import (
-    Tickets,
-    AsyncTickets,
-    TicketsWithRawResponse,
-    AsyncTicketsWithRawResponse,
+    TicketsResource,
+    AsyncTicketsResource,
+    TicketsResourceWithRawResponse,
+    AsyncTicketsResourceWithRawResponse,
+    TicketsResourceWithStreamingResponse,
+    AsyncTicketsResourceWithStreamingResponse,
 )
 
 __all__ = [
-    "Tags",
-    "AsyncTags",
-    "TagsWithRawResponse",
-    "AsyncTagsWithRawResponse",
-    "Tickets",
-    "AsyncTickets",
-    "TicketsWithRawResponse",
-    "AsyncTicketsWithRawResponse",
+    "TagsResource",
+    "AsyncTagsResource",
+    "TagsResourceWithRawResponse",
+    "AsyncTagsResourceWithRawResponse",
+    "TagsResourceWithStreamingResponse",
+    "AsyncTagsResourceWithStreamingResponse",
+    "TicketsResource",
+    "AsyncTicketsResource",
+    "TicketsResourceWithRawResponse",
+    "AsyncTicketsResourceWithRawResponse",
+    "TicketsResourceWithStreamingResponse",
+    "AsyncTicketsResourceWithStreamingResponse",
 ]

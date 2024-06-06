@@ -1,8 +1,8 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import List, Iterable, Optional
 from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["NewsItemCreateParams", "NewsfeedAssignment"]
@@ -27,7 +27,7 @@ class NewsItemCreateParams(TypedDict, total=False):
     labels: List[str]
     """Label names displayed to users to categorize the news item."""
 
-    newsfeed_assignments: List[NewsfeedAssignment]
+    newsfeed_assignments: Iterable[NewsfeedAssignment]
     """A list of newsfeed_assignments to assign to the specified newsfeed."""
 
     reactions: List[Optional[str]]

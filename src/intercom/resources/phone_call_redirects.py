@@ -1,30 +1,41 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict, Optional
+from typing import Dict, Optional
 
 import httpx
 
-from ..types import PhoneSwitch, phone_call_redirect_create_params
+from ..types import phone_call_redirect_create_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import maybe_transform
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
+from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from .._base_client import make_request_options
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from .._base_client import (
+    make_request_options,
+)
+from ..types.phone_switch import PhoneSwitch
 
-if TYPE_CHECKING:
-    from .._client import Intercom, AsyncIntercom
-
-__all__ = ["PhoneCallRedirects", "AsyncPhoneCallRedirects"]
+__all__ = ["PhoneCallRedirectsResource", "AsyncPhoneCallRedirectsResource"]
 
 
-class PhoneCallRedirects(SyncAPIResource):
-    with_raw_response: PhoneCallRedirectsWithRawResponse
+class PhoneCallRedirectsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> PhoneCallRedirectsResourceWithRawResponse:
+        return PhoneCallRedirectsResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = PhoneCallRedirectsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> PhoneCallRedirectsResourceWithStreamingResponse:
+        return PhoneCallRedirectsResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -79,12 +90,14 @@ class PhoneCallRedirects(SyncAPIResource):
         )
 
 
-class AsyncPhoneCallRedirects(AsyncAPIResource):
-    with_raw_response: AsyncPhoneCallRedirectsWithRawResponse
+class AsyncPhoneCallRedirectsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncPhoneCallRedirectsResourceWithRawResponse:
+        return AsyncPhoneCallRedirectsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncPhoneCallRedirectsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncPhoneCallRedirectsResourceWithStreamingResponse:
+        return AsyncPhoneCallRedirectsResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -125,7 +138,7 @@ class AsyncPhoneCallRedirects(AsyncAPIResource):
         """
         return await self._post(
             "/phone_call_redirects",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "phone": phone,
                     "custom_attributes": custom_attributes,
@@ -139,15 +152,37 @@ class AsyncPhoneCallRedirects(AsyncAPIResource):
         )
 
 
-class PhoneCallRedirectsWithRawResponse:
-    def __init__(self, phone_call_redirects: PhoneCallRedirects) -> None:
+class PhoneCallRedirectsResourceWithRawResponse:
+    def __init__(self, phone_call_redirects: PhoneCallRedirectsResource) -> None:
+        self._phone_call_redirects = phone_call_redirects
+
         self.create = to_raw_response_wrapper(
             phone_call_redirects.create,
         )
 
 
-class AsyncPhoneCallRedirectsWithRawResponse:
-    def __init__(self, phone_call_redirects: AsyncPhoneCallRedirects) -> None:
+class AsyncPhoneCallRedirectsResourceWithRawResponse:
+    def __init__(self, phone_call_redirects: AsyncPhoneCallRedirectsResource) -> None:
+        self._phone_call_redirects = phone_call_redirects
+
         self.create = async_to_raw_response_wrapper(
+            phone_call_redirects.create,
+        )
+
+
+class PhoneCallRedirectsResourceWithStreamingResponse:
+    def __init__(self, phone_call_redirects: PhoneCallRedirectsResource) -> None:
+        self._phone_call_redirects = phone_call_redirects
+
+        self.create = to_streamed_response_wrapper(
+            phone_call_redirects.create,
+        )
+
+
+class AsyncPhoneCallRedirectsResourceWithStreamingResponse:
+    def __init__(self, phone_call_redirects: AsyncPhoneCallRedirectsResource) -> None:
+        self._phone_call_redirects = phone_call_redirects
+
+        self.create = async_to_streamed_response_wrapper(
             phone_call_redirects.create,
         )

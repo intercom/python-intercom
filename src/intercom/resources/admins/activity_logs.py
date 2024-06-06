@@ -1,30 +1,39 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
-
-from typing import TYPE_CHECKING
 
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
-from ...types.admins import ActivityLogList, activity_log_list_params
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
+from ...types.admins import activity_log_list_params
+from ...types.admins.activity_log_list import ActivityLogList
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["ActivityLogs", "AsyncActivityLogs"]
+__all__ = ["ActivityLogsResource", "AsyncActivityLogsResource"]
 
 
-class ActivityLogs(SyncAPIResource):
-    with_raw_response: ActivityLogsWithRawResponse
+class ActivityLogsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> ActivityLogsResourceWithRawResponse:
+        return ActivityLogsResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = ActivityLogsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> ActivityLogsResourceWithStreamingResponse:
+        return ActivityLogsResourceWithStreamingResponse(self)
 
     def list(
         self,
@@ -75,12 +84,14 @@ class ActivityLogs(SyncAPIResource):
         )
 
 
-class AsyncActivityLogs(AsyncAPIResource):
-    with_raw_response: AsyncActivityLogsWithRawResponse
+class AsyncActivityLogsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncActivityLogsResourceWithRawResponse:
+        return AsyncActivityLogsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncActivityLogsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncActivityLogsResourceWithStreamingResponse:
+        return AsyncActivityLogsResourceWithStreamingResponse(self)
 
     async def list(
         self,
@@ -119,7 +130,7 @@ class AsyncActivityLogs(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
+                query=await async_maybe_transform(
                     {
                         "created_at_after": created_at_after,
                         "created_at_before": created_at_before,
@@ -131,15 +142,37 @@ class AsyncActivityLogs(AsyncAPIResource):
         )
 
 
-class ActivityLogsWithRawResponse:
-    def __init__(self, activity_logs: ActivityLogs) -> None:
+class ActivityLogsResourceWithRawResponse:
+    def __init__(self, activity_logs: ActivityLogsResource) -> None:
+        self._activity_logs = activity_logs
+
         self.list = to_raw_response_wrapper(
             activity_logs.list,
         )
 
 
-class AsyncActivityLogsWithRawResponse:
-    def __init__(self, activity_logs: AsyncActivityLogs) -> None:
+class AsyncActivityLogsResourceWithRawResponse:
+    def __init__(self, activity_logs: AsyncActivityLogsResource) -> None:
+        self._activity_logs = activity_logs
+
         self.list = async_to_raw_response_wrapper(
+            activity_logs.list,
+        )
+
+
+class ActivityLogsResourceWithStreamingResponse:
+    def __init__(self, activity_logs: ActivityLogsResource) -> None:
+        self._activity_logs = activity_logs
+
+        self.list = to_streamed_response_wrapper(
+            activity_logs.list,
+        )
+
+
+class AsyncActivityLogsResourceWithStreamingResponse:
+    def __init__(self, activity_logs: AsyncActivityLogsResource) -> None:
+        self._activity_logs = activity_logs
+
+        self.list = async_to_streamed_response_wrapper(
             activity_logs.list,
         )

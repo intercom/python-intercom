@@ -1,31 +1,40 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
-
-from typing import TYPE_CHECKING
 
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
-from ...types.shared import Tag, TagList
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
 from ...types.contacts import tag_create_params
+from ...types.shared.tag import Tag
+from ...types.shared.tag_list import TagList
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["Tags", "AsyncTags"]
+__all__ = ["TagsResource", "AsyncTagsResource"]
 
 
-class Tags(SyncAPIResource):
-    with_raw_response: TagsWithRawResponse
+class TagsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> TagsResourceWithRawResponse:
+        return TagsResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = TagsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> TagsResourceWithStreamingResponse:
+        return TagsResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -55,6 +64,8 @@ class Tags(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not contact_id:
+            raise ValueError(f"Expected a non-empty value for `contact_id` but received {contact_id!r}")
         return self._post(
             f"/contacts/{contact_id}/tags",
             body=maybe_transform({"id": id}, tag_create_params.TagCreateParams),
@@ -87,6 +98,8 @@ class Tags(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not contact_id:
+            raise ValueError(f"Expected a non-empty value for `contact_id` but received {contact_id!r}")
         return self._get(
             f"/contacts/{contact_id}/tags",
             options=make_request_options(
@@ -95,13 +108,53 @@ class Tags(SyncAPIResource):
             cast_to=TagList,
         )
 
+    def delete(
+        self,
+        id: str,
+        *,
+        contact_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Tag:
+        """You can remove tag from a specific contact.
 
-class AsyncTags(AsyncAPIResource):
-    with_raw_response: AsyncTagsWithRawResponse
+        This will return a tag object for
+        the tag that was removed from the contact.
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncTagsWithRawResponse(self)
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not contact_id:
+            raise ValueError(f"Expected a non-empty value for `contact_id` but received {contact_id!r}")
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._delete(
+            f"/contacts/{contact_id}/tags/{id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Tag,
+        )
+
+
+class AsyncTagsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncTagsResourceWithRawResponse:
+        return AsyncTagsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncTagsResourceWithStreamingResponse:
+        return AsyncTagsResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -131,9 +184,11 @@ class AsyncTags(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not contact_id:
+            raise ValueError(f"Expected a non-empty value for `contact_id` but received {contact_id!r}")
         return await self._post(
             f"/contacts/{contact_id}/tags",
-            body=maybe_transform({"id": id}, tag_create_params.TagCreateParams),
+            body=await async_maybe_transform({"id": id}, tag_create_params.TagCreateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -163,6 +218,8 @@ class AsyncTags(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not contact_id:
+            raise ValueError(f"Expected a non-empty value for `contact_id` but received {contact_id!r}")
         return await self._get(
             f"/contacts/{contact_id}/tags",
             options=make_request_options(
@@ -171,22 +228,100 @@ class AsyncTags(AsyncAPIResource):
             cast_to=TagList,
         )
 
+    async def delete(
+        self,
+        id: str,
+        *,
+        contact_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Tag:
+        """You can remove tag from a specific contact.
 
-class TagsWithRawResponse:
-    def __init__(self, tags: Tags) -> None:
+        This will return a tag object for
+        the tag that was removed from the contact.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not contact_id:
+            raise ValueError(f"Expected a non-empty value for `contact_id` but received {contact_id!r}")
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._delete(
+            f"/contacts/{contact_id}/tags/{id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Tag,
+        )
+
+
+class TagsResourceWithRawResponse:
+    def __init__(self, tags: TagsResource) -> None:
+        self._tags = tags
+
         self.create = to_raw_response_wrapper(
             tags.create,
         )
         self.list = to_raw_response_wrapper(
             tags.list,
         )
+        self.delete = to_raw_response_wrapper(
+            tags.delete,
+        )
 
 
-class AsyncTagsWithRawResponse:
-    def __init__(self, tags: AsyncTags) -> None:
+class AsyncTagsResourceWithRawResponse:
+    def __init__(self, tags: AsyncTagsResource) -> None:
+        self._tags = tags
+
         self.create = async_to_raw_response_wrapper(
             tags.create,
         )
         self.list = async_to_raw_response_wrapper(
             tags.list,
+        )
+        self.delete = async_to_raw_response_wrapper(
+            tags.delete,
+        )
+
+
+class TagsResourceWithStreamingResponse:
+    def __init__(self, tags: TagsResource) -> None:
+        self._tags = tags
+
+        self.create = to_streamed_response_wrapper(
+            tags.create,
+        )
+        self.list = to_streamed_response_wrapper(
+            tags.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            tags.delete,
+        )
+
+
+class AsyncTagsResourceWithStreamingResponse:
+    def __init__(self, tags: AsyncTagsResource) -> None:
+        self._tags = tags
+
+        self.create = async_to_streamed_response_wrapper(
+            tags.create,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            tags.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            tags.delete,
         )

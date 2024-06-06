@@ -1,39 +1,45 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 from typing_extensions import Literal
 
 import httpx
 
-from ..types import (
-    Article,
-    ArticleList,
-    DeletedArticleObject,
-    ArticleSearchResponse,
-    article_create_params,
-    article_search_params,
-    article_update_params,
-)
+from ..types import shared_params, article_create_params, article_search_params, article_update_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import maybe_transform
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
+from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from .._base_client import make_request_options
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from .._base_client import (
+    make_request_options,
+)
+from ..types.article import Article
+from ..types.article_list import ArticleList
+from ..types.deleted_article_object import DeletedArticleObject
+from ..types.article_search_response import ArticleSearchResponse
 
-if TYPE_CHECKING:
-    from .._client import Intercom, AsyncIntercom
-
-__all__ = ["Articles", "AsyncArticles"]
+__all__ = ["ArticlesResource", "AsyncArticlesResource"]
 
 
-class Articles(SyncAPIResource):
-    with_raw_response: ArticlesWithRawResponse
+class ArticlesResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> ArticlesResourceWithRawResponse:
+        return ArticlesResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = ArticlesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> ArticlesResourceWithStreamingResponse:
+        return ArticlesResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -45,7 +51,7 @@ class Articles(SyncAPIResource):
         parent_id: int | NotGiven = NOT_GIVEN,
         parent_type: str | NotGiven = NOT_GIVEN,
         state: Literal["published", "draft"] | NotGiven = NOT_GIVEN,
-        translated_content: Optional[article_create_params.TranslatedContent] | NotGiven = NOT_GIVEN,
+        translated_content: Optional[shared_params.ArticleTranslatedContent] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -155,7 +161,7 @@ class Articles(SyncAPIResource):
         parent_type: str | NotGiven = NOT_GIVEN,
         state: Literal["published", "draft"] | NotGiven = NOT_GIVEN,
         title: str | NotGiven = NOT_GIVEN,
-        translated_content: Optional[article_update_params.TranslatedContent] | NotGiven = NOT_GIVEN,
+        translated_content: Optional[shared_params.ArticleTranslatedContent] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -339,12 +345,14 @@ class Articles(SyncAPIResource):
         )
 
 
-class AsyncArticles(AsyncAPIResource):
-    with_raw_response: AsyncArticlesWithRawResponse
+class AsyncArticlesResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncArticlesResourceWithRawResponse:
+        return AsyncArticlesResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncArticlesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncArticlesResourceWithStreamingResponse:
+        return AsyncArticlesResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -356,7 +364,7 @@ class AsyncArticles(AsyncAPIResource):
         parent_id: int | NotGiven = NOT_GIVEN,
         parent_type: str | NotGiven = NOT_GIVEN,
         state: Literal["published", "draft"] | NotGiven = NOT_GIVEN,
-        translated_content: Optional[article_create_params.TranslatedContent] | NotGiven = NOT_GIVEN,
+        translated_content: Optional[shared_params.ArticleTranslatedContent] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -404,7 +412,7 @@ class AsyncArticles(AsyncAPIResource):
         """
         return await self._post(
             "/articles",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "author_id": author_id,
                     "title": title,
@@ -466,7 +474,7 @@ class AsyncArticles(AsyncAPIResource):
         parent_type: str | NotGiven = NOT_GIVEN,
         state: Literal["published", "draft"] | NotGiven = NOT_GIVEN,
         title: str | NotGiven = NOT_GIVEN,
-        translated_content: Optional[article_update_params.TranslatedContent] | NotGiven = NOT_GIVEN,
+        translated_content: Optional[shared_params.ArticleTranslatedContent] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -514,7 +522,7 @@ class AsyncArticles(AsyncAPIResource):
         """
         return await self._put(
             f"/articles/{id}",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "author_id": author_id,
                     "body": body,
@@ -636,7 +644,7 @@ class AsyncArticles(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
+                query=await async_maybe_transform(
                     {
                         "help_center_id": help_center_id,
                         "highlight": highlight,
@@ -650,8 +658,10 @@ class AsyncArticles(AsyncAPIResource):
         )
 
 
-class ArticlesWithRawResponse:
-    def __init__(self, articles: Articles) -> None:
+class ArticlesResourceWithRawResponse:
+    def __init__(self, articles: ArticlesResource) -> None:
+        self._articles = articles
+
         self.create = to_raw_response_wrapper(
             articles.create,
         )
@@ -672,8 +682,10 @@ class ArticlesWithRawResponse:
         )
 
 
-class AsyncArticlesWithRawResponse:
-    def __init__(self, articles: AsyncArticles) -> None:
+class AsyncArticlesResourceWithRawResponse:
+    def __init__(self, articles: AsyncArticlesResource) -> None:
+        self._articles = articles
+
         self.create = async_to_raw_response_wrapper(
             articles.create,
         )
@@ -690,5 +702,53 @@ class AsyncArticlesWithRawResponse:
             articles.remove,
         )
         self.search = async_to_raw_response_wrapper(
+            articles.search,
+        )
+
+
+class ArticlesResourceWithStreamingResponse:
+    def __init__(self, articles: ArticlesResource) -> None:
+        self._articles = articles
+
+        self.create = to_streamed_response_wrapper(
+            articles.create,
+        )
+        self.retrieve = to_streamed_response_wrapper(
+            articles.retrieve,
+        )
+        self.update = to_streamed_response_wrapper(
+            articles.update,
+        )
+        self.list = to_streamed_response_wrapper(
+            articles.list,
+        )
+        self.remove = to_streamed_response_wrapper(
+            articles.remove,
+        )
+        self.search = to_streamed_response_wrapper(
+            articles.search,
+        )
+
+
+class AsyncArticlesResourceWithStreamingResponse:
+    def __init__(self, articles: AsyncArticlesResource) -> None:
+        self._articles = articles
+
+        self.create = async_to_streamed_response_wrapper(
+            articles.create,
+        )
+        self.retrieve = async_to_streamed_response_wrapper(
+            articles.retrieve,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            articles.update,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            articles.list,
+        )
+        self.remove = async_to_streamed_response_wrapper(
+            articles.remove,
+        )
+        self.search = async_to_streamed_response_wrapper(
             articles.search,
         )

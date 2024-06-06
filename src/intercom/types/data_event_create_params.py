@@ -1,23 +1,23 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
 from typing import Union
 from typing_extensions import Required, TypedDict
 
-__all__ = ["DataEventCreateParams", "Variant0", "Variant1", "Variant2"]
+__all__ = ["DataEventCreateParams", "IDRequired", "UserIDRequired", "EmailRequired"]
 
 
-class Variant0(TypedDict, total=False):
+class IDRequired(TypedDict, total=False):
     body: Required[object]
 
 
-class Variant1(TypedDict, total=False):
+class UserIDRequired(TypedDict, total=False):
     body: Required[object]
 
 
-class Variant2(TypedDict, total=False):
+class EmailRequired(TypedDict, total=False):
     body: Required[object]
 
 
-DataEventCreateParams = Union[Variant0, Variant1, Variant2]
+DataEventCreateParams = Union[IDRequired, UserIDRequired, EmailRequired]

@@ -1,31 +1,43 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, overload
+from typing import Iterable, overload
 
 import httpx
 
 from ..types import tag_create_or_update_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from .._utils import required_args, maybe_transform
+from .._utils import (
+    required_args,
+    maybe_transform,
+    async_maybe_transform,
+)
+from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from .._base_client import make_request_options
-from ..types.shared import Tag, TagList
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from .._base_client import (
+    make_request_options,
+)
+from ..types.shared.tag import Tag
+from ..types.shared.tag_list import TagList
 
-if TYPE_CHECKING:
-    from .._client import Intercom, AsyncIntercom
-
-__all__ = ["Tags", "AsyncTags"]
+__all__ = ["TagsResource", "AsyncTagsResource"]
 
 
-class Tags(SyncAPIResource):
-    with_raw_response: TagsWithRawResponse
+class TagsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> TagsResourceWithRawResponse:
+        return TagsResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = TagsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> TagsResourceWithStreamingResponse:
+        return TagsResourceWithStreamingResponse(self)
 
     def retrieve(
         self,
@@ -52,6 +64,8 @@ class Tags(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/tags/{id}",
             options=make_request_options(
@@ -103,6 +117,8 @@ class Tags(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/tags/{id}",
@@ -171,7 +187,7 @@ class Tags(SyncAPIResource):
     def create_or_update(
         self,
         *,
-        companies: List[tag_create_or_update_params.TagCompanyRequestCompany],
+        companies: Iterable[tag_create_or_update_params.TagCompanyRequestCompany],
         name: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -225,7 +241,7 @@ class Tags(SyncAPIResource):
     def create_or_update(
         self,
         *,
-        companies: List[tag_create_or_update_params.UntagCompanyRequestCompany],
+        companies: Iterable[tag_create_or_update_params.UntagCompanyRequestCompany],
         name: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -280,7 +296,7 @@ class Tags(SyncAPIResource):
         self,
         *,
         name: str,
-        users: List[tag_create_or_update_params.TagMultipleUsersRequestUser],
+        users: Iterable[tag_create_or_update_params.TagMultipleUsersRequestUser],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -327,16 +343,16 @@ class Tags(SyncAPIResource):
         """
         ...
 
-    @required_args(["name"], ["companies", "name"], ["companies", "name"], ["name", "users"])
+    @required_args(["name"], ["companies", "name"], ["name", "users"])
     def create_or_update(
         self,
         *,
         name: str,
         id: str | NotGiven = NOT_GIVEN,
-        companies: List[tag_create_or_update_params.TagCompanyRequestCompany]
-        | List[tag_create_or_update_params.UntagCompanyRequestCompany]
+        companies: Iterable[tag_create_or_update_params.TagCompanyRequestCompany]
+        | Iterable[tag_create_or_update_params.UntagCompanyRequestCompany]
         | NotGiven = NOT_GIVEN,
-        users: List[tag_create_or_update_params.TagMultipleUsersRequestUser] | NotGiven = NOT_GIVEN,
+        users: Iterable[tag_create_or_update_params.TagMultipleUsersRequestUser] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -362,12 +378,14 @@ class Tags(SyncAPIResource):
         )
 
 
-class AsyncTags(AsyncAPIResource):
-    with_raw_response: AsyncTagsWithRawResponse
+class AsyncTagsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncTagsResourceWithRawResponse:
+        return AsyncTagsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncTagsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncTagsResourceWithStreamingResponse:
+        return AsyncTagsResourceWithStreamingResponse(self)
 
     async def retrieve(
         self,
@@ -394,6 +412,8 @@ class AsyncTags(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/tags/{id}",
             options=make_request_options(
@@ -445,6 +465,8 @@ class AsyncTags(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/tags/{id}",
@@ -513,7 +535,7 @@ class AsyncTags(AsyncAPIResource):
     async def create_or_update(
         self,
         *,
-        companies: List[tag_create_or_update_params.TagCompanyRequestCompany],
+        companies: Iterable[tag_create_or_update_params.TagCompanyRequestCompany],
         name: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -567,7 +589,7 @@ class AsyncTags(AsyncAPIResource):
     async def create_or_update(
         self,
         *,
-        companies: List[tag_create_or_update_params.UntagCompanyRequestCompany],
+        companies: Iterable[tag_create_or_update_params.UntagCompanyRequestCompany],
         name: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -622,7 +644,7 @@ class AsyncTags(AsyncAPIResource):
         self,
         *,
         name: str,
-        users: List[tag_create_or_update_params.TagMultipleUsersRequestUser],
+        users: Iterable[tag_create_or_update_params.TagMultipleUsersRequestUser],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -669,16 +691,16 @@ class AsyncTags(AsyncAPIResource):
         """
         ...
 
-    @required_args(["name"], ["companies", "name"], ["companies", "name"], ["name", "users"])
+    @required_args(["name"], ["companies", "name"], ["name", "users"])
     async def create_or_update(
         self,
         *,
         name: str,
         id: str | NotGiven = NOT_GIVEN,
-        companies: List[tag_create_or_update_params.TagCompanyRequestCompany]
-        | List[tag_create_or_update_params.UntagCompanyRequestCompany]
+        companies: Iterable[tag_create_or_update_params.TagCompanyRequestCompany]
+        | Iterable[tag_create_or_update_params.UntagCompanyRequestCompany]
         | NotGiven = NOT_GIVEN,
-        users: List[tag_create_or_update_params.TagMultipleUsersRequestUser] | NotGiven = NOT_GIVEN,
+        users: Iterable[tag_create_or_update_params.TagMultipleUsersRequestUser] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -688,7 +710,7 @@ class AsyncTags(AsyncAPIResource):
     ) -> Tag:
         return await self._post(
             "/tags",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "name": name,
                     "id": id,
@@ -704,8 +726,10 @@ class AsyncTags(AsyncAPIResource):
         )
 
 
-class TagsWithRawResponse:
-    def __init__(self, tags: Tags) -> None:
+class TagsResourceWithRawResponse:
+    def __init__(self, tags: TagsResource) -> None:
+        self._tags = tags
+
         self.retrieve = to_raw_response_wrapper(
             tags.retrieve,
         )
@@ -720,8 +744,10 @@ class TagsWithRawResponse:
         )
 
 
-class AsyncTagsWithRawResponse:
-    def __init__(self, tags: AsyncTags) -> None:
+class AsyncTagsResourceWithRawResponse:
+    def __init__(self, tags: AsyncTagsResource) -> None:
+        self._tags = tags
+
         self.retrieve = async_to_raw_response_wrapper(
             tags.retrieve,
         )
@@ -732,5 +758,41 @@ class AsyncTagsWithRawResponse:
             tags.delete,
         )
         self.create_or_update = async_to_raw_response_wrapper(
+            tags.create_or_update,
+        )
+
+
+class TagsResourceWithStreamingResponse:
+    def __init__(self, tags: TagsResource) -> None:
+        self._tags = tags
+
+        self.retrieve = to_streamed_response_wrapper(
+            tags.retrieve,
+        )
+        self.list = to_streamed_response_wrapper(
+            tags.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            tags.delete,
+        )
+        self.create_or_update = to_streamed_response_wrapper(
+            tags.create_or_update,
+        )
+
+
+class AsyncTagsResourceWithStreamingResponse:
+    def __init__(self, tags: AsyncTagsResource) -> None:
+        self._tags = tags
+
+        self.retrieve = async_to_streamed_response_wrapper(
+            tags.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            tags.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            tags.delete,
+        )
+        self.create_or_update = async_to_streamed_response_wrapper(
             tags.create_or_update,
         )

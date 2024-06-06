@@ -1,43 +1,80 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
-from .data import Data, AsyncData, DataWithRawResponse, AsyncDataWithRawResponse
+from .data import (
+    DataResource,
+    AsyncDataResource,
+    DataResourceWithRawResponse,
+    AsyncDataResourceWithRawResponse,
+    DataResourceWithStreamingResponse,
+    AsyncDataResourceWithStreamingResponse,
+)
+from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 
-if TYPE_CHECKING:
-    from ...._client import Intercom, AsyncIntercom
-
-__all__ = ["Content", "AsyncContent"]
+__all__ = ["ContentResource", "AsyncContentResource"]
 
 
-class Content(SyncAPIResource):
-    data: Data
-    with_raw_response: ContentWithRawResponse
+class ContentResource(SyncAPIResource):
+    @cached_property
+    def data(self) -> DataResource:
+        return DataResource(self._client)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.data = Data(client)
-        self.with_raw_response = ContentWithRawResponse(self)
+    @cached_property
+    def with_raw_response(self) -> ContentResourceWithRawResponse:
+        return ContentResourceWithRawResponse(self)
 
-
-class AsyncContent(AsyncAPIResource):
-    data: AsyncData
-    with_raw_response: AsyncContentWithRawResponse
-
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.data = AsyncData(client)
-        self.with_raw_response = AsyncContentWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> ContentResourceWithStreamingResponse:
+        return ContentResourceWithStreamingResponse(self)
 
 
-class ContentWithRawResponse:
-    def __init__(self, content: Content) -> None:
-        self.data = DataWithRawResponse(content.data)
+class AsyncContentResource(AsyncAPIResource):
+    @cached_property
+    def data(self) -> AsyncDataResource:
+        return AsyncDataResource(self._client)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncContentResourceWithRawResponse:
+        return AsyncContentResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncContentResourceWithStreamingResponse:
+        return AsyncContentResourceWithStreamingResponse(self)
 
 
-class AsyncContentWithRawResponse:
-    def __init__(self, content: AsyncContent) -> None:
-        self.data = AsyncDataWithRawResponse(content.data)
+class ContentResourceWithRawResponse:
+    def __init__(self, content: ContentResource) -> None:
+        self._content = content
+
+    @cached_property
+    def data(self) -> DataResourceWithRawResponse:
+        return DataResourceWithRawResponse(self._content.data)
+
+
+class AsyncContentResourceWithRawResponse:
+    def __init__(self, content: AsyncContentResource) -> None:
+        self._content = content
+
+    @cached_property
+    def data(self) -> AsyncDataResourceWithRawResponse:
+        return AsyncDataResourceWithRawResponse(self._content.data)
+
+
+class ContentResourceWithStreamingResponse:
+    def __init__(self, content: ContentResource) -> None:
+        self._content = content
+
+    @cached_property
+    def data(self) -> DataResourceWithStreamingResponse:
+        return DataResourceWithStreamingResponse(self._content.data)
+
+
+class AsyncContentResourceWithStreamingResponse:
+    def __init__(self, content: AsyncContentResource) -> None:
+        self._content = content
+
+    @cached_property
+    def data(self) -> AsyncDataResourceWithStreamingResponse:
+        return AsyncDataResourceWithStreamingResponse(self._content.data)
