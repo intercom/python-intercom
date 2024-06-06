@@ -26,7 +26,6 @@ from .._base_client import (
 )
 from ..types.visitor import Visitor
 from ..types.shared.contact import Contact
-from ..types.visitor_deleted_object import VisitorDeletedObject
 
 __all__ = ["VisitorsResource", "AsyncVisitorsResource"]
 
@@ -218,72 +217,6 @@ class VisitorsResource(SyncAPIResource):
             cast_to=Contact,
         )
 
-    def delete_by_id(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VisitorDeletedObject:
-        """
-        You can delete a single visitor.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return self._delete(
-            f"/visitors/{id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=VisitorDeletedObject,
-        )
-
-    def retrieve_by_id(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[Visitor]:
-        """
-        You can fetch the details of a single visitor.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return self._get(
-            f"/visitors/{id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Visitor,
-        )
-
 
 class AsyncVisitorsResource(AsyncAPIResource):
     @cached_property
@@ -472,72 +405,6 @@ class AsyncVisitorsResource(AsyncAPIResource):
             cast_to=Contact,
         )
 
-    async def delete_by_id(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> VisitorDeletedObject:
-        """
-        You can delete a single visitor.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return await self._delete(
-            f"/visitors/{id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=VisitorDeletedObject,
-        )
-
-    async def retrieve_by_id(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Optional[Visitor]:
-        """
-        You can fetch the details of a single visitor.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return await self._get(
-            f"/visitors/{id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Visitor,
-        )
-
 
 class VisitorsResourceWithRawResponse:
     def __init__(self, visitors: VisitorsResource) -> None:
@@ -551,12 +418,6 @@ class VisitorsResourceWithRawResponse:
         )
         self.convert = to_raw_response_wrapper(
             visitors.convert,
-        )
-        self.delete_by_id = to_raw_response_wrapper(
-            visitors.delete_by_id,
-        )
-        self.retrieve_by_id = to_raw_response_wrapper(
-            visitors.retrieve_by_id,
         )
 
 
@@ -573,12 +434,6 @@ class AsyncVisitorsResourceWithRawResponse:
         self.convert = async_to_raw_response_wrapper(
             visitors.convert,
         )
-        self.delete_by_id = async_to_raw_response_wrapper(
-            visitors.delete_by_id,
-        )
-        self.retrieve_by_id = async_to_raw_response_wrapper(
-            visitors.retrieve_by_id,
-        )
 
 
 class VisitorsResourceWithStreamingResponse:
@@ -594,12 +449,6 @@ class VisitorsResourceWithStreamingResponse:
         self.convert = to_streamed_response_wrapper(
             visitors.convert,
         )
-        self.delete_by_id = to_streamed_response_wrapper(
-            visitors.delete_by_id,
-        )
-        self.retrieve_by_id = to_streamed_response_wrapper(
-            visitors.retrieve_by_id,
-        )
 
 
 class AsyncVisitorsResourceWithStreamingResponse:
@@ -614,10 +463,4 @@ class AsyncVisitorsResourceWithStreamingResponse:
         )
         self.convert = async_to_streamed_response_wrapper(
             visitors.convert,
-        )
-        self.delete_by_id = async_to_streamed_response_wrapper(
-            visitors.delete_by_id,
-        )
-        self.retrieve_by_id = async_to_streamed_response_wrapper(
-            visitors.retrieve_by_id,
         )

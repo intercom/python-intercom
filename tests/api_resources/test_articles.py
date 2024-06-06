@@ -25,7 +25,7 @@ class TestArticles:
     @parametrize
     def test_method_create(self, client: Intercom) -> None:
         article = client.articles.create(
-            author_id=991268576,
+            author_id=991268363,
             title="Thanks for everything",
         )
         assert_matches_type(Article, article, path=["response"])
@@ -33,11 +33,11 @@ class TestArticles:
     @parametrize
     def test_method_create_with_all_params(self, client: Intercom) -> None:
         article = client.articles.create(
-            author_id=991268576,
+            author_id=991268363,
             title="Thanks for everything",
             body="Body of the Article",
             description="Description of the Article",
-            parent_id=362,
+            parent_id=290,
             parent_type="collection",
             state="published",
             translated_content={
@@ -179,7 +179,7 @@ class TestArticles:
                     "title": "Merci pour tout",
                     "description": "Description de l'article",
                     "body": "Corps de l'article",
-                    "author_id": 991268576,
+                    "author_id": 991268363,
                     "state": "published",
                     "created_at": 1663597223,
                     "updated_at": 1663597260,
@@ -456,7 +456,7 @@ class TestArticles:
     @parametrize
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.articles.with_raw_response.create(
-            author_id=991268576,
+            author_id=991268363,
             title="Thanks for everything",
         )
 
@@ -468,7 +468,7 @@ class TestArticles:
     @parametrize
     def test_streaming_response_create(self, client: Intercom) -> None:
         with client.articles.with_streaming_response.create(
-            author_id=991268576,
+            author_id=991268363,
             title="Thanks for everything",
         ) as response:
             assert not response.is_closed
@@ -1063,7 +1063,7 @@ class TestAsyncArticles:
     @parametrize
     async def test_method_create(self, async_client: AsyncIntercom) -> None:
         article = await async_client.articles.create(
-            author_id=991268576,
+            author_id=991268363,
             title="Thanks for everything",
         )
         assert_matches_type(Article, article, path=["response"])
@@ -1071,11 +1071,11 @@ class TestAsyncArticles:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncIntercom) -> None:
         article = await async_client.articles.create(
-            author_id=991268576,
+            author_id=991268363,
             title="Thanks for everything",
             body="Body of the Article",
             description="Description of the Article",
-            parent_id=362,
+            parent_id=290,
             parent_type="collection",
             state="published",
             translated_content={
@@ -1217,7 +1217,7 @@ class TestAsyncArticles:
                     "title": "Merci pour tout",
                     "description": "Description de l'article",
                     "body": "Corps de l'article",
-                    "author_id": 991268576,
+                    "author_id": 991268363,
                     "state": "published",
                     "created_at": 1663597223,
                     "updated_at": 1663597260,
@@ -1494,7 +1494,7 @@ class TestAsyncArticles:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncIntercom) -> None:
         response = await async_client.articles.with_raw_response.create(
-            author_id=991268576,
+            author_id=991268363,
             title="Thanks for everything",
         )
 
@@ -1506,7 +1506,7 @@ class TestAsyncArticles:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncIntercom) -> None:
         async with async_client.articles.with_streaming_response.create(
-            author_id=991268576,
+            author_id=991268363,
             title="Thanks for everything",
         ) as response:
             assert not response.is_closed

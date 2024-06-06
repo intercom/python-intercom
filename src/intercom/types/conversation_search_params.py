@@ -12,25 +12,31 @@ __all__ = ["ConversationSearchParams", "Query", "QuerySingleFilterSearchRequest"
 
 class ConversationSearchParams(TypedDict, total=False):
     query: Required[Query]
+    """Search using Intercoms Search APIs with a single filter."""
 
     pagination: Optional[Pagination]
 
 
 class QuerySingleFilterSearchRequest(TypedDict, total=False):
     field: str
-    """The Intercom defined id representing the company."""
+    """The accepted field that you want to search on."""
 
     operator: Literal["=", "!=", "IN", "NIN", "<", ">", "~", "!~", "^", "$"]
-    """The Intercom defined id representing the company."""
+    """
+    The accepted operators you can use to define how you want to search for the
+    value.
+    """
 
     value: str
-    """The Intercom defined id representing the company."""
+    """The value that you want to search on."""
 
 
 Query = Union[QuerySingleFilterSearchRequest, shared_params.MultipleFilterSearchRequest]
 
 
 class Pagination(TypedDict, total=False):
-    page: int
+    per_page: int
+    """The number of results to fetch per page."""
 
-    starting_after: str
+    starting_after: Optional[str]
+    """The cursor to use in the next request to get the next page of results."""

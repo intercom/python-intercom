@@ -3,7 +3,6 @@
 from typing import Dict, List, Optional
 from typing_extensions import Literal
 
-from .tag import Tag
 from ..segment import Segment
 from ..._models import BaseModel
 
@@ -29,7 +28,7 @@ class Segments(BaseModel):
 
 
 class Tags(BaseModel):
-    tags: Optional[List[Tag]] = None
+    tags: Optional[List[object]] = None
 
     type: Optional[Literal["tag.list"]] = None
     """The type of the object"""

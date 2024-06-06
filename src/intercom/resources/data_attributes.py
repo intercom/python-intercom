@@ -50,6 +50,7 @@ class DataAttributesResource(SyncAPIResource):
         model: Literal["contact", "company"],
         name: str,
         description: str | NotGiven = NOT_GIVEN,
+        messenger_writable: bool | NotGiven = NOT_GIVEN,
         options: List[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -70,6 +71,8 @@ class DataAttributesResource(SyncAPIResource):
 
           description: The readable description you see in the UI for the attribute.
 
+          messenger_writable: Can this attribute be updated by the Messenger
+
           options: To create list attributes. Provide a set of hashes with `value` as the key of
               the options you want to make. `data_type` must be `string`.
 
@@ -89,6 +92,7 @@ class DataAttributesResource(SyncAPIResource):
                     "model": model,
                     "name": name,
                     "description": description,
+                    "messenger_writable": messenger_writable,
                     "options": options,
                 },
                 data_attribute_create_params.DataAttributeCreateParams,
@@ -105,6 +109,7 @@ class DataAttributesResource(SyncAPIResource):
         *,
         archived: bool | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
+        messenger_writable: bool | NotGiven = NOT_GIVEN,
         options: List[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -126,6 +131,8 @@ class DataAttributesResource(SyncAPIResource):
 
           description: The readable description you see in the UI for the attribute.
 
+          messenger_writable: Can this attribute be updated by the Messenger
+
           options: To create list attributes. Provide a set of hashes with `value` as the key of
               the options you want to make. `data_type` must be `string`.
 
@@ -143,6 +150,7 @@ class DataAttributesResource(SyncAPIResource):
                 {
                     "archived": archived,
                     "description": description,
+                    "messenger_writable": messenger_writable,
                     "options": options,
                 },
                 data_attribute_update_params.DataAttributeUpdateParams,
@@ -218,6 +226,7 @@ class AsyncDataAttributesResource(AsyncAPIResource):
         model: Literal["contact", "company"],
         name: str,
         description: str | NotGiven = NOT_GIVEN,
+        messenger_writable: bool | NotGiven = NOT_GIVEN,
         options: List[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -238,6 +247,8 @@ class AsyncDataAttributesResource(AsyncAPIResource):
 
           description: The readable description you see in the UI for the attribute.
 
+          messenger_writable: Can this attribute be updated by the Messenger
+
           options: To create list attributes. Provide a set of hashes with `value` as the key of
               the options you want to make. `data_type` must be `string`.
 
@@ -257,6 +268,7 @@ class AsyncDataAttributesResource(AsyncAPIResource):
                     "model": model,
                     "name": name,
                     "description": description,
+                    "messenger_writable": messenger_writable,
                     "options": options,
                 },
                 data_attribute_create_params.DataAttributeCreateParams,
@@ -273,6 +285,7 @@ class AsyncDataAttributesResource(AsyncAPIResource):
         *,
         archived: bool | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
+        messenger_writable: bool | NotGiven = NOT_GIVEN,
         options: List[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -294,6 +307,8 @@ class AsyncDataAttributesResource(AsyncAPIResource):
 
           description: The readable description you see in the UI for the attribute.
 
+          messenger_writable: Can this attribute be updated by the Messenger
+
           options: To create list attributes. Provide a set of hashes with `value` as the key of
               the options you want to make. `data_type` must be `string`.
 
@@ -311,6 +326,7 @@ class AsyncDataAttributesResource(AsyncAPIResource):
                 {
                     "archived": archived,
                     "description": description,
+                    "messenger_writable": messenger_writable,
                     "options": options,
                 },
                 data_attribute_update_params.DataAttributeUpdateParams,

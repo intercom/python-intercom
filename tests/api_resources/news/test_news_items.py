@@ -21,7 +21,7 @@ class TestNewsItems:
     @parametrize
     def test_method_create(self, client: Intercom) -> None:
         news_item = client.news.news_items.create(
-            sender_id=991268887,
+            sender_id=991268690,
             title="Halloween is here!",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
@@ -29,7 +29,7 @@ class TestNewsItems:
     @parametrize
     def test_method_create_with_all_params(self, client: Intercom) -> None:
         news_item = client.news.news_items.create(
-            sender_id=991268887,
+            sender_id=991268690,
             title="Halloween is here!",
             body="<p>New costumes in store for this spooky season</p>",
             deliver_silently=True,
@@ -48,7 +48,7 @@ class TestNewsItems:
     @parametrize
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.news.news_items.with_raw_response.create(
-            sender_id=991268887,
+            sender_id=991268690,
             title="Halloween is here!",
         )
 
@@ -60,7 +60,7 @@ class TestNewsItems:
     @parametrize
     def test_streaming_response_create(self, client: Intercom) -> None:
         with client.news.news_items.with_streaming_response.create(
-            sender_id=991268887,
+            sender_id=991268690,
             title="Halloween is here!",
         ) as response:
             assert not response.is_closed
@@ -106,7 +106,7 @@ class TestNewsItems:
     def test_method_update(self, client: Intercom) -> None:
         news_item = client.news.news_items.update(
             0,
-            sender_id=991268898,
+            sender_id=991268701,
             title="Christmas is here!",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
@@ -115,7 +115,7 @@ class TestNewsItems:
     def test_method_update_with_all_params(self, client: Intercom) -> None:
         news_item = client.news.news_items.update(
             0,
-            sender_id=991268898,
+            sender_id=991268701,
             title="Christmas is here!",
             body="<p>New gifts in store for the jolly season</p>",
             deliver_silently=True,
@@ -143,7 +143,7 @@ class TestNewsItems:
     def test_raw_response_update(self, client: Intercom) -> None:
         response = client.news.news_items.with_raw_response.update(
             0,
-            sender_id=991268898,
+            sender_id=991268701,
             title="Christmas is here!",
         )
 
@@ -156,7 +156,7 @@ class TestNewsItems:
     def test_streaming_response_update(self, client: Intercom) -> None:
         with client.news.news_items.with_streaming_response.update(
             0,
-            sender_id=991268898,
+            sender_id=991268701,
             title="Christmas is here!",
         ) as response:
             assert not response.is_closed
@@ -230,7 +230,7 @@ class TestAsyncNewsItems:
     @parametrize
     async def test_method_create(self, async_client: AsyncIntercom) -> None:
         news_item = await async_client.news.news_items.create(
-            sender_id=991268887,
+            sender_id=991268690,
             title="Halloween is here!",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
@@ -238,7 +238,7 @@ class TestAsyncNewsItems:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncIntercom) -> None:
         news_item = await async_client.news.news_items.create(
-            sender_id=991268887,
+            sender_id=991268690,
             title="Halloween is here!",
             body="<p>New costumes in store for this spooky season</p>",
             deliver_silently=True,
@@ -257,7 +257,7 @@ class TestAsyncNewsItems:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncIntercom) -> None:
         response = await async_client.news.news_items.with_raw_response.create(
-            sender_id=991268887,
+            sender_id=991268690,
             title="Halloween is here!",
         )
 
@@ -269,7 +269,7 @@ class TestAsyncNewsItems:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncIntercom) -> None:
         async with async_client.news.news_items.with_streaming_response.create(
-            sender_id=991268887,
+            sender_id=991268690,
             title="Halloween is here!",
         ) as response:
             assert not response.is_closed
@@ -315,7 +315,7 @@ class TestAsyncNewsItems:
     async def test_method_update(self, async_client: AsyncIntercom) -> None:
         news_item = await async_client.news.news_items.update(
             0,
-            sender_id=991268898,
+            sender_id=991268701,
             title="Christmas is here!",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
@@ -324,7 +324,7 @@ class TestAsyncNewsItems:
     async def test_method_update_with_all_params(self, async_client: AsyncIntercom) -> None:
         news_item = await async_client.news.news_items.update(
             0,
-            sender_id=991268898,
+            sender_id=991268701,
             title="Christmas is here!",
             body="<p>New gifts in store for the jolly season</p>",
             deliver_silently=True,
@@ -352,7 +352,7 @@ class TestAsyncNewsItems:
     async def test_raw_response_update(self, async_client: AsyncIntercom) -> None:
         response = await async_client.news.news_items.with_raw_response.update(
             0,
-            sender_id=991268898,
+            sender_id=991268701,
             title="Christmas is here!",
         )
 
@@ -365,7 +365,7 @@ class TestAsyncNewsItems:
     async def test_streaming_response_update(self, async_client: AsyncIntercom) -> None:
         async with async_client.news.news_items.with_streaming_response.update(
             0,
-            sender_id=991268898,
+            sender_id=991268701,
             title="Christmas is here!",
         ) as response:
             assert not response.is_closed

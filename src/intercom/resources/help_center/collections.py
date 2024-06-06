@@ -204,11 +204,9 @@ class CollectionsResource(SyncAPIResource):
         You can fetch a list of all collections by making a GET request to
         `https://api.intercom.io/help_center/collections`.
 
-        > 📘 How are the collections sorted and ordered?
-        >
-        > Collections will be returned in descending order on the `updated_at`
-        > attribute. This means if you need to iterate through results then we'll show
-        > the most recently updated collections first.
+        Collections will be returned in descending order on the `updated_at` attribute.
+        This means if you need to iterate through results then we'll show the most
+        recently updated collections first.
         """
         return self._get(
             "/help_center/collections",
@@ -424,11 +422,9 @@ class AsyncCollectionsResource(AsyncAPIResource):
         You can fetch a list of all collections by making a GET request to
         `https://api.intercom.io/help_center/collections`.
 
-        > 📘 How are the collections sorted and ordered?
-        >
-        > Collections will be returned in descending order on the `updated_at`
-        > attribute. This means if you need to iterate through results then we'll show
-        > the most recently updated collections first.
+        Collections will be returned in descending order on the `updated_at` attribute.
+        This means if you need to iterate through results then we'll show the most
+        recently updated collections first.
         """
         return await self._get(
             "/help_center/collections",

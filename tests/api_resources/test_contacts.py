@@ -319,8 +319,8 @@ class TestContacts:
     @parametrize
     def test_method_merge_with_all_params(self, client: Intercom) -> None:
         contact = client.contacts.merge(
-            from_="654b709a6abd01feb7c11060",
-            into="654b709a6abd01feb7c11061",
+            from_="6657adf76abd0167d9419d1d",
+            into="6657adf76abd0167d9419d1e",
         )
         assert_matches_type(Contact, contact, path=["response"])
 
@@ -355,13 +355,13 @@ class TestContacts:
     def test_method_search_with_all_params(self, client: Intercom) -> None:
         contact = client.contacts.search(
             query={
-                "field": "custom_attributes.social_network",
+                "field": "created_at",
                 "operator": "=",
                 "value": "string",
             },
             pagination={
-                "page": 2,
-                "starting_after": "1HaSB+xrOyyMXAkS/c1RteCL7BzOzTvYjmjakgTergIH31eoe2v4/sbLsJWP\nIncfQLD3ouPkZlCwJ86F\n",
+                "per_page": 5,
+                "starting_after": "your-cursor-from-response",
             },
         )
         assert_matches_type(ContactList, contact, path=["response"])
@@ -728,8 +728,8 @@ class TestAsyncContacts:
     @parametrize
     async def test_method_merge_with_all_params(self, async_client: AsyncIntercom) -> None:
         contact = await async_client.contacts.merge(
-            from_="654b709a6abd01feb7c11060",
-            into="654b709a6abd01feb7c11061",
+            from_="6657adf76abd0167d9419d1d",
+            into="6657adf76abd0167d9419d1e",
         )
         assert_matches_type(Contact, contact, path=["response"])
 
@@ -764,13 +764,13 @@ class TestAsyncContacts:
     async def test_method_search_with_all_params(self, async_client: AsyncIntercom) -> None:
         contact = await async_client.contacts.search(
             query={
-                "field": "custom_attributes.social_network",
+                "field": "created_at",
                 "operator": "=",
                 "value": "string",
             },
             pagination={
-                "page": 2,
-                "starting_after": "1HaSB+xrOyyMXAkS/c1RteCL7BzOzTvYjmjakgTergIH31eoe2v4/sbLsJWP\nIncfQLD3ouPkZlCwJ86F\n",
+                "per_page": 5,
+                "starting_after": "your-cursor-from-response",
             },
         )
         assert_matches_type(ContactList, contact, path=["response"])

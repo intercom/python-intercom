@@ -22,7 +22,7 @@ class TestCompanies:
     def test_method_create(self, client: Intercom) -> None:
         company = client.contacts.companies.create(
             path_id="string",
-            body_id="654b70746abd01feb7c11004",
+            body_id="6657add46abd0167d9419cd2",
         )
         assert_matches_type(Company, company, path=["response"])
 
@@ -30,7 +30,7 @@ class TestCompanies:
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.contacts.companies.with_raw_response.create(
             path_id="string",
-            body_id="654b70746abd01feb7c11004",
+            body_id="6657add46abd0167d9419cd2",
         )
 
         assert response.is_closed is True
@@ -42,7 +42,7 @@ class TestCompanies:
     def test_streaming_response_create(self, client: Intercom) -> None:
         with client.contacts.companies.with_streaming_response.create(
             path_id="string",
-            body_id="654b70746abd01feb7c11004",
+            body_id="6657add46abd0167d9419cd2",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -154,7 +154,7 @@ class TestAsyncCompanies:
     async def test_method_create(self, async_client: AsyncIntercom) -> None:
         company = await async_client.contacts.companies.create(
             path_id="string",
-            body_id="654b70746abd01feb7c11004",
+            body_id="6657add46abd0167d9419cd2",
         )
         assert_matches_type(Company, company, path=["response"])
 
@@ -162,7 +162,7 @@ class TestAsyncCompanies:
     async def test_raw_response_create(self, async_client: AsyncIntercom) -> None:
         response = await async_client.contacts.companies.with_raw_response.create(
             path_id="string",
-            body_id="654b70746abd01feb7c11004",
+            body_id="6657add46abd0167d9419cd2",
         )
 
         assert response.is_closed is True
@@ -174,7 +174,7 @@ class TestAsyncCompanies:
     async def test_streaming_response_create(self, async_client: AsyncIntercom) -> None:
         async with async_client.contacts.companies.with_streaming_response.create(
             path_id="string",
-            body_id="654b70746abd01feb7c11004",
+            body_id="6657add46abd0167d9419cd2",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

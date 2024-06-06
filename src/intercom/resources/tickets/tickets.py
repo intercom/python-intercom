@@ -63,6 +63,8 @@ class TicketsResource(SyncAPIResource):
         *,
         contacts: Iterable[ticket_create_params.Contact],
         ticket_type_id: str,
+        company_id: str | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         ticket_attributes: Dict[str, Union[Optional[str], float, bool, Iterable[object]]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -79,6 +81,11 @@ class TicketsResource(SyncAPIResource):
               one is allowed
 
           ticket_type_id: The ID of the type of ticket you want to create
+
+          company_id: The ID of the company that the ticket is associated with. The ID that you set
+              upon company creation.
+
+          created_at: The time the ticket was created. If not provided, the current time will be used.
 
           ticket_attributes: The attributes set on the ticket. When setting the default title and description
               attributes, the attribute keys that should be used are `_default_title_` and
@@ -104,6 +111,8 @@ class TicketsResource(SyncAPIResource):
                 {
                     "contacts": contacts,
                     "ticket_type_id": ticket_type_id,
+                    "company_id": company_id,
+                    "created_at": created_at,
                     "ticket_attributes": ticket_attributes,
                 },
                 ticket_create_params.TicketCreateParams,
@@ -120,10 +129,10 @@ class TicketsResource(SyncAPIResource):
         id: str,
         *,
         body: str,
-        intercom_user_id: str,
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -140,10 +149,10 @@ class TicketsResource(SyncAPIResource):
 
           body: The text body of the comment.
 
-          intercom_user_id: The identifier for the contact as given by Intercom.
-
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -163,8 +172,8 @@ class TicketsResource(SyncAPIResource):
         body: str,
         message_type: Literal["comment"],
         type: Literal["user"],
-        user_id: str,
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -181,10 +190,10 @@ class TicketsResource(SyncAPIResource):
 
           body: The text body of the comment.
 
-          user_id: The external_id you have defined for the contact.
-
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -202,10 +211,10 @@ class TicketsResource(SyncAPIResource):
         id: str,
         *,
         body: str,
-        email: str,
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -222,10 +231,10 @@ class TicketsResource(SyncAPIResource):
 
           body: The text body of the comment.
 
-          email: The email you have defined for the user.
-
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -247,6 +256,7 @@ class TicketsResource(SyncAPIResource):
         type: Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         reply_options: Iterable[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -264,11 +274,13 @@ class TicketsResource(SyncAPIResource):
 
           admin_id: The id of the admin who is authoring the comment.
 
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
 
-          body: The text body of the reply.\nNotes accept some HTML formatting. Must be present
+          body: The text body of the reply. Notes accept some HTML formatting. Must be present
               for comment and note message types.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           reply_options: The quick reply options to display. Must be present for quick_reply message
               types.
@@ -283,23 +295,16 @@ class TicketsResource(SyncAPIResource):
         """
         ...
 
-    @required_args(
-        ["body", "intercom_user_id", "message_type", "type"],
-        ["body", "message_type", "type", "user_id"],
-        ["body", "email", "message_type", "type"],
-        ["admin_id", "message_type", "type"],
-    )
+    @required_args(["body", "message_type", "type"], ["admin_id", "message_type", "type"])
     def reply(
         self,
         id: str,
         *,
         body: str | NotGiven = NOT_GIVEN,
-        intercom_user_id: str | NotGiven = NOT_GIVEN,
         message_type: Literal["comment"] | Literal["comment", "note", "quick_reply"],
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        user_id: str | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         admin_id: str | NotGiven = NOT_GIVEN,
         reply_options: Iterable[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -316,12 +321,10 @@ class TicketsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "body": body,
-                    "intercom_user_id": intercom_user_id,
                     "message_type": message_type,
                     "type": type,
                     "attachment_urls": attachment_urls,
-                    "user_id": user_id,
-                    "email": email,
+                    "created_at": created_at,
                     "admin_id": admin_id,
                     "reply_options": reply_options,
                 },
@@ -382,18 +385,26 @@ class TicketsResource(SyncAPIResource):
         You can search for multiple tickets by the value of their attributes in order to
         fetch exactly which ones you want.
 
-        To search for tickets, you send a POST request to
-        https://api.intercom.io/tickets/search. This will accept a query object in the
-        body which will define your filters.
+        To search for tickets, you send a `POST` request to
+        `https://api.intercom.io/tickets/search`.
 
-        > 🚧 Nesting & Limitations
-        >
-        > You can nest these filters in order to get even more granular insights that
-        > pinpoint exactly what you need. Example: (1 OR 2) AND (3 OR 4). There are some
-        > limitations to the amount of multiples there can be:
-        >
-        > - There's a limit of max 2 nested filters
-        > - There's a limit of max 15 filters for each AND or OR group
+        This will accept a query object in the body which will define your filters.
+        {% admonition type="warning" name="Optimizing search queries" %} Search queries
+        can be complex, so optimizing them can help the performance of your search. Use
+        the `AND` and `OR` operators to combine multiple filters to get the exact
+        results you need and utilize pagination to limit the number of results returned.
+        The default is `20` results per page. See the
+        [pagination section](https://developers.intercom.com/docs/build-an-integration/learn-more/rest-apis/pagination/#example-search-conversations-request)
+        for more details on how to use the `starting_after` param. {% /admonition %}
+
+        ### Nesting & Limitations
+
+        You can nest these filters in order to get even more granular insights that
+        pinpoint exactly what you need. Example: (1 OR 2) AND (3 OR 4). There are some
+        limitations to the amount of multiples there can be:
+
+        - There's a limit of max 2 nested filters
+        - There's a limit of max 15 filters for each AND or OR group
 
         ### Accepted Fields
 
@@ -407,8 +418,8 @@ class TicketsResource(SyncAPIResource):
         | id                    | String                                                         |
         | created_at            | Date (UNIX timestamp)                                          |
         | updated_at            | Date (UNIX timestamp)                                          |
-        | title                 | String                                                         |
-        | description           | String                                                         |
+        | _default_title_       | String                                                         |
+        | _default_description_ | String                                                         |
         | category              | String                                                         |
         | ticket_type_id        | String                                                         |
         | contact_ids           | String                                                         |
@@ -420,7 +431,32 @@ class TicketsResource(SyncAPIResource):
         | snoozed_until         | Date (UNIX timestamp)                                          |
         | ticket_attribute.{id} | String or Boolean or Date (UNIX timestamp) or Float or Integer |
 
+        ### Accepted Operators
+
+        {% admonition type="info" name="Searching based on `created_at`" %} You may use
+        the `<=` or `>=` operators to search by `created_at`. {% /admonition %}
+
+        The table below shows the operators you can use to define how you want to search
+        for the value. The operator should be put in as a string (`"="`). The operator
+        has to be compatible with the field's type (eg. you cannot search with `>` for a
+        given string value as it's only compatible for integer's and dates).
+
+        | Operator | Valid Types                   | Description                                                |
+        | :------- | :---------------------------- | :--------------------------------------------------------- |
+        | =        | All                           | Equals                                                     |
+        | !=       | All                           | Doesn't Equal                                              |
+        | IN       | All                           | In Shortcut for `OR` queries Values most be in Array       |
+        | NIN      | All                           | Not In Shortcut for `OR !` queries Values must be in Array |
+        | >        | Integer Date (UNIX Timestamp) | Greater (or equal) than                                    |
+        | <        | Integer Date (UNIX Timestamp) | Lower (or equal) than                                      |
+        | ~        | String                        | Contains                                                   |
+        | !~       | String                        | Doesn't Contain                                            |
+        | ^        | String                        | Starts With                                                |
+        | $        | String                        | Ends With                                                  |
+
         Args:
+          query: Search using Intercoms Search APIs with a single filter.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -524,6 +560,8 @@ class AsyncTicketsResource(AsyncAPIResource):
         *,
         contacts: Iterable[ticket_create_params.Contact],
         ticket_type_id: str,
+        company_id: str | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         ticket_attributes: Dict[str, Union[Optional[str], float, bool, Iterable[object]]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -540,6 +578,11 @@ class AsyncTicketsResource(AsyncAPIResource):
               one is allowed
 
           ticket_type_id: The ID of the type of ticket you want to create
+
+          company_id: The ID of the company that the ticket is associated with. The ID that you set
+              upon company creation.
+
+          created_at: The time the ticket was created. If not provided, the current time will be used.
 
           ticket_attributes: The attributes set on the ticket. When setting the default title and description
               attributes, the attribute keys that should be used are `_default_title_` and
@@ -565,6 +608,8 @@ class AsyncTicketsResource(AsyncAPIResource):
                 {
                     "contacts": contacts,
                     "ticket_type_id": ticket_type_id,
+                    "company_id": company_id,
+                    "created_at": created_at,
                     "ticket_attributes": ticket_attributes,
                 },
                 ticket_create_params.TicketCreateParams,
@@ -581,10 +626,10 @@ class AsyncTicketsResource(AsyncAPIResource):
         id: str,
         *,
         body: str,
-        intercom_user_id: str,
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -601,10 +646,10 @@ class AsyncTicketsResource(AsyncAPIResource):
 
           body: The text body of the comment.
 
-          intercom_user_id: The identifier for the contact as given by Intercom.
-
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -624,8 +669,8 @@ class AsyncTicketsResource(AsyncAPIResource):
         body: str,
         message_type: Literal["comment"],
         type: Literal["user"],
-        user_id: str,
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -642,10 +687,10 @@ class AsyncTicketsResource(AsyncAPIResource):
 
           body: The text body of the comment.
 
-          user_id: The external_id you have defined for the contact.
-
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -663,10 +708,10 @@ class AsyncTicketsResource(AsyncAPIResource):
         id: str,
         *,
         body: str,
-        email: str,
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -683,10 +728,10 @@ class AsyncTicketsResource(AsyncAPIResource):
 
           body: The text body of the comment.
 
-          email: The email you have defined for the user.
-
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -708,6 +753,7 @@ class AsyncTicketsResource(AsyncAPIResource):
         type: Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         reply_options: Iterable[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -725,11 +771,13 @@ class AsyncTicketsResource(AsyncAPIResource):
 
           admin_id: The id of the admin who is authoring the comment.
 
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
 
-          body: The text body of the reply.\nNotes accept some HTML formatting. Must be present
+          body: The text body of the reply. Notes accept some HTML formatting. Must be present
               for comment and note message types.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           reply_options: The quick reply options to display. Must be present for quick_reply message
               types.
@@ -744,23 +792,16 @@ class AsyncTicketsResource(AsyncAPIResource):
         """
         ...
 
-    @required_args(
-        ["body", "intercom_user_id", "message_type", "type"],
-        ["body", "message_type", "type", "user_id"],
-        ["body", "email", "message_type", "type"],
-        ["admin_id", "message_type", "type"],
-    )
+    @required_args(["body", "message_type", "type"], ["admin_id", "message_type", "type"])
     async def reply(
         self,
         id: str,
         *,
         body: str | NotGiven = NOT_GIVEN,
-        intercom_user_id: str | NotGiven = NOT_GIVEN,
         message_type: Literal["comment"] | Literal["comment", "note", "quick_reply"],
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        user_id: str | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         admin_id: str | NotGiven = NOT_GIVEN,
         reply_options: Iterable[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -777,12 +818,10 @@ class AsyncTicketsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "body": body,
-                    "intercom_user_id": intercom_user_id,
                     "message_type": message_type,
                     "type": type,
                     "attachment_urls": attachment_urls,
-                    "user_id": user_id,
-                    "email": email,
+                    "created_at": created_at,
                     "admin_id": admin_id,
                     "reply_options": reply_options,
                 },
@@ -843,18 +882,26 @@ class AsyncTicketsResource(AsyncAPIResource):
         You can search for multiple tickets by the value of their attributes in order to
         fetch exactly which ones you want.
 
-        To search for tickets, you send a POST request to
-        https://api.intercom.io/tickets/search. This will accept a query object in the
-        body which will define your filters.
+        To search for tickets, you send a `POST` request to
+        `https://api.intercom.io/tickets/search`.
 
-        > 🚧 Nesting & Limitations
-        >
-        > You can nest these filters in order to get even more granular insights that
-        > pinpoint exactly what you need. Example: (1 OR 2) AND (3 OR 4). There are some
-        > limitations to the amount of multiples there can be:
-        >
-        > - There's a limit of max 2 nested filters
-        > - There's a limit of max 15 filters for each AND or OR group
+        This will accept a query object in the body which will define your filters.
+        {% admonition type="warning" name="Optimizing search queries" %} Search queries
+        can be complex, so optimizing them can help the performance of your search. Use
+        the `AND` and `OR` operators to combine multiple filters to get the exact
+        results you need and utilize pagination to limit the number of results returned.
+        The default is `20` results per page. See the
+        [pagination section](https://developers.intercom.com/docs/build-an-integration/learn-more/rest-apis/pagination/#example-search-conversations-request)
+        for more details on how to use the `starting_after` param. {% /admonition %}
+
+        ### Nesting & Limitations
+
+        You can nest these filters in order to get even more granular insights that
+        pinpoint exactly what you need. Example: (1 OR 2) AND (3 OR 4). There are some
+        limitations to the amount of multiples there can be:
+
+        - There's a limit of max 2 nested filters
+        - There's a limit of max 15 filters for each AND or OR group
 
         ### Accepted Fields
 
@@ -868,8 +915,8 @@ class AsyncTicketsResource(AsyncAPIResource):
         | id                    | String                                                         |
         | created_at            | Date (UNIX timestamp)                                          |
         | updated_at            | Date (UNIX timestamp)                                          |
-        | title                 | String                                                         |
-        | description           | String                                                         |
+        | _default_title_       | String                                                         |
+        | _default_description_ | String                                                         |
         | category              | String                                                         |
         | ticket_type_id        | String                                                         |
         | contact_ids           | String                                                         |
@@ -881,7 +928,32 @@ class AsyncTicketsResource(AsyncAPIResource):
         | snoozed_until         | Date (UNIX timestamp)                                          |
         | ticket_attribute.{id} | String or Boolean or Date (UNIX timestamp) or Float or Integer |
 
+        ### Accepted Operators
+
+        {% admonition type="info" name="Searching based on `created_at`" %} You may use
+        the `<=` or `>=` operators to search by `created_at`. {% /admonition %}
+
+        The table below shows the operators you can use to define how you want to search
+        for the value. The operator should be put in as a string (`"="`). The operator
+        has to be compatible with the field's type (eg. you cannot search with `>` for a
+        given string value as it's only compatible for integer's and dates).
+
+        | Operator | Valid Types                   | Description                                                |
+        | :------- | :---------------------------- | :--------------------------------------------------------- |
+        | =        | All                           | Equals                                                     |
+        | !=       | All                           | Doesn't Equal                                              |
+        | IN       | All                           | In Shortcut for `OR` queries Values most be in Array       |
+        | NIN      | All                           | Not In Shortcut for `OR !` queries Values must be in Array |
+        | >        | Integer Date (UNIX Timestamp) | Greater (or equal) than                                    |
+        | <        | Integer Date (UNIX Timestamp) | Lower (or equal) than                                      |
+        | ~        | String                        | Contains                                                   |
+        | !~       | String                        | Doesn't Contain                                            |
+        | ^        | String                        | Starts With                                                |
+        | $        | String                        | Ends With                                                  |
+
         Args:
+          query: Search using Intercoms Search APIs with a single filter.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

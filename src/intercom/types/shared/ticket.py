@@ -243,8 +243,20 @@ class Ticket(BaseModel):
     There is a limit of 500 parts.
     """
 
-    ticket_state: Optional[Literal["submitted", "in_progress", "waiting_on_customer", "on_hold", "resolved"]] = None
+    ticket_state: Optional[Literal["submitted", "in_progress", "waiting_on_customer", "resolved"]] = None
     """The state the ticket is currenly in"""
+
+    ticket_state_external_label: Optional[str] = None
+    """
+    The state the ticket is currently in, in a human readable form - visible to
+    customers, in the messenger, email and tickets portal.
+    """
+
+    ticket_state_internal_label: Optional[str] = None
+    """
+    The state the ticket is currently in, in a human readable form - visible in
+    Intercom
+    """
 
     ticket_type: Optional[TicketType] = None
     """A ticket type, used to define the data fields to be captured in a ticket."""

@@ -10,13 +10,16 @@ __all__ = ["MultipleFilterSearchRequest", "ValueSingleFilterSearchRequest"]
 
 class ValueSingleFilterSearchRequest(TypedDict, total=False):
     field: str
-    """The Intercom defined id representing the company."""
+    """The accepted field that you want to search on."""
 
     operator: Literal["=", "!=", "IN", "NIN", "<", ">", "~", "!~", "^", "$"]
-    """The Intercom defined id representing the company."""
+    """
+    The accepted operators you can use to define how you want to search for the
+    value.
+    """
 
     value: str
-    """The Intercom defined id representing the company."""
+    """The value that you want to search on."""
 
 
 class MultipleFilterSearchRequest(TypedDict, total=False):

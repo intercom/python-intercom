@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Union, overload
+from typing import List, Iterable, overload
 from typing_extensions import Literal
 
 import httpx
@@ -42,13 +42,13 @@ class ReplyResource(SyncAPIResource):
     @overload
     def create(
         self,
-        id: Union[str, Literal["last"]],
+        id: str,
         *,
         body: str,
-        intercom_user_id: str,
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -61,14 +61,12 @@ class ReplyResource(SyncAPIResource):
         contact, or with a note for admins.
 
         Args:
-          id: The id of the conversation to target.
-
           body: The text body of the comment.
 
-          intercom_user_id: The identifier for the contact as given by Intercom.
-
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -83,13 +81,13 @@ class ReplyResource(SyncAPIResource):
     @overload
     def create(
         self,
-        id: Union[str, Literal["last"]],
+        id: str,
         *,
         body: str,
-        email: str,
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -102,14 +100,12 @@ class ReplyResource(SyncAPIResource):
         contact, or with a note for admins.
 
         Args:
-          id: The id of the conversation to target.
-
           body: The text body of the comment.
 
-          email: The email you have defined for the user.
-
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -124,13 +120,13 @@ class ReplyResource(SyncAPIResource):
     @overload
     def create(
         self,
-        id: Union[str, Literal["last"]],
+        id: str,
         *,
         body: str,
         message_type: Literal["comment"],
         type: Literal["user"],
-        user_id: str,
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -143,14 +139,12 @@ class ReplyResource(SyncAPIResource):
         contact, or with a note for admins.
 
         Args:
-          id: The id of the conversation to target.
-
           body: The text body of the comment.
 
-          user_id: The external_id you have defined for the contact.
-
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -165,13 +159,16 @@ class ReplyResource(SyncAPIResource):
     @overload
     def create(
         self,
-        id: Union[str, Literal["last"]],
+        id: str,
         *,
         admin_id: str,
         message_type: Literal["comment", "note"],
         type: Literal["admin"],
+        attachment_files: Iterable[reply_create_params.AdminReplyConversationRequestAttachmentFile]
+        | NotGiven = NOT_GIVEN,
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -184,15 +181,18 @@ class ReplyResource(SyncAPIResource):
         contact, or with a note for admins.
 
         Args:
-          id: The id of the conversation to target.
-
           admin_id: The id of the admin who is authoring the comment.
 
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_files: A list of files that will be added as attachments. You can include up to 10
+              files
+
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
 
-          body: The text body of the reply.\nNotes accept some HTML formatting.\nMust be present
+          body: The text body of the reply. Notes accept some HTML formatting. Must be present
               for comment and note message types.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -204,24 +204,19 @@ class ReplyResource(SyncAPIResource):
         """
         ...
 
-    @required_args(
-        ["body", "intercom_user_id", "message_type", "type"],
-        ["body", "email", "message_type", "type"],
-        ["body", "message_type", "type", "user_id"],
-        ["admin_id", "message_type", "type"],
-    )
+    @required_args(["body", "message_type", "type"], ["admin_id", "message_type", "type"])
     def create(
         self,
-        id: Union[str, Literal["last"]],
+        id: str,
         *,
         body: str | NotGiven = NOT_GIVEN,
-        intercom_user_id: str | NotGiven = NOT_GIVEN,
         message_type: Literal["comment"] | Literal["comment", "note"],
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
-        user_id: str | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         admin_id: str | NotGiven = NOT_GIVEN,
+        attachment_files: Iterable[reply_create_params.AdminReplyConversationRequestAttachmentFile]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -229,18 +224,19 @@ class ReplyResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Conversation:
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
             f"/conversations/{id}/reply",
             body=maybe_transform(
                 {
                     "body": body,
-                    "intercom_user_id": intercom_user_id,
                     "message_type": message_type,
                     "type": type,
                     "attachment_urls": attachment_urls,
-                    "email": email,
-                    "user_id": user_id,
+                    "created_at": created_at,
                     "admin_id": admin_id,
+                    "attachment_files": attachment_files,
                 },
                 reply_create_params.ReplyCreateParams,
             ),
@@ -263,13 +259,13 @@ class AsyncReplyResource(AsyncAPIResource):
     @overload
     async def create(
         self,
-        id: Union[str, Literal["last"]],
+        id: str,
         *,
         body: str,
-        intercom_user_id: str,
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -282,14 +278,12 @@ class AsyncReplyResource(AsyncAPIResource):
         contact, or with a note for admins.
 
         Args:
-          id: The id of the conversation to target.
-
           body: The text body of the comment.
 
-          intercom_user_id: The identifier for the contact as given by Intercom.
-
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -304,13 +298,13 @@ class AsyncReplyResource(AsyncAPIResource):
     @overload
     async def create(
         self,
-        id: Union[str, Literal["last"]],
+        id: str,
         *,
         body: str,
-        email: str,
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -323,14 +317,12 @@ class AsyncReplyResource(AsyncAPIResource):
         contact, or with a note for admins.
 
         Args:
-          id: The id of the conversation to target.
-
           body: The text body of the comment.
 
-          email: The email you have defined for the user.
-
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -345,13 +337,13 @@ class AsyncReplyResource(AsyncAPIResource):
     @overload
     async def create(
         self,
-        id: Union[str, Literal["last"]],
+        id: str,
         *,
         body: str,
         message_type: Literal["comment"],
         type: Literal["user"],
-        user_id: str,
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -364,14 +356,12 @@ class AsyncReplyResource(AsyncAPIResource):
         contact, or with a note for admins.
 
         Args:
-          id: The id of the conversation to target.
-
           body: The text body of the comment.
 
-          user_id: The external_id you have defined for the contact.
-
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -386,13 +376,16 @@ class AsyncReplyResource(AsyncAPIResource):
     @overload
     async def create(
         self,
-        id: Union[str, Literal["last"]],
+        id: str,
         *,
         admin_id: str,
         message_type: Literal["comment", "note"],
         type: Literal["admin"],
+        attachment_files: Iterable[reply_create_params.AdminReplyConversationRequestAttachmentFile]
+        | NotGiven = NOT_GIVEN,
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -405,15 +398,18 @@ class AsyncReplyResource(AsyncAPIResource):
         contact, or with a note for admins.
 
         Args:
-          id: The id of the conversation to target.
-
           admin_id: The id of the admin who is authoring the comment.
 
-          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+          attachment_files: A list of files that will be added as attachments. You can include up to 10
+              files
+
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 10
               URLs.
 
-          body: The text body of the reply.\nNotes accept some HTML formatting.\nMust be present
+          body: The text body of the reply. Notes accept some HTML formatting. Must be present
               for comment and note message types.
+
+          created_at: The time the reply was created. If not provided, the current time will be used.
 
           extra_headers: Send extra headers
 
@@ -425,24 +421,19 @@ class AsyncReplyResource(AsyncAPIResource):
         """
         ...
 
-    @required_args(
-        ["body", "intercom_user_id", "message_type", "type"],
-        ["body", "email", "message_type", "type"],
-        ["body", "message_type", "type", "user_id"],
-        ["admin_id", "message_type", "type"],
-    )
+    @required_args(["body", "message_type", "type"], ["admin_id", "message_type", "type"])
     async def create(
         self,
-        id: Union[str, Literal["last"]],
+        id: str,
         *,
         body: str | NotGiven = NOT_GIVEN,
-        intercom_user_id: str | NotGiven = NOT_GIVEN,
         message_type: Literal["comment"] | Literal["comment", "note"],
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
-        user_id: str | NotGiven = NOT_GIVEN,
+        created_at: int | NotGiven = NOT_GIVEN,
         admin_id: str | NotGiven = NOT_GIVEN,
+        attachment_files: Iterable[reply_create_params.AdminReplyConversationRequestAttachmentFile]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -450,18 +441,19 @@ class AsyncReplyResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Conversation:
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
             f"/conversations/{id}/reply",
             body=await async_maybe_transform(
                 {
                     "body": body,
-                    "intercom_user_id": intercom_user_id,
                     "message_type": message_type,
                     "type": type,
                     "attachment_urls": attachment_urls,
-                    "email": email,
-                    "user_id": user_id,
+                    "created_at": created_at,
                     "admin_id": admin_id,
+                    "attachment_files": attachment_files,
                 },
                 reply_create_params.ReplyCreateParams,
             ),

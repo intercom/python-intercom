@@ -7,20 +7,17 @@ from typing_extensions import Literal, Required, TypedDict
 
 __all__ = [
     "TicketReplyParams",
-    "ContactReplyIntercomUserIDRequest",
-    "ContactReplyUserIDRequest",
-    "ContactReplyEmailRequest",
+    "ContactReplyTicketIntercomUserIDRequest",
+    "ContactReplyTicketUserIDRequest",
+    "ContactReplyTicketEmailRequest",
     "AdminReplyTicketRequest",
     "AdminReplyTicketRequestReplyOption",
 ]
 
 
-class ContactReplyIntercomUserIDRequest(TypedDict, total=False):
+class ContactReplyTicketIntercomUserIDRequest(TypedDict, total=False):
     body: Required[str]
     """The text body of the comment."""
-
-    intercom_user_id: Required[str]
-    """The identifier for the contact as given by Intercom."""
 
     message_type: Required[Literal["comment"]]
 
@@ -29,34 +26,16 @@ class ContactReplyIntercomUserIDRequest(TypedDict, total=False):
     attachment_urls: List[str]
     """A list of image URLs that will be added as attachments.
 
-    You can include up to 5 URLs.
+    You can include up to 10 URLs.
     """
 
+    created_at: int
+    """The time the reply was created. If not provided, the current time will be used."""
 
-class ContactReplyUserIDRequest(TypedDict, total=False):
+
+class ContactReplyTicketUserIDRequest(TypedDict, total=False):
     body: Required[str]
     """The text body of the comment."""
-
-    message_type: Required[Literal["comment"]]
-
-    type: Required[Literal["user"]]
-
-    user_id: Required[str]
-    """The external_id you have defined for the contact."""
-
-    attachment_urls: List[str]
-    """A list of image URLs that will be added as attachments.
-
-    You can include up to 5 URLs.
-    """
-
-
-class ContactReplyEmailRequest(TypedDict, total=False):
-    body: Required[str]
-    """The text body of the comment."""
-
-    email: Required[str]
-    """The email you have defined for the user."""
 
     message_type: Required[Literal["comment"]]
 
@@ -65,8 +44,29 @@ class ContactReplyEmailRequest(TypedDict, total=False):
     attachment_urls: List[str]
     """A list of image URLs that will be added as attachments.
 
-    You can include up to 5 URLs.
+    You can include up to 10 URLs.
     """
+
+    created_at: int
+    """The time the reply was created. If not provided, the current time will be used."""
+
+
+class ContactReplyTicketEmailRequest(TypedDict, total=False):
+    body: Required[str]
+    """The text body of the comment."""
+
+    message_type: Required[Literal["comment"]]
+
+    type: Required[Literal["user"]]
+
+    attachment_urls: List[str]
+    """A list of image URLs that will be added as attachments.
+
+    You can include up to 10 URLs.
+    """
+
+    created_at: int
+    """The time the reply was created. If not provided, the current time will be used."""
 
 
 class AdminReplyTicketRequest(TypedDict, total=False):
@@ -80,14 +80,18 @@ class AdminReplyTicketRequest(TypedDict, total=False):
     attachment_urls: List[str]
     """A list of image URLs that will be added as attachments.
 
-    You can include up to 5 URLs.
+    You can include up to 10 URLs.
     """
 
     body: str
-    """The text body of the reply.\nNotes accept some HTML formatting.
+    """The text body of the reply.
 
-    Must be present for comment and note message types.
+    Notes accept some HTML formatting. Must be present for comment and note message
+    types.
     """
+
+    created_at: int
+    """The time the reply was created. If not provided, the current time will be used."""
 
     reply_options: Iterable[AdminReplyTicketRequestReplyOption]
     """The quick reply options to display.
@@ -109,5 +113,8 @@ class AdminReplyTicketRequestReplyOption(TypedDict, total=False):
 
 
 TicketReplyParams = Union[
-    ContactReplyIntercomUserIDRequest, ContactReplyUserIDRequest, ContactReplyEmailRequest, AdminReplyTicketRequest
+    ContactReplyTicketIntercomUserIDRequest,
+    ContactReplyTicketUserIDRequest,
+    ContactReplyTicketEmailRequest,
+    AdminReplyTicketRequest,
 ]

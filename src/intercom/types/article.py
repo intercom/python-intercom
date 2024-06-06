@@ -6,39 +6,7 @@ from typing_extensions import Literal
 from .._models import BaseModel
 from .shared.article_translated_content import ArticleTranslatedContent
 
-__all__ = ["Article", "Statistics"]
-
-
-class Statistics(BaseModel):
-    conversions: Optional[int] = None
-    """The number of conversations started from the article."""
-
-    happy_reaction_percentage: Optional[float] = None
-    """
-    The percentage of happy reactions the article has received against other types
-    of reaction.
-    """
-
-    neutral_reaction_percentage: Optional[float] = None
-    """
-    The percentage of neutral reactions the article has received against other types
-    of reaction.
-    """
-
-    reactions: Optional[int] = None
-    """The number of total reactions the article has received."""
-
-    sad_reaction_percentage: Optional[float] = None
-    """
-    The percentage of sad reactions the article has received against other types of
-    reaction.
-    """
-
-    type: Optional[Literal["article_statistics"]] = None
-    """The type of object - `article_statistics`."""
-
-    views: Optional[int] = None
-    """The number of total views the article has received."""
+__all__ = ["Article"]
 
 
 class Article(BaseModel):
@@ -63,7 +31,7 @@ class Article(BaseModel):
     """The time when the article was created.
 
     For multilingual articles, this will be the timestamp of creation of the default
-    language's content.
+    language's content in seconds.
     """
 
     default_locale: Optional[str] = None
@@ -101,9 +69,6 @@ class Article(BaseModel):
     content.
     """
 
-    statistics: Optional[Statistics] = None
-    """The statistics of an article."""
-
     title: Optional[str] = None
     """The title of the article.
 
@@ -125,7 +90,7 @@ class Article(BaseModel):
     """The time when the article was last updated.
 
     For multilingual articles, this will be the timestamp of last update of the
-    default language's content.
+    default language's content in seconds.
     """
 
     url: Optional[str] = None

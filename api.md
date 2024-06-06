@@ -505,5 +505,3 @@ Methods:
 - <code title="get /visitors">client.visitors.<a href="./src/intercom/resources/visitors.py">retrieve</a>(\*\*<a href="src/intercom/types/visitor_retrieve_params.py">params</a>) -> <a href="./src/intercom/types/visitor.py">Optional</a></code>
 - <code title="put /visitors">client.visitors.<a href="./src/intercom/resources/visitors.py">update</a>(\*\*<a href="src/intercom/types/visitor_update_params.py">params</a>) -> <a href="./src/intercom/types/visitor.py">Optional</a></code>
 - <code title="post /visitors/convert">client.visitors.<a href="./src/intercom/resources/visitors.py">convert</a>(\*\*<a href="src/intercom/types/visitor_convert_params.py">params</a>) -> <a href="./src/intercom/types/shared/contact.py">Contact</a></code>
-- <code title="delete /visitors/{id}">client.visitors.<a href="./src/intercom/resources/visitors.py">delete_by_id</a>(id) -> <a href="./src/intercom/types/visitor_deleted_object.py">VisitorDeletedObject</a></code>
-- <code title="get /visitors/{id}">client.visitors.<a href="./src/intercom/resources/visitors.py">retrieve_by_id</a>(id) -> <a href="./src/intercom/types/visitor.py">Optional</a></code>

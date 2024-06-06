@@ -52,11 +52,10 @@ class CustomersResource(SyncAPIResource):
         You can add participants who are contacts to a conversation, on behalf of either
         another contact or an admin.
 
-        > 🚧 Note about contacts without an email
-        >
-        > If you add a contact via the email parameter and there is no user/lead found
-        > on that workspace with he given email, then we will create a new contact with
-        > `role` set to `lead`.
+        {% admonition type="attention" name="Contacts without an email" %} If you add a
+        contact via the email parameter and there is no user/lead found on that
+        workspace with he given email, then we will create a new contact with `role` set
+        to `lead`. {% /admonition %}
 
         Args:
           admin_id: The `id` of the admin who is adding the new participant.
@@ -103,11 +102,10 @@ class CustomersResource(SyncAPIResource):
         You can add participants who are contacts to a conversation, on behalf of either
         another contact or an admin.
 
-        > 🚧 Note about contacts without an email
-        >
-        > If you add a contact via the email parameter and there is no user/lead found
-        > on that workspace with he given email, then we will create a new contact with
-        > `role` set to `lead`.
+        {% admonition type="attention" name="Contacts without an email" %} If you add a
+        contact via the email parameter and there is no user/lead found on that
+        workspace with he given email, then we will create a new contact with `role` set
+        to `lead`. {% /admonition %}
 
         Args:
           admin_id: The `id` of the admin who is performing the action.
@@ -160,11 +158,10 @@ class AsyncCustomersResource(AsyncAPIResource):
         You can add participants who are contacts to a conversation, on behalf of either
         another contact or an admin.
 
-        > 🚧 Note about contacts without an email
-        >
-        > If you add a contact via the email parameter and there is no user/lead found
-        > on that workspace with he given email, then we will create a new contact with
-        > `role` set to `lead`.
+        {% admonition type="attention" name="Contacts without an email" %} If you add a
+        contact via the email parameter and there is no user/lead found on that
+        workspace with he given email, then we will create a new contact with `role` set
+        to `lead`. {% /admonition %}
 
         Args:
           admin_id: The `id` of the admin who is adding the new participant.
@@ -211,11 +208,10 @@ class AsyncCustomersResource(AsyncAPIResource):
         You can add participants who are contacts to a conversation, on behalf of either
         another contact or an admin.
 
-        > 🚧 Note about contacts without an email
-        >
-        > If you add a contact via the email parameter and there is no user/lead found
-        > on that workspace with he given email, then we will create a new contact with
-        > `role` set to `lead`.
+        {% admonition type="attention" name="Contacts without an email" %} If you add a
+        contact via the email parameter and there is no user/lead found on that
+        workspace with he given email, then we will create a new contact with `role` set
+        to `lead`. {% /admonition %}
 
         Args:
           admin_id: The `id` of the admin who is performing the action.

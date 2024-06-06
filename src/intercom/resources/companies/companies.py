@@ -86,14 +86,17 @@ class CompaniesResource(SyncAPIResource):
         """
         You can create or update a company.
 
-        > 📘 Companies with no users
-        >
-        > Companies will be only visible in Intercom when there is at least one
-        > associated user.
+        Companies will be only visible in Intercom when there is at least one associated
+        user.
 
         Companies are looked up via `company_id` in a `POST` request, if not found via
         `company_id`, the new company will be created, if found, that company will be
         updated.
+
+        {% admonition type="attention" name="Using `company_id`" %} You can set a unique
+        `company_id` value when creating a company. However, it is not possible to
+        update `company_id`. Be sure to set a unique value once upon creation of the
+        company. {% /admonition %}
 
         Args:
           company_id: The company id you have defined for the company. Can't be updated
@@ -193,7 +196,11 @@ class CompaniesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Company:
         """
-        You can update a single company
+        You can update a single company using the Intercom provisioned `id`.
+
+        {% admonition type="attention" name="Using `company_id`" %} When updating a
+        company it is not possible to update `company_id`. This can only be set once
+        upon creation of the company. {% /admonition %}
 
         Args:
           extra_headers: Send extra headers
@@ -217,10 +224,9 @@ class CompaniesResource(SyncAPIResource):
     def list(
         self,
         *,
-        filter: company_list_params.Filter,
         order: str | NotGiven = NOT_GIVEN,
-        page: str | NotGiven = NOT_GIVEN,
-        per_page: str | NotGiven = NOT_GIVEN,
+        page: int | NotGiven = NOT_GIVEN,
+        per_page: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -236,22 +242,23 @@ class CompaniesResource(SyncAPIResource):
         Note that the API does not include companies who have no associated users in
         list responses.
 
-        > 📘
-        >
-        > When using the Companies endpoint and the pages object to iterate through the
-        > returned companies, there is a limit of 10,000 Companies that can be returned.
-        > If you need to list or iterate on more than 10,000 Companies, please use the
-        > [Scroll API](https://developers.intercom.com/reference#iterating-over-all-companies).
+        When using the Companies endpoint and the pages object to iterate through the
+        returned companies, there is a limit of 10,000 Companies that can be returned.
+        If you need to list or iterate on more than 10,000 Companies, please use the
+        [Scroll API](https://developers.intercom.com/reference#iterating-over-all-companies).
+        {% admonition type="warning" name="Pagination" %} You can use pagination to
+        limit the number of results returned. The default is `20` results per page. See
+        the
+        [pagination section](https://developers.intercom.com/docs/build-an-integration/learn-more/rest-apis/pagination/#pagination-for-list-apis)
+        for more details on how to use the `starting_after` param. {% /admonition %}
 
         Args:
-          filter: The `id` of the tag to filter by.
-
           order: `asc` or `desc`. Return the companies in ascending or descending order. Defaults
               to desc
 
-          page: what page of results to fetch. Defaults to first page
+          page: The page of results to fetch. Defaults to first page
 
-          per_page: how many results per page. Defaults to 15
+          per_page: How many results to return per page. Defaults to 15
 
           extra_headers: Send extra headers
 
@@ -270,7 +277,6 @@ class CompaniesResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
-                        "filter": filter,
                         "order": order,
                         "page": page,
                         "per_page": per_page,
@@ -335,22 +341,16 @@ class CompaniesResource(SyncAPIResource):
         - If the end of the scroll is reached, "companies" will be empty and the scroll
           parameter will expire
 
-        > 📘 Scroll Parameter
-        >
-        > You can get the first page of companies by simply sending a GET request to the
-        > scroll endpoint. For subsequent requests you will need to use the scroll
-        > parameter from the response.
-
-        > ❗️ Scroll network timeouts
-        >
-        > Since scroll is often used on large datasets network errors such as timeouts
-        > can be encountered. When this occurs you will need to restart your scroll
-        > query as it is not possible to continue from a specific point when using
-        > scroll.
-        >
-        > When this occurs you will see a HTTP 500 error with the following message:
-        > "Request failed due to an internal network error. Please restart the scroll
-        > operation."
+        {% admonition type="info" name="Scroll Parameter" %} You can get the first page
+        of companies by simply sending a GET request to the scroll endpoint. For
+        subsequent requests you will need to use the scroll parameter from the response.
+        {% /admonition %} {% admonition type="danger" name="Scroll network timeouts" %}
+        Since scroll is often used on large datasets network errors such as timeouts can
+        be encountered. When this occurs you will see a HTTP 500 error with the
+        following message: "Request failed due to an internal network error. Please
+        restart the scroll operation." If this happens, you will need to restart your
+        scroll query: It is not possible to continue from a specific point when using
+        scroll. {% /admonition %}
 
         Args:
           extra_headers: Send extra headers
@@ -413,14 +413,17 @@ class AsyncCompaniesResource(AsyncAPIResource):
         """
         You can create or update a company.
 
-        > 📘 Companies with no users
-        >
-        > Companies will be only visible in Intercom when there is at least one
-        > associated user.
+        Companies will be only visible in Intercom when there is at least one associated
+        user.
 
         Companies are looked up via `company_id` in a `POST` request, if not found via
         `company_id`, the new company will be created, if found, that company will be
         updated.
+
+        {% admonition type="attention" name="Using `company_id`" %} You can set a unique
+        `company_id` value when creating a company. However, it is not possible to
+        update `company_id`. Be sure to set a unique value once upon creation of the
+        company. {% /admonition %}
 
         Args:
           company_id: The company id you have defined for the company. Can't be updated
@@ -520,7 +523,11 @@ class AsyncCompaniesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Company:
         """
-        You can update a single company
+        You can update a single company using the Intercom provisioned `id`.
+
+        {% admonition type="attention" name="Using `company_id`" %} When updating a
+        company it is not possible to update `company_id`. This can only be set once
+        upon creation of the company. {% /admonition %}
 
         Args:
           extra_headers: Send extra headers
@@ -544,10 +551,9 @@ class AsyncCompaniesResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        filter: company_list_params.Filter,
         order: str | NotGiven = NOT_GIVEN,
-        page: str | NotGiven = NOT_GIVEN,
-        per_page: str | NotGiven = NOT_GIVEN,
+        page: int | NotGiven = NOT_GIVEN,
+        per_page: int | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -563,22 +569,23 @@ class AsyncCompaniesResource(AsyncAPIResource):
         Note that the API does not include companies who have no associated users in
         list responses.
 
-        > 📘
-        >
-        > When using the Companies endpoint and the pages object to iterate through the
-        > returned companies, there is a limit of 10,000 Companies that can be returned.
-        > If you need to list or iterate on more than 10,000 Companies, please use the
-        > [Scroll API](https://developers.intercom.com/reference#iterating-over-all-companies).
+        When using the Companies endpoint and the pages object to iterate through the
+        returned companies, there is a limit of 10,000 Companies that can be returned.
+        If you need to list or iterate on more than 10,000 Companies, please use the
+        [Scroll API](https://developers.intercom.com/reference#iterating-over-all-companies).
+        {% admonition type="warning" name="Pagination" %} You can use pagination to
+        limit the number of results returned. The default is `20` results per page. See
+        the
+        [pagination section](https://developers.intercom.com/docs/build-an-integration/learn-more/rest-apis/pagination/#pagination-for-list-apis)
+        for more details on how to use the `starting_after` param. {% /admonition %}
 
         Args:
-          filter: The `id` of the tag to filter by.
-
           order: `asc` or `desc`. Return the companies in ascending or descending order. Defaults
               to desc
 
-          page: what page of results to fetch. Defaults to first page
+          page: The page of results to fetch. Defaults to first page
 
-          per_page: how many results per page. Defaults to 15
+          per_page: How many results to return per page. Defaults to 15
 
           extra_headers: Send extra headers
 
@@ -597,7 +604,6 @@ class AsyncCompaniesResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
-                        "filter": filter,
                         "order": order,
                         "page": page,
                         "per_page": per_page,
@@ -662,22 +668,16 @@ class AsyncCompaniesResource(AsyncAPIResource):
         - If the end of the scroll is reached, "companies" will be empty and the scroll
           parameter will expire
 
-        > 📘 Scroll Parameter
-        >
-        > You can get the first page of companies by simply sending a GET request to the
-        > scroll endpoint. For subsequent requests you will need to use the scroll
-        > parameter from the response.
-
-        > ❗️ Scroll network timeouts
-        >
-        > Since scroll is often used on large datasets network errors such as timeouts
-        > can be encountered. When this occurs you will need to restart your scroll
-        > query as it is not possible to continue from a specific point when using
-        > scroll.
-        >
-        > When this occurs you will see a HTTP 500 error with the following message:
-        > "Request failed due to an internal network error. Please restart the scroll
-        > operation."
+        {% admonition type="info" name="Scroll Parameter" %} You can get the first page
+        of companies by simply sending a GET request to the scroll endpoint. For
+        subsequent requests you will need to use the scroll parameter from the response.
+        {% /admonition %} {% admonition type="danger" name="Scroll network timeouts" %}
+        Since scroll is often used on large datasets network errors such as timeouts can
+        be encountered. When this occurs you will see a HTTP 500 error with the
+        following message: "Request failed due to an internal network error. Please
+        restart the scroll operation." If this happens, you will need to restart your
+        scroll query: It is not possible to continue from a specific point when using
+        scroll. {% /admonition %}
 
         Args:
           extra_headers: Send extra headers

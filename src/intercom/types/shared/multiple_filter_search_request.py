@@ -13,13 +13,16 @@ __all__ = ["MultipleFilterSearchRequest", "ValueSingleFilterSearchRequest"]
 
 class ValueSingleFilterSearchRequest(BaseModel):
     field: Optional[str] = None
-    """The Intercom defined id representing the company."""
+    """The accepted field that you want to search on."""
 
     operator: Optional[Literal["=", "!=", "IN", "NIN", "<", ">", "~", "!~", "^", "$"]] = None
-    """The Intercom defined id representing the company."""
+    """
+    The accepted operators you can use to define how you want to search for the
+    value.
+    """
 
     value: Optional[str] = None
-    """The Intercom defined id representing the company."""
+    """The value that you want to search on."""
 
 
 class MultipleFilterSearchRequest(BaseModel):

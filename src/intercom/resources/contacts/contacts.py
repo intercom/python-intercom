@@ -336,7 +336,15 @@ class ContactsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ContactList:
-        """You can fetch a list of all contacts."""
+        """You can fetch a list of all contacts (ie.
+
+        users or leads) in your workspace.
+        {% admonition type="warning" name="Pagination" %} You can use pagination to
+        limit the number of results returned. The default is `50` results per page. See
+        the
+        [pagination section](https://developers.intercom.com/docs/build-an-integration/learn-more/rest-apis/pagination/#pagination-for-list-apis)
+        for more details on how to use the `starting_after` param. {% /admonition %}
+        """
         return self._get(
             "/contacts",
             options=make_request_options(
@@ -471,41 +479,50 @@ class ContactsResource(SyncAPIResource):
         You can search for multiple contacts by the value of their attributes in order
         to fetch exactly who you want.
 
-        To search for contacts, you need to send a POST request to
-        `https://api.intercom.io/contacts/search`. This will accept a query object in
-        the body which will define your filters in order to search for contacts.
+        To search for contacts, you need to send a `POST` request to
+        `https://api.intercom.io/contacts/search`.
 
-        > 🚧 Why is there a delay when creating contacts and searching for them?
-        >
-        > If a contact has recently been created, there is a possibility that it will
-        > not yet be available when searching. This means that it may not appear in the
-        > response. This delay can take a few minutes. If you need to be instantly
-        > notified then you could use webhooks instead, which you'd currently have to
-        > iterate on to see if they match your search filters.
+        This will accept a query object in the body which will define your filters in
+        order to search for contacts.
 
-        > 🚧 Nesting & Limitations
-        >
-        > You can nest these filters in order to get even more granular insights that
-        > pinpoint exactly what you need. Example: (1 OR 2) AND (3 OR 4). There are some
-        > limitations to the amount of multiple's there can be:
-        >
-        > - There's a limit of max 2 nested filters
-        > - There's a limit of max 15 filters for each AND or OR group
+        {% admonition type="warning" name="Optimizing search queries" %} Search queries
+        can be complex, so optimizing them can help the performance of your search. Use
+        the `AND` and `OR` operators to combine multiple filters to get the exact
+        results you need and utilize pagination to limit the number of results returned.
+        The default is `50` results per page. See the
+        [pagination section](https://developers.intercom.com/docs/build-an-integration/learn-more/rest-apis/pagination/#example-search-conversations-request)
+        for more details on how to use the `starting_after` param. {% /admonition %}
 
-        > 🚧 Searching for Timestamp Fields
+        ### Contact Creation Delay
 
-        > All timestamp fields (created_at, updated_at etc.) are indexed as Dates for
-        > Contact Search queries; Datetime queries are not currently supported. This
-        > means you can only query for timestamp fields by day - not hour, minute or
-        > second. For example, if you search for all Contacts with a created_at value
-        > greater (>) than 1577869200 (the UNIX timestamp for January 1st, 2020 9:00
-        > AM), that will be interpreted as 1577836800 (January 1st, 2020 12:00 AM). The
-        > search results will then include Contacts created from January 2nd, 2020 12:00
-        > AM onwards. If you'd like to get contacts created on January 1st, 2020 you
-        > should search with a created_at value equal (=) to 1577836800 (January 1st,
-        > 2020 12:00 AM). This behaviour applies only to timestamps used in search
-        > queries. The search results will still contain the full UNIX timestamp and be
-        > sorted accordingly.
+        If a contact has recently been created, there is a possibility that it will not
+        yet be available when searching. This means that it may not appear in the
+        response. This delay can take a few minutes. If you need to be instantly
+        notified it is recommended to use webhooks and iterate to see if they match your
+        search filters.
+
+        ### Nesting & Limitations
+
+        You can nest these filters in order to get even more granular insights that
+        pinpoint exactly what you need. Example: (1 OR 2) AND (3 OR 4). There are some
+        limitations to the amount of multiple's there can be:
+
+        - There's a limit of max 2 nested filters
+        - There's a limit of max 15 filters for each AND or OR group
+
+        ### Searching for Timestamp Fields
+
+        All timestamp fields (created_at, updated_at etc.) are indexed as Dates for
+        Contact Search queries; Datetime queries are not currently supported. This means
+        you can only query for timestamp fields by day - not hour, minute or second. For
+        example, if you search for all Contacts with a created_at value greater (>) than
+        1577869200 (the UNIX timestamp for January 1st, 2020 9:00 AM), that will be
+        interpreted as 1577836800 (January 1st, 2020 12:00 AM). The search results will
+        then include Contacts created from January 2nd, 2020 12:00 AM onwards. If you'd
+        like to get contacts created on January 1st, 2020 you should search with a
+        created_at value equal (=) to 1577836800 (January 1st, 2020 12:00 AM). This
+        behaviour applies only to timestamps used in search queries. The search results
+        will still contain the full UNIX timestamp and be sorted accordingly.
 
         ### Accepted Fields
 
@@ -523,6 +540,7 @@ class ContactsResource(SyncAPIResource):
         | avatar                             | String                |
         | owner_id                           | Integer               |
         | email                              | String                |
+        | email_domain                       | String                |
         | phone                              | String                |
         | formatted_phone                    | String                |
         | external_id                        | String                |
@@ -560,7 +578,32 @@ class ContactsResource(SyncAPIResource):
         | tag_id                             | String                |
         | custom_attributes.{attribute_name} | String                |
 
+        ### Accepted Operators
+
+        {% admonition type="attention" name="Searching based on `created_at`" %} You
+        cannot use the `<=` or `>=` operators to search by `created_at`.
+        {% /admonition %}
+
+        The table below shows the operators you can use to define how you want to search
+        for the value. The operator should be put in as a string (`"="`). The operator
+        has to be compatible with the field's type (eg. you cannot search with `>` for a
+        given string value as it's only compatible for integer's and dates).
+
+        | Operator | Valid Types | Description   |
+        | :------- | :---------- | :------------ |
+        | =        | All         | Equals        |
+        | !=       | All         | Doesn't Equal |
+        | IN       | All         | In            |
+
+        Shortcut for `OR` queries Values must be in Array | | NIN | All | Not In
+        Shortcut for `OR !` queries Values must be in Array | | > | Integer Date (UNIX
+        Timestamp) | Greater than | | < | Integer Date (UNIX Timestamp) | Lower than | |
+        ~ | String | Contains | | !~ | String | Doesn't Contain | | ^ | String | Starts
+        With | | $ | String | Ends With |
+
         Args:
+          query: Search using Intercoms Search APIs with a single filter.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -876,7 +919,15 @@ class AsyncContactsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ContactList:
-        """You can fetch a list of all contacts."""
+        """You can fetch a list of all contacts (ie.
+
+        users or leads) in your workspace.
+        {% admonition type="warning" name="Pagination" %} You can use pagination to
+        limit the number of results returned. The default is `50` results per page. See
+        the
+        [pagination section](https://developers.intercom.com/docs/build-an-integration/learn-more/rest-apis/pagination/#pagination-for-list-apis)
+        for more details on how to use the `starting_after` param. {% /admonition %}
+        """
         return await self._get(
             "/contacts",
             options=make_request_options(
@@ -1011,41 +1062,50 @@ class AsyncContactsResource(AsyncAPIResource):
         You can search for multiple contacts by the value of their attributes in order
         to fetch exactly who you want.
 
-        To search for contacts, you need to send a POST request to
-        `https://api.intercom.io/contacts/search`. This will accept a query object in
-        the body which will define your filters in order to search for contacts.
+        To search for contacts, you need to send a `POST` request to
+        `https://api.intercom.io/contacts/search`.
 
-        > 🚧 Why is there a delay when creating contacts and searching for them?
-        >
-        > If a contact has recently been created, there is a possibility that it will
-        > not yet be available when searching. This means that it may not appear in the
-        > response. This delay can take a few minutes. If you need to be instantly
-        > notified then you could use webhooks instead, which you'd currently have to
-        > iterate on to see if they match your search filters.
+        This will accept a query object in the body which will define your filters in
+        order to search for contacts.
 
-        > 🚧 Nesting & Limitations
-        >
-        > You can nest these filters in order to get even more granular insights that
-        > pinpoint exactly what you need. Example: (1 OR 2) AND (3 OR 4). There are some
-        > limitations to the amount of multiple's there can be:
-        >
-        > - There's a limit of max 2 nested filters
-        > - There's a limit of max 15 filters for each AND or OR group
+        {% admonition type="warning" name="Optimizing search queries" %} Search queries
+        can be complex, so optimizing them can help the performance of your search. Use
+        the `AND` and `OR` operators to combine multiple filters to get the exact
+        results you need and utilize pagination to limit the number of results returned.
+        The default is `50` results per page. See the
+        [pagination section](https://developers.intercom.com/docs/build-an-integration/learn-more/rest-apis/pagination/#example-search-conversations-request)
+        for more details on how to use the `starting_after` param. {% /admonition %}
 
-        > 🚧 Searching for Timestamp Fields
+        ### Contact Creation Delay
 
-        > All timestamp fields (created_at, updated_at etc.) are indexed as Dates for
-        > Contact Search queries; Datetime queries are not currently supported. This
-        > means you can only query for timestamp fields by day - not hour, minute or
-        > second. For example, if you search for all Contacts with a created_at value
-        > greater (>) than 1577869200 (the UNIX timestamp for January 1st, 2020 9:00
-        > AM), that will be interpreted as 1577836800 (January 1st, 2020 12:00 AM). The
-        > search results will then include Contacts created from January 2nd, 2020 12:00
-        > AM onwards. If you'd like to get contacts created on January 1st, 2020 you
-        > should search with a created_at value equal (=) to 1577836800 (January 1st,
-        > 2020 12:00 AM). This behaviour applies only to timestamps used in search
-        > queries. The search results will still contain the full UNIX timestamp and be
-        > sorted accordingly.
+        If a contact has recently been created, there is a possibility that it will not
+        yet be available when searching. This means that it may not appear in the
+        response. This delay can take a few minutes. If you need to be instantly
+        notified it is recommended to use webhooks and iterate to see if they match your
+        search filters.
+
+        ### Nesting & Limitations
+
+        You can nest these filters in order to get even more granular insights that
+        pinpoint exactly what you need. Example: (1 OR 2) AND (3 OR 4). There are some
+        limitations to the amount of multiple's there can be:
+
+        - There's a limit of max 2 nested filters
+        - There's a limit of max 15 filters for each AND or OR group
+
+        ### Searching for Timestamp Fields
+
+        All timestamp fields (created_at, updated_at etc.) are indexed as Dates for
+        Contact Search queries; Datetime queries are not currently supported. This means
+        you can only query for timestamp fields by day - not hour, minute or second. For
+        example, if you search for all Contacts with a created_at value greater (>) than
+        1577869200 (the UNIX timestamp for January 1st, 2020 9:00 AM), that will be
+        interpreted as 1577836800 (January 1st, 2020 12:00 AM). The search results will
+        then include Contacts created from January 2nd, 2020 12:00 AM onwards. If you'd
+        like to get contacts created on January 1st, 2020 you should search with a
+        created_at value equal (=) to 1577836800 (January 1st, 2020 12:00 AM). This
+        behaviour applies only to timestamps used in search queries. The search results
+        will still contain the full UNIX timestamp and be sorted accordingly.
 
         ### Accepted Fields
 
@@ -1063,6 +1123,7 @@ class AsyncContactsResource(AsyncAPIResource):
         | avatar                             | String                |
         | owner_id                           | Integer               |
         | email                              | String                |
+        | email_domain                       | String                |
         | phone                              | String                |
         | formatted_phone                    | String                |
         | external_id                        | String                |
@@ -1100,7 +1161,32 @@ class AsyncContactsResource(AsyncAPIResource):
         | tag_id                             | String                |
         | custom_attributes.{attribute_name} | String                |
 
+        ### Accepted Operators
+
+        {% admonition type="attention" name="Searching based on `created_at`" %} You
+        cannot use the `<=` or `>=` operators to search by `created_at`.
+        {% /admonition %}
+
+        The table below shows the operators you can use to define how you want to search
+        for the value. The operator should be put in as a string (`"="`). The operator
+        has to be compatible with the field's type (eg. you cannot search with `>` for a
+        given string value as it's only compatible for integer's and dates).
+
+        | Operator | Valid Types | Description   |
+        | :------- | :---------- | :------------ |
+        | =        | All         | Equals        |
+        | !=       | All         | Doesn't Equal |
+        | IN       | All         | In            |
+
+        Shortcut for `OR` queries Values must be in Array | | NIN | All | Not In
+        Shortcut for `OR !` queries Values must be in Array | | > | Integer Date (UNIX
+        Timestamp) | Greater than | | < | Integer Date (UNIX Timestamp) | Lower than | |
+        ~ | String | Contains | | !~ | String | Doesn't Contain | | ^ | String | Starts
+        With | | $ | String | Ends With |
+
         Args:
+          query: Search using Intercoms Search APIs with a single filter.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

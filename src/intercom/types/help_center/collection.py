@@ -13,7 +13,7 @@ class Collection(BaseModel):
     """The unique identifier for the collection which is given by Intercom."""
 
     created_at: Optional[int] = None
-    """The time when the article was created.
+    """The time when the article was created (seconds).
 
     For multilingual articles, this will be the timestamp of creation of the default
     language's content.
@@ -48,7 +48,7 @@ class Collection(BaseModel):
     order: Optional[int] = None
     """The order of the section in relation to others sections within a collection.
 
-    Values go from ` 0`` upwards.  `0`` is the default if there's no order.
+    Values go from `0` upwards. `0` is the default if there's no order.
     """
 
     parent_id: Optional[str] = None
@@ -65,7 +65,7 @@ class Collection(BaseModel):
     """
 
     updated_at: Optional[int] = None
-    """The time when the article was last updated.
+    """The time when the article was last updated (seconds).
 
     For multilingual articles, this will be the timestamp of last update of the
     default language's content.
