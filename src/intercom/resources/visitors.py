@@ -1,37 +1,44 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, overload
+from typing import Optional, overload
 
 import httpx
 
-from ..types import (
-    Visitor,
-    VisitorDeletedObject,
-    visitor_update_params,
-    visitor_convert_params,
-    visitor_retrieve_params,
-)
+from ..types import visitor_update_params, visitor_convert_params, visitor_retrieve_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import required_args, maybe_transform
+from .._utils import (
+    required_args,
+    maybe_transform,
+    async_maybe_transform,
+)
+from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from .._base_client import make_request_options
-from ..types.shared import Contact
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from .._base_client import (
+    make_request_options,
+)
+from ..types.visitor import Visitor
+from ..types.shared.contact import Contact
+from ..types.visitor_deleted_object import VisitorDeletedObject
 
-if TYPE_CHECKING:
-    from .._client import Intercom, AsyncIntercom
-
-__all__ = ["Visitors", "AsyncVisitors"]
+__all__ = ["VisitorsResource", "AsyncVisitorsResource"]
 
 
-class Visitors(SyncAPIResource):
-    with_raw_response: VisitorsWithRawResponse
+class VisitorsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> VisitorsResourceWithRawResponse:
+        return VisitorsResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = VisitorsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> VisitorsResourceWithStreamingResponse:
+        return VisitorsResourceWithStreamingResponse(self)
 
     def retrieve(
         self,
@@ -136,7 +143,7 @@ class Visitors(SyncAPIResource):
         """
         ...
 
-    @required_args(["body"], ["body"])
+    @required_args(["body"])
     def update(
         self,
         *,
@@ -234,6 +241,8 @@ class Visitors(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._delete(
             f"/visitors/{id}",
             options=make_request_options(
@@ -265,6 +274,8 @@ class Visitors(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/visitors/{id}",
             options=make_request_options(
@@ -274,12 +285,14 @@ class Visitors(SyncAPIResource):
         )
 
 
-class AsyncVisitors(AsyncAPIResource):
-    with_raw_response: AsyncVisitorsWithRawResponse
+class AsyncVisitorsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncVisitorsResourceWithRawResponse:
+        return AsyncVisitorsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncVisitorsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncVisitorsResourceWithStreamingResponse:
+        return AsyncVisitorsResourceWithStreamingResponse(self)
 
     async def retrieve(
         self,
@@ -313,7 +326,7 @@ class AsyncVisitors(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"user_id": user_id}, visitor_retrieve_params.VisitorRetrieveParams),
+                query=await async_maybe_transform({"user_id": user_id}, visitor_retrieve_params.VisitorRetrieveParams),
             ),
             cast_to=Visitor,
         )
@@ -384,7 +397,7 @@ class AsyncVisitors(AsyncAPIResource):
         """
         ...
 
-    @required_args(["body"], ["body"])
+    @required_args(["body"])
     async def update(
         self,
         *,
@@ -398,7 +411,7 @@ class AsyncVisitors(AsyncAPIResource):
     ) -> Optional[Visitor]:
         return await self._put(
             "/visitors",
-            body=maybe_transform(body, visitor_update_params.VisitorUpdateParams),
+            body=await async_maybe_transform(body, visitor_update_params.VisitorUpdateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -445,7 +458,7 @@ class AsyncVisitors(AsyncAPIResource):
         """
         return await self._post(
             "/visitors/convert",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "type": type,
                     "user": user,
@@ -482,6 +495,8 @@ class AsyncVisitors(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._delete(
             f"/visitors/{id}",
             options=make_request_options(
@@ -513,6 +528,8 @@ class AsyncVisitors(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/visitors/{id}",
             options=make_request_options(
@@ -522,8 +539,10 @@ class AsyncVisitors(AsyncAPIResource):
         )
 
 
-class VisitorsWithRawResponse:
-    def __init__(self, visitors: Visitors) -> None:
+class VisitorsResourceWithRawResponse:
+    def __init__(self, visitors: VisitorsResource) -> None:
+        self._visitors = visitors
+
         self.retrieve = to_raw_response_wrapper(
             visitors.retrieve,
         )
@@ -541,8 +560,10 @@ class VisitorsWithRawResponse:
         )
 
 
-class AsyncVisitorsWithRawResponse:
-    def __init__(self, visitors: AsyncVisitors) -> None:
+class AsyncVisitorsResourceWithRawResponse:
+    def __init__(self, visitors: AsyncVisitorsResource) -> None:
+        self._visitors = visitors
+
         self.retrieve = async_to_raw_response_wrapper(
             visitors.retrieve,
         )
@@ -556,5 +577,47 @@ class AsyncVisitorsWithRawResponse:
             visitors.delete_by_id,
         )
         self.retrieve_by_id = async_to_raw_response_wrapper(
+            visitors.retrieve_by_id,
+        )
+
+
+class VisitorsResourceWithStreamingResponse:
+    def __init__(self, visitors: VisitorsResource) -> None:
+        self._visitors = visitors
+
+        self.retrieve = to_streamed_response_wrapper(
+            visitors.retrieve,
+        )
+        self.update = to_streamed_response_wrapper(
+            visitors.update,
+        )
+        self.convert = to_streamed_response_wrapper(
+            visitors.convert,
+        )
+        self.delete_by_id = to_streamed_response_wrapper(
+            visitors.delete_by_id,
+        )
+        self.retrieve_by_id = to_streamed_response_wrapper(
+            visitors.retrieve_by_id,
+        )
+
+
+class AsyncVisitorsResourceWithStreamingResponse:
+    def __init__(self, visitors: AsyncVisitorsResource) -> None:
+        self._visitors = visitors
+
+        self.retrieve = async_to_streamed_response_wrapper(
+            visitors.retrieve,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            visitors.update,
+        )
+        self.convert = async_to_streamed_response_wrapper(
+            visitors.convert,
+        )
+        self.delete_by_id = async_to_streamed_response_wrapper(
+            visitors.delete_by_id,
+        )
+        self.retrieve_by_id = async_to_streamed_response_wrapper(
             visitors.retrieve_by_id,
         )

@@ -1,26 +1,25 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
 import os
-from typing import Optional
+from typing import Any, Optional, cast
 
 import pytest
 
 from intercom import Intercom, AsyncIntercom
 from tests.utils import assert_matches_type
-from intercom.types import Visitor, VisitorDeletedObject
-from intercom._client import Intercom, AsyncIntercom
+from intercom.types import (
+    Visitor,
+    VisitorDeletedObject,
+)
 from intercom.types.shared import Contact
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
-bearer_token = "My Bearer Token"
 
 
 class TestVisitors:
-    strict_client = Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
-    loose_client = Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
-    parametrize = pytest.mark.parametrize("client", [strict_client, loose_client], ids=["strict", "loose"])
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_retrieve(self, client: Intercom) -> None:
@@ -34,9 +33,24 @@ class TestVisitors:
         response = client.visitors.with_raw_response.retrieve(
             user_id="string",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         visitor = response.parse()
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+    @parametrize
+    def test_streaming_response_retrieve(self, client: Intercom) -> None:
+        with client.visitors.with_streaming_response.retrieve(
+            user_id="string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            visitor = response.parse()
+            assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_update_overload_1(self, client: Intercom) -> None:
@@ -50,9 +64,24 @@ class TestVisitors:
         response = client.visitors.with_raw_response.update(
             body={},
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         visitor = response.parse()
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+    @parametrize
+    def test_streaming_response_update_overload_1(self, client: Intercom) -> None:
+        with client.visitors.with_streaming_response.update(
+            body={},
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            visitor = response.parse()
+            assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_update_overload_2(self, client: Intercom) -> None:
@@ -66,9 +95,24 @@ class TestVisitors:
         response = client.visitors.with_raw_response.update(
             body={},
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         visitor = response.parse()
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+    @parametrize
+    def test_streaming_response_update_overload_2(self, client: Intercom) -> None:
+        with client.visitors.with_streaming_response.update(
+            body={},
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            visitor = response.parse()
+            assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_convert(self, client: Intercom) -> None:
@@ -103,9 +147,26 @@ class TestVisitors:
             user={},
             visitor={},
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         visitor = response.parse()
         assert_matches_type(Contact, visitor, path=["response"])
+
+    @parametrize
+    def test_streaming_response_convert(self, client: Intercom) -> None:
+        with client.visitors.with_streaming_response.convert(
+            type="user",
+            user={},
+            visitor={},
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            visitor = response.parse()
+            assert_matches_type(Contact, visitor, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_delete_by_id(self, client: Intercom) -> None:
@@ -119,9 +180,31 @@ class TestVisitors:
         response = client.visitors.with_raw_response.delete_by_id(
             "string",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         visitor = response.parse()
         assert_matches_type(VisitorDeletedObject, visitor, path=["response"])
+
+    @parametrize
+    def test_streaming_response_delete_by_id(self, client: Intercom) -> None:
+        with client.visitors.with_streaming_response.delete_by_id(
+            "string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            visitor = response.parse()
+            assert_matches_type(VisitorDeletedObject, visitor, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_delete_by_id(self, client: Intercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.visitors.with_raw_response.delete_by_id(
+                "",
+            )
 
     @parametrize
     def test_method_retrieve_by_id(self, client: Intercom) -> None:
@@ -135,67 +218,132 @@ class TestVisitors:
         response = client.visitors.with_raw_response.retrieve_by_id(
             "string",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         visitor = response.parse()
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+    @parametrize
+    def test_streaming_response_retrieve_by_id(self, client: Intercom) -> None:
+        with client.visitors.with_streaming_response.retrieve_by_id(
+            "string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            visitor = response.parse()
+            assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_retrieve_by_id(self, client: Intercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.visitors.with_raw_response.retrieve_by_id(
+                "",
+            )
 
 
 class TestAsyncVisitors:
-    strict_client = AsyncIntercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
-    loose_client = AsyncIntercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
-    parametrize = pytest.mark.parametrize("client", [strict_client, loose_client], ids=["strict", "loose"])
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    async def test_method_retrieve(self, client: AsyncIntercom) -> None:
-        visitor = await client.visitors.retrieve(
+    async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
+        visitor = await async_client.visitors.retrieve(
             user_id="string",
         )
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
     @parametrize
-    async def test_raw_response_retrieve(self, client: AsyncIntercom) -> None:
-        response = await client.visitors.with_raw_response.retrieve(
+    async def test_raw_response_retrieve(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.visitors.with_raw_response.retrieve(
             user_id="string",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        visitor = response.parse()
+        visitor = await response.parse()
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
     @parametrize
-    async def test_method_update_overload_1(self, client: AsyncIntercom) -> None:
-        visitor = await client.visitors.update(
+    async def test_streaming_response_retrieve(self, async_client: AsyncIntercom) -> None:
+        async with async_client.visitors.with_streaming_response.retrieve(
+            user_id="string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            visitor = await response.parse()
+            assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_update_overload_1(self, async_client: AsyncIntercom) -> None:
+        visitor = await async_client.visitors.update(
             body={},
         )
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
     @parametrize
-    async def test_raw_response_update_overload_1(self, client: AsyncIntercom) -> None:
-        response = await client.visitors.with_raw_response.update(
+    async def test_raw_response_update_overload_1(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.visitors.with_raw_response.update(
             body={},
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        visitor = response.parse()
+        visitor = await response.parse()
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
     @parametrize
-    async def test_method_update_overload_2(self, client: AsyncIntercom) -> None:
-        visitor = await client.visitors.update(
+    async def test_streaming_response_update_overload_1(self, async_client: AsyncIntercom) -> None:
+        async with async_client.visitors.with_streaming_response.update(
+            body={},
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            visitor = await response.parse()
+            assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_update_overload_2(self, async_client: AsyncIntercom) -> None:
+        visitor = await async_client.visitors.update(
             body={},
         )
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
     @parametrize
-    async def test_raw_response_update_overload_2(self, client: AsyncIntercom) -> None:
-        response = await client.visitors.with_raw_response.update(
+    async def test_raw_response_update_overload_2(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.visitors.with_raw_response.update(
             body={},
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        visitor = response.parse()
+        visitor = await response.parse()
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
     @parametrize
-    async def test_method_convert(self, client: AsyncIntercom) -> None:
-        visitor = await client.visitors.convert(
+    async def test_streaming_response_update_overload_2(self, async_client: AsyncIntercom) -> None:
+        async with async_client.visitors.with_streaming_response.update(
+            body={},
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            visitor = await response.parse()
+            assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_convert(self, async_client: AsyncIntercom) -> None:
+        visitor = await async_client.visitors.convert(
             type="user",
             user={},
             visitor={},
@@ -203,8 +351,8 @@ class TestAsyncVisitors:
         assert_matches_type(Contact, visitor, path=["response"])
 
     @parametrize
-    async def test_method_convert_with_all_params(self, client: AsyncIntercom) -> None:
-        visitor = await client.visitors.convert(
+    async def test_method_convert_with_all_params(self, async_client: AsyncIntercom) -> None:
+        visitor = await async_client.visitors.convert(
             type="user",
             user={
                 "id": "8a88a590-e1c3-41e2-a502-e0649dbf721c",
@@ -220,44 +368,105 @@ class TestAsyncVisitors:
         assert_matches_type(Contact, visitor, path=["response"])
 
     @parametrize
-    async def test_raw_response_convert(self, client: AsyncIntercom) -> None:
-        response = await client.visitors.with_raw_response.convert(
+    async def test_raw_response_convert(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.visitors.with_raw_response.convert(
             type="user",
             user={},
             visitor={},
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        visitor = response.parse()
+        visitor = await response.parse()
         assert_matches_type(Contact, visitor, path=["response"])
 
     @parametrize
-    async def test_method_delete_by_id(self, client: AsyncIntercom) -> None:
-        visitor = await client.visitors.delete_by_id(
+    async def test_streaming_response_convert(self, async_client: AsyncIntercom) -> None:
+        async with async_client.visitors.with_streaming_response.convert(
+            type="user",
+            user={},
+            visitor={},
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            visitor = await response.parse()
+            assert_matches_type(Contact, visitor, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_delete_by_id(self, async_client: AsyncIntercom) -> None:
+        visitor = await async_client.visitors.delete_by_id(
             "string",
         )
         assert_matches_type(VisitorDeletedObject, visitor, path=["response"])
 
     @parametrize
-    async def test_raw_response_delete_by_id(self, client: AsyncIntercom) -> None:
-        response = await client.visitors.with_raw_response.delete_by_id(
+    async def test_raw_response_delete_by_id(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.visitors.with_raw_response.delete_by_id(
             "string",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        visitor = response.parse()
+        visitor = await response.parse()
         assert_matches_type(VisitorDeletedObject, visitor, path=["response"])
 
     @parametrize
-    async def test_method_retrieve_by_id(self, client: AsyncIntercom) -> None:
-        visitor = await client.visitors.retrieve_by_id(
+    async def test_streaming_response_delete_by_id(self, async_client: AsyncIntercom) -> None:
+        async with async_client.visitors.with_streaming_response.delete_by_id(
+            "string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            visitor = await response.parse()
+            assert_matches_type(VisitorDeletedObject, visitor, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_delete_by_id(self, async_client: AsyncIntercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.visitors.with_raw_response.delete_by_id(
+                "",
+            )
+
+    @parametrize
+    async def test_method_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
+        visitor = await async_client.visitors.retrieve_by_id(
             "string",
         )
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
     @parametrize
-    async def test_raw_response_retrieve_by_id(self, client: AsyncIntercom) -> None:
-        response = await client.visitors.with_raw_response.retrieve_by_id(
+    async def test_raw_response_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.visitors.with_raw_response.retrieve_by_id(
             "string",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        visitor = response.parse()
+        visitor = await response.parse()
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
+        async with async_client.visitors.with_streaming_response.retrieve_by_id(
+            "string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            visitor = await response.parse()
+            assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.visitors.with_raw_response.retrieve_by_id(
+                "",
+            )

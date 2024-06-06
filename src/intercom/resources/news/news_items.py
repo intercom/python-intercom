@@ -1,37 +1,44 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Optional
+from typing import List, Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform
-from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ...types.news import (
-    NewsItem,
-    NewsItemDeleteResponse,
-    news_item_create_params,
-    news_item_update_params,
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
 )
-from ..._base_client import make_request_options
-from ...types.shared import PaginatedResponse
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ...types.news import news_item_create_params, news_item_update_params
+from ..._base_client import (
+    make_request_options,
+)
+from ...types.news.news_item import NewsItem
+from ...types.shared.paginated_response import PaginatedResponse
+from ...types.news.news_item_delete_response import NewsItemDeleteResponse
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["NewsItems", "AsyncNewsItems"]
+__all__ = ["NewsItemsResource", "AsyncNewsItemsResource"]
 
 
-class NewsItems(SyncAPIResource):
-    with_raw_response: NewsItemsWithRawResponse
+class NewsItemsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> NewsItemsResourceWithRawResponse:
+        return NewsItemsResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = NewsItemsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> NewsItemsResourceWithStreamingResponse:
+        return NewsItemsResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -41,7 +48,7 @@ class NewsItems(SyncAPIResource):
         body: str | NotGiven = NOT_GIVEN,
         deliver_silently: bool | NotGiven = NOT_GIVEN,
         labels: List[str] | NotGiven = NOT_GIVEN,
-        newsfeed_assignments: List[news_item_create_params.NewsfeedAssignment] | NotGiven = NOT_GIVEN,
+        newsfeed_assignments: Iterable[news_item_create_params.NewsfeedAssignment] | NotGiven = NOT_GIVEN,
         reactions: List[Optional[str]] | NotGiven = NOT_GIVEN,
         state: Literal["draft", "live"] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -143,7 +150,7 @@ class NewsItems(SyncAPIResource):
         body: str | NotGiven = NOT_GIVEN,
         deliver_silently: bool | NotGiven = NOT_GIVEN,
         labels: List[str] | NotGiven = NOT_GIVEN,
-        newsfeed_assignments: List[news_item_update_params.NewsfeedAssignment] | NotGiven = NOT_GIVEN,
+        newsfeed_assignments: Iterable[news_item_update_params.NewsfeedAssignment] | NotGiven = NOT_GIVEN,
         reactions: List[Optional[str]] | NotGiven = NOT_GIVEN,
         state: Literal["draft", "live"] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -257,12 +264,14 @@ class NewsItems(SyncAPIResource):
         )
 
 
-class AsyncNewsItems(AsyncAPIResource):
-    with_raw_response: AsyncNewsItemsWithRawResponse
+class AsyncNewsItemsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncNewsItemsResourceWithRawResponse:
+        return AsyncNewsItemsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncNewsItemsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncNewsItemsResourceWithStreamingResponse:
+        return AsyncNewsItemsResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -272,7 +281,7 @@ class AsyncNewsItems(AsyncAPIResource):
         body: str | NotGiven = NOT_GIVEN,
         deliver_silently: bool | NotGiven = NOT_GIVEN,
         labels: List[str] | NotGiven = NOT_GIVEN,
-        newsfeed_assignments: List[news_item_create_params.NewsfeedAssignment] | NotGiven = NOT_GIVEN,
+        newsfeed_assignments: Iterable[news_item_create_params.NewsfeedAssignment] | NotGiven = NOT_GIVEN,
         reactions: List[Optional[str]] | NotGiven = NOT_GIVEN,
         state: Literal["draft", "live"] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -315,7 +324,7 @@ class AsyncNewsItems(AsyncAPIResource):
         """
         return await self._post(
             "/news/news_items",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "sender_id": sender_id,
                     "title": title,
@@ -374,7 +383,7 @@ class AsyncNewsItems(AsyncAPIResource):
         body: str | NotGiven = NOT_GIVEN,
         deliver_silently: bool | NotGiven = NOT_GIVEN,
         labels: List[str] | NotGiven = NOT_GIVEN,
-        newsfeed_assignments: List[news_item_update_params.NewsfeedAssignment] | NotGiven = NOT_GIVEN,
+        newsfeed_assignments: Iterable[news_item_update_params.NewsfeedAssignment] | NotGiven = NOT_GIVEN,
         reactions: List[Optional[str]] | NotGiven = NOT_GIVEN,
         state: Literal["draft", "live"] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -418,7 +427,7 @@ class AsyncNewsItems(AsyncAPIResource):
         """
         return await self._put(
             f"/news/news_items/{id}",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "sender_id": sender_id,
                     "title": title,
@@ -488,8 +497,10 @@ class AsyncNewsItems(AsyncAPIResource):
         )
 
 
-class NewsItemsWithRawResponse:
-    def __init__(self, news_items: NewsItems) -> None:
+class NewsItemsResourceWithRawResponse:
+    def __init__(self, news_items: NewsItemsResource) -> None:
+        self._news_items = news_items
+
         self.create = to_raw_response_wrapper(
             news_items.create,
         )
@@ -507,8 +518,10 @@ class NewsItemsWithRawResponse:
         )
 
 
-class AsyncNewsItemsWithRawResponse:
-    def __init__(self, news_items: AsyncNewsItems) -> None:
+class AsyncNewsItemsResourceWithRawResponse:
+    def __init__(self, news_items: AsyncNewsItemsResource) -> None:
+        self._news_items = news_items
+
         self.create = async_to_raw_response_wrapper(
             news_items.create,
         )
@@ -522,5 +535,47 @@ class AsyncNewsItemsWithRawResponse:
             news_items.list,
         )
         self.delete = async_to_raw_response_wrapper(
+            news_items.delete,
+        )
+
+
+class NewsItemsResourceWithStreamingResponse:
+    def __init__(self, news_items: NewsItemsResource) -> None:
+        self._news_items = news_items
+
+        self.create = to_streamed_response_wrapper(
+            news_items.create,
+        )
+        self.retrieve = to_streamed_response_wrapper(
+            news_items.retrieve,
+        )
+        self.update = to_streamed_response_wrapper(
+            news_items.update,
+        )
+        self.list = to_streamed_response_wrapper(
+            news_items.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            news_items.delete,
+        )
+
+
+class AsyncNewsItemsResourceWithStreamingResponse:
+    def __init__(self, news_items: AsyncNewsItemsResource) -> None:
+        self._news_items = news_items
+
+        self.create = async_to_streamed_response_wrapper(
+            news_items.create,
+        )
+        self.retrieve = async_to_streamed_response_wrapper(
+            news_items.retrieve,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            news_items.update,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            news_items.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
             news_items.delete,
         )

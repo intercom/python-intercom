@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -8,9 +8,5 @@ from .subscription_type import SubscriptionType as SubscriptionType
 from .tag_create_params import TagCreateParams as TagCreateParams
 from .note_create_params import NoteCreateParams as NoteCreateParams
 from .company_create_params import CompanyCreateParams as CompanyCreateParams
-from .contact_attached_companies import (
-    ContactAttachedCompanies as ContactAttachedCompanies,
-)
-from .subscription_create_params import (
-    SubscriptionCreateParams as SubscriptionCreateParams,
-)
+from .contact_attached_companies import ContactAttachedCompanies as ContactAttachedCompanies
+from .subscription_create_params import SubscriptionCreateParams as SubscriptionCreateParams

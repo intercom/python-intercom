@@ -1,49 +1,69 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict, List, Union, Optional, overload
+from typing import Dict, List, Union, Iterable, Optional, overload
 from typing_extensions import Literal
 
 import httpx
 
-from .tags import Tags, AsyncTags, TagsWithRawResponse, AsyncTagsWithRawResponse
+from .tags import (
+    TagsResource,
+    AsyncTagsResource,
+    TagsResourceWithRawResponse,
+    AsyncTagsResourceWithRawResponse,
+    TagsResourceWithStreamingResponse,
+    AsyncTagsResourceWithStreamingResponse,
+)
 from ...types import (
-    TicketList,
-    TicketReply,
     ticket_reply_params,
     ticket_create_params,
     ticket_search_params,
     ticket_update_by_id_params,
 )
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import required_args, maybe_transform
+from ..._utils import (
+    required_args,
+    maybe_transform,
+    async_maybe_transform,
+)
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
-from ...types.shared import Ticket
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
+from ...types.ticket_list import TicketList
+from ...types.ticket_reply import TicketReply
+from ...types.shared.ticket import Ticket
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["Tickets", "AsyncTickets"]
+__all__ = ["TicketsResource", "AsyncTicketsResource"]
 
 
-class Tickets(SyncAPIResource):
-    tags: Tags
-    with_raw_response: TicketsWithRawResponse
+class TicketsResource(SyncAPIResource):
+    @cached_property
+    def tags(self) -> TagsResource:
+        return TagsResource(self._client)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.tags = Tags(client)
-        self.with_raw_response = TicketsWithRawResponse(self)
+    @cached_property
+    def with_raw_response(self) -> TicketsResourceWithRawResponse:
+        return TicketsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> TicketsResourceWithStreamingResponse:
+        return TicketsResourceWithStreamingResponse(self)
 
     def create(
         self,
         *,
-        contacts: List[ticket_create_params.Contact],
+        contacts: Iterable[ticket_create_params.Contact],
         ticket_type_id: str,
-        ticket_attributes: Dict[str, Union[Optional[str], float, bool, List[object]]] | NotGiven = NOT_GIVEN,
+        ticket_attributes: Dict[str, Union[Optional[str], float, bool, Iterable[object]]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -100,12 +120,10 @@ class Tickets(SyncAPIResource):
         id: str,
         *,
         body: str,
+        intercom_user_id: str,
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
-        intercom_user_id: str | NotGiven = NOT_GIVEN,
-        user_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -122,14 +140,92 @@ class Tickets(SyncAPIResource):
 
           body: The text body of the comment.
 
+          intercom_user_id: The identifier for the contact as given by Intercom.
+
           attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
               URLs.
 
-          email: The email you have defined for the user.
+          extra_headers: Send extra headers
 
-          intercom_user_id: The identifier for the contact as given by Intercom.
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def reply(
+        self,
+        id: str,
+        *,
+        body: str,
+        message_type: Literal["comment"],
+        type: Literal["user"],
+        user_id: str,
+        attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TicketReply:
+        """
+        You can reply to a ticket with a message from an admin or on behalf of a
+        contact, or with a note for admins.
+
+        Args:
+          id: The id of the ticket to target.
+
+          body: The text body of the comment.
 
           user_id: The external_id you have defined for the contact.
+
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+              URLs.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def reply(
+        self,
+        id: str,
+        *,
+        body: str,
+        email: str,
+        message_type: Literal["comment"],
+        type: Literal["user"],
+        attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TicketReply:
+        """
+        You can reply to a ticket with a message from an admin or on behalf of a
+        contact, or with a note for admins.
+
+        Args:
+          id: The id of the ticket to target.
+
+          body: The text body of the comment.
+
+          email: The email you have defined for the user.
+
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+              URLs.
 
           extra_headers: Send extra headers
 
@@ -151,7 +247,7 @@ class Tickets(SyncAPIResource):
         type: Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
-        reply_options: List[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
+        reply_options: Iterable[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -187,20 +283,25 @@ class Tickets(SyncAPIResource):
         """
         ...
 
-    @required_args(["body", "message_type", "type"], ["admin_id", "message_type", "type"])
+    @required_args(
+        ["body", "intercom_user_id", "message_type", "type"],
+        ["body", "message_type", "type", "user_id"],
+        ["body", "email", "message_type", "type"],
+        ["admin_id", "message_type", "type"],
+    )
     def reply(
         self,
         id: str,
         *,
         body: str | NotGiven = NOT_GIVEN,
+        intercom_user_id: str | NotGiven = NOT_GIVEN,
         message_type: Literal["comment"] | Literal["comment", "note", "quick_reply"],
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
-        intercom_user_id: str | NotGiven = NOT_GIVEN,
         user_id: str | NotGiven = NOT_GIVEN,
+        email: str | NotGiven = NOT_GIVEN,
         admin_id: str | NotGiven = NOT_GIVEN,
-        reply_options: List[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
+        reply_options: Iterable[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -208,17 +309,19 @@ class Tickets(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TicketReply:
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
             f"/tickets/{id}/reply",
             body=maybe_transform(
                 {
                     "body": body,
+                    "intercom_user_id": intercom_user_id,
                     "message_type": message_type,
                     "type": type,
                     "attachment_urls": attachment_urls,
-                    "email": email,
-                    "intercom_user_id": intercom_user_id,
                     "user_id": user_id,
+                    "email": email,
                     "admin_id": admin_id,
                     "reply_options": reply_options,
                 },
@@ -253,6 +356,8 @@ class Tickets(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/tickets/{id}",
             options=make_request_options(
@@ -379,6 +484,8 @@ class Tickets(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._put(
             f"/tickets/{id}",
             body=maybe_transform(
@@ -399,21 +506,25 @@ class Tickets(SyncAPIResource):
         )
 
 
-class AsyncTickets(AsyncAPIResource):
-    tags: AsyncTags
-    with_raw_response: AsyncTicketsWithRawResponse
+class AsyncTicketsResource(AsyncAPIResource):
+    @cached_property
+    def tags(self) -> AsyncTagsResource:
+        return AsyncTagsResource(self._client)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.tags = AsyncTags(client)
-        self.with_raw_response = AsyncTicketsWithRawResponse(self)
+    @cached_property
+    def with_raw_response(self) -> AsyncTicketsResourceWithRawResponse:
+        return AsyncTicketsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncTicketsResourceWithStreamingResponse:
+        return AsyncTicketsResourceWithStreamingResponse(self)
 
     async def create(
         self,
         *,
-        contacts: List[ticket_create_params.Contact],
+        contacts: Iterable[ticket_create_params.Contact],
         ticket_type_id: str,
-        ticket_attributes: Dict[str, Union[Optional[str], float, bool, List[object]]] | NotGiven = NOT_GIVEN,
+        ticket_attributes: Dict[str, Union[Optional[str], float, bool, Iterable[object]]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -450,7 +561,7 @@ class AsyncTickets(AsyncAPIResource):
         """
         return await self._post(
             "/tickets",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "contacts": contacts,
                     "ticket_type_id": ticket_type_id,
@@ -470,12 +581,10 @@ class AsyncTickets(AsyncAPIResource):
         id: str,
         *,
         body: str,
+        intercom_user_id: str,
         message_type: Literal["comment"],
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
-        intercom_user_id: str | NotGiven = NOT_GIVEN,
-        user_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -492,14 +601,92 @@ class AsyncTickets(AsyncAPIResource):
 
           body: The text body of the comment.
 
+          intercom_user_id: The identifier for the contact as given by Intercom.
+
           attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
               URLs.
 
-          email: The email you have defined for the user.
+          extra_headers: Send extra headers
 
-          intercom_user_id: The identifier for the contact as given by Intercom.
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def reply(
+        self,
+        id: str,
+        *,
+        body: str,
+        message_type: Literal["comment"],
+        type: Literal["user"],
+        user_id: str,
+        attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TicketReply:
+        """
+        You can reply to a ticket with a message from an admin or on behalf of a
+        contact, or with a note for admins.
+
+        Args:
+          id: The id of the ticket to target.
+
+          body: The text body of the comment.
 
           user_id: The external_id you have defined for the contact.
+
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+              URLs.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def reply(
+        self,
+        id: str,
+        *,
+        body: str,
+        email: str,
+        message_type: Literal["comment"],
+        type: Literal["user"],
+        attachment_urls: List[str] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TicketReply:
+        """
+        You can reply to a ticket with a message from an admin or on behalf of a
+        contact, or with a note for admins.
+
+        Args:
+          id: The id of the ticket to target.
+
+          body: The text body of the comment.
+
+          email: The email you have defined for the user.
+
+          attachment_urls: A list of image URLs that will be added as attachments. You can include up to 5
+              URLs.
 
           extra_headers: Send extra headers
 
@@ -521,7 +708,7 @@ class AsyncTickets(AsyncAPIResource):
         type: Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
-        reply_options: List[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
+        reply_options: Iterable[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -557,20 +744,25 @@ class AsyncTickets(AsyncAPIResource):
         """
         ...
 
-    @required_args(["body", "message_type", "type"], ["admin_id", "message_type", "type"])
+    @required_args(
+        ["body", "intercom_user_id", "message_type", "type"],
+        ["body", "message_type", "type", "user_id"],
+        ["body", "email", "message_type", "type"],
+        ["admin_id", "message_type", "type"],
+    )
     async def reply(
         self,
         id: str,
         *,
         body: str | NotGiven = NOT_GIVEN,
+        intercom_user_id: str | NotGiven = NOT_GIVEN,
         message_type: Literal["comment"] | Literal["comment", "note", "quick_reply"],
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
-        intercom_user_id: str | NotGiven = NOT_GIVEN,
         user_id: str | NotGiven = NOT_GIVEN,
+        email: str | NotGiven = NOT_GIVEN,
         admin_id: str | NotGiven = NOT_GIVEN,
-        reply_options: List[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
+        reply_options: Iterable[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -578,17 +770,19 @@ class AsyncTickets(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TicketReply:
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
             f"/tickets/{id}/reply",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "body": body,
+                    "intercom_user_id": intercom_user_id,
                     "message_type": message_type,
                     "type": type,
                     "attachment_urls": attachment_urls,
-                    "email": email,
-                    "intercom_user_id": intercom_user_id,
                     "user_id": user_id,
+                    "email": email,
                     "admin_id": admin_id,
                     "reply_options": reply_options,
                 },
@@ -623,6 +817,8 @@ class AsyncTickets(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/tickets/{id}",
             options=make_request_options(
@@ -696,7 +892,7 @@ class AsyncTickets(AsyncAPIResource):
         """
         return await self._post(
             "/tickets/search",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "query": query,
                     "pagination": pagination,
@@ -749,9 +945,11 @@ class AsyncTickets(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._put(
             f"/tickets/{id}",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "assignment": assignment,
                     "is_shared": is_shared,
@@ -769,9 +967,9 @@ class AsyncTickets(AsyncAPIResource):
         )
 
 
-class TicketsWithRawResponse:
-    def __init__(self, tickets: Tickets) -> None:
-        self.tags = TagsWithRawResponse(tickets.tags)
+class TicketsResourceWithRawResponse:
+    def __init__(self, tickets: TicketsResource) -> None:
+        self._tickets = tickets
 
         self.create = to_raw_response_wrapper(
             tickets.create,
@@ -789,10 +987,14 @@ class TicketsWithRawResponse:
             tickets.update_by_id,
         )
 
+    @cached_property
+    def tags(self) -> TagsResourceWithRawResponse:
+        return TagsResourceWithRawResponse(self._tickets.tags)
 
-class AsyncTicketsWithRawResponse:
-    def __init__(self, tickets: AsyncTickets) -> None:
-        self.tags = AsyncTagsWithRawResponse(tickets.tags)
+
+class AsyncTicketsResourceWithRawResponse:
+    def __init__(self, tickets: AsyncTicketsResource) -> None:
+        self._tickets = tickets
 
         self.create = async_to_raw_response_wrapper(
             tickets.create,
@@ -809,3 +1011,57 @@ class AsyncTicketsWithRawResponse:
         self.update_by_id = async_to_raw_response_wrapper(
             tickets.update_by_id,
         )
+
+    @cached_property
+    def tags(self) -> AsyncTagsResourceWithRawResponse:
+        return AsyncTagsResourceWithRawResponse(self._tickets.tags)
+
+
+class TicketsResourceWithStreamingResponse:
+    def __init__(self, tickets: TicketsResource) -> None:
+        self._tickets = tickets
+
+        self.create = to_streamed_response_wrapper(
+            tickets.create,
+        )
+        self.reply = to_streamed_response_wrapper(
+            tickets.reply,
+        )
+        self.retrieve_by_id = to_streamed_response_wrapper(
+            tickets.retrieve_by_id,
+        )
+        self.search = to_streamed_response_wrapper(
+            tickets.search,
+        )
+        self.update_by_id = to_streamed_response_wrapper(
+            tickets.update_by_id,
+        )
+
+    @cached_property
+    def tags(self) -> TagsResourceWithStreamingResponse:
+        return TagsResourceWithStreamingResponse(self._tickets.tags)
+
+
+class AsyncTicketsResourceWithStreamingResponse:
+    def __init__(self, tickets: AsyncTicketsResource) -> None:
+        self._tickets = tickets
+
+        self.create = async_to_streamed_response_wrapper(
+            tickets.create,
+        )
+        self.reply = async_to_streamed_response_wrapper(
+            tickets.reply,
+        )
+        self.retrieve_by_id = async_to_streamed_response_wrapper(
+            tickets.retrieve_by_id,
+        )
+        self.search = async_to_streamed_response_wrapper(
+            tickets.search,
+        )
+        self.update_by_id = async_to_streamed_response_wrapper(
+            tickets.update_by_id,
+        )
+
+    @cached_property
+    def tags(self) -> AsyncTagsResourceWithStreamingResponse:
+        return AsyncTagsResourceWithStreamingResponse(self._tickets.tags)

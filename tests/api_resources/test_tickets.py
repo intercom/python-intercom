@@ -1,26 +1,25 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
 import os
-from typing import Optional
+from typing import Any, Optional, cast
 
 import pytest
 
 from intercom import Intercom, AsyncIntercom
 from tests.utils import assert_matches_type
-from intercom.types import TicketList, TicketReply
-from intercom._client import Intercom, AsyncIntercom
+from intercom.types import (
+    TicketList,
+    TicketReply,
+)
 from intercom.types.shared import Ticket
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
-bearer_token = "My Bearer Token"
 
 
 class TestTickets:
-    strict_client = Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
-    loose_client = Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
-    parametrize = pytest.mark.parametrize("client", [strict_client, loose_client], ids=["strict", "loose"])
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_create(self, client: Intercom) -> None:
@@ -48,15 +47,32 @@ class TestTickets:
             contacts=[{"id": "654b84736abd01feb7c111a1"}],
             ticket_type_id="string",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         ticket = response.parse()
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
+
+    @parametrize
+    def test_streaming_response_create(self, client: Intercom) -> None:
+        with client.tickets.with_streaming_response.create(
+            contacts=[{"id": "654b84736abd01feb7c111a1"}],
+            ticket_type_id="string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = response.parse()
+            assert_matches_type(Optional[Ticket], ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_reply_overload_1(self, client: Intercom) -> None:
         ticket = client.tickets.reply(
             "123",
             body="string",
+            intercom_user_id="string",
             message_type="comment",
             type="user",
         )
@@ -67,12 +83,10 @@ class TestTickets:
         ticket = client.tickets.reply(
             "123",
             body="string",
+            intercom_user_id="string",
             message_type="comment",
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
-            email="string",
-            intercom_user_id="string",
-            user_id="string",
         )
         assert_matches_type(TicketReply, ticket, path=["response"])
 
@@ -81,15 +95,178 @@ class TestTickets:
         response = client.tickets.with_raw_response.reply(
             "123",
             body="string",
+            intercom_user_id="string",
             message_type="comment",
             type="user",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         ticket = response.parse()
         assert_matches_type(TicketReply, ticket, path=["response"])
 
     @parametrize
+    def test_streaming_response_reply_overload_1(self, client: Intercom) -> None:
+        with client.tickets.with_streaming_response.reply(
+            "123",
+            body="string",
+            intercom_user_id="string",
+            message_type="comment",
+            type="user",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = response.parse()
+            assert_matches_type(TicketReply, ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_reply_overload_1(self, client: Intercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.tickets.with_raw_response.reply(
+                "",
+                body="string",
+                intercom_user_id="string",
+                message_type="comment",
+                type="user",
+            )
+
+    @parametrize
     def test_method_reply_overload_2(self, client: Intercom) -> None:
+        ticket = client.tickets.reply(
+            "123",
+            body="string",
+            message_type="comment",
+            type="user",
+            user_id="string",
+        )
+        assert_matches_type(TicketReply, ticket, path=["response"])
+
+    @parametrize
+    def test_method_reply_with_all_params_overload_2(self, client: Intercom) -> None:
+        ticket = client.tickets.reply(
+            "123",
+            body="string",
+            message_type="comment",
+            type="user",
+            user_id="string",
+            attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
+        )
+        assert_matches_type(TicketReply, ticket, path=["response"])
+
+    @parametrize
+    def test_raw_response_reply_overload_2(self, client: Intercom) -> None:
+        response = client.tickets.with_raw_response.reply(
+            "123",
+            body="string",
+            message_type="comment",
+            type="user",
+            user_id="string",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        ticket = response.parse()
+        assert_matches_type(TicketReply, ticket, path=["response"])
+
+    @parametrize
+    def test_streaming_response_reply_overload_2(self, client: Intercom) -> None:
+        with client.tickets.with_streaming_response.reply(
+            "123",
+            body="string",
+            message_type="comment",
+            type="user",
+            user_id="string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = response.parse()
+            assert_matches_type(TicketReply, ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_reply_overload_2(self, client: Intercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.tickets.with_raw_response.reply(
+                "",
+                body="string",
+                message_type="comment",
+                type="user",
+                user_id="string",
+            )
+
+    @parametrize
+    def test_method_reply_overload_3(self, client: Intercom) -> None:
+        ticket = client.tickets.reply(
+            "123",
+            body="string",
+            email="string",
+            message_type="comment",
+            type="user",
+        )
+        assert_matches_type(TicketReply, ticket, path=["response"])
+
+    @parametrize
+    def test_method_reply_with_all_params_overload_3(self, client: Intercom) -> None:
+        ticket = client.tickets.reply(
+            "123",
+            body="string",
+            email="string",
+            message_type="comment",
+            type="user",
+            attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
+        )
+        assert_matches_type(TicketReply, ticket, path=["response"])
+
+    @parametrize
+    def test_raw_response_reply_overload_3(self, client: Intercom) -> None:
+        response = client.tickets.with_raw_response.reply(
+            "123",
+            body="string",
+            email="string",
+            message_type="comment",
+            type="user",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        ticket = response.parse()
+        assert_matches_type(TicketReply, ticket, path=["response"])
+
+    @parametrize
+    def test_streaming_response_reply_overload_3(self, client: Intercom) -> None:
+        with client.tickets.with_streaming_response.reply(
+            "123",
+            body="string",
+            email="string",
+            message_type="comment",
+            type="user",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = response.parse()
+            assert_matches_type(TicketReply, ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_reply_overload_3(self, client: Intercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.tickets.with_raw_response.reply(
+                "",
+                body="string",
+                email="string",
+                message_type="comment",
+                type="user",
+            )
+
+    @parametrize
+    def test_method_reply_overload_4(self, client: Intercom) -> None:
         ticket = client.tickets.reply(
             "123",
             admin_id="3156780",
@@ -99,7 +276,7 @@ class TestTickets:
         assert_matches_type(TicketReply, ticket, path=["response"])
 
     @parametrize
-    def test_method_reply_with_all_params_overload_2(self, client: Intercom) -> None:
+    def test_method_reply_with_all_params_overload_4(self, client: Intercom) -> None:
         ticket = client.tickets.reply(
             "123",
             admin_id="3156780",
@@ -125,16 +302,44 @@ class TestTickets:
         assert_matches_type(TicketReply, ticket, path=["response"])
 
     @parametrize
-    def test_raw_response_reply_overload_2(self, client: Intercom) -> None:
+    def test_raw_response_reply_overload_4(self, client: Intercom) -> None:
         response = client.tickets.with_raw_response.reply(
             "123",
             admin_id="3156780",
             message_type="comment",
             type="admin",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         ticket = response.parse()
         assert_matches_type(TicketReply, ticket, path=["response"])
+
+    @parametrize
+    def test_streaming_response_reply_overload_4(self, client: Intercom) -> None:
+        with client.tickets.with_streaming_response.reply(
+            "123",
+            admin_id="3156780",
+            message_type="comment",
+            type="admin",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = response.parse()
+            assert_matches_type(TicketReply, ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_reply_overload_4(self, client: Intercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.tickets.with_raw_response.reply(
+                "",
+                admin_id="3156780",
+                message_type="comment",
+                type="admin",
+            )
 
     @parametrize
     def test_method_retrieve_by_id(self, client: Intercom) -> None:
@@ -148,9 +353,31 @@ class TestTickets:
         response = client.tickets.with_raw_response.retrieve_by_id(
             "string",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         ticket = response.parse()
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
+
+    @parametrize
+    def test_streaming_response_retrieve_by_id(self, client: Intercom) -> None:
+        with client.tickets.with_streaming_response.retrieve_by_id(
+            "string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = response.parse()
+            assert_matches_type(Optional[Ticket], ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_retrieve_by_id(self, client: Intercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.tickets.with_raw_response.retrieve_by_id(
+                "",
+            )
 
     @parametrize
     def test_method_search(self, client: Intercom) -> None:
@@ -179,9 +406,24 @@ class TestTickets:
         response = client.tickets.with_raw_response.search(
             query={},
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         ticket = response.parse()
         assert_matches_type(TicketList, ticket, path=["response"])
+
+    @parametrize
+    def test_streaming_response_search(self, client: Intercom) -> None:
+        with client.tickets.with_streaming_response.search(
+            query={},
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = response.parse()
+            assert_matches_type(TicketList, ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_update_by_id(self, client: Intercom) -> None:
@@ -214,27 +456,47 @@ class TestTickets:
         response = client.tickets.with_raw_response.update_by_id(
             "string",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         ticket = response.parse()
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
+    @parametrize
+    def test_streaming_response_update_by_id(self, client: Intercom) -> None:
+        with client.tickets.with_streaming_response.update_by_id(
+            "string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-class TestAsyncTickets:
-    strict_client = AsyncIntercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
-    loose_client = AsyncIntercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
-    parametrize = pytest.mark.parametrize("client", [strict_client, loose_client], ids=["strict", "loose"])
+            ticket = response.parse()
+            assert_matches_type(Optional[Ticket], ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_create(self, client: AsyncIntercom) -> None:
-        ticket = await client.tickets.create(
+    def test_path_params_update_by_id(self, client: Intercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.tickets.with_raw_response.update_by_id(
+                "",
+            )
+
+
+class TestAsyncTickets:
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @parametrize
+    async def test_method_create(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.create(
             contacts=[{"id": "654b84736abd01feb7c111a1"}],
             ticket_type_id="string",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params(self, client: AsyncIntercom) -> None:
-        ticket = await client.tickets.create(
+    async def test_method_create_with_all_params(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.create(
             contacts=[{"id": "654b84736abd01feb7c111a1"}],
             ticket_type_id="string",
             ticket_attributes={
@@ -245,54 +507,232 @@ class TestAsyncTickets:
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
     @parametrize
-    async def test_raw_response_create(self, client: AsyncIntercom) -> None:
-        response = await client.tickets.with_raw_response.create(
+    async def test_raw_response_create(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.tickets.with_raw_response.create(
             contacts=[{"id": "654b84736abd01feb7c111a1"}],
             ticket_type_id="string",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        ticket = response.parse()
+        ticket = await response.parse()
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
     @parametrize
-    async def test_method_reply_overload_1(self, client: AsyncIntercom) -> None:
-        ticket = await client.tickets.reply(
+    async def test_streaming_response_create(self, async_client: AsyncIntercom) -> None:
+        async with async_client.tickets.with_streaming_response.create(
+            contacts=[{"id": "654b84736abd01feb7c111a1"}],
+            ticket_type_id="string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = await response.parse()
+            assert_matches_type(Optional[Ticket], ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_reply_overload_1(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.reply(
             "123",
             body="string",
+            intercom_user_id="string",
             message_type="comment",
             type="user",
         )
         assert_matches_type(TicketReply, ticket, path=["response"])
 
     @parametrize
-    async def test_method_reply_with_all_params_overload_1(self, client: AsyncIntercom) -> None:
-        ticket = await client.tickets.reply(
+    async def test_method_reply_with_all_params_overload_1(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.reply(
+            "123",
+            body="string",
+            intercom_user_id="string",
+            message_type="comment",
+            type="user",
+            attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
+        )
+        assert_matches_type(TicketReply, ticket, path=["response"])
+
+    @parametrize
+    async def test_raw_response_reply_overload_1(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.tickets.with_raw_response.reply(
+            "123",
+            body="string",
+            intercom_user_id="string",
+            message_type="comment",
+            type="user",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        ticket = await response.parse()
+        assert_matches_type(TicketReply, ticket, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_reply_overload_1(self, async_client: AsyncIntercom) -> None:
+        async with async_client.tickets.with_streaming_response.reply(
+            "123",
+            body="string",
+            intercom_user_id="string",
+            message_type="comment",
+            type="user",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = await response.parse()
+            assert_matches_type(TicketReply, ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_reply_overload_1(self, async_client: AsyncIntercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.tickets.with_raw_response.reply(
+                "",
+                body="string",
+                intercom_user_id="string",
+                message_type="comment",
+                type="user",
+            )
+
+    @parametrize
+    async def test_method_reply_overload_2(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.reply(
             "123",
             body="string",
             message_type="comment",
             type="user",
-            attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
-            email="string",
-            intercom_user_id="string",
             user_id="string",
         )
         assert_matches_type(TicketReply, ticket, path=["response"])
 
     @parametrize
-    async def test_raw_response_reply_overload_1(self, client: AsyncIntercom) -> None:
-        response = await client.tickets.with_raw_response.reply(
+    async def test_method_reply_with_all_params_overload_2(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.reply(
             "123",
             body="string",
             message_type="comment",
             type="user",
+            user_id="string",
+            attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
         )
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        ticket = response.parse()
         assert_matches_type(TicketReply, ticket, path=["response"])
 
     @parametrize
-    async def test_method_reply_overload_2(self, client: AsyncIntercom) -> None:
-        ticket = await client.tickets.reply(
+    async def test_raw_response_reply_overload_2(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.tickets.with_raw_response.reply(
+            "123",
+            body="string",
+            message_type="comment",
+            type="user",
+            user_id="string",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        ticket = await response.parse()
+        assert_matches_type(TicketReply, ticket, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_reply_overload_2(self, async_client: AsyncIntercom) -> None:
+        async with async_client.tickets.with_streaming_response.reply(
+            "123",
+            body="string",
+            message_type="comment",
+            type="user",
+            user_id="string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = await response.parse()
+            assert_matches_type(TicketReply, ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_reply_overload_2(self, async_client: AsyncIntercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.tickets.with_raw_response.reply(
+                "",
+                body="string",
+                message_type="comment",
+                type="user",
+                user_id="string",
+            )
+
+    @parametrize
+    async def test_method_reply_overload_3(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.reply(
+            "123",
+            body="string",
+            email="string",
+            message_type="comment",
+            type="user",
+        )
+        assert_matches_type(TicketReply, ticket, path=["response"])
+
+    @parametrize
+    async def test_method_reply_with_all_params_overload_3(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.reply(
+            "123",
+            body="string",
+            email="string",
+            message_type="comment",
+            type="user",
+            attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
+        )
+        assert_matches_type(TicketReply, ticket, path=["response"])
+
+    @parametrize
+    async def test_raw_response_reply_overload_3(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.tickets.with_raw_response.reply(
+            "123",
+            body="string",
+            email="string",
+            message_type="comment",
+            type="user",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        ticket = await response.parse()
+        assert_matches_type(TicketReply, ticket, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_reply_overload_3(self, async_client: AsyncIntercom) -> None:
+        async with async_client.tickets.with_streaming_response.reply(
+            "123",
+            body="string",
+            email="string",
+            message_type="comment",
+            type="user",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = await response.parse()
+            assert_matches_type(TicketReply, ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_reply_overload_3(self, async_client: AsyncIntercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.tickets.with_raw_response.reply(
+                "",
+                body="string",
+                email="string",
+                message_type="comment",
+                type="user",
+            )
+
+    @parametrize
+    async def test_method_reply_overload_4(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.reply(
             "123",
             admin_id="3156780",
             message_type="comment",
@@ -301,8 +741,8 @@ class TestAsyncTickets:
         assert_matches_type(TicketReply, ticket, path=["response"])
 
     @parametrize
-    async def test_method_reply_with_all_params_overload_2(self, client: AsyncIntercom) -> None:
-        ticket = await client.tickets.reply(
+    async def test_method_reply_with_all_params_overload_4(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.reply(
             "123",
             admin_id="3156780",
             message_type="comment",
@@ -327,43 +767,93 @@ class TestAsyncTickets:
         assert_matches_type(TicketReply, ticket, path=["response"])
 
     @parametrize
-    async def test_raw_response_reply_overload_2(self, client: AsyncIntercom) -> None:
-        response = await client.tickets.with_raw_response.reply(
+    async def test_raw_response_reply_overload_4(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.tickets.with_raw_response.reply(
             "123",
             admin_id="3156780",
             message_type="comment",
             type="admin",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        ticket = response.parse()
+        ticket = await response.parse()
         assert_matches_type(TicketReply, ticket, path=["response"])
 
     @parametrize
-    async def test_method_retrieve_by_id(self, client: AsyncIntercom) -> None:
-        ticket = await client.tickets.retrieve_by_id(
+    async def test_streaming_response_reply_overload_4(self, async_client: AsyncIntercom) -> None:
+        async with async_client.tickets.with_streaming_response.reply(
+            "123",
+            admin_id="3156780",
+            message_type="comment",
+            type="admin",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = await response.parse()
+            assert_matches_type(TicketReply, ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_reply_overload_4(self, async_client: AsyncIntercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.tickets.with_raw_response.reply(
+                "",
+                admin_id="3156780",
+                message_type="comment",
+                type="admin",
+            )
+
+    @parametrize
+    async def test_method_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.retrieve_by_id(
             "string",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
     @parametrize
-    async def test_raw_response_retrieve_by_id(self, client: AsyncIntercom) -> None:
-        response = await client.tickets.with_raw_response.retrieve_by_id(
+    async def test_raw_response_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.tickets.with_raw_response.retrieve_by_id(
             "string",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        ticket = response.parse()
+        ticket = await response.parse()
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
     @parametrize
-    async def test_method_search(self, client: AsyncIntercom) -> None:
-        ticket = await client.tickets.search(
+    async def test_streaming_response_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
+        async with async_client.tickets.with_streaming_response.retrieve_by_id(
+            "string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = await response.parse()
+            assert_matches_type(Optional[Ticket], ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.tickets.with_raw_response.retrieve_by_id(
+                "",
+            )
+
+    @parametrize
+    async def test_method_search(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.search(
             query={},
         )
         assert_matches_type(TicketList, ticket, path=["response"])
 
     @parametrize
-    async def test_method_search_with_all_params(self, client: AsyncIntercom) -> None:
-        ticket = await client.tickets.search(
+    async def test_method_search_with_all_params(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.search(
             query={
                 "field": "custom_attributes.social_network",
                 "operator": "=",
@@ -377,24 +867,39 @@ class TestAsyncTickets:
         assert_matches_type(TicketList, ticket, path=["response"])
 
     @parametrize
-    async def test_raw_response_search(self, client: AsyncIntercom) -> None:
-        response = await client.tickets.with_raw_response.search(
+    async def test_raw_response_search(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.tickets.with_raw_response.search(
             query={},
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        ticket = response.parse()
+        ticket = await response.parse()
         assert_matches_type(TicketList, ticket, path=["response"])
 
     @parametrize
-    async def test_method_update_by_id(self, client: AsyncIntercom) -> None:
-        ticket = await client.tickets.update_by_id(
+    async def test_streaming_response_search(self, async_client: AsyncIntercom) -> None:
+        async with async_client.tickets.with_streaming_response.search(
+            query={},
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = await response.parse()
+            assert_matches_type(TicketList, ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_update_by_id(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.update_by_id(
             "string",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
     @parametrize
-    async def test_method_update_by_id_with_all_params(self, client: AsyncIntercom) -> None:
-        ticket = await client.tickets.update_by_id(
+    async def test_method_update_by_id_with_all_params(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.update_by_id(
             "string",
             assignment={
                 "admin_id": "991269042",
@@ -412,10 +917,32 @@ class TestAsyncTickets:
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
     @parametrize
-    async def test_raw_response_update_by_id(self, client: AsyncIntercom) -> None:
-        response = await client.tickets.with_raw_response.update_by_id(
+    async def test_raw_response_update_by_id(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.tickets.with_raw_response.update_by_id(
             "string",
         )
+
+        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        ticket = response.parse()
+        ticket = await response.parse()
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_update_by_id(self, async_client: AsyncIntercom) -> None:
+        async with async_client.tickets.with_streaming_response.update_by_id(
+            "string",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            ticket = await response.parse()
+            assert_matches_type(Optional[Ticket], ticket, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_update_by_id(self, async_client: AsyncIntercom) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.tickets.with_raw_response.update_by_id(
+                "",
+            )

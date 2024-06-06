@@ -3,12 +3,18 @@
 ```python
 from intercom.types import (
     Admin,
+    ArticleContent,
+    ArticleTranslatedContent,
     Company,
     Contact,
     Conversation,
+    GroupContent,
+    GroupTranslatedContent,
     Message,
+    MultipleFilterSearchRequest,
     Note,
     PaginatedResponse,
+    SearchRequest,
     SubscriptionTypeList,
     Tag,
     TagList,
@@ -27,7 +33,7 @@ from intercom.types import AdminWithApp
 
 Methods:
 
-- <code title="get /me">client.me.<a href="./src/intercom/resources/me.py">retrieve</a>() -> <a href="./src/intercom/types/admin_with_app.py">Optional[AdminWithApp]</a></code>
+- <code title="get /me">client.me.<a href="./src/intercom/resources/me.py">retrieve</a>() -> <a href="./src/intercom/types/admin_with_app.py">Optional</a></code>
 
 # Admins
 
@@ -39,8 +45,9 @@ from intercom.types import AdminList
 
 Methods:
 
-- <code title="get /admins/{id}">client.admins.<a href="./src/intercom/resources/admins/admins.py">retrieve</a>(id) -> <a href="./src/intercom/types/shared/admin.py">Optional[Admin]</a></code>
+- <code title="get /admins/{id}">client.admins.<a href="./src/intercom/resources/admins/admins.py">retrieve</a>(id) -> <a href="./src/intercom/types/shared/admin.py">Optional</a></code>
 - <code title="get /admins">client.admins.<a href="./src/intercom/resources/admins/admins.py">list</a>() -> <a href="./src/intercom/types/admin_list.py">AdminList</a></code>
+- <code title="put /admins/{id}/away">client.admins.<a href="./src/intercom/resources/admins/admins.py">away</a>(id, \*\*<a href="src/intercom/types/admin_away_params.py">params</a>) -> <a href="./src/intercom/types/shared/admin.py">Optional</a></code>
 
 ## ActivityLogs
 
@@ -59,12 +66,7 @@ Methods:
 Types:
 
 ```python
-from intercom.types import (
-    Article,
-    ArticleList,
-    ArticleSearchResponse,
-    DeletedArticleObject,
-)
+from intercom.types import Article, ArticleList, ArticleSearchResponse, DeletedArticleObject
 ```
 
 Methods:
@@ -83,11 +85,7 @@ Methods:
 Types:
 
 ```python
-from intercom.types.help_center import (
-    Collection,
-    CollectionList,
-    DeletedCollectionObject,
-)
+from intercom.types.help_center import Collection, CollectionList, DeletedCollectionObject
 ```
 
 Methods:
@@ -116,15 +114,17 @@ Methods:
 Types:
 
 ```python
-from intercom.types import DeletedCompanyObject
+from intercom.types import CompanyList, CompanyScroll, DeletedCompanyObject
 ```
 
 Methods:
 
+- <code title="post /companies">client.companies.<a href="./src/intercom/resources/companies/companies.py">create</a>(\*\*<a href="src/intercom/types/company_create_params.py">params</a>) -> <a href="./src/intercom/types/shared/company.py">Company</a></code>
 - <code title="get /companies/{id}">client.companies.<a href="./src/intercom/resources/companies/companies.py">retrieve</a>(id) -> <a href="./src/intercom/types/shared/company.py">Company</a></code>
 - <code title="put /companies/{id}">client.companies.<a href="./src/intercom/resources/companies/companies.py">update</a>(id) -> <a href="./src/intercom/types/shared/company.py">Company</a></code>
+- <code title="post /companies/list">client.companies.<a href="./src/intercom/resources/companies/companies.py">list</a>(\*\*<a href="src/intercom/types/company_list_params.py">params</a>) -> <a href="./src/intercom/types/company_list.py">CompanyList</a></code>
 - <code title="delete /companies/{id}">client.companies.<a href="./src/intercom/resources/companies/companies.py">delete</a>(id) -> <a href="./src/intercom/types/deleted_company_object.py">DeletedCompanyObject</a></code>
-- <code title="post /companies">client.companies.<a href="./src/intercom/resources/companies/companies.py">create_update</a>(\*\*<a href="src/intercom/types/company_create_update_params.py">params</a>) -> <a href="./src/intercom/types/shared/company.py">Company</a></code>
+- <code title="get /companies/scroll">client.companies.<a href="./src/intercom/resources/companies/companies.py">scroll</a>(\*\*<a href="src/intercom/types/company_scroll_params.py">params</a>) -> <a href="./src/intercom/types/company_scroll.py">Optional</a></code>
 
 ## Contacts
 
@@ -150,33 +150,12 @@ Methods:
 
 - <code title="get /companies/{id}/segments">client.companies.segments.<a href="./src/intercom/resources/companies/segments.py">list</a>(id) -> <a href="./src/intercom/types/companies/company_attached_segments.py">CompanyAttachedSegments</a></code>
 
-## List
-
-Types:
-
-```python
-from intercom.types.companies import CompanyList
-```
-
-## Scroll
-
-Types:
-
-```python
-from intercom.types.companies import CompanyScroll
-```
-
 # Contacts
 
 Types:
 
 ```python
-from intercom.types import (
-    ContactArchived,
-    ContactDeleted,
-    ContactList,
-    ContactUnarchived,
-)
+from intercom.types import ContactArchived, ContactDeleted, ContactList, ContactUnarchived
 ```
 
 Methods:
@@ -242,6 +221,7 @@ Methods:
 
 - <code title="post /contacts/{contact_id}/subscriptions">client.contacts.subscriptions.<a href="./src/intercom/resources/contacts/subscriptions.py">create</a>(contact_id, \*\*<a href="src/intercom/types/contacts/subscription_create_params.py">params</a>) -> <a href="./src/intercom/types/contacts/subscription_type.py">SubscriptionType</a></code>
 - <code title="get /contacts/{contact_id}/subscriptions">client.contacts.subscriptions.<a href="./src/intercom/resources/contacts/subscriptions.py">list</a>(contact_id) -> <a href="./src/intercom/types/shared/subscription_type_list.py">SubscriptionTypeList</a></code>
+- <code title="delete /contacts/{contact_id}/subscriptions/{id}">client.contacts.subscriptions.<a href="./src/intercom/resources/contacts/subscriptions.py">delete</a>(id, \*, contact_id) -> <a href="./src/intercom/types/contacts/subscription_type.py">SubscriptionType</a></code>
 
 ## Tags
 
@@ -249,8 +229,15 @@ Methods:
 
 - <code title="post /contacts/{contact_id}/tags">client.contacts.tags.<a href="./src/intercom/resources/contacts/tags.py">create</a>(contact_id, \*\*<a href="src/intercom/types/contacts/tag_create_params.py">params</a>) -> <a href="./src/intercom/types/shared/tag.py">Tag</a></code>
 - <code title="get /contacts/{contact_id}/tags">client.contacts.tags.<a href="./src/intercom/resources/contacts/tags.py">list</a>(contact_id) -> <a href="./src/intercom/types/shared/tag_list.py">TagList</a></code>
+- <code title="delete /contacts/{contact_id}/tags/{id}">client.contacts.tags.<a href="./src/intercom/resources/contacts/tags.py">delete</a>(id, \*, contact_id) -> <a href="./src/intercom/types/shared/tag.py">Tag</a></code>
 
 # Conversations
+
+Types:
+
+```python
+from intercom.types import ConversationList
+```
 
 Methods:
 
@@ -258,8 +245,9 @@ Methods:
 - <code title="get /conversations/{id}">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">retrieve</a>(id, \*\*<a href="src/intercom/types/conversation_retrieve_params.py">params</a>) -> <a href="./src/intercom/types/shared/conversation.py">Conversation</a></code>
 - <code title="put /conversations/{id}">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">update</a>(id, \*\*<a href="src/intercom/types/conversation_update_params.py">params</a>) -> <a href="./src/intercom/types/shared/conversation.py">Conversation</a></code>
 - <code title="get /conversations">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">list</a>(\*\*<a href="src/intercom/types/conversation_list_params.py">params</a>) -> <a href="./src/intercom/types/shared/paginated_response.py">PaginatedResponse</a></code>
-- <code title="post /conversations/{id}/convert">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">convert</a>(id, \*\*<a href="src/intercom/types/conversation_convert_params.py">params</a>) -> <a href="./src/intercom/types/shared/ticket.py">Optional[Ticket]</a></code>
+- <code title="post /conversations/{id}/convert">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">convert</a>(id, \*\*<a href="src/intercom/types/conversation_convert_params.py">params</a>) -> <a href="./src/intercom/types/shared/ticket.py">Optional</a></code>
 - <code title="post /conversations/redact">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">redact</a>(\*\*<a href="src/intercom/types/conversation_redact_params.py">params</a>) -> <a href="./src/intercom/types/shared/conversation.py">Conversation</a></code>
+- <code title="post /conversations/search">client.conversations.<a href="./src/intercom/resources/conversations/conversations.py">search</a>(\*\*<a href="src/intercom/types/conversation_search_params.py">params</a>) -> <a href="./src/intercom/types/conversation_list.py">ConversationList</a></code>
 
 ## Tags
 
@@ -267,18 +255,6 @@ Methods:
 
 - <code title="post /conversations/{conversation_id}/tags">client.conversations.tags.<a href="./src/intercom/resources/conversations/tags.py">create</a>(conversation_id, \*\*<a href="src/intercom/types/conversations/tag_create_params.py">params</a>) -> <a href="./src/intercom/types/shared/tag.py">Tag</a></code>
 - <code title="delete /conversations/{conversation_id}/tags/{id}">client.conversations.tags.<a href="./src/intercom/resources/conversations/tags.py">delete</a>(id, \*, conversation_id, \*\*<a href="src/intercom/types/conversations/tag_delete_params.py">params</a>) -> <a href="./src/intercom/types/shared/tag.py">Tag</a></code>
-
-## Search
-
-Types:
-
-```python
-from intercom.types.conversations import ConversationList
-```
-
-Methods:
-
-- <code title="post /conversations/search">client.conversations.search.<a href="./src/intercom/resources/conversations/search.py">create</a>(\*\*<a href="src/intercom/types/conversations/search_create_params.py">params</a>) -> <a href="./src/intercom/types/conversations/conversation_list.py">ConversationList</a></code>
 
 ## Reply
 
@@ -303,6 +279,7 @@ Methods:
 Methods:
 
 - <code title="post /conversations/{id}/customers">client.conversations.customers.<a href="./src/intercom/resources/conversations/customers.py">create</a>(id, \*\*<a href="src/intercom/types/conversations/customer_create_params.py">params</a>) -> <a href="./src/intercom/types/shared/conversation.py">Conversation</a></code>
+- <code title="delete /conversations/{conversation_id}/customers/{contact_id}">client.conversations.customers.<a href="./src/intercom/resources/conversations/customers.py">delete</a>(contact_id, \*, conversation_id, \*\*<a href="src/intercom/types/conversations/customer_delete_params.py">params</a>) -> <a href="./src/intercom/types/shared/conversation.py">Conversation</a></code>
 
 # DataAttributes
 
@@ -446,7 +423,7 @@ from intercom.types import PhoneSwitch
 
 Methods:
 
-- <code title="post /phone_call_redirects">client.phone_call_redirects.<a href="./src/intercom/resources/phone_call_redirects.py">create</a>(\*\*<a href="src/intercom/types/phone_call_redirect_create_params.py">params</a>) -> <a href="./src/intercom/types/phone_switch.py">Optional[PhoneSwitch]</a></code>
+- <code title="post /phone_call_redirects">client.phone_call_redirects.<a href="./src/intercom/resources/phone_call_redirects.py">create</a>(\*\*<a href="src/intercom/types/phone_call_redirect_create_params.py">params</a>) -> <a href="./src/intercom/types/phone_switch.py">Optional</a></code>
 
 # Tags
 
@@ -480,17 +457,17 @@ from intercom.types import TicketType, TicketTypeList
 
 Methods:
 
-- <code title="post /ticket_types">client.ticket_types.<a href="./src/intercom/resources/ticket_types/ticket_types.py">create</a>(\*\*<a href="src/intercom/types/ticket_type_create_params.py">params</a>) -> <a href="./src/intercom/types/ticket_type.py">Optional[TicketType]</a></code>
-- <code title="get /ticket_types/{id}">client.ticket_types.<a href="./src/intercom/resources/ticket_types/ticket_types.py">retrieve</a>(id) -> <a href="./src/intercom/types/ticket_type.py">Optional[TicketType]</a></code>
-- <code title="put /ticket_types/{id}">client.ticket_types.<a href="./src/intercom/resources/ticket_types/ticket_types.py">update</a>(id, \*\*<a href="src/intercom/types/ticket_type_update_params.py">params</a>) -> <a href="./src/intercom/types/ticket_type.py">Optional[TicketType]</a></code>
+- <code title="post /ticket_types">client.ticket_types.<a href="./src/intercom/resources/ticket_types/ticket_types.py">create</a>(\*\*<a href="src/intercom/types/ticket_type_create_params.py">params</a>) -> <a href="./src/intercom/types/ticket_type.py">Optional</a></code>
+- <code title="get /ticket_types/{id}">client.ticket_types.<a href="./src/intercom/resources/ticket_types/ticket_types.py">retrieve</a>(id) -> <a href="./src/intercom/types/ticket_type.py">Optional</a></code>
+- <code title="put /ticket_types/{id}">client.ticket_types.<a href="./src/intercom/resources/ticket_types/ticket_types.py">update</a>(id, \*\*<a href="src/intercom/types/ticket_type_update_params.py">params</a>) -> <a href="./src/intercom/types/ticket_type.py">Optional</a></code>
 - <code title="get /ticket_types">client.ticket_types.<a href="./src/intercom/resources/ticket_types/ticket_types.py">list</a>() -> <a href="./src/intercom/types/ticket_type_list.py">TicketTypeList</a></code>
 
 ## Attributes
 
 Methods:
 
-- <code title="post /ticket_types/{ticket_type_id}/attributes">client.ticket_types.attributes.<a href="./src/intercom/resources/ticket_types/attributes.py">create</a>(ticket_type_id, \*\*<a href="src/intercom/types/ticket_types/attribute_create_params.py">params</a>) -> <a href="./src/intercom/types/shared/ticket_type_attribute.py">Optional[TicketTypeAttribute]</a></code>
-- <code title="put /ticket_types/{ticket_type_id}/attributes/{id}">client.ticket_types.attributes.<a href="./src/intercom/resources/ticket_types/attributes.py">update</a>(id, \*, ticket_type_id, \*\*<a href="src/intercom/types/ticket_types/attribute_update_params.py">params</a>) -> <a href="./src/intercom/types/shared/ticket_type_attribute.py">Optional[TicketTypeAttribute]</a></code>
+- <code title="post /ticket_types/{ticket_type_id}/attributes">client.ticket_types.attributes.<a href="./src/intercom/resources/ticket_types/attributes.py">create</a>(ticket_type_id, \*\*<a href="src/intercom/types/ticket_types/attribute_create_params.py">params</a>) -> <a href="./src/intercom/types/shared/ticket_type_attribute.py">Optional</a></code>
+- <code title="put /ticket_types/{ticket_type_id}/attributes/{id}">client.ticket_types.attributes.<a href="./src/intercom/resources/ticket_types/attributes.py">update</a>(id, \*, ticket_type_id, \*\*<a href="src/intercom/types/ticket_types/attribute_update_params.py">params</a>) -> <a href="./src/intercom/types/shared/ticket_type_attribute.py">Optional</a></code>
 
 # Tickets
 
@@ -502,11 +479,11 @@ from intercom.types import TicketList, TicketReply
 
 Methods:
 
-- <code title="post /tickets">client.tickets.<a href="./src/intercom/resources/tickets/tickets.py">create</a>(\*\*<a href="src/intercom/types/ticket_create_params.py">params</a>) -> <a href="./src/intercom/types/shared/ticket.py">Optional[Ticket]</a></code>
+- <code title="post /tickets">client.tickets.<a href="./src/intercom/resources/tickets/tickets.py">create</a>(\*\*<a href="src/intercom/types/ticket_create_params.py">params</a>) -> <a href="./src/intercom/types/shared/ticket.py">Optional</a></code>
 - <code title="post /tickets/{id}/reply">client.tickets.<a href="./src/intercom/resources/tickets/tickets.py">reply</a>(id, \*\*<a href="src/intercom/types/ticket_reply_params.py">params</a>) -> <a href="./src/intercom/types/ticket_reply.py">TicketReply</a></code>
-- <code title="get /tickets/{id}">client.tickets.<a href="./src/intercom/resources/tickets/tickets.py">retrieve_by_id</a>(id) -> <a href="./src/intercom/types/shared/ticket.py">Optional[Ticket]</a></code>
+- <code title="get /tickets/{id}">client.tickets.<a href="./src/intercom/resources/tickets/tickets.py">retrieve_by_id</a>(id) -> <a href="./src/intercom/types/shared/ticket.py">Optional</a></code>
 - <code title="post /tickets/search">client.tickets.<a href="./src/intercom/resources/tickets/tickets.py">search</a>(\*\*<a href="src/intercom/types/ticket_search_params.py">params</a>) -> <a href="./src/intercom/types/ticket_list.py">TicketList</a></code>
-- <code title="put /tickets/{id}">client.tickets.<a href="./src/intercom/resources/tickets/tickets.py">update_by_id</a>(id, \*\*<a href="src/intercom/types/ticket_update_by_id_params.py">params</a>) -> <a href="./src/intercom/types/shared/ticket.py">Optional[Ticket]</a></code>
+- <code title="put /tickets/{id}">client.tickets.<a href="./src/intercom/resources/tickets/tickets.py">update_by_id</a>(id, \*\*<a href="src/intercom/types/ticket_update_by_id_params.py">params</a>) -> <a href="./src/intercom/types/shared/ticket.py">Optional</a></code>
 
 ## Tags
 
@@ -525,8 +502,8 @@ from intercom.types import Visitor, VisitorDeletedObject
 
 Methods:
 
-- <code title="get /visitors">client.visitors.<a href="./src/intercom/resources/visitors.py">retrieve</a>(\*\*<a href="src/intercom/types/visitor_retrieve_params.py">params</a>) -> <a href="./src/intercom/types/visitor.py">Optional[Visitor]</a></code>
-- <code title="put /visitors">client.visitors.<a href="./src/intercom/resources/visitors.py">update</a>(\*\*<a href="src/intercom/types/visitor_update_params.py">params</a>) -> <a href="./src/intercom/types/visitor.py">Optional[Visitor]</a></code>
+- <code title="get /visitors">client.visitors.<a href="./src/intercom/resources/visitors.py">retrieve</a>(\*\*<a href="src/intercom/types/visitor_retrieve_params.py">params</a>) -> <a href="./src/intercom/types/visitor.py">Optional</a></code>
+- <code title="put /visitors">client.visitors.<a href="./src/intercom/resources/visitors.py">update</a>(\*\*<a href="src/intercom/types/visitor_update_params.py">params</a>) -> <a href="./src/intercom/types/visitor.py">Optional</a></code>
 - <code title="post /visitors/convert">client.visitors.<a href="./src/intercom/resources/visitors.py">convert</a>(\*\*<a href="src/intercom/types/visitor_convert_params.py">params</a>) -> <a href="./src/intercom/types/shared/contact.py">Contact</a></code>
 - <code title="delete /visitors/{id}">client.visitors.<a href="./src/intercom/resources/visitors.py">delete_by_id</a>(id) -> <a href="./src/intercom/types/visitor_deleted_object.py">VisitorDeletedObject</a></code>
-- <code title="get /visitors/{id}">client.visitors.<a href="./src/intercom/resources/visitors.py">retrieve_by_id</a>(id) -> <a href="./src/intercom/types/visitor.py">Optional[Visitor]</a></code>
+- <code title="get /visitors/{id}">client.visitors.<a href="./src/intercom/resources/visitors.py">retrieve_by_id</a>(id) -> <a href="./src/intercom/types/visitor.py">Optional</a></code>

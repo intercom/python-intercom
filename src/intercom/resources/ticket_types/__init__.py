@@ -1,25 +1,33 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from .attributes import (
-    Attributes,
-    AsyncAttributes,
-    AttributesWithRawResponse,
-    AsyncAttributesWithRawResponse,
+    AttributesResource,
+    AsyncAttributesResource,
+    AttributesResourceWithRawResponse,
+    AsyncAttributesResourceWithRawResponse,
+    AttributesResourceWithStreamingResponse,
+    AsyncAttributesResourceWithStreamingResponse,
 )
 from .ticket_types import (
-    TicketTypes,
-    AsyncTicketTypes,
-    TicketTypesWithRawResponse,
-    AsyncTicketTypesWithRawResponse,
+    TicketTypesResource,
+    AsyncTicketTypesResource,
+    TicketTypesResourceWithRawResponse,
+    AsyncTicketTypesResourceWithRawResponse,
+    TicketTypesResourceWithStreamingResponse,
+    AsyncTicketTypesResourceWithStreamingResponse,
 )
 
 __all__ = [
-    "Attributes",
-    "AsyncAttributes",
-    "AttributesWithRawResponse",
-    "AsyncAttributesWithRawResponse",
-    "TicketTypes",
-    "AsyncTicketTypes",
-    "TicketTypesWithRawResponse",
-    "AsyncTicketTypesWithRawResponse",
+    "AttributesResource",
+    "AsyncAttributesResource",
+    "AttributesResourceWithRawResponse",
+    "AsyncAttributesResourceWithRawResponse",
+    "AttributesResourceWithStreamingResponse",
+    "AsyncAttributesResourceWithStreamingResponse",
+    "TicketTypesResource",
+    "AsyncTicketTypesResource",
+    "TicketTypesResourceWithRawResponse",
+    "AsyncTicketTypesResourceWithRawResponse",
+    "TicketTypesResourceWithStreamingResponse",
+    "AsyncTicketTypesResourceWithStreamingResponse",
 ]

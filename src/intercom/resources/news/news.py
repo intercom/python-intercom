@@ -1,60 +1,113 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
+from ..._compat import cached_property
 from .newsfeeds import (
-    Newsfeeds,
-    AsyncNewsfeeds,
-    NewsfeedsWithRawResponse,
-    AsyncNewsfeedsWithRawResponse,
+    NewsfeedsResource,
+    AsyncNewsfeedsResource,
+    NewsfeedsResourceWithRawResponse,
+    AsyncNewsfeedsResourceWithRawResponse,
+    NewsfeedsResourceWithStreamingResponse,
+    AsyncNewsfeedsResourceWithStreamingResponse,
 )
 from .news_items import (
-    NewsItems,
-    AsyncNewsItems,
-    NewsItemsWithRawResponse,
-    AsyncNewsItemsWithRawResponse,
+    NewsItemsResource,
+    AsyncNewsItemsResource,
+    NewsItemsResourceWithRawResponse,
+    AsyncNewsItemsResourceWithRawResponse,
+    NewsItemsResourceWithStreamingResponse,
+    AsyncNewsItemsResourceWithStreamingResponse,
 )
 from ..._resource import SyncAPIResource, AsyncAPIResource
+from .newsfeeds.newsfeeds import NewsfeedsResource, AsyncNewsfeedsResource
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["News", "AsyncNews"]
+__all__ = ["NewsResource", "AsyncNewsResource"]
 
 
-class News(SyncAPIResource):
-    news_items: NewsItems
-    newsfeeds: Newsfeeds
-    with_raw_response: NewsWithRawResponse
+class NewsResource(SyncAPIResource):
+    @cached_property
+    def news_items(self) -> NewsItemsResource:
+        return NewsItemsResource(self._client)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.news_items = NewsItems(client)
-        self.newsfeeds = Newsfeeds(client)
-        self.with_raw_response = NewsWithRawResponse(self)
+    @cached_property
+    def newsfeeds(self) -> NewsfeedsResource:
+        return NewsfeedsResource(self._client)
 
+    @cached_property
+    def with_raw_response(self) -> NewsResourceWithRawResponse:
+        return NewsResourceWithRawResponse(self)
 
-class AsyncNews(AsyncAPIResource):
-    news_items: AsyncNewsItems
-    newsfeeds: AsyncNewsfeeds
-    with_raw_response: AsyncNewsWithRawResponse
-
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.news_items = AsyncNewsItems(client)
-        self.newsfeeds = AsyncNewsfeeds(client)
-        self.with_raw_response = AsyncNewsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> NewsResourceWithStreamingResponse:
+        return NewsResourceWithStreamingResponse(self)
 
 
-class NewsWithRawResponse:
-    def __init__(self, news: News) -> None:
-        self.news_items = NewsItemsWithRawResponse(news.news_items)
-        self.newsfeeds = NewsfeedsWithRawResponse(news.newsfeeds)
+class AsyncNewsResource(AsyncAPIResource):
+    @cached_property
+    def news_items(self) -> AsyncNewsItemsResource:
+        return AsyncNewsItemsResource(self._client)
+
+    @cached_property
+    def newsfeeds(self) -> AsyncNewsfeedsResource:
+        return AsyncNewsfeedsResource(self._client)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncNewsResourceWithRawResponse:
+        return AsyncNewsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncNewsResourceWithStreamingResponse:
+        return AsyncNewsResourceWithStreamingResponse(self)
 
 
-class AsyncNewsWithRawResponse:
-    def __init__(self, news: AsyncNews) -> None:
-        self.news_items = AsyncNewsItemsWithRawResponse(news.news_items)
-        self.newsfeeds = AsyncNewsfeedsWithRawResponse(news.newsfeeds)
+class NewsResourceWithRawResponse:
+    def __init__(self, news: NewsResource) -> None:
+        self._news = news
+
+    @cached_property
+    def news_items(self) -> NewsItemsResourceWithRawResponse:
+        return NewsItemsResourceWithRawResponse(self._news.news_items)
+
+    @cached_property
+    def newsfeeds(self) -> NewsfeedsResourceWithRawResponse:
+        return NewsfeedsResourceWithRawResponse(self._news.newsfeeds)
+
+
+class AsyncNewsResourceWithRawResponse:
+    def __init__(self, news: AsyncNewsResource) -> None:
+        self._news = news
+
+    @cached_property
+    def news_items(self) -> AsyncNewsItemsResourceWithRawResponse:
+        return AsyncNewsItemsResourceWithRawResponse(self._news.news_items)
+
+    @cached_property
+    def newsfeeds(self) -> AsyncNewsfeedsResourceWithRawResponse:
+        return AsyncNewsfeedsResourceWithRawResponse(self._news.newsfeeds)
+
+
+class NewsResourceWithStreamingResponse:
+    def __init__(self, news: NewsResource) -> None:
+        self._news = news
+
+    @cached_property
+    def news_items(self) -> NewsItemsResourceWithStreamingResponse:
+        return NewsItemsResourceWithStreamingResponse(self._news.news_items)
+
+    @cached_property
+    def newsfeeds(self) -> NewsfeedsResourceWithStreamingResponse:
+        return NewsfeedsResourceWithStreamingResponse(self._news.newsfeeds)
+
+
+class AsyncNewsResourceWithStreamingResponse:
+    def __init__(self, news: AsyncNewsResource) -> None:
+        self._news = news
+
+    @cached_property
+    def news_items(self) -> AsyncNewsItemsResourceWithStreamingResponse:
+        return AsyncNewsItemsResourceWithStreamingResponse(self._news.news_items)
+
+    @cached_property
+    def newsfeeds(self) -> AsyncNewsfeedsResourceWithStreamingResponse:
+        return AsyncNewsfeedsResourceWithStreamingResponse(self._news.newsfeeds)

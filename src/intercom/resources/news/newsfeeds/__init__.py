@@ -1,20 +1,33 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .items import Items, AsyncItems, ItemsWithRawResponse, AsyncItemsWithRawResponse
+from .items import (
+    ItemsResource,
+    AsyncItemsResource,
+    ItemsResourceWithRawResponse,
+    AsyncItemsResourceWithRawResponse,
+    ItemsResourceWithStreamingResponse,
+    AsyncItemsResourceWithStreamingResponse,
+)
 from .newsfeeds import (
-    Newsfeeds,
-    AsyncNewsfeeds,
-    NewsfeedsWithRawResponse,
-    AsyncNewsfeedsWithRawResponse,
+    NewsfeedsResource,
+    AsyncNewsfeedsResource,
+    NewsfeedsResourceWithRawResponse,
+    AsyncNewsfeedsResourceWithRawResponse,
+    NewsfeedsResourceWithStreamingResponse,
+    AsyncNewsfeedsResourceWithStreamingResponse,
 )
 
 __all__ = [
-    "Items",
-    "AsyncItems",
-    "ItemsWithRawResponse",
-    "AsyncItemsWithRawResponse",
-    "Newsfeeds",
-    "AsyncNewsfeeds",
-    "NewsfeedsWithRawResponse",
-    "AsyncNewsfeedsWithRawResponse",
+    "ItemsResource",
+    "AsyncItemsResource",
+    "ItemsResourceWithRawResponse",
+    "AsyncItemsResourceWithRawResponse",
+    "ItemsResourceWithStreamingResponse",
+    "AsyncItemsResourceWithStreamingResponse",
+    "NewsfeedsResource",
+    "AsyncNewsfeedsResource",
+    "NewsfeedsResourceWithRawResponse",
+    "AsyncNewsfeedsResourceWithRawResponse",
+    "NewsfeedsResourceWithStreamingResponse",
+    "AsyncNewsfeedsResourceWithStreamingResponse",
 ]

@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -41,5 +41,3 @@ class CustomAttributesCustomObjectInstance(TypedDict, total=False):
 
 
 CustomAttributes = Union[str, Optional[CustomAttributesCustomObjectInstance]]
-
-CustomAttributes = Dict[str, CustomAttributes]

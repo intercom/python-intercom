@@ -1,29 +1,34 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
-
-from typing import TYPE_CHECKING
 
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
-from ...types.companies import CompanyAttachedContacts
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
+from ...types.companies.company_attached_contacts import CompanyAttachedContacts
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["Contacts", "AsyncContacts"]
+__all__ = ["ContactsResource", "AsyncContactsResource"]
 
 
-class Contacts(SyncAPIResource):
-    with_raw_response: ContactsWithRawResponse
+class ContactsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> ContactsResourceWithRawResponse:
+        return ContactsResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = ContactsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> ContactsResourceWithStreamingResponse:
+        return ContactsResourceWithStreamingResponse(self)
 
     def list(
         self,
@@ -48,6 +53,8 @@ class Contacts(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/companies/{id}/contacts",
             options=make_request_options(
@@ -57,12 +64,14 @@ class Contacts(SyncAPIResource):
         )
 
 
-class AsyncContacts(AsyncAPIResource):
-    with_raw_response: AsyncContactsWithRawResponse
+class AsyncContactsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncContactsResourceWithRawResponse:
+        return AsyncContactsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncContactsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncContactsResourceWithStreamingResponse:
+        return AsyncContactsResourceWithStreamingResponse(self)
 
     async def list(
         self,
@@ -87,6 +96,8 @@ class AsyncContacts(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/companies/{id}/contacts",
             options=make_request_options(
@@ -96,15 +107,37 @@ class AsyncContacts(AsyncAPIResource):
         )
 
 
-class ContactsWithRawResponse:
-    def __init__(self, contacts: Contacts) -> None:
+class ContactsResourceWithRawResponse:
+    def __init__(self, contacts: ContactsResource) -> None:
+        self._contacts = contacts
+
         self.list = to_raw_response_wrapper(
             contacts.list,
         )
 
 
-class AsyncContactsWithRawResponse:
-    def __init__(self, contacts: AsyncContacts) -> None:
+class AsyncContactsResourceWithRawResponse:
+    def __init__(self, contacts: AsyncContactsResource) -> None:
+        self._contacts = contacts
+
         self.list = async_to_raw_response_wrapper(
+            contacts.list,
+        )
+
+
+class ContactsResourceWithStreamingResponse:
+    def __init__(self, contacts: ContactsResource) -> None:
+        self._contacts = contacts
+
+        self.list = to_streamed_response_wrapper(
+            contacts.list,
+        )
+
+
+class AsyncContactsResourceWithStreamingResponse:
+    def __init__(self, contacts: AsyncContactsResource) -> None:
+        self._contacts = contacts
+
+        self.list = async_to_streamed_response_wrapper(
             contacts.list,
         )

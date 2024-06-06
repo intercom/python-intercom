@@ -1,37 +1,47 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List
+from typing import List
 from typing_extensions import Literal
 
 import httpx
 
 from ..types import (
-    DataAttribute,
-    DataAttributeList,
     data_attribute_list_params,
     data_attribute_create_params,
     data_attribute_update_params,
 )
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import maybe_transform
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
+from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from .._base_client import make_request_options
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from .._base_client import (
+    make_request_options,
+)
+from ..types.data_attribute import DataAttribute
+from ..types.data_attribute_list import DataAttributeList
 
-if TYPE_CHECKING:
-    from .._client import Intercom, AsyncIntercom
-
-__all__ = ["DataAttributes", "AsyncDataAttributes"]
+__all__ = ["DataAttributesResource", "AsyncDataAttributesResource"]
 
 
-class DataAttributes(SyncAPIResource):
-    with_raw_response: DataAttributesWithRawResponse
+class DataAttributesResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> DataAttributesResourceWithRawResponse:
+        return DataAttributesResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = DataAttributesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> DataAttributesResourceWithStreamingResponse:
+        return DataAttributesResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -192,12 +202,14 @@ class DataAttributes(SyncAPIResource):
         )
 
 
-class AsyncDataAttributes(AsyncAPIResource):
-    with_raw_response: AsyncDataAttributesWithRawResponse
+class AsyncDataAttributesResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncDataAttributesResourceWithRawResponse:
+        return AsyncDataAttributesResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncDataAttributesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncDataAttributesResourceWithStreamingResponse:
+        return AsyncDataAttributesResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -239,7 +251,7 @@ class AsyncDataAttributes(AsyncAPIResource):
         """
         return await self._post(
             "/data_attributes",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "data_type": data_type,
                     "model": model,
@@ -295,7 +307,7 @@ class AsyncDataAttributes(AsyncAPIResource):
         """
         return await self._put(
             f"/data_attributes/{id}",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "archived": archived,
                     "description": description,
@@ -346,7 +358,7 @@ class AsyncDataAttributes(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
+                query=await async_maybe_transform(
                     {
                         "include_archived": include_archived,
                         "model": model,
@@ -358,8 +370,10 @@ class AsyncDataAttributes(AsyncAPIResource):
         )
 
 
-class DataAttributesWithRawResponse:
-    def __init__(self, data_attributes: DataAttributes) -> None:
+class DataAttributesResourceWithRawResponse:
+    def __init__(self, data_attributes: DataAttributesResource) -> None:
+        self._data_attributes = data_attributes
+
         self.create = to_raw_response_wrapper(
             data_attributes.create,
         )
@@ -371,8 +385,10 @@ class DataAttributesWithRawResponse:
         )
 
 
-class AsyncDataAttributesWithRawResponse:
-    def __init__(self, data_attributes: AsyncDataAttributes) -> None:
+class AsyncDataAttributesResourceWithRawResponse:
+    def __init__(self, data_attributes: AsyncDataAttributesResource) -> None:
+        self._data_attributes = data_attributes
+
         self.create = async_to_raw_response_wrapper(
             data_attributes.create,
         )
@@ -380,5 +396,35 @@ class AsyncDataAttributesWithRawResponse:
             data_attributes.update,
         )
         self.list = async_to_raw_response_wrapper(
+            data_attributes.list,
+        )
+
+
+class DataAttributesResourceWithStreamingResponse:
+    def __init__(self, data_attributes: DataAttributesResource) -> None:
+        self._data_attributes = data_attributes
+
+        self.create = to_streamed_response_wrapper(
+            data_attributes.create,
+        )
+        self.update = to_streamed_response_wrapper(
+            data_attributes.update,
+        )
+        self.list = to_streamed_response_wrapper(
+            data_attributes.list,
+        )
+
+
+class AsyncDataAttributesResourceWithStreamingResponse:
+    def __init__(self, data_attributes: AsyncDataAttributesResource) -> None:
+        self._data_attributes = data_attributes
+
+        self.create = async_to_streamed_response_wrapper(
+            data_attributes.create,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            data_attributes.update,
+        )
+        self.list = async_to_streamed_response_wrapper(
             data_attributes.list,
         )

@@ -1,32 +1,43 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, overload
+from typing import overload
 from typing_extensions import Literal
 
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import required_args, maybe_transform
+from ..._utils import (
+    required_args,
+    maybe_transform,
+    async_maybe_transform,
+)
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
-from ...types.shared import Conversation
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
 from ...types.conversations import part_create_params
+from ...types.shared.conversation import Conversation
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["Parts", "AsyncParts"]
+__all__ = ["PartsResource", "AsyncPartsResource"]
 
 
-class Parts(SyncAPIResource):
-    with_raw_response: PartsWithRawResponse
+class PartsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> PartsResourceWithRawResponse:
+        return PartsResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = PartsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> PartsResourceWithStreamingResponse:
+        return PartsResourceWithStreamingResponse(self)
 
     @overload
     def create(
@@ -200,6 +211,8 @@ class Parts(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Conversation:
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
             f"/conversations/{id}/parts",
             body=maybe_transform(
@@ -220,12 +233,14 @@ class Parts(SyncAPIResource):
         )
 
 
-class AsyncParts(AsyncAPIResource):
-    with_raw_response: AsyncPartsWithRawResponse
+class AsyncPartsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncPartsResourceWithRawResponse:
+        return AsyncPartsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncPartsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncPartsResourceWithStreamingResponse:
+        return AsyncPartsResourceWithStreamingResponse(self)
 
     @overload
     async def create(
@@ -399,9 +414,11 @@ class AsyncParts(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Conversation:
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
             f"/conversations/{id}/parts",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "admin_id": admin_id,
                     "message_type": message_type,
@@ -419,15 +436,37 @@ class AsyncParts(AsyncAPIResource):
         )
 
 
-class PartsWithRawResponse:
-    def __init__(self, parts: Parts) -> None:
+class PartsResourceWithRawResponse:
+    def __init__(self, parts: PartsResource) -> None:
+        self._parts = parts
+
         self.create = to_raw_response_wrapper(
             parts.create,
         )
 
 
-class AsyncPartsWithRawResponse:
-    def __init__(self, parts: AsyncParts) -> None:
+class AsyncPartsResourceWithRawResponse:
+    def __init__(self, parts: AsyncPartsResource) -> None:
+        self._parts = parts
+
         self.create = async_to_raw_response_wrapper(
+            parts.create,
+        )
+
+
+class PartsResourceWithStreamingResponse:
+    def __init__(self, parts: PartsResource) -> None:
+        self._parts = parts
+
+        self.create = to_streamed_response_wrapper(
+            parts.create,
+        )
+
+
+class AsyncPartsResourceWithStreamingResponse:
+    def __init__(self, parts: AsyncPartsResource) -> None:
+        self._parts = parts
+
+        self.create = async_to_streamed_response_wrapper(
             parts.create,
         )

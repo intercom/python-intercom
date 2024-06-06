@@ -1,29 +1,34 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
-
-from typing import TYPE_CHECKING
 
 import httpx
 
 from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
-from ...._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ...._base_client import make_request_options
-from ....types.shared import PaginatedResponse
+from ...._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ...._base_client import (
+    make_request_options,
+)
+from ....types.shared.paginated_response import PaginatedResponse
 
-if TYPE_CHECKING:
-    from ...._client import Intercom, AsyncIntercom
-
-__all__ = ["Items", "AsyncItems"]
+__all__ = ["ItemsResource", "AsyncItemsResource"]
 
 
-class Items(SyncAPIResource):
-    with_raw_response: ItemsWithRawResponse
+class ItemsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> ItemsResourceWithRawResponse:
+        return ItemsResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = ItemsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> ItemsResourceWithStreamingResponse:
+        return ItemsResourceWithStreamingResponse(self)
 
     def list(
         self,
@@ -48,6 +53,8 @@ class Items(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/news/newsfeeds/{id}/items",
             options=make_request_options(
@@ -57,12 +64,14 @@ class Items(SyncAPIResource):
         )
 
 
-class AsyncItems(AsyncAPIResource):
-    with_raw_response: AsyncItemsWithRawResponse
+class AsyncItemsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncItemsResourceWithRawResponse:
+        return AsyncItemsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncItemsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncItemsResourceWithStreamingResponse:
+        return AsyncItemsResourceWithStreamingResponse(self)
 
     async def list(
         self,
@@ -87,6 +96,8 @@ class AsyncItems(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/news/newsfeeds/{id}/items",
             options=make_request_options(
@@ -96,15 +107,37 @@ class AsyncItems(AsyncAPIResource):
         )
 
 
-class ItemsWithRawResponse:
-    def __init__(self, items: Items) -> None:
+class ItemsResourceWithRawResponse:
+    def __init__(self, items: ItemsResource) -> None:
+        self._items = items
+
         self.list = to_raw_response_wrapper(
             items.list,
         )
 
 
-class AsyncItemsWithRawResponse:
-    def __init__(self, items: AsyncItems) -> None:
+class AsyncItemsResourceWithRawResponse:
+    def __init__(self, items: AsyncItemsResource) -> None:
+        self._items = items
+
         self.list = async_to_raw_response_wrapper(
+            items.list,
+        )
+
+
+class ItemsResourceWithStreamingResponse:
+    def __init__(self, items: ItemsResource) -> None:
+        self._items = items
+
+        self.list = to_streamed_response_wrapper(
+            items.list,
+        )
+
+
+class AsyncItemsResourceWithStreamingResponse:
+    def __init__(self, items: AsyncItemsResource) -> None:
+        self._items = items
+
+        self.list = async_to_streamed_response_wrapper(
             items.list,
         )

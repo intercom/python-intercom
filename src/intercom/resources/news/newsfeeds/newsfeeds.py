@@ -1,33 +1,47 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 import httpx
 
-from .items import Items, AsyncItems, ItemsWithRawResponse, AsyncItemsWithRawResponse
+from .items import (
+    ItemsResource,
+    AsyncItemsResource,
+    ItemsResourceWithRawResponse,
+    AsyncItemsResourceWithRawResponse,
+    ItemsResourceWithStreamingResponse,
+    AsyncItemsResourceWithStreamingResponse,
+)
 from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
-from ...._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ....types.news import Newsfeed
-from ...._base_client import make_request_options
-from ....types.shared import PaginatedResponse
+from ...._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ...._base_client import (
+    make_request_options,
+)
+from ....types.news.newsfeed import Newsfeed
+from ....types.shared.paginated_response import PaginatedResponse
 
-if TYPE_CHECKING:
-    from ...._client import Intercom, AsyncIntercom
-
-__all__ = ["Newsfeeds", "AsyncNewsfeeds"]
+__all__ = ["NewsfeedsResource", "AsyncNewsfeedsResource"]
 
 
-class Newsfeeds(SyncAPIResource):
-    items: Items
-    with_raw_response: NewsfeedsWithRawResponse
+class NewsfeedsResource(SyncAPIResource):
+    @cached_property
+    def items(self) -> ItemsResource:
+        return ItemsResource(self._client)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.items = Items(client)
-        self.with_raw_response = NewsfeedsWithRawResponse(self)
+    @cached_property
+    def with_raw_response(self) -> NewsfeedsResourceWithRawResponse:
+        return NewsfeedsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> NewsfeedsResourceWithStreamingResponse:
+        return NewsfeedsResourceWithStreamingResponse(self)
 
     def retrieve(
         self,
@@ -52,6 +66,8 @@ class Newsfeeds(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/news/newsfeeds/{id}",
             options=make_request_options(
@@ -80,14 +96,18 @@ class Newsfeeds(SyncAPIResource):
         )
 
 
-class AsyncNewsfeeds(AsyncAPIResource):
-    items: AsyncItems
-    with_raw_response: AsyncNewsfeedsWithRawResponse
+class AsyncNewsfeedsResource(AsyncAPIResource):
+    @cached_property
+    def items(self) -> AsyncItemsResource:
+        return AsyncItemsResource(self._client)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.items = AsyncItems(client)
-        self.with_raw_response = AsyncNewsfeedsWithRawResponse(self)
+    @cached_property
+    def with_raw_response(self) -> AsyncNewsfeedsResourceWithRawResponse:
+        return AsyncNewsfeedsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncNewsfeedsResourceWithStreamingResponse:
+        return AsyncNewsfeedsResourceWithStreamingResponse(self)
 
     async def retrieve(
         self,
@@ -112,6 +132,8 @@ class AsyncNewsfeeds(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/news/newsfeeds/{id}",
             options=make_request_options(
@@ -140,9 +162,9 @@ class AsyncNewsfeeds(AsyncAPIResource):
         )
 
 
-class NewsfeedsWithRawResponse:
-    def __init__(self, newsfeeds: Newsfeeds) -> None:
-        self.items = ItemsWithRawResponse(newsfeeds.items)
+class NewsfeedsResourceWithRawResponse:
+    def __init__(self, newsfeeds: NewsfeedsResource) -> None:
+        self._newsfeeds = newsfeeds
 
         self.retrieve = to_raw_response_wrapper(
             newsfeeds.retrieve,
@@ -151,10 +173,14 @@ class NewsfeedsWithRawResponse:
             newsfeeds.list,
         )
 
+    @cached_property
+    def items(self) -> ItemsResourceWithRawResponse:
+        return ItemsResourceWithRawResponse(self._newsfeeds.items)
 
-class AsyncNewsfeedsWithRawResponse:
-    def __init__(self, newsfeeds: AsyncNewsfeeds) -> None:
-        self.items = AsyncItemsWithRawResponse(newsfeeds.items)
+
+class AsyncNewsfeedsResourceWithRawResponse:
+    def __init__(self, newsfeeds: AsyncNewsfeedsResource) -> None:
+        self._newsfeeds = newsfeeds
 
         self.retrieve = async_to_raw_response_wrapper(
             newsfeeds.retrieve,
@@ -162,3 +188,39 @@ class AsyncNewsfeedsWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             newsfeeds.list,
         )
+
+    @cached_property
+    def items(self) -> AsyncItemsResourceWithRawResponse:
+        return AsyncItemsResourceWithRawResponse(self._newsfeeds.items)
+
+
+class NewsfeedsResourceWithStreamingResponse:
+    def __init__(self, newsfeeds: NewsfeedsResource) -> None:
+        self._newsfeeds = newsfeeds
+
+        self.retrieve = to_streamed_response_wrapper(
+            newsfeeds.retrieve,
+        )
+        self.list = to_streamed_response_wrapper(
+            newsfeeds.list,
+        )
+
+    @cached_property
+    def items(self) -> ItemsResourceWithStreamingResponse:
+        return ItemsResourceWithStreamingResponse(self._newsfeeds.items)
+
+
+class AsyncNewsfeedsResourceWithStreamingResponse:
+    def __init__(self, newsfeeds: AsyncNewsfeedsResource) -> None:
+        self._newsfeeds = newsfeeds
+
+        self.retrieve = async_to_streamed_response_wrapper(
+            newsfeeds.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            newsfeeds.list,
+        )
+
+    @cached_property
+    def items(self) -> AsyncItemsResourceWithStreamingResponse:
+        return AsyncItemsResourceWithStreamingResponse(self._newsfeeds.items)

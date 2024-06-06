@@ -1,29 +1,34 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
-
-from typing import TYPE_CHECKING
 
 import httpx
 
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from .._base_client import make_request_options
-from ..types.shared import SubscriptionTypeList
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from .._base_client import (
+    make_request_options,
+)
+from ..types.shared.subscription_type_list import SubscriptionTypeList
 
-if TYPE_CHECKING:
-    from .._client import Intercom, AsyncIntercom
-
-__all__ = ["SubscriptionTypes", "AsyncSubscriptionTypes"]
+__all__ = ["SubscriptionTypesResource", "AsyncSubscriptionTypesResource"]
 
 
-class SubscriptionTypes(SyncAPIResource):
-    with_raw_response: SubscriptionTypesWithRawResponse
+class SubscriptionTypesResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> SubscriptionTypesResourceWithRawResponse:
+        return SubscriptionTypesResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = SubscriptionTypesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> SubscriptionTypesResourceWithStreamingResponse:
+        return SubscriptionTypesResourceWithStreamingResponse(self)
 
     def list(
         self,
@@ -49,12 +54,14 @@ class SubscriptionTypes(SyncAPIResource):
         )
 
 
-class AsyncSubscriptionTypes(AsyncAPIResource):
-    with_raw_response: AsyncSubscriptionTypesWithRawResponse
+class AsyncSubscriptionTypesResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncSubscriptionTypesResourceWithRawResponse:
+        return AsyncSubscriptionTypesResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncSubscriptionTypesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncSubscriptionTypesResourceWithStreamingResponse:
+        return AsyncSubscriptionTypesResourceWithStreamingResponse(self)
 
     async def list(
         self,
@@ -80,15 +87,37 @@ class AsyncSubscriptionTypes(AsyncAPIResource):
         )
 
 
-class SubscriptionTypesWithRawResponse:
-    def __init__(self, subscription_types: SubscriptionTypes) -> None:
+class SubscriptionTypesResourceWithRawResponse:
+    def __init__(self, subscription_types: SubscriptionTypesResource) -> None:
+        self._subscription_types = subscription_types
+
         self.list = to_raw_response_wrapper(
             subscription_types.list,
         )
 
 
-class AsyncSubscriptionTypesWithRawResponse:
-    def __init__(self, subscription_types: AsyncSubscriptionTypes) -> None:
+class AsyncSubscriptionTypesResourceWithRawResponse:
+    def __init__(self, subscription_types: AsyncSubscriptionTypesResource) -> None:
+        self._subscription_types = subscription_types
+
         self.list = async_to_raw_response_wrapper(
+            subscription_types.list,
+        )
+
+
+class SubscriptionTypesResourceWithStreamingResponse:
+    def __init__(self, subscription_types: SubscriptionTypesResource) -> None:
+        self._subscription_types = subscription_types
+
+        self.list = to_streamed_response_wrapper(
+            subscription_types.list,
+        )
+
+
+class AsyncSubscriptionTypesResourceWithStreamingResponse:
+    def __init__(self, subscription_types: AsyncSubscriptionTypesResource) -> None:
+        self._subscription_types = subscription_types
+
+        self.list = async_to_streamed_response_wrapper(
             subscription_types.list,
         )

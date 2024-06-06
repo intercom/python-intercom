@@ -1,14 +1,14 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
 from typing import Dict
 from typing_extensions import TypedDict
 
-__all__ = ["CompanyCreateUpdateParams"]
+__all__ = ["CompanyCreateParams"]
 
 
-class CompanyCreateUpdateParams(TypedDict, total=False):
+class CompanyCreateParams(TypedDict, total=False):
     company_id: str
     """The company id you have defined for the company. Can't be updated"""
 

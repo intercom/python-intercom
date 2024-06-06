@@ -1,10 +1,10 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Optional
 from typing_extensions import Literal
 
-from ..shared import Company
 from ..._models import BaseModel
+from ..shared.company import Company
 
 __all__ = ["ContactAttachedCompanies", "Pages"]
 

@@ -1,29 +1,34 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 import httpx
 
-from ....types import DataExport
 from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
-from ...._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ...._base_client import make_request_options
+from ...._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ...._base_client import (
+    make_request_options,
+)
+from ....types.data_export import DataExport
 
-if TYPE_CHECKING:
-    from ...._client import Intercom, AsyncIntercom
-
-__all__ = ["Data", "AsyncData"]
+__all__ = ["DataResource", "AsyncDataResource"]
 
 
-class Data(SyncAPIResource):
-    with_raw_response: DataWithRawResponse
+class DataResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> DataResourceWithRawResponse:
+        return DataResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = DataWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> DataResourceWithStreamingResponse:
+        return DataResourceWithStreamingResponse(self)
 
     def retrieve(
         self,
@@ -56,6 +61,8 @@ class Data(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_identifier:
+            raise ValueError(f"Expected a non-empty value for `job_identifier` but received {job_identifier!r}")
         return self._get(
             f"/export/content/data/{job_identifier}",
             options=make_request_options(
@@ -65,12 +72,14 @@ class Data(SyncAPIResource):
         )
 
 
-class AsyncData(AsyncAPIResource):
-    with_raw_response: AsyncDataWithRawResponse
+class AsyncDataResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncDataResourceWithRawResponse:
+        return AsyncDataResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncDataWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncDataResourceWithStreamingResponse:
+        return AsyncDataResourceWithStreamingResponse(self)
 
     async def retrieve(
         self,
@@ -103,6 +112,8 @@ class AsyncData(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not job_identifier:
+            raise ValueError(f"Expected a non-empty value for `job_identifier` but received {job_identifier!r}")
         return await self._get(
             f"/export/content/data/{job_identifier}",
             options=make_request_options(
@@ -112,15 +123,37 @@ class AsyncData(AsyncAPIResource):
         )
 
 
-class DataWithRawResponse:
-    def __init__(self, data: Data) -> None:
+class DataResourceWithRawResponse:
+    def __init__(self, data: DataResource) -> None:
+        self._data = data
+
         self.retrieve = to_raw_response_wrapper(
             data.retrieve,
         )
 
 
-class AsyncDataWithRawResponse:
-    def __init__(self, data: AsyncData) -> None:
+class AsyncDataResourceWithRawResponse:
+    def __init__(self, data: AsyncDataResource) -> None:
+        self._data = data
+
         self.retrieve = async_to_raw_response_wrapper(
+            data.retrieve,
+        )
+
+
+class DataResourceWithStreamingResponse:
+    def __init__(self, data: DataResource) -> None:
+        self._data = data
+
+        self.retrieve = to_streamed_response_wrapper(
+            data.retrieve,
+        )
+
+
+class AsyncDataResourceWithStreamingResponse:
+    def __init__(self, data: AsyncDataResource) -> None:
+        self._data = data
+
+        self.retrieve = async_to_streamed_response_wrapper(
             data.retrieve,
         )

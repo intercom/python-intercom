@@ -1,10 +1,11 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Union, Optional
 from typing_extensions import Literal
 
-from ..news import Newsfeed, NewsItem
 from ..._models import BaseModel
+from ..news.newsfeed import Newsfeed
+from ..news.news_item import NewsItem
 
 __all__ = ["PaginatedResponse", "Data", "Pages", "PagesNext"]
 

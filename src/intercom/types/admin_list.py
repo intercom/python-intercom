@@ -1,9 +1,9 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Optional
 
-from .shared import Admin
 from .._models import BaseModel
+from .shared.admin import Admin
 
 __all__ = ["AdminList"]
 

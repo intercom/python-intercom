@@ -1,20 +1,33 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .data import Data, AsyncData, DataWithRawResponse, AsyncDataWithRawResponse
+from .data import (
+    DataResource,
+    AsyncDataResource,
+    DataResourceWithRawResponse,
+    AsyncDataResourceWithRawResponse,
+    DataResourceWithStreamingResponse,
+    AsyncDataResourceWithStreamingResponse,
+)
 from .content import (
-    Content,
-    AsyncContent,
-    ContentWithRawResponse,
-    AsyncContentWithRawResponse,
+    ContentResource,
+    AsyncContentResource,
+    ContentResourceWithRawResponse,
+    AsyncContentResourceWithRawResponse,
+    ContentResourceWithStreamingResponse,
+    AsyncContentResourceWithStreamingResponse,
 )
 
 __all__ = [
-    "Data",
-    "AsyncData",
-    "DataWithRawResponse",
-    "AsyncDataWithRawResponse",
-    "Content",
-    "AsyncContent",
-    "ContentWithRawResponse",
-    "AsyncContentWithRawResponse",
+    "DataResource",
+    "AsyncDataResource",
+    "DataResourceWithRawResponse",
+    "AsyncDataResourceWithRawResponse",
+    "DataResourceWithStreamingResponse",
+    "AsyncDataResourceWithStreamingResponse",
+    "ContentResource",
+    "AsyncContentResource",
+    "ContentResourceWithRawResponse",
+    "AsyncContentResourceWithRawResponse",
+    "ContentResourceWithStreamingResponse",
+    "AsyncContentResourceWithStreamingResponse",
 ]

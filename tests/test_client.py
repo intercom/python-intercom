@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -17,14 +17,9 @@ from respx import MockRouter
 from pydantic import ValidationError
 
 from intercom import Intercom, AsyncIntercom, APIResponseValidationError
-from intercom._client import Intercom, AsyncIntercom
 from intercom._models import BaseModel, FinalRequestOptions
-from intercom._exceptions import (
-    IntercomError,
-    APIStatusError,
-    APITimeoutError,
-    APIResponseValidationError,
-)
+from intercom._constants import RAW_RESPONSE_HEADER
+from intercom._exceptions import IntercomError, APIStatusError, APITimeoutError, APIResponseValidationError
 from intercom._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
@@ -210,8 +205,8 @@ class TestIntercom:
         ITERATIONS = 10
         for _ in range(ITERATIONS):
             build_request(options)
-            gc.collect()
 
+        gc.collect()
         snapshot_after = tracemalloc.take_snapshot()
 
         tracemalloc.stop()
@@ -232,6 +227,7 @@ class TestIntercom:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
+                        "intercom/_legacy_response.py",
                         "intercom/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
                         "intercom/_compat.py",
@@ -303,6 +299,16 @@ class TestIntercom:
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
             assert timeout == DEFAULT_TIMEOUT  # our default
+
+    async def test_invalid_http_client(self) -> None:
+        with pytest.raises(TypeError, match="Invalid `http_client` arg"):
+            async with httpx.AsyncClient() as http_client:
+                Intercom(
+                    base_url=base_url,
+                    bearer_token=bearer_token,
+                    _strict_response_validation=True,
+                    http_client=cast(Any, http_client),
+                )
 
     def test_default_headers_option(self) -> None:
         client = Intercom(
@@ -454,6 +460,35 @@ class TestIntercom:
         )
         params = dict(request.url.params)
         assert params == {"foo": "2"}
+
+    def test_multipart_repeating_array(self, client: Intercom) -> None:
+        request = client._build_request(
+            FinalRequestOptions.construct(
+                method="get",
+                url="/foo",
+                headers={"Content-Type": "multipart/form-data; boundary=6b7ba517decee4a450543ea6ae821c82"},
+                json_data={"array": ["foo", "bar"]},
+                files=[("foo.txt", b"hello world")],
+            )
+        )
+
+        assert request.read().split(b"\r\n") == [
+            b"--6b7ba517decee4a450543ea6ae821c82",
+            b'Content-Disposition: form-data; name="array[]"',
+            b"",
+            b"foo",
+            b"--6b7ba517decee4a450543ea6ae821c82",
+            b'Content-Disposition: form-data; name="array[]"',
+            b"",
+            b"bar",
+            b"--6b7ba517decee4a450543ea6ae821c82",
+            b'Content-Disposition: form-data; name="foo.txt"; filename="upload"',
+            b"Content-Type: application/octet-stream",
+            b"",
+            b"hello world",
+            b"--6b7ba517decee4a450543ea6ae821c82--",
+            b"",
+        ]
 
     @pytest.mark.respx(base_url=base_url)
     def test_basic_union_response(self, respx_mock: MockRouter) -> None:
@@ -649,6 +684,15 @@ class TestIntercom:
 
         assert isinstance(exc.value.__cause__, ValidationError)
 
+    def test_client_max_retries_validation(self) -> None:
+        with pytest.raises(TypeError, match=r"max_retries cannot be None"):
+            Intercom(
+                base_url=base_url,
+                bearer_token=bearer_token,
+                _strict_response_validation=True,
+                max_retries=cast(Any, None),
+            )
+
     @pytest.mark.respx(base_url=base_url)
     def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
         class Model(BaseModel):
@@ -701,9 +745,7 @@ class TestIntercom:
         respx_mock.get("/me").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            self.client.get(
-                "/me", cast_to=httpx.Response, options={"headers": {"X-Stainless-Streamed-Raw-Response": "true"}}
-            )
+            self.client.get("/me", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}})
 
         assert _get_open_connections(self.client) == 0
 
@@ -713,9 +755,7 @@ class TestIntercom:
         respx_mock.get("/me").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            self.client.get(
-                "/me", cast_to=httpx.Response, options={"headers": {"X-Stainless-Streamed-Raw-Response": "true"}}
-            )
+            self.client.get("/me", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}})
 
         assert _get_open_connections(self.client) == 0
 
@@ -876,8 +916,8 @@ class TestAsyncIntercom:
         ITERATIONS = 10
         for _ in range(ITERATIONS):
             build_request(options)
-            gc.collect()
 
+        gc.collect()
         snapshot_after = tracemalloc.take_snapshot()
 
         tracemalloc.stop()
@@ -898,6 +938,7 @@ class TestAsyncIntercom:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
+                        "intercom/_legacy_response.py",
                         "intercom/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
                         "intercom/_compat.py",
@@ -969,6 +1010,16 @@ class TestAsyncIntercom:
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
             assert timeout == DEFAULT_TIMEOUT  # our default
+
+    def test_invalid_http_client(self) -> None:
+        with pytest.raises(TypeError, match="Invalid `http_client` arg"):
+            with httpx.Client() as http_client:
+                AsyncIntercom(
+                    base_url=base_url,
+                    bearer_token=bearer_token,
+                    _strict_response_validation=True,
+                    http_client=cast(Any, http_client),
+                )
 
     def test_default_headers_option(self) -> None:
         client = AsyncIntercom(
@@ -1120,6 +1171,35 @@ class TestAsyncIntercom:
         )
         params = dict(request.url.params)
         assert params == {"foo": "2"}
+
+    def test_multipart_repeating_array(self, async_client: AsyncIntercom) -> None:
+        request = async_client._build_request(
+            FinalRequestOptions.construct(
+                method="get",
+                url="/foo",
+                headers={"Content-Type": "multipart/form-data; boundary=6b7ba517decee4a450543ea6ae821c82"},
+                json_data={"array": ["foo", "bar"]},
+                files=[("foo.txt", b"hello world")],
+            )
+        )
+
+        assert request.read().split(b"\r\n") == [
+            b"--6b7ba517decee4a450543ea6ae821c82",
+            b'Content-Disposition: form-data; name="array[]"',
+            b"",
+            b"foo",
+            b"--6b7ba517decee4a450543ea6ae821c82",
+            b'Content-Disposition: form-data; name="array[]"',
+            b"",
+            b"bar",
+            b"--6b7ba517decee4a450543ea6ae821c82",
+            b'Content-Disposition: form-data; name="foo.txt"; filename="upload"',
+            b"Content-Type: application/octet-stream",
+            b"",
+            b"hello world",
+            b"--6b7ba517decee4a450543ea6ae821c82--",
+            b"",
+        ]
 
     @pytest.mark.respx(base_url=base_url)
     async def test_basic_union_response(self, respx_mock: MockRouter) -> None:
@@ -1317,6 +1397,15 @@ class TestAsyncIntercom:
 
         assert isinstance(exc.value.__cause__, ValidationError)
 
+    async def test_client_max_retries_validation(self) -> None:
+        with pytest.raises(TypeError, match=r"max_retries cannot be None"):
+            AsyncIntercom(
+                base_url=base_url,
+                bearer_token=bearer_token,
+                _strict_response_validation=True,
+                max_retries=cast(Any, None),
+            )
+
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
@@ -1371,9 +1460,7 @@ class TestAsyncIntercom:
         respx_mock.get("/me").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await self.client.get(
-                "/me", cast_to=httpx.Response, options={"headers": {"X-Stainless-Streamed-Raw-Response": "true"}}
-            )
+            await self.client.get("/me", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}})
 
         assert _get_open_connections(self.client) == 0
 
@@ -1383,8 +1470,6 @@ class TestAsyncIntercom:
         respx_mock.get("/me").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await self.client.get(
-                "/me", cast_to=httpx.Response, options={"headers": {"X-Stainless-Streamed-Raw-Response": "true"}}
-            )
+            await self.client.get("/me", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}})
 
         assert _get_open_connections(self.client) == 0

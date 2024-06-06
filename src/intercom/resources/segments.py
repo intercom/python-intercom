@@ -1,30 +1,40 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 import httpx
 
-from ..types import Segment, SegmentList, segment_list_params
+from ..types import segment_list_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import maybe_transform
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
+from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from .._base_client import make_request_options
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from .._base_client import (
+    make_request_options,
+)
+from ..types.segment import Segment
+from ..types.segment_list import SegmentList
 
-if TYPE_CHECKING:
-    from .._client import Intercom, AsyncIntercom
-
-__all__ = ["Segments", "AsyncSegments"]
+__all__ = ["SegmentsResource", "AsyncSegmentsResource"]
 
 
-class Segments(SyncAPIResource):
-    with_raw_response: SegmentsWithRawResponse
+class SegmentsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> SegmentsResourceWithRawResponse:
+        return SegmentsResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = SegmentsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> SegmentsResourceWithStreamingResponse:
+        return SegmentsResourceWithStreamingResponse(self)
 
     def retrieve(
         self,
@@ -49,6 +59,8 @@ class Segments(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/segments/{id}",
             options=make_request_options(
@@ -95,12 +107,14 @@ class Segments(SyncAPIResource):
         )
 
 
-class AsyncSegments(AsyncAPIResource):
-    with_raw_response: AsyncSegmentsWithRawResponse
+class AsyncSegmentsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncSegmentsResourceWithRawResponse:
+        return AsyncSegmentsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncSegmentsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncSegmentsResourceWithStreamingResponse:
+        return AsyncSegmentsResourceWithStreamingResponse(self)
 
     async def retrieve(
         self,
@@ -125,6 +139,8 @@ class AsyncSegments(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/segments/{id}",
             options=make_request_options(
@@ -165,14 +181,18 @@ class AsyncSegments(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"include_count": include_count}, segment_list_params.SegmentListParams),
+                query=await async_maybe_transform(
+                    {"include_count": include_count}, segment_list_params.SegmentListParams
+                ),
             ),
             cast_to=SegmentList,
         )
 
 
-class SegmentsWithRawResponse:
-    def __init__(self, segments: Segments) -> None:
+class SegmentsResourceWithRawResponse:
+    def __init__(self, segments: SegmentsResource) -> None:
+        self._segments = segments
+
         self.retrieve = to_raw_response_wrapper(
             segments.retrieve,
         )
@@ -181,11 +201,37 @@ class SegmentsWithRawResponse:
         )
 
 
-class AsyncSegmentsWithRawResponse:
-    def __init__(self, segments: AsyncSegments) -> None:
+class AsyncSegmentsResourceWithRawResponse:
+    def __init__(self, segments: AsyncSegmentsResource) -> None:
+        self._segments = segments
+
         self.retrieve = async_to_raw_response_wrapper(
             segments.retrieve,
         )
         self.list = async_to_raw_response_wrapper(
+            segments.list,
+        )
+
+
+class SegmentsResourceWithStreamingResponse:
+    def __init__(self, segments: SegmentsResource) -> None:
+        self._segments = segments
+
+        self.retrieve = to_streamed_response_wrapper(
+            segments.retrieve,
+        )
+        self.list = to_streamed_response_wrapper(
+            segments.list,
+        )
+
+
+class AsyncSegmentsResourceWithStreamingResponse:
+    def __init__(self, segments: AsyncSegmentsResource) -> None:
+        self._segments = segments
+
+        self.retrieve = async_to_streamed_response_wrapper(
+            segments.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
             segments.list,
         )

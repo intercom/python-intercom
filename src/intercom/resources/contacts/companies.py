@@ -1,31 +1,40 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
-
-from typing import TYPE_CHECKING
 
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
-from ...types.shared import Company
-from ...types.contacts import ContactAttachedCompanies, company_create_params
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
+from ...types.contacts import company_create_params
+from ...types.shared.company import Company
+from ...types.contacts.contact_attached_companies import ContactAttachedCompanies
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["Companies", "AsyncCompanies"]
+__all__ = ["CompaniesResource", "AsyncCompaniesResource"]
 
 
-class Companies(SyncAPIResource):
-    with_raw_response: CompaniesWithRawResponse
+class CompaniesResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> CompaniesResourceWithRawResponse:
+        return CompaniesResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = CompaniesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> CompaniesResourceWithStreamingResponse:
+        return CompaniesResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -53,6 +62,8 @@ class Companies(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not path_id:
+            raise ValueError(f"Expected a non-empty value for `path_id` but received {path_id!r}")
         return self._post(
             f"/contacts/{path_id}/companies",
             body=maybe_transform({"id": body_id}, company_create_params.CompanyCreateParams),
@@ -85,6 +96,8 @@ class Companies(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/contacts/{id}/companies",
             options=make_request_options(
@@ -117,6 +130,10 @@ class Companies(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not contact_id:
+            raise ValueError(f"Expected a non-empty value for `contact_id` but received {contact_id!r}")
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._delete(
             f"/contacts/{contact_id}/companies/{id}",
             options=make_request_options(
@@ -126,12 +143,14 @@ class Companies(SyncAPIResource):
         )
 
 
-class AsyncCompanies(AsyncAPIResource):
-    with_raw_response: AsyncCompaniesWithRawResponse
+class AsyncCompaniesResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncCompaniesResourceWithRawResponse:
+        return AsyncCompaniesResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncCompaniesWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncCompaniesResourceWithStreamingResponse:
+        return AsyncCompaniesResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -159,9 +178,11 @@ class AsyncCompanies(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not path_id:
+            raise ValueError(f"Expected a non-empty value for `path_id` but received {path_id!r}")
         return await self._post(
             f"/contacts/{path_id}/companies",
-            body=maybe_transform({"id": body_id}, company_create_params.CompanyCreateParams),
+            body=await async_maybe_transform({"id": body_id}, company_create_params.CompanyCreateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -191,6 +212,8 @@ class AsyncCompanies(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/contacts/{id}/companies",
             options=make_request_options(
@@ -223,6 +246,10 @@ class AsyncCompanies(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not contact_id:
+            raise ValueError(f"Expected a non-empty value for `contact_id` but received {contact_id!r}")
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._delete(
             f"/contacts/{contact_id}/companies/{id}",
             options=make_request_options(
@@ -232,8 +259,10 @@ class AsyncCompanies(AsyncAPIResource):
         )
 
 
-class CompaniesWithRawResponse:
-    def __init__(self, companies: Companies) -> None:
+class CompaniesResourceWithRawResponse:
+    def __init__(self, companies: CompaniesResource) -> None:
+        self._companies = companies
+
         self.create = to_raw_response_wrapper(
             companies.create,
         )
@@ -245,8 +274,10 @@ class CompaniesWithRawResponse:
         )
 
 
-class AsyncCompaniesWithRawResponse:
-    def __init__(self, companies: AsyncCompanies) -> None:
+class AsyncCompaniesResourceWithRawResponse:
+    def __init__(self, companies: AsyncCompaniesResource) -> None:
+        self._companies = companies
+
         self.create = async_to_raw_response_wrapper(
             companies.create,
         )
@@ -254,5 +285,35 @@ class AsyncCompaniesWithRawResponse:
             companies.list,
         )
         self.delete = async_to_raw_response_wrapper(
+            companies.delete,
+        )
+
+
+class CompaniesResourceWithStreamingResponse:
+    def __init__(self, companies: CompaniesResource) -> None:
+        self._companies = companies
+
+        self.create = to_streamed_response_wrapper(
+            companies.create,
+        )
+        self.list = to_streamed_response_wrapper(
+            companies.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            companies.delete,
+        )
+
+
+class AsyncCompaniesResourceWithStreamingResponse:
+    def __init__(self, companies: AsyncCompaniesResource) -> None:
+        self._companies = companies
+
+        self.create = async_to_streamed_response_wrapper(
+            companies.create,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            companies.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
             companies.delete,
         )

@@ -1,30 +1,39 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 import httpx
 
-from ..types import DataExport, data_export_content_data_params
+from ..types import data_export_content_data_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import maybe_transform
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
+from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from .._base_client import make_request_options
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from .._base_client import (
+    make_request_options,
+)
+from ..types.data_export import DataExport
 
-if TYPE_CHECKING:
-    from .._client import Intercom, AsyncIntercom
-
-__all__ = ["DataExports", "AsyncDataExports"]
+__all__ = ["DataExportsResource", "AsyncDataExportsResource"]
 
 
-class DataExports(SyncAPIResource):
-    with_raw_response: DataExportsWithRawResponse
+class DataExportsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> DataExportsResourceWithRawResponse:
+        return DataExportsResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = DataExportsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> DataExportsResourceWithStreamingResponse:
+        return DataExportsResourceWithStreamingResponse(self)
 
     def content_data(
         self,
@@ -96,12 +105,14 @@ class DataExports(SyncAPIResource):
         )
 
 
-class AsyncDataExports(AsyncAPIResource):
-    with_raw_response: AsyncDataExportsWithRawResponse
+class AsyncDataExportsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncDataExportsResourceWithRawResponse:
+        return AsyncDataExportsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncDataExportsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncDataExportsResourceWithStreamingResponse:
+        return AsyncDataExportsResourceWithStreamingResponse(self)
 
     async def content_data(
         self,
@@ -159,7 +170,7 @@ class AsyncDataExports(AsyncAPIResource):
         """
         return await self._post(
             "/export/content/data",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "created_at_after": created_at_after,
                     "created_at_before": created_at_before,
@@ -173,15 +184,37 @@ class AsyncDataExports(AsyncAPIResource):
         )
 
 
-class DataExportsWithRawResponse:
-    def __init__(self, data_exports: DataExports) -> None:
+class DataExportsResourceWithRawResponse:
+    def __init__(self, data_exports: DataExportsResource) -> None:
+        self._data_exports = data_exports
+
         self.content_data = to_raw_response_wrapper(
             data_exports.content_data,
         )
 
 
-class AsyncDataExportsWithRawResponse:
-    def __init__(self, data_exports: AsyncDataExports) -> None:
+class AsyncDataExportsResourceWithRawResponse:
+    def __init__(self, data_exports: AsyncDataExportsResource) -> None:
+        self._data_exports = data_exports
+
         self.content_data = async_to_raw_response_wrapper(
+            data_exports.content_data,
+        )
+
+
+class DataExportsResourceWithStreamingResponse:
+    def __init__(self, data_exports: DataExportsResource) -> None:
+        self._data_exports = data_exports
+
+        self.content_data = to_streamed_response_wrapper(
+            data_exports.content_data,
+        )
+
+
+class AsyncDataExportsResourceWithStreamingResponse:
+    def __init__(self, data_exports: AsyncDataExportsResource) -> None:
+        self._data_exports = data_exports
+
+        self.content_data = async_to_streamed_response_wrapper(
             data_exports.content_data,
         )

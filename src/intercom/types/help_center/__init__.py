@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -8,6 +8,4 @@ from .collection_list import CollectionList as CollectionList
 from .help_center_list import HelpCenterList as HelpCenterList
 from .collection_create_params import CollectionCreateParams as CollectionCreateParams
 from .collection_update_params import CollectionUpdateParams as CollectionUpdateParams
-from .deleted_collection_object import (
-    DeletedCollectionObject as DeletedCollectionObject,
-)
+from .deleted_collection_object import DeletedCollectionObject as DeletedCollectionObject

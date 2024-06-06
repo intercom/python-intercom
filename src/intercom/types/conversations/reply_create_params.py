@@ -1,16 +1,25 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
 from typing import List, Union
 from typing_extensions import Literal, Required, TypedDict
 
-__all__ = ["ReplyCreateParams", "ContactReplyConversationRequest", "AdminReplyConversationRequest"]
+__all__ = [
+    "ReplyCreateParams",
+    "ContactReplyIntercomUserIDRequest",
+    "ContactReplyEmailRequest",
+    "ContactReplyUserIDRequest",
+    "AdminReplyConversationRequest",
+]
 
 
-class ContactReplyConversationRequest(TypedDict, total=False):
+class ContactReplyIntercomUserIDRequest(TypedDict, total=False):
     body: Required[str]
     """The text body of the comment."""
+
+    intercom_user_id: Required[str]
+    """The identifier for the contact as given by Intercom."""
 
     message_type: Required[Literal["comment"]]
 
@@ -22,14 +31,41 @@ class ContactReplyConversationRequest(TypedDict, total=False):
     You can include up to 5 URLs.
     """
 
-    email: str
+
+class ContactReplyEmailRequest(TypedDict, total=False):
+    body: Required[str]
+    """The text body of the comment."""
+
+    email: Required[str]
     """The email you have defined for the user."""
 
-    intercom_user_id: str
-    """The identifier for the contact as given by Intercom."""
+    message_type: Required[Literal["comment"]]
 
-    user_id: str
+    type: Required[Literal["user"]]
+
+    attachment_urls: List[str]
+    """A list of image URLs that will be added as attachments.
+
+    You can include up to 5 URLs.
+    """
+
+
+class ContactReplyUserIDRequest(TypedDict, total=False):
+    body: Required[str]
+    """The text body of the comment."""
+
+    message_type: Required[Literal["comment"]]
+
+    type: Required[Literal["user"]]
+
+    user_id: Required[str]
     """The external_id you have defined for the contact."""
+
+    attachment_urls: List[str]
+    """A list of image URLs that will be added as attachments.
+
+    You can include up to 5 URLs.
+    """
 
 
 class AdminReplyConversationRequest(TypedDict, total=False):
@@ -53,4 +89,9 @@ class AdminReplyConversationRequest(TypedDict, total=False):
     """
 
 
-ReplyCreateParams = Union[ContactReplyConversationRequest, AdminReplyConversationRequest]
+ReplyCreateParams = Union[
+    ContactReplyIntercomUserIDRequest,
+    ContactReplyEmailRequest,
+    ContactReplyUserIDRequest,
+    AdminReplyConversationRequest,
+]

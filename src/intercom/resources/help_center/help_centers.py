@@ -1,29 +1,35 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
-
-from typing import TYPE_CHECKING
 
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
-from ...types.help_center import HelpCenter, HelpCenterList
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
+from ...types.help_center.help_center import HelpCenter
+from ...types.help_center.help_center_list import HelpCenterList
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["HelpCenters", "AsyncHelpCenters"]
+__all__ = ["HelpCentersResource", "AsyncHelpCentersResource"]
 
 
-class HelpCenters(SyncAPIResource):
-    with_raw_response: HelpCentersWithRawResponse
+class HelpCentersResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> HelpCentersResourceWithRawResponse:
+        return HelpCentersResourceWithRawResponse(self)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = HelpCentersWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> HelpCentersResourceWithStreamingResponse:
+        return HelpCentersResourceWithStreamingResponse(self)
 
     def retrieve(
         self,
@@ -80,12 +86,14 @@ class HelpCenters(SyncAPIResource):
         )
 
 
-class AsyncHelpCenters(AsyncAPIResource):
-    with_raw_response: AsyncHelpCentersWithRawResponse
+class AsyncHelpCentersResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncHelpCentersResourceWithRawResponse:
+        return AsyncHelpCentersResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncHelpCentersWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncHelpCentersResourceWithStreamingResponse:
+        return AsyncHelpCentersResourceWithStreamingResponse(self)
 
     async def retrieve(
         self,
@@ -142,8 +150,10 @@ class AsyncHelpCenters(AsyncAPIResource):
         )
 
 
-class HelpCentersWithRawResponse:
-    def __init__(self, help_centers: HelpCenters) -> None:
+class HelpCentersResourceWithRawResponse:
+    def __init__(self, help_centers: HelpCentersResource) -> None:
+        self._help_centers = help_centers
+
         self.retrieve = to_raw_response_wrapper(
             help_centers.retrieve,
         )
@@ -152,11 +162,37 @@ class HelpCentersWithRawResponse:
         )
 
 
-class AsyncHelpCentersWithRawResponse:
-    def __init__(self, help_centers: AsyncHelpCenters) -> None:
+class AsyncHelpCentersResourceWithRawResponse:
+    def __init__(self, help_centers: AsyncHelpCentersResource) -> None:
+        self._help_centers = help_centers
+
         self.retrieve = async_to_raw_response_wrapper(
             help_centers.retrieve,
         )
         self.list = async_to_raw_response_wrapper(
+            help_centers.list,
+        )
+
+
+class HelpCentersResourceWithStreamingResponse:
+    def __init__(self, help_centers: HelpCentersResource) -> None:
+        self._help_centers = help_centers
+
+        self.retrieve = to_streamed_response_wrapper(
+            help_centers.retrieve,
+        )
+        self.list = to_streamed_response_wrapper(
+            help_centers.list,
+        )
+
+
+class AsyncHelpCentersResourceWithStreamingResponse:
+    def __init__(self, help_centers: AsyncHelpCentersResource) -> None:
+        self._help_centers = help_centers
+
+        self.retrieve = async_to_streamed_response_wrapper(
+            help_centers.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
             help_centers.list,
         )

@@ -1,44 +1,55 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 from typing_extensions import Literal
 
 import httpx
 
-from ...types import (
-    TicketType,
-    TicketTypeList,
-    ticket_type_create_params,
-    ticket_type_update_params,
-)
+from ...types import ticket_type_create_params, ticket_type_update_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
+from ..._compat import cached_property
 from .attributes import (
-    Attributes,
-    AsyncAttributes,
-    AttributesWithRawResponse,
-    AsyncAttributesWithRawResponse,
+    AttributesResource,
+    AsyncAttributesResource,
+    AttributesResourceWithRawResponse,
+    AsyncAttributesResourceWithRawResponse,
+    AttributesResourceWithStreamingResponse,
+    AsyncAttributesResourceWithStreamingResponse,
 )
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ..._base_client import make_request_options
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import (
+    make_request_options,
+)
+from ...types.ticket_type import TicketType
+from ...types.ticket_type_list import TicketTypeList
 
-if TYPE_CHECKING:
-    from ..._client import Intercom, AsyncIntercom
-
-__all__ = ["TicketTypes", "AsyncTicketTypes"]
+__all__ = ["TicketTypesResource", "AsyncTicketTypesResource"]
 
 
-class TicketTypes(SyncAPIResource):
-    attributes: Attributes
-    with_raw_response: TicketTypesWithRawResponse
+class TicketTypesResource(SyncAPIResource):
+    @cached_property
+    def attributes(self) -> AttributesResource:
+        return AttributesResource(self._client)
 
-    def __init__(self, client: Intercom) -> None:
-        super().__init__(client)
-        self.attributes = Attributes(client)
-        self.with_raw_response = TicketTypesWithRawResponse(self)
+    @cached_property
+    def with_raw_response(self) -> TicketTypesResourceWithRawResponse:
+        return TicketTypesResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> TicketTypesResourceWithStreamingResponse:
+        return TicketTypesResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -126,6 +137,8 @@ class TicketTypes(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/ticket_types/{id}",
             options=make_request_options(
@@ -182,6 +195,8 @@ class TicketTypes(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._put(
             f"/ticket_types/{id}",
             body=maybe_transform(
@@ -221,14 +236,18 @@ class TicketTypes(SyncAPIResource):
         )
 
 
-class AsyncTicketTypes(AsyncAPIResource):
-    attributes: AsyncAttributes
-    with_raw_response: AsyncTicketTypesWithRawResponse
+class AsyncTicketTypesResource(AsyncAPIResource):
+    @cached_property
+    def attributes(self) -> AsyncAttributesResource:
+        return AsyncAttributesResource(self._client)
 
-    def __init__(self, client: AsyncIntercom) -> None:
-        super().__init__(client)
-        self.attributes = AsyncAttributes(client)
-        self.with_raw_response = AsyncTicketTypesWithRawResponse(self)
+    @cached_property
+    def with_raw_response(self) -> AsyncTicketTypesResourceWithRawResponse:
+        return AsyncTicketTypesResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncTicketTypesResourceWithStreamingResponse:
+        return AsyncTicketTypesResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -277,7 +296,7 @@ class AsyncTicketTypes(AsyncAPIResource):
         """
         return await self._post(
             "/ticket_types",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "name": name,
                     "category": category,
@@ -316,6 +335,8 @@ class AsyncTicketTypes(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/ticket_types/{id}",
             options=make_request_options(
@@ -372,9 +393,11 @@ class AsyncTicketTypes(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._put(
             f"/ticket_types/{id}",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "archived": archived,
                     "category": category,
@@ -411,9 +434,9 @@ class AsyncTicketTypes(AsyncAPIResource):
         )
 
 
-class TicketTypesWithRawResponse:
-    def __init__(self, ticket_types: TicketTypes) -> None:
-        self.attributes = AttributesWithRawResponse(ticket_types.attributes)
+class TicketTypesResourceWithRawResponse:
+    def __init__(self, ticket_types: TicketTypesResource) -> None:
+        self._ticket_types = ticket_types
 
         self.create = to_raw_response_wrapper(
             ticket_types.create,
@@ -428,10 +451,14 @@ class TicketTypesWithRawResponse:
             ticket_types.list,
         )
 
+    @cached_property
+    def attributes(self) -> AttributesResourceWithRawResponse:
+        return AttributesResourceWithRawResponse(self._ticket_types.attributes)
 
-class AsyncTicketTypesWithRawResponse:
-    def __init__(self, ticket_types: AsyncTicketTypes) -> None:
-        self.attributes = AsyncAttributesWithRawResponse(ticket_types.attributes)
+
+class AsyncTicketTypesResourceWithRawResponse:
+    def __init__(self, ticket_types: AsyncTicketTypesResource) -> None:
+        self._ticket_types = ticket_types
 
         self.create = async_to_raw_response_wrapper(
             ticket_types.create,
@@ -445,3 +472,51 @@ class AsyncTicketTypesWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             ticket_types.list,
         )
+
+    @cached_property
+    def attributes(self) -> AsyncAttributesResourceWithRawResponse:
+        return AsyncAttributesResourceWithRawResponse(self._ticket_types.attributes)
+
+
+class TicketTypesResourceWithStreamingResponse:
+    def __init__(self, ticket_types: TicketTypesResource) -> None:
+        self._ticket_types = ticket_types
+
+        self.create = to_streamed_response_wrapper(
+            ticket_types.create,
+        )
+        self.retrieve = to_streamed_response_wrapper(
+            ticket_types.retrieve,
+        )
+        self.update = to_streamed_response_wrapper(
+            ticket_types.update,
+        )
+        self.list = to_streamed_response_wrapper(
+            ticket_types.list,
+        )
+
+    @cached_property
+    def attributes(self) -> AttributesResourceWithStreamingResponse:
+        return AttributesResourceWithStreamingResponse(self._ticket_types.attributes)
+
+
+class AsyncTicketTypesResourceWithStreamingResponse:
+    def __init__(self, ticket_types: AsyncTicketTypesResource) -> None:
+        self._ticket_types = ticket_types
+
+        self.create = async_to_streamed_response_wrapper(
+            ticket_types.create,
+        )
+        self.retrieve = async_to_streamed_response_wrapper(
+            ticket_types.retrieve,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            ticket_types.update,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            ticket_types.list,
+        )
+
+    @cached_property
+    def attributes(self) -> AsyncAttributesResourceWithStreamingResponse:
+        return AsyncAttributesResourceWithStreamingResponse(self._ticket_types.attributes)

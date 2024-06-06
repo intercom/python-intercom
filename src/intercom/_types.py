@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from os import PathLike
-from abc import ABC, abstractmethod
 from typing import (
     IO,
     TYPE_CHECKING,
@@ -14,25 +13,18 @@ from typing import (
     Mapping,
     TypeVar,
     Callable,
-    Iterator,
     Optional,
     Sequence,
-    AsyncIterator,
 )
-from typing_extensions import (
-    Literal,
-    Protocol,
-    TypeAlias,
-    TypedDict,
-    override,
-    runtime_checkable,
-)
+from typing_extensions import Literal, Protocol, TypeAlias, TypedDict, override, runtime_checkable
 
+import httpx
 import pydantic
 from httpx import URL, Proxy, Timeout, Response, BaseTransport, AsyncBaseTransport
 
 if TYPE_CHECKING:
     from ._models import BaseModel
+    from ._response import APIResponse, AsyncAPIResponse
 
 Transport = BaseTransport
 AsyncTransport = AsyncBaseTransport
@@ -43,169 +35,15 @@ ModelT = TypeVar("ModelT", bound=pydantic.BaseModel)
 _T = TypeVar("_T")
 
 
-class BinaryResponseContent(ABC):
-    @abstractmethod
-    def __init__(
-        self,
-        response: Any,
-    ) -> None:
-        ...
-
-    @property
-    @abstractmethod
-    def content(self) -> bytes:
-        pass
-
-    @property
-    @abstractmethod
-    def text(self) -> str:
-        pass
-
-    @property
-    @abstractmethod
-    def encoding(self) -> Optional[str]:
-        """
-        Return an encoding to use for decoding the byte content into text.
-        The priority for determining this is given by...
-
-        * `.encoding = <>` has been set explicitly.
-        * The encoding as specified by the charset parameter in the Content-Type header.
-        * The encoding as determined by `default_encoding`, which may either be
-          a string like "utf-8" indicating the encoding to use, or may be a callable
-          which enables charset autodetection.
-        """
-        pass
-
-    @property
-    @abstractmethod
-    def charset_encoding(self) -> Optional[str]:
-        """
-        Return the encoding, as specified by the Content-Type header.
-        """
-        pass
-
-    @abstractmethod
-    def json(self, **kwargs: Any) -> Any:
-        pass
-
-    @abstractmethod
-    def read(self) -> bytes:
-        """
-        Read and return the response content.
-        """
-        pass
-
-    @abstractmethod
-    def iter_bytes(self, chunk_size: Optional[int] = None) -> Iterator[bytes]:
-        """
-        A byte-iterator over the decoded response content.
-        This allows us to handle gzip, deflate, and brotli encoded responses.
-        """
-        pass
-
-    @abstractmethod
-    def iter_text(self, chunk_size: Optional[int] = None) -> Iterator[str]:
-        """
-        A str-iterator over the decoded response content
-        that handles both gzip, deflate, etc but also detects the content's
-        string encoding.
-        """
-        pass
-
-    @abstractmethod
-    def iter_lines(self) -> Iterator[str]:
-        pass
-
-    @abstractmethod
-    def iter_raw(self, chunk_size: Optional[int] = None) -> Iterator[bytes]:
-        """
-        A byte-iterator over the raw response content.
-        """
-        pass
-
-    @abstractmethod
-    def stream_to_file(
-        self,
-        file: str | PathLike[str],
-        *,
-        chunk_size: int | None = None,
-    ) -> None:
-        """
-        Stream the output to the given file.
-        """
-        pass
-
-    @abstractmethod
-    def close(self) -> None:
-        """
-        Close the response and release the connection.
-        Automatically called if the response body is read to completion.
-        """
-        pass
-
-    @abstractmethod
-    async def aread(self) -> bytes:
-        """
-        Read and return the response content.
-        """
-        pass
-
-    @abstractmethod
-    async def aiter_bytes(self, chunk_size: Optional[int] = None) -> AsyncIterator[bytes]:
-        """
-        A byte-iterator over the decoded response content.
-        This allows us to handle gzip, deflate, and brotli encoded responses.
-        """
-        pass
-
-    @abstractmethod
-    async def aiter_text(self, chunk_size: Optional[int] = None) -> AsyncIterator[str]:
-        """
-        A str-iterator over the decoded response content
-        that handles both gzip, deflate, etc but also detects the content's
-        string encoding.
-        """
-        pass
-
-    @abstractmethod
-    async def aiter_lines(self) -> AsyncIterator[str]:
-        pass
-
-    @abstractmethod
-    async def aiter_raw(self, chunk_size: Optional[int] = None) -> AsyncIterator[bytes]:
-        """
-        A byte-iterator over the raw response content.
-        """
-        pass
-
-    @abstractmethod
-    async def astream_to_file(
-        self,
-        file: str | PathLike[str],
-        *,
-        chunk_size: int | None = None,
-    ) -> None:
-        """
-        Stream the output to the given file.
-        """
-        pass
-
-    @abstractmethod
-    async def aclose(self) -> None:
-        """
-        Close the response and release the connection.
-        Automatically called if the response body is read to completion.
-        """
-        pass
-
-
 # Approximates httpx internal ProxiesTypes and RequestFiles types
 # while adding support for `PathLike` instances
 ProxiesDict = Dict["str | URL", Union[None, str, URL, Proxy]]
 ProxiesTypes = Union[str, Proxy, ProxiesDict]
 if TYPE_CHECKING:
+    Base64FileInput = Union[IO[bytes], PathLike[str]]
     FileContent = Union[IO[bytes], bytes, PathLike[str]]
 else:
+    Base64FileInput = Union[IO[bytes], PathLike]
     FileContent = Union[IO[bytes], bytes, PathLike]  # PathLike is not subscriptable in Python 3.8.
 FileTypes = Union[
     # file (or bytes)
@@ -264,11 +102,6 @@ class RequestOptions(TypedDict, total=False):
     idempotency_key: str
 
 
-# Sentinel class used when the response type is an object with an unknown schema
-class UnknownResponse:
-    ...
-
-
 # Sentinel class used until PEP 0661 is accepted
 class NotGiven:
     """
@@ -278,11 +111,13 @@ class NotGiven:
     For example:
 
     ```py
-    def get(timeout: Union[int, NotGiven, None] = NotGiven()) -> Response: ...
+    def get(timeout: Union[int, NotGiven, None] = NotGiven()) -> Response:
+        ...
 
-    get(timeout=1) # 1s timeout
-    get(timeout=None) # No timeout
-    get() # Default timeout behavior, which may not be statically known at the method definition.
+
+    get(timeout=1)  # 1s timeout
+    get(timeout=None)  # No timeout
+    get()  # Default timeout behavior, which may not be statically known at the method definition.
     ```
     """
 
@@ -304,14 +139,14 @@ class Omit:
 
     ```py
     # as the default `Content-Type` header is `application/json` that will be sent
-    client.post('/upload/files', files={'file': b'my raw file content'})
+    client.post("/upload/files", files={"file": b"my raw file content"})
 
     # you can't explicitly override the header as it has to be dynamically generated
     # to look something like: 'multipart/form-data; boundary=0d8382fcf5f8c3be01ca2e11002d2983'
-    client.post(..., headers={'Content-Type': 'multipart/form-data'})
+    client.post(..., headers={"Content-Type": "multipart/form-data"})
 
     # instead you can remove the default `application/json` header by passing Omit
-    client.post(..., headers={'Content-Type': Omit()})
+    client.post(..., headers={"Content-Type": Omit()})
     ```
     """
 
@@ -343,7 +178,18 @@ HeadersLike = Union[Headers, HeadersLikeProtocol]
 
 ResponseT = TypeVar(
     "ResponseT",
-    bound="Union[str, None, BaseModel, List[Any], Dict[str, Any], Response, UnknownResponse, ModelBuilderProtocol, BinaryResponseContent]",
+    bound=Union[
+        object,
+        str,
+        None,
+        "BaseModel",
+        List[Any],
+        Dict[str, Any],
+        Response,
+        ModelBuilderProtocol,
+        "APIResponse[Any]",
+        "AsyncAPIResponse[Any]",
+    ],
 )
 
 StrBytesIntFloat = Union[str, bytes, int, float]
@@ -353,3 +199,22 @@ StrBytesIntFloat = Union[str, bytes, int, float]
 IncEx: TypeAlias = "set[int] | set[str] | dict[int, Any] | dict[str, Any] | None"
 
 PostParser = Callable[[Any], Any]
+
+
+@runtime_checkable
+class InheritsGeneric(Protocol):
+    """Represents a type that has inherited from `Generic`
+
+    The `__orig_bases__` property can be used to determine the resolved
+    type variable for a given base class.
+    """
+
+    __orig_bases__: tuple[_GenericAlias]
+
+
+class _GenericAlias(Protocol):
+    __origin__: type[object]
+
+
+class HttpxSendArgs(TypedDict, total=False):
+    auth: httpx.Auth

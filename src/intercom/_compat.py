@@ -1,13 +1,15 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Union, TypeVar, cast
+from typing import TYPE_CHECKING, Any, Union, Generic, TypeVar, Callable, cast, overload
 from datetime import date, datetime
+from typing_extensions import Self
 
 import pydantic
 from pydantic.fields import FieldInfo
 
 from ._types import StrBytesIntFloat
 
+_T = TypeVar("_T")
 _ModelT = TypeVar("_ModelT", bound=pydantic.BaseModel)
 
 # --------------- Pydantic v2 compatibility ---------------
@@ -43,21 +45,23 @@ if TYPE_CHECKING:
 
 else:
     if PYDANTIC_V2:
-        from pydantic.v1.typing import get_args as get_args
-        from pydantic.v1.typing import is_union as is_union
-        from pydantic.v1.typing import get_origin as get_origin
-        from pydantic.v1.typing import is_typeddict as is_typeddict
-        from pydantic.v1.typing import is_literal_type as is_literal_type
-        from pydantic.v1.datetime_parse import parse_date as parse_date
-        from pydantic.v1.datetime_parse import parse_datetime as parse_datetime
+        from pydantic.v1.typing import (
+            get_args as get_args,
+            is_union as is_union,
+            get_origin as get_origin,
+            is_typeddict as is_typeddict,
+            is_literal_type as is_literal_type,
+        )
+        from pydantic.v1.datetime_parse import parse_date as parse_date, parse_datetime as parse_datetime
     else:
-        from pydantic.typing import get_args as get_args
-        from pydantic.typing import is_union as is_union
-        from pydantic.typing import get_origin as get_origin
-        from pydantic.typing import is_typeddict as is_typeddict
-        from pydantic.typing import is_literal_type as is_literal_type
-        from pydantic.datetime_parse import parse_date as parse_date
-        from pydantic.datetime_parse import parse_datetime as parse_datetime
+        from pydantic.typing import (
+            get_args as get_args,
+            is_union as is_union,
+            get_origin as get_origin,
+            is_typeddict as is_typeddict,
+            is_literal_type as is_literal_type,
+        )
+        from pydantic.datetime_parse import parse_date as parse_date, parse_datetime as parse_datetime
 
 
 # refactored config
@@ -171,3 +175,48 @@ else:
 
         class GenericModel(pydantic.generics.GenericModel, pydantic.BaseModel):
             ...
+
+
+# cached properties
+if TYPE_CHECKING:
+    cached_property = property
+
+    # we define a separate type (copied from typeshed)
+    # that represents that `cached_property` is `set`able
+    # at runtime, which differs from `@property`.
+    #
+    # this is a separate type as editors likely special case
+    # `@property` and we don't want to cause issues just to have
+    # more helpful internal types.
+
+    class typed_cached_property(Generic[_T]):
+        func: Callable[[Any], _T]
+        attrname: str | None
+
+        def __init__(self, func: Callable[[Any], _T]) -> None:
+            ...
+
+        @overload
+        def __get__(self, instance: None, owner: type[Any] | None = None) -> Self:
+            ...
+
+        @overload
+        def __get__(self, instance: object, owner: type[Any] | None = None) -> _T:
+            ...
+
+        def __get__(self, instance: object, owner: type[Any] | None = None) -> _T | Self:
+            raise NotImplementedError()
+
+        def __set_name__(self, owner: type[Any], name: str) -> None:
+            ...
+
+        # __set__ is not defined at runtime, but @cached_property is designed to be settable
+        def __set__(self, instance: object, value: _T) -> None:
+            ...
+else:
+    try:
+        from functools import cached_property as cached_property
+    except ImportError:
+        from cached_property import cached_property as cached_property
+
+    typed_cached_property = cached_property
