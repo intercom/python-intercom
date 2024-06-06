@@ -30,8 +30,8 @@ from intercom import Intercom
 client = Intercom(
     # This is the default and can be omitted
     access_token=os.environ.get("INTERCOM_ACCESS_TOKEN"),
-    # or 'production' | 'environment_2'; defaults to "production".
-    environment="environment_1",
+    # or 'us' | 'au'; defaults to "us".
+    environment="eu",
 )
 
 admin_with_app = client.me.retrieve()
@@ -55,8 +55,8 @@ from intercom import AsyncIntercom
 client = AsyncIntercom(
     # This is the default and can be omitted
     access_token=os.environ.get("INTERCOM_ACCESS_TOKEN"),
-    # or 'production' | 'environment_2'; defaults to "production".
-    environment="environment_1",
+    # or 'us' | 'au'; defaults to "us".
+    environment="eu",
 )
 
 

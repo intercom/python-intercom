@@ -565,10 +565,10 @@ class TestIntercom:
         # explicit environment arg requires explicitness
         with update_env(INTERCOM_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                Intercom(access_token=access_token, _strict_response_validation=True, environment="production")
+                Intercom(access_token=access_token, _strict_response_validation=True, environment="us")
 
             client = Intercom(
-                base_url=None, access_token=access_token, _strict_response_validation=True, environment="production"
+                base_url=None, access_token=access_token, _strict_response_validation=True, environment="us"
             )
             assert str(client.base_url).startswith("https://api.intercom.io")
 
@@ -1276,10 +1276,10 @@ class TestAsyncIntercom:
         # explicit environment arg requires explicitness
         with update_env(INTERCOM_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                AsyncIntercom(access_token=access_token, _strict_response_validation=True, environment="production")
+                AsyncIntercom(access_token=access_token, _strict_response_validation=True, environment="us")
 
             client = AsyncIntercom(
-                base_url=None, access_token=access_token, _strict_response_validation=True, environment="production"
+                base_url=None, access_token=access_token, _strict_response_validation=True, environment="us"
             )
             assert str(client.base_url).startswith("https://api.intercom.io")
 

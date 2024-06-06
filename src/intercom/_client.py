@@ -46,9 +46,9 @@ __all__ = [
 ]
 
 ENVIRONMENTS: Dict[str, str] = {
-    "production": "https://api.intercom.io",
-    "environment_1": "https://api.eu.intercom.io",
-    "environment_2": "https://api.au.intercom.io",
+    "us": "https://api.intercom.io",
+    "eu": "https://api.eu.intercom.io",
+    "au": "https://api.au.intercom.io",
 }
 
 
@@ -82,13 +82,13 @@ class Intercom(SyncAPIClient):
     # client options
     access_token: str
 
-    _environment: Literal["production", "environment_1", "environment_2"] | NotGiven
+    _environment: Literal["us", "eu", "au"] | NotGiven
 
     def __init__(
         self,
         *,
         access_token: str | None = None,
-        environment: Literal["production", "environment_1", "environment_2"] | NotGiven = NOT_GIVEN,
+        environment: Literal["us", "eu", "au"] | NotGiven = NOT_GIVEN,
         base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -139,7 +139,7 @@ class Intercom(SyncAPIClient):
         elif base_url_env is not None:
             base_url = base_url_env
         else:
-            self._environment = environment = "production"
+            self._environment = environment = "us"
 
             try:
                 base_url = ENVIRONMENTS[environment]
@@ -207,7 +207,7 @@ class Intercom(SyncAPIClient):
         self,
         *,
         access_token: str | None = None,
-        environment: Literal["production", "environment_1", "environment_2"] | None = None,
+        environment: Literal["us", "eu", "au"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
@@ -320,13 +320,13 @@ class AsyncIntercom(AsyncAPIClient):
     # client options
     access_token: str
 
-    _environment: Literal["production", "environment_1", "environment_2"] | NotGiven
+    _environment: Literal["us", "eu", "au"] | NotGiven
 
     def __init__(
         self,
         *,
         access_token: str | None = None,
-        environment: Literal["production", "environment_1", "environment_2"] | NotGiven = NOT_GIVEN,
+        environment: Literal["us", "eu", "au"] | NotGiven = NOT_GIVEN,
         base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -377,7 +377,7 @@ class AsyncIntercom(AsyncAPIClient):
         elif base_url_env is not None:
             base_url = base_url_env
         else:
-            self._environment = environment = "production"
+            self._environment = environment = "us"
 
             try:
                 base_url = ENVIRONMENTS[environment]
@@ -445,7 +445,7 @@ class AsyncIntercom(AsyncAPIClient):
         self,
         *,
         access_token: str | None = None,
-        environment: Literal["production", "environment_1", "environment_2"] | None = None,
+        environment: Literal["us", "eu", "au"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
