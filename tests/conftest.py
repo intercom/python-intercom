@@ -26,7 +26,7 @@ def event_loop() -> Iterator[asyncio.AbstractEventLoop]:
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
-bearer_token = "My Bearer Token"
+api_key = "My API Key"
 
 
 @pytest.fixture(scope="session")
@@ -35,7 +35,7 @@ def client(request: FixtureRequest) -> Iterator[Intercom]:
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    with Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=strict) as client:
+    with Intercom(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
         yield client
 
 
@@ -45,7 +45,5 @@ async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncIntercom]:
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    async with AsyncIntercom(
-        base_url=base_url, bearer_token=bearer_token, _strict_response_validation=strict
-    ) as client:
+    async with AsyncIntercom(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
         yield client

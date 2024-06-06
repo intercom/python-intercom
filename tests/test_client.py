@@ -30,7 +30,7 @@ from intercom._base_client import (
 from .utils import update_env
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
-bearer_token = "My Bearer Token"
+api_key = "My API Key"
 
 
 def _get_params(client: BaseClient[Any, Any]) -> dict[str, str]:
@@ -52,7 +52,7 @@ def _get_open_connections(client: Intercom | AsyncIntercom) -> int:
 
 
 class TestIntercom:
-    client = Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+    client = Intercom(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response(self, respx_mock: MockRouter) -> None:
@@ -78,9 +78,9 @@ class TestIntercom:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(bearer_token="another My Bearer Token")
-        assert copied.bearer_token == "another My Bearer Token"
-        assert self.client.bearer_token == "My Bearer Token"
+        copied = self.client.copy(api_key="another My API Key")
+        assert copied.api_key == "another My API Key"
+        assert self.client.api_key == "My API Key"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
@@ -100,10 +100,7 @@ class TestIntercom:
 
     def test_copy_default_headers(self) -> None:
         client = Intercom(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -137,7 +134,7 @@ class TestIntercom:
 
     def test_copy_default_query(self) -> None:
         client = Intercom(
-            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, default_query={"foo": "bar"}
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -262,7 +259,7 @@ class TestIntercom:
 
     def test_client_timeout_option(self) -> None:
         client = Intercom(
-            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, timeout=httpx.Timeout(0)
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -273,7 +270,7 @@ class TestIntercom:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
             client = Intercom(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -283,7 +280,7 @@ class TestIntercom:
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
             client = Intercom(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -293,7 +290,7 @@ class TestIntercom:
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = Intercom(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -305,17 +302,14 @@ class TestIntercom:
             async with httpx.AsyncClient() as http_client:
                 Intercom(
                     base_url=base_url,
-                    bearer_token=bearer_token,
+                    api_key=api_key,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     def test_default_headers_option(self) -> None:
         client = Intercom(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -323,7 +317,7 @@ class TestIntercom:
 
         client2 = Intercom(
             base_url=base_url,
-            bearer_token=bearer_token,
+            api_key=api_key,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -335,20 +329,17 @@ class TestIntercom:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = Intercom(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
         with pytest.raises(IntercomError):
-            client2 = Intercom(base_url=base_url, bearer_token=None, _strict_response_validation=True)
+            client2 = Intercom(base_url=base_url, api_key=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
         client = Intercom(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_query={"query_param": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -548,9 +539,7 @@ class TestIntercom:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = Intercom(
-            base_url="https://example.com/from_init", bearer_token=bearer_token, _strict_response_validation=True
-        )
+        client = Intercom(base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True)
         assert client.base_url == "https://example.com/from_init/"
 
         client.base_url = "https://example.com/from_setter"  # type: ignore[assignment]
@@ -559,30 +548,26 @@ class TestIntercom:
 
     def test_base_url_env(self) -> None:
         with update_env(INTERCOM_BASE_URL="http://localhost:5000/from/env"):
-            client = Intercom(bearer_token=bearer_token, _strict_response_validation=True)
+            client = Intercom(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
         # explicit environment arg requires explicitness
         with update_env(INTERCOM_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                Intercom(bearer_token=bearer_token, _strict_response_validation=True, environment="production")
+                Intercom(api_key=api_key, _strict_response_validation=True, environment="production")
 
             client = Intercom(
-                base_url=None, bearer_token=bearer_token, _strict_response_validation=True, environment="production"
+                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
             )
             assert str(client.base_url).startswith("https://api.intercom.io")
 
     @pytest.mark.parametrize(
         "client",
         [
+            Intercom(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             Intercom(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-            ),
-            Intercom(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -602,14 +587,10 @@ class TestIntercom:
     @pytest.mark.parametrize(
         "client",
         [
+            Intercom(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             Intercom(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-            ),
-            Intercom(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -629,14 +610,10 @@ class TestIntercom:
     @pytest.mark.parametrize(
         "client",
         [
+            Intercom(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             Intercom(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-            ),
-            Intercom(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -654,7 +631,7 @@ class TestIntercom:
         assert request.url == "https://myapi.com/foo"
 
     def test_copied_client_does_not_close_http(self) -> None:
-        client = Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = Intercom(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -665,7 +642,7 @@ class TestIntercom:
         assert not client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        client = Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = Intercom(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -686,12 +663,7 @@ class TestIntercom:
 
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            Intercom(
-                base_url=base_url,
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-                max_retries=cast(Any, None),
-            )
+            Intercom(base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None))
 
     @pytest.mark.respx(base_url=base_url)
     def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
@@ -700,12 +672,12 @@ class TestIntercom:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        strict_client = Intercom(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        client = Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
+        client = Intercom(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -732,7 +704,7 @@ class TestIntercom:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = Intercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = Intercom(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -761,7 +733,7 @@ class TestIntercom:
 
 
 class TestAsyncIntercom:
-    client = AsyncIntercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+    client = AsyncIntercom(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -789,9 +761,9 @@ class TestAsyncIntercom:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(bearer_token="another My Bearer Token")
-        assert copied.bearer_token == "another My Bearer Token"
-        assert self.client.bearer_token == "My Bearer Token"
+        copied = self.client.copy(api_key="another My API Key")
+        assert copied.api_key == "another My API Key"
+        assert self.client.api_key == "My API Key"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
@@ -811,10 +783,7 @@ class TestAsyncIntercom:
 
     def test_copy_default_headers(self) -> None:
         client = AsyncIntercom(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -848,7 +817,7 @@ class TestAsyncIntercom:
 
     def test_copy_default_query(self) -> None:
         client = AsyncIntercom(
-            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, default_query={"foo": "bar"}
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -973,7 +942,7 @@ class TestAsyncIntercom:
 
     async def test_client_timeout_option(self) -> None:
         client = AsyncIntercom(
-            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, timeout=httpx.Timeout(0)
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -984,7 +953,7 @@ class TestAsyncIntercom:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
             client = AsyncIntercom(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -994,7 +963,7 @@ class TestAsyncIntercom:
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
             client = AsyncIntercom(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1004,7 +973,7 @@ class TestAsyncIntercom:
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = AsyncIntercom(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1016,17 +985,14 @@ class TestAsyncIntercom:
             with httpx.Client() as http_client:
                 AsyncIntercom(
                     base_url=base_url,
-                    bearer_token=bearer_token,
+                    api_key=api_key,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     def test_default_headers_option(self) -> None:
         client = AsyncIntercom(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -1034,7 +1000,7 @@ class TestAsyncIntercom:
 
         client2 = AsyncIntercom(
             base_url=base_url,
-            bearer_token=bearer_token,
+            api_key=api_key,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -1046,20 +1012,17 @@ class TestAsyncIntercom:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = AsyncIntercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncIntercom(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
         with pytest.raises(IntercomError):
-            client2 = AsyncIntercom(base_url=base_url, bearer_token=None, _strict_response_validation=True)
+            client2 = AsyncIntercom(base_url=base_url, api_key=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
         client = AsyncIntercom(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_query={"query_param": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -1260,7 +1223,7 @@ class TestAsyncIntercom:
 
     def test_base_url_setter(self) -> None:
         client = AsyncIntercom(
-            base_url="https://example.com/from_init", bearer_token=bearer_token, _strict_response_validation=True
+            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
 
@@ -1270,16 +1233,16 @@ class TestAsyncIntercom:
 
     def test_base_url_env(self) -> None:
         with update_env(INTERCOM_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncIntercom(bearer_token=bearer_token, _strict_response_validation=True)
+            client = AsyncIntercom(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
         # explicit environment arg requires explicitness
         with update_env(INTERCOM_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                AsyncIntercom(bearer_token=bearer_token, _strict_response_validation=True, environment="production")
+                AsyncIntercom(api_key=api_key, _strict_response_validation=True, environment="production")
 
             client = AsyncIntercom(
-                base_url=None, bearer_token=bearer_token, _strict_response_validation=True, environment="production"
+                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
             )
             assert str(client.base_url).startswith("https://api.intercom.io")
 
@@ -1287,13 +1250,11 @@ class TestAsyncIntercom:
         "client",
         [
             AsyncIntercom(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             AsyncIntercom(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1314,13 +1275,11 @@ class TestAsyncIntercom:
         "client",
         [
             AsyncIntercom(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             AsyncIntercom(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1341,13 +1300,11 @@ class TestAsyncIntercom:
         "client",
         [
             AsyncIntercom(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             AsyncIntercom(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1365,7 +1322,7 @@ class TestAsyncIntercom:
         assert request.url == "https://myapi.com/foo"
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        client = AsyncIntercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncIntercom(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -1377,7 +1334,7 @@ class TestAsyncIntercom:
         assert not client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        client = AsyncIntercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncIntercom(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         async with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -1400,10 +1357,7 @@ class TestAsyncIntercom:
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
             AsyncIntercom(
-                base_url=base_url,
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-                max_retries=cast(Any, None),
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
             )
 
     @pytest.mark.respx(base_url=base_url)
@@ -1414,12 +1368,12 @@ class TestAsyncIntercom:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncIntercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        strict_client = AsyncIntercom(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        client = AsyncIntercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
+        client = AsyncIntercom(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = await client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1447,7 +1401,7 @@ class TestAsyncIntercom:
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     @pytest.mark.asyncio
     async def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = AsyncIntercom(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncIntercom(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
