@@ -29,7 +29,7 @@ from intercom import Intercom
 
 client = Intercom(
     # This is the default and can be omitted
-    api_key=os.environ.get("INTERCOM_API_KEY"),
+    access_token=os.environ.get("INTERCOM_ACCESS_TOKEN"),
     # or 'production' | 'environment_2'; defaults to "production".
     environment="environment_1",
 )
@@ -38,10 +38,10 @@ admin_with_app = client.me.retrieve()
 print(admin_with_app.id)
 ```
 
-While you can provide an `api_key` keyword argument,
+While you can provide a `access_token` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `INTERCOM_API_KEY="My API Key"` to your `.env` file
-so that your API Key is not stored in source control.
+to add `INTERCOM_ACCESS_TOKEN="My Access Token"` to your `.env` file
+so that your Access Token is not stored in source control.
 
 ## Async usage
 
@@ -54,7 +54,7 @@ from intercom import AsyncIntercom
 
 client = AsyncIntercom(
     # This is the default and can be omitted
-    api_key=os.environ.get("INTERCOM_API_KEY"),
+    access_token=os.environ.get("INTERCOM_ACCESS_TOKEN"),
     # or 'production' | 'environment_2'; defaults to "production".
     environment="environment_1",
 )

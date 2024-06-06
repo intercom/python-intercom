@@ -80,14 +80,14 @@ class Intercom(SyncAPIClient):
     with_streaming_response: IntercomWithStreamedResponse
 
     # client options
-    api_key: str
+    access_token: str
 
     _environment: Literal["production", "environment_1", "environment_2"] | NotGiven
 
     def __init__(
         self,
         *,
-        api_key: str | None = None,
+        access_token: str | None = None,
         environment: Literal["production", "environment_1", "environment_2"] | NotGiven = NOT_GIVEN,
         base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
@@ -110,15 +110,15 @@ class Intercom(SyncAPIClient):
     ) -> None:
         """Construct a new synchronous intercom client instance.
 
-        This automatically infers the `api_key` argument from the `INTERCOM_API_KEY` environment variable if it is not provided.
+        This automatically infers the `access_token` argument from the `INTERCOM_ACCESS_TOKEN` environment variable if it is not provided.
         """
-        if api_key is None:
-            api_key = os.environ.get("INTERCOM_API_KEY")
-        if api_key is None:
+        if access_token is None:
+            access_token = os.environ.get("INTERCOM_ACCESS_TOKEN")
+        if access_token is None:
             raise IntercomError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the INTERCOM_API_KEY environment variable"
+                "The access_token client option must be set either by passing access_token to the client or by setting the INTERCOM_ACCESS_TOKEN environment variable"
             )
-        self.api_key = api_key
+        self.access_token = access_token
 
         self._environment = environment
 
@@ -191,8 +191,8 @@ class Intercom(SyncAPIClient):
     @property
     @override
     def auth_headers(self) -> dict[str, str]:
-        api_key = self.api_key
-        return {"Authorization": f"Bearer {api_key}"}
+        access_token = self.access_token
+        return {"Authorization": f"Bearer {access_token}"}
 
     @property
     @override
@@ -206,7 +206,7 @@ class Intercom(SyncAPIClient):
     def copy(
         self,
         *,
-        api_key: str | None = None,
+        access_token: str | None = None,
         environment: Literal["production", "environment_1", "environment_2"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
@@ -241,7 +241,7 @@ class Intercom(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            api_key=api_key or self.api_key,
+            access_token=access_token or self.access_token,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
@@ -318,14 +318,14 @@ class AsyncIntercom(AsyncAPIClient):
     with_streaming_response: AsyncIntercomWithStreamedResponse
 
     # client options
-    api_key: str
+    access_token: str
 
     _environment: Literal["production", "environment_1", "environment_2"] | NotGiven
 
     def __init__(
         self,
         *,
-        api_key: str | None = None,
+        access_token: str | None = None,
         environment: Literal["production", "environment_1", "environment_2"] | NotGiven = NOT_GIVEN,
         base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
@@ -348,15 +348,15 @@ class AsyncIntercom(AsyncAPIClient):
     ) -> None:
         """Construct a new async intercom client instance.
 
-        This automatically infers the `api_key` argument from the `INTERCOM_API_KEY` environment variable if it is not provided.
+        This automatically infers the `access_token` argument from the `INTERCOM_ACCESS_TOKEN` environment variable if it is not provided.
         """
-        if api_key is None:
-            api_key = os.environ.get("INTERCOM_API_KEY")
-        if api_key is None:
+        if access_token is None:
+            access_token = os.environ.get("INTERCOM_ACCESS_TOKEN")
+        if access_token is None:
             raise IntercomError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the INTERCOM_API_KEY environment variable"
+                "The access_token client option must be set either by passing access_token to the client or by setting the INTERCOM_ACCESS_TOKEN environment variable"
             )
-        self.api_key = api_key
+        self.access_token = access_token
 
         self._environment = environment
 
@@ -429,8 +429,8 @@ class AsyncIntercom(AsyncAPIClient):
     @property
     @override
     def auth_headers(self) -> dict[str, str]:
-        api_key = self.api_key
-        return {"Authorization": f"Bearer {api_key}"}
+        access_token = self.access_token
+        return {"Authorization": f"Bearer {access_token}"}
 
     @property
     @override
@@ -444,7 +444,7 @@ class AsyncIntercom(AsyncAPIClient):
     def copy(
         self,
         *,
-        api_key: str | None = None,
+        access_token: str | None = None,
         environment: Literal["production", "environment_1", "environment_2"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
@@ -479,7 +479,7 @@ class AsyncIntercom(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            api_key=api_key or self.api_key,
+            access_token=access_token or self.access_token,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
