@@ -1,11 +1,40 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Optional
+from typing import List, Optional
 from typing_extensions import Literal
 
 from ..._models import BaseModel
 
-__all__ = ["ActivityLogList", "ActivityLog", "ActivityLogPerformedBy", "Pages", "PagesNext"]
+__all__ = ["ActivityLogList", "ActivityLog", "ActivityLogMetadata", "ActivityLogPerformedBy", "Pages", "PagesNext"]
+
+
+class ActivityLogMetadata(BaseModel):
+    auto_changed: Optional[str] = None
+    """Indicates if the status was changed automatically or manually."""
+
+    away_mode: Optional[bool] = None
+    """The away mode status which is set to true when away and false when returned."""
+
+    away_status_reason: Optional[str] = None
+    """The reason the Admin is away."""
+
+    external_id: Optional[str] = None
+    """The unique identifier for the contact which is provided by the Client."""
+
+    reassign_conversations: Optional[bool] = None
+    """Indicates if conversations should be reassigned while an Admin is away."""
+
+    sign_in_method: Optional[str] = None
+    """The way the admin signed in."""
+
+    source: Optional[str] = None
+    """The action that initiated the status change."""
+
+    update_by: Optional[int] = None
+    """The ID of the Admin who initiated the activity."""
+
+    update_by_name: Optional[str] = None
+    """The name of the Admin who initiated the activity."""
 
 
 class ActivityLogPerformedBy(BaseModel):
@@ -104,16 +133,19 @@ class ActivityLog(BaseModel):
     created_at: Optional[int] = None
     """The time the activity was created."""
 
-    metadata: Optional[Dict[str, object]] = None
+    metadata: Optional[ActivityLogMetadata] = None
+    """Additional data provided about Admin activity."""
 
     performed_by: Optional[ActivityLogPerformedBy] = None
-    """An object representing the admin who performed the activity."""
+    """Details about the Admin involved in the activity."""
 
 
 class PagesNext(BaseModel):
-    page: Optional[int] = None
+    per_page: Optional[int] = None
+    """The number of results to fetch per page."""
 
     starting_after: Optional[str] = None
+    """The cursor to use in the next request to get the next page of results."""
 
 
 class Pages(BaseModel):

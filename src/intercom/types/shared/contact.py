@@ -160,8 +160,9 @@ class Contact(BaseModel):
     """The version of the browser which the contact is using."""
 
     companies: Optional[Companies] = None
-    """
-    An object containing companies meta data about the companies that a contact has.
+    """An object containing companies meta data about the companies that a contact has.
+
+    Up to 10 will be displayed here. Use the url to get more.
     """
 
     created_at: Optional[int] = None
@@ -171,7 +172,10 @@ class Contact(BaseModel):
     """The custom attributes which are set for the contact."""
 
     email: Optional[str] = None
-    """The contacts email."""
+    """The contact's email."""
+
+    email_domain: Optional[str] = None
+    """The contact's email domain."""
 
     external_id: Optional[str] = None
     """The unique identifier for the contact which is provided by the Client."""
@@ -234,7 +238,10 @@ class Contact(BaseModel):
     """The contacts name."""
 
     notes: Optional[Notes] = None
-    """An object containing notes meta data about the notes that a contact has."""
+    """An object containing notes meta data about the notes that a contact has.
+
+    Up to 10 will be displayed here. Use the url to get more.
+    """
 
     os: Optional[str] = None
     """The operating system which the contact is using."""
@@ -255,7 +262,10 @@ class Contact(BaseModel):
     """An object containing social profiles that a contact has."""
 
     tags: Optional[Tags] = None
-    """An object containing tags meta data about the tags that a contact has."""
+    """An object containing tags meta data about the tags that a contact has.
+
+    Up to 10 will be displayed here. Use the url to get more.
+    """
 
     type: Optional[str] = None
     """The type of object."""

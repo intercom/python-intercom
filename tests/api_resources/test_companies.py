@@ -144,26 +144,21 @@ class TestCompanies:
 
     @parametrize
     def test_method_list(self, client: Intercom) -> None:
-        company = client.companies.list(
-            filter={"tag_id": "string"},
-        )
+        company = client.companies.list()
         assert_matches_type(CompanyList, company, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Intercom) -> None:
         company = client.companies.list(
-            filter={"tag_id": "string"},
             order="string",
-            page="string",
-            per_page="string",
+            page=0,
+            per_page=0,
         )
         assert_matches_type(CompanyList, company, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
-        response = client.companies.with_raw_response.list(
-            filter={"tag_id": "string"},
-        )
+        response = client.companies.with_raw_response.list()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -172,9 +167,7 @@ class TestCompanies:
 
     @parametrize
     def test_streaming_response_list(self, client: Intercom) -> None:
-        with client.companies.with_streaming_response.list(
-            filter={"tag_id": "string"},
-        ) as response:
+        with client.companies.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -379,26 +372,21 @@ class TestAsyncCompanies:
 
     @parametrize
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
-        company = await async_client.companies.list(
-            filter={"tag_id": "string"},
-        )
+        company = await async_client.companies.list()
         assert_matches_type(CompanyList, company, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
         company = await async_client.companies.list(
-            filter={"tag_id": "string"},
             order="string",
-            page="string",
-            per_page="string",
+            page=0,
+            per_page=0,
         )
         assert_matches_type(CompanyList, company, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
-        response = await async_client.companies.with_raw_response.list(
-            filter={"tag_id": "string"},
-        )
+        response = await async_client.companies.with_raw_response.list()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -407,9 +395,7 @@ class TestAsyncCompanies:
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncIntercom) -> None:
-        async with async_client.companies.with_streaming_response.list(
-            filter={"tag_id": "string"},
-        ) as response:
+        async with async_client.companies.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 

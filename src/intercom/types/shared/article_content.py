@@ -16,7 +16,7 @@ class ArticleContent(BaseModel):
     """The body of the article."""
 
     created_at: Optional[int] = None
-    """The time when the article was created."""
+    """The time when the article was created (seconds)."""
 
     description: Optional[str] = None
     """The description of the article."""
@@ -31,7 +31,7 @@ class ArticleContent(BaseModel):
     """The type of object - `article_content` ."""
 
     updated_at: Optional[int] = None
-    """The time when the article was last updated."""
+    """The time when the article was last updated (seconds)."""
 
     url: Optional[str] = None
     """The URL of the article."""

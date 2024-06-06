@@ -68,7 +68,6 @@ from .data_event_list_params import DataEventListParams as DataEventListParams
 from .deleted_article_object import DeletedArticleObject as DeletedArticleObject
 from .deleted_company_object import DeletedCompanyObject as DeletedCompanyObject
 from .visitor_convert_params import VisitorConvertParams as VisitorConvertParams
-from .visitor_deleted_object import VisitorDeletedObject as VisitorDeletedObject
 from .article_search_response import ArticleSearchResponse as ArticleSearchResponse
 from .visitor_retrieve_params import VisitorRetrieveParams as VisitorRetrieveParams
 from .conversation_list_params import ConversationListParams as ConversationListParams

@@ -183,7 +183,7 @@ class TestConversations:
     def test_method_convert(self, client: Intercom) -> None:
         conversation = client.conversations.convert(
             0,
-            ticket_type_id="108",
+            ticket_type_id="120",
         )
         assert_matches_type(Optional[Ticket], conversation, path=["response"])
 
@@ -191,10 +191,10 @@ class TestConversations:
     def test_method_convert_with_all_params(self, client: Intercom) -> None:
         conversation = client.conversations.convert(
             0,
-            ticket_type_id="108",
+            ticket_type_id="120",
             attributes={
-                "name": "example",
-                "question": "Can I have some help?",
+                "_default_title_": "Found a bug",
+                "_default_description_": "The button is not working",
             },
         )
         assert_matches_type(Optional[Ticket], conversation, path=["response"])
@@ -203,7 +203,7 @@ class TestConversations:
     def test_raw_response_convert(self, client: Intercom) -> None:
         response = client.conversations.with_raw_response.convert(
             0,
-            ticket_type_id="108",
+            ticket_type_id="120",
         )
 
         assert response.is_closed is True
@@ -215,7 +215,7 @@ class TestConversations:
     def test_streaming_response_convert(self, client: Intercom) -> None:
         with client.conversations.with_streaming_response.convert(
             0,
-            ticket_type_id="108",
+            ticket_type_id="120",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -310,13 +310,13 @@ class TestConversations:
     def test_method_search_with_all_params(self, client: Intercom) -> None:
         conversation = client.conversations.search(
             query={
-                "field": "custom_attributes.social_network",
+                "field": "created_at",
                 "operator": "=",
                 "value": "string",
             },
             pagination={
-                "page": 2,
-                "starting_after": "1HaSB+xrOyyMXAkS/c1RteCL7BzOzTvYjmjakgTergIH31eoe2v4/sbLsJWP\nIncfQLD3ouPkZlCwJ86F\n",
+                "per_page": 5,
+                "starting_after": "your-cursor-from-response",
             },
         )
         assert_matches_type(ConversationList, conversation, path=["response"])
@@ -512,7 +512,7 @@ class TestAsyncConversations:
     async def test_method_convert(self, async_client: AsyncIntercom) -> None:
         conversation = await async_client.conversations.convert(
             0,
-            ticket_type_id="108",
+            ticket_type_id="120",
         )
         assert_matches_type(Optional[Ticket], conversation, path=["response"])
 
@@ -520,10 +520,10 @@ class TestAsyncConversations:
     async def test_method_convert_with_all_params(self, async_client: AsyncIntercom) -> None:
         conversation = await async_client.conversations.convert(
             0,
-            ticket_type_id="108",
+            ticket_type_id="120",
             attributes={
-                "name": "example",
-                "question": "Can I have some help?",
+                "_default_title_": "Found a bug",
+                "_default_description_": "The button is not working",
             },
         )
         assert_matches_type(Optional[Ticket], conversation, path=["response"])
@@ -532,7 +532,7 @@ class TestAsyncConversations:
     async def test_raw_response_convert(self, async_client: AsyncIntercom) -> None:
         response = await async_client.conversations.with_raw_response.convert(
             0,
-            ticket_type_id="108",
+            ticket_type_id="120",
         )
 
         assert response.is_closed is True
@@ -544,7 +544,7 @@ class TestAsyncConversations:
     async def test_streaming_response_convert(self, async_client: AsyncIntercom) -> None:
         async with async_client.conversations.with_streaming_response.convert(
             0,
-            ticket_type_id="108",
+            ticket_type_id="120",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -639,13 +639,13 @@ class TestAsyncConversations:
     async def test_method_search_with_all_params(self, async_client: AsyncIntercom) -> None:
         conversation = await async_client.conversations.search(
             query={
-                "field": "custom_attributes.social_network",
+                "field": "created_at",
                 "operator": "=",
                 "value": "string",
             },
             pagination={
-                "page": 2,
-                "starting_after": "1HaSB+xrOyyMXAkS/c1RteCL7BzOzTvYjmjakgTergIH31eoe2v4/sbLsJWP\nIncfQLD3ouPkZlCwJ86F\n",
+                "per_page": 5,
+                "starting_after": "your-cursor-from-response",
             },
         )
         assert_matches_type(ConversationList, conversation, path=["response"])

@@ -46,6 +46,9 @@ class DataAttribute(BaseModel):
     label: Optional[str] = None
     """Readable name of the attribute (i.e. name you see in the UI)"""
 
+    messenger_writable: Optional[bool] = None
+    """Can this attribute be updated by the Messenger"""
+
     model: Optional[Literal["contact", "company"]] = None
     """
     Value is `contact` for user/lead attributes and `company` for company

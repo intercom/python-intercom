@@ -55,11 +55,13 @@ class PartsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Conversation:
-        """You can close a conversation.
+        """
+        For managing conversations you can:
 
-        You can snooze a conversation to reopen on a
-        future date. You can open a conversation which is `snoozed` or `closed`. You can
-        assign a conversation to an admin and/or team.
+        - Close a conversation
+        - Snooze a conversation to reopen on a future date
+        - Open a conversation which is `snoozed` or `closed`
+        - Assign a conversation to an admin and/or team.
 
         Args:
           admin_id: The id of the admin who is performing the action.
@@ -92,11 +94,13 @@ class PartsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Conversation:
-        """You can close a conversation.
+        """
+        For managing conversations you can:
 
-        You can snooze a conversation to reopen on a
-        future date. You can open a conversation which is `snoozed` or `closed`. You can
-        assign a conversation to an admin and/or team.
+        - Close a conversation
+        - Snooze a conversation to reopen on a future date
+        - Open a conversation which is `snoozed` or `closed`
+        - Assign a conversation to an admin and/or team.
 
         Args:
           admin_id: The id of the admin who is performing the action.
@@ -127,11 +131,13 @@ class PartsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Conversation:
-        """You can close a conversation.
+        """
+        For managing conversations you can:
 
-        You can snooze a conversation to reopen on a
-        future date. You can open a conversation which is `snoozed` or `closed`. You can
-        assign a conversation to an admin and/or team.
+        - Close a conversation
+        - Snooze a conversation to reopen on a future date
+        - Open a conversation which is `snoozed` or `closed`
+        - Assign a conversation to an admin and/or team.
 
         Args:
           admin_id: The id of the admin who is performing the action.
@@ -163,18 +169,20 @@ class PartsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Conversation:
-        """You can close a conversation.
+        """
+        For managing conversations you can:
 
-        You can snooze a conversation to reopen on a
-        future date. You can open a conversation which is `snoozed` or `closed`. You can
-        assign a conversation to an admin and/or team.
+        - Close a conversation
+        - Snooze a conversation to reopen on a future date
+        - Open a conversation which is `snoozed` or `closed`
+        - Assign a conversation to an admin and/or team.
 
         Args:
           admin_id: The id of the admin who is performing the action.
 
-          assignee_id: The
-              ` id`` of the  `admin`or`team`which will be assigned the conversation.\nA conversation can be assigned both an admin and a team.\nSet`0`
-              if you want this assign to no admin or team (ie. Unassigned).
+          assignee_id: The `id` of the `admin` or `team` which will be assigned the conversation. A
+              conversation can be assigned both an admin and a team.\nSet `0` if you want this
+              assign to no admin or team (ie. Unassigned).
 
           body: Optionally you can send a response in the conversation when it is assigned.
 
@@ -258,11 +266,13 @@ class AsyncPartsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Conversation:
-        """You can close a conversation.
+        """
+        For managing conversations you can:
 
-        You can snooze a conversation to reopen on a
-        future date. You can open a conversation which is `snoozed` or `closed`. You can
-        assign a conversation to an admin and/or team.
+        - Close a conversation
+        - Snooze a conversation to reopen on a future date
+        - Open a conversation which is `snoozed` or `closed`
+        - Assign a conversation to an admin and/or team.
 
         Args:
           admin_id: The id of the admin who is performing the action.
@@ -295,11 +305,13 @@ class AsyncPartsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Conversation:
-        """You can close a conversation.
+        """
+        For managing conversations you can:
 
-        You can snooze a conversation to reopen on a
-        future date. You can open a conversation which is `snoozed` or `closed`. You can
-        assign a conversation to an admin and/or team.
+        - Close a conversation
+        - Snooze a conversation to reopen on a future date
+        - Open a conversation which is `snoozed` or `closed`
+        - Assign a conversation to an admin and/or team.
 
         Args:
           admin_id: The id of the admin who is performing the action.
@@ -330,11 +342,13 @@ class AsyncPartsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Conversation:
-        """You can close a conversation.
+        """
+        For managing conversations you can:
 
-        You can snooze a conversation to reopen on a
-        future date. You can open a conversation which is `snoozed` or `closed`. You can
-        assign a conversation to an admin and/or team.
+        - Close a conversation
+        - Snooze a conversation to reopen on a future date
+        - Open a conversation which is `snoozed` or `closed`
+        - Assign a conversation to an admin and/or team.
 
         Args:
           admin_id: The id of the admin who is performing the action.
@@ -366,18 +380,20 @@ class AsyncPartsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Conversation:
-        """You can close a conversation.
+        """
+        For managing conversations you can:
 
-        You can snooze a conversation to reopen on a
-        future date. You can open a conversation which is `snoozed` or `closed`. You can
-        assign a conversation to an admin and/or team.
+        - Close a conversation
+        - Snooze a conversation to reopen on a future date
+        - Open a conversation which is `snoozed` or `closed`
+        - Assign a conversation to an admin and/or team.
 
         Args:
           admin_id: The id of the admin who is performing the action.
 
-          assignee_id: The
-              ` id`` of the  `admin`or`team`which will be assigned the conversation.\nA conversation can be assigned both an admin and a team.\nSet`0`
-              if you want this assign to no admin or team (ie. Unassigned).
+          assignee_id: The `id` of the `admin` or `team` which will be assigned the conversation. A
+              conversation can be assigned both an admin and a team.\nSet `0` if you want this
+              assign to no admin or team (ie. Unassigned).
 
           body: Optionally you can send a response in the conversation when it is assigned.
 

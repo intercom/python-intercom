@@ -13,26 +13,32 @@ __all__ = ["SearchRequest", "Query", "QuerySingleFilterSearchRequest", "Paginati
 
 class QuerySingleFilterSearchRequest(BaseModel):
     field: Optional[str] = None
-    """The Intercom defined id representing the company."""
+    """The accepted field that you want to search on."""
 
     operator: Optional[Literal["=", "!=", "IN", "NIN", "<", ">", "~", "!~", "^", "$"]] = None
-    """The Intercom defined id representing the company."""
+    """
+    The accepted operators you can use to define how you want to search for the
+    value.
+    """
 
     value: Optional[str] = None
-    """The Intercom defined id representing the company."""
+    """The value that you want to search on."""
 
 
 Query = Union[QuerySingleFilterSearchRequest, "MultipleFilterSearchRequest"]
 
 
 class Pagination(BaseModel):
-    page: Optional[int] = None
+    per_page: Optional[int] = None
+    """The number of results to fetch per page."""
 
     starting_after: Optional[str] = None
+    """The cursor to use in the next request to get the next page of results."""
 
 
 class SearchRequest(BaseModel):
     query: Query
+    """Search using Intercoms Search APIs with a single filter."""
 
     pagination: Optional[Pagination] = None
 

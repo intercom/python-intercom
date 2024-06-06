@@ -21,6 +21,9 @@ class DataAttributeCreateParams(TypedDict, total=False):
     description: str
     """The readable description you see in the UI for the attribute."""
 
+    messenger_writable: bool
+    """Can this attribute be updated by the Messenger"""
+
     options: List[str]
     """To create list attributes.
 

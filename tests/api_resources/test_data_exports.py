@@ -20,16 +20,16 @@ class TestDataExports:
     @parametrize
     def test_method_content_data(self, client: Intercom) -> None:
         data_export = client.data_exports.content_data(
-            created_at_after=1699425120,
-            created_at_before=1699443120,
+            created_at_after=1717004390,
+            created_at_before=1717022390,
         )
         assert_matches_type(DataExport, data_export, path=["response"])
 
     @parametrize
     def test_raw_response_content_data(self, client: Intercom) -> None:
         response = client.data_exports.with_raw_response.content_data(
-            created_at_after=1699425120,
-            created_at_before=1699443120,
+            created_at_after=1717004390,
+            created_at_before=1717022390,
         )
 
         assert response.is_closed is True
@@ -40,8 +40,8 @@ class TestDataExports:
     @parametrize
     def test_streaming_response_content_data(self, client: Intercom) -> None:
         with client.data_exports.with_streaming_response.content_data(
-            created_at_after=1699425120,
-            created_at_before=1699443120,
+            created_at_after=1717004390,
+            created_at_before=1717022390,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -58,16 +58,16 @@ class TestAsyncDataExports:
     @parametrize
     async def test_method_content_data(self, async_client: AsyncIntercom) -> None:
         data_export = await async_client.data_exports.content_data(
-            created_at_after=1699425120,
-            created_at_before=1699443120,
+            created_at_after=1717004390,
+            created_at_before=1717022390,
         )
         assert_matches_type(DataExport, data_export, path=["response"])
 
     @parametrize
     async def test_raw_response_content_data(self, async_client: AsyncIntercom) -> None:
         response = await async_client.data_exports.with_raw_response.content_data(
-            created_at_after=1699425120,
-            created_at_before=1699443120,
+            created_at_after=1717004390,
+            created_at_before=1717022390,
         )
 
         assert response.is_closed is True
@@ -78,8 +78,8 @@ class TestAsyncDataExports:
     @parametrize
     async def test_streaming_response_content_data(self, async_client: AsyncIntercom) -> None:
         async with async_client.data_exports.with_streaming_response.content_data(
-            created_at_after=1699425120,
-            created_at_before=1699443120,
+            created_at_after=1717004390,
+            created_at_before=1717022390,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

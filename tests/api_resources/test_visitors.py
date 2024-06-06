@@ -9,10 +9,7 @@ import pytest
 
 from intercom import Intercom, AsyncIntercom
 from tests.utils import assert_matches_type
-from intercom.types import (
-    Visitor,
-    VisitorDeletedObject,
-)
+from intercom.types import Visitor
 from intercom.types.shared import Contact
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -168,82 +165,6 @@ class TestVisitors:
 
         assert cast(Any, response.is_closed) is True
 
-    @parametrize
-    def test_method_delete_by_id(self, client: Intercom) -> None:
-        visitor = client.visitors.delete_by_id(
-            "string",
-        )
-        assert_matches_type(VisitorDeletedObject, visitor, path=["response"])
-
-    @parametrize
-    def test_raw_response_delete_by_id(self, client: Intercom) -> None:
-        response = client.visitors.with_raw_response.delete_by_id(
-            "string",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        visitor = response.parse()
-        assert_matches_type(VisitorDeletedObject, visitor, path=["response"])
-
-    @parametrize
-    def test_streaming_response_delete_by_id(self, client: Intercom) -> None:
-        with client.visitors.with_streaming_response.delete_by_id(
-            "string",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            visitor = response.parse()
-            assert_matches_type(VisitorDeletedObject, visitor, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_delete_by_id(self, client: Intercom) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.visitors.with_raw_response.delete_by_id(
-                "",
-            )
-
-    @parametrize
-    def test_method_retrieve_by_id(self, client: Intercom) -> None:
-        visitor = client.visitors.retrieve_by_id(
-            "string",
-        )
-        assert_matches_type(Optional[Visitor], visitor, path=["response"])
-
-    @parametrize
-    def test_raw_response_retrieve_by_id(self, client: Intercom) -> None:
-        response = client.visitors.with_raw_response.retrieve_by_id(
-            "string",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        visitor = response.parse()
-        assert_matches_type(Optional[Visitor], visitor, path=["response"])
-
-    @parametrize
-    def test_streaming_response_retrieve_by_id(self, client: Intercom) -> None:
-        with client.visitors.with_streaming_response.retrieve_by_id(
-            "string",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            visitor = response.parse()
-            assert_matches_type(Optional[Visitor], visitor, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_retrieve_by_id(self, client: Intercom) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.visitors.with_raw_response.retrieve_by_id(
-                "",
-            )
-
 
 class TestAsyncVisitors:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
@@ -394,79 +315,3 @@ class TestAsyncVisitors:
             assert_matches_type(Contact, visitor, path=["response"])
 
         assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_method_delete_by_id(self, async_client: AsyncIntercom) -> None:
-        visitor = await async_client.visitors.delete_by_id(
-            "string",
-        )
-        assert_matches_type(VisitorDeletedObject, visitor, path=["response"])
-
-    @parametrize
-    async def test_raw_response_delete_by_id(self, async_client: AsyncIntercom) -> None:
-        response = await async_client.visitors.with_raw_response.delete_by_id(
-            "string",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        visitor = await response.parse()
-        assert_matches_type(VisitorDeletedObject, visitor, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_delete_by_id(self, async_client: AsyncIntercom) -> None:
-        async with async_client.visitors.with_streaming_response.delete_by_id(
-            "string",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            visitor = await response.parse()
-            assert_matches_type(VisitorDeletedObject, visitor, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_delete_by_id(self, async_client: AsyncIntercom) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.visitors.with_raw_response.delete_by_id(
-                "",
-            )
-
-    @parametrize
-    async def test_method_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
-        visitor = await async_client.visitors.retrieve_by_id(
-            "string",
-        )
-        assert_matches_type(Optional[Visitor], visitor, path=["response"])
-
-    @parametrize
-    async def test_raw_response_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
-        response = await async_client.visitors.with_raw_response.retrieve_by_id(
-            "string",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        visitor = await response.parse()
-        assert_matches_type(Optional[Visitor], visitor, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
-        async with async_client.visitors.with_streaming_response.retrieve_by_id(
-            "string",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            visitor = await response.parse()
-            assert_matches_type(Optional[Visitor], visitor, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.visitors.with_raw_response.retrieve_by_id(
-                "",
-            )

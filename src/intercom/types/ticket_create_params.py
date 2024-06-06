@@ -18,6 +18,18 @@ class TicketCreateParams(TypedDict, total=False):
     ticket_type_id: Required[str]
     """The ID of the type of ticket you want to create"""
 
+    company_id: str
+    """The ID of the company that the ticket is associated with.
+
+    The ID that you set upon company creation.
+    """
+
+    created_at: int
+    """The time the ticket was created.
+
+    If not provided, the current time will be used.
+    """
+
     ticket_attributes: Dict[str, Union[Optional[str], float, bool, Iterable[object]]]
     """The attributes set on the ticket.
 

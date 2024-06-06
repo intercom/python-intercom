@@ -8,6 +8,9 @@ from ..._models import BaseModel
 
 __all__ = [
     "Conversation",
+    "AIAgent",
+    "AIAgentContentSources",
+    "AIAgentContentSourcesContentSource",
     "Contacts",
     "ContactsContact",
     "ConversationParts",
@@ -32,6 +35,67 @@ __all__ = [
     "Teammates",
     "TeammatesTeammate",
 ]
+
+
+class AIAgentContentSourcesContentSource(BaseModel):
+    content_type: Optional[
+        Literal["file", "article", "external_content", "content_snippet", "workflow_connector_action"]
+    ] = None
+    """The type of the content source."""
+
+    locale: Optional[str] = None
+    """The ISO 639 language code of the content source."""
+
+    title: Optional[str] = None
+    """The title of the content source."""
+
+    url: Optional[str] = None
+    """The internal URL linking to the content source for teammates."""
+
+
+class AIAgentContentSources(BaseModel):
+    content_sources: Optional[List[AIAgentContentSourcesContentSource]] = None
+    """The content sources used by AI Agent in the conversation."""
+
+    total_count: Optional[int] = None
+    """The total number of content sources used by AI Agent in the conversation."""
+
+    type: Optional[Literal["content_source.list"]] = None
+
+
+class AIAgent(BaseModel):
+    content_sources: Optional[AIAgentContentSources] = None
+
+    last_answer_type: Optional[Literal["ai_answer", "custom_answer"]] = None
+    """The type of the last answer delviered by AI Agent.
+
+    If no answer was delivered then this will return null
+    """
+
+    rating: Optional[int] = None
+    """The customer satisfaction rating given to AI Agent, from 1-5."""
+
+    rating_remark: Optional[str] = None
+    """The customer satisfaction rating remark given to AI Agent."""
+
+    resolution_state: Optional[
+        Literal["assumed_resolution", "confirmed_resolution", "routed_to_team", "abandoned"]
+    ] = None
+    """The resolution state of AI Agent.
+
+    If no AI or custom answer has been delivered then this will return `abandoned`.
+    """
+
+    source_title: Optional[str] = None
+    """The title of the source that triggered AI Agent involvement in the conversation.
+
+    If this is `essentials_plan_setup` then it will return null.
+    """
+
+    source_type: Optional[
+        Literal["essentials_plan_setup", "profile", "workflow", "workflow_preview", "fin_preview"]
+    ] = None
+    """The type of the source that triggered AI Agent involvement in the conversation."""
 
 
 class ContactsContact(BaseModel):
@@ -351,7 +415,10 @@ class Source(BaseModel):
     """
 
     type: Optional[str] = None
-    """This includes conversation, push, facebook, twitter and email."""
+    """
+    This includes conversation, email, facebook, instagram, phone_call,
+    phone_switch, push, sms, twitter and whatsapp.
+    """
 
     url: Optional[str] = None
     """The URL where the conversation was started.
@@ -464,6 +531,12 @@ class Conversation(BaseModel):
 
     If it's not assigned to an admin it will return null.
     """
+
+    ai_agent: Optional[AIAgent] = None
+    """Data related to AI Agent involvement in the conversation."""
+
+    ai_agent_participated: Optional[bool] = None
+    """Indicates whether the AI Agent participated in the conversation."""
 
     contacts: Optional[Contacts] = None
     """The list of contacts (users or leads) involved in this conversation.

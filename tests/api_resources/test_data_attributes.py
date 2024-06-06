@@ -36,6 +36,7 @@ class TestDataAttributes:
             model="company",
             name="Mithril Shirt",
             description="My Data Attribute Description",
+            messenger_writable=False,
             options=["option1", "option2"],
         )
         assert_matches_type(DataAttribute, data_attribute, path=["response"])
@@ -81,6 +82,7 @@ class TestDataAttributes:
             0,
             archived=False,
             description="Just a plain old ring",
+            messenger_writable=False,
             options=["string", "string"],
         )
         assert_matches_type(DataAttribute, data_attribute, path=["response"])
@@ -162,6 +164,7 @@ class TestAsyncDataAttributes:
             model="company",
             name="Mithril Shirt",
             description="My Data Attribute Description",
+            messenger_writable=False,
             options=["option1", "option2"],
         )
         assert_matches_type(DataAttribute, data_attribute, path=["response"])
@@ -207,6 +210,7 @@ class TestAsyncDataAttributes:
             0,
             archived=False,
             description="Just a plain old ring",
+            messenger_writable=False,
             options=["string", "string"],
         )
         assert_matches_type(DataAttribute, data_attribute, path=["response"])

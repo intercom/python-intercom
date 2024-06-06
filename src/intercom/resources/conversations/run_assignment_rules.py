@@ -43,6 +43,8 @@ class RunAssignmentRulesResource(SyncAPIResource):
     ) -> Conversation:
         """
         You can let a conversation be automatically assigned following assignment rules.
+        {% admonition type="attention" name="When using workflows" %} It is not possible
+        to use this endpoint with Workflows. {% /admonition %}
 
         Args:
           extra_headers: Send extra headers
@@ -86,6 +88,8 @@ class AsyncRunAssignmentRulesResource(AsyncAPIResource):
     ) -> Conversation:
         """
         You can let a conversation be automatically assigned following assignment rules.
+        {% admonition type="attention" name="When using workflows" %} It is not possible
+        to use this endpoint with Workflows. {% /admonition %}
 
         Args:
           extra_headers: Send extra headers

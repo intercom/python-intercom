@@ -10,9 +10,11 @@ __all__ = ["CompanyAttachedContacts", "Pages", "PagesNext"]
 
 
 class PagesNext(BaseModel):
-    page: Optional[int] = None
+    per_page: Optional[int] = None
+    """The number of results to fetch per page."""
 
     starting_after: Optional[str] = None
+    """The cursor to use in the next request to get the next page of results."""
 
 
 class Pages(BaseModel):

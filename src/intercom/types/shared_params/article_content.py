@@ -16,7 +16,7 @@ class ArticleContent(TypedDict, total=False):
     """The body of the article."""
 
     created_at: int
-    """The time when the article was created."""
+    """The time when the article was created (seconds)."""
 
     description: str
     """The description of the article."""
@@ -31,7 +31,7 @@ class ArticleContent(TypedDict, total=False):
     """The type of object - `article_content` ."""
 
     updated_at: int
-    """The time when the article was last updated."""
+    """The time when the article was last updated (seconds)."""
 
     url: str
     """The URL of the article."""

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Union
+from typing import List, Union, Iterable
 from typing_extensions import Literal, Required, TypedDict
 
 __all__ = [
@@ -11,6 +11,7 @@ __all__ = [
     "ContactReplyEmailRequest",
     "ContactReplyUserIDRequest",
     "AdminReplyConversationRequest",
+    "AdminReplyConversationRequestAttachmentFile",
 ]
 
 
@@ -18,9 +19,6 @@ class ContactReplyIntercomUserIDRequest(TypedDict, total=False):
     body: Required[str]
     """The text body of the comment."""
 
-    intercom_user_id: Required[str]
-    """The identifier for the contact as given by Intercom."""
-
     message_type: Required[Literal["comment"]]
 
     type: Required[Literal["user"]]
@@ -28,17 +26,17 @@ class ContactReplyIntercomUserIDRequest(TypedDict, total=False):
     attachment_urls: List[str]
     """A list of image URLs that will be added as attachments.
 
-    You can include up to 5 URLs.
+    You can include up to 10 URLs.
     """
+
+    created_at: int
+    """The time the reply was created. If not provided, the current time will be used."""
 
 
 class ContactReplyEmailRequest(TypedDict, total=False):
     body: Required[str]
     """The text body of the comment."""
 
-    email: Required[str]
-    """The email you have defined for the user."""
-
     message_type: Required[Literal["comment"]]
 
     type: Required[Literal["user"]]
@@ -46,8 +44,11 @@ class ContactReplyEmailRequest(TypedDict, total=False):
     attachment_urls: List[str]
     """A list of image URLs that will be added as attachments.
 
-    You can include up to 5 URLs.
+    You can include up to 10 URLs.
     """
+
+    created_at: int
+    """The time the reply was created. If not provided, the current time will be used."""
 
 
 class ContactReplyUserIDRequest(TypedDict, total=False):
@@ -58,14 +59,14 @@ class ContactReplyUserIDRequest(TypedDict, total=False):
 
     type: Required[Literal["user"]]
 
-    user_id: Required[str]
-    """The external_id you have defined for the contact."""
-
     attachment_urls: List[str]
     """A list of image URLs that will be added as attachments.
 
-    You can include up to 5 URLs.
+    You can include up to 10 URLs.
     """
+
+    created_at: int
+    """The time the reply was created. If not provided, the current time will be used."""
 
 
 class AdminReplyConversationRequest(TypedDict, total=False):
@@ -76,17 +77,38 @@ class AdminReplyConversationRequest(TypedDict, total=False):
 
     type: Required[Literal["admin"]]
 
+    attachment_files: Iterable[AdminReplyConversationRequestAttachmentFile]
+    """A list of files that will be added as attachments.
+
+    You can include up to 10 files
+    """
+
     attachment_urls: List[str]
     """A list of image URLs that will be added as attachments.
 
-    You can include up to 5 URLs.
+    You can include up to 10 URLs.
     """
 
     body: str
+    """The text body of the reply.
+
+    Notes accept some HTML formatting. Must be present for comment and note message
+    types.
     """
-    The text body of the reply.\nNotes accept some HTML formatting.\nMust be present
-    for comment and note message types.
-    """
+
+    created_at: int
+    """The time the reply was created. If not provided, the current time will be used."""
+
+
+class AdminReplyConversationRequestAttachmentFile(TypedDict, total=False):
+    content_type: str
+    """The content type of the file"""
+
+    data: str
+    """The base64 encoded file data."""
+
+    name: str
+    """The name of the file."""
 
 
 ReplyCreateParams = Union[
