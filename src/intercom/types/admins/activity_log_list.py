@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Dict, List, Optional
 from typing_extensions import Literal
 
 from ..._models import BaseModel
@@ -104,7 +104,7 @@ class ActivityLog(BaseModel):
     created_at: Optional[int] = None
     """The time the activity was created."""
 
-    metadata: Optional[object] = None
+    metadata: Optional[Dict[str, object]] = None
 
     performed_by: Optional[ActivityLogPerformedBy] = None
     """An object representing the admin who performed the activity."""
