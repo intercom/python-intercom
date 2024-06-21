@@ -21,16 +21,16 @@ class TestCompanies:
     @parametrize
     def test_method_create(self, client: Intercom) -> None:
         company = client.contacts.companies.create(
-            path_id="string",
-            body_id="6657add46abd0167d9419cd2",
+            "string",
+            company_id="6657add46abd0167d9419cd2",
         )
         assert_matches_type(Company, company, path=["response"])
 
     @parametrize
     def test_method_create_with_all_params(self, client: Intercom) -> None:
         company = client.contacts.companies.create(
-            path_id="string",
-            body_id="6657add46abd0167d9419cd2",
+            "string",
+            company_id="6657add46abd0167d9419cd2",
             intercom_version="2.11",
         )
         assert_matches_type(Company, company, path=["response"])
@@ -38,8 +38,8 @@ class TestCompanies:
     @parametrize
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.contacts.companies.with_raw_response.create(
-            path_id="string",
-            body_id="6657add46abd0167d9419cd2",
+            "string",
+            company_id="6657add46abd0167d9419cd2",
         )
 
         assert response.is_closed is True
@@ -50,8 +50,8 @@ class TestCompanies:
     @parametrize
     def test_streaming_response_create(self, client: Intercom) -> None:
         with client.contacts.companies.with_streaming_response.create(
-            path_id="string",
-            body_id="6657add46abd0167d9419cd2",
+            "string",
+            company_id="6657add46abd0167d9419cd2",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -63,10 +63,10 @@ class TestCompanies:
 
     @parametrize
     def test_path_params_create(self, client: Intercom) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.contacts.companies.with_raw_response.create(
-                path_id="",
-                body_id="",
+                "",
+                company_id="",
             )
 
     @parametrize
@@ -179,16 +179,16 @@ class TestAsyncCompanies:
     @parametrize
     async def test_method_create(self, async_client: AsyncIntercom) -> None:
         company = await async_client.contacts.companies.create(
-            path_id="string",
-            body_id="6657add46abd0167d9419cd2",
+            "string",
+            company_id="6657add46abd0167d9419cd2",
         )
         assert_matches_type(Company, company, path=["response"])
 
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncIntercom) -> None:
         company = await async_client.contacts.companies.create(
-            path_id="string",
-            body_id="6657add46abd0167d9419cd2",
+            "string",
+            company_id="6657add46abd0167d9419cd2",
             intercom_version="2.11",
         )
         assert_matches_type(Company, company, path=["response"])
@@ -196,8 +196,8 @@ class TestAsyncCompanies:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncIntercom) -> None:
         response = await async_client.contacts.companies.with_raw_response.create(
-            path_id="string",
-            body_id="6657add46abd0167d9419cd2",
+            "string",
+            company_id="6657add46abd0167d9419cd2",
         )
 
         assert response.is_closed is True
@@ -208,8 +208,8 @@ class TestAsyncCompanies:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncIntercom) -> None:
         async with async_client.contacts.companies.with_streaming_response.create(
-            path_id="string",
-            body_id="6657add46abd0167d9419cd2",
+            "string",
+            company_id="6657add46abd0167d9419cd2",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -221,10 +221,10 @@ class TestAsyncCompanies:
 
     @parametrize
     async def test_path_params_create(self, async_client: AsyncIntercom) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.contacts.companies.with_raw_response.create(
-                path_id="",
-                body_id="",
+                "",
+                company_id="",
             )
 
     @parametrize

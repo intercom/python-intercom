@@ -10,9 +10,7 @@ __all__ = ["CompanyCreateParams"]
 
 
 class CompanyCreateParams(TypedDict, total=False):
-    path_id: Required[Annotated[str, PropertyInfo(alias="id")]]
-
-    body_id: Required[Annotated[str, PropertyInfo(alias="id")]]
+    company_id: Required[Annotated[str, PropertyInfo(alias="id")]]
     """The unique identifier for the company which is given by Intercom"""
 
     intercom_version: Annotated[
