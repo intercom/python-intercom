@@ -41,9 +41,9 @@ class CompaniesResource(SyncAPIResource):
 
     def create(
         self,
+        id: str,
         *,
-        path_id: str,
-        body_id: str,
+        company_id: str,
         intercom_version: Literal[
             "1.0",
             "1.1",
@@ -76,7 +76,7 @@ class CompaniesResource(SyncAPIResource):
         You can attach a company to a single contact.
 
         Args:
-          body_id: The unique identifier for the company which is given by Intercom
+          company_id: The unique identifier for the company which is given by Intercom
 
           intercom_version: Intercom API version.By default, it's equal to the version set in the app
               package.
@@ -89,12 +89,12 @@ class CompaniesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not path_id:
-            raise ValueError(f"Expected a non-empty value for `path_id` but received {path_id!r}")
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
-            f"/contacts/{path_id}/companies",
-            body=maybe_transform({"id": body_id}, company_create_params.CompanyCreateParams),
+            f"/contacts/{id}/companies",
+            body=maybe_transform({"id": company_id}, company_create_params.CompanyCreateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -232,9 +232,9 @@ class AsyncCompaniesResource(AsyncAPIResource):
 
     async def create(
         self,
+        id: str,
         *,
-        path_id: str,
-        body_id: str,
+        company_id: str,
         intercom_version: Literal[
             "1.0",
             "1.1",
@@ -267,7 +267,7 @@ class AsyncCompaniesResource(AsyncAPIResource):
         You can attach a company to a single contact.
 
         Args:
-          body_id: The unique identifier for the company which is given by Intercom
+          company_id: The unique identifier for the company which is given by Intercom
 
           intercom_version: Intercom API version.By default, it's equal to the version set in the app
               package.
@@ -280,12 +280,12 @@ class AsyncCompaniesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not path_id:
-            raise ValueError(f"Expected a non-empty value for `path_id` but received {path_id!r}")
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
-            f"/contacts/{path_id}/companies",
-            body=await async_maybe_transform({"id": body_id}, company_create_params.CompanyCreateParams),
+            f"/contacts/{id}/companies",
+            body=await async_maybe_transform({"id": company_id}, company_create_params.CompanyCreateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
