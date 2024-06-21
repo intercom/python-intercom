@@ -181,8 +181,6 @@ from intercom.types.contacts import ContactAttachedCompanies
 
 Methods:
 
-- <code title="post /contacts/{id}/companies">client.contacts.companies.<a href="./src/intercom/resources/contacts/companies.py">create</a>(id, \*\*<a href="src/intercom/types/contacts/company_create_params.py">params</a>) -> <a href="./src/intercom/types/shared/company.py">Company</a></code>
-- <code title="get /contacts/{id}/companies">client.contacts.companies.<a href="./src/intercom/resources/contacts/companies.py">list</a>(id) -> <a href="./src/intercom/types/contacts/contact_attached_companies.py">ContactAttachedCompanies</a></code>
 - <code title="delete /contacts/{contact_id}/companies/{id}">client.contacts.companies.<a href="./src/intercom/resources/contacts/companies.py">delete</a>(id, \*, contact_id) -> <a href="./src/intercom/types/shared/company.py">Company</a></code>
 
 ## Notes
