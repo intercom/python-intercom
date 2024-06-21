@@ -3,13 +3,20 @@
 from __future__ import annotations
 
 from typing import Dict, Optional
+from typing_extensions import Literal
 
 import httpx
 
-from ...types import company_list_params, company_create_params, company_scroll_params
+from ...types import (
+    company_list_params,
+    company_create_params,
+    company_scroll_params,
+    company_retrieve_list_params,
+)
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
+    strip_not_given,
     async_maybe_transform,
 )
 from .contacts import (
@@ -76,6 +83,27 @@ class CompaniesResource(SyncAPIResource):
         remote_created_at: int | NotGiven = NOT_GIVEN,
         size: int | NotGiven = NOT_GIVEN,
         website: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -121,6 +149,9 @@ class CompaniesResource(SyncAPIResource):
           website: The URL for this company's website. Please note that the value specified here is
               not validated. Accepts any string.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -129,6 +160,7 @@ class CompaniesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             "/companies",
             body=maybe_transform(
@@ -155,6 +187,27 @@ class CompaniesResource(SyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -166,6 +219,9 @@ class CompaniesResource(SyncAPIResource):
         You can fetch a single company.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -176,6 +232,7 @@ class CompaniesResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._get(
             f"/companies/{id}",
             options=make_request_options(
@@ -188,6 +245,27 @@ class CompaniesResource(SyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -203,6 +281,9 @@ class CompaniesResource(SyncAPIResource):
         upon creation of the company. {% /admonition %}
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -213,6 +294,7 @@ class CompaniesResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._put(
             f"/companies/{id}",
             options=make_request_options(
@@ -227,6 +309,27 @@ class CompaniesResource(SyncAPIResource):
         order: str | NotGiven = NOT_GIVEN,
         page: int | NotGiven = NOT_GIVEN,
         per_page: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -260,6 +363,9 @@ class CompaniesResource(SyncAPIResource):
 
           per_page: How many results to return per page. Defaults to 15
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -268,6 +374,7 @@ class CompaniesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             "/companies/list",
             options=make_request_options(
@@ -291,6 +398,27 @@ class CompaniesResource(SyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -302,6 +430,9 @@ class CompaniesResource(SyncAPIResource):
         You can delete a single company.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -312,6 +443,7 @@ class CompaniesResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._delete(
             f"/companies/{id}",
             options=make_request_options(
@@ -320,10 +452,129 @@ class CompaniesResource(SyncAPIResource):
             cast_to=DeletedCompanyObject,
         )
 
+    def retrieve_list(
+        self,
+        *,
+        company_id: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        page: int | NotGiven = NOT_GIVEN,
+        per_page: int | NotGiven = NOT_GIVEN,
+        segment_id: str | NotGiven = NOT_GIVEN,
+        tag_id: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompanyList:
+        """
+        You can fetch a single company by passing in `company_id` or `name`.
+
+        `https://api.intercom.io/companies?name={name}`
+
+        `https://api.intercom.io/companies?company_id={company_id}`
+
+        You can fetch all companies and filter by `segment_id` or `tag_id` as a query
+        parameter.
+
+        `https://api.intercom.io/companies?tag_id={tag_id}`
+
+        `https://api.intercom.io/companies?segment_id={segment_id}`
+
+        Args:
+          company_id: The `company_id` of the company to filter by.
+
+          name: The `name` of the company to filter by.
+
+          page: The page of results to fetch. Defaults to first page
+
+          per_page: How many results to display per page. Defaults to 15
+
+          segment_id: The `segment_id` of the company to filter by.
+
+          tag_id: The `tag_id` of the company to filter by.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
+        return self._get(
+            "/companies",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "company_id": company_id,
+                        "name": name,
+                        "page": page,
+                        "per_page": per_page,
+                        "segment_id": segment_id,
+                        "tag_id": tag_id,
+                    },
+                    company_retrieve_list_params.CompanyRetrieveListParams,
+                ),
+            ),
+            cast_to=CompanyList,
+        )
+
     def scroll(
         self,
         *,
         scroll_param: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -353,6 +604,9 @@ class CompaniesResource(SyncAPIResource):
         scroll. {% /admonition %}
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -361,6 +615,7 @@ class CompaniesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._get(
             "/companies/scroll",
             options=make_request_options(
@@ -403,6 +658,27 @@ class AsyncCompaniesResource(AsyncAPIResource):
         remote_created_at: int | NotGiven = NOT_GIVEN,
         size: int | NotGiven = NOT_GIVEN,
         website: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -448,6 +724,9 @@ class AsyncCompaniesResource(AsyncAPIResource):
           website: The URL for this company's website. Please note that the value specified here is
               not validated. Accepts any string.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -456,6 +735,7 @@ class AsyncCompaniesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             "/companies",
             body=await async_maybe_transform(
@@ -482,6 +762,27 @@ class AsyncCompaniesResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -493,6 +794,9 @@ class AsyncCompaniesResource(AsyncAPIResource):
         You can fetch a single company.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -503,6 +807,7 @@ class AsyncCompaniesResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._get(
             f"/companies/{id}",
             options=make_request_options(
@@ -515,6 +820,27 @@ class AsyncCompaniesResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -530,6 +856,9 @@ class AsyncCompaniesResource(AsyncAPIResource):
         upon creation of the company. {% /admonition %}
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -540,6 +869,7 @@ class AsyncCompaniesResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._put(
             f"/companies/{id}",
             options=make_request_options(
@@ -554,6 +884,27 @@ class AsyncCompaniesResource(AsyncAPIResource):
         order: str | NotGiven = NOT_GIVEN,
         page: int | NotGiven = NOT_GIVEN,
         per_page: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -587,6 +938,9 @@ class AsyncCompaniesResource(AsyncAPIResource):
 
           per_page: How many results to return per page. Defaults to 15
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -595,6 +949,7 @@ class AsyncCompaniesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             "/companies/list",
             options=make_request_options(
@@ -618,6 +973,27 @@ class AsyncCompaniesResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -629,6 +1005,9 @@ class AsyncCompaniesResource(AsyncAPIResource):
         You can delete a single company.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -639,6 +1018,7 @@ class AsyncCompaniesResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._delete(
             f"/companies/{id}",
             options=make_request_options(
@@ -647,10 +1027,129 @@ class AsyncCompaniesResource(AsyncAPIResource):
             cast_to=DeletedCompanyObject,
         )
 
+    async def retrieve_list(
+        self,
+        *,
+        company_id: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        page: int | NotGiven = NOT_GIVEN,
+        per_page: int | NotGiven = NOT_GIVEN,
+        segment_id: str | NotGiven = NOT_GIVEN,
+        tag_id: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompanyList:
+        """
+        You can fetch a single company by passing in `company_id` or `name`.
+
+        `https://api.intercom.io/companies?name={name}`
+
+        `https://api.intercom.io/companies?company_id={company_id}`
+
+        You can fetch all companies and filter by `segment_id` or `tag_id` as a query
+        parameter.
+
+        `https://api.intercom.io/companies?tag_id={tag_id}`
+
+        `https://api.intercom.io/companies?segment_id={segment_id}`
+
+        Args:
+          company_id: The `company_id` of the company to filter by.
+
+          name: The `name` of the company to filter by.
+
+          page: The page of results to fetch. Defaults to first page
+
+          per_page: How many results to display per page. Defaults to 15
+
+          segment_id: The `segment_id` of the company to filter by.
+
+          tag_id: The `tag_id` of the company to filter by.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
+        return await self._get(
+            "/companies",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "company_id": company_id,
+                        "name": name,
+                        "page": page,
+                        "per_page": per_page,
+                        "segment_id": segment_id,
+                        "tag_id": tag_id,
+                    },
+                    company_retrieve_list_params.CompanyRetrieveListParams,
+                ),
+            ),
+            cast_to=CompanyList,
+        )
+
     async def scroll(
         self,
         *,
         scroll_param: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -680,6 +1179,9 @@ class AsyncCompaniesResource(AsyncAPIResource):
         scroll. {% /admonition %}
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -688,6 +1190,7 @@ class AsyncCompaniesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._get(
             "/companies/scroll",
             options=make_request_options(
@@ -722,6 +1225,9 @@ class CompaniesResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             companies.delete,
         )
+        self.retrieve_list = to_raw_response_wrapper(
+            companies.retrieve_list,
+        )
         self.scroll = to_raw_response_wrapper(
             companies.scroll,
         )
@@ -753,6 +1259,9 @@ class AsyncCompaniesResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             companies.delete,
+        )
+        self.retrieve_list = async_to_raw_response_wrapper(
+            companies.retrieve_list,
         )
         self.scroll = async_to_raw_response_wrapper(
             companies.scroll,
@@ -786,6 +1295,9 @@ class CompaniesResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             companies.delete,
         )
+        self.retrieve_list = to_streamed_response_wrapper(
+            companies.retrieve_list,
+        )
         self.scroll = to_streamed_response_wrapper(
             companies.scroll,
         )
@@ -817,6 +1329,9 @@ class AsyncCompaniesResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             companies.delete,
+        )
+        self.retrieve_list = async_to_streamed_response_wrapper(
+            companies.retrieve_list,
         )
         self.scroll = async_to_streamed_response_wrapper(
             companies.scroll,

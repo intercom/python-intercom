@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -10,6 +11,7 @@ from ...types import admin_away_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
+    strip_not_given,
     async_maybe_transform,
 )
 from ..._compat import cached_property
@@ -54,6 +56,27 @@ class AdminsResource(SyncAPIResource):
         self,
         id: int,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -65,6 +88,9 @@ class AdminsResource(SyncAPIResource):
         You can retrieve the details of a single admin.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -73,6 +99,7 @@ class AdminsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._get(
             f"/admins/{id}",
             options=make_request_options(
@@ -84,6 +111,27 @@ class AdminsResource(SyncAPIResource):
     def list(
         self,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -91,7 +139,22 @@ class AdminsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AdminList:
-        """You can fetch a list of admins for a given workspace."""
+        """
+        You can fetch a list of admins for a given workspace.
+
+        Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._get(
             "/admins",
             options=make_request_options(
@@ -106,6 +169,27 @@ class AdminsResource(SyncAPIResource):
         *,
         away_mode_enabled: bool,
         away_mode_reassign: bool,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -121,6 +205,9 @@ class AdminsResource(SyncAPIResource):
 
           away_mode_reassign: Set to "true" to assign any new conversation replies to your default inbox.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -129,6 +216,7 @@ class AdminsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._put(
             f"/admins/{id}/away",
             body=maybe_transform(
@@ -162,6 +250,27 @@ class AsyncAdminsResource(AsyncAPIResource):
         self,
         id: int,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -173,6 +282,9 @@ class AsyncAdminsResource(AsyncAPIResource):
         You can retrieve the details of a single admin.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -181,6 +293,7 @@ class AsyncAdminsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._get(
             f"/admins/{id}",
             options=make_request_options(
@@ -192,6 +305,27 @@ class AsyncAdminsResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -199,7 +333,22 @@ class AsyncAdminsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AdminList:
-        """You can fetch a list of admins for a given workspace."""
+        """
+        You can fetch a list of admins for a given workspace.
+
+        Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._get(
             "/admins",
             options=make_request_options(
@@ -214,6 +363,27 @@ class AsyncAdminsResource(AsyncAPIResource):
         *,
         away_mode_enabled: bool,
         away_mode_reassign: bool,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -229,6 +399,9 @@ class AsyncAdminsResource(AsyncAPIResource):
 
           away_mode_reassign: Set to "true" to assign any new conversation replies to your default inbox.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -237,6 +410,7 @@ class AsyncAdminsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._put(
             f"/admins/{id}/away",
             body=await async_maybe_transform(

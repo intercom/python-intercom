@@ -25,6 +25,14 @@ class TestTags:
         assert_matches_type(Tag, tag, path=["response"])
 
     @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        tag = client.tags.retrieve(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.tags.with_raw_response.retrieve(
             "string",
@@ -61,6 +69,13 @@ class TestTags:
         assert_matches_type(TagList, tag, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        tag = client.tags.list(
+            intercom_version="2.11",
+        )
+        assert_matches_type(TagList, tag, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.tags.with_raw_response.list()
 
@@ -84,6 +99,14 @@ class TestTags:
     def test_method_delete(self, client: Intercom) -> None:
         tag = client.tags.delete(
             "string",
+        )
+        assert tag is None
+
+    @parametrize
+    def test_method_delete_with_all_params(self, client: Intercom) -> None:
+        tag = client.tags.delete(
+            "string",
+            intercom_version="2.11",
         )
         assert tag is None
 
@@ -130,6 +153,7 @@ class TestTags:
         tag = client.tags.create_or_update(
             name="Independent",
             id="656452352",
+            intercom_version="2.11",
         )
         assert_matches_type(Tag, tag, path=["response"])
 
@@ -162,6 +186,28 @@ class TestTags:
         tag = client.tags.create_or_update(
             companies=[{}, {}, {}],
             name="Independent",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
+    def test_method_create_or_update_with_all_params_overload_2(self, client: Intercom) -> None:
+        tag = client.tags.create_or_update(
+            companies=[
+                {
+                    "id": "531ee472cce572a6ec000006",
+                    "company_id": "6",
+                },
+                {
+                    "id": "531ee472cce572a6ec000006",
+                    "company_id": "6",
+                },
+                {
+                    "id": "531ee472cce572a6ec000006",
+                    "company_id": "6",
+                },
+            ],
+            name="Independent",
+            intercom_version="2.11",
         )
         assert_matches_type(Tag, tag, path=["response"])
 
@@ -200,6 +246,31 @@ class TestTags:
         assert_matches_type(Tag, tag, path=["response"])
 
     @parametrize
+    def test_method_create_or_update_with_all_params_overload_3(self, client: Intercom) -> None:
+        tag = client.tags.create_or_update(
+            companies=[
+                {
+                    "id": "531ee472cce572a6ec000006",
+                    "company_id": "6",
+                    "untag": True,
+                },
+                {
+                    "id": "531ee472cce572a6ec000006",
+                    "company_id": "6",
+                    "untag": True,
+                },
+                {
+                    "id": "531ee472cce572a6ec000006",
+                    "company_id": "6",
+                    "untag": True,
+                },
+            ],
+            name="Independent",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
     def test_raw_response_create_or_update_overload_3(self, client: Intercom) -> None:
         response = client.tags.with_raw_response.create_or_update(
             companies=[{}, {}, {}],
@@ -230,6 +301,19 @@ class TestTags:
         tag = client.tags.create_or_update(
             name="Independent",
             users=[{}, {}, {}],
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
+    def test_method_create_or_update_with_all_params_overload_4(self, client: Intercom) -> None:
+        tag = client.tags.create_or_update(
+            name="Independent",
+            users=[
+                {"id": "5f7f0d217289f8d2f4262080"},
+                {"id": "5f7f0d217289f8d2f4262080"},
+                {"id": "5f7f0d217289f8d2f4262080"},
+            ],
+            intercom_version="2.11",
         )
         assert_matches_type(Tag, tag, path=["response"])
 
@@ -271,6 +355,14 @@ class TestAsyncTags:
         assert_matches_type(Tag, tag, path=["response"])
 
     @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        tag = await async_client.tags.retrieve(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncIntercom) -> None:
         response = await async_client.tags.with_raw_response.retrieve(
             "string",
@@ -307,6 +399,13 @@ class TestAsyncTags:
         assert_matches_type(TagList, tag, path=["response"])
 
     @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        tag = await async_client.tags.list(
+            intercom_version="2.11",
+        )
+        assert_matches_type(TagList, tag, path=["response"])
+
+    @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
         response = await async_client.tags.with_raw_response.list()
 
@@ -330,6 +429,14 @@ class TestAsyncTags:
     async def test_method_delete(self, async_client: AsyncIntercom) -> None:
         tag = await async_client.tags.delete(
             "string",
+        )
+        assert tag is None
+
+    @parametrize
+    async def test_method_delete_with_all_params(self, async_client: AsyncIntercom) -> None:
+        tag = await async_client.tags.delete(
+            "string",
+            intercom_version="2.11",
         )
         assert tag is None
 
@@ -376,6 +483,7 @@ class TestAsyncTags:
         tag = await async_client.tags.create_or_update(
             name="Independent",
             id="656452352",
+            intercom_version="2.11",
         )
         assert_matches_type(Tag, tag, path=["response"])
 
@@ -408,6 +516,28 @@ class TestAsyncTags:
         tag = await async_client.tags.create_or_update(
             companies=[{}, {}, {}],
             name="Independent",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
+    async def test_method_create_or_update_with_all_params_overload_2(self, async_client: AsyncIntercom) -> None:
+        tag = await async_client.tags.create_or_update(
+            companies=[
+                {
+                    "id": "531ee472cce572a6ec000006",
+                    "company_id": "6",
+                },
+                {
+                    "id": "531ee472cce572a6ec000006",
+                    "company_id": "6",
+                },
+                {
+                    "id": "531ee472cce572a6ec000006",
+                    "company_id": "6",
+                },
+            ],
+            name="Independent",
+            intercom_version="2.11",
         )
         assert_matches_type(Tag, tag, path=["response"])
 
@@ -446,6 +576,31 @@ class TestAsyncTags:
         assert_matches_type(Tag, tag, path=["response"])
 
     @parametrize
+    async def test_method_create_or_update_with_all_params_overload_3(self, async_client: AsyncIntercom) -> None:
+        tag = await async_client.tags.create_or_update(
+            companies=[
+                {
+                    "id": "531ee472cce572a6ec000006",
+                    "company_id": "6",
+                    "untag": True,
+                },
+                {
+                    "id": "531ee472cce572a6ec000006",
+                    "company_id": "6",
+                    "untag": True,
+                },
+                {
+                    "id": "531ee472cce572a6ec000006",
+                    "company_id": "6",
+                    "untag": True,
+                },
+            ],
+            name="Independent",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
     async def test_raw_response_create_or_update_overload_3(self, async_client: AsyncIntercom) -> None:
         response = await async_client.tags.with_raw_response.create_or_update(
             companies=[{}, {}, {}],
@@ -476,6 +631,19 @@ class TestAsyncTags:
         tag = await async_client.tags.create_or_update(
             name="Independent",
             users=[{}, {}, {}],
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
+    async def test_method_create_or_update_with_all_params_overload_4(self, async_client: AsyncIntercom) -> None:
+        tag = await async_client.tags.create_or_update(
+            name="Independent",
+            users=[
+                {"id": "5f7f0d217289f8d2f4262080"},
+                {"id": "5f7f0d217289f8d2f4262080"},
+                {"id": "5f7f0d217289f8d2f4262080"},
+            ],
+            intercom_version="2.11",
         )
         assert_matches_type(Tag, tag, path=["response"])
 

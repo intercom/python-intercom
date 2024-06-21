@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional, overload
+from typing_extensions import Literal
 
 import httpx
 
@@ -32,6 +33,7 @@ from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     required_args,
     maybe_transform,
+    strip_not_given,
     async_maybe_transform,
 )
 from .segments import (
@@ -112,6 +114,27 @@ class ContactsResource(SyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -124,6 +147,9 @@ class ContactsResource(SyncAPIResource):
         user or lead).
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -139,6 +165,27 @@ class ContactsResource(SyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -151,6 +198,9 @@ class ContactsResource(SyncAPIResource):
         user or lead).
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -166,6 +216,27 @@ class ContactsResource(SyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -178,6 +249,9 @@ class ContactsResource(SyncAPIResource):
         user or lead).
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -193,6 +267,27 @@ class ContactsResource(SyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -200,6 +295,7 @@ class ContactsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Contact:
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             "/contacts",
             body=maybe_transform(body, contact_create_params.ContactCreateParams),
@@ -213,6 +309,27 @@ class ContactsResource(SyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -224,6 +341,9 @@ class ContactsResource(SyncAPIResource):
         You can fetch the details of a single contact.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -234,6 +354,7 @@ class ContactsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._get(
             f"/contacts/{id}",
             options=make_request_options(
@@ -257,6 +378,27 @@ class ContactsResource(SyncAPIResource):
         role: str | NotGiven = NOT_GIVEN,
         signed_up_at: Optional[int] | NotGiven = NOT_GIVEN,
         unsubscribed_from_emails: Optional[bool] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -292,6 +434,9 @@ class ContactsResource(SyncAPIResource):
 
           unsubscribed_from_emails: Whether the contact is unsubscribed from emails
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -302,6 +447,7 @@ class ContactsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._put(
             f"/contacts/{id}",
             body=maybe_transform(
@@ -329,6 +475,27 @@ class ContactsResource(SyncAPIResource):
     def list(
         self,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -344,7 +511,20 @@ class ContactsResource(SyncAPIResource):
         the
         [pagination section](https://developers.intercom.com/docs/build-an-integration/learn-more/rest-apis/pagination/#pagination-for-list-apis)
         for more details on how to use the `starting_after` param. {% /admonition %}
+
+        Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._get(
             "/contacts",
             options=make_request_options(
@@ -357,6 +537,27 @@ class ContactsResource(SyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -368,6 +569,9 @@ class ContactsResource(SyncAPIResource):
         You can delete a single contact.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -378,6 +582,7 @@ class ContactsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._delete(
             f"/contacts/{id}",
             options=make_request_options(
@@ -390,6 +595,27 @@ class ContactsResource(SyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -401,6 +627,9 @@ class ContactsResource(SyncAPIResource):
         You can archive a single contact.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -411,6 +640,7 @@ class ContactsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             f"/contacts/{id}/archive",
             options=make_request_options(
@@ -424,6 +654,27 @@ class ContactsResource(SyncAPIResource):
         *,
         from_: str | NotGiven = NOT_GIVEN,
         into: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -440,6 +691,9 @@ class ContactsResource(SyncAPIResource):
 
           into: The unique identifier for the contact to merge into. Must be a user.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -448,6 +702,7 @@ class ContactsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             "/contacts/merge",
             body=maybe_transform(
@@ -468,6 +723,27 @@ class ContactsResource(SyncAPIResource):
         *,
         query: contact_search_params.Query,
         pagination: Optional[contact_search_params.Pagination] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -604,6 +880,9 @@ class ContactsResource(SyncAPIResource):
         Args:
           query: Search using Intercoms Search APIs with a single filter.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -612,6 +891,7 @@ class ContactsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             "/contacts/search",
             body=maybe_transform(
@@ -631,6 +911,27 @@ class ContactsResource(SyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -642,6 +943,9 @@ class ContactsResource(SyncAPIResource):
         You can unarchive a single contact.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -652,6 +956,7 @@ class ContactsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             f"/contacts/{id}/unarchive",
             options=make_request_options(
@@ -695,6 +1000,27 @@ class AsyncContactsResource(AsyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -707,6 +1033,9 @@ class AsyncContactsResource(AsyncAPIResource):
         user or lead).
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -722,6 +1051,27 @@ class AsyncContactsResource(AsyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -734,6 +1084,9 @@ class AsyncContactsResource(AsyncAPIResource):
         user or lead).
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -749,6 +1102,27 @@ class AsyncContactsResource(AsyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -761,6 +1135,9 @@ class AsyncContactsResource(AsyncAPIResource):
         user or lead).
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -776,6 +1153,27 @@ class AsyncContactsResource(AsyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -783,6 +1181,7 @@ class AsyncContactsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Contact:
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             "/contacts",
             body=await async_maybe_transform(body, contact_create_params.ContactCreateParams),
@@ -796,6 +1195,27 @@ class AsyncContactsResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -807,6 +1227,9 @@ class AsyncContactsResource(AsyncAPIResource):
         You can fetch the details of a single contact.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -817,6 +1240,7 @@ class AsyncContactsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._get(
             f"/contacts/{id}",
             options=make_request_options(
@@ -840,6 +1264,27 @@ class AsyncContactsResource(AsyncAPIResource):
         role: str | NotGiven = NOT_GIVEN,
         signed_up_at: Optional[int] | NotGiven = NOT_GIVEN,
         unsubscribed_from_emails: Optional[bool] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -875,6 +1320,9 @@ class AsyncContactsResource(AsyncAPIResource):
 
           unsubscribed_from_emails: Whether the contact is unsubscribed from emails
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -885,6 +1333,7 @@ class AsyncContactsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._put(
             f"/contacts/{id}",
             body=await async_maybe_transform(
@@ -912,6 +1361,27 @@ class AsyncContactsResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -927,7 +1397,20 @@ class AsyncContactsResource(AsyncAPIResource):
         the
         [pagination section](https://developers.intercom.com/docs/build-an-integration/learn-more/rest-apis/pagination/#pagination-for-list-apis)
         for more details on how to use the `starting_after` param. {% /admonition %}
+
+        Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._get(
             "/contacts",
             options=make_request_options(
@@ -940,6 +1423,27 @@ class AsyncContactsResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -951,6 +1455,9 @@ class AsyncContactsResource(AsyncAPIResource):
         You can delete a single contact.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -961,6 +1468,7 @@ class AsyncContactsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._delete(
             f"/contacts/{id}",
             options=make_request_options(
@@ -973,6 +1481,27 @@ class AsyncContactsResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -984,6 +1513,9 @@ class AsyncContactsResource(AsyncAPIResource):
         You can archive a single contact.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -994,6 +1526,7 @@ class AsyncContactsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             f"/contacts/{id}/archive",
             options=make_request_options(
@@ -1007,6 +1540,27 @@ class AsyncContactsResource(AsyncAPIResource):
         *,
         from_: str | NotGiven = NOT_GIVEN,
         into: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1023,6 +1577,9 @@ class AsyncContactsResource(AsyncAPIResource):
 
           into: The unique identifier for the contact to merge into. Must be a user.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1031,6 +1588,7 @@ class AsyncContactsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             "/contacts/merge",
             body=await async_maybe_transform(
@@ -1051,6 +1609,27 @@ class AsyncContactsResource(AsyncAPIResource):
         *,
         query: contact_search_params.Query,
         pagination: Optional[contact_search_params.Pagination] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1187,6 +1766,9 @@ class AsyncContactsResource(AsyncAPIResource):
         Args:
           query: Search using Intercoms Search APIs with a single filter.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1195,6 +1777,7 @@ class AsyncContactsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             "/contacts/search",
             body=await async_maybe_transform(
@@ -1214,6 +1797,27 @@ class AsyncContactsResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1225,6 +1829,9 @@ class AsyncContactsResource(AsyncAPIResource):
         You can unarchive a single contact.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1235,6 +1842,7 @@ class AsyncContactsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             f"/contacts/{id}/unarchive",
             options=make_request_options(

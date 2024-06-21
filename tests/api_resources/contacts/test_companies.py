@@ -27,6 +27,15 @@ class TestCompanies:
         assert_matches_type(Company, company, path=["response"])
 
     @parametrize
+    def test_method_create_with_all_params(self, client: Intercom) -> None:
+        company = client.contacts.companies.create(
+            path_id="string",
+            body_id="6657add46abd0167d9419cd2",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Company, company, path=["response"])
+
+    @parametrize
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.contacts.companies.with_raw_response.create(
             path_id="string",
@@ -68,6 +77,14 @@ class TestCompanies:
         assert_matches_type(ContactAttachedCompanies, company, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        company = client.contacts.companies.list(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(ContactAttachedCompanies, company, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.contacts.companies.with_raw_response.list(
             "string",
@@ -103,6 +120,15 @@ class TestCompanies:
         company = client.contacts.companies.delete(
             "string",
             contact_id="58a430d35458202d41b1e65b",
+        )
+        assert_matches_type(Company, company, path=["response"])
+
+    @parametrize
+    def test_method_delete_with_all_params(self, client: Intercom) -> None:
+        company = client.contacts.companies.delete(
+            "string",
+            contact_id="58a430d35458202d41b1e65b",
+            intercom_version="2.11",
         )
         assert_matches_type(Company, company, path=["response"])
 
@@ -159,6 +185,15 @@ class TestAsyncCompanies:
         assert_matches_type(Company, company, path=["response"])
 
     @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncIntercom) -> None:
+        company = await async_client.contacts.companies.create(
+            path_id="string",
+            body_id="6657add46abd0167d9419cd2",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Company, company, path=["response"])
+
+    @parametrize
     async def test_raw_response_create(self, async_client: AsyncIntercom) -> None:
         response = await async_client.contacts.companies.with_raw_response.create(
             path_id="string",
@@ -200,6 +235,14 @@ class TestAsyncCompanies:
         assert_matches_type(ContactAttachedCompanies, company, path=["response"])
 
     @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        company = await async_client.contacts.companies.list(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(ContactAttachedCompanies, company, path=["response"])
+
+    @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
         response = await async_client.contacts.companies.with_raw_response.list(
             "string",
@@ -235,6 +278,15 @@ class TestAsyncCompanies:
         company = await async_client.contacts.companies.delete(
             "string",
             contact_id="58a430d35458202d41b1e65b",
+        )
+        assert_matches_type(Company, company, path=["response"])
+
+    @parametrize
+    async def test_method_delete_with_all_params(self, async_client: AsyncIntercom) -> None:
+        company = await async_client.contacts.companies.delete(
+            "string",
+            contact_id="58a430d35458202d41b1e65b",
+            intercom_version="2.11",
         )
         assert_matches_type(Company, company, path=["response"])
 

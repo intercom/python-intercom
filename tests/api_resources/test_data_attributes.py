@@ -38,6 +38,7 @@ class TestDataAttributes:
             description="My Data Attribute Description",
             messenger_writable=False,
             options=["option1", "option2"],
+            intercom_version="2.11",
         )
         assert_matches_type(DataAttribute, data_attribute, path=["response"])
 
@@ -84,6 +85,7 @@ class TestDataAttributes:
             description="Just a plain old ring",
             messenger_writable=False,
             options=["string", "string"],
+            intercom_version="2.11",
         )
         assert_matches_type(DataAttribute, data_attribute, path=["response"])
 
@@ -121,6 +123,7 @@ class TestDataAttributes:
         data_attribute = client.data_attributes.list(
             include_archived=True,
             model="contact",
+            intercom_version="2.11",
         )
         assert_matches_type(DataAttributeList, data_attribute, path=["response"])
 
@@ -166,6 +169,7 @@ class TestAsyncDataAttributes:
             description="My Data Attribute Description",
             messenger_writable=False,
             options=["option1", "option2"],
+            intercom_version="2.11",
         )
         assert_matches_type(DataAttribute, data_attribute, path=["response"])
 
@@ -212,6 +216,7 @@ class TestAsyncDataAttributes:
             description="Just a plain old ring",
             messenger_writable=False,
             options=["string", "string"],
+            intercom_version="2.11",
         )
         assert_matches_type(DataAttribute, data_attribute, path=["response"])
 
@@ -249,6 +254,7 @@ class TestAsyncDataAttributes:
         data_attribute = await async_client.data_attributes.list(
             include_archived=True,
             model="contact",
+            intercom_version="2.11",
         )
         assert_matches_type(DataAttributeList, data_attribute, path=["response"])
 

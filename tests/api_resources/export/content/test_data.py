@@ -25,6 +25,14 @@ class TestData:
         assert_matches_type(DataExport, data, path=["response"])
 
     @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        data = client.export.content.data.retrieve(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(DataExport, data, path=["response"])
+
+    @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.export.content.data.with_raw_response.retrieve(
             "string",
@@ -63,6 +71,14 @@ class TestAsyncData:
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         data = await async_client.export.content.data.retrieve(
             "string",
+        )
+        assert_matches_type(DataExport, data, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        data = await async_client.export.content.data.retrieve(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(DataExport, data, path=["response"])
 

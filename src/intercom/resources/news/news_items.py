@@ -10,6 +10,7 @@ import httpx
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
+    strip_not_given,
     async_maybe_transform,
 )
 from ..._compat import cached_property
@@ -51,6 +52,27 @@ class NewsItemsResource(SyncAPIResource):
         newsfeed_assignments: Iterable[news_item_create_params.NewsfeedAssignment] | NotGiven = NOT_GIVEN,
         reactions: List[Optional[str]] | NotGiven = NOT_GIVEN,
         state: Literal["draft", "live"] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -81,6 +103,9 @@ class NewsItemsResource(SyncAPIResource):
           state: News items will not be visible to your users in the assigned newsfeeds until
               they are set live.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -89,6 +114,7 @@ class NewsItemsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             "/news/news_items",
             body=maybe_transform(
@@ -114,6 +140,27 @@ class NewsItemsResource(SyncAPIResource):
         self,
         id: int,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -125,6 +172,9 @@ class NewsItemsResource(SyncAPIResource):
         You can fetch the details of a single news item.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -133,6 +183,7 @@ class NewsItemsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._get(
             f"/news/news_items/{id}",
             options=make_request_options(
@@ -153,6 +204,27 @@ class NewsItemsResource(SyncAPIResource):
         newsfeed_assignments: Iterable[news_item_update_params.NewsfeedAssignment] | NotGiven = NOT_GIVEN,
         reactions: List[Optional[str]] | NotGiven = NOT_GIVEN,
         state: Literal["draft", "live"] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -184,6 +256,9 @@ class NewsItemsResource(SyncAPIResource):
           state: News items will not be visible to your users in the assigned newsfeeds until
               they are set live.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -192,6 +267,7 @@ class NewsItemsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._put(
             f"/news/news_items/{id}",
             body=maybe_transform(
@@ -216,6 +292,27 @@ class NewsItemsResource(SyncAPIResource):
     def list(
         self,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -223,7 +320,22 @@ class NewsItemsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PaginatedResponse:
-        """You can fetch a list of all news items"""
+        """
+        You can fetch a list of all news items
+
+        Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._get(
             "/news/news_items",
             options=make_request_options(
@@ -236,6 +348,27 @@ class NewsItemsResource(SyncAPIResource):
         self,
         id: int,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -247,6 +380,9 @@ class NewsItemsResource(SyncAPIResource):
         You can delete a single news item.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -255,6 +391,7 @@ class NewsItemsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._delete(
             f"/news/news_items/{id}",
             options=make_request_options(
@@ -284,6 +421,27 @@ class AsyncNewsItemsResource(AsyncAPIResource):
         newsfeed_assignments: Iterable[news_item_create_params.NewsfeedAssignment] | NotGiven = NOT_GIVEN,
         reactions: List[Optional[str]] | NotGiven = NOT_GIVEN,
         state: Literal["draft", "live"] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -314,6 +472,9 @@ class AsyncNewsItemsResource(AsyncAPIResource):
           state: News items will not be visible to your users in the assigned newsfeeds until
               they are set live.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -322,6 +483,7 @@ class AsyncNewsItemsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             "/news/news_items",
             body=await async_maybe_transform(
@@ -347,6 +509,27 @@ class AsyncNewsItemsResource(AsyncAPIResource):
         self,
         id: int,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -358,6 +541,9 @@ class AsyncNewsItemsResource(AsyncAPIResource):
         You can fetch the details of a single news item.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -366,6 +552,7 @@ class AsyncNewsItemsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._get(
             f"/news/news_items/{id}",
             options=make_request_options(
@@ -386,6 +573,27 @@ class AsyncNewsItemsResource(AsyncAPIResource):
         newsfeed_assignments: Iterable[news_item_update_params.NewsfeedAssignment] | NotGiven = NOT_GIVEN,
         reactions: List[Optional[str]] | NotGiven = NOT_GIVEN,
         state: Literal["draft", "live"] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -417,6 +625,9 @@ class AsyncNewsItemsResource(AsyncAPIResource):
           state: News items will not be visible to your users in the assigned newsfeeds until
               they are set live.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -425,6 +636,7 @@ class AsyncNewsItemsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._put(
             f"/news/news_items/{id}",
             body=await async_maybe_transform(
@@ -449,6 +661,27 @@ class AsyncNewsItemsResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -456,7 +689,22 @@ class AsyncNewsItemsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> PaginatedResponse:
-        """You can fetch a list of all news items"""
+        """
+        You can fetch a list of all news items
+
+        Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._get(
             "/news/news_items",
             options=make_request_options(
@@ -469,6 +717,27 @@ class AsyncNewsItemsResource(AsyncAPIResource):
         self,
         id: int,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -480,6 +749,9 @@ class AsyncNewsItemsResource(AsyncAPIResource):
         You can delete a single news item.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -488,6 +760,7 @@ class AsyncNewsItemsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._delete(
             f"/news/news_items/{id}",
             options=make_request_options(

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import overload
+from typing_extensions import Literal
 
 import httpx
 
@@ -11,6 +12,7 @@ from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     required_args,
     maybe_transform,
+    strip_not_given,
     async_maybe_transform,
 )
 from .._compat import cached_property
@@ -43,6 +45,27 @@ class MessagesResource(SyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -70,6 +93,9 @@ class MessagesResource(SyncAPIResource):
         > with the id of the message.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -85,6 +111,27 @@ class MessagesResource(SyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -112,6 +159,9 @@ class MessagesResource(SyncAPIResource):
         > with the id of the message.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -127,6 +177,27 @@ class MessagesResource(SyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -134,6 +205,7 @@ class MessagesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Message:
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             "/messages",
             body=maybe_transform(body, message_create_params.MessageCreateParams),
@@ -158,6 +230,27 @@ class AsyncMessagesResource(AsyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -185,6 +278,9 @@ class AsyncMessagesResource(AsyncAPIResource):
         > with the id of the message.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -200,6 +296,27 @@ class AsyncMessagesResource(AsyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -227,6 +344,9 @@ class AsyncMessagesResource(AsyncAPIResource):
         > with the id of the message.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -242,6 +362,27 @@ class AsyncMessagesResource(AsyncAPIResource):
         self,
         *,
         body: object,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -249,6 +390,7 @@ class AsyncMessagesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Message:
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             "/messages",
             body=await async_maybe_transform(body, message_create_params.MessageCreateParams),

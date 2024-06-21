@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+from typing_extensions import Literal
+
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
+    strip_not_given,
     async_maybe_transform,
 )
 from ..._compat import cached_property
@@ -41,6 +44,27 @@ class CustomersResource(SyncAPIResource):
         *,
         admin_id: str | NotGiven = NOT_GIVEN,
         customer: customer_create_params.Customer | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -60,6 +84,9 @@ class CustomersResource(SyncAPIResource):
         Args:
           admin_id: The `id` of the admin who is adding the new participant.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -70,6 +97,7 @@ class CustomersResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             f"/conversations/{id}/customers",
             body=maybe_transform(
@@ -91,6 +119,27 @@ class CustomersResource(SyncAPIResource):
         *,
         conversation_id: str,
         admin_id: str,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -110,6 +159,9 @@ class CustomersResource(SyncAPIResource):
         Args:
           admin_id: The `id` of the admin who is performing the action.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -122,6 +174,7 @@ class CustomersResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `conversation_id` but received {conversation_id!r}")
         if not contact_id:
             raise ValueError(f"Expected a non-empty value for `contact_id` but received {contact_id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._delete(
             f"/conversations/{conversation_id}/customers/{contact_id}",
             body=maybe_transform({"admin_id": admin_id}, customer_delete_params.CustomerDeleteParams),
@@ -147,6 +200,27 @@ class AsyncCustomersResource(AsyncAPIResource):
         *,
         admin_id: str | NotGiven = NOT_GIVEN,
         customer: customer_create_params.Customer | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -166,6 +240,9 @@ class AsyncCustomersResource(AsyncAPIResource):
         Args:
           admin_id: The `id` of the admin who is adding the new participant.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -176,6 +253,7 @@ class AsyncCustomersResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             f"/conversations/{id}/customers",
             body=await async_maybe_transform(
@@ -197,6 +275,27 @@ class AsyncCustomersResource(AsyncAPIResource):
         *,
         conversation_id: str,
         admin_id: str,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -216,6 +315,9 @@ class AsyncCustomersResource(AsyncAPIResource):
         Args:
           admin_id: The `id` of the admin who is performing the action.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -228,6 +330,7 @@ class AsyncCustomersResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `conversation_id` but received {conversation_id!r}")
         if not contact_id:
             raise ValueError(f"Expected a non-empty value for `contact_id` but received {contact_id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._delete(
             f"/conversations/{conversation_id}/customers/{contact_id}",
             body=await async_maybe_transform({"admin_id": admin_id}, customer_delete_params.CustomerDeleteParams),

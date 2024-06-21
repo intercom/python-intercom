@@ -11,6 +11,7 @@ from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     required_args,
     maybe_transform,
+    strip_not_given,
     async_maybe_transform,
 )
 from ..._compat import cached_property
@@ -48,6 +49,27 @@ class PartsResource(SyncAPIResource):
         message_type: Literal["close"],
         type: Literal["admin"],
         body: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -69,6 +91,9 @@ class PartsResource(SyncAPIResource):
           body: Optionally you can leave a message in the conversation to provide additional
               context to the user and other teammates.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -87,6 +112,27 @@ class PartsResource(SyncAPIResource):
         admin_id: str,
         message_type: Literal["snoozed"],
         snoozed_until: int,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -107,6 +153,9 @@ class PartsResource(SyncAPIResource):
 
           snoozed_until: The time you want the conversation to reopen.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -124,6 +173,27 @@ class PartsResource(SyncAPIResource):
         *,
         admin_id: str,
         message_type: Literal["open"],
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -141,6 +211,9 @@ class PartsResource(SyncAPIResource):
 
         Args:
           admin_id: The id of the admin who is performing the action.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -162,6 +235,27 @@ class PartsResource(SyncAPIResource):
         message_type: Literal["assignment"],
         type: Literal["admin", "team"],
         body: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -185,6 +279,9 @@ class PartsResource(SyncAPIResource):
               assign to no admin or team (ie. Unassigned).
 
           body: Optionally you can send a response in the conversation when it is assigned.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -210,6 +307,27 @@ class PartsResource(SyncAPIResource):
         message_type: Literal["close"] | Literal["snoozed"] | Literal["open"] | Literal["assignment"],
         type: Literal["admin"] | Literal["admin", "team"] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         snoozed_until: int | NotGiven = NOT_GIVEN,
         assignee_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -221,6 +339,7 @@ class PartsResource(SyncAPIResource):
     ) -> Conversation:
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             f"/conversations/{id}/parts",
             body=maybe_transform(
@@ -259,6 +378,27 @@ class AsyncPartsResource(AsyncAPIResource):
         message_type: Literal["close"],
         type: Literal["admin"],
         body: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -280,6 +420,9 @@ class AsyncPartsResource(AsyncAPIResource):
           body: Optionally you can leave a message in the conversation to provide additional
               context to the user and other teammates.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -298,6 +441,27 @@ class AsyncPartsResource(AsyncAPIResource):
         admin_id: str,
         message_type: Literal["snoozed"],
         snoozed_until: int,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -318,6 +482,9 @@ class AsyncPartsResource(AsyncAPIResource):
 
           snoozed_until: The time you want the conversation to reopen.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -335,6 +502,27 @@ class AsyncPartsResource(AsyncAPIResource):
         *,
         admin_id: str,
         message_type: Literal["open"],
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -352,6 +540,9 @@ class AsyncPartsResource(AsyncAPIResource):
 
         Args:
           admin_id: The id of the admin who is performing the action.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -373,6 +564,27 @@ class AsyncPartsResource(AsyncAPIResource):
         message_type: Literal["assignment"],
         type: Literal["admin", "team"],
         body: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -396,6 +608,9 @@ class AsyncPartsResource(AsyncAPIResource):
               assign to no admin or team (ie. Unassigned).
 
           body: Optionally you can send a response in the conversation when it is assigned.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -421,6 +636,27 @@ class AsyncPartsResource(AsyncAPIResource):
         message_type: Literal["close"] | Literal["snoozed"] | Literal["open"] | Literal["assignment"],
         type: Literal["admin"] | Literal["admin", "team"] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         snoozed_until: int | NotGiven = NOT_GIVEN,
         assignee_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -432,6 +668,7 @@ class AsyncPartsResource(AsyncAPIResource):
     ) -> Conversation:
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             f"/conversations/{id}/parts",
             body=await async_maybe_transform(

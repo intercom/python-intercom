@@ -32,6 +32,18 @@ class TestConversations:
         assert_matches_type(Message, conversation, path=["response"])
 
     @parametrize
+    def test_method_create_with_all_params(self, client: Intercom) -> None:
+        conversation = client.conversations.create(
+            body="Hello there",
+            from_={
+                "type": "user",
+                "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            },
+            intercom_version="2.11",
+        )
+        assert_matches_type(Message, conversation, path=["response"])
+
+    @parametrize
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.conversations.with_raw_response.create(
             body="Hello there",
@@ -75,6 +87,7 @@ class TestConversations:
         conversation = client.conversations.retrieve(
             0,
             display_as="string",
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, conversation, path=["response"])
 
@@ -119,6 +132,7 @@ class TestConversations:
                 "priority": "High",
             },
             read=True,
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, conversation, path=["response"])
 
@@ -156,6 +170,7 @@ class TestConversations:
         conversation = client.conversations.list(
             per_page=0,
             starting_after="string",
+            intercom_version="2.11",
         )
         assert_matches_type(PaginatedResponse, conversation, path=["response"])
 
@@ -196,6 +211,7 @@ class TestConversations:
                 "_default_title_": "Found a bug",
                 "_default_description_": "The button is not working",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[Ticket], conversation, path=["response"])
 
@@ -235,6 +251,16 @@ class TestConversations:
         assert_matches_type(Conversation, conversation, path=["response"])
 
     @parametrize
+    def test_method_redact_with_all_params_overload_1(self, client: Intercom) -> None:
+        conversation = client.conversations.redact(
+            conversation_id="19894788788",
+            conversation_part_id="19381789428",
+            type="conversation_part",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Conversation, conversation, path=["response"])
+
+    @parametrize
     def test_raw_response_redact_overload_1(self, client: Intercom) -> None:
         response = client.conversations.with_raw_response.redact(
             conversation_id="19894788788",
@@ -268,6 +294,16 @@ class TestConversations:
             conversation_id="19894788788",
             source_id="19894781231",
             type="source",
+        )
+        assert_matches_type(Conversation, conversation, path=["response"])
+
+    @parametrize
+    def test_method_redact_with_all_params_overload_2(self, client: Intercom) -> None:
+        conversation = client.conversations.redact(
+            conversation_id="19894788788",
+            source_id="19894781231",
+            type="source",
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, conversation, path=["response"])
 
@@ -318,6 +354,7 @@ class TestConversations:
                 "per_page": 5,
                 "starting_after": "your-cursor-from-response",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(ConversationList, conversation, path=["response"])
 
@@ -357,6 +394,18 @@ class TestAsyncConversations:
                 "type": "user",
                 "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             },
+        )
+        assert_matches_type(Message, conversation, path=["response"])
+
+    @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncIntercom) -> None:
+        conversation = await async_client.conversations.create(
+            body="Hello there",
+            from_={
+                "type": "user",
+                "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            },
+            intercom_version="2.11",
         )
         assert_matches_type(Message, conversation, path=["response"])
 
@@ -404,6 +453,7 @@ class TestAsyncConversations:
         conversation = await async_client.conversations.retrieve(
             0,
             display_as="string",
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, conversation, path=["response"])
 
@@ -448,6 +498,7 @@ class TestAsyncConversations:
                 "priority": "High",
             },
             read=True,
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, conversation, path=["response"])
 
@@ -485,6 +536,7 @@ class TestAsyncConversations:
         conversation = await async_client.conversations.list(
             per_page=0,
             starting_after="string",
+            intercom_version="2.11",
         )
         assert_matches_type(PaginatedResponse, conversation, path=["response"])
 
@@ -525,6 +577,7 @@ class TestAsyncConversations:
                 "_default_title_": "Found a bug",
                 "_default_description_": "The button is not working",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[Ticket], conversation, path=["response"])
 
@@ -564,6 +617,16 @@ class TestAsyncConversations:
         assert_matches_type(Conversation, conversation, path=["response"])
 
     @parametrize
+    async def test_method_redact_with_all_params_overload_1(self, async_client: AsyncIntercom) -> None:
+        conversation = await async_client.conversations.redact(
+            conversation_id="19894788788",
+            conversation_part_id="19381789428",
+            type="conversation_part",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Conversation, conversation, path=["response"])
+
+    @parametrize
     async def test_raw_response_redact_overload_1(self, async_client: AsyncIntercom) -> None:
         response = await async_client.conversations.with_raw_response.redact(
             conversation_id="19894788788",
@@ -597,6 +660,16 @@ class TestAsyncConversations:
             conversation_id="19894788788",
             source_id="19894781231",
             type="source",
+        )
+        assert_matches_type(Conversation, conversation, path=["response"])
+
+    @parametrize
+    async def test_method_redact_with_all_params_overload_2(self, async_client: AsyncIntercom) -> None:
+        conversation = await async_client.conversations.redact(
+            conversation_id="19894788788",
+            source_id="19894781231",
+            type="source",
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, conversation, path=["response"])
 
@@ -647,6 +720,7 @@ class TestAsyncConversations:
                 "per_page": 5,
                 "starting_after": "your-cursor-from-response",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(ConversationList, conversation, path=["response"])
 

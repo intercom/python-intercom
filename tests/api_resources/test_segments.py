@@ -25,6 +25,14 @@ class TestSegments:
         assert_matches_type(Segment, segment, path=["response"])
 
     @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        segment = client.segments.retrieve(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Segment, segment, path=["response"])
+
+    @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.segments.with_raw_response.retrieve(
             "string",
@@ -64,6 +72,7 @@ class TestSegments:
     def test_method_list_with_all_params(self, client: Intercom) -> None:
         segment = client.segments.list(
             include_count=True,
+            intercom_version="2.11",
         )
         assert_matches_type(SegmentList, segment, path=["response"])
 
@@ -95,6 +104,14 @@ class TestAsyncSegments:
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         segment = await async_client.segments.retrieve(
             "string",
+        )
+        assert_matches_type(Segment, segment, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        segment = await async_client.segments.retrieve(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(Segment, segment, path=["response"])
 
@@ -138,6 +155,7 @@ class TestAsyncSegments:
     async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
         segment = await async_client.segments.list(
             include_count=True,
+            intercom_version="2.11",
         )
         assert_matches_type(SegmentList, segment, path=["response"])
 

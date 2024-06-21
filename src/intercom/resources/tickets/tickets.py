@@ -25,6 +25,7 @@ from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     required_args,
     maybe_transform,
+    strip_not_given,
     async_maybe_transform,
 )
 from ..._compat import cached_property
@@ -66,6 +67,27 @@ class TicketsResource(SyncAPIResource):
         company_id: str | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
         ticket_attributes: Dict[str, Union[Optional[str], float, bool, Iterable[object]]] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -97,6 +119,9 @@ class TicketsResource(SyncAPIResource):
               and the value of the attribute should be the guid of the list item (e.g.
               `de1825a0-0164-4070-8ca6-13e22462fa7e`).
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -105,6 +130,7 @@ class TicketsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             "/tickets",
             body=maybe_transform(
@@ -133,6 +159,27 @@ class TicketsResource(SyncAPIResource):
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -153,6 +200,9 @@ class TicketsResource(SyncAPIResource):
               URLs.
 
           created_at: The time the reply was created. If not provided, the current time will be used.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -174,6 +224,27 @@ class TicketsResource(SyncAPIResource):
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -194,6 +265,9 @@ class TicketsResource(SyncAPIResource):
               URLs.
 
           created_at: The time the reply was created. If not provided, the current time will be used.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -215,6 +289,27 @@ class TicketsResource(SyncAPIResource):
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -235,6 +330,9 @@ class TicketsResource(SyncAPIResource):
               URLs.
 
           created_at: The time the reply was created. If not provided, the current time will be used.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -258,6 +356,27 @@ class TicketsResource(SyncAPIResource):
         body: str | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
         reply_options: Iterable[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -285,6 +404,9 @@ class TicketsResource(SyncAPIResource):
           reply_options: The quick reply options to display. Must be present for quick_reply message
               types.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -305,6 +427,27 @@ class TicketsResource(SyncAPIResource):
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         admin_id: str | NotGiven = NOT_GIVEN,
         reply_options: Iterable[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -316,6 +459,7 @@ class TicketsResource(SyncAPIResource):
     ) -> TicketReply:
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             f"/tickets/{id}/reply",
             body=maybe_transform(
@@ -340,6 +484,27 @@ class TicketsResource(SyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -351,6 +516,9 @@ class TicketsResource(SyncAPIResource):
         You can fetch the details of a single ticket.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -361,6 +529,7 @@ class TicketsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._get(
             f"/tickets/{id}",
             options=make_request_options(
@@ -374,6 +543,27 @@ class TicketsResource(SyncAPIResource):
         *,
         query: ticket_search_params.Query,
         pagination: Optional[ticket_search_params.Pagination] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -457,6 +647,9 @@ class TicketsResource(SyncAPIResource):
         Args:
           query: Search using Intercoms Search APIs with a single filter.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -465,6 +658,7 @@ class TicketsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             "/tickets/search",
             body=maybe_transform(
@@ -490,6 +684,27 @@ class TicketsResource(SyncAPIResource):
         snoozed_until: int | NotGiven = NOT_GIVEN,
         state: Literal["in_progress", "waiting_on_customer", "resolved"] | NotGiven = NOT_GIVEN,
         ticket_attributes: object | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -512,6 +727,9 @@ class TicketsResource(SyncAPIResource):
 
           ticket_attributes: The attributes set on the ticket.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -522,6 +740,7 @@ class TicketsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._put(
             f"/tickets/{id}",
             body=maybe_transform(
@@ -563,6 +782,27 @@ class AsyncTicketsResource(AsyncAPIResource):
         company_id: str | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
         ticket_attributes: Dict[str, Union[Optional[str], float, bool, Iterable[object]]] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -594,6 +834,9 @@ class AsyncTicketsResource(AsyncAPIResource):
               and the value of the attribute should be the guid of the list item (e.g.
               `de1825a0-0164-4070-8ca6-13e22462fa7e`).
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -602,6 +845,7 @@ class AsyncTicketsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             "/tickets",
             body=await async_maybe_transform(
@@ -630,6 +874,27 @@ class AsyncTicketsResource(AsyncAPIResource):
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -650,6 +915,9 @@ class AsyncTicketsResource(AsyncAPIResource):
               URLs.
 
           created_at: The time the reply was created. If not provided, the current time will be used.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -671,6 +939,27 @@ class AsyncTicketsResource(AsyncAPIResource):
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -691,6 +980,9 @@ class AsyncTicketsResource(AsyncAPIResource):
               URLs.
 
           created_at: The time the reply was created. If not provided, the current time will be used.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -712,6 +1004,27 @@ class AsyncTicketsResource(AsyncAPIResource):
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -732,6 +1045,9 @@ class AsyncTicketsResource(AsyncAPIResource):
               URLs.
 
           created_at: The time the reply was created. If not provided, the current time will be used.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -755,6 +1071,27 @@ class AsyncTicketsResource(AsyncAPIResource):
         body: str | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
         reply_options: Iterable[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -782,6 +1119,9 @@ class AsyncTicketsResource(AsyncAPIResource):
           reply_options: The quick reply options to display. Must be present for quick_reply message
               types.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -802,6 +1142,27 @@ class AsyncTicketsResource(AsyncAPIResource):
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         admin_id: str | NotGiven = NOT_GIVEN,
         reply_options: Iterable[ticket_reply_params.AdminReplyTicketRequestReplyOption] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -813,6 +1174,7 @@ class AsyncTicketsResource(AsyncAPIResource):
     ) -> TicketReply:
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             f"/tickets/{id}/reply",
             body=await async_maybe_transform(
@@ -837,6 +1199,27 @@ class AsyncTicketsResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -848,6 +1231,9 @@ class AsyncTicketsResource(AsyncAPIResource):
         You can fetch the details of a single ticket.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -858,6 +1244,7 @@ class AsyncTicketsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._get(
             f"/tickets/{id}",
             options=make_request_options(
@@ -871,6 +1258,27 @@ class AsyncTicketsResource(AsyncAPIResource):
         *,
         query: ticket_search_params.Query,
         pagination: Optional[ticket_search_params.Pagination] | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -954,6 +1362,9 @@ class AsyncTicketsResource(AsyncAPIResource):
         Args:
           query: Search using Intercoms Search APIs with a single filter.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -962,6 +1373,7 @@ class AsyncTicketsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             "/tickets/search",
             body=await async_maybe_transform(
@@ -987,6 +1399,27 @@ class AsyncTicketsResource(AsyncAPIResource):
         snoozed_until: int | NotGiven = NOT_GIVEN,
         state: Literal["in_progress", "waiting_on_customer", "resolved"] | NotGiven = NOT_GIVEN,
         ticket_attributes: object | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1009,6 +1442,9 @@ class AsyncTicketsResource(AsyncAPIResource):
 
           ticket_attributes: The attributes set on the ticket.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1019,6 +1455,7 @@ class AsyncTicketsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._put(
             f"/tickets/{id}",
             body=await async_maybe_transform(

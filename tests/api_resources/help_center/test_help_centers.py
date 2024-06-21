@@ -25,6 +25,14 @@ class TestHelpCenters:
         assert_matches_type(HelpCenter, help_center, path=["response"])
 
     @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        help_center = client.help_center.help_centers.retrieve(
+            0,
+            intercom_version="2.11",
+        )
+        assert_matches_type(HelpCenter, help_center, path=["response"])
+
+    @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.help_center.help_centers.with_raw_response.retrieve(
             0,
@@ -51,6 +59,13 @@ class TestHelpCenters:
     @parametrize
     def test_method_list(self, client: Intercom) -> None:
         help_center = client.help_center.help_centers.list()
+        assert_matches_type(HelpCenterList, help_center, path=["response"])
+
+    @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        help_center = client.help_center.help_centers.list(
+            intercom_version="2.11",
+        )
         assert_matches_type(HelpCenterList, help_center, path=["response"])
 
     @parametrize
@@ -85,6 +100,14 @@ class TestAsyncHelpCenters:
         assert_matches_type(HelpCenter, help_center, path=["response"])
 
     @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        help_center = await async_client.help_center.help_centers.retrieve(
+            0,
+            intercom_version="2.11",
+        )
+        assert_matches_type(HelpCenter, help_center, path=["response"])
+
+    @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncIntercom) -> None:
         response = await async_client.help_center.help_centers.with_raw_response.retrieve(
             0,
@@ -111,6 +134,13 @@ class TestAsyncHelpCenters:
     @parametrize
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         help_center = await async_client.help_center.help_centers.list()
+        assert_matches_type(HelpCenterList, help_center, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        help_center = await async_client.help_center.help_centers.list(
+            intercom_version="2.11",
+        )
         assert_matches_type(HelpCenterList, help_center, path=["response"])
 
     @parametrize

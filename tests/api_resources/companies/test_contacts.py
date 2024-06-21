@@ -25,6 +25,14 @@ class TestContacts:
         assert_matches_type(CompanyAttachedContacts, contact, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        contact = client.companies.contacts.list(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(CompanyAttachedContacts, contact, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.companies.contacts.with_raw_response.list(
             "string",
@@ -63,6 +71,14 @@ class TestAsyncContacts:
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         contact = await async_client.companies.contacts.list(
             "string",
+        )
+        assert_matches_type(CompanyAttachedContacts, contact, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        contact = await async_client.companies.contacts.list(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(CompanyAttachedContacts, contact, path=["response"])
 

@@ -25,6 +25,14 @@ class TestMessages:
         assert_matches_type(Message, message, path=["response"])
 
     @parametrize
+    def test_method_create_with_all_params_overload_1(self, client: Intercom) -> None:
+        message = client.messages.create(
+            body={},
+            intercom_version="2.11",
+        )
+        assert_matches_type(Message, message, path=["response"])
+
+    @parametrize
     def test_raw_response_create_overload_1(self, client: Intercom) -> None:
         response = client.messages.with_raw_response.create(
             body={},
@@ -52,6 +60,14 @@ class TestMessages:
     def test_method_create_overload_2(self, client: Intercom) -> None:
         message = client.messages.create(
             body={},
+        )
+        assert_matches_type(Message, message, path=["response"])
+
+    @parametrize
+    def test_method_create_with_all_params_overload_2(self, client: Intercom) -> None:
+        message = client.messages.create(
+            body={},
+            intercom_version="2.11",
         )
         assert_matches_type(Message, message, path=["response"])
 
@@ -91,6 +107,14 @@ class TestAsyncMessages:
         assert_matches_type(Message, message, path=["response"])
 
     @parametrize
+    async def test_method_create_with_all_params_overload_1(self, async_client: AsyncIntercom) -> None:
+        message = await async_client.messages.create(
+            body={},
+            intercom_version="2.11",
+        )
+        assert_matches_type(Message, message, path=["response"])
+
+    @parametrize
     async def test_raw_response_create_overload_1(self, async_client: AsyncIntercom) -> None:
         response = await async_client.messages.with_raw_response.create(
             body={},
@@ -118,6 +142,14 @@ class TestAsyncMessages:
     async def test_method_create_overload_2(self, async_client: AsyncIntercom) -> None:
         message = await async_client.messages.create(
             body={},
+        )
+        assert_matches_type(Message, message, path=["response"])
+
+    @parametrize
+    async def test_method_create_with_all_params_overload_2(self, async_client: AsyncIntercom) -> None:
+        message = await async_client.messages.create(
+            body={},
+            intercom_version="2.11",
         )
         assert_matches_type(Message, message, path=["response"])
 

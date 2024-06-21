@@ -29,6 +29,7 @@ class TestActivityLogs:
         activity_log = client.admins.activity_logs.list(
             created_at_after="string",
             created_at_before="string",
+            intercom_version="2.11",
         )
         assert_matches_type(ActivityLogList, activity_log, path=["response"])
 
@@ -72,6 +73,7 @@ class TestAsyncActivityLogs:
         activity_log = await async_client.admins.activity_logs.list(
             created_at_after="string",
             created_at_before="string",
+            intercom_version="2.11",
         )
         assert_matches_type(ActivityLogList, activity_log, path=["response"])
 

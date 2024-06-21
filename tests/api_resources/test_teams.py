@@ -25,6 +25,14 @@ class TestTeams:
         assert_matches_type(Team, team, path=["response"])
 
     @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        team = client.teams.retrieve(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Team, team, path=["response"])
+
+    @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.teams.with_raw_response.retrieve(
             "string",
@@ -61,6 +69,13 @@ class TestTeams:
         assert_matches_type(TeamList, team, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        team = client.teams.list(
+            intercom_version="2.11",
+        )
+        assert_matches_type(TeamList, team, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.teams.with_raw_response.list()
 
@@ -88,6 +103,14 @@ class TestAsyncTeams:
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         team = await async_client.teams.retrieve(
             "string",
+        )
+        assert_matches_type(Team, team, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        team = await async_client.teams.retrieve(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(Team, team, path=["response"])
 
@@ -125,6 +148,13 @@ class TestAsyncTeams:
     @parametrize
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         team = await async_client.teams.list()
+        assert_matches_type(TeamList, team, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        team = await async_client.teams.list(
+            intercom_version="2.11",
+        )
         assert_matches_type(TeamList, team, path=["response"])
 
     @parametrize

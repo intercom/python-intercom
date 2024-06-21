@@ -25,6 +25,14 @@ class TestItems:
         assert_matches_type(PaginatedResponse, item, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        item = client.news.newsfeeds.items.list(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(PaginatedResponse, item, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.news.newsfeeds.items.with_raw_response.list(
             "string",
@@ -63,6 +71,14 @@ class TestAsyncItems:
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         item = await async_client.news.newsfeeds.items.list(
             "string",
+        )
+        assert_matches_type(PaginatedResponse, item, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        item = await async_client.news.newsfeeds.items.list(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(PaginatedResponse, item, path=["response"])
 

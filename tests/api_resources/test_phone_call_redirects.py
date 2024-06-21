@@ -32,6 +32,7 @@ class TestPhoneCallRedirects:
                 "issue_type": "Billing",
                 "priority": "High",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[PhoneSwitch], phone_call_redirect, path=["response"])
 
@@ -78,6 +79,7 @@ class TestAsyncPhoneCallRedirects:
                 "issue_type": "Billing",
                 "priority": "High",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[PhoneSwitch], phone_call_redirect, path=["response"])
 

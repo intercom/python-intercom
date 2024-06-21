@@ -33,6 +33,7 @@ class TestCustomers:
                 "intercom_user_id": "6657ae626abd0167d9419d6f",
                 "customer": {"intercom_user_id": "6329bd9ffe4e2e91dac76188"},
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, customer, path=["response"])
 
@@ -73,6 +74,16 @@ class TestCustomers:
             "string",
             conversation_id="123",
             admin_id="string",
+        )
+        assert_matches_type(Conversation, customer, path=["response"])
+
+    @parametrize
+    def test_method_delete_with_all_params(self, client: Intercom) -> None:
+        customer = client.conversations.customers.delete(
+            "string",
+            conversation_id="123",
+            admin_id="string",
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, customer, path=["response"])
 
@@ -140,6 +151,7 @@ class TestAsyncCustomers:
                 "intercom_user_id": "6657ae626abd0167d9419d6f",
                 "customer": {"intercom_user_id": "6329bd9ffe4e2e91dac76188"},
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, customer, path=["response"])
 
@@ -180,6 +192,16 @@ class TestAsyncCustomers:
             "string",
             conversation_id="123",
             admin_id="string",
+        )
+        assert_matches_type(Conversation, customer, path=["response"])
+
+    @parametrize
+    async def test_method_delete_with_all_params(self, async_client: AsyncIntercom) -> None:
+        customer = await async_client.conversations.customers.delete(
+            "string",
+            conversation_id="123",
+            admin_id="string",
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, customer, path=["response"])
 

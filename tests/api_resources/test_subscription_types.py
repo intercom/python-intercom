@@ -23,6 +23,13 @@ class TestSubscriptionTypes:
         assert_matches_type(SubscriptionTypeList, subscription_type, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        subscription_type = client.subscription_types.list(
+            intercom_version="2.11",
+        )
+        assert_matches_type(SubscriptionTypeList, subscription_type, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.subscription_types.with_raw_response.list()
 
@@ -49,6 +56,13 @@ class TestAsyncSubscriptionTypes:
     @parametrize
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         subscription_type = await async_client.subscription_types.list()
+        assert_matches_type(SubscriptionTypeList, subscription_type, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        subscription_type = await async_client.subscription_types.list(
+            intercom_version="2.11",
+        )
         assert_matches_type(SubscriptionTypeList, subscription_type, path=["response"])
 
     @parametrize

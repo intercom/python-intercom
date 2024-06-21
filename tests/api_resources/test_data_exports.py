@@ -26,6 +26,15 @@ class TestDataExports:
         assert_matches_type(DataExport, data_export, path=["response"])
 
     @parametrize
+    def test_method_content_data_with_all_params(self, client: Intercom) -> None:
+        data_export = client.data_exports.content_data(
+            created_at_after=1717004390,
+            created_at_before=1717022390,
+            intercom_version="2.11",
+        )
+        assert_matches_type(DataExport, data_export, path=["response"])
+
+    @parametrize
     def test_raw_response_content_data(self, client: Intercom) -> None:
         response = client.data_exports.with_raw_response.content_data(
             created_at_after=1717004390,
@@ -60,6 +69,15 @@ class TestAsyncDataExports:
         data_export = await async_client.data_exports.content_data(
             created_at_after=1717004390,
             created_at_before=1717022390,
+        )
+        assert_matches_type(DataExport, data_export, path=["response"])
+
+    @parametrize
+    async def test_method_content_data_with_all_params(self, async_client: AsyncIntercom) -> None:
+        data_export = await async_client.data_exports.content_data(
+            created_at_after=1717004390,
+            created_at_before=1717022390,
+            intercom_version="2.11",
         )
         assert_matches_type(DataExport, data_export, path=["response"])
 
