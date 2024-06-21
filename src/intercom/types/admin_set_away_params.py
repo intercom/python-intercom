@@ -6,10 +6,10 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["AdminAwayParams"]
+__all__ = ["AdminSetAwayParams"]
 
 
-class AdminAwayParams(TypedDict, total=False):
+class AdminSetAwayParams(TypedDict, total=False):
     away_mode_enabled: Required[bool]
     """Set to "true" to change the status of the admin to away."""
 

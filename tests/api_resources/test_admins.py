@@ -90,8 +90,8 @@ class TestAdmins:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_away(self, client: Intercom) -> None:
-        admin = client.admins.away(
+    def test_method_set_away(self, client: Intercom) -> None:
+        admin = client.admins.set_away(
             0,
             away_mode_enabled=True,
             away_mode_reassign=True,
@@ -99,8 +99,8 @@ class TestAdmins:
         assert_matches_type(Optional[Admin], admin, path=["response"])
 
     @parametrize
-    def test_method_away_with_all_params(self, client: Intercom) -> None:
-        admin = client.admins.away(
+    def test_method_set_away_with_all_params(self, client: Intercom) -> None:
+        admin = client.admins.set_away(
             0,
             away_mode_enabled=True,
             away_mode_reassign=True,
@@ -109,8 +109,8 @@ class TestAdmins:
         assert_matches_type(Optional[Admin], admin, path=["response"])
 
     @parametrize
-    def test_raw_response_away(self, client: Intercom) -> None:
-        response = client.admins.with_raw_response.away(
+    def test_raw_response_set_away(self, client: Intercom) -> None:
+        response = client.admins.with_raw_response.set_away(
             0,
             away_mode_enabled=True,
             away_mode_reassign=True,
@@ -122,8 +122,8 @@ class TestAdmins:
         assert_matches_type(Optional[Admin], admin, path=["response"])
 
     @parametrize
-    def test_streaming_response_away(self, client: Intercom) -> None:
-        with client.admins.with_streaming_response.away(
+    def test_streaming_response_set_away(self, client: Intercom) -> None:
+        with client.admins.with_streaming_response.set_away(
             0,
             away_mode_enabled=True,
             away_mode_reassign=True,
@@ -212,8 +212,8 @@ class TestAsyncAdmins:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_away(self, async_client: AsyncIntercom) -> None:
-        admin = await async_client.admins.away(
+    async def test_method_set_away(self, async_client: AsyncIntercom) -> None:
+        admin = await async_client.admins.set_away(
             0,
             away_mode_enabled=True,
             away_mode_reassign=True,
@@ -221,8 +221,8 @@ class TestAsyncAdmins:
         assert_matches_type(Optional[Admin], admin, path=["response"])
 
     @parametrize
-    async def test_method_away_with_all_params(self, async_client: AsyncIntercom) -> None:
-        admin = await async_client.admins.away(
+    async def test_method_set_away_with_all_params(self, async_client: AsyncIntercom) -> None:
+        admin = await async_client.admins.set_away(
             0,
             away_mode_enabled=True,
             away_mode_reassign=True,
@@ -231,8 +231,8 @@ class TestAsyncAdmins:
         assert_matches_type(Optional[Admin], admin, path=["response"])
 
     @parametrize
-    async def test_raw_response_away(self, async_client: AsyncIntercom) -> None:
-        response = await async_client.admins.with_raw_response.away(
+    async def test_raw_response_set_away(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.admins.with_raw_response.set_away(
             0,
             away_mode_enabled=True,
             away_mode_reassign=True,
@@ -244,8 +244,8 @@ class TestAsyncAdmins:
         assert_matches_type(Optional[Admin], admin, path=["response"])
 
     @parametrize
-    async def test_streaming_response_away(self, async_client: AsyncIntercom) -> None:
-        async with async_client.admins.with_streaming_response.away(
+    async def test_streaming_response_set_away(self, async_client: AsyncIntercom) -> None:
+        async with async_client.admins.with_streaming_response.set_away(
             0,
             away_mode_enabled=True,
             away_mode_reassign=True,
