@@ -1,5 +1,5 @@
 [project]
-name = "intercom"
+name = "python-intercom"
 version = "0.0.1"
 description = "The official Python library for the intercom API"
 dynamic = ["readme"]
@@ -39,8 +39,8 @@ classifiers = [
 
 
 [project.urls]
-Homepage = "https://github.com/intercom/intercom-python"
-Repository = "https://github.com/intercom/intercom-python"
+Homepage = "https://github.com/intercom/python-intercom"
+Repository = "https://github.com/intercom/python-intercom"
 
 
 
@@ -84,7 +84,7 @@ typecheck = { chain = [
   "typecheck:mypy"
 ]}
 "typecheck:pyright" = "pyright"
-"typecheck:verify-types" = "pyright --verifytypes intercom --ignoreexternal"
+"typecheck:verify-types" = "pyright --verifytypes python_intercom --ignoreexternal"
 "typecheck:mypy" = "mypy ."
 
 [build-system]
@@ -97,7 +97,7 @@ include = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/intercom"]
+packages = ["src/python_intercom"]
 
 [tool.hatch.metadata.hooks.fancy-pypi-readme]
 content-type = "text/markdown"
@@ -108,7 +108,7 @@ path = "README.md"
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
 # replace relative links with absolute links
 pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
-replacement = '[\1](https://github.com/intercom/intercom-python/tree/main/\g<2>)'
+replacement = '[\1](https://github.com/intercom/python-intercom/tree/v3/\g<2>)'
 
 [tool.black]
 line-length = 120
@@ -187,7 +187,7 @@ length-sort = true
 length-sort-straight = true
 combine-as-imports = true
 extra-standard-library = ["typing_extensions"]
-known-first-party = ["intercom", "tests"]
+known-first-party = ["python_intercom", "tests"]
 
 [tool.ruff.per-file-ignores]
 "bin/**.py" = ["T201", "T203"]

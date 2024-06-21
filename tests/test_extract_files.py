@@ -4,8 +4,8 @@ from typing import Sequence
 
 import pytest
 
-from intercom._types import FileTypes
-from intercom._utils import extract_files
+from python_intercom._types import FileTypes
+from python_intercom._utils import extract_files
 
 
 def test_removes_files_from_input() -> None:

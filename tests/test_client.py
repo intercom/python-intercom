@@ -16,11 +16,11 @@ import pytest
 from respx import MockRouter
 from pydantic import ValidationError
 
-from intercom import Intercom, AsyncIntercom, APIResponseValidationError
-from intercom._models import BaseModel, FinalRequestOptions
-from intercom._constants import RAW_RESPONSE_HEADER
-from intercom._exceptions import IntercomError, APIStatusError, APITimeoutError, APIResponseValidationError
-from intercom._base_client import (
+from python_intercom import Intercom, AsyncIntercom, APIResponseValidationError
+from python_intercom._models import BaseModel, FinalRequestOptions
+from python_intercom._constants import RAW_RESPONSE_HEADER
+from python_intercom._exceptions import IntercomError, APIStatusError, APITimeoutError, APIResponseValidationError
+from python_intercom._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
     BaseClient,
@@ -227,10 +227,10 @@ class TestIntercom:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "intercom/_legacy_response.py",
-                        "intercom/_response.py",
+                        "python_intercom/_legacy_response.py",
+                        "python_intercom/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "intercom/_compat.py",
+                        "python_intercom/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -739,7 +739,7 @@ class TestIntercom:
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("intercom._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("python_intercom._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.get("/me").mock(side_effect=httpx.TimeoutException("Test timeout error"))
@@ -749,7 +749,7 @@ class TestIntercom:
 
         assert _get_open_connections(self.client) == 0
 
-    @mock.patch("intercom._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("python_intercom._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.get("/me").mock(return_value=httpx.Response(500))
@@ -938,10 +938,10 @@ class TestAsyncIntercom:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "intercom/_legacy_response.py",
-                        "intercom/_response.py",
+                        "python_intercom/_legacy_response.py",
+                        "python_intercom/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "intercom/_compat.py",
+                        "python_intercom/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -1454,7 +1454,7 @@ class TestAsyncIntercom:
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("intercom._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("python_intercom._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.get("/me").mock(side_effect=httpx.TimeoutException("Test timeout error"))
@@ -1464,7 +1464,7 @@ class TestAsyncIntercom:
 
         assert _get_open_connections(self.client) == 0
 
-    @mock.patch("intercom._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("python_intercom._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.get("/me").mock(return_value=httpx.Response(500))
