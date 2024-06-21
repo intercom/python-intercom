@@ -5,10 +5,10 @@ from typing_extensions import Literal
 
 from ..._models import BaseModel
 
-__all__ = ["DeletedCollectionObject"]
+__all__ = ["DeletedCollection"]
 
 
-class DeletedCollectionObject(BaseModel):
+class DeletedCollection(BaseModel):
     id: Optional[str] = None
     """The unique identifier for the collection which you provided in the URL."""
 

@@ -47,7 +47,7 @@ Methods:
 
 - <code title="get /admins/{id}">client.admins.<a href="./src/intercom/resources/admins/admins.py">retrieve</a>(id) -> <a href="./src/intercom/types/shared/admin.py">Optional</a></code>
 - <code title="get /admins">client.admins.<a href="./src/intercom/resources/admins/admins.py">list</a>() -> <a href="./src/intercom/types/admin_list.py">AdminList</a></code>
-- <code title="put /admins/{id}/away">client.admins.<a href="./src/intercom/resources/admins/admins.py">away</a>(id, \*\*<a href="src/intercom/types/admin_away_params.py">params</a>) -> <a href="./src/intercom/types/shared/admin.py">Optional</a></code>
+- <code title="put /admins/{id}/away">client.admins.<a href="./src/intercom/resources/admins/admins.py">set_away</a>(id, \*\*<a href="src/intercom/types/admin_set_away_params.py">params</a>) -> <a href="./src/intercom/types/shared/admin.py">Optional</a></code>
 
 ## ActivityLogs
 
@@ -85,7 +85,7 @@ Methods:
 Types:
 
 ```python
-from intercom.types.help_center import Collection, CollectionList, DeletedCollectionObject
+from intercom.types.help_center import Collection, CollectionList, DeletedCollection
 ```
 
 Methods:
@@ -94,7 +94,7 @@ Methods:
 - <code title="get /help_center/collections/{id}">client.help_center.collections.<a href="./src/intercom/resources/help_center/collections.py">retrieve</a>(id) -> <a href="./src/intercom/types/help_center/collection.py">Collection</a></code>
 - <code title="put /help_center/collections/{id}">client.help_center.collections.<a href="./src/intercom/resources/help_center/collections.py">update</a>(id, \*\*<a href="src/intercom/types/help_center/collection_update_params.py">params</a>) -> <a href="./src/intercom/types/help_center/collection.py">Collection</a></code>
 - <code title="get /help_center/collections">client.help_center.collections.<a href="./src/intercom/resources/help_center/collections.py">list</a>() -> <a href="./src/intercom/types/help_center/collection_list.py">CollectionList</a></code>
-- <code title="delete /help_center/collections/{id}">client.help_center.collections.<a href="./src/intercom/resources/help_center/collections.py">delete</a>(id) -> <a href="./src/intercom/types/help_center/deleted_collection_object.py">DeletedCollectionObject</a></code>
+- <code title="delete /help_center/collections/{id}">client.help_center.collections.<a href="./src/intercom/resources/help_center/collections.py">delete</a>(id) -> <a href="./src/intercom/types/help_center/deleted_collection.py">DeletedCollection</a></code>
 
 ## HelpCenters
 

@@ -43,7 +43,6 @@ from .data_attribute import DataAttribute as DataAttribute
 from .contact_deleted import ContactDeleted as ContactDeleted
 from .contact_archived import ContactArchived as ContactArchived
 from .ticket_type_list import TicketTypeList as TicketTypeList
-from .admin_away_params import AdminAwayParams as AdminAwayParams
 from .conversation_list import ConversationList as ConversationList
 from .contact_unarchived import ContactUnarchived as ContactUnarchived
 from .data_event_summary import DataEventSummary as DataEventSummary
@@ -54,6 +53,7 @@ from .ticket_reply_params import TicketReplyParams as TicketReplyParams
 from .contact_merge_params import ContactMergeParams as ContactMergeParams
 from .ticket_create_params import TicketCreateParams as TicketCreateParams
 from .ticket_search_params import TicketSearchParams as TicketSearchParams
+from .admin_set_away_params import AdminSetAwayParams as AdminSetAwayParams
 from .article_create_params import ArticleCreateParams as ArticleCreateParams
 from .article_search_params import ArticleSearchParams as ArticleSearchParams
 from .article_update_params import ArticleUpdateParams as ArticleUpdateParams

@@ -28,7 +28,7 @@ from ..._base_client import (
 from ...types.help_center import collection_create_params, collection_update_params
 from ...types.help_center.collection import Collection
 from ...types.help_center.collection_list import CollectionList
-from ...types.help_center.deleted_collection_object import DeletedCollectionObject
+from ...types.help_center.deleted_collection import DeletedCollection
 
 __all__ = ["CollectionsResource", "AsyncCollectionsResource"]
 
@@ -358,7 +358,7 @@ class CollectionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DeletedCollectionObject:
+    ) -> DeletedCollection:
         """
         You can delete a single collection by making a DELETE request to
         `https://api.intercom.io/collections/<id>`.
@@ -381,7 +381,7 @@ class CollectionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=DeletedCollectionObject,
+            cast_to=DeletedCollection,
         )
 
 
@@ -710,7 +710,7 @@ class AsyncCollectionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DeletedCollectionObject:
+    ) -> DeletedCollection:
         """
         You can delete a single collection by making a DELETE request to
         `https://api.intercom.io/collections/<id>`.
@@ -733,7 +733,7 @@ class AsyncCollectionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=DeletedCollectionObject,
+            cast_to=DeletedCollection,
         )
 
 

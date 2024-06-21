@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ...types import admin_away_params
+from ...types import admin_set_away_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
@@ -163,7 +163,7 @@ class AdminsResource(SyncAPIResource):
             cast_to=AdminList,
         )
 
-    def away(
+    def set_away(
         self,
         id: int,
         *,
@@ -224,7 +224,7 @@ class AdminsResource(SyncAPIResource):
                     "away_mode_enabled": away_mode_enabled,
                     "away_mode_reassign": away_mode_reassign,
                 },
-                admin_away_params.AdminAwayParams,
+                admin_set_away_params.AdminSetAwayParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -357,7 +357,7 @@ class AsyncAdminsResource(AsyncAPIResource):
             cast_to=AdminList,
         )
 
-    async def away(
+    async def set_away(
         self,
         id: int,
         *,
@@ -418,7 +418,7 @@ class AsyncAdminsResource(AsyncAPIResource):
                     "away_mode_enabled": away_mode_enabled,
                     "away_mode_reassign": away_mode_reassign,
                 },
-                admin_away_params.AdminAwayParams,
+                admin_set_away_params.AdminSetAwayParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -437,8 +437,8 @@ class AdminsResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             admins.list,
         )
-        self.away = to_raw_response_wrapper(
-            admins.away,
+        self.set_away = to_raw_response_wrapper(
+            admins.set_away,
         )
 
     @cached_property
@@ -456,8 +456,8 @@ class AsyncAdminsResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             admins.list,
         )
-        self.away = async_to_raw_response_wrapper(
-            admins.away,
+        self.set_away = async_to_raw_response_wrapper(
+            admins.set_away,
         )
 
     @cached_property
@@ -475,8 +475,8 @@ class AdminsResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             admins.list,
         )
-        self.away = to_streamed_response_wrapper(
-            admins.away,
+        self.set_away = to_streamed_response_wrapper(
+            admins.set_away,
         )
 
     @cached_property
@@ -494,8 +494,8 @@ class AsyncAdminsResourceWithStreamingResponse:
         self.list = async_to_streamed_response_wrapper(
             admins.list,
         )
-        self.away = async_to_streamed_response_wrapper(
-            admins.away,
+        self.set_away = async_to_streamed_response_wrapper(
+            admins.set_away,
         )
 
     @cached_property
