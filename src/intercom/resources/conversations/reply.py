@@ -11,6 +11,7 @@ from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     required_args,
     maybe_transform,
+    strip_not_given,
     async_maybe_transform,
 )
 from ..._compat import cached_property
@@ -49,6 +50,27 @@ class ReplyResource(SyncAPIResource):
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -67,6 +89,9 @@ class ReplyResource(SyncAPIResource):
               URLs.
 
           created_at: The time the reply was created. If not provided, the current time will be used.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -88,6 +113,27 @@ class ReplyResource(SyncAPIResource):
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -106,6 +152,9 @@ class ReplyResource(SyncAPIResource):
               URLs.
 
           created_at: The time the reply was created. If not provided, the current time will be used.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -127,6 +176,27 @@ class ReplyResource(SyncAPIResource):
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -145,6 +215,9 @@ class ReplyResource(SyncAPIResource):
               URLs.
 
           created_at: The time the reply was created. If not provided, the current time will be used.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -169,6 +242,27 @@ class ReplyResource(SyncAPIResource):
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -194,6 +288,9 @@ class ReplyResource(SyncAPIResource):
 
           created_at: The time the reply was created. If not provided, the current time will be used.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -214,6 +311,27 @@ class ReplyResource(SyncAPIResource):
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         admin_id: str | NotGiven = NOT_GIVEN,
         attachment_files: Iterable[reply_create_params.AdminReplyConversationRequestAttachmentFile]
         | NotGiven = NOT_GIVEN,
@@ -226,6 +344,7 @@ class ReplyResource(SyncAPIResource):
     ) -> Conversation:
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             f"/conversations/{id}/reply",
             body=maybe_transform(
@@ -266,6 +385,27 @@ class AsyncReplyResource(AsyncAPIResource):
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -284,6 +424,9 @@ class AsyncReplyResource(AsyncAPIResource):
               URLs.
 
           created_at: The time the reply was created. If not provided, the current time will be used.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -305,6 +448,27 @@ class AsyncReplyResource(AsyncAPIResource):
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -323,6 +487,9 @@ class AsyncReplyResource(AsyncAPIResource):
               URLs.
 
           created_at: The time the reply was created. If not provided, the current time will be used.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -344,6 +511,27 @@ class AsyncReplyResource(AsyncAPIResource):
         type: Literal["user"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -362,6 +550,9 @@ class AsyncReplyResource(AsyncAPIResource):
               URLs.
 
           created_at: The time the reply was created. If not provided, the current time will be used.
+
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
 
           extra_headers: Send extra headers
 
@@ -386,6 +577,27 @@ class AsyncReplyResource(AsyncAPIResource):
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         body: str | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -411,6 +623,9 @@ class AsyncReplyResource(AsyncAPIResource):
 
           created_at: The time the reply was created. If not provided, the current time will be used.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -431,6 +646,27 @@ class AsyncReplyResource(AsyncAPIResource):
         type: Literal["user"] | Literal["admin"],
         attachment_urls: List[str] | NotGiven = NOT_GIVEN,
         created_at: int | NotGiven = NOT_GIVEN,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         admin_id: str | NotGiven = NOT_GIVEN,
         attachment_files: Iterable[reply_create_params.AdminReplyConversationRequestAttachmentFile]
         | NotGiven = NOT_GIVEN,
@@ -443,6 +679,7 @@ class AsyncReplyResource(AsyncAPIResource):
     ) -> Conversation:
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             f"/conversations/{id}/reply",
             body=await async_maybe_transform(

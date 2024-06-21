@@ -124,6 +124,7 @@ Methods:
 - <code title="put /companies/{id}">client.companies.<a href="./src/intercom/resources/companies/companies.py">update</a>(id) -> <a href="./src/intercom/types/shared/company.py">Company</a></code>
 - <code title="post /companies/list">client.companies.<a href="./src/intercom/resources/companies/companies.py">list</a>(\*\*<a href="src/intercom/types/company_list_params.py">params</a>) -> <a href="./src/intercom/types/company_list.py">CompanyList</a></code>
 - <code title="delete /companies/{id}">client.companies.<a href="./src/intercom/resources/companies/companies.py">delete</a>(id) -> <a href="./src/intercom/types/deleted_company_object.py">DeletedCompanyObject</a></code>
+- <code title="get /companies">client.companies.<a href="./src/intercom/resources/companies/companies.py">retrieve_list</a>(\*\*<a href="src/intercom/types/company_retrieve_list_params.py">params</a>) -> <a href="./src/intercom/types/company_list.py">CompanyList</a></code>
 - <code title="get /companies/scroll">client.companies.<a href="./src/intercom/resources/companies/companies.py">scroll</a>(\*\*<a href="src/intercom/types/company_scroll_params.py">params</a>) -> <a href="./src/intercom/types/company_scroll.py">Optional</a></code>
 
 ## Contacts

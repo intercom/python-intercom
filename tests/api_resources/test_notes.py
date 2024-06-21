@@ -25,6 +25,14 @@ class TestNotes:
         assert_matches_type(Note, note, path=["response"])
 
     @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        note = client.notes.retrieve(
+            0,
+            intercom_version="2.11",
+        )
+        assert_matches_type(Note, note, path=["response"])
+
+    @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.notes.with_raw_response.retrieve(
             0,
@@ -56,6 +64,14 @@ class TestAsyncNotes:
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         note = await async_client.notes.retrieve(
             0,
+        )
+        assert_matches_type(Note, note, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        note = await async_client.notes.retrieve(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(Note, note, path=["response"])
 

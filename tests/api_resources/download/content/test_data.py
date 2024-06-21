@@ -23,6 +23,14 @@ class TestData:
         assert data is None
 
     @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        data = client.download.content.data.retrieve(
+            "string",
+            intercom_version="2.11",
+        )
+        assert data is None
+
+    @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.download.content.data.with_raw_response.retrieve(
             "string",
@@ -61,6 +69,14 @@ class TestAsyncData:
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         data = await async_client.download.content.data.retrieve(
             "string",
+        )
+        assert data is None
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        data = await async_client.download.content.data.retrieve(
+            "string",
+            intercom_version="2.11",
         )
         assert data is None
 

@@ -25,6 +25,14 @@ class TestSegments:
         assert_matches_type(CompanyAttachedSegments, segment, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        segment = client.companies.segments.list(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(CompanyAttachedSegments, segment, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.companies.segments.with_raw_response.list(
             "string",
@@ -63,6 +71,14 @@ class TestAsyncSegments:
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         segment = await async_client.companies.segments.list(
             "string",
+        )
+        assert_matches_type(CompanyAttachedSegments, segment, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        segment = await async_client.companies.segments.list(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(CompanyAttachedSegments, segment, path=["response"])
 

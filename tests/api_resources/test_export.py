@@ -25,6 +25,14 @@ class TestExport:
         assert_matches_type(DataExport, export, path=["response"])
 
     @parametrize
+    def test_method_cancel_with_all_params(self, client: Intercom) -> None:
+        export = client.export.cancel(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(DataExport, export, path=["response"])
+
+    @parametrize
     def test_raw_response_cancel(self, client: Intercom) -> None:
         response = client.export.with_raw_response.cancel(
             "string",
@@ -63,6 +71,14 @@ class TestAsyncExport:
     async def test_method_cancel(self, async_client: AsyncIntercom) -> None:
         export = await async_client.export.cancel(
             "string",
+        )
+        assert_matches_type(DataExport, export, path=["response"])
+
+    @parametrize
+    async def test_method_cancel_with_all_params(self, async_client: AsyncIntercom) -> None:
+        export = await async_client.export.cancel(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(DataExport, export, path=["response"])
 

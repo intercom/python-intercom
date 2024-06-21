@@ -26,6 +26,15 @@ class TestTags:
         assert_matches_type(Tag, tag, path=["response"])
 
     @parametrize
+    def test_method_create_with_all_params(self, client: Intercom) -> None:
+        tag = client.contacts.tags.create(
+            "string",
+            id="string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.contacts.tags.with_raw_response.create(
             "string",
@@ -67,6 +76,14 @@ class TestTags:
         assert_matches_type(TagList, tag, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        tag = client.contacts.tags.list(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(TagList, tag, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.contacts.tags.with_raw_response.list(
             "string",
@@ -102,6 +119,15 @@ class TestTags:
         tag = client.contacts.tags.delete(
             "string",
             contact_id="63a07ddf05a32042dffac965",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
+    def test_method_delete_with_all_params(self, client: Intercom) -> None:
+        tag = client.contacts.tags.delete(
+            "string",
+            contact_id="63a07ddf05a32042dffac965",
+            intercom_version="2.11",
         )
         assert_matches_type(Tag, tag, path=["response"])
 
@@ -158,6 +184,15 @@ class TestAsyncTags:
         assert_matches_type(Tag, tag, path=["response"])
 
     @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncIntercom) -> None:
+        tag = await async_client.contacts.tags.create(
+            "string",
+            id="string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
     async def test_raw_response_create(self, async_client: AsyncIntercom) -> None:
         response = await async_client.contacts.tags.with_raw_response.create(
             "string",
@@ -199,6 +234,14 @@ class TestAsyncTags:
         assert_matches_type(TagList, tag, path=["response"])
 
     @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        tag = await async_client.contacts.tags.list(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(TagList, tag, path=["response"])
+
+    @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
         response = await async_client.contacts.tags.with_raw_response.list(
             "string",
@@ -234,6 +277,15 @@ class TestAsyncTags:
         tag = await async_client.contacts.tags.delete(
             "string",
             contact_id="63a07ddf05a32042dffac965",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
+    async def test_method_delete_with_all_params(self, async_client: AsyncIntercom) -> None:
+        tag = await async_client.contacts.tags.delete(
+            "string",
+            contact_id="63a07ddf05a32042dffac965",
+            intercom_version="2.11",
         )
         assert_matches_type(Tag, tag, path=["response"])
 

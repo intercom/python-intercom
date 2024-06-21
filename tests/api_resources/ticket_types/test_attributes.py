@@ -41,6 +41,7 @@ class TestAttributes:
             required_to_create_for_contacts=False,
             visible_on_create=True,
             visible_to_contacts=True,
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[TicketTypeAttribute], attribute, path=["response"])
 
@@ -107,6 +108,7 @@ class TestAttributes:
             required_to_create_for_contacts=False,
             visible_on_create=True,
             visible_to_contacts=True,
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[TicketTypeAttribute], attribute, path=["response"])
 
@@ -178,6 +180,7 @@ class TestAsyncAttributes:
             required_to_create_for_contacts=False,
             visible_on_create=True,
             visible_to_contacts=True,
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[TicketTypeAttribute], attribute, path=["response"])
 
@@ -244,6 +247,7 @@ class TestAsyncAttributes:
             required_to_create_for_contacts=False,
             visible_on_create=True,
             visible_to_contacts=True,
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[TicketTypeAttribute], attribute, path=["response"])
 

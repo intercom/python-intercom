@@ -33,6 +33,7 @@ class TestNotes:
             body="Hello",
             admin_id="string",
             contact_id="6657adde6abd0167d9419d00",
+            intercom_version="2.11",
         )
         assert_matches_type(Note, note, path=["response"])
 
@@ -66,6 +67,14 @@ class TestNotes:
     def test_method_list(self, client: Intercom) -> None:
         note = client.contacts.notes.list(
             0,
+        )
+        assert_matches_type(NoteList, note, path=["response"])
+
+    @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        note = client.contacts.notes.list(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(NoteList, note, path=["response"])
 
@@ -112,6 +121,7 @@ class TestAsyncNotes:
             body="Hello",
             admin_id="string",
             contact_id="6657adde6abd0167d9419d00",
+            intercom_version="2.11",
         )
         assert_matches_type(Note, note, path=["response"])
 
@@ -145,6 +155,14 @@ class TestAsyncNotes:
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         note = await async_client.contacts.notes.list(
             0,
+        )
+        assert_matches_type(NoteList, note, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        note = await async_client.contacts.notes.list(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(NoteList, note, path=["response"])
 

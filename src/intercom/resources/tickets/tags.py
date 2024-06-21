@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+from typing_extensions import Literal
+
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
+    strip_not_given,
     async_maybe_transform,
 )
 from ..._compat import cached_property
@@ -41,6 +44,27 @@ class TagsResource(SyncAPIResource):
         *,
         id: str,
         admin_id: str,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -58,6 +82,9 @@ class TagsResource(SyncAPIResource):
 
           admin_id: The unique identifier for the admin which is given by Intercom.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -68,6 +95,7 @@ class TagsResource(SyncAPIResource):
         """
         if not ticket_id:
             raise ValueError(f"Expected a non-empty value for `ticket_id` but received {ticket_id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._post(
             f"/tickets/{ticket_id}/tags",
             body=maybe_transform(
@@ -89,6 +117,27 @@ class TagsResource(SyncAPIResource):
         *,
         ticket_id: str,
         admin_id: str,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -104,6 +153,9 @@ class TagsResource(SyncAPIResource):
         Args:
           admin_id: The unique identifier for the admin which is given by Intercom.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -116,6 +168,7 @@ class TagsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `ticket_id` but received {ticket_id!r}")
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._delete(
             f"/tickets/{ticket_id}/tags/{id}",
             body=maybe_transform({"admin_id": admin_id}, tag_remove_params.TagRemoveParams),
@@ -141,6 +194,27 @@ class AsyncTagsResource(AsyncAPIResource):
         *,
         id: str,
         admin_id: str,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -158,6 +232,9 @@ class AsyncTagsResource(AsyncAPIResource):
 
           admin_id: The unique identifier for the admin which is given by Intercom.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -168,6 +245,7 @@ class AsyncTagsResource(AsyncAPIResource):
         """
         if not ticket_id:
             raise ValueError(f"Expected a non-empty value for `ticket_id` but received {ticket_id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._post(
             f"/tickets/{ticket_id}/tags",
             body=await async_maybe_transform(
@@ -189,6 +267,27 @@ class AsyncTagsResource(AsyncAPIResource):
         *,
         ticket_id: str,
         admin_id: str,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -204,6 +303,9 @@ class AsyncTagsResource(AsyncAPIResource):
         Args:
           admin_id: The unique identifier for the admin which is given by Intercom.
 
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -216,6 +318,7 @@ class AsyncTagsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `ticket_id` but received {ticket_id!r}")
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._delete(
             f"/tickets/{ticket_id}/tags/{id}",
             body=await async_maybe_transform({"admin_id": admin_id}, tag_remove_params.TagRemoveParams),

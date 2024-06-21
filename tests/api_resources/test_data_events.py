@@ -27,6 +27,14 @@ class TestDataEvents:
         assert data_event is None
 
     @parametrize
+    def test_method_create_with_all_params_overload_1(self, client: Intercom) -> None:
+        data_event = client.data_events.create(
+            body={},
+            intercom_version="2.11",
+        )
+        assert data_event is None
+
+    @parametrize
     def test_raw_response_create_overload_1(self, client: Intercom) -> None:
         response = client.data_events.with_raw_response.create(
             body={},
@@ -58,6 +66,14 @@ class TestDataEvents:
         assert data_event is None
 
     @parametrize
+    def test_method_create_with_all_params_overload_2(self, client: Intercom) -> None:
+        data_event = client.data_events.create(
+            body={},
+            intercom_version="2.11",
+        )
+        assert data_event is None
+
+    @parametrize
     def test_raw_response_create_overload_2(self, client: Intercom) -> None:
         response = client.data_events.with_raw_response.create(
             body={},
@@ -85,6 +101,14 @@ class TestDataEvents:
     def test_method_create_overload_3(self, client: Intercom) -> None:
         data_event = client.data_events.create(
             body={},
+        )
+        assert data_event is None
+
+    @parametrize
+    def test_method_create_with_all_params_overload_3(self, client: Intercom) -> None:
+        data_event = client.data_events.create(
+            body={},
+            intercom_version="2.11",
         )
         assert data_event is None
 
@@ -126,6 +150,7 @@ class TestDataEvents:
             filter={"user_id": "string"},
             type="string",
             summary=True,
+            intercom_version="2.11",
         )
         assert_matches_type(DataEventSummary, data_event, path=["response"])
 
@@ -170,6 +195,7 @@ class TestDataEvents:
                 "last": 1671028894,
             },
             user_id="314159",
+            intercom_version="2.11",
         )
         assert data_event is None
 
@@ -205,6 +231,14 @@ class TestAsyncDataEvents:
         assert data_event is None
 
     @parametrize
+    async def test_method_create_with_all_params_overload_1(self, async_client: AsyncIntercom) -> None:
+        data_event = await async_client.data_events.create(
+            body={},
+            intercom_version="2.11",
+        )
+        assert data_event is None
+
+    @parametrize
     async def test_raw_response_create_overload_1(self, async_client: AsyncIntercom) -> None:
         response = await async_client.data_events.with_raw_response.create(
             body={},
@@ -236,6 +270,14 @@ class TestAsyncDataEvents:
         assert data_event is None
 
     @parametrize
+    async def test_method_create_with_all_params_overload_2(self, async_client: AsyncIntercom) -> None:
+        data_event = await async_client.data_events.create(
+            body={},
+            intercom_version="2.11",
+        )
+        assert data_event is None
+
+    @parametrize
     async def test_raw_response_create_overload_2(self, async_client: AsyncIntercom) -> None:
         response = await async_client.data_events.with_raw_response.create(
             body={},
@@ -263,6 +305,14 @@ class TestAsyncDataEvents:
     async def test_method_create_overload_3(self, async_client: AsyncIntercom) -> None:
         data_event = await async_client.data_events.create(
             body={},
+        )
+        assert data_event is None
+
+    @parametrize
+    async def test_method_create_with_all_params_overload_3(self, async_client: AsyncIntercom) -> None:
+        data_event = await async_client.data_events.create(
+            body={},
+            intercom_version="2.11",
         )
         assert data_event is None
 
@@ -304,6 +354,7 @@ class TestAsyncDataEvents:
             filter={"user_id": "string"},
             type="string",
             summary=True,
+            intercom_version="2.11",
         )
         assert_matches_type(DataEventSummary, data_event, path=["response"])
 
@@ -348,6 +399,7 @@ class TestAsyncDataEvents:
                 "last": 1671028894,
             },
             user_id="314159",
+            intercom_version="2.11",
         )
         assert data_event is None
 

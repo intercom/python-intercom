@@ -36,6 +36,7 @@ class TestReply:
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, reply, path=["response"])
 
@@ -98,6 +99,7 @@ class TestReply:
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, reply, path=["response"])
 
@@ -160,6 +162,7 @@ class TestReply:
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, reply, path=["response"])
 
@@ -240,6 +243,7 @@ class TestReply:
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             body="Hello there!",
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, reply, path=["response"])
 
@@ -306,6 +310,7 @@ class TestAsyncReply:
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, reply, path=["response"])
 
@@ -368,6 +373,7 @@ class TestAsyncReply:
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, reply, path=["response"])
 
@@ -430,6 +436,7 @@ class TestAsyncReply:
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, reply, path=["response"])
 
@@ -510,6 +517,7 @@ class TestAsyncReply:
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             body="Hello there!",
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, reply, path=["response"])
 

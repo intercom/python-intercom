@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+from typing_extensions import Literal
+
 import httpx
 
 from ...._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
+from ...._utils import strip_not_given
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -33,6 +36,27 @@ class DataResource(SyncAPIResource):
         self,
         job_identifier: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -54,6 +78,9 @@ class DataResource(SyncAPIResource):
         > hitting this endpoint.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -65,6 +92,7 @@ class DataResource(SyncAPIResource):
         if not job_identifier:
             raise ValueError(f"Expected a non-empty value for `job_identifier` but received {job_identifier!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return self._get(
             f"/download/content/data/{job_identifier}",
             options=make_request_options(
@@ -87,6 +115,27 @@ class AsyncDataResource(AsyncAPIResource):
         self,
         job_identifier: str,
         *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -108,6 +157,9 @@ class AsyncDataResource(AsyncAPIResource):
         > hitting this endpoint.
 
         Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -119,6 +171,7 @@ class AsyncDataResource(AsyncAPIResource):
         if not job_identifier:
             raise ValueError(f"Expected a non-empty value for `job_identifier` but received {job_identifier!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"Intercom-Version": str(intercom_version)}), **(extra_headers or {})}
         return await self._get(
             f"/download/content/data/{job_identifier}",
             options=make_request_options(

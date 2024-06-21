@@ -42,6 +42,7 @@ class TestNewsItems:
             ],
             reactions=["😆", "😅"],
             state="live",
+            intercom_version="2.11",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
 
@@ -75,6 +76,14 @@ class TestNewsItems:
     def test_method_retrieve(self, client: Intercom) -> None:
         news_item = client.news.news_items.retrieve(
             0,
+        )
+        assert_matches_type(NewsItem, news_item, path=["response"])
+
+    @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        news_item = client.news.news_items.retrieve(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
 
@@ -136,6 +145,7 @@ class TestNewsItems:
             ],
             reactions=["😝", "😂"],
             state="live",
+            intercom_version="2.11",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
 
@@ -173,6 +183,13 @@ class TestNewsItems:
         assert_matches_type(PaginatedResponse, news_item, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        news_item = client.news.news_items.list(
+            intercom_version="2.11",
+        )
+        assert_matches_type(PaginatedResponse, news_item, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.news.news_items.with_raw_response.list()
 
@@ -196,6 +213,14 @@ class TestNewsItems:
     def test_method_delete(self, client: Intercom) -> None:
         news_item = client.news.news_items.delete(
             0,
+        )
+        assert_matches_type(NewsItemDeleteResponse, news_item, path=["response"])
+
+    @parametrize
+    def test_method_delete_with_all_params(self, client: Intercom) -> None:
+        news_item = client.news.news_items.delete(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(NewsItemDeleteResponse, news_item, path=["response"])
 
@@ -251,6 +276,7 @@ class TestAsyncNewsItems:
             ],
             reactions=["😆", "😅"],
             state="live",
+            intercom_version="2.11",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
 
@@ -284,6 +310,14 @@ class TestAsyncNewsItems:
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         news_item = await async_client.news.news_items.retrieve(
             0,
+        )
+        assert_matches_type(NewsItem, news_item, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        news_item = await async_client.news.news_items.retrieve(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
 
@@ -345,6 +379,7 @@ class TestAsyncNewsItems:
             ],
             reactions=["😝", "😂"],
             state="live",
+            intercom_version="2.11",
         )
         assert_matches_type(NewsItem, news_item, path=["response"])
 
@@ -382,6 +417,13 @@ class TestAsyncNewsItems:
         assert_matches_type(PaginatedResponse, news_item, path=["response"])
 
     @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        news_item = await async_client.news.news_items.list(
+            intercom_version="2.11",
+        )
+        assert_matches_type(PaginatedResponse, news_item, path=["response"])
+
+    @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
         response = await async_client.news.news_items.with_raw_response.list()
 
@@ -405,6 +447,14 @@ class TestAsyncNewsItems:
     async def test_method_delete(self, async_client: AsyncIntercom) -> None:
         news_item = await async_client.news.news_items.delete(
             0,
+        )
+        assert_matches_type(NewsItemDeleteResponse, news_item, path=["response"])
+
+    @parametrize
+    async def test_method_delete_with_all_params(self, async_client: AsyncIntercom) -> None:
+        news_item = await async_client.news.news_items.delete(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(NewsItemDeleteResponse, news_item, path=["response"])
 

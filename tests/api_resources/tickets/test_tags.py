@@ -27,6 +27,16 @@ class TestTags:
         assert_matches_type(Tag, tag, path=["response"])
 
     @parametrize
+    def test_method_create_with_all_params(self, client: Intercom) -> None:
+        tag = client.tickets.tags.create(
+            "string",
+            id="string",
+            admin_id="string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.tickets.tags.with_raw_response.create(
             "string",
@@ -69,6 +79,16 @@ class TestTags:
             "string",
             ticket_id="64619700005694",
             admin_id="string",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
+    def test_method_remove_with_all_params(self, client: Intercom) -> None:
+        tag = client.tickets.tags.remove(
+            "string",
+            ticket_id="64619700005694",
+            admin_id="string",
+            intercom_version="2.11",
         )
         assert_matches_type(Tag, tag, path=["response"])
 
@@ -130,6 +150,16 @@ class TestAsyncTags:
         assert_matches_type(Tag, tag, path=["response"])
 
     @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncIntercom) -> None:
+        tag = await async_client.tickets.tags.create(
+            "string",
+            id="string",
+            admin_id="string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
     async def test_raw_response_create(self, async_client: AsyncIntercom) -> None:
         response = await async_client.tickets.tags.with_raw_response.create(
             "string",
@@ -172,6 +202,16 @@ class TestAsyncTags:
             "string",
             ticket_id="64619700005694",
             admin_id="string",
+        )
+        assert_matches_type(Tag, tag, path=["response"])
+
+    @parametrize
+    async def test_method_remove_with_all_params(self, async_client: AsyncIntercom) -> None:
+        tag = await async_client.tickets.tags.remove(
+            "string",
+            ticket_id="64619700005694",
+            admin_id="string",
+            intercom_version="2.11",
         )
         assert_matches_type(Tag, tag, path=["response"])
 

@@ -26,6 +26,14 @@ class TestVisitors:
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
     @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        visitor = client.visitors.retrieve(
+            user_id="string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+    @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.visitors.with_raw_response.retrieve(
             user_id="string",
@@ -57,6 +65,14 @@ class TestVisitors:
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
     @parametrize
+    def test_method_update_with_all_params_overload_1(self, client: Intercom) -> None:
+        visitor = client.visitors.update(
+            body={},
+            intercom_version="2.11",
+        )
+        assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+    @parametrize
     def test_raw_response_update_overload_1(self, client: Intercom) -> None:
         response = client.visitors.with_raw_response.update(
             body={},
@@ -84,6 +100,14 @@ class TestVisitors:
     def test_method_update_overload_2(self, client: Intercom) -> None:
         visitor = client.visitors.update(
             body={},
+        )
+        assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+    @parametrize
+    def test_method_update_with_all_params_overload_2(self, client: Intercom) -> None:
+        visitor = client.visitors.update(
+            body={},
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
@@ -134,6 +158,7 @@ class TestVisitors:
                 "user_id": "3ecf64d0-9ed1-4e9f-88e1-da7d6e6782f3",
                 "email": "winstonsmith@truth.org",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Contact, visitor, path=["response"])
 
@@ -177,6 +202,14 @@ class TestAsyncVisitors:
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
     @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        visitor = await async_client.visitors.retrieve(
+            user_id="string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+    @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncIntercom) -> None:
         response = await async_client.visitors.with_raw_response.retrieve(
             user_id="string",
@@ -208,6 +241,14 @@ class TestAsyncVisitors:
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
     @parametrize
+    async def test_method_update_with_all_params_overload_1(self, async_client: AsyncIntercom) -> None:
+        visitor = await async_client.visitors.update(
+            body={},
+            intercom_version="2.11",
+        )
+        assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+    @parametrize
     async def test_raw_response_update_overload_1(self, async_client: AsyncIntercom) -> None:
         response = await async_client.visitors.with_raw_response.update(
             body={},
@@ -235,6 +276,14 @@ class TestAsyncVisitors:
     async def test_method_update_overload_2(self, async_client: AsyncIntercom) -> None:
         visitor = await async_client.visitors.update(
             body={},
+        )
+        assert_matches_type(Optional[Visitor], visitor, path=["response"])
+
+    @parametrize
+    async def test_method_update_with_all_params_overload_2(self, async_client: AsyncIntercom) -> None:
+        visitor = await async_client.visitors.update(
+            body={},
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
@@ -285,6 +334,7 @@ class TestAsyncVisitors:
                 "user_id": "3ecf64d0-9ed1-4e9f-88e1-da7d6e6782f3",
                 "email": "winstonsmith@truth.org",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Contact, visitor, path=["response"])
 

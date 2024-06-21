@@ -40,6 +40,7 @@ class TestTickets:
                 "_default_title_": "example",
                 "_default_description_": "there is a problem",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
@@ -88,6 +89,7 @@ class TestTickets:
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(TicketReply, ticket, path=["response"])
 
@@ -150,6 +152,7 @@ class TestTickets:
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(TicketReply, ticket, path=["response"])
 
@@ -212,6 +215,7 @@ class TestTickets:
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(TicketReply, ticket, path=["response"])
 
@@ -289,6 +293,7 @@ class TestTickets:
                     "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 },
             ],
+            intercom_version="2.11",
         )
         assert_matches_type(TicketReply, ticket, path=["response"])
 
@@ -336,6 +341,14 @@ class TestTickets:
     def test_method_retrieve_by_id(self, client: Intercom) -> None:
         ticket = client.tickets.retrieve_by_id(
             "string",
+        )
+        assert_matches_type(Optional[Ticket], ticket, path=["response"])
+
+    @parametrize
+    def test_method_retrieve_by_id_with_all_params(self, client: Intercom) -> None:
+        ticket = client.tickets.retrieve_by_id(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
@@ -389,6 +402,7 @@ class TestTickets:
                 "per_page": 5,
                 "starting_after": "your-cursor-from-response",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(TicketList, ticket, path=["response"])
 
@@ -439,6 +453,7 @@ class TestTickets:
                 "_default_title_": "example",
                 "_default_description_": "there is a problem",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
@@ -496,6 +511,7 @@ class TestAsyncTickets:
                 "_default_title_": "example",
                 "_default_description_": "there is a problem",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
@@ -544,6 +560,7 @@ class TestAsyncTickets:
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(TicketReply, ticket, path=["response"])
 
@@ -606,6 +623,7 @@ class TestAsyncTickets:
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(TicketReply, ticket, path=["response"])
 
@@ -668,6 +686,7 @@ class TestAsyncTickets:
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
             created_at=1590000000,
+            intercom_version="2.11",
         )
         assert_matches_type(TicketReply, ticket, path=["response"])
 
@@ -745,6 +764,7 @@ class TestAsyncTickets:
                     "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 },
             ],
+            intercom_version="2.11",
         )
         assert_matches_type(TicketReply, ticket, path=["response"])
 
@@ -792,6 +812,14 @@ class TestAsyncTickets:
     async def test_method_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.retrieve_by_id(
             "string",
+        )
+        assert_matches_type(Optional[Ticket], ticket, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_by_id_with_all_params(self, async_client: AsyncIntercom) -> None:
+        ticket = await async_client.tickets.retrieve_by_id(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
@@ -845,6 +873,7 @@ class TestAsyncTickets:
                 "per_page": 5,
                 "starting_after": "your-cursor-from-response",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(TicketList, ticket, path=["response"])
 
@@ -895,6 +924,7 @@ class TestAsyncTickets:
                 "_default_title_": "example",
                 "_default_description_": "there is a problem",
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 

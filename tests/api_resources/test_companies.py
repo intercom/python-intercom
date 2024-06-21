@@ -43,6 +43,7 @@ class TestCompanies:
             remote_created_at=1374138000,
             size=0,
             website="https://www.example.com",
+            intercom_version="2.11",
         )
         assert_matches_type(Company, company, path=["response"])
 
@@ -70,6 +71,14 @@ class TestCompanies:
     def test_method_retrieve(self, client: Intercom) -> None:
         company = client.companies.retrieve(
             "string",
+        )
+        assert_matches_type(Company, company, path=["response"])
+
+    @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        company = client.companies.retrieve(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(Company, company, path=["response"])
 
@@ -108,6 +117,14 @@ class TestCompanies:
     def test_method_update(self, client: Intercom) -> None:
         company = client.companies.update(
             "string",
+        )
+        assert_matches_type(Company, company, path=["response"])
+
+    @parametrize
+    def test_method_update_with_all_params(self, client: Intercom) -> None:
+        company = client.companies.update(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(Company, company, path=["response"])
 
@@ -153,6 +170,7 @@ class TestCompanies:
             order="string",
             page=0,
             per_page=0,
+            intercom_version="2.11",
         )
         assert_matches_type(CompanyList, company, path=["response"])
 
@@ -180,6 +198,14 @@ class TestCompanies:
     def test_method_delete(self, client: Intercom) -> None:
         company = client.companies.delete(
             "string",
+        )
+        assert_matches_type(DeletedCompanyObject, company, path=["response"])
+
+    @parametrize
+    def test_method_delete_with_all_params(self, client: Intercom) -> None:
+        company = client.companies.delete(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(DeletedCompanyObject, company, path=["response"])
 
@@ -215,6 +241,44 @@ class TestCompanies:
             )
 
     @parametrize
+    def test_method_retrieve_list(self, client: Intercom) -> None:
+        company = client.companies.retrieve_list()
+        assert_matches_type(CompanyList, company, path=["response"])
+
+    @parametrize
+    def test_method_retrieve_list_with_all_params(self, client: Intercom) -> None:
+        company = client.companies.retrieve_list(
+            company_id="string",
+            name="string",
+            page=0,
+            per_page=0,
+            segment_id="string",
+            tag_id="string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(CompanyList, company, path=["response"])
+
+    @parametrize
+    def test_raw_response_retrieve_list(self, client: Intercom) -> None:
+        response = client.companies.with_raw_response.retrieve_list()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        company = response.parse()
+        assert_matches_type(CompanyList, company, path=["response"])
+
+    @parametrize
+    def test_streaming_response_retrieve_list(self, client: Intercom) -> None:
+        with client.companies.with_streaming_response.retrieve_list() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            company = response.parse()
+            assert_matches_type(CompanyList, company, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
     def test_method_scroll(self, client: Intercom) -> None:
         company = client.companies.scroll()
         assert_matches_type(Optional[CompanyScroll], company, path=["response"])
@@ -223,6 +287,7 @@ class TestCompanies:
     def test_method_scroll_with_all_params(self, client: Intercom) -> None:
         company = client.companies.scroll(
             scroll_param="string",
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[CompanyScroll], company, path=["response"])
 
@@ -271,6 +336,7 @@ class TestAsyncCompanies:
             remote_created_at=1374138000,
             size=0,
             website="https://www.example.com",
+            intercom_version="2.11",
         )
         assert_matches_type(Company, company, path=["response"])
 
@@ -298,6 +364,14 @@ class TestAsyncCompanies:
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         company = await async_client.companies.retrieve(
             "string",
+        )
+        assert_matches_type(Company, company, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        company = await async_client.companies.retrieve(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(Company, company, path=["response"])
 
@@ -336,6 +410,14 @@ class TestAsyncCompanies:
     async def test_method_update(self, async_client: AsyncIntercom) -> None:
         company = await async_client.companies.update(
             "string",
+        )
+        assert_matches_type(Company, company, path=["response"])
+
+    @parametrize
+    async def test_method_update_with_all_params(self, async_client: AsyncIntercom) -> None:
+        company = await async_client.companies.update(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(Company, company, path=["response"])
 
@@ -381,6 +463,7 @@ class TestAsyncCompanies:
             order="string",
             page=0,
             per_page=0,
+            intercom_version="2.11",
         )
         assert_matches_type(CompanyList, company, path=["response"])
 
@@ -408,6 +491,14 @@ class TestAsyncCompanies:
     async def test_method_delete(self, async_client: AsyncIntercom) -> None:
         company = await async_client.companies.delete(
             "string",
+        )
+        assert_matches_type(DeletedCompanyObject, company, path=["response"])
+
+    @parametrize
+    async def test_method_delete_with_all_params(self, async_client: AsyncIntercom) -> None:
+        company = await async_client.companies.delete(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(DeletedCompanyObject, company, path=["response"])
 
@@ -443,6 +534,44 @@ class TestAsyncCompanies:
             )
 
     @parametrize
+    async def test_method_retrieve_list(self, async_client: AsyncIntercom) -> None:
+        company = await async_client.companies.retrieve_list()
+        assert_matches_type(CompanyList, company, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        company = await async_client.companies.retrieve_list(
+            company_id="string",
+            name="string",
+            page=0,
+            per_page=0,
+            segment_id="string",
+            tag_id="string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(CompanyList, company, path=["response"])
+
+    @parametrize
+    async def test_raw_response_retrieve_list(self, async_client: AsyncIntercom) -> None:
+        response = await async_client.companies.with_raw_response.retrieve_list()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        company = await response.parse()
+        assert_matches_type(CompanyList, company, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_retrieve_list(self, async_client: AsyncIntercom) -> None:
+        async with async_client.companies.with_streaming_response.retrieve_list() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            company = await response.parse()
+            assert_matches_type(CompanyList, company, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
     async def test_method_scroll(self, async_client: AsyncIntercom) -> None:
         company = await async_client.companies.scroll()
         assert_matches_type(Optional[CompanyScroll], company, path=["response"])
@@ -451,6 +580,7 @@ class TestAsyncCompanies:
     async def test_method_scroll_with_all_params(self, async_client: AsyncIntercom) -> None:
         company = await async_client.companies.scroll(
             scroll_param="string",
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[CompanyScroll], company, path=["response"])
 

@@ -223,6 +223,7 @@ class TestCollections:
                     "description": " Collection description",
                 },
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Collection, collection, path=["response"])
 
@@ -254,6 +255,14 @@ class TestCollections:
     def test_method_retrieve(self, client: Intercom) -> None:
         collection = client.help_center.collections.retrieve(
             0,
+        )
+        assert_matches_type(Collection, collection, path=["response"])
+
+    @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        collection = client.help_center.collections.retrieve(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(Collection, collection, path=["response"])
 
@@ -483,6 +492,7 @@ class TestCollections:
                     "description": " Collection description",
                 },
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Collection, collection, path=["response"])
 
@@ -516,6 +526,13 @@ class TestCollections:
         assert_matches_type(CollectionList, collection, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        collection = client.help_center.collections.list(
+            intercom_version="2.11",
+        )
+        assert_matches_type(CollectionList, collection, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.help_center.collections.with_raw_response.list()
 
@@ -539,6 +556,14 @@ class TestCollections:
     def test_method_delete(self, client: Intercom) -> None:
         collection = client.help_center.collections.delete(
             0,
+        )
+        assert_matches_type(DeletedCollectionObject, collection, path=["response"])
+
+    @parametrize
+    def test_method_delete_with_all_params(self, client: Intercom) -> None:
+        collection = client.help_center.collections.delete(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(DeletedCollectionObject, collection, path=["response"])
 
@@ -772,6 +797,7 @@ class TestAsyncCollections:
                     "description": " Collection description",
                 },
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Collection, collection, path=["response"])
 
@@ -803,6 +829,14 @@ class TestAsyncCollections:
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         collection = await async_client.help_center.collections.retrieve(
             0,
+        )
+        assert_matches_type(Collection, collection, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        collection = await async_client.help_center.collections.retrieve(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(Collection, collection, path=["response"])
 
@@ -1032,6 +1066,7 @@ class TestAsyncCollections:
                     "description": " Collection description",
                 },
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Collection, collection, path=["response"])
 
@@ -1065,6 +1100,13 @@ class TestAsyncCollections:
         assert_matches_type(CollectionList, collection, path=["response"])
 
     @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        collection = await async_client.help_center.collections.list(
+            intercom_version="2.11",
+        )
+        assert_matches_type(CollectionList, collection, path=["response"])
+
+    @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
         response = await async_client.help_center.collections.with_raw_response.list()
 
@@ -1088,6 +1130,14 @@ class TestAsyncCollections:
     async def test_method_delete(self, async_client: AsyncIntercom) -> None:
         collection = await async_client.help_center.collections.delete(
             0,
+        )
+        assert_matches_type(DeletedCollectionObject, collection, path=["response"])
+
+    @parametrize
+    async def test_method_delete_with_all_params(self, async_client: AsyncIntercom) -> None:
+        collection = await async_client.help_center.collections.delete(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(DeletedCollectionObject, collection, path=["response"])
 

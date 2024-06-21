@@ -26,6 +26,14 @@ class TestNewsfeeds:
         assert_matches_type(Newsfeed, newsfeed, path=["response"])
 
     @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        newsfeed = client.news.newsfeeds.retrieve(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Newsfeed, newsfeed, path=["response"])
+
+    @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.news.newsfeeds.with_raw_response.retrieve(
             "string",
@@ -62,6 +70,13 @@ class TestNewsfeeds:
         assert_matches_type(PaginatedResponse, newsfeed, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        newsfeed = client.news.newsfeeds.list(
+            intercom_version="2.11",
+        )
+        assert_matches_type(PaginatedResponse, newsfeed, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.news.newsfeeds.with_raw_response.list()
 
@@ -89,6 +104,14 @@ class TestAsyncNewsfeeds:
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         newsfeed = await async_client.news.newsfeeds.retrieve(
             "string",
+        )
+        assert_matches_type(Newsfeed, newsfeed, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        newsfeed = await async_client.news.newsfeeds.retrieve(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(Newsfeed, newsfeed, path=["response"])
 
@@ -126,6 +149,13 @@ class TestAsyncNewsfeeds:
     @parametrize
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         newsfeed = await async_client.news.newsfeeds.list()
+        assert_matches_type(PaginatedResponse, newsfeed, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        newsfeed = await async_client.news.newsfeeds.list(
+            intercom_version="2.11",
+        )
         assert_matches_type(PaginatedResponse, newsfeed, path=["response"])
 
     @parametrize

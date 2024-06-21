@@ -450,6 +450,7 @@ class TestArticles:
                     "url": "http://intercom.test/help/en/articles/3-default-language",
                 },
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Article, article, path=["response"])
 
@@ -483,6 +484,14 @@ class TestArticles:
     def test_method_retrieve(self, client: Intercom) -> None:
         article = client.articles.retrieve(
             0,
+        )
+        assert_matches_type(Article, article, path=["response"])
+
+    @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        article = client.articles.retrieve(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(Article, article, path=["response"])
 
@@ -938,6 +947,7 @@ class TestArticles:
                     "url": "http://intercom.test/help/en/articles/3-default-language",
                 },
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Article, article, path=["response"])
 
@@ -971,6 +981,13 @@ class TestArticles:
         assert_matches_type(ArticleList, article, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        article = client.articles.list(
+            intercom_version="2.11",
+        )
+        assert_matches_type(ArticleList, article, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.articles.with_raw_response.list()
 
@@ -994,6 +1011,14 @@ class TestArticles:
     def test_method_remove(self, client: Intercom) -> None:
         article = client.articles.remove(
             0,
+        )
+        assert_matches_type(DeletedArticleObject, article, path=["response"])
+
+    @parametrize
+    def test_method_remove_with_all_params(self, client: Intercom) -> None:
+        article = client.articles.remove(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(DeletedArticleObject, article, path=["response"])
 
@@ -1033,6 +1058,7 @@ class TestArticles:
             highlight=True,
             phrase="string",
             state="string",
+            intercom_version="2.11",
         )
         assert_matches_type(ArticleSearchResponse, article, path=["response"])
 
@@ -1488,6 +1514,7 @@ class TestAsyncArticles:
                     "url": "http://intercom.test/help/en/articles/3-default-language",
                 },
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Article, article, path=["response"])
 
@@ -1521,6 +1548,14 @@ class TestAsyncArticles:
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         article = await async_client.articles.retrieve(
             0,
+        )
+        assert_matches_type(Article, article, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        article = await async_client.articles.retrieve(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(Article, article, path=["response"])
 
@@ -1976,6 +2011,7 @@ class TestAsyncArticles:
                     "url": "http://intercom.test/help/en/articles/3-default-language",
                 },
             },
+            intercom_version="2.11",
         )
         assert_matches_type(Article, article, path=["response"])
 
@@ -2009,6 +2045,13 @@ class TestAsyncArticles:
         assert_matches_type(ArticleList, article, path=["response"])
 
     @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        article = await async_client.articles.list(
+            intercom_version="2.11",
+        )
+        assert_matches_type(ArticleList, article, path=["response"])
+
+    @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
         response = await async_client.articles.with_raw_response.list()
 
@@ -2032,6 +2075,14 @@ class TestAsyncArticles:
     async def test_method_remove(self, async_client: AsyncIntercom) -> None:
         article = await async_client.articles.remove(
             0,
+        )
+        assert_matches_type(DeletedArticleObject, article, path=["response"])
+
+    @parametrize
+    async def test_method_remove_with_all_params(self, async_client: AsyncIntercom) -> None:
+        article = await async_client.articles.remove(
+            0,
+            intercom_version="2.11",
         )
         assert_matches_type(DeletedArticleObject, article, path=["response"])
 
@@ -2071,6 +2122,7 @@ class TestAsyncArticles:
             highlight=True,
             phrase="string",
             state="string",
+            intercom_version="2.11",
         )
         assert_matches_type(ArticleSearchResponse, article, path=["response"])
 

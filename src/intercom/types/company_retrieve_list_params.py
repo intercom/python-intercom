@@ -2,16 +2,31 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing_extensions import Literal, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["VisitorRetrieveParams"]
+__all__ = ["CompanyRetrieveListParams"]
 
 
-class VisitorRetrieveParams(TypedDict, total=False):
-    user_id: Required[str]
-    """The user_id of the Visitor you want to retrieve."""
+class CompanyRetrieveListParams(TypedDict, total=False):
+    company_id: str
+    """The `company_id` of the company to filter by."""
+
+    name: str
+    """The `name` of the company to filter by."""
+
+    page: int
+    """The page of results to fetch. Defaults to first page"""
+
+    per_page: int
+    """How many results to display per page. Defaults to 15"""
+
+    segment_id: str
+    """The `segment_id` of the company to filter by."""
+
+    tag_id: str
+    """The `tag_id` of the company to filter by."""
 
     intercom_version: Annotated[
         Literal[

@@ -25,6 +25,14 @@ class TestRunAssignmentRules:
         assert_matches_type(Conversation, run_assignment_rule, path=["response"])
 
     @parametrize
+    def test_method_create_with_all_params(self, client: Intercom) -> None:
+        run_assignment_rule = client.conversations.run_assignment_rules.create(
+            "string",
+            intercom_version="2.11",
+        )
+        assert_matches_type(Conversation, run_assignment_rule, path=["response"])
+
+    @parametrize
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.conversations.run_assignment_rules.with_raw_response.create(
             "string",
@@ -63,6 +71,14 @@ class TestAsyncRunAssignmentRules:
     async def test_method_create(self, async_client: AsyncIntercom) -> None:
         run_assignment_rule = await async_client.conversations.run_assignment_rules.create(
             "string",
+        )
+        assert_matches_type(Conversation, run_assignment_rule, path=["response"])
+
+    @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncIntercom) -> None:
+        run_assignment_rule = await async_client.conversations.run_assignment_rules.create(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, run_assignment_rule, path=["response"])
 

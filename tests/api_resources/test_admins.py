@@ -26,6 +26,14 @@ class TestAdmins:
         assert_matches_type(Optional[Admin], admin, path=["response"])
 
     @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        admin = client.admins.retrieve(
+            0,
+            intercom_version="2.11",
+        )
+        assert_matches_type(Optional[Admin], admin, path=["response"])
+
+    @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.admins.with_raw_response.retrieve(
             0,
@@ -55,6 +63,13 @@ class TestAdmins:
         assert_matches_type(AdminList, admin, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        admin = client.admins.list(
+            intercom_version="2.11",
+        )
+        assert_matches_type(AdminList, admin, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.admins.with_raw_response.list()
 
@@ -80,6 +95,16 @@ class TestAdmins:
             0,
             away_mode_enabled=True,
             away_mode_reassign=True,
+        )
+        assert_matches_type(Optional[Admin], admin, path=["response"])
+
+    @parametrize
+    def test_method_away_with_all_params(self, client: Intercom) -> None:
+        admin = client.admins.away(
+            0,
+            away_mode_enabled=True,
+            away_mode_reassign=True,
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[Admin], admin, path=["response"])
 
@@ -123,6 +148,14 @@ class TestAsyncAdmins:
         assert_matches_type(Optional[Admin], admin, path=["response"])
 
     @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        admin = await async_client.admins.retrieve(
+            0,
+            intercom_version="2.11",
+        )
+        assert_matches_type(Optional[Admin], admin, path=["response"])
+
+    @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncIntercom) -> None:
         response = await async_client.admins.with_raw_response.retrieve(
             0,
@@ -152,6 +185,13 @@ class TestAsyncAdmins:
         assert_matches_type(AdminList, admin, path=["response"])
 
     @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        admin = await async_client.admins.list(
+            intercom_version="2.11",
+        )
+        assert_matches_type(AdminList, admin, path=["response"])
+
+    @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
         response = await async_client.admins.with_raw_response.list()
 
@@ -177,6 +217,16 @@ class TestAsyncAdmins:
             0,
             away_mode_enabled=True,
             away_mode_reassign=True,
+        )
+        assert_matches_type(Optional[Admin], admin, path=["response"])
+
+    @parametrize
+    async def test_method_away_with_all_params(self, async_client: AsyncIntercom) -> None:
+        admin = await async_client.admins.away(
+            0,
+            away_mode_enabled=True,
+            away_mode_reassign=True,
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[Admin], admin, path=["response"])
 

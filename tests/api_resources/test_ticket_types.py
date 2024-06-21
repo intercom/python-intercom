@@ -32,6 +32,7 @@ class TestTicketTypes:
             description="Customer Report Template",
             icon="🎟️",
             is_internal=False,
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[TicketType], ticket_type, path=["response"])
 
@@ -63,6 +64,14 @@ class TestTicketTypes:
     def test_method_retrieve(self, client: Intercom) -> None:
         ticket_type = client.ticket_types.retrieve(
             "string",
+        )
+        assert_matches_type(Optional[TicketType], ticket_type, path=["response"])
+
+    @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        ticket_type = client.ticket_types.retrieve(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[TicketType], ticket_type, path=["response"])
 
@@ -114,6 +123,7 @@ class TestTicketTypes:
             icon="🐞",
             is_internal=False,
             name="Bug Report 2",
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[TicketType], ticket_type, path=["response"])
 
@@ -151,6 +161,13 @@ class TestTicketTypes:
     @parametrize
     def test_method_list(self, client: Intercom) -> None:
         ticket_type = client.ticket_types.list()
+        assert_matches_type(TicketTypeList, ticket_type, path=["response"])
+
+    @parametrize
+    def test_method_list_with_all_params(self, client: Intercom) -> None:
+        ticket_type = client.ticket_types.list(
+            intercom_version="2.11",
+        )
         assert_matches_type(TicketTypeList, ticket_type, path=["response"])
 
     @parametrize
@@ -192,6 +209,7 @@ class TestAsyncTicketTypes:
             description="Customer Report Template",
             icon="🎟️",
             is_internal=False,
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[TicketType], ticket_type, path=["response"])
 
@@ -223,6 +241,14 @@ class TestAsyncTicketTypes:
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         ticket_type = await async_client.ticket_types.retrieve(
             "string",
+        )
+        assert_matches_type(Optional[TicketType], ticket_type, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        ticket_type = await async_client.ticket_types.retrieve(
+            "string",
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[TicketType], ticket_type, path=["response"])
 
@@ -274,6 +300,7 @@ class TestAsyncTicketTypes:
             icon="🐞",
             is_internal=False,
             name="Bug Report 2",
+            intercom_version="2.11",
         )
         assert_matches_type(Optional[TicketType], ticket_type, path=["response"])
 
@@ -311,6 +338,13 @@ class TestAsyncTicketTypes:
     @parametrize
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         ticket_type = await async_client.ticket_types.list()
+        assert_matches_type(TicketTypeList, ticket_type, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
+        ticket_type = await async_client.ticket_types.list(
+            intercom_version="2.11",
+        )
         assert_matches_type(TicketTypeList, ticket_type, path=["response"])
 
     @parametrize

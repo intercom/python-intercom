@@ -35,6 +35,7 @@ class TestParts:
             message_type="close",
             type="admin",
             body=" This conversation is now closed!",
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, part, path=["response"])
 
@@ -89,6 +90,17 @@ class TestParts:
         assert_matches_type(Conversation, part, path=["response"])
 
     @parametrize
+    def test_method_create_with_all_params_overload_2(self, client: Intercom) -> None:
+        part = client.conversations.parts.create(
+            "string",
+            admin_id="5017691",
+            message_type="snoozed",
+            snoozed_until=1673609604,
+            intercom_version="2.11",
+        )
+        assert_matches_type(Conversation, part, path=["response"])
+
+    @parametrize
     def test_raw_response_create_overload_2(self, client: Intercom) -> None:
         response = client.conversations.parts.with_raw_response.create(
             "string",
@@ -134,6 +146,16 @@ class TestParts:
             "string",
             admin_id="5017690",
             message_type="open",
+        )
+        assert_matches_type(Conversation, part, path=["response"])
+
+    @parametrize
+    def test_method_create_with_all_params_overload_3(self, client: Intercom) -> None:
+        part = client.conversations.parts.create(
+            "string",
+            admin_id="5017690",
+            message_type="open",
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, part, path=["response"])
 
@@ -194,6 +216,7 @@ class TestParts:
             message_type="assignment",
             type="admin",
             body="Let me pass you over to one of my colleagues.",
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, part, path=["response"])
 
@@ -262,6 +285,7 @@ class TestAsyncParts:
             message_type="close",
             type="admin",
             body=" This conversation is now closed!",
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, part, path=["response"])
 
@@ -316,6 +340,17 @@ class TestAsyncParts:
         assert_matches_type(Conversation, part, path=["response"])
 
     @parametrize
+    async def test_method_create_with_all_params_overload_2(self, async_client: AsyncIntercom) -> None:
+        part = await async_client.conversations.parts.create(
+            "string",
+            admin_id="5017691",
+            message_type="snoozed",
+            snoozed_until=1673609604,
+            intercom_version="2.11",
+        )
+        assert_matches_type(Conversation, part, path=["response"])
+
+    @parametrize
     async def test_raw_response_create_overload_2(self, async_client: AsyncIntercom) -> None:
         response = await async_client.conversations.parts.with_raw_response.create(
             "string",
@@ -361,6 +396,16 @@ class TestAsyncParts:
             "string",
             admin_id="5017690",
             message_type="open",
+        )
+        assert_matches_type(Conversation, part, path=["response"])
+
+    @parametrize
+    async def test_method_create_with_all_params_overload_3(self, async_client: AsyncIntercom) -> None:
+        part = await async_client.conversations.parts.create(
+            "string",
+            admin_id="5017690",
+            message_type="open",
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, part, path=["response"])
 
@@ -421,6 +466,7 @@ class TestAsyncParts:
             message_type="assignment",
             type="admin",
             body="Let me pass you over to one of my colleagues.",
+            intercom_version="2.11",
         )
         assert_matches_type(Conversation, part, path=["response"])
 

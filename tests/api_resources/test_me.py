@@ -23,6 +23,13 @@ class TestMe:
         assert_matches_type(Optional[AdminWithApp], me, path=["response"])
 
     @parametrize
+    def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
+        me = client.me.retrieve(
+            intercom_version="2.11",
+        )
+        assert_matches_type(Optional[AdminWithApp], me, path=["response"])
+
+    @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.me.with_raw_response.retrieve()
 
@@ -49,6 +56,13 @@ class TestAsyncMe:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         me = await async_client.me.retrieve()
+        assert_matches_type(Optional[AdminWithApp], me, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
+        me = await async_client.me.retrieve(
+            intercom_version="2.11",
+        )
         assert_matches_type(Optional[AdminWithApp], me, path=["response"])
 
     @parametrize
