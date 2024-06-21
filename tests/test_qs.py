@@ -4,7 +4,7 @@ from urllib.parse import unquote
 
 import pytest
 
-from intercom._qs import Querystring, stringify
+from python_intercom._qs import Querystring, stringify
 
 
 def test_empty() -> None:

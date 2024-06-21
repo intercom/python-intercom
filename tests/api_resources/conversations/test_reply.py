@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from intercom import Intercom, AsyncIntercom
 from tests.utils import assert_matches_type
-from intercom.types.shared import Conversation
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types.shared import Conversation
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

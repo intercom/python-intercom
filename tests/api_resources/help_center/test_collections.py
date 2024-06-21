@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from intercom import Intercom, AsyncIntercom
 from tests.utils import assert_matches_type
-from intercom.types.help_center import (
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types.help_center import (
     Collection,
     CollectionList,
     DeletedCollection,

@@ -7,14 +7,14 @@ from typing import TYPE_CHECKING, Iterator, AsyncIterator
 
 import pytest
 
-from intercom import Intercom, AsyncIntercom
+from python_intercom import Intercom, AsyncIntercom
 
 if TYPE_CHECKING:
     from _pytest.fixtures import FixtureRequest
 
 pytest.register_assert_rewrite("tests.utils")
 
-logging.getLogger("intercom").setLevel(logging.DEBUG)
+logging.getLogger("python_intercom").setLevel(logging.DEBUG)
 
 
 @pytest.fixture(scope="session")

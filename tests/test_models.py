@@ -7,9 +7,9 @@ import pytest
 import pydantic
 from pydantic import Field
 
-from intercom._utils import PropertyInfo
-from intercom._compat import PYDANTIC_V2, parse_obj, model_dump, model_json
-from intercom._models import BaseModel, construct_type
+from python_intercom._utils import PropertyInfo
+from python_intercom._compat import PYDANTIC_V2, parse_obj, model_dump, model_json
+from python_intercom._models import BaseModel, construct_type
 
 
 class BasicModel(BaseModel):

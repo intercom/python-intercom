@@ -15,7 +15,7 @@ jobs:
       github.event.pull_request.state == 'open' &&
       github.event.sender.login != 'stainless-bot' &&
       github.event.sender.login != 'stainless-app' &&
-      github.repository == 'intercom/intercom-python'
+      github.repository == 'intercom/python-intercom'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

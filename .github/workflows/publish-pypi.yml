@@ -1,5 +1,5 @@
 # workflow for re-running publishing to PyPI in case it fails for some reason
-# you can run this workflow by navigating to https://www.github.com/intercom/intercom-python/actions/workflows/publish-pypi.yml
+# you can run this workflow by navigating to https://www.github.com/intercom/python-intercom/actions/workflows/publish-pypi.yml
 name: Publish PyPI
 on:
   workflow_dispatch:

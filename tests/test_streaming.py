@@ -5,8 +5,8 @@ from typing import Iterator, AsyncIterator
 import httpx
 import pytest
 
-from intercom import Intercom, AsyncIntercom
-from intercom._streaming import Stream, AsyncStream, ServerSentEvent
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom._streaming import Stream, AsyncStream, ServerSentEvent
 
 
 @pytest.mark.asyncio

@@ -7,12 +7,14 @@ from typing import Any, Optional, cast
 
 import pytest
 
-from intercom import Intercom, AsyncIntercom
 from tests.utils import assert_matches_type
-from intercom.types import (
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types import (
     ConversationList,
+    ConversationListResponse,
 )
-from intercom.types.shared import Ticket, Message, Conversation, PaginatedResponse
+from python_intercom.pagination import SyncCursorPagination, AsyncCursorPagination
+from python_intercom.types.shared import Ticket, Message, Conversation
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -163,7 +165,7 @@ class TestConversations:
     @parametrize
     def test_method_list(self, client: Intercom) -> None:
         conversation = client.conversations.list()
-        assert_matches_type(PaginatedResponse, conversation, path=["response"])
+        assert_matches_type(SyncCursorPagination[ConversationListResponse], conversation, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Intercom) -> None:
@@ -172,7 +174,7 @@ class TestConversations:
             starting_after="string",
             intercom_version="2.11",
         )
-        assert_matches_type(PaginatedResponse, conversation, path=["response"])
+        assert_matches_type(SyncCursorPagination[ConversationListResponse], conversation, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
@@ -181,7 +183,7 @@ class TestConversations:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         conversation = response.parse()
-        assert_matches_type(PaginatedResponse, conversation, path=["response"])
+        assert_matches_type(SyncCursorPagination[ConversationListResponse], conversation, path=["response"])
 
     @parametrize
     def test_streaming_response_list(self, client: Intercom) -> None:
@@ -190,7 +192,7 @@ class TestConversations:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             conversation = response.parse()
-            assert_matches_type(PaginatedResponse, conversation, path=["response"])
+            assert_matches_type(SyncCursorPagination[ConversationListResponse], conversation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -529,7 +531,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         conversation = await async_client.conversations.list()
-        assert_matches_type(PaginatedResponse, conversation, path=["response"])
+        assert_matches_type(AsyncCursorPagination[ConversationListResponse], conversation, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
@@ -538,7 +540,7 @@ class TestAsyncConversations:
             starting_after="string",
             intercom_version="2.11",
         )
-        assert_matches_type(PaginatedResponse, conversation, path=["response"])
+        assert_matches_type(AsyncCursorPagination[ConversationListResponse], conversation, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
@@ -547,7 +549,7 @@ class TestAsyncConversations:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         conversation = await response.parse()
-        assert_matches_type(PaginatedResponse, conversation, path=["response"])
+        assert_matches_type(AsyncCursorPagination[ConversationListResponse], conversation, path=["response"])
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncIntercom) -> None:
@@ -556,7 +558,7 @@ class TestAsyncConversations:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             conversation = await response.parse()
-            assert_matches_type(PaginatedResponse, conversation, path=["response"])
+            assert_matches_type(AsyncCursorPagination[ConversationListResponse], conversation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
