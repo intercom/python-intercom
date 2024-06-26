@@ -26,6 +26,7 @@ from ..._base_client import (
 )
 from ...types.contacts import company_create_params
 from ...types.shared.company import Company
+from ...types.contacts.contact_attached_companies import ContactAttachedCompanies
 
 __all__ = ["CompaniesResource", "AsyncCompaniesResource"]
 
@@ -102,6 +103,67 @@ class CompaniesResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=Company,
+        )
+
+    def list(
+        self,
+        contact_id: str,
+        *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ContactAttachedCompanies:
+        """
+        You can fetch a list of companies that are associated to a contact.
+
+        Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not contact_id:
+            raise ValueError(f"Expected a non-empty value for `contact_id` but received {contact_id!r}")
+        extra_headers = {
+            **strip_not_given({"Intercom-Version": str(intercom_version) if is_given(intercom_version) else NOT_GIVEN}),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            f"/contacts/{contact_id}/companies",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ContactAttachedCompanies,
         )
 
     def delete(
@@ -243,6 +305,67 @@ class AsyncCompaniesResource(AsyncAPIResource):
             cast_to=Company,
         )
 
+    async def list(
+        self,
+        contact_id: str,
+        *,
+        intercom_version: Literal[
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3",
+            "1.4",
+            "2.0",
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4",
+            "2.5",
+            "2.6",
+            "2.7",
+            "2.8",
+            "2.9",
+            "2.10",
+            "2.11",
+            "Unstable",
+        ]
+        | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ContactAttachedCompanies:
+        """
+        You can fetch a list of companies that are associated to a contact.
+
+        Args:
+          intercom_version: Intercom API version.By default, it's equal to the version set in the app
+              package.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not contact_id:
+            raise ValueError(f"Expected a non-empty value for `contact_id` but received {contact_id!r}")
+        extra_headers = {
+            **strip_not_given({"Intercom-Version": str(intercom_version) if is_given(intercom_version) else NOT_GIVEN}),
+            **(extra_headers or {}),
+        }
+        return await self._get(
+            f"/contacts/{contact_id}/companies",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ContactAttachedCompanies,
+        )
+
     async def delete(
         self,
         id: str,
@@ -315,6 +438,9 @@ class CompaniesResourceWithRawResponse:
         self.create = to_raw_response_wrapper(
             companies.create,
         )
+        self.list = to_raw_response_wrapper(
+            companies.list,
+        )
         self.delete = to_raw_response_wrapper(
             companies.delete,
         )
@@ -326,6 +452,9 @@ class AsyncCompaniesResourceWithRawResponse:
 
         self.create = async_to_raw_response_wrapper(
             companies.create,
+        )
+        self.list = async_to_raw_response_wrapper(
+            companies.list,
         )
         self.delete = async_to_raw_response_wrapper(
             companies.delete,
@@ -339,6 +468,9 @@ class CompaniesResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             companies.create,
         )
+        self.list = to_streamed_response_wrapper(
+            companies.list,
+        )
         self.delete = to_streamed_response_wrapper(
             companies.delete,
         )
@@ -350,6 +482,9 @@ class AsyncCompaniesResourceWithStreamingResponse:
 
         self.create = async_to_streamed_response_wrapper(
             companies.create,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            companies.list,
         )
         self.delete = async_to_streamed_response_wrapper(
             companies.delete,
