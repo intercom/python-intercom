@@ -84,7 +84,7 @@ typecheck = { chain = [
   "typecheck:mypy"
 ]}
 "typecheck:pyright" = "pyright"
-"typecheck:verify-types" = "pyright --verifytypes python_intercom --ignoreexternal"
+"typecheck:verify-types" = "pyright --verifytypes python_minus_intercom --ignoreexternal"
 "typecheck:mypy" = "mypy ."
 
 [build-system]
@@ -97,7 +97,7 @@ include = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/python_intercom"]
+packages = ["src/python_minus_intercom"]
 
 [tool.hatch.metadata.hooks.fancy-pypi-readme]
 content-type = "text/markdown"
@@ -187,7 +187,7 @@ length-sort = true
 length-sort-straight = true
 combine-as-imports = true
 extra-standard-library = ["typing_extensions"]
-known-first-party = ["python_intercom", "tests"]
+known-first-party = ["python_minus_intercom", "tests"]
 
 [tool.ruff.per-file-ignores]
 "bin/**.py" = ["T201", "T203"]

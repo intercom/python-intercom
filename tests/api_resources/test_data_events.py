@@ -8,8 +8,8 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_intercom import Intercom, AsyncIntercom
-from python_intercom.types import (
+from python_minus_intercom import Intercom, AsyncIntercom
+from python_minus_intercom.types import (
     DataEventSummary,
 )
 

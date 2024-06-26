@@ -81,7 +81,7 @@ HttpxRequestFiles = Union[Mapping[str, HttpxFileTypes], Sequence[Tuple[str, Http
 # This unfortunately means that you will either have
 # to import this type and pass it explicitly:
 #
-# from python_intercom import NoneType
+# from python_minus_intercom import NoneType
 # client.get('/foo', cast_to=NoneType)
 #
 # or build it yourself:
