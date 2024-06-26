@@ -28,7 +28,7 @@ The full API of this library can be found in [api.md](api.md).
 
 ```python
 import os
-from python_intercom import Intercom
+from python_minus_intercom import Intercom
 
 client = Intercom(
     # This is the default and can be omitted
@@ -53,7 +53,7 @@ Simply import `AsyncIntercom` instead of `Intercom` and use `await` with each AP
 ```python
 import os
 import asyncio
-from python_intercom import AsyncIntercom
+from python_minus_intercom import AsyncIntercom
 
 client = AsyncIntercom(
     # This is the default and can be omitted
@@ -84,27 +84,27 @@ Typed requests and responses provide autocomplete and documentation within your 
 
 ## Handling errors
 
-When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `python_intercom.APIConnectionError` is raised.
+When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `python_minus_intercom.APIConnectionError` is raised.
 
 When the API returns a non-success status code (that is, 4xx or 5xx
-response), a subclass of `python_intercom.APIStatusError` is raised, containing `status_code` and `response` properties.
+response), a subclass of `python_minus_intercom.APIStatusError` is raised, containing `status_code` and `response` properties.
 
-All errors inherit from `python_intercom.APIError`.
+All errors inherit from `python_minus_intercom.APIError`.
 
 ```python
-import python_intercom
-from python_intercom import Intercom
+import python_minus_intercom
+from python_minus_intercom import Intercom
 
 client = Intercom()
 
 try:
     client.me.retrieve()
-except python_intercom.APIConnectionError as e:
+except python_minus_intercom.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
-except python_intercom.RateLimitError as e:
+except python_minus_intercom.RateLimitError as e:
     print("A 429 status code was received; we should back off a bit.")
-except python_intercom.APIStatusError as e:
+except python_minus_intercom.APIStatusError as e:
     print("Another non-200-range status code was received")
     print(e.status_code)
     print(e.response)
@@ -132,7 +132,7 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from python_intercom import Intercom
+from python_minus_intercom import Intercom
 
 # Configure the default for all requests:
 client = Intercom(
@@ -150,7 +150,7 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/#fine-tuning-the-configuration) object:
 
 ```python
-from python_intercom import Intercom
+from python_minus_intercom import Intercom
 
 # Configure the default for all requests:
 client = Intercom(
@@ -200,7 +200,7 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from python_intercom import Intercom
+from python_minus_intercom import Intercom
 
 client = Intercom()
 response = client.me.with_raw_response.retrieve()
@@ -210,9 +210,9 @@ me = response.parse()  # get the object that `me.retrieve()` would have returned
 print(me.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/intercom/python-intercom/tree/v3/src/python_intercom/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/intercom/python-intercom/tree/v3/src/python_minus_intercom/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/intercom/python-intercom/tree/v3/src/python_intercom/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/intercom/python-intercom/tree/v3/src/python_minus_intercom/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -271,10 +271,10 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 - Support for proxies
 - Custom transports
-- Additional [advanced](https://www.python-httpx.org/advanced/#client-instances) functionality
+- Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality
 
 ```python
-from python_intercom import Intercom, DefaultHttpxClient
+from python_minus_intercom import Intercom, DefaultHttpxClient
 
 client = Intercom(
     # Or use the `INTERCOM_BASE_URL` env var

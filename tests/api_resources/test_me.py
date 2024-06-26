@@ -8,8 +8,8 @@ from typing import Any, Optional, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_intercom import Intercom, AsyncIntercom
-from python_intercom.types import AdminWithApp
+from python_minus_intercom import Intercom, AsyncIntercom
+from python_minus_intercom.types import AdminWithApp
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

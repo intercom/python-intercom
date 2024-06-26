@@ -8,14 +8,14 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_intercom import Intercom, AsyncIntercom
-from python_intercom.types import (
+from python_minus_intercom import Intercom, AsyncIntercom
+from python_minus_intercom.types import (
     ContactList,
     ContactDeleted,
     ContactArchived,
     ContactUnarchived,
 )
-from python_intercom.types.shared import Contact
+from python_minus_intercom.types.shared import Contact
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

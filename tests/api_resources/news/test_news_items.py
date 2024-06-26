@@ -8,12 +8,12 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_intercom import Intercom, AsyncIntercom
-from python_intercom.types.news import (
+from python_minus_intercom import Intercom, AsyncIntercom
+from python_minus_intercom.types.news import (
     NewsItem,
     NewsItemDeleteResponse,
 )
-from python_intercom.types.shared import PaginatedResponse
+from python_minus_intercom.types.shared import PaginatedResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
