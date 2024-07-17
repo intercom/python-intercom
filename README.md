@@ -15,12 +15,9 @@ The REST API documentation can be found on [developers.intercom.com](https://dev
 ## Installation
 
 ```sh
-# install from the production repo
-pip install git+ssh://git@github.com/intercom/python-intercom#v3.git
+# install from PyPI
+pip install python-intercom
 ```
-
-> [!NOTE]
-> Once this package is [published to PyPI](https://app.stainlessapi.com/docs/guides/publish), this will become: `pip install python-intercom`
 
 ## Usage
 
