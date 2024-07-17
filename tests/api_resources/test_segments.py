@@ -8,8 +8,8 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types import Segment, SegmentList
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types import Segment, SegmentList
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -20,14 +20,14 @@ class TestSegments:
     @parametrize
     def test_method_retrieve(self, client: Intercom) -> None:
         segment = client.segments.retrieve(
-            "string",
+            id="123",
         )
         assert_matches_type(Segment, segment, path=["response"])
 
     @parametrize
     def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
         segment = client.segments.retrieve(
-            "string",
+            id="123",
             intercom_version="2.11",
         )
         assert_matches_type(Segment, segment, path=["response"])
@@ -35,7 +35,7 @@ class TestSegments:
     @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.segments.with_raw_response.retrieve(
-            "string",
+            id="123",
         )
 
         assert response.is_closed is True
@@ -46,7 +46,7 @@ class TestSegments:
     @parametrize
     def test_streaming_response_retrieve(self, client: Intercom) -> None:
         with client.segments.with_streaming_response.retrieve(
-            "string",
+            id="123",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -60,7 +60,7 @@ class TestSegments:
     def test_path_params_retrieve(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.segments.with_raw_response.retrieve(
-                "",
+                id="",
             )
 
     @parametrize
@@ -103,14 +103,14 @@ class TestAsyncSegments:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         segment = await async_client.segments.retrieve(
-            "string",
+            id="123",
         )
         assert_matches_type(Segment, segment, path=["response"])
 
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
         segment = await async_client.segments.retrieve(
-            "string",
+            id="123",
             intercom_version="2.11",
         )
         assert_matches_type(Segment, segment, path=["response"])
@@ -118,7 +118,7 @@ class TestAsyncSegments:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncIntercom) -> None:
         response = await async_client.segments.with_raw_response.retrieve(
-            "string",
+            id="123",
         )
 
         assert response.is_closed is True
@@ -129,7 +129,7 @@ class TestAsyncSegments:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncIntercom) -> None:
         async with async_client.segments.with_streaming_response.retrieve(
-            "string",
+            id="123",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -143,7 +143,7 @@ class TestAsyncSegments:
     async def test_path_params_retrieve(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.segments.with_raw_response.retrieve(
-                "",
+                id="",
             )
 
     @parametrize
