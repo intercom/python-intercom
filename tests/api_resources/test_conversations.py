@@ -8,13 +8,13 @@ from typing import Any, Optional, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types import (
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types import (
     ConversationList,
     ConversationListResponse,
 )
-from python_minus_intercom.pagination import SyncCursorPagination, AsyncCursorPagination
-from python_minus_intercom.types.shared import Ticket, Message, Conversation
+from python_intercom.pagination import SyncCursorPagination, AsyncCursorPagination
+from python_intercom.types.shared import Ticket, Message, Conversation
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -80,15 +80,15 @@ class TestConversations:
     @parametrize
     def test_method_retrieve(self, client: Intercom) -> None:
         conversation = client.conversations.retrieve(
-            0,
+            id=123,
         )
         assert_matches_type(Conversation, conversation, path=["response"])
 
     @parametrize
     def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
         conversation = client.conversations.retrieve(
-            0,
-            display_as="string",
+            id=123,
+            display_as="display_as",
             intercom_version="2.11",
         )
         assert_matches_type(Conversation, conversation, path=["response"])
@@ -96,7 +96,7 @@ class TestConversations:
     @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.conversations.with_raw_response.retrieve(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -107,7 +107,7 @@ class TestConversations:
     @parametrize
     def test_streaming_response_retrieve(self, client: Intercom) -> None:
         with client.conversations.with_streaming_response.retrieve(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -120,15 +120,15 @@ class TestConversations:
     @parametrize
     def test_method_update(self, client: Intercom) -> None:
         conversation = client.conversations.update(
-            0,
+            id=123,
         )
         assert_matches_type(Conversation, conversation, path=["response"])
 
     @parametrize
     def test_method_update_with_all_params(self, client: Intercom) -> None:
         conversation = client.conversations.update(
-            0,
-            display_as="string",
+            id=123,
+            display_as="display_as",
             custom_attributes={
                 "issue_type": "Billing",
                 "priority": "High",
@@ -141,7 +141,7 @@ class TestConversations:
     @parametrize
     def test_raw_response_update(self, client: Intercom) -> None:
         response = client.conversations.with_raw_response.update(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -152,7 +152,7 @@ class TestConversations:
     @parametrize
     def test_streaming_response_update(self, client: Intercom) -> None:
         with client.conversations.with_streaming_response.update(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -171,7 +171,7 @@ class TestConversations:
     def test_method_list_with_all_params(self, client: Intercom) -> None:
         conversation = client.conversations.list(
             per_page=0,
-            starting_after="string",
+            starting_after="starting_after",
             intercom_version="2.11",
         )
         assert_matches_type(SyncCursorPagination[ConversationListResponse], conversation, path=["response"])
@@ -199,7 +199,7 @@ class TestConversations:
     @parametrize
     def test_method_convert(self, client: Intercom) -> None:
         conversation = client.conversations.convert(
-            0,
+            id=123,
             ticket_type_id="120",
         )
         assert_matches_type(Optional[Ticket], conversation, path=["response"])
@@ -207,7 +207,7 @@ class TestConversations:
     @parametrize
     def test_method_convert_with_all_params(self, client: Intercom) -> None:
         conversation = client.conversations.convert(
-            0,
+            id=123,
             ticket_type_id="120",
             attributes={
                 "_default_title_": "Found a bug",
@@ -220,7 +220,7 @@ class TestConversations:
     @parametrize
     def test_raw_response_convert(self, client: Intercom) -> None:
         response = client.conversations.with_raw_response.convert(
-            0,
+            id=123,
             ticket_type_id="120",
         )
 
@@ -232,7 +232,7 @@ class TestConversations:
     @parametrize
     def test_streaming_response_convert(self, client: Intercom) -> None:
         with client.conversations.with_streaming_response.convert(
-            0,
+            id=123,
             ticket_type_id="120",
         ) as response:
             assert not response.is_closed
@@ -350,7 +350,7 @@ class TestConversations:
             query={
                 "field": "created_at",
                 "operator": "=",
-                "value": "string",
+                "value": "value",
             },
             pagination={
                 "per_page": 5,
@@ -446,15 +446,15 @@ class TestAsyncConversations:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         conversation = await async_client.conversations.retrieve(
-            0,
+            id=123,
         )
         assert_matches_type(Conversation, conversation, path=["response"])
 
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
         conversation = await async_client.conversations.retrieve(
-            0,
-            display_as="string",
+            id=123,
+            display_as="display_as",
             intercom_version="2.11",
         )
         assert_matches_type(Conversation, conversation, path=["response"])
@@ -462,7 +462,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncIntercom) -> None:
         response = await async_client.conversations.with_raw_response.retrieve(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -473,7 +473,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncIntercom) -> None:
         async with async_client.conversations.with_streaming_response.retrieve(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -486,15 +486,15 @@ class TestAsyncConversations:
     @parametrize
     async def test_method_update(self, async_client: AsyncIntercom) -> None:
         conversation = await async_client.conversations.update(
-            0,
+            id=123,
         )
         assert_matches_type(Conversation, conversation, path=["response"])
 
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncIntercom) -> None:
         conversation = await async_client.conversations.update(
-            0,
-            display_as="string",
+            id=123,
+            display_as="display_as",
             custom_attributes={
                 "issue_type": "Billing",
                 "priority": "High",
@@ -507,7 +507,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncIntercom) -> None:
         response = await async_client.conversations.with_raw_response.update(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -518,7 +518,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncIntercom) -> None:
         async with async_client.conversations.with_streaming_response.update(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -537,7 +537,7 @@ class TestAsyncConversations:
     async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
         conversation = await async_client.conversations.list(
             per_page=0,
-            starting_after="string",
+            starting_after="starting_after",
             intercom_version="2.11",
         )
         assert_matches_type(AsyncCursorPagination[ConversationListResponse], conversation, path=["response"])
@@ -565,7 +565,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_method_convert(self, async_client: AsyncIntercom) -> None:
         conversation = await async_client.conversations.convert(
-            0,
+            id=123,
             ticket_type_id="120",
         )
         assert_matches_type(Optional[Ticket], conversation, path=["response"])
@@ -573,7 +573,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_method_convert_with_all_params(self, async_client: AsyncIntercom) -> None:
         conversation = await async_client.conversations.convert(
-            0,
+            id=123,
             ticket_type_id="120",
             attributes={
                 "_default_title_": "Found a bug",
@@ -586,7 +586,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_raw_response_convert(self, async_client: AsyncIntercom) -> None:
         response = await async_client.conversations.with_raw_response.convert(
-            0,
+            id=123,
             ticket_type_id="120",
         )
 
@@ -598,7 +598,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_streaming_response_convert(self, async_client: AsyncIntercom) -> None:
         async with async_client.conversations.with_streaming_response.convert(
-            0,
+            id=123,
             ticket_type_id="120",
         ) as response:
             assert not response.is_closed
@@ -716,7 +716,7 @@ class TestAsyncConversations:
             query={
                 "field": "created_at",
                 "operator": "=",
-                "value": "string",
+                "value": "value",
             },
             pagination={
                 "per_page": 5,

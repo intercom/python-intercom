@@ -8,8 +8,8 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types.companies import CompanyAttachedContacts
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types.companies import CompanyAttachedContacts
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -20,14 +20,14 @@ class TestContacts:
     @parametrize
     def test_method_list(self, client: Intercom) -> None:
         contact = client.companies.contacts.list(
-            "string",
+            id="5f4d3c1c-7b1b-4d7d-a97e-6095715c6632",
         )
         assert_matches_type(CompanyAttachedContacts, contact, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Intercom) -> None:
         contact = client.companies.contacts.list(
-            "string",
+            id="5f4d3c1c-7b1b-4d7d-a97e-6095715c6632",
             intercom_version="2.11",
         )
         assert_matches_type(CompanyAttachedContacts, contact, path=["response"])
@@ -35,7 +35,7 @@ class TestContacts:
     @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.companies.contacts.with_raw_response.list(
-            "string",
+            id="5f4d3c1c-7b1b-4d7d-a97e-6095715c6632",
         )
 
         assert response.is_closed is True
@@ -46,7 +46,7 @@ class TestContacts:
     @parametrize
     def test_streaming_response_list(self, client: Intercom) -> None:
         with client.companies.contacts.with_streaming_response.list(
-            "string",
+            id="5f4d3c1c-7b1b-4d7d-a97e-6095715c6632",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -60,7 +60,7 @@ class TestContacts:
     def test_path_params_list(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.companies.contacts.with_raw_response.list(
-                "",
+                id="",
             )
 
 
@@ -70,14 +70,14 @@ class TestAsyncContacts:
     @parametrize
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         contact = await async_client.companies.contacts.list(
-            "string",
+            id="5f4d3c1c-7b1b-4d7d-a97e-6095715c6632",
         )
         assert_matches_type(CompanyAttachedContacts, contact, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
         contact = await async_client.companies.contacts.list(
-            "string",
+            id="5f4d3c1c-7b1b-4d7d-a97e-6095715c6632",
             intercom_version="2.11",
         )
         assert_matches_type(CompanyAttachedContacts, contact, path=["response"])
@@ -85,7 +85,7 @@ class TestAsyncContacts:
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
         response = await async_client.companies.contacts.with_raw_response.list(
-            "string",
+            id="5f4d3c1c-7b1b-4d7d-a97e-6095715c6632",
         )
 
         assert response.is_closed is True
@@ -96,7 +96,7 @@ class TestAsyncContacts:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncIntercom) -> None:
         async with async_client.companies.contacts.with_streaming_response.list(
-            "string",
+            id="5f4d3c1c-7b1b-4d7d-a97e-6095715c6632",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -110,5 +110,5 @@ class TestAsyncContacts:
     async def test_path_params_list(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.companies.contacts.with_raw_response.list(
-                "",
+                id="",
             )

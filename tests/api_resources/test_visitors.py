@@ -8,9 +8,9 @@ from typing import Any, Optional, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types import Visitor
-from python_minus_intercom.types.shared import Contact
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types import Visitor
+from python_intercom.types.shared import Contact
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -21,14 +21,14 @@ class TestVisitors:
     @parametrize
     def test_method_retrieve(self, client: Intercom) -> None:
         visitor = client.visitors.retrieve(
-            user_id="string",
+            user_id="user_id",
         )
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
     @parametrize
     def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
         visitor = client.visitors.retrieve(
-            user_id="string",
+            user_id="user_id",
             intercom_version="2.11",
         )
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
@@ -36,7 +36,7 @@ class TestVisitors:
     @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.visitors.with_raw_response.retrieve(
-            user_id="string",
+            user_id="user_id",
         )
 
         assert response.is_closed is True
@@ -47,7 +47,7 @@ class TestVisitors:
     @parametrize
     def test_streaming_response_retrieve(self, client: Intercom) -> None:
         with client.visitors.with_streaming_response.retrieve(
-            user_id="string",
+            user_id="user_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -197,14 +197,14 @@ class TestAsyncVisitors:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         visitor = await async_client.visitors.retrieve(
-            user_id="string",
+            user_id="user_id",
         )
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
 
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
         visitor = await async_client.visitors.retrieve(
-            user_id="string",
+            user_id="user_id",
             intercom_version="2.11",
         )
         assert_matches_type(Optional[Visitor], visitor, path=["response"])
@@ -212,7 +212,7 @@ class TestAsyncVisitors:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncIntercom) -> None:
         response = await async_client.visitors.with_raw_response.retrieve(
-            user_id="string",
+            user_id="user_id",
         )
 
         assert response.is_closed is True
@@ -223,7 +223,7 @@ class TestAsyncVisitors:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncIntercom) -> None:
         async with async_client.visitors.with_streaming_response.retrieve(
-            user_id="string",
+            user_id="user_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

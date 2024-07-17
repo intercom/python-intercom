@@ -8,8 +8,8 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types import (
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types import (
     DataAttribute,
     DataAttributeList,
 )
@@ -73,14 +73,14 @@ class TestDataAttributes:
     @parametrize
     def test_method_update(self, client: Intercom) -> None:
         data_attribute = client.data_attributes.update(
-            0,
+            id=1,
         )
         assert_matches_type(DataAttribute, data_attribute, path=["response"])
 
     @parametrize
     def test_method_update_with_all_params(self, client: Intercom) -> None:
         data_attribute = client.data_attributes.update(
-            0,
+            id=1,
             archived=False,
             description="Just a plain old ring",
             messenger_writable=False,
@@ -92,7 +92,7 @@ class TestDataAttributes:
     @parametrize
     def test_raw_response_update(self, client: Intercom) -> None:
         response = client.data_attributes.with_raw_response.update(
-            0,
+            id=1,
         )
 
         assert response.is_closed is True
@@ -103,7 +103,7 @@ class TestDataAttributes:
     @parametrize
     def test_streaming_response_update(self, client: Intercom) -> None:
         with client.data_attributes.with_streaming_response.update(
-            0,
+            id=1,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -204,14 +204,14 @@ class TestAsyncDataAttributes:
     @parametrize
     async def test_method_update(self, async_client: AsyncIntercom) -> None:
         data_attribute = await async_client.data_attributes.update(
-            0,
+            id=1,
         )
         assert_matches_type(DataAttribute, data_attribute, path=["response"])
 
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncIntercom) -> None:
         data_attribute = await async_client.data_attributes.update(
-            0,
+            id=1,
             archived=False,
             description="Just a plain old ring",
             messenger_writable=False,
@@ -223,7 +223,7 @@ class TestAsyncDataAttributes:
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncIntercom) -> None:
         response = await async_client.data_attributes.with_raw_response.update(
-            0,
+            id=1,
         )
 
         assert response.is_closed is True
@@ -234,7 +234,7 @@ class TestAsyncDataAttributes:
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncIntercom) -> None:
         async with async_client.data_attributes.with_streaming_response.update(
-            0,
+            id=1,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

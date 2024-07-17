@@ -8,8 +8,8 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types.shared import Conversation
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types.shared import Conversation
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -20,7 +20,7 @@ class TestParts:
     @parametrize
     def test_method_create_overload_1(self, client: Intercom) -> None:
         part = client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="12345",
             message_type="close",
             type="admin",
@@ -30,7 +30,7 @@ class TestParts:
     @parametrize
     def test_method_create_with_all_params_overload_1(self, client: Intercom) -> None:
         part = client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="12345",
             message_type="close",
             type="admin",
@@ -42,7 +42,7 @@ class TestParts:
     @parametrize
     def test_raw_response_create_overload_1(self, client: Intercom) -> None:
         response = client.conversations.parts.with_raw_response.create(
-            "string",
+            id="123",
             admin_id="12345",
             message_type="close",
             type="admin",
@@ -56,7 +56,7 @@ class TestParts:
     @parametrize
     def test_streaming_response_create_overload_1(self, client: Intercom) -> None:
         with client.conversations.parts.with_streaming_response.create(
-            "string",
+            id="123",
             admin_id="12345",
             message_type="close",
             type="admin",
@@ -73,7 +73,7 @@ class TestParts:
     def test_path_params_create_overload_1(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.conversations.parts.with_raw_response.create(
-                "",
+                id="",
                 admin_id="12345",
                 message_type="close",
                 type="admin",
@@ -82,7 +82,7 @@ class TestParts:
     @parametrize
     def test_method_create_overload_2(self, client: Intercom) -> None:
         part = client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="5017691",
             message_type="snoozed",
             snoozed_until=1673609604,
@@ -92,7 +92,7 @@ class TestParts:
     @parametrize
     def test_method_create_with_all_params_overload_2(self, client: Intercom) -> None:
         part = client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="5017691",
             message_type="snoozed",
             snoozed_until=1673609604,
@@ -103,7 +103,7 @@ class TestParts:
     @parametrize
     def test_raw_response_create_overload_2(self, client: Intercom) -> None:
         response = client.conversations.parts.with_raw_response.create(
-            "string",
+            id="123",
             admin_id="5017691",
             message_type="snoozed",
             snoozed_until=1673609604,
@@ -117,7 +117,7 @@ class TestParts:
     @parametrize
     def test_streaming_response_create_overload_2(self, client: Intercom) -> None:
         with client.conversations.parts.with_streaming_response.create(
-            "string",
+            id="123",
             admin_id="5017691",
             message_type="snoozed",
             snoozed_until=1673609604,
@@ -134,7 +134,7 @@ class TestParts:
     def test_path_params_create_overload_2(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.conversations.parts.with_raw_response.create(
-                "",
+                id="",
                 admin_id="5017691",
                 message_type="snoozed",
                 snoozed_until=1673609604,
@@ -143,7 +143,7 @@ class TestParts:
     @parametrize
     def test_method_create_overload_3(self, client: Intercom) -> None:
         part = client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="5017690",
             message_type="open",
         )
@@ -152,7 +152,7 @@ class TestParts:
     @parametrize
     def test_method_create_with_all_params_overload_3(self, client: Intercom) -> None:
         part = client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="5017690",
             message_type="open",
             intercom_version="2.11",
@@ -162,7 +162,7 @@ class TestParts:
     @parametrize
     def test_raw_response_create_overload_3(self, client: Intercom) -> None:
         response = client.conversations.parts.with_raw_response.create(
-            "string",
+            id="123",
             admin_id="5017690",
             message_type="open",
         )
@@ -175,7 +175,7 @@ class TestParts:
     @parametrize
     def test_streaming_response_create_overload_3(self, client: Intercom) -> None:
         with client.conversations.parts.with_streaming_response.create(
-            "string",
+            id="123",
             admin_id="5017690",
             message_type="open",
         ) as response:
@@ -191,7 +191,7 @@ class TestParts:
     def test_path_params_create_overload_3(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.conversations.parts.with_raw_response.create(
-                "",
+                id="",
                 admin_id="5017690",
                 message_type="open",
             )
@@ -199,7 +199,7 @@ class TestParts:
     @parametrize
     def test_method_create_overload_4(self, client: Intercom) -> None:
         part = client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="12345",
             assignee_id="4324241",
             message_type="assignment",
@@ -210,7 +210,7 @@ class TestParts:
     @parametrize
     def test_method_create_with_all_params_overload_4(self, client: Intercom) -> None:
         part = client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="12345",
             assignee_id="4324241",
             message_type="assignment",
@@ -223,7 +223,7 @@ class TestParts:
     @parametrize
     def test_raw_response_create_overload_4(self, client: Intercom) -> None:
         response = client.conversations.parts.with_raw_response.create(
-            "string",
+            id="123",
             admin_id="12345",
             assignee_id="4324241",
             message_type="assignment",
@@ -238,7 +238,7 @@ class TestParts:
     @parametrize
     def test_streaming_response_create_overload_4(self, client: Intercom) -> None:
         with client.conversations.parts.with_streaming_response.create(
-            "string",
+            id="123",
             admin_id="12345",
             assignee_id="4324241",
             message_type="assignment",
@@ -256,7 +256,7 @@ class TestParts:
     def test_path_params_create_overload_4(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.conversations.parts.with_raw_response.create(
-                "",
+                id="",
                 admin_id="12345",
                 assignee_id="4324241",
                 message_type="assignment",
@@ -270,7 +270,7 @@ class TestAsyncParts:
     @parametrize
     async def test_method_create_overload_1(self, async_client: AsyncIntercom) -> None:
         part = await async_client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="12345",
             message_type="close",
             type="admin",
@@ -280,7 +280,7 @@ class TestAsyncParts:
     @parametrize
     async def test_method_create_with_all_params_overload_1(self, async_client: AsyncIntercom) -> None:
         part = await async_client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="12345",
             message_type="close",
             type="admin",
@@ -292,7 +292,7 @@ class TestAsyncParts:
     @parametrize
     async def test_raw_response_create_overload_1(self, async_client: AsyncIntercom) -> None:
         response = await async_client.conversations.parts.with_raw_response.create(
-            "string",
+            id="123",
             admin_id="12345",
             message_type="close",
             type="admin",
@@ -306,7 +306,7 @@ class TestAsyncParts:
     @parametrize
     async def test_streaming_response_create_overload_1(self, async_client: AsyncIntercom) -> None:
         async with async_client.conversations.parts.with_streaming_response.create(
-            "string",
+            id="123",
             admin_id="12345",
             message_type="close",
             type="admin",
@@ -323,7 +323,7 @@ class TestAsyncParts:
     async def test_path_params_create_overload_1(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.conversations.parts.with_raw_response.create(
-                "",
+                id="",
                 admin_id="12345",
                 message_type="close",
                 type="admin",
@@ -332,7 +332,7 @@ class TestAsyncParts:
     @parametrize
     async def test_method_create_overload_2(self, async_client: AsyncIntercom) -> None:
         part = await async_client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="5017691",
             message_type="snoozed",
             snoozed_until=1673609604,
@@ -342,7 +342,7 @@ class TestAsyncParts:
     @parametrize
     async def test_method_create_with_all_params_overload_2(self, async_client: AsyncIntercom) -> None:
         part = await async_client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="5017691",
             message_type="snoozed",
             snoozed_until=1673609604,
@@ -353,7 +353,7 @@ class TestAsyncParts:
     @parametrize
     async def test_raw_response_create_overload_2(self, async_client: AsyncIntercom) -> None:
         response = await async_client.conversations.parts.with_raw_response.create(
-            "string",
+            id="123",
             admin_id="5017691",
             message_type="snoozed",
             snoozed_until=1673609604,
@@ -367,7 +367,7 @@ class TestAsyncParts:
     @parametrize
     async def test_streaming_response_create_overload_2(self, async_client: AsyncIntercom) -> None:
         async with async_client.conversations.parts.with_streaming_response.create(
-            "string",
+            id="123",
             admin_id="5017691",
             message_type="snoozed",
             snoozed_until=1673609604,
@@ -384,7 +384,7 @@ class TestAsyncParts:
     async def test_path_params_create_overload_2(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.conversations.parts.with_raw_response.create(
-                "",
+                id="",
                 admin_id="5017691",
                 message_type="snoozed",
                 snoozed_until=1673609604,
@@ -393,7 +393,7 @@ class TestAsyncParts:
     @parametrize
     async def test_method_create_overload_3(self, async_client: AsyncIntercom) -> None:
         part = await async_client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="5017690",
             message_type="open",
         )
@@ -402,7 +402,7 @@ class TestAsyncParts:
     @parametrize
     async def test_method_create_with_all_params_overload_3(self, async_client: AsyncIntercom) -> None:
         part = await async_client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="5017690",
             message_type="open",
             intercom_version="2.11",
@@ -412,7 +412,7 @@ class TestAsyncParts:
     @parametrize
     async def test_raw_response_create_overload_3(self, async_client: AsyncIntercom) -> None:
         response = await async_client.conversations.parts.with_raw_response.create(
-            "string",
+            id="123",
             admin_id="5017690",
             message_type="open",
         )
@@ -425,7 +425,7 @@ class TestAsyncParts:
     @parametrize
     async def test_streaming_response_create_overload_3(self, async_client: AsyncIntercom) -> None:
         async with async_client.conversations.parts.with_streaming_response.create(
-            "string",
+            id="123",
             admin_id="5017690",
             message_type="open",
         ) as response:
@@ -441,7 +441,7 @@ class TestAsyncParts:
     async def test_path_params_create_overload_3(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.conversations.parts.with_raw_response.create(
-                "",
+                id="",
                 admin_id="5017690",
                 message_type="open",
             )
@@ -449,7 +449,7 @@ class TestAsyncParts:
     @parametrize
     async def test_method_create_overload_4(self, async_client: AsyncIntercom) -> None:
         part = await async_client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="12345",
             assignee_id="4324241",
             message_type="assignment",
@@ -460,7 +460,7 @@ class TestAsyncParts:
     @parametrize
     async def test_method_create_with_all_params_overload_4(self, async_client: AsyncIntercom) -> None:
         part = await async_client.conversations.parts.create(
-            "string",
+            id="123",
             admin_id="12345",
             assignee_id="4324241",
             message_type="assignment",
@@ -473,7 +473,7 @@ class TestAsyncParts:
     @parametrize
     async def test_raw_response_create_overload_4(self, async_client: AsyncIntercom) -> None:
         response = await async_client.conversations.parts.with_raw_response.create(
-            "string",
+            id="123",
             admin_id="12345",
             assignee_id="4324241",
             message_type="assignment",
@@ -488,7 +488,7 @@ class TestAsyncParts:
     @parametrize
     async def test_streaming_response_create_overload_4(self, async_client: AsyncIntercom) -> None:
         async with async_client.conversations.parts.with_streaming_response.create(
-            "string",
+            id="123",
             admin_id="12345",
             assignee_id="4324241",
             message_type="assignment",
@@ -506,7 +506,7 @@ class TestAsyncParts:
     async def test_path_params_create_overload_4(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.conversations.parts.with_raw_response.create(
-                "",
+                id="",
                 admin_id="12345",
                 assignee_id="4324241",
                 message_type="assignment",
