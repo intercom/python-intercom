@@ -8,8 +8,8 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types.admins import ActivityLogList
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types.admins import ActivityLogList
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -20,15 +20,15 @@ class TestActivityLogs:
     @parametrize
     def test_method_list(self, client: Intercom) -> None:
         activity_log = client.admins.activity_logs.list(
-            created_at_after="string",
+            created_at_after="created_at_after",
         )
         assert_matches_type(ActivityLogList, activity_log, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Intercom) -> None:
         activity_log = client.admins.activity_logs.list(
-            created_at_after="string",
-            created_at_before="string",
+            created_at_after="created_at_after",
+            created_at_before="created_at_before",
             intercom_version="2.11",
         )
         assert_matches_type(ActivityLogList, activity_log, path=["response"])
@@ -36,7 +36,7 @@ class TestActivityLogs:
     @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.admins.activity_logs.with_raw_response.list(
-            created_at_after="string",
+            created_at_after="created_at_after",
         )
 
         assert response.is_closed is True
@@ -47,7 +47,7 @@ class TestActivityLogs:
     @parametrize
     def test_streaming_response_list(self, client: Intercom) -> None:
         with client.admins.activity_logs.with_streaming_response.list(
-            created_at_after="string",
+            created_at_after="created_at_after",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -64,15 +64,15 @@ class TestAsyncActivityLogs:
     @parametrize
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         activity_log = await async_client.admins.activity_logs.list(
-            created_at_after="string",
+            created_at_after="created_at_after",
         )
         assert_matches_type(ActivityLogList, activity_log, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
         activity_log = await async_client.admins.activity_logs.list(
-            created_at_after="string",
-            created_at_before="string",
+            created_at_after="created_at_after",
+            created_at_before="created_at_before",
             intercom_version="2.11",
         )
         assert_matches_type(ActivityLogList, activity_log, path=["response"])
@@ -80,7 +80,7 @@ class TestAsyncActivityLogs:
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
         response = await async_client.admins.activity_logs.with_raw_response.list(
-            created_at_after="string",
+            created_at_after="created_at_after",
         )
 
         assert response.is_closed is True
@@ -91,7 +91,7 @@ class TestAsyncActivityLogs:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncIntercom) -> None:
         async with async_client.admins.activity_logs.with_streaming_response.list(
-            created_at_after="string",
+            created_at_after="created_at_after",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

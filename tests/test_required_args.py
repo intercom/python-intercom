@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from python_minus_intercom._utils import required_args
+from python_intercom._utils import required_args
 
 
 def test_too_many_positional_params() -> None:

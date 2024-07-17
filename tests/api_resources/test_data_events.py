@@ -8,8 +8,8 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types import (
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types import (
     DataEventSummary,
 )
 
@@ -139,16 +139,16 @@ class TestDataEvents:
     @parametrize
     def test_method_list(self, client: Intercom) -> None:
         data_event = client.data_events.list(
-            filter={"user_id": "string"},
-            type="string",
+            filter={"user_id": "user_id"},
+            type="type",
         )
         assert_matches_type(DataEventSummary, data_event, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Intercom) -> None:
         data_event = client.data_events.list(
-            filter={"user_id": "string"},
-            type="string",
+            filter={"user_id": "user_id"},
+            type="type",
             summary=True,
             intercom_version="2.11",
         )
@@ -157,8 +157,8 @@ class TestDataEvents:
     @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.data_events.with_raw_response.list(
-            filter={"user_id": "string"},
-            type="string",
+            filter={"user_id": "user_id"},
+            type="type",
         )
 
         assert response.is_closed is True
@@ -169,8 +169,8 @@ class TestDataEvents:
     @parametrize
     def test_streaming_response_list(self, client: Intercom) -> None:
         with client.data_events.with_streaming_response.list(
-            filter={"user_id": "string"},
-            type="string",
+            filter={"user_id": "user_id"},
+            type="type",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -343,16 +343,16 @@ class TestAsyncDataEvents:
     @parametrize
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         data_event = await async_client.data_events.list(
-            filter={"user_id": "string"},
-            type="string",
+            filter={"user_id": "user_id"},
+            type="type",
         )
         assert_matches_type(DataEventSummary, data_event, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
         data_event = await async_client.data_events.list(
-            filter={"user_id": "string"},
-            type="string",
+            filter={"user_id": "user_id"},
+            type="type",
             summary=True,
             intercom_version="2.11",
         )
@@ -361,8 +361,8 @@ class TestAsyncDataEvents:
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
         response = await async_client.data_events.with_raw_response.list(
-            filter={"user_id": "string"},
-            type="string",
+            filter={"user_id": "user_id"},
+            type="type",
         )
 
         assert response.is_closed is True
@@ -373,8 +373,8 @@ class TestAsyncDataEvents:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncIntercom) -> None:
         async with async_client.data_events.with_streaming_response.list(
-            filter={"user_id": "string"},
-            type="string",
+            filter={"user_id": "user_id"},
+            type="type",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

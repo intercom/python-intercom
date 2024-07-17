@@ -8,12 +8,12 @@ from typing import Any, Optional, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types import (
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types import (
     TicketList,
     TicketReply,
 )
-from python_minus_intercom.types.shared import Ticket
+from python_intercom.types.shared import Ticket
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -25,7 +25,7 @@ class TestTickets:
     def test_method_create(self, client: Intercom) -> None:
         ticket = client.tickets.create(
             contacts=[{"id": "6657af026abd0167d9419def"}],
-            ticket_type_id="string",
+            ticket_type_id="ticket_type_id",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
@@ -33,7 +33,7 @@ class TestTickets:
     def test_method_create_with_all_params(self, client: Intercom) -> None:
         ticket = client.tickets.create(
             contacts=[{"id": "6657af026abd0167d9419def"}],
-            ticket_type_id="string",
+            ticket_type_id="ticket_type_id",
             company_id="1234",
             created_at=1590000000,
             ticket_attributes={
@@ -48,7 +48,7 @@ class TestTickets:
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.tickets.with_raw_response.create(
             contacts=[{"id": "6657af026abd0167d9419def"}],
-            ticket_type_id="string",
+            ticket_type_id="ticket_type_id",
         )
 
         assert response.is_closed is True
@@ -60,7 +60,7 @@ class TestTickets:
     def test_streaming_response_create(self, client: Intercom) -> None:
         with client.tickets.with_streaming_response.create(
             contacts=[{"id": "6657af026abd0167d9419def"}],
-            ticket_type_id="string",
+            ticket_type_id="ticket_type_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -73,8 +73,8 @@ class TestTickets:
     @parametrize
     def test_method_reply_overload_1(self, client: Intercom) -> None:
         ticket = client.tickets.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         )
@@ -83,8 +83,8 @@ class TestTickets:
     @parametrize
     def test_method_reply_with_all_params_overload_1(self, client: Intercom) -> None:
         ticket = client.tickets.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
@@ -96,8 +96,8 @@ class TestTickets:
     @parametrize
     def test_raw_response_reply_overload_1(self, client: Intercom) -> None:
         response = client.tickets.with_raw_response.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         )
@@ -110,8 +110,8 @@ class TestTickets:
     @parametrize
     def test_streaming_response_reply_overload_1(self, client: Intercom) -> None:
         with client.tickets.with_streaming_response.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         ) as response:
@@ -127,8 +127,8 @@ class TestTickets:
     def test_path_params_reply_overload_1(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.tickets.with_raw_response.reply(
-                "",
-                body="string",
+                id="",
+                body="body",
                 message_type="comment",
                 type="user",
             )
@@ -136,8 +136,8 @@ class TestTickets:
     @parametrize
     def test_method_reply_overload_2(self, client: Intercom) -> None:
         ticket = client.tickets.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         )
@@ -146,8 +146,8 @@ class TestTickets:
     @parametrize
     def test_method_reply_with_all_params_overload_2(self, client: Intercom) -> None:
         ticket = client.tickets.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
@@ -159,8 +159,8 @@ class TestTickets:
     @parametrize
     def test_raw_response_reply_overload_2(self, client: Intercom) -> None:
         response = client.tickets.with_raw_response.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         )
@@ -173,8 +173,8 @@ class TestTickets:
     @parametrize
     def test_streaming_response_reply_overload_2(self, client: Intercom) -> None:
         with client.tickets.with_streaming_response.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         ) as response:
@@ -190,8 +190,8 @@ class TestTickets:
     def test_path_params_reply_overload_2(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.tickets.with_raw_response.reply(
-                "",
-                body="string",
+                id="",
+                body="body",
                 message_type="comment",
                 type="user",
             )
@@ -199,8 +199,8 @@ class TestTickets:
     @parametrize
     def test_method_reply_overload_3(self, client: Intercom) -> None:
         ticket = client.tickets.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         )
@@ -209,8 +209,8 @@ class TestTickets:
     @parametrize
     def test_method_reply_with_all_params_overload_3(self, client: Intercom) -> None:
         ticket = client.tickets.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
@@ -222,8 +222,8 @@ class TestTickets:
     @parametrize
     def test_raw_response_reply_overload_3(self, client: Intercom) -> None:
         response = client.tickets.with_raw_response.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         )
@@ -236,8 +236,8 @@ class TestTickets:
     @parametrize
     def test_streaming_response_reply_overload_3(self, client: Intercom) -> None:
         with client.tickets.with_streaming_response.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         ) as response:
@@ -253,8 +253,8 @@ class TestTickets:
     def test_path_params_reply_overload_3(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.tickets.with_raw_response.reply(
-                "",
-                body="string",
+                id="",
+                body="body",
                 message_type="comment",
                 type="user",
             )
@@ -262,7 +262,7 @@ class TestTickets:
     @parametrize
     def test_method_reply_overload_4(self, client: Intercom) -> None:
         ticket = client.tickets.reply(
-            "123",
+            id="123",
             admin_id="3156780",
             message_type="comment",
             type="admin",
@@ -272,7 +272,7 @@ class TestTickets:
     @parametrize
     def test_method_reply_with_all_params_overload_4(self, client: Intercom) -> None:
         ticket = client.tickets.reply(
-            "123",
+            id="123",
             admin_id="3156780",
             message_type="comment",
             type="admin",
@@ -281,15 +281,15 @@ class TestTickets:
             created_at=1590000000,
             reply_options=[
                 {
-                    "text": "string",
+                    "text": "text",
                     "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 },
                 {
-                    "text": "string",
+                    "text": "text",
                     "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 },
                 {
-                    "text": "string",
+                    "text": "text",
                     "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 },
             ],
@@ -300,7 +300,7 @@ class TestTickets:
     @parametrize
     def test_raw_response_reply_overload_4(self, client: Intercom) -> None:
         response = client.tickets.with_raw_response.reply(
-            "123",
+            id="123",
             admin_id="3156780",
             message_type="comment",
             type="admin",
@@ -314,7 +314,7 @@ class TestTickets:
     @parametrize
     def test_streaming_response_reply_overload_4(self, client: Intercom) -> None:
         with client.tickets.with_streaming_response.reply(
-            "123",
+            id="123",
             admin_id="3156780",
             message_type="comment",
             type="admin",
@@ -331,7 +331,7 @@ class TestTickets:
     def test_path_params_reply_overload_4(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.tickets.with_raw_response.reply(
-                "",
+                id="",
                 admin_id="3156780",
                 message_type="comment",
                 type="admin",
@@ -340,14 +340,14 @@ class TestTickets:
     @parametrize
     def test_method_retrieve_by_id(self, client: Intercom) -> None:
         ticket = client.tickets.retrieve_by_id(
-            "string",
+            id="id",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
     @parametrize
     def test_method_retrieve_by_id_with_all_params(self, client: Intercom) -> None:
         ticket = client.tickets.retrieve_by_id(
-            "string",
+            id="id",
             intercom_version="2.11",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
@@ -355,7 +355,7 @@ class TestTickets:
     @parametrize
     def test_raw_response_retrieve_by_id(self, client: Intercom) -> None:
         response = client.tickets.with_raw_response.retrieve_by_id(
-            "string",
+            id="id",
         )
 
         assert response.is_closed is True
@@ -366,7 +366,7 @@ class TestTickets:
     @parametrize
     def test_streaming_response_retrieve_by_id(self, client: Intercom) -> None:
         with client.tickets.with_streaming_response.retrieve_by_id(
-            "string",
+            id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -380,7 +380,7 @@ class TestTickets:
     def test_path_params_retrieve_by_id(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.tickets.with_raw_response.retrieve_by_id(
-                "",
+                id="",
             )
 
     @parametrize
@@ -396,7 +396,7 @@ class TestTickets:
             query={
                 "field": "created_at",
                 "operator": "=",
-                "value": "string",
+                "value": "value",
             },
             pagination={
                 "per_page": 5,
@@ -433,14 +433,14 @@ class TestTickets:
     @parametrize
     def test_method_update_by_id(self, client: Intercom) -> None:
         ticket = client.tickets.update_by_id(
-            "string",
+            id="id",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
     @parametrize
     def test_method_update_by_id_with_all_params(self, client: Intercom) -> None:
         ticket = client.tickets.update_by_id(
-            "string",
+            id="id",
             assignment={
                 "admin_id": "991268839",
                 "assignee_id": "991268841",
@@ -460,7 +460,7 @@ class TestTickets:
     @parametrize
     def test_raw_response_update_by_id(self, client: Intercom) -> None:
         response = client.tickets.with_raw_response.update_by_id(
-            "string",
+            id="id",
         )
 
         assert response.is_closed is True
@@ -471,7 +471,7 @@ class TestTickets:
     @parametrize
     def test_streaming_response_update_by_id(self, client: Intercom) -> None:
         with client.tickets.with_streaming_response.update_by_id(
-            "string",
+            id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -485,7 +485,7 @@ class TestTickets:
     def test_path_params_update_by_id(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.tickets.with_raw_response.update_by_id(
-                "",
+                id="",
             )
 
 
@@ -496,7 +496,7 @@ class TestAsyncTickets:
     async def test_method_create(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.create(
             contacts=[{"id": "6657af026abd0167d9419def"}],
-            ticket_type_id="string",
+            ticket_type_id="ticket_type_id",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
@@ -504,7 +504,7 @@ class TestAsyncTickets:
     async def test_method_create_with_all_params(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.create(
             contacts=[{"id": "6657af026abd0167d9419def"}],
-            ticket_type_id="string",
+            ticket_type_id="ticket_type_id",
             company_id="1234",
             created_at=1590000000,
             ticket_attributes={
@@ -519,7 +519,7 @@ class TestAsyncTickets:
     async def test_raw_response_create(self, async_client: AsyncIntercom) -> None:
         response = await async_client.tickets.with_raw_response.create(
             contacts=[{"id": "6657af026abd0167d9419def"}],
-            ticket_type_id="string",
+            ticket_type_id="ticket_type_id",
         )
 
         assert response.is_closed is True
@@ -531,7 +531,7 @@ class TestAsyncTickets:
     async def test_streaming_response_create(self, async_client: AsyncIntercom) -> None:
         async with async_client.tickets.with_streaming_response.create(
             contacts=[{"id": "6657af026abd0167d9419def"}],
-            ticket_type_id="string",
+            ticket_type_id="ticket_type_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -544,8 +544,8 @@ class TestAsyncTickets:
     @parametrize
     async def test_method_reply_overload_1(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         )
@@ -554,8 +554,8 @@ class TestAsyncTickets:
     @parametrize
     async def test_method_reply_with_all_params_overload_1(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
@@ -567,8 +567,8 @@ class TestAsyncTickets:
     @parametrize
     async def test_raw_response_reply_overload_1(self, async_client: AsyncIntercom) -> None:
         response = await async_client.tickets.with_raw_response.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         )
@@ -581,8 +581,8 @@ class TestAsyncTickets:
     @parametrize
     async def test_streaming_response_reply_overload_1(self, async_client: AsyncIntercom) -> None:
         async with async_client.tickets.with_streaming_response.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         ) as response:
@@ -598,8 +598,8 @@ class TestAsyncTickets:
     async def test_path_params_reply_overload_1(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.tickets.with_raw_response.reply(
-                "",
-                body="string",
+                id="",
+                body="body",
                 message_type="comment",
                 type="user",
             )
@@ -607,8 +607,8 @@ class TestAsyncTickets:
     @parametrize
     async def test_method_reply_overload_2(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         )
@@ -617,8 +617,8 @@ class TestAsyncTickets:
     @parametrize
     async def test_method_reply_with_all_params_overload_2(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
@@ -630,8 +630,8 @@ class TestAsyncTickets:
     @parametrize
     async def test_raw_response_reply_overload_2(self, async_client: AsyncIntercom) -> None:
         response = await async_client.tickets.with_raw_response.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         )
@@ -644,8 +644,8 @@ class TestAsyncTickets:
     @parametrize
     async def test_streaming_response_reply_overload_2(self, async_client: AsyncIntercom) -> None:
         async with async_client.tickets.with_streaming_response.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         ) as response:
@@ -661,8 +661,8 @@ class TestAsyncTickets:
     async def test_path_params_reply_overload_2(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.tickets.with_raw_response.reply(
-                "",
-                body="string",
+                id="",
+                body="body",
                 message_type="comment",
                 type="user",
             )
@@ -670,8 +670,8 @@ class TestAsyncTickets:
     @parametrize
     async def test_method_reply_overload_3(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         )
@@ -680,8 +680,8 @@ class TestAsyncTickets:
     @parametrize
     async def test_method_reply_with_all_params_overload_3(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
             attachment_urls=["https://example.com", "https://example.com", "https://example.com"],
@@ -693,8 +693,8 @@ class TestAsyncTickets:
     @parametrize
     async def test_raw_response_reply_overload_3(self, async_client: AsyncIntercom) -> None:
         response = await async_client.tickets.with_raw_response.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         )
@@ -707,8 +707,8 @@ class TestAsyncTickets:
     @parametrize
     async def test_streaming_response_reply_overload_3(self, async_client: AsyncIntercom) -> None:
         async with async_client.tickets.with_streaming_response.reply(
-            "123",
-            body="string",
+            id="123",
+            body="body",
             message_type="comment",
             type="user",
         ) as response:
@@ -724,8 +724,8 @@ class TestAsyncTickets:
     async def test_path_params_reply_overload_3(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.tickets.with_raw_response.reply(
-                "",
-                body="string",
+                id="",
+                body="body",
                 message_type="comment",
                 type="user",
             )
@@ -733,7 +733,7 @@ class TestAsyncTickets:
     @parametrize
     async def test_method_reply_overload_4(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.reply(
-            "123",
+            id="123",
             admin_id="3156780",
             message_type="comment",
             type="admin",
@@ -743,7 +743,7 @@ class TestAsyncTickets:
     @parametrize
     async def test_method_reply_with_all_params_overload_4(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.reply(
-            "123",
+            id="123",
             admin_id="3156780",
             message_type="comment",
             type="admin",
@@ -752,15 +752,15 @@ class TestAsyncTickets:
             created_at=1590000000,
             reply_options=[
                 {
-                    "text": "string",
+                    "text": "text",
                     "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 },
                 {
-                    "text": "string",
+                    "text": "text",
                     "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 },
                 {
-                    "text": "string",
+                    "text": "text",
                     "uuid": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                 },
             ],
@@ -771,7 +771,7 @@ class TestAsyncTickets:
     @parametrize
     async def test_raw_response_reply_overload_4(self, async_client: AsyncIntercom) -> None:
         response = await async_client.tickets.with_raw_response.reply(
-            "123",
+            id="123",
             admin_id="3156780",
             message_type="comment",
             type="admin",
@@ -785,7 +785,7 @@ class TestAsyncTickets:
     @parametrize
     async def test_streaming_response_reply_overload_4(self, async_client: AsyncIntercom) -> None:
         async with async_client.tickets.with_streaming_response.reply(
-            "123",
+            id="123",
             admin_id="3156780",
             message_type="comment",
             type="admin",
@@ -802,7 +802,7 @@ class TestAsyncTickets:
     async def test_path_params_reply_overload_4(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.tickets.with_raw_response.reply(
-                "",
+                id="",
                 admin_id="3156780",
                 message_type="comment",
                 type="admin",
@@ -811,14 +811,14 @@ class TestAsyncTickets:
     @parametrize
     async def test_method_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.retrieve_by_id(
-            "string",
+            id="id",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
     @parametrize
     async def test_method_retrieve_by_id_with_all_params(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.retrieve_by_id(
-            "string",
+            id="id",
             intercom_version="2.11",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
@@ -826,7 +826,7 @@ class TestAsyncTickets:
     @parametrize
     async def test_raw_response_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
         response = await async_client.tickets.with_raw_response.retrieve_by_id(
-            "string",
+            id="id",
         )
 
         assert response.is_closed is True
@@ -837,7 +837,7 @@ class TestAsyncTickets:
     @parametrize
     async def test_streaming_response_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
         async with async_client.tickets.with_streaming_response.retrieve_by_id(
-            "string",
+            id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -851,7 +851,7 @@ class TestAsyncTickets:
     async def test_path_params_retrieve_by_id(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.tickets.with_raw_response.retrieve_by_id(
-                "",
+                id="",
             )
 
     @parametrize
@@ -867,7 +867,7 @@ class TestAsyncTickets:
             query={
                 "field": "created_at",
                 "operator": "=",
-                "value": "string",
+                "value": "value",
             },
             pagination={
                 "per_page": 5,
@@ -904,14 +904,14 @@ class TestAsyncTickets:
     @parametrize
     async def test_method_update_by_id(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.update_by_id(
-            "string",
+            id="id",
         )
         assert_matches_type(Optional[Ticket], ticket, path=["response"])
 
     @parametrize
     async def test_method_update_by_id_with_all_params(self, async_client: AsyncIntercom) -> None:
         ticket = await async_client.tickets.update_by_id(
-            "string",
+            id="id",
             assignment={
                 "admin_id": "991268839",
                 "assignee_id": "991268841",
@@ -931,7 +931,7 @@ class TestAsyncTickets:
     @parametrize
     async def test_raw_response_update_by_id(self, async_client: AsyncIntercom) -> None:
         response = await async_client.tickets.with_raw_response.update_by_id(
-            "string",
+            id="id",
         )
 
         assert response.is_closed is True
@@ -942,7 +942,7 @@ class TestAsyncTickets:
     @parametrize
     async def test_streaming_response_update_by_id(self, async_client: AsyncIntercom) -> None:
         async with async_client.tickets.with_streaming_response.update_by_id(
-            "string",
+            id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -956,5 +956,5 @@ class TestAsyncTickets:
     async def test_path_params_update_by_id(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.tickets.with_raw_response.update_by_id(
-                "",
+                id="",
             )

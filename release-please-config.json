@@ -61,6 +61,6 @@
   ],
   "release-type": "python",
   "extra-files": [
-    "src/python_minus_intercom/_version.py"
+    "src/python_intercom/_version.py"
   ]
 }

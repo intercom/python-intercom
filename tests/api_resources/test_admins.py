@@ -8,9 +8,9 @@ from typing import Any, Optional, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types import AdminList
-from python_minus_intercom.types.shared import Admin
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types import AdminList
+from python_intercom.types.shared import Admin
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -21,14 +21,14 @@ class TestAdmins:
     @parametrize
     def test_method_retrieve(self, client: Intercom) -> None:
         admin = client.admins.retrieve(
-            0,
+            id=123,
         )
         assert_matches_type(Optional[Admin], admin, path=["response"])
 
     @parametrize
     def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
         admin = client.admins.retrieve(
-            0,
+            id=123,
             intercom_version="2.11",
         )
         assert_matches_type(Optional[Admin], admin, path=["response"])
@@ -36,7 +36,7 @@ class TestAdmins:
     @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.admins.with_raw_response.retrieve(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -47,7 +47,7 @@ class TestAdmins:
     @parametrize
     def test_streaming_response_retrieve(self, client: Intercom) -> None:
         with client.admins.with_streaming_response.retrieve(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -92,7 +92,7 @@ class TestAdmins:
     @parametrize
     def test_method_set_away(self, client: Intercom) -> None:
         admin = client.admins.set_away(
-            0,
+            id=0,
             away_mode_enabled=True,
             away_mode_reassign=True,
         )
@@ -101,7 +101,7 @@ class TestAdmins:
     @parametrize
     def test_method_set_away_with_all_params(self, client: Intercom) -> None:
         admin = client.admins.set_away(
-            0,
+            id=0,
             away_mode_enabled=True,
             away_mode_reassign=True,
             intercom_version="2.11",
@@ -111,7 +111,7 @@ class TestAdmins:
     @parametrize
     def test_raw_response_set_away(self, client: Intercom) -> None:
         response = client.admins.with_raw_response.set_away(
-            0,
+            id=0,
             away_mode_enabled=True,
             away_mode_reassign=True,
         )
@@ -124,7 +124,7 @@ class TestAdmins:
     @parametrize
     def test_streaming_response_set_away(self, client: Intercom) -> None:
         with client.admins.with_streaming_response.set_away(
-            0,
+            id=0,
             away_mode_enabled=True,
             away_mode_reassign=True,
         ) as response:
@@ -143,14 +143,14 @@ class TestAsyncAdmins:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         admin = await async_client.admins.retrieve(
-            0,
+            id=123,
         )
         assert_matches_type(Optional[Admin], admin, path=["response"])
 
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
         admin = await async_client.admins.retrieve(
-            0,
+            id=123,
             intercom_version="2.11",
         )
         assert_matches_type(Optional[Admin], admin, path=["response"])
@@ -158,7 +158,7 @@ class TestAsyncAdmins:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncIntercom) -> None:
         response = await async_client.admins.with_raw_response.retrieve(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -169,7 +169,7 @@ class TestAsyncAdmins:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncIntercom) -> None:
         async with async_client.admins.with_streaming_response.retrieve(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -214,7 +214,7 @@ class TestAsyncAdmins:
     @parametrize
     async def test_method_set_away(self, async_client: AsyncIntercom) -> None:
         admin = await async_client.admins.set_away(
-            0,
+            id=0,
             away_mode_enabled=True,
             away_mode_reassign=True,
         )
@@ -223,7 +223,7 @@ class TestAsyncAdmins:
     @parametrize
     async def test_method_set_away_with_all_params(self, async_client: AsyncIntercom) -> None:
         admin = await async_client.admins.set_away(
-            0,
+            id=0,
             away_mode_enabled=True,
             away_mode_reassign=True,
             intercom_version="2.11",
@@ -233,7 +233,7 @@ class TestAsyncAdmins:
     @parametrize
     async def test_raw_response_set_away(self, async_client: AsyncIntercom) -> None:
         response = await async_client.admins.with_raw_response.set_away(
-            0,
+            id=0,
             away_mode_enabled=True,
             away_mode_reassign=True,
         )
@@ -246,7 +246,7 @@ class TestAsyncAdmins:
     @parametrize
     async def test_streaming_response_set_away(self, async_client: AsyncIntercom) -> None:
         async with async_client.admins.with_streaming_response.set_away(
-            0,
+            id=0,
             away_mode_enabled=True,
             away_mode_reassign=True,
         ) as response:

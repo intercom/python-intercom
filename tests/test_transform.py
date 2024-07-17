@@ -8,15 +8,15 @@ from typing_extensions import Required, Annotated, TypedDict
 
 import pytest
 
-from python_minus_intercom._types import Base64FileInput
-from python_minus_intercom._utils import (
+from python_intercom._types import Base64FileInput
+from python_intercom._utils import (
     PropertyInfo,
     transform as _transform,
     parse_datetime,
     async_transform as _async_transform,
 )
-from python_minus_intercom._compat import PYDANTIC_V2
-from python_minus_intercom._models import BaseModel
+from python_intercom._compat import PYDANTIC_V2
+from python_intercom._models import BaseModel
 
 _T = TypeVar("_T")
 

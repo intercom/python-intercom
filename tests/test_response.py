@@ -6,8 +6,8 @@ import httpx
 import pytest
 import pydantic
 
-from python_minus_intercom import Intercom, BaseModel, AsyncIntercom
-from python_minus_intercom._response import (
+from python_intercom import Intercom, BaseModel, AsyncIntercom
+from python_intercom._response import (
     APIResponse,
     BaseAPIResponse,
     AsyncAPIResponse,
@@ -15,8 +15,8 @@ from python_minus_intercom._response import (
     AsyncBinaryAPIResponse,
     extract_response_type,
 )
-from python_minus_intercom._streaming import Stream
-from python_minus_intercom._base_client import FinalRequestOptions
+from python_intercom._streaming import Stream
+from python_intercom._base_client import FinalRequestOptions
 
 
 class ConcreteBaseAPIResponse(APIResponse[bytes]):
@@ -40,7 +40,7 @@ def test_extract_response_type_direct_classes() -> None:
 def test_extract_response_type_direct_class_missing_type_arg() -> None:
     with pytest.raises(
         RuntimeError,
-        match="Expected type <class 'python_minus_intercom._response.AsyncAPIResponse'> to have a type argument at index 0 but it did not",
+        match="Expected type <class 'python_intercom._response.AsyncAPIResponse'> to have a type argument at index 0 but it did not",
     ):
         extract_response_type(AsyncAPIResponse)
 
@@ -72,7 +72,7 @@ def test_response_parse_mismatched_basemodel(client: Intercom) -> None:
 
     with pytest.raises(
         TypeError,
-        match="Pydantic models must subclass our base model type, e.g. `from python_minus_intercom import BaseModel`",
+        match="Pydantic models must subclass our base model type, e.g. `from python_intercom import BaseModel`",
     ):
         response.parse(to=PydanticModel)
 
@@ -90,7 +90,7 @@ async def test_async_response_parse_mismatched_basemodel(async_client: AsyncInte
 
     with pytest.raises(
         TypeError,
-        match="Pydantic models must subclass our base model type, e.g. `from python_minus_intercom import BaseModel`",
+        match="Pydantic models must subclass our base model type, e.g. `from python_intercom import BaseModel`",
     ):
         await response.parse(to=PydanticModel)
 
