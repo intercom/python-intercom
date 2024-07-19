@@ -9,7 +9,8 @@ import pytest
 
 from tests.utils import assert_matches_type
 from python_intercom import Intercom, AsyncIntercom
-from python_intercom.types.help_center import HelpCenter, HelpCenterList
+from python_intercom.types import HelpCenterList
+from python_intercom.types.help_center import HelpCenter
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

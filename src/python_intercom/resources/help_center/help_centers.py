@@ -17,8 +17,8 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
+from ...types.help_center_list import HelpCenterList
 from ...types.help_center.help_center import HelpCenter
-from ...types.help_center.help_center_list import HelpCenterList
 
 __all__ = ["HelpCentersResource", "AsyncHelpCentersResource"]
 
