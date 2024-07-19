@@ -86,6 +86,12 @@ Methods:
 
 # HelpCenter
 
+Types:
+
+```python
+from python_intercom.types import HelpCenter, HelpCenterList
+```
+
 ## Collections
 
 Types:
@@ -104,16 +110,10 @@ Methods:
 
 ## HelpCenters
 
-Types:
-
-```python
-from python_intercom.types.help_center import HelpCenter, HelpCenterList
-```
-
 Methods:
 
 - <code title="get /help_center/help_centers/{id}">client.help_center.help_centers.<a href="./src/python_intercom/resources/help_center/help_centers.py">retrieve</a>(id) -> <a href="./src/python_intercom/types/help_center/help_center.py">HelpCenter</a></code>
-- <code title="get /help_center/help_centers">client.help_center.help_centers.<a href="./src/python_intercom/resources/help_center/help_centers.py">list</a>() -> <a href="./src/python_intercom/types/help_center/help_center_list.py">HelpCenterList</a></code>
+- <code title="get /help_center/help_centers">client.help_center.help_centers.<a href="./src/python_intercom/resources/help_center/help_centers.py">list</a>() -> <a href="./src/python_intercom/types/help_center_list.py">HelpCenterList</a></code>
 
 # Companies
 

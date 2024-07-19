@@ -35,6 +35,7 @@ from .visitor import Visitor as Visitor
 from .team_list import TeamList as TeamList
 from .admin_list import AdminList as AdminList
 from .data_export import DataExport as DataExport
+from .help_center import HelpCenter as HelpCenter
 from .ticket_list import TicketList as TicketList
 from .ticket_type import TicketType as TicketType
 from .article_list import ArticleList as ArticleList
@@ -48,6 +49,7 @@ from .company_scroll import CompanyScroll as CompanyScroll
 from .data_attribute import DataAttribute as DataAttribute
 from .contact_deleted import ContactDeleted as ContactDeleted
 from .contact_archived import ContactArchived as ContactArchived
+from .help_center_list import HelpCenterList as HelpCenterList
 from .ticket_type_list import TicketTypeList as TicketTypeList
 from .conversation_list import ConversationList as ConversationList
 from .contact_unarchived import ContactUnarchived as ContactUnarchived
