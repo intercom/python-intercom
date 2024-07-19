@@ -8,9 +8,9 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types.shared import Company
-from python_minus_intercom.types.contacts import ContactAttachedCompanies
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types.shared import Company
+from python_intercom.types.contacts import ContactAttachedCompanies
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -21,7 +21,7 @@ class TestCompanies:
     @parametrize
     def test_method_create(self, client: Intercom) -> None:
         company = client.contacts.companies.create(
-            "string",
+            contact_id="contact_id",
             company_id="6657add46abd0167d9419cd2",
         )
         assert_matches_type(Company, company, path=["response"])
@@ -29,7 +29,7 @@ class TestCompanies:
     @parametrize
     def test_method_create_with_all_params(self, client: Intercom) -> None:
         company = client.contacts.companies.create(
-            "string",
+            contact_id="contact_id",
             company_id="6657add46abd0167d9419cd2",
             intercom_version="2.11",
         )
@@ -38,7 +38,7 @@ class TestCompanies:
     @parametrize
     def test_raw_response_create(self, client: Intercom) -> None:
         response = client.contacts.companies.with_raw_response.create(
-            "string",
+            contact_id="contact_id",
             company_id="6657add46abd0167d9419cd2",
         )
 
@@ -50,7 +50,7 @@ class TestCompanies:
     @parametrize
     def test_streaming_response_create(self, client: Intercom) -> None:
         with client.contacts.companies.with_streaming_response.create(
-            "string",
+            contact_id="contact_id",
             company_id="6657add46abd0167d9419cd2",
         ) as response:
             assert not response.is_closed
@@ -65,21 +65,21 @@ class TestCompanies:
     def test_path_params_create(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `contact_id` but received ''"):
             client.contacts.companies.with_raw_response.create(
-                "",
+                contact_id="",
                 company_id="6657add46abd0167d9419cd2",
             )
 
     @parametrize
     def test_method_list(self, client: Intercom) -> None:
         company = client.contacts.companies.list(
-            "string",
+            contact_id="contact_id",
         )
         assert_matches_type(ContactAttachedCompanies, company, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Intercom) -> None:
         company = client.contacts.companies.list(
-            "string",
+            contact_id="contact_id",
             intercom_version="2.11",
         )
         assert_matches_type(ContactAttachedCompanies, company, path=["response"])
@@ -87,7 +87,7 @@ class TestCompanies:
     @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.contacts.companies.with_raw_response.list(
-            "string",
+            contact_id="contact_id",
         )
 
         assert response.is_closed is True
@@ -98,7 +98,7 @@ class TestCompanies:
     @parametrize
     def test_streaming_response_list(self, client: Intercom) -> None:
         with client.contacts.companies.with_streaming_response.list(
-            "string",
+            contact_id="contact_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -112,13 +112,13 @@ class TestCompanies:
     def test_path_params_list(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `contact_id` but received ''"):
             client.contacts.companies.with_raw_response.list(
-                "",
+                contact_id="",
             )
 
     @parametrize
     def test_method_delete(self, client: Intercom) -> None:
         company = client.contacts.companies.delete(
-            "string",
+            id="58a430d35458202d41b1e65b",
             contact_id="58a430d35458202d41b1e65b",
         )
         assert_matches_type(Company, company, path=["response"])
@@ -126,7 +126,7 @@ class TestCompanies:
     @parametrize
     def test_method_delete_with_all_params(self, client: Intercom) -> None:
         company = client.contacts.companies.delete(
-            "string",
+            id="58a430d35458202d41b1e65b",
             contact_id="58a430d35458202d41b1e65b",
             intercom_version="2.11",
         )
@@ -135,7 +135,7 @@ class TestCompanies:
     @parametrize
     def test_raw_response_delete(self, client: Intercom) -> None:
         response = client.contacts.companies.with_raw_response.delete(
-            "string",
+            id="58a430d35458202d41b1e65b",
             contact_id="58a430d35458202d41b1e65b",
         )
 
@@ -147,7 +147,7 @@ class TestCompanies:
     @parametrize
     def test_streaming_response_delete(self, client: Intercom) -> None:
         with client.contacts.companies.with_streaming_response.delete(
-            "string",
+            id="58a430d35458202d41b1e65b",
             contact_id="58a430d35458202d41b1e65b",
         ) as response:
             assert not response.is_closed
@@ -162,13 +162,13 @@ class TestCompanies:
     def test_path_params_delete(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `contact_id` but received ''"):
             client.contacts.companies.with_raw_response.delete(
-                "string",
+                id="58a430d35458202d41b1e65b",
                 contact_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.contacts.companies.with_raw_response.delete(
-                "",
+                id="",
                 contact_id="58a430d35458202d41b1e65b",
             )
 
@@ -179,7 +179,7 @@ class TestAsyncCompanies:
     @parametrize
     async def test_method_create(self, async_client: AsyncIntercom) -> None:
         company = await async_client.contacts.companies.create(
-            "string",
+            contact_id="contact_id",
             company_id="6657add46abd0167d9419cd2",
         )
         assert_matches_type(Company, company, path=["response"])
@@ -187,7 +187,7 @@ class TestAsyncCompanies:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncIntercom) -> None:
         company = await async_client.contacts.companies.create(
-            "string",
+            contact_id="contact_id",
             company_id="6657add46abd0167d9419cd2",
             intercom_version="2.11",
         )
@@ -196,7 +196,7 @@ class TestAsyncCompanies:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncIntercom) -> None:
         response = await async_client.contacts.companies.with_raw_response.create(
-            "string",
+            contact_id="contact_id",
             company_id="6657add46abd0167d9419cd2",
         )
 
@@ -208,7 +208,7 @@ class TestAsyncCompanies:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncIntercom) -> None:
         async with async_client.contacts.companies.with_streaming_response.create(
-            "string",
+            contact_id="contact_id",
             company_id="6657add46abd0167d9419cd2",
         ) as response:
             assert not response.is_closed
@@ -223,21 +223,21 @@ class TestAsyncCompanies:
     async def test_path_params_create(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `contact_id` but received ''"):
             await async_client.contacts.companies.with_raw_response.create(
-                "",
+                contact_id="",
                 company_id="6657add46abd0167d9419cd2",
             )
 
     @parametrize
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         company = await async_client.contacts.companies.list(
-            "string",
+            contact_id="contact_id",
         )
         assert_matches_type(ContactAttachedCompanies, company, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
         company = await async_client.contacts.companies.list(
-            "string",
+            contact_id="contact_id",
             intercom_version="2.11",
         )
         assert_matches_type(ContactAttachedCompanies, company, path=["response"])
@@ -245,7 +245,7 @@ class TestAsyncCompanies:
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
         response = await async_client.contacts.companies.with_raw_response.list(
-            "string",
+            contact_id="contact_id",
         )
 
         assert response.is_closed is True
@@ -256,7 +256,7 @@ class TestAsyncCompanies:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncIntercom) -> None:
         async with async_client.contacts.companies.with_streaming_response.list(
-            "string",
+            contact_id="contact_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -270,13 +270,13 @@ class TestAsyncCompanies:
     async def test_path_params_list(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `contact_id` but received ''"):
             await async_client.contacts.companies.with_raw_response.list(
-                "",
+                contact_id="",
             )
 
     @parametrize
     async def test_method_delete(self, async_client: AsyncIntercom) -> None:
         company = await async_client.contacts.companies.delete(
-            "string",
+            id="58a430d35458202d41b1e65b",
             contact_id="58a430d35458202d41b1e65b",
         )
         assert_matches_type(Company, company, path=["response"])
@@ -284,7 +284,7 @@ class TestAsyncCompanies:
     @parametrize
     async def test_method_delete_with_all_params(self, async_client: AsyncIntercom) -> None:
         company = await async_client.contacts.companies.delete(
-            "string",
+            id="58a430d35458202d41b1e65b",
             contact_id="58a430d35458202d41b1e65b",
             intercom_version="2.11",
         )
@@ -293,7 +293,7 @@ class TestAsyncCompanies:
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncIntercom) -> None:
         response = await async_client.contacts.companies.with_raw_response.delete(
-            "string",
+            id="58a430d35458202d41b1e65b",
             contact_id="58a430d35458202d41b1e65b",
         )
 
@@ -305,7 +305,7 @@ class TestAsyncCompanies:
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncIntercom) -> None:
         async with async_client.contacts.companies.with_streaming_response.delete(
-            "string",
+            id="58a430d35458202d41b1e65b",
             contact_id="58a430d35458202d41b1e65b",
         ) as response:
             assert not response.is_closed
@@ -320,12 +320,12 @@ class TestAsyncCompanies:
     async def test_path_params_delete(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `contact_id` but received ''"):
             await async_client.contacts.companies.with_raw_response.delete(
-                "string",
+                id="58a430d35458202d41b1e65b",
                 contact_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.contacts.companies.with_raw_response.delete(
-                "",
+                id="",
                 contact_id="58a430d35458202d41b1e65b",
             )

@@ -8,8 +8,8 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types import (
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types import (
     Article,
     ArticleList,
     DeletedArticleObject,
@@ -483,14 +483,14 @@ class TestArticles:
     @parametrize
     def test_method_retrieve(self, client: Intercom) -> None:
         article = client.articles.retrieve(
-            0,
+            id=123,
         )
         assert_matches_type(Article, article, path=["response"])
 
     @parametrize
     def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
         article = client.articles.retrieve(
-            0,
+            id=123,
             intercom_version="2.11",
         )
         assert_matches_type(Article, article, path=["response"])
@@ -498,7 +498,7 @@ class TestArticles:
     @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.articles.with_raw_response.retrieve(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -509,7 +509,7 @@ class TestArticles:
     @parametrize
     def test_streaming_response_retrieve(self, client: Intercom) -> None:
         with client.articles.with_streaming_response.retrieve(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -522,14 +522,14 @@ class TestArticles:
     @parametrize
     def test_method_update(self, client: Intercom) -> None:
         article = client.articles.update(
-            0,
+            id=123,
         )
         assert_matches_type(Article, article, path=["response"])
 
     @parametrize
     def test_method_update_with_all_params(self, client: Intercom) -> None:
         article = client.articles.update(
-            0,
+            id=123,
             author_id=1295,
             body="<p>New gifts in store for the jolly season</p>",
             description="Description of the Article",
@@ -954,7 +954,7 @@ class TestArticles:
     @parametrize
     def test_raw_response_update(self, client: Intercom) -> None:
         response = client.articles.with_raw_response.update(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -965,7 +965,7 @@ class TestArticles:
     @parametrize
     def test_streaming_response_update(self, client: Intercom) -> None:
         with client.articles.with_streaming_response.update(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -1010,14 +1010,14 @@ class TestArticles:
     @parametrize
     def test_method_remove(self, client: Intercom) -> None:
         article = client.articles.remove(
-            0,
+            id=123,
         )
         assert_matches_type(DeletedArticleObject, article, path=["response"])
 
     @parametrize
     def test_method_remove_with_all_params(self, client: Intercom) -> None:
         article = client.articles.remove(
-            0,
+            id=123,
             intercom_version="2.11",
         )
         assert_matches_type(DeletedArticleObject, article, path=["response"])
@@ -1025,7 +1025,7 @@ class TestArticles:
     @parametrize
     def test_raw_response_remove(self, client: Intercom) -> None:
         response = client.articles.with_raw_response.remove(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -1036,7 +1036,7 @@ class TestArticles:
     @parametrize
     def test_streaming_response_remove(self, client: Intercom) -> None:
         with client.articles.with_streaming_response.remove(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -1056,8 +1056,8 @@ class TestArticles:
         article = client.articles.search(
             help_center_id=0,
             highlight=True,
-            phrase="string",
-            state="string",
+            phrase="phrase",
+            state="state",
             intercom_version="2.11",
         )
         assert_matches_type(ArticleSearchResponse, article, path=["response"])
@@ -1547,14 +1547,14 @@ class TestAsyncArticles:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         article = await async_client.articles.retrieve(
-            0,
+            id=123,
         )
         assert_matches_type(Article, article, path=["response"])
 
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
         article = await async_client.articles.retrieve(
-            0,
+            id=123,
             intercom_version="2.11",
         )
         assert_matches_type(Article, article, path=["response"])
@@ -1562,7 +1562,7 @@ class TestAsyncArticles:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncIntercom) -> None:
         response = await async_client.articles.with_raw_response.retrieve(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -1573,7 +1573,7 @@ class TestAsyncArticles:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncIntercom) -> None:
         async with async_client.articles.with_streaming_response.retrieve(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -1586,14 +1586,14 @@ class TestAsyncArticles:
     @parametrize
     async def test_method_update(self, async_client: AsyncIntercom) -> None:
         article = await async_client.articles.update(
-            0,
+            id=123,
         )
         assert_matches_type(Article, article, path=["response"])
 
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncIntercom) -> None:
         article = await async_client.articles.update(
-            0,
+            id=123,
             author_id=1295,
             body="<p>New gifts in store for the jolly season</p>",
             description="Description of the Article",
@@ -2018,7 +2018,7 @@ class TestAsyncArticles:
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncIntercom) -> None:
         response = await async_client.articles.with_raw_response.update(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -2029,7 +2029,7 @@ class TestAsyncArticles:
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncIntercom) -> None:
         async with async_client.articles.with_streaming_response.update(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -2074,14 +2074,14 @@ class TestAsyncArticles:
     @parametrize
     async def test_method_remove(self, async_client: AsyncIntercom) -> None:
         article = await async_client.articles.remove(
-            0,
+            id=123,
         )
         assert_matches_type(DeletedArticleObject, article, path=["response"])
 
     @parametrize
     async def test_method_remove_with_all_params(self, async_client: AsyncIntercom) -> None:
         article = await async_client.articles.remove(
-            0,
+            id=123,
             intercom_version="2.11",
         )
         assert_matches_type(DeletedArticleObject, article, path=["response"])
@@ -2089,7 +2089,7 @@ class TestAsyncArticles:
     @parametrize
     async def test_raw_response_remove(self, async_client: AsyncIntercom) -> None:
         response = await async_client.articles.with_raw_response.remove(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -2100,7 +2100,7 @@ class TestAsyncArticles:
     @parametrize
     async def test_streaming_response_remove(self, async_client: AsyncIntercom) -> None:
         async with async_client.articles.with_streaming_response.remove(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -2120,8 +2120,8 @@ class TestAsyncArticles:
         article = await async_client.articles.search(
             help_center_id=0,
             highlight=True,
-            phrase="string",
-            state="string",
+            phrase="phrase",
+            state="state",
             intercom_version="2.11",
         )
         assert_matches_type(ArticleSearchResponse, article, path=["response"])

@@ -8,8 +8,8 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types.contacts import ContactSegments
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types.contacts import ContactSegments
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -20,14 +20,14 @@ class TestSegments:
     @parametrize
     def test_method_list(self, client: Intercom) -> None:
         segment = client.contacts.segments.list(
-            "string",
+            contact_id="63a07ddf05a32042dffac965",
         )
         assert_matches_type(ContactSegments, segment, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Intercom) -> None:
         segment = client.contacts.segments.list(
-            "string",
+            contact_id="63a07ddf05a32042dffac965",
             intercom_version="2.11",
         )
         assert_matches_type(ContactSegments, segment, path=["response"])
@@ -35,7 +35,7 @@ class TestSegments:
     @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.contacts.segments.with_raw_response.list(
-            "string",
+            contact_id="63a07ddf05a32042dffac965",
         )
 
         assert response.is_closed is True
@@ -46,7 +46,7 @@ class TestSegments:
     @parametrize
     def test_streaming_response_list(self, client: Intercom) -> None:
         with client.contacts.segments.with_streaming_response.list(
-            "string",
+            contact_id="63a07ddf05a32042dffac965",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -60,7 +60,7 @@ class TestSegments:
     def test_path_params_list(self, client: Intercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `contact_id` but received ''"):
             client.contacts.segments.with_raw_response.list(
-                "",
+                contact_id="",
             )
 
 
@@ -70,14 +70,14 @@ class TestAsyncSegments:
     @parametrize
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         segment = await async_client.contacts.segments.list(
-            "string",
+            contact_id="63a07ddf05a32042dffac965",
         )
         assert_matches_type(ContactSegments, segment, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
         segment = await async_client.contacts.segments.list(
-            "string",
+            contact_id="63a07ddf05a32042dffac965",
             intercom_version="2.11",
         )
         assert_matches_type(ContactSegments, segment, path=["response"])
@@ -85,7 +85,7 @@ class TestAsyncSegments:
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
         response = await async_client.contacts.segments.with_raw_response.list(
-            "string",
+            contact_id="63a07ddf05a32042dffac965",
         )
 
         assert response.is_closed is True
@@ -96,7 +96,7 @@ class TestAsyncSegments:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncIntercom) -> None:
         async with async_client.contacts.segments.with_streaming_response.list(
-            "string",
+            contact_id="63a07ddf05a32042dffac965",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -110,5 +110,5 @@ class TestAsyncSegments:
     async def test_path_params_list(self, async_client: AsyncIntercom) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `contact_id` but received ''"):
             await async_client.contacts.segments.with_raw_response.list(
-                "",
+                contact_id="",
             )

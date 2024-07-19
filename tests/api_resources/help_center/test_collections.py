@@ -8,8 +8,8 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from python_minus_intercom import Intercom, AsyncIntercom
-from python_minus_intercom.types.help_center import (
+from python_intercom import Intercom, AsyncIntercom
+from python_intercom.types.help_center import (
     Collection,
     CollectionList,
     DeletedCollection,
@@ -254,14 +254,14 @@ class TestCollections:
     @parametrize
     def test_method_retrieve(self, client: Intercom) -> None:
         collection = client.help_center.collections.retrieve(
-            0,
+            id=123,
         )
         assert_matches_type(Collection, collection, path=["response"])
 
     @parametrize
     def test_method_retrieve_with_all_params(self, client: Intercom) -> None:
         collection = client.help_center.collections.retrieve(
-            0,
+            id=123,
             intercom_version="2.11",
         )
         assert_matches_type(Collection, collection, path=["response"])
@@ -269,7 +269,7 @@ class TestCollections:
     @parametrize
     def test_raw_response_retrieve(self, client: Intercom) -> None:
         response = client.help_center.collections.with_raw_response.retrieve(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -280,7 +280,7 @@ class TestCollections:
     @parametrize
     def test_streaming_response_retrieve(self, client: Intercom) -> None:
         with client.help_center.collections.with_streaming_response.retrieve(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -293,14 +293,14 @@ class TestCollections:
     @parametrize
     def test_method_update(self, client: Intercom) -> None:
         collection = client.help_center.collections.update(
-            0,
+            id=123,
         )
         assert_matches_type(Collection, collection, path=["response"])
 
     @parametrize
     def test_method_update_with_all_params(self, client: Intercom) -> None:
         collection = client.help_center.collections.update(
-            0,
+            id=123,
             description="English description",
             name="Update collection name",
             parent_id="6871118",
@@ -499,7 +499,7 @@ class TestCollections:
     @parametrize
     def test_raw_response_update(self, client: Intercom) -> None:
         response = client.help_center.collections.with_raw_response.update(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -510,7 +510,7 @@ class TestCollections:
     @parametrize
     def test_streaming_response_update(self, client: Intercom) -> None:
         with client.help_center.collections.with_streaming_response.update(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -555,14 +555,14 @@ class TestCollections:
     @parametrize
     def test_method_delete(self, client: Intercom) -> None:
         collection = client.help_center.collections.delete(
-            0,
+            id=123,
         )
         assert_matches_type(DeletedCollection, collection, path=["response"])
 
     @parametrize
     def test_method_delete_with_all_params(self, client: Intercom) -> None:
         collection = client.help_center.collections.delete(
-            0,
+            id=123,
             intercom_version="2.11",
         )
         assert_matches_type(DeletedCollection, collection, path=["response"])
@@ -570,7 +570,7 @@ class TestCollections:
     @parametrize
     def test_raw_response_delete(self, client: Intercom) -> None:
         response = client.help_center.collections.with_raw_response.delete(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -581,7 +581,7 @@ class TestCollections:
     @parametrize
     def test_streaming_response_delete(self, client: Intercom) -> None:
         with client.help_center.collections.with_streaming_response.delete(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -828,14 +828,14 @@ class TestAsyncCollections:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncIntercom) -> None:
         collection = await async_client.help_center.collections.retrieve(
-            0,
+            id=123,
         )
         assert_matches_type(Collection, collection, path=["response"])
 
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncIntercom) -> None:
         collection = await async_client.help_center.collections.retrieve(
-            0,
+            id=123,
             intercom_version="2.11",
         )
         assert_matches_type(Collection, collection, path=["response"])
@@ -843,7 +843,7 @@ class TestAsyncCollections:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncIntercom) -> None:
         response = await async_client.help_center.collections.with_raw_response.retrieve(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -854,7 +854,7 @@ class TestAsyncCollections:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncIntercom) -> None:
         async with async_client.help_center.collections.with_streaming_response.retrieve(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -867,14 +867,14 @@ class TestAsyncCollections:
     @parametrize
     async def test_method_update(self, async_client: AsyncIntercom) -> None:
         collection = await async_client.help_center.collections.update(
-            0,
+            id=123,
         )
         assert_matches_type(Collection, collection, path=["response"])
 
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncIntercom) -> None:
         collection = await async_client.help_center.collections.update(
-            0,
+            id=123,
             description="English description",
             name="Update collection name",
             parent_id="6871118",
@@ -1073,7 +1073,7 @@ class TestAsyncCollections:
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncIntercom) -> None:
         response = await async_client.help_center.collections.with_raw_response.update(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -1084,7 +1084,7 @@ class TestAsyncCollections:
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncIntercom) -> None:
         async with async_client.help_center.collections.with_streaming_response.update(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -1129,14 +1129,14 @@ class TestAsyncCollections:
     @parametrize
     async def test_method_delete(self, async_client: AsyncIntercom) -> None:
         collection = await async_client.help_center.collections.delete(
-            0,
+            id=123,
         )
         assert_matches_type(DeletedCollection, collection, path=["response"])
 
     @parametrize
     async def test_method_delete_with_all_params(self, async_client: AsyncIntercom) -> None:
         collection = await async_client.help_center.collections.delete(
-            0,
+            id=123,
             intercom_version="2.11",
         )
         assert_matches_type(DeletedCollection, collection, path=["response"])
@@ -1144,7 +1144,7 @@ class TestAsyncCollections:
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncIntercom) -> None:
         response = await async_client.help_center.collections.with_raw_response.delete(
-            0,
+            id=123,
         )
 
         assert response.is_closed is True
@@ -1155,7 +1155,7 @@ class TestAsyncCollections:
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncIntercom) -> None:
         async with async_client.help_center.collections.with_streaming_response.delete(
-            0,
+            id=123,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
