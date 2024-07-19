@@ -3,8 +3,8 @@
 from typing import List, Optional
 from typing_extensions import Literal
 
-from ..._models import BaseModel
-from .help_center import HelpCenter
+from .._models import BaseModel
+from .help_center.help_center import HelpCenter
 
 __all__ = ["HelpCenterList"]
 
