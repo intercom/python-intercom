@@ -16,7 +16,7 @@ The REST API documentation can be found on [developers.intercom.com](https://dev
 
 ```sh
 # install from PyPI
-pip install python-intercom
+pip install --pre python-intercom
 ```
 
 ## Usage
