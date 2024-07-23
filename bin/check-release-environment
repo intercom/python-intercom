@@ -1,20 +1,9 @@
 #!/usr/bin/env bash
 
-warnings=()
 errors=()
 
 if [ -z "${PYPI_TOKEN}" ]; then
-  warnings+=("The INTERCOM_PYPI_TOKEN secret has not been set. Please set it in either this repository's secrets or your organization secrets.")
-fi
-
-lenWarnings=${#warnings[@]}
-
-if [[ lenWarnings -gt 0 ]]; then
-  echo -e "Found the following warnings in the release environment:\n"
-
-  for warning in "${warnings[@]}"; do
-    echo -e "- $warning\n"
-  done
+  errors+=("The INTERCOM_PYPI_TOKEN secret has not been set. Please set it in either this repository's secrets or your organization secrets.")
 fi
 
 lenErrors=${#errors[@]}
