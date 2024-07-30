@@ -77,9 +77,9 @@ from .run_assignment_rules import (
 )
 from ...types.shared.ticket import Ticket
 from ...types.shared.message import Message
-from ...types.conversation_list import ConversationList
 from ...types.shared.conversation import Conversation
 from ...types.conversation_list_response import ConversationListResponse
+from ...types.conversation_search_response import ConversationSearchResponse
 
 __all__ = ["ConversationsResource", "AsyncConversationsResource"]
 
@@ -739,7 +739,7 @@ class ConversationsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ConversationList:
+    ) -> ConversationSearchResponse:
         """
         You can search for multiple conversations by the value of their attributes in
         order to fetch exactly which ones you want.
@@ -883,7 +883,7 @@ class ConversationsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ConversationList,
+            cast_to=ConversationSearchResponse,
         )
 
 
@@ -1544,7 +1544,7 @@ class AsyncConversationsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ConversationList:
+    ) -> ConversationSearchResponse:
         """
         You can search for multiple conversations by the value of their attributes in
         order to fetch exactly which ones you want.
@@ -1688,7 +1688,7 @@ class AsyncConversationsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ConversationList,
+            cast_to=ConversationSearchResponse,
         )
 
 

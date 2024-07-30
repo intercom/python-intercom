@@ -72,14 +72,14 @@ class TestCompanies:
     @parametrize
     def test_method_list(self, client: Intercom) -> None:
         company = client.contacts.companies.list(
-            contact_id="contact_id",
+            contact_id="63a07ddf05a32042dffac965",
         )
         assert_matches_type(ContactAttachedCompanies, company, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Intercom) -> None:
         company = client.contacts.companies.list(
-            contact_id="contact_id",
+            contact_id="63a07ddf05a32042dffac965",
             intercom_version="2.11",
         )
         assert_matches_type(ContactAttachedCompanies, company, path=["response"])
@@ -87,7 +87,7 @@ class TestCompanies:
     @parametrize
     def test_raw_response_list(self, client: Intercom) -> None:
         response = client.contacts.companies.with_raw_response.list(
-            contact_id="contact_id",
+            contact_id="63a07ddf05a32042dffac965",
         )
 
         assert response.is_closed is True
@@ -98,7 +98,7 @@ class TestCompanies:
     @parametrize
     def test_streaming_response_list(self, client: Intercom) -> None:
         with client.contacts.companies.with_streaming_response.list(
-            contact_id="contact_id",
+            contact_id="63a07ddf05a32042dffac965",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -230,14 +230,14 @@ class TestAsyncCompanies:
     @parametrize
     async def test_method_list(self, async_client: AsyncIntercom) -> None:
         company = await async_client.contacts.companies.list(
-            contact_id="contact_id",
+            contact_id="63a07ddf05a32042dffac965",
         )
         assert_matches_type(ContactAttachedCompanies, company, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncIntercom) -> None:
         company = await async_client.contacts.companies.list(
-            contact_id="contact_id",
+            contact_id="63a07ddf05a32042dffac965",
             intercom_version="2.11",
         )
         assert_matches_type(ContactAttachedCompanies, company, path=["response"])
@@ -245,7 +245,7 @@ class TestAsyncCompanies:
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncIntercom) -> None:
         response = await async_client.contacts.companies.with_raw_response.list(
-            contact_id="contact_id",
+            contact_id="63a07ddf05a32042dffac965",
         )
 
         assert response.is_closed is True
@@ -256,7 +256,7 @@ class TestAsyncCompanies:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncIntercom) -> None:
         async with async_client.contacts.companies.with_streaming_response.list(
-            contact_id="contact_id",
+            contact_id="63a07ddf05a32042dffac965",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

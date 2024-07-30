@@ -1,18 +1,21 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import List, Union, Optional
 from typing_extensions import Literal
 
-from .._models import BaseModel
-from .shared.conversation import Conversation
-from .shared.cursor_pages import CursorPages
+from .newsfeed import Newsfeed
+from ..._models import BaseModel
+from .news_item import NewsItem
+from ..shared.cursor_pages import CursorPages
 
-__all__ = ["ConversationList"]
+__all__ = ["NewsItemListResponse", "Data"]
+
+Data = Union[NewsItem, Newsfeed]
 
 
-class ConversationList(BaseModel):
-    conversations: Optional[List[Conversation]] = None
-    """The list of conversation objects"""
+class NewsItemListResponse(BaseModel):
+    data: Optional[List[Data]] = None
+    """An array of Objects"""
 
     pages: Optional[CursorPages] = None
     """
@@ -25,5 +28,5 @@ class ConversationList(BaseModel):
     total_count: Optional[int] = None
     """A count of the total number of objects."""
 
-    type: Optional[Literal["conversation.list"]] = None
-    """Always conversation.list"""
+    type: Optional[Literal["list", "conversation.list"]] = None
+    """The type of object"""

@@ -16,7 +16,6 @@ from .search_request import SearchRequest as SearchRequest
 from .article_content import ArticleContent as ArticleContent
 from .part_attachment import PartAttachment as PartAttachment
 from .contact_reference import ContactReference as ContactReference
-from .paginated_response import PaginatedResponse as PaginatedResponse
 from .starting_after_paging import StartingAfterPaging as StartingAfterPaging
 from .ticket_type_attribute import TicketTypeAttribute as TicketTypeAttribute
 from .subscription_type_list import SubscriptionTypeList as SubscriptionTypeList

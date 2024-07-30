@@ -26,7 +26,7 @@ from ...._response import (
 )
 from ...._base_client import make_request_options
 from ....types.news.newsfeed import Newsfeed
-from ....types.shared.paginated_response import PaginatedResponse
+from ....types.news.newsfeed_list_response import NewsfeedListResponse
 
 __all__ = ["NewsfeedsResource", "AsyncNewsfeedsResource"]
 
@@ -135,7 +135,7 @@ class NewsfeedsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PaginatedResponse:
+    ) -> NewsfeedListResponse:
         """
         You can fetch a list of all newsfeeds
 
@@ -160,7 +160,7 @@ class NewsfeedsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PaginatedResponse,
+            cast_to=NewsfeedListResponse,
         )
 
 
@@ -268,7 +268,7 @@ class AsyncNewsfeedsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PaginatedResponse:
+    ) -> NewsfeedListResponse:
         """
         You can fetch a list of all newsfeeds
 
@@ -293,7 +293,7 @@ class AsyncNewsfeedsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PaginatedResponse,
+            cast_to=NewsfeedListResponse,
         )
 
 

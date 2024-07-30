@@ -15,7 +15,6 @@ from python_intercom.types import (
     Message,
     MultipleFilterSearchRequest,
     Note,
-    PaginatedResponse,
     PartAttachment,
     Reference,
     SearchRequest,
@@ -243,7 +242,7 @@ Methods:
 Types:
 
 ```python
-from python_intercom.types import ConversationList, ConversationListResponse
+from python_intercom.types import ConversationListResponse, ConversationSearchResponse
 ```
 
 Methods:
@@ -254,7 +253,7 @@ Methods:
 - <code title="get /conversations">client.conversations.<a href="./src/python_intercom/resources/conversations/conversations.py">list</a>(\*\*<a href="src/python_intercom/types/conversation_list_params.py">params</a>) -> <a href="./src/python_intercom/types/conversation_list_response.py">SyncCursorPagination[ConversationListResponse]</a></code>
 - <code title="post /conversations/{id}/convert">client.conversations.<a href="./src/python_intercom/resources/conversations/conversations.py">convert</a>(id, \*\*<a href="src/python_intercom/types/conversation_convert_params.py">params</a>) -> <a href="./src/python_intercom/types/shared/ticket.py">Optional</a></code>
 - <code title="post /conversations/redact">client.conversations.<a href="./src/python_intercom/resources/conversations/conversations.py">redact</a>(\*\*<a href="src/python_intercom/types/conversation_redact_params.py">params</a>) -> <a href="./src/python_intercom/types/shared/conversation.py">Conversation</a></code>
-- <code title="post /conversations/search">client.conversations.<a href="./src/python_intercom/resources/conversations/conversations.py">search</a>(\*\*<a href="src/python_intercom/types/conversation_search_params.py">params</a>) -> <a href="./src/python_intercom/types/conversation_list.py">ConversationList</a></code>
+- <code title="post /conversations/search">client.conversations.<a href="./src/python_intercom/resources/conversations/conversations.py">search</a>(\*\*<a href="src/python_intercom/types/conversation_search_params.py">params</a>) -> <a href="./src/python_intercom/types/conversation_search_response.py">ConversationSearchResponse</a></code>
 
 ## Tags
 
@@ -365,7 +364,7 @@ Methods:
 Types:
 
 ```python
-from python_intercom.types.news import NewsItem, NewsItemDeleteResponse
+from python_intercom.types.news import NewsItem, NewsItemListResponse, NewsItemDeleteResponse
 ```
 
 Methods:
@@ -373,7 +372,7 @@ Methods:
 - <code title="post /news/news_items">client.news.news_items.<a href="./src/python_intercom/resources/news/news_items.py">create</a>(\*\*<a href="src/python_intercom/types/news/news_item_create_params.py">params</a>) -> <a href="./src/python_intercom/types/news/news_item.py">NewsItem</a></code>
 - <code title="get /news/news_items/{id}">client.news.news_items.<a href="./src/python_intercom/resources/news/news_items.py">retrieve</a>(id) -> <a href="./src/python_intercom/types/news/news_item.py">NewsItem</a></code>
 - <code title="put /news/news_items/{id}">client.news.news_items.<a href="./src/python_intercom/resources/news/news_items.py">update</a>(id, \*\*<a href="src/python_intercom/types/news/news_item_update_params.py">params</a>) -> <a href="./src/python_intercom/types/news/news_item.py">NewsItem</a></code>
-- <code title="get /news/news_items">client.news.news_items.<a href="./src/python_intercom/resources/news/news_items.py">list</a>() -> <a href="./src/python_intercom/types/shared/paginated_response.py">PaginatedResponse</a></code>
+- <code title="get /news/news_items">client.news.news_items.<a href="./src/python_intercom/resources/news/news_items.py">list</a>() -> <a href="./src/python_intercom/types/news/news_item_list_response.py">NewsItemListResponse</a></code>
 - <code title="delete /news/news_items/{id}">client.news.news_items.<a href="./src/python_intercom/resources/news/news_items.py">delete</a>(id) -> <a href="./src/python_intercom/types/news/news_item_delete_response.py">NewsItemDeleteResponse</a></code>
 
 ## Newsfeeds
@@ -381,19 +380,25 @@ Methods:
 Types:
 
 ```python
-from python_intercom.types.news import Newsfeed
+from python_intercom.types.news import Newsfeed, NewsfeedListResponse
 ```
 
 Methods:
 
 - <code title="get /news/newsfeeds/{id}">client.news.newsfeeds.<a href="./src/python_intercom/resources/news/newsfeeds/newsfeeds.py">retrieve</a>(id) -> <a href="./src/python_intercom/types/news/newsfeed.py">Newsfeed</a></code>
-- <code title="get /news/newsfeeds">client.news.newsfeeds.<a href="./src/python_intercom/resources/news/newsfeeds/newsfeeds.py">list</a>() -> <a href="./src/python_intercom/types/shared/paginated_response.py">PaginatedResponse</a></code>
+- <code title="get /news/newsfeeds">client.news.newsfeeds.<a href="./src/python_intercom/resources/news/newsfeeds/newsfeeds.py">list</a>() -> <a href="./src/python_intercom/types/news/newsfeed_list_response.py">NewsfeedListResponse</a></code>
 
 ### Items
 
+Types:
+
+```python
+from python_intercom.types.news.newsfeeds import ItemListResponse
+```
+
 Methods:
 
-- <code title="get /news/newsfeeds/{id}/items">client.news.newsfeeds.items.<a href="./src/python_intercom/resources/news/newsfeeds/items.py">list</a>(id) -> <a href="./src/python_intercom/types/shared/paginated_response.py">PaginatedResponse</a></code>
+- <code title="get /news/newsfeeds/{id}/items">client.news.newsfeeds.items.<a href="./src/python_intercom/resources/news/newsfeeds/items.py">list</a>(id) -> <a href="./src/python_intercom/types/news/newsfeeds/item_list_response.py">ItemListResponse</a></code>
 
 # Notes
 

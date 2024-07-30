@@ -1,5 +1,29 @@
 # Changelog
 
+## 4.0.0-alpha.2 (2024-07-30)
+
+Full Changelog: [v4.0.0-alpha.1...v4.0.0-alpha.2](https://github.com/intercom/python-intercom/compare/v4.0.0-alpha.1...v4.0.0-alpha.2)
+
+### Features
+
+* **api:** update via SDK Studio ([#263](https://github.com/intercom/python-intercom/issues/263)) ([35af217](https://github.com/intercom/python-intercom/commit/35af217c3ce6fb0ac47aa0ecde8a08a99b4819ed))
+* **api:** update via SDK Studio ([#265](https://github.com/intercom/python-intercom/issues/265)) ([bcc28f6](https://github.com/intercom/python-intercom/commit/bcc28f659e15461bf4b0308720e5cac7b088f273))
+* **api:** update via SDK Studio ([#271](https://github.com/intercom/python-intercom/issues/271)) ([c29da78](https://github.com/intercom/python-intercom/commit/c29da7803e93ca8046292a8036b0000767c0fd29))
+
+
+### Chores
+
+* fix error message import example ([#268](https://github.com/intercom/python-intercom/issues/268)) ([13ea06f](https://github.com/intercom/python-intercom/commit/13ea06f33714036c77082340858ce2207a5854e1))
+* **internal:** add type construction helper ([#270](https://github.com/intercom/python-intercom/issues/270)) ([038341c](https://github.com/intercom/python-intercom/commit/038341c1f602021861754f1c5a75d4b284192885))
+* **internal:** codegen related update ([#269](https://github.com/intercom/python-intercom/issues/269)) ([5c0b8a6](https://github.com/intercom/python-intercom/commit/5c0b8a60732430e13cc75a2eb02f643b7aca291f))
+* **internal:** refactor release doctor script ([#261](https://github.com/intercom/python-intercom/issues/261)) ([b78c4f0](https://github.com/intercom/python-intercom/commit/b78c4f0ac7ee4a571d0be0c08b313bce3134a019))
+* **internal:** refactor release doctor script ([#264](https://github.com/intercom/python-intercom/issues/264)) ([81453ce](https://github.com/intercom/python-intercom/commit/81453cea53317789d7fff13c8c68509f6f700462))
+* **internal:** refactor release doctor script ([#266](https://github.com/intercom/python-intercom/issues/266)) ([276360c](https://github.com/intercom/python-intercom/commit/276360c3cad7c86e0629b4762f8c3e8469894e01))
+* **internal:** version bump ([#259](https://github.com/intercom/python-intercom/issues/259)) ([10e1901](https://github.com/intercom/python-intercom/commit/10e190128e63b17011af01bb5b0d927d6977809c))
+* **tests:** update prism version ([#262](https://github.com/intercom/python-intercom/issues/262)) ([229a17a](https://github.com/intercom/python-intercom/commit/229a17ad3b474dd230561a3dcf2eaf19f7189c20))
+* **tests:** update prism version ([#267](https://github.com/intercom/python-intercom/issues/267)) ([fbcc2c3](https://github.com/intercom/python-intercom/commit/fbcc2c373d0b7147f7fb92d3026226713ebb9b90))
+* Update README.md ([c7a1a2f](https://github.com/intercom/python-intercom/commit/c7a1a2f2c99c4f550d92e6b5e2170f2b5e734ea2))
+
 ## 4.0.0-alpha.1 (2024-07-19)
 
 Full Changelog: [v0.1.0...v4.0.0-alpha.1](https://github.com/intercom/python-intercom/compare/v0.1.0...v4.0.0-alpha.1)

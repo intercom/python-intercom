@@ -3,17 +3,17 @@
 from typing import List, Union, Optional
 from typing_extensions import Literal
 
+from .newsfeed import Newsfeed
 from ..._models import BaseModel
-from .cursor_pages import CursorPages
-from ..news.newsfeed import Newsfeed
-from ..news.news_item import NewsItem
+from .news_item import NewsItem
+from ..shared.cursor_pages import CursorPages
 
-__all__ = ["PaginatedResponse", "Data"]
+__all__ = ["NewsfeedListResponse", "Data"]
 
 Data = Union[NewsItem, Newsfeed]
 
 
-class PaginatedResponse(BaseModel):
+class NewsfeedListResponse(BaseModel):
     data: Optional[List[Data]] = None
     """An array of Objects"""
 
