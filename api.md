@@ -243,7 +243,7 @@ Methods:
 Types:
 
 ```python
-from python_intercom.types import Conversation, ConversationListResponse, ConversationSearchResponse
+from python_intercom.types import ConversationListResponse, ConversationSearchResponse
 ```
 
 Methods:
