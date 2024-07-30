@@ -51,7 +51,6 @@ from .contact_deleted import ContactDeleted as ContactDeleted
 from .contact_archived import ContactArchived as ContactArchived
 from .help_center_list import HelpCenterList as HelpCenterList
 from .ticket_type_list import TicketTypeList as TicketTypeList
-from .conversation_list import ConversationList as ConversationList
 from .contact_unarchived import ContactUnarchived as ContactUnarchived
 from .data_event_summary import DataEventSummary as DataEventSummary
 from .company_list_params import CompanyListParams as CompanyListParams
@@ -94,6 +93,7 @@ from .data_event_summaries_params import DataEventSummariesParams as DataEventSu
 from .tag_create_or_update_params import TagCreateOrUpdateParams as TagCreateOrUpdateParams
 from .company_retrieve_list_params import CompanyRetrieveListParams as CompanyRetrieveListParams
 from .conversation_retrieve_params import ConversationRetrieveParams as ConversationRetrieveParams
+from .conversation_search_response import ConversationSearchResponse as ConversationSearchResponse
 from .data_attribute_create_params import DataAttributeCreateParams as DataAttributeCreateParams
 from .data_attribute_update_params import DataAttributeUpdateParams as DataAttributeUpdateParams
 from .data_export_content_data_params import DataExportContentDataParams as DataExportContentDataParams

@@ -7,10 +7,10 @@ from .._models import BaseModel
 from .shared.conversation import Conversation
 from .shared.cursor_pages import CursorPages
 
-__all__ = ["ConversationList"]
+__all__ = ["ConversationSearchResponse"]
 
 
-class ConversationList(BaseModel):
+class ConversationSearchResponse(BaseModel):
     conversations: Optional[List[Conversation]] = None
     """The list of conversation objects"""
 
