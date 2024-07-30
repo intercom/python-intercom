@@ -10,8 +10,8 @@ import pytest
 from tests.utils import assert_matches_type
 from python_intercom import Intercom, AsyncIntercom
 from python_intercom.types import (
-    ConversationList,
     ConversationListResponse,
+    ConversationSearchResponse,
 )
 from python_intercom.pagination import SyncCursorPagination, AsyncCursorPagination
 from python_intercom.types.shared import Ticket, Message, Conversation
@@ -342,7 +342,7 @@ class TestConversations:
         conversation = client.conversations.search(
             query={},
         )
-        assert_matches_type(ConversationList, conversation, path=["response"])
+        assert_matches_type(ConversationSearchResponse, conversation, path=["response"])
 
     @parametrize
     def test_method_search_with_all_params(self, client: Intercom) -> None:
@@ -358,7 +358,7 @@ class TestConversations:
             },
             intercom_version="2.11",
         )
-        assert_matches_type(ConversationList, conversation, path=["response"])
+        assert_matches_type(ConversationSearchResponse, conversation, path=["response"])
 
     @parametrize
     def test_raw_response_search(self, client: Intercom) -> None:
@@ -369,7 +369,7 @@ class TestConversations:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         conversation = response.parse()
-        assert_matches_type(ConversationList, conversation, path=["response"])
+        assert_matches_type(ConversationSearchResponse, conversation, path=["response"])
 
     @parametrize
     def test_streaming_response_search(self, client: Intercom) -> None:
@@ -380,7 +380,7 @@ class TestConversations:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             conversation = response.parse()
-            assert_matches_type(ConversationList, conversation, path=["response"])
+            assert_matches_type(ConversationSearchResponse, conversation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -708,7 +708,7 @@ class TestAsyncConversations:
         conversation = await async_client.conversations.search(
             query={},
         )
-        assert_matches_type(ConversationList, conversation, path=["response"])
+        assert_matches_type(ConversationSearchResponse, conversation, path=["response"])
 
     @parametrize
     async def test_method_search_with_all_params(self, async_client: AsyncIntercom) -> None:
@@ -724,7 +724,7 @@ class TestAsyncConversations:
             },
             intercom_version="2.11",
         )
-        assert_matches_type(ConversationList, conversation, path=["response"])
+        assert_matches_type(ConversationSearchResponse, conversation, path=["response"])
 
     @parametrize
     async def test_raw_response_search(self, async_client: AsyncIntercom) -> None:
@@ -735,7 +735,7 @@ class TestAsyncConversations:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         conversation = await response.parse()
-        assert_matches_type(ConversationList, conversation, path=["response"])
+        assert_matches_type(ConversationSearchResponse, conversation, path=["response"])
 
     @parametrize
     async def test_streaming_response_search(self, async_client: AsyncIntercom) -> None:
@@ -746,6 +746,6 @@ class TestAsyncConversations:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             conversation = await response.parse()
-            assert_matches_type(ConversationList, conversation, path=["response"])
+            assert_matches_type(ConversationSearchResponse, conversation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
