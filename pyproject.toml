@@ -1,6 +1,6 @@
 [project]
 name = "python-intercom"
-version = "4.0.0-alpha.1"
+version = "4.0.0-alpha.2"
 description = "The official Python library for the intercom API"
 dynamic = ["readme"]
 license = "Apache-2.0"
