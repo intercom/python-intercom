@@ -243,7 +243,7 @@ Methods:
 Types:
 
 ```python
-from python_intercom.types import ConversationList, ConversationListResponse
+from python_intercom.types import Conversation, ConversationListResponse, ConversationSearchResponse
 ```
 
 Methods:
@@ -254,7 +254,7 @@ Methods:
 - <code title="get /conversations">client.conversations.<a href="./src/python_intercom/resources/conversations/conversations.py">list</a>(\*\*<a href="src/python_intercom/types/conversation_list_params.py">params</a>) -> <a href="./src/python_intercom/types/conversation_list_response.py">SyncCursorPagination[ConversationListResponse]</a></code>
 - <code title="post /conversations/{id}/convert">client.conversations.<a href="./src/python_intercom/resources/conversations/conversations.py">convert</a>(id, \*\*<a href="src/python_intercom/types/conversation_convert_params.py">params</a>) -> <a href="./src/python_intercom/types/shared/ticket.py">Optional</a></code>
 - <code title="post /conversations/redact">client.conversations.<a href="./src/python_intercom/resources/conversations/conversations.py">redact</a>(\*\*<a href="src/python_intercom/types/conversation_redact_params.py">params</a>) -> <a href="./src/python_intercom/types/shared/conversation.py">Conversation</a></code>
-- <code title="post /conversations/search">client.conversations.<a href="./src/python_intercom/resources/conversations/conversations.py">search</a>(\*\*<a href="src/python_intercom/types/conversation_search_params.py">params</a>) -> <a href="./src/python_intercom/types/conversation_list.py">ConversationList</a></code>
+- <code title="post /conversations/search">client.conversations.<a href="./src/python_intercom/resources/conversations/conversations.py">search</a>(\*\*<a href="src/python_intercom/types/conversation_search_params.py">params</a>) -> <a href="./src/python_intercom/types/conversation_search_response.py">ConversationSearchResponse</a></code>
 
 ## Tags
 
