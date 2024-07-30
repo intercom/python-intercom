@@ -25,7 +25,7 @@ from ..._response import (
 from ...types.news import news_item_create_params, news_item_update_params
 from ..._base_client import make_request_options
 from ...types.news.news_item import NewsItem
-from ...types.shared.paginated_response import PaginatedResponse
+from ...types.news.news_item_list_response import NewsItemListResponse
 from ...types.news.news_item_delete_response import NewsItemDeleteResponse
 
 __all__ = ["NewsItemsResource", "AsyncNewsItemsResource"]
@@ -327,7 +327,7 @@ class NewsItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PaginatedResponse:
+    ) -> NewsItemListResponse:
         """
         You can fetch a list of all news items
 
@@ -352,7 +352,7 @@ class NewsItemsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PaginatedResponse,
+            cast_to=NewsItemListResponse,
         )
 
     def delete(
@@ -711,7 +711,7 @@ class AsyncNewsItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> PaginatedResponse:
+    ) -> NewsItemListResponse:
         """
         You can fetch a list of all news items
 
@@ -736,7 +736,7 @@ class AsyncNewsItemsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PaginatedResponse,
+            cast_to=NewsItemListResponse,
         )
 
     async def delete(

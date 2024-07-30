@@ -20,7 +20,6 @@ from .shared import (
     ArticleContent as ArticleContent,
     PartAttachment as PartAttachment,
     ContactReference as ContactReference,
-    PaginatedResponse as PaginatedResponse,
     StartingAfterPaging as StartingAfterPaging,
     TicketTypeAttribute as TicketTypeAttribute,
     SubscriptionTypeList as SubscriptionTypeList,
