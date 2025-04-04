@@ -8,10 +8,11 @@ from intercom.api_operations.find_all import FindAll
 from intercom.api_operations.delete import Delete
 from intercom.api_operations.save import Save
 from intercom.api_operations.load import Load
+from intercom.api_operations.scroll import Scroll
 from intercom.service.base_service import BaseService
 
 
-class Lead(BaseService, All, Find, FindAll, Delete, Save, Load, Convert):
+class Lead(BaseService, All, Find, FindAll, Delete, Save, Load, Convert, Scroll):
     """Leads are useful for representing logged-out users of your application.
 
     Ref: https://developers.intercom.io/reference#leads
