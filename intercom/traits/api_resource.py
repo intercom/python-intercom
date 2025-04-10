@@ -14,7 +14,10 @@ def type_field(attribute):
 
 
 def timestamp_field(attribute):
-    return attribute.endswith('_at')
+    # update_last_request_at is a boolean field, we must ignore that
+    if attribute == 'update_last_request_at':
+        return False
+    return attribute.endswith('_at') or attribute == 'waiting_since'
 
 
 def custom_attribute_field(attribute):
@@ -97,10 +100,16 @@ class Resource(object):
 
     def __getattribute__(self, attribute):
         value = super(Resource, self).__getattribute__(attribute)
+        # ignore attributes we know about
+        if '_' == attribute[0] or attribute in self.__class__.__dict__:
+            return value
+
+        # check for timestamp fields
         if timestamp_field(attribute):
             return to_datetime_value(value)
-        else:
-            return value
+
+        # just return the value
+        return value
 
     def __setattr__(self, attribute, value):
         if typed_value(value) and not custom_attribute_field(attribute):

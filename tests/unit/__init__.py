@@ -348,6 +348,7 @@ test_conversation_notification = {
             "id": "123456789",
             "created_at": "1410335293",
             "updated_at": "1410335293",
+            "waiting_since": "1512020127",
             "user": {
                 "type": "user",
                 "id": "540f1de7112d3d1d51001637",
