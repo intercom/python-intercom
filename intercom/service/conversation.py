@@ -25,7 +25,7 @@ class Conversation(BaseService, Find, FindAll, Save, Load):
 
     def resource_url(self, _id):
         """Return the URL for the specified resource in this collection."""
-        return "/%s/%s/reply" % (self.collection, _id)
+        return "/%s/%s" % (self.collection, _id)
 
     def reply(self, **reply_data):
         """Reply to a message."""
@@ -59,5 +59,5 @@ class Conversation(BaseService, Find, FindAll, Save, Load):
         """Send requests to the resource handler."""
         _id = reply_data.pop('id')
         reply_data['conversation_id'] = _id
-        response = self.client.post(self.resource_url(_id), reply_data)
+        response = self.client.post(self.resource_url(_id) + "/reply", reply_data)
         return self.collection_class().from_response(response)
