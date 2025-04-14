@@ -49,7 +49,7 @@ Note that certain resources will require an extended scope access token : `Setti
 Resources
 ~~~~~~~~~
 
-Resources this API supports:
+Resources this API(aplication programming interface) supports:
 
 ::
 
@@ -490,12 +490,14 @@ Running the Tests
 -----------------
 
 Unit tests:
+-----------
 
 .. code:: bash
 
     nosetests tests/unit
 
 Integration tests:
+--------------------
 
 .. code:: bash
 
