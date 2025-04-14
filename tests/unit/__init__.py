@@ -136,6 +136,128 @@ def get_user(email="bob@example.com", name="Joe Schmoe"):
         }
     }
 
+def get_contact(email="bob@example.com", name="Joe Schmoe"):
+    return {
+        "type": "contact",
+        "id": "id-from-customers-app",
+        "workspace_id": "ecahpwf5",
+        "external_id": "the-app-id",
+        "role": "user",
+        "email": email,
+        "phone": "+1123456789",
+        "name": name,
+        "avatar": "https://example.org/128Wash.jpg",
+        "owner_id": 127,
+        "social_profiles": {
+            "type": "list",
+            "data": [
+            {
+                "type": "social_profile",
+                "name": "Twitter",
+                "url": "http://twitter.com/th1sland"
+            }
+            ]
+        },
+        "has_hard_bounced": False,
+        "marked_email_as_spam": False,
+        "unsubscribed_from_emails": False,
+        "created_at": 1571672154,
+        "updated_at": 1571672158,
+        "signed_up_at": 1571069751,
+        "last_seen_at": 1571069751,
+        "last_replied_at": 1571672158,
+        "last_contacted_at": 1571672158,
+        "last_email_opened_at": 1571673478,
+        "last_email_clicked_at": 1571676789,
+        "language_override": None,
+        "browser": "chrome",
+        "browser_version": "77.0.3865.90",
+        "browser_language": "en",
+        "os": "OS X 10.14.6",
+        "location": {
+            "type": "location",
+            "country": "Ireland",
+            "region": "Dublin",
+            "city": "Dublin"
+        },
+        "android_app_name": None,
+        "android_app_version": None,
+        "android_device": None,
+        "android_os_version": None,
+        "android_sdk_version": None,
+        "android_last_seen_at": None,
+        "ios_app_name": None,
+        "ios_app_version": None,
+        "ios_device": None,
+        "ios_os_version": None,
+        "ios_sdk_version": None,
+        "ios_last_seen_at": None,
+        "custom_attributes": {
+            "paid_subscriber": True,
+            "monthly_spend": 155.5,
+            "team_mates": 1
+        },
+        "tags": {
+            "type": "list",
+            "data": [
+            {
+                "type": "tag",
+                "id": "2",
+                "url": "/tags/2"
+            },
+            {
+                "type": "tag",
+                "id": "4",
+                "url": "/tags/4"
+            },
+            {
+                "type": "tag",
+                "id": "5",
+                "url": "/tags/5"
+            }
+            ],
+            "url": "/contacts/5ba682d23d7cf92bef87bfd4/tags",
+            "total_count": 3,
+            "has_more": False
+        },
+        "notes": {
+            "type": "list",
+            "data": [
+            {
+                "type": "note",
+                "id": "20114858",
+                "url": "/notes/20114858"
+            }
+            ],
+            "url": "/contacts/5ba682d23d7cf92bef87bfd4/notes",
+            "total_count": 1,
+            "has_more": False
+        },
+        "companies": {
+            "type": "list",
+            "data": [
+            {
+                "type": "company",
+                "id": "5ba686093d7cf93552a3dc99",
+                "url": "/companies/5ba686093d7cf93552a3dc99"
+                
+            },
+            {
+                "type": "company",
+                "id": "5cee64a03d7cf90c51b36f19",
+                "url": "/companies/5cee64a03d7cf90c51b36f19"
+            },
+            {
+                "type": "company",
+                "id": "5d7668883d7cf944dbc5c791",
+                "url": "/companies/5d7668883d7cf944dbc5c791"
+            }
+            ],
+            "url": "/contacts/5ba682d23d7cf92bef87bfd4/companies",
+            "total_count": 3,
+            "has_more": False
+        }
+    }
 
 def get_company(name):
     return {
@@ -159,7 +281,6 @@ def get_company(name):
             "team_mates": 0
         }
     }
-
 
 def get_event(name="the-event-name"):
     return {
@@ -193,6 +314,26 @@ def page_of_users(include_next_link=False):
     }
     if include_next_link:
         page["pages"]["next"] = "https://api.intercom.io/users?per_page=50&page=2"
+    return page
+
+def page_of_contacts(include_next_link=False):
+    page = {
+        "type": "contacts.list",
+        "pages": {
+            "type": "pages",
+            "page": 1,
+            "next": None,
+            "per_page": 50,
+            "total_pages": 7
+        },
+        "users": [
+            get_contact("user1@example.com"),
+            get_contact("user2@example.com"),
+            get_contact("user3@example.com")],
+        "total_count": 314
+    }
+    if include_next_link:
+        page["pages"]["next"] = "https://api.intercom.io/contacts?per_page=50&page=2"
     return page
 
 

@@ -1,5 +1,6 @@
 dist
 venv
+env
 .venv
 .coverage
 .env
