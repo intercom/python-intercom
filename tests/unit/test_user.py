@@ -285,6 +285,22 @@ class UserTest(unittest.TestCase):
             mock_method.assert_called_once_with('/users/1', {})
 
     @istest
+    def it_archives_a_user(self):
+        user = User(id="1")
+        with patch.object(Client, 'delete', return_value={}) as mock_method:
+            user = self.client.users.archive(user)
+            eq_(user.id, "1")
+            mock_method.assert_called_once_with('/users/1', {})
+
+    @istest
+    def it_permanently_deletes_a_user(self):
+        user = User(id="1")
+        with patch.object(Client, 'post', return_value={'id': 1234}) as mock_method:
+            deletion_id = self.client.users.permanent_delete(user.id)
+            eq_(deletion_id, 1234)
+            mock_method.assert_called_once_with('/user_delete_requests', {'intercom_user_id': user.id})
+
+    @istest
     def it_can_use_user_create_for_convenience(self):
         payload = {
             'email': 'jo@example.com',
