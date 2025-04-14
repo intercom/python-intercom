@@ -5,11 +5,14 @@ import requests
 
 class Client(object):
 
-    def __init__(self, personal_access_token='my_personal_access_token'):
+    def __init__(self, personal_access_token='my_personal_access_token', http_session=None):
         self.personal_access_token = personal_access_token
         self.base_url = 'https://api.intercom.io'
         self.rate_limit_details = {}
-        self.http_session = requests.Session()
+        if http_session:
+            self.http_session = http_session
+        else:
+            self.http_session = requests.Session()
 
     @property
     def _auth(self):
