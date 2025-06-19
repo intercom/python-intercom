@@ -5,5 +5,5 @@ certifi
 inflection==0.3.0
 pytz==2016.7
 requests==2.32.4
-urllib3==1.26.19
+urllib3==2.5.0
 six==1.9.0
