@@ -1,6 +1,0 @@
-certifi
-inflection==0.3.0
-requests==2.32.4
-urllib3==2.5.0
-six==1.9.0
-sphinx-rtd-theme==0.1.7

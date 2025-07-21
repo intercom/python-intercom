@@ -1,8 +1,0 @@
-[run]
-source = intercom
-
-[report]
-omit =
-    */python?.?/*
-    */site-packages/nose/*
-
