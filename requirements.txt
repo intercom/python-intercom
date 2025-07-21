@@ -1,9 +1,4 @@
-#
-# Runtime dependencies.
-#
-certifi
-inflection==0.3.0
-pytz==2016.7
-requests==2.32.4
-urllib3==2.5.0
-six==1.9.0
+httpx>=0.21.2
+pydantic>= 1.9.2
+pydantic-core==2.18.2
+typing_extensions>= 4.0.0
