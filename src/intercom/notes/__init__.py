@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import Note, NoteContact
+from .requests import NoteContactParams, NoteParams
 
-__all__ = ["Note", "NoteContact"]
+__all__ = ["Note", "NoteContact", "NoteContactParams", "NoteParams"]

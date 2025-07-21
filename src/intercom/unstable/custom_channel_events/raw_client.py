@@ -13,8 +13,8 @@ from ..errors.bad_request_error import BadRequestError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
-from ..types.custom_channel_attribute import CustomChannelAttribute
-from ..types.custom_channel_contact import CustomChannelContact
+from ..requests.custom_channel_attribute import CustomChannelAttributeParams
+from ..requests.custom_channel_contact import CustomChannelContactParams
 from ..types.custom_channel_notification_response import CustomChannelNotificationResponse
 from ..types.error import Error
 
@@ -31,7 +31,7 @@ class RawCustomChannelEventsClient:
         *,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[CustomChannelNotificationResponse]:
         """
@@ -46,7 +46,7 @@ class RawCustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -63,7 +63,7 @@ class RawCustomChannelEventsClient:
                 "event_id": event_id,
                 "external_conversation_id": external_conversation_id,
                 "contact": convert_and_respect_annotation_metadata(
-                    object_=contact, annotation=CustomChannelContact, direction="write"
+                    object_=contact, annotation=CustomChannelContactParams, direction="write"
                 ),
             },
             headers={
@@ -137,7 +137,7 @@ class RawCustomChannelEventsClient:
         body: str,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[CustomChannelNotificationResponse]:
         """
@@ -155,7 +155,7 @@ class RawCustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -173,7 +173,7 @@ class RawCustomChannelEventsClient:
                 "event_id": event_id,
                 "external_conversation_id": external_conversation_id,
                 "contact": convert_and_respect_annotation_metadata(
-                    object_=contact, annotation=CustomChannelContact, direction="write"
+                    object_=contact, annotation=CustomChannelContactParams, direction="write"
                 ),
             },
             headers={
@@ -247,7 +247,7 @@ class RawCustomChannelEventsClient:
         quick_reply_option_id: str,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[CustomChannelNotificationResponse]:
         """
@@ -265,7 +265,7 @@ class RawCustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -283,7 +283,7 @@ class RawCustomChannelEventsClient:
                 "event_id": event_id,
                 "external_conversation_id": external_conversation_id,
                 "contact": convert_and_respect_annotation_metadata(
-                    object_=contact, annotation=CustomChannelContact, direction="write"
+                    object_=contact, annotation=CustomChannelContactParams, direction="write"
                 ),
             },
             headers={
@@ -354,10 +354,10 @@ class RawCustomChannelEventsClient:
     def notify_attribute_collected(
         self,
         *,
-        attribute: CustomChannelAttribute,
+        attribute: CustomChannelAttributeParams,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[CustomChannelNotificationResponse]:
         """
@@ -366,7 +366,7 @@ class RawCustomChannelEventsClient:
 
         Parameters
         ----------
-        attribute : CustomChannelAttribute
+        attribute : CustomChannelAttributeParams
 
         event_id : str
             Unique identifier for the event.
@@ -374,7 +374,7 @@ class RawCustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -389,12 +389,12 @@ class RawCustomChannelEventsClient:
             method="POST",
             json={
                 "attribute": convert_and_respect_annotation_metadata(
-                    object_=attribute, annotation=CustomChannelAttribute, direction="write"
+                    object_=attribute, annotation=CustomChannelAttributeParams, direction="write"
                 ),
                 "event_id": event_id,
                 "external_conversation_id": external_conversation_id,
                 "contact": convert_and_respect_annotation_metadata(
-                    object_=contact, annotation=CustomChannelContact, direction="write"
+                    object_=contact, annotation=CustomChannelContactParams, direction="write"
                 ),
             },
             headers={
@@ -472,7 +472,7 @@ class AsyncRawCustomChannelEventsClient:
         *,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[CustomChannelNotificationResponse]:
         """
@@ -487,7 +487,7 @@ class AsyncRawCustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -504,7 +504,7 @@ class AsyncRawCustomChannelEventsClient:
                 "event_id": event_id,
                 "external_conversation_id": external_conversation_id,
                 "contact": convert_and_respect_annotation_metadata(
-                    object_=contact, annotation=CustomChannelContact, direction="write"
+                    object_=contact, annotation=CustomChannelContactParams, direction="write"
                 ),
             },
             headers={
@@ -578,7 +578,7 @@ class AsyncRawCustomChannelEventsClient:
         body: str,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[CustomChannelNotificationResponse]:
         """
@@ -596,7 +596,7 @@ class AsyncRawCustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -614,7 +614,7 @@ class AsyncRawCustomChannelEventsClient:
                 "event_id": event_id,
                 "external_conversation_id": external_conversation_id,
                 "contact": convert_and_respect_annotation_metadata(
-                    object_=contact, annotation=CustomChannelContact, direction="write"
+                    object_=contact, annotation=CustomChannelContactParams, direction="write"
                 ),
             },
             headers={
@@ -688,7 +688,7 @@ class AsyncRawCustomChannelEventsClient:
         quick_reply_option_id: str,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[CustomChannelNotificationResponse]:
         """
@@ -706,7 +706,7 @@ class AsyncRawCustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -724,7 +724,7 @@ class AsyncRawCustomChannelEventsClient:
                 "event_id": event_id,
                 "external_conversation_id": external_conversation_id,
                 "contact": convert_and_respect_annotation_metadata(
-                    object_=contact, annotation=CustomChannelContact, direction="write"
+                    object_=contact, annotation=CustomChannelContactParams, direction="write"
                 ),
             },
             headers={
@@ -795,10 +795,10 @@ class AsyncRawCustomChannelEventsClient:
     async def notify_attribute_collected(
         self,
         *,
-        attribute: CustomChannelAttribute,
+        attribute: CustomChannelAttributeParams,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[CustomChannelNotificationResponse]:
         """
@@ -807,7 +807,7 @@ class AsyncRawCustomChannelEventsClient:
 
         Parameters
         ----------
-        attribute : CustomChannelAttribute
+        attribute : CustomChannelAttributeParams
 
         event_id : str
             Unique identifier for the event.
@@ -815,7 +815,7 @@ class AsyncRawCustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -830,12 +830,12 @@ class AsyncRawCustomChannelEventsClient:
             method="POST",
             json={
                 "attribute": convert_and_respect_annotation_metadata(
-                    object_=attribute, annotation=CustomChannelAttribute, direction="write"
+                    object_=attribute, annotation=CustomChannelAttributeParams, direction="write"
                 ),
                 "event_id": event_id,
                 "external_conversation_id": external_conversation_id,
                 "contact": convert_and_respect_annotation_metadata(
-                    object_=contact, annotation=CustomChannelContact, direction="write"
+                    object_=contact, annotation=CustomChannelContactParams, direction="write"
                 ),
             },
             headers={

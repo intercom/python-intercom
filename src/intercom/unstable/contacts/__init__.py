@@ -11,13 +11,29 @@ from .types import (
     ShowContactResponse,
     UpdateContactResponse,
 )
+from .requests import (
+    ContactAvatarParams,
+    ContactParams,
+    CreateContactResponseParams,
+    MergeContactResponseParams,
+    ShowContactByExternalIdResponseParams,
+    ShowContactResponseParams,
+    UpdateContactResponseParams,
+)
 
 __all__ = [
     "Contact",
     "ContactAvatar",
+    "ContactAvatarParams",
+    "ContactParams",
     "CreateContactResponse",
+    "CreateContactResponseParams",
     "MergeContactResponse",
+    "MergeContactResponseParams",
     "ShowContactByExternalIdResponse",
+    "ShowContactByExternalIdResponseParams",
     "ShowContactResponse",
+    "ShowContactResponseParams",
     "UpdateContactResponse",
+    "UpdateContactResponseParams",
 ]

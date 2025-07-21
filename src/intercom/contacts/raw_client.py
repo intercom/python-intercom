@@ -14,6 +14,9 @@ from ..core.serialization import convert_and_respect_annotation_metadata
 from ..core.unchecked_base_model import construct_type
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
+from ..requests.create_contact_request import CreateContactRequestParams
+from ..requests.search_request_query import SearchRequestQueryParams
+from ..requests.starting_after_paging import StartingAfterPagingParams
 from ..subscription_types.types.subscription_type import SubscriptionType
 from ..types.contact_archived import ContactArchived
 from ..types.contact_attached_companies import ContactAttachedCompanies
@@ -21,10 +24,7 @@ from ..types.contact_deleted import ContactDeleted
 from ..types.contact_list import ContactList
 from ..types.contact_segments import ContactSegments
 from ..types.contact_unarchived import ContactUnarchived
-from ..types.create_contact_request import CreateContactRequest
 from ..types.error import Error
-from ..types.search_request_query import SearchRequestQuery
-from ..types.starting_after_paging import StartingAfterPaging
 from ..types.subscription_type_list import SubscriptionTypeList
 from ..types.tag_list import TagList
 from .types.contact import Contact
@@ -742,8 +742,8 @@ class RawContactsClient:
     def search(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[Contact]:
         """
@@ -849,9 +849,9 @@ class RawContactsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -866,10 +866,10 @@ class RawContactsClient:
             method="POST",
             json={
                 "query": convert_and_respect_annotation_metadata(
-                    object_=query, annotation=SearchRequestQuery, direction="write"
+                    object_=query, annotation=SearchRequestQueryParams, direction="write"
                 ),
                 "pagination": convert_and_respect_annotation_metadata(
-                    object_=pagination, annotation=StartingAfterPaging, direction="write"
+                    object_=pagination, annotation=StartingAfterPagingParams, direction="write"
                 ),
             },
             headers={
@@ -1002,14 +1002,14 @@ class RawContactsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def create(
-        self, *, request: CreateContactRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateContactRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[Contact]:
         """
         You can create a new contact (ie. user or lead).
 
         Parameters
         ----------
-        request : CreateContactRequest
+        request : CreateContactRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1023,7 +1023,7 @@ class RawContactsClient:
             "contacts",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=CreateContactRequest, direction="write"
+                object_=request, annotation=CreateContactRequestParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -1848,8 +1848,8 @@ class AsyncRawContactsClient:
     async def search(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[Contact]:
         """
@@ -1955,9 +1955,9 @@ class AsyncRawContactsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1972,10 +1972,10 @@ class AsyncRawContactsClient:
             method="POST",
             json={
                 "query": convert_and_respect_annotation_metadata(
-                    object_=query, annotation=SearchRequestQuery, direction="write"
+                    object_=query, annotation=SearchRequestQueryParams, direction="write"
                 ),
                 "pagination": convert_and_respect_annotation_metadata(
-                    object_=pagination, annotation=StartingAfterPaging, direction="write"
+                    object_=pagination, annotation=StartingAfterPagingParams, direction="write"
                 ),
             },
             headers={
@@ -2114,14 +2114,14 @@ class AsyncRawContactsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def create(
-        self, *, request: CreateContactRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateContactRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Contact]:
         """
         You can create a new contact (ie. user or lead).
 
         Parameters
         ----------
-        request : CreateContactRequest
+        request : CreateContactRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2135,7 +2135,7 @@ class AsyncRawContactsClient:
             "contacts",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=CreateContactRequest, direction="write"
+                object_=request, annotation=CreateContactRequestParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",

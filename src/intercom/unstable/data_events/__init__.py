@@ -10,12 +10,26 @@ from .types import (
     LisDataEventsRequestFilterIntercomUserId,
     LisDataEventsRequestFilterUserId,
 )
+from .requests import (
+    CreateDataEventSummariesRequestEventSummariesParams,
+    DataEventParams,
+    LisDataEventsRequestFilterEmailParams,
+    LisDataEventsRequestFilterIntercomUserIdParams,
+    LisDataEventsRequestFilterParams,
+    LisDataEventsRequestFilterUserIdParams,
+)
 
 __all__ = [
     "CreateDataEventSummariesRequestEventSummaries",
+    "CreateDataEventSummariesRequestEventSummariesParams",
     "DataEvent",
+    "DataEventParams",
     "LisDataEventsRequestFilter",
     "LisDataEventsRequestFilterEmail",
+    "LisDataEventsRequestFilterEmailParams",
     "LisDataEventsRequestFilterIntercomUserId",
+    "LisDataEventsRequestFilterIntercomUserIdParams",
+    "LisDataEventsRequestFilterParams",
     "LisDataEventsRequestFilterUserId",
+    "LisDataEventsRequestFilterUserIdParams",
 ]

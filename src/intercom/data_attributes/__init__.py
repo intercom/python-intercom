@@ -11,6 +11,7 @@ from .types import (
     DataAttributesListRequestModel,
     UpdateDataAttributeRequestOptionsItem,
 )
+from .requests import DataAttributeParams, UpdateDataAttributeRequestOptionsItemParams
 
 __all__ = [
     "CreateDataAttributeRequestDataType",
@@ -18,6 +19,8 @@ __all__ = [
     "DataAttribute",
     "DataAttributeDataType",
     "DataAttributeModel",
+    "DataAttributeParams",
     "DataAttributesListRequestModel",
     "UpdateDataAttributeRequestOptionsItem",
+    "UpdateDataAttributeRequestOptionsItemParams",
 ]

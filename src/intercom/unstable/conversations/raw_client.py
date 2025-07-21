@@ -16,20 +16,20 @@ from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..messages.types.message import Message
+from ..requests.custom_attributes import CustomAttributesParams
+from ..requests.redact_conversation_request import RedactConversationRequestParams
+from ..requests.reply_conversation_request_body import ReplyConversationRequestBodyParams
+from ..requests.search_request_query import SearchRequestQueryParams
+from ..requests.starting_after_paging import StartingAfterPagingParams
+from ..requests.ticket_request_custom_attributes import TicketRequestCustomAttributesParams
 from ..tickets.types.ticket import Ticket
 from ..types.conversation_deleted import ConversationDeleted
 from ..types.conversation_list import ConversationList
-from ..types.custom_attributes import CustomAttributes
 from ..types.error import Error
-from ..types.redact_conversation_request import RedactConversationRequest
-from ..types.reply_conversation_request_body import ReplyConversationRequestBody
-from ..types.search_request_query import SearchRequestQuery
-from ..types.starting_after_paging import StartingAfterPaging
-from ..types.ticket_request_custom_attributes import TicketRequestCustomAttributes
-from .types.attach_contact_to_conversation_request_customer import AttachContactToConversationRequestCustomer
+from .requests.attach_contact_to_conversation_request_customer import AttachContactToConversationRequestCustomerParams
+from .requests.create_conversation_request_from import CreateConversationRequestFromParams
+from .requests.manage_conversation_request_body import ManageConversationRequestBodyParams
 from .types.conversation import Conversation
-from .types.create_conversation_request_from import CreateConversationRequestFrom
-from .types.manage_conversation_request_body import ManageConversationRequestBody
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -120,7 +120,7 @@ class RawConversationsClient:
     def create_conversation(
         self,
         *,
-        from_: CreateConversationRequestFrom,
+        from_: CreateConversationRequestFromParams,
         body: str,
         created_at: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -138,7 +138,7 @@ class RawConversationsClient:
 
         Parameters
         ----------
-        from_ : CreateConversationRequestFrom
+        from_ : CreateConversationRequestFromParams
 
         body : str
             The content of the message. HTML is not supported.
@@ -159,7 +159,7 @@ class RawConversationsClient:
             method="POST",
             json={
                 "from": convert_and_respect_annotation_metadata(
-                    object_=from_, annotation=CreateConversationRequestFrom, direction="write"
+                    object_=from_, annotation=CreateConversationRequestFromParams, direction="write"
                 ),
                 "body": body,
                 "created_at": created_at,
@@ -316,7 +316,7 @@ class RawConversationsClient:
         display_as: typing.Optional[str] = None,
         read: typing.Optional[bool] = OMIT,
         title: typing.Optional[str] = OMIT,
-        custom_attributes: typing.Optional[CustomAttributes] = OMIT,
+        custom_attributes: typing.Optional[CustomAttributesParams] = OMIT,
         company_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Conversation]:
@@ -348,7 +348,7 @@ class RawConversationsClient:
         title : typing.Optional[str]
             The title given to the conversation
 
-        custom_attributes : typing.Optional[CustomAttributes]
+        custom_attributes : typing.Optional[CustomAttributesParams]
 
         company_id : typing.Optional[str]
             The ID of the company that the conversation is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company.
@@ -371,7 +371,7 @@ class RawConversationsClient:
                 "read": read,
                 "title": title,
                 "custom_attributes": convert_and_respect_annotation_metadata(
-                    object_=custom_attributes, annotation=CustomAttributes, direction="write"
+                    object_=custom_attributes, annotation=CustomAttributesParams, direction="write"
                 ),
                 "company_id": company_id,
             },
@@ -493,8 +493,8 @@ class RawConversationsClient:
     def search_conversations(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ConversationList]:
         """
@@ -600,9 +600,9 @@ class RawConversationsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -617,10 +617,10 @@ class RawConversationsClient:
             method="POST",
             json={
                 "query": convert_and_respect_annotation_metadata(
-                    object_=query, annotation=SearchRequestQuery, direction="write"
+                    object_=query, annotation=SearchRequestQueryParams, direction="write"
                 ),
                 "pagination": convert_and_respect_annotation_metadata(
-                    object_=pagination, annotation=StartingAfterPaging, direction="write"
+                    object_=pagination, annotation=StartingAfterPagingParams, direction="write"
                 ),
             },
             headers={
@@ -645,7 +645,11 @@ class RawConversationsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def reply_conversation(
-        self, id: str, *, request: ReplyConversationRequestBody, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        *,
+        request: ReplyConversationRequestBodyParams,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Conversation]:
         """
         You can reply to a conversation with a message from an admin or on behalf of a contact, or with a note for admins.
@@ -655,7 +659,7 @@ class RawConversationsClient:
         id : str
             The Intercom provisioned identifier for the conversation or the string "last" to reply to the last part of the conversation
 
-        request : ReplyConversationRequestBody
+        request : ReplyConversationRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -669,7 +673,7 @@ class RawConversationsClient:
             f"conversations/{jsonable_encoder(id)}/reply",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=ReplyConversationRequestBody, direction="write"
+                object_=request, annotation=ReplyConversationRequestBodyParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -729,7 +733,7 @@ class RawConversationsClient:
         self,
         id: str,
         *,
-        request: ManageConversationRequestBody,
+        request: ManageConversationRequestBodyParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Conversation]:
         """
@@ -744,7 +748,7 @@ class RawConversationsClient:
         id : str
             The identifier for the conversation as given by Intercom.
 
-        request : ManageConversationRequestBody
+        request : ManageConversationRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -758,7 +762,7 @@ class RawConversationsClient:
             f"conversations/{jsonable_encoder(id)}/parts",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=ManageConversationRequestBody, direction="write"
+                object_=request, annotation=ManageConversationRequestBodyParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -819,7 +823,7 @@ class RawConversationsClient:
         id: str,
         *,
         admin_id: typing.Optional[str] = OMIT,
-        customer: typing.Optional[AttachContactToConversationRequestCustomer] = OMIT,
+        customer: typing.Optional[AttachContactToConversationRequestCustomerParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Conversation]:
         """
@@ -837,7 +841,7 @@ class RawConversationsClient:
         admin_id : typing.Optional[str]
             The `id` of the admin who is adding the new participant.
 
-        customer : typing.Optional[AttachContactToConversationRequestCustomer]
+        customer : typing.Optional[AttachContactToConversationRequestCustomerParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -853,7 +857,7 @@ class RawConversationsClient:
             json={
                 "admin_id": admin_id,
                 "customer": convert_and_respect_annotation_metadata(
-                    object_=customer, annotation=AttachContactToConversationRequestCustomer, direction="write"
+                    object_=customer, annotation=AttachContactToConversationRequestCustomerParams, direction="write"
                 ),
             },
             headers={
@@ -1016,7 +1020,7 @@ class RawConversationsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def redact_conversation(
-        self, *, request: RedactConversationRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: RedactConversationRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[Conversation]:
         """
         You can redact a conversation part or the source message of a conversation (as seen in the source object).
@@ -1027,7 +1031,7 @@ class RawConversationsClient:
 
         Parameters
         ----------
-        request : RedactConversationRequest
+        request : RedactConversationRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1041,7 +1045,7 @@ class RawConversationsClient:
             "conversations/redact",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=RedactConversationRequest, direction="write"
+                object_=request, annotation=RedactConversationRequestParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -1091,7 +1095,7 @@ class RawConversationsClient:
         id: int,
         *,
         ticket_type_id: str,
-        attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
+        attributes: typing.Optional[TicketRequestCustomAttributesParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Optional[Ticket]]:
         """
@@ -1105,7 +1109,7 @@ class RawConversationsClient:
         ticket_type_id : str
             The ID of the type of ticket you want to convert the conversation to
 
-        attributes : typing.Optional[TicketRequestCustomAttributes]
+        attributes : typing.Optional[TicketRequestCustomAttributesParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1121,7 +1125,7 @@ class RawConversationsClient:
             json={
                 "ticket_type_id": ticket_type_id,
                 "attributes": convert_and_respect_annotation_metadata(
-                    object_=attributes, annotation=TicketRequestCustomAttributes, direction="write"
+                    object_=attributes, annotation=TicketRequestCustomAttributesParams, direction="write"
                 ),
             },
             headers={
@@ -1244,7 +1248,7 @@ class AsyncRawConversationsClient:
     async def create_conversation(
         self,
         *,
-        from_: CreateConversationRequestFrom,
+        from_: CreateConversationRequestFromParams,
         body: str,
         created_at: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -1262,7 +1266,7 @@ class AsyncRawConversationsClient:
 
         Parameters
         ----------
-        from_ : CreateConversationRequestFrom
+        from_ : CreateConversationRequestFromParams
 
         body : str
             The content of the message. HTML is not supported.
@@ -1283,7 +1287,7 @@ class AsyncRawConversationsClient:
             method="POST",
             json={
                 "from": convert_and_respect_annotation_metadata(
-                    object_=from_, annotation=CreateConversationRequestFrom, direction="write"
+                    object_=from_, annotation=CreateConversationRequestFromParams, direction="write"
                 ),
                 "body": body,
                 "created_at": created_at,
@@ -1440,7 +1444,7 @@ class AsyncRawConversationsClient:
         display_as: typing.Optional[str] = None,
         read: typing.Optional[bool] = OMIT,
         title: typing.Optional[str] = OMIT,
-        custom_attributes: typing.Optional[CustomAttributes] = OMIT,
+        custom_attributes: typing.Optional[CustomAttributesParams] = OMIT,
         company_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Conversation]:
@@ -1472,7 +1476,7 @@ class AsyncRawConversationsClient:
         title : typing.Optional[str]
             The title given to the conversation
 
-        custom_attributes : typing.Optional[CustomAttributes]
+        custom_attributes : typing.Optional[CustomAttributesParams]
 
         company_id : typing.Optional[str]
             The ID of the company that the conversation is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company.
@@ -1495,7 +1499,7 @@ class AsyncRawConversationsClient:
                 "read": read,
                 "title": title,
                 "custom_attributes": convert_and_respect_annotation_metadata(
-                    object_=custom_attributes, annotation=CustomAttributes, direction="write"
+                    object_=custom_attributes, annotation=CustomAttributesParams, direction="write"
                 ),
                 "company_id": company_id,
             },
@@ -1617,8 +1621,8 @@ class AsyncRawConversationsClient:
     async def search_conversations(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ConversationList]:
         """
@@ -1724,9 +1728,9 @@ class AsyncRawConversationsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1741,10 +1745,10 @@ class AsyncRawConversationsClient:
             method="POST",
             json={
                 "query": convert_and_respect_annotation_metadata(
-                    object_=query, annotation=SearchRequestQuery, direction="write"
+                    object_=query, annotation=SearchRequestQueryParams, direction="write"
                 ),
                 "pagination": convert_and_respect_annotation_metadata(
-                    object_=pagination, annotation=StartingAfterPaging, direction="write"
+                    object_=pagination, annotation=StartingAfterPagingParams, direction="write"
                 ),
             },
             headers={
@@ -1769,7 +1773,11 @@ class AsyncRawConversationsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def reply_conversation(
-        self, id: str, *, request: ReplyConversationRequestBody, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        *,
+        request: ReplyConversationRequestBodyParams,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Conversation]:
         """
         You can reply to a conversation with a message from an admin or on behalf of a contact, or with a note for admins.
@@ -1779,7 +1787,7 @@ class AsyncRawConversationsClient:
         id : str
             The Intercom provisioned identifier for the conversation or the string "last" to reply to the last part of the conversation
 
-        request : ReplyConversationRequestBody
+        request : ReplyConversationRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1793,7 +1801,7 @@ class AsyncRawConversationsClient:
             f"conversations/{jsonable_encoder(id)}/reply",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=ReplyConversationRequestBody, direction="write"
+                object_=request, annotation=ReplyConversationRequestBodyParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -1853,7 +1861,7 @@ class AsyncRawConversationsClient:
         self,
         id: str,
         *,
-        request: ManageConversationRequestBody,
+        request: ManageConversationRequestBodyParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Conversation]:
         """
@@ -1868,7 +1876,7 @@ class AsyncRawConversationsClient:
         id : str
             The identifier for the conversation as given by Intercom.
 
-        request : ManageConversationRequestBody
+        request : ManageConversationRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1882,7 +1890,7 @@ class AsyncRawConversationsClient:
             f"conversations/{jsonable_encoder(id)}/parts",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=ManageConversationRequestBody, direction="write"
+                object_=request, annotation=ManageConversationRequestBodyParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -1943,7 +1951,7 @@ class AsyncRawConversationsClient:
         id: str,
         *,
         admin_id: typing.Optional[str] = OMIT,
-        customer: typing.Optional[AttachContactToConversationRequestCustomer] = OMIT,
+        customer: typing.Optional[AttachContactToConversationRequestCustomerParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Conversation]:
         """
@@ -1961,7 +1969,7 @@ class AsyncRawConversationsClient:
         admin_id : typing.Optional[str]
             The `id` of the admin who is adding the new participant.
 
-        customer : typing.Optional[AttachContactToConversationRequestCustomer]
+        customer : typing.Optional[AttachContactToConversationRequestCustomerParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1977,7 +1985,7 @@ class AsyncRawConversationsClient:
             json={
                 "admin_id": admin_id,
                 "customer": convert_and_respect_annotation_metadata(
-                    object_=customer, annotation=AttachContactToConversationRequestCustomer, direction="write"
+                    object_=customer, annotation=AttachContactToConversationRequestCustomerParams, direction="write"
                 ),
             },
             headers={
@@ -2140,7 +2148,7 @@ class AsyncRawConversationsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def redact_conversation(
-        self, *, request: RedactConversationRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: RedactConversationRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Conversation]:
         """
         You can redact a conversation part or the source message of a conversation (as seen in the source object).
@@ -2151,7 +2159,7 @@ class AsyncRawConversationsClient:
 
         Parameters
         ----------
-        request : RedactConversationRequest
+        request : RedactConversationRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2165,7 +2173,7 @@ class AsyncRawConversationsClient:
             "conversations/redact",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=RedactConversationRequest, direction="write"
+                object_=request, annotation=RedactConversationRequestParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -2215,7 +2223,7 @@ class AsyncRawConversationsClient:
         id: int,
         *,
         ticket_type_id: str,
-        attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
+        attributes: typing.Optional[TicketRequestCustomAttributesParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Optional[Ticket]]:
         """
@@ -2229,7 +2237,7 @@ class AsyncRawConversationsClient:
         ticket_type_id : str
             The ID of the type of ticket you want to convert the conversation to
 
-        attributes : typing.Optional[TicketRequestCustomAttributes]
+        attributes : typing.Optional[TicketRequestCustomAttributesParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2245,7 +2253,7 @@ class AsyncRawConversationsClient:
             json={
                 "ticket_type_id": ticket_type_id,
                 "attributes": convert_and_respect_annotation_metadata(
-                    object_=attributes, annotation=TicketRequestCustomAttributes, direction="write"
+                    object_=attributes, annotation=TicketRequestCustomAttributesParams, direction="write"
                 ),
             },
             headers={

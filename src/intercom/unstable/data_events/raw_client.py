@@ -13,8 +13,10 @@ from ...types.create_data_event_request_two import CreateDataEventRequestTwo
 from ..errors.unauthorized_error import UnauthorizedError
 from ..types.data_event_summary import DataEventSummary
 from ..types.error import Error
-from .types.create_data_event_summaries_request_event_summaries import CreateDataEventSummariesRequestEventSummaries
-from .types.lis_data_events_request_filter import LisDataEventsRequestFilter
+from .requests.create_data_event_summaries_request_event_summaries import (
+    CreateDataEventSummariesRequestEventSummariesParams,
+)
+from .requests.lis_data_events_request_filter import LisDataEventsRequestFilterParams
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -27,7 +29,7 @@ class RawDataEventsClient:
     def lis_data_events(
         self,
         *,
-        filter: LisDataEventsRequestFilter,
+        filter: LisDataEventsRequestFilterParams,
         type: str,
         summary: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -50,7 +52,7 @@ class RawDataEventsClient:
 
         Parameters
         ----------
-        filter : LisDataEventsRequestFilter
+        filter : LisDataEventsRequestFilterParams
 
         type : str
             The value must be user
@@ -71,7 +73,11 @@ class RawDataEventsClient:
             method="GET",
             params={
                 "filter": convert_and_respect_annotation_metadata(
-                    object_=filter, annotation=LisDataEventsRequestFilter, direction="write"
+                    object_=convert_and_respect_annotation_metadata(
+                        object_=filter, annotation=LisDataEventsRequestFilterParams, direction="write"
+                    ),
+                    annotation=LisDataEventsRequestFilterParams,
+                    direction="write",
                 ),
                 "type": type,
                 "summary": summary,
@@ -194,7 +200,7 @@ class RawDataEventsClient:
         self,
         *,
         user_id: typing.Optional[str] = OMIT,
-        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummaries] = OMIT,
+        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummariesParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[None]:
         """
@@ -205,7 +211,7 @@ class RawDataEventsClient:
         user_id : typing.Optional[str]
             Your identifier for the user.
 
-        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummaries]
+        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummariesParams]
             A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`.
 
         request_options : typing.Optional[RequestOptions]
@@ -221,7 +227,9 @@ class RawDataEventsClient:
             json={
                 "user_id": user_id,
                 "event_summaries": convert_and_respect_annotation_metadata(
-                    object_=event_summaries, annotation=CreateDataEventSummariesRequestEventSummaries, direction="write"
+                    object_=event_summaries,
+                    annotation=CreateDataEventSummariesRequestEventSummariesParams,
+                    direction="write",
                 ),
             },
             headers={
@@ -257,7 +265,7 @@ class AsyncRawDataEventsClient:
     async def lis_data_events(
         self,
         *,
-        filter: LisDataEventsRequestFilter,
+        filter: LisDataEventsRequestFilterParams,
         type: str,
         summary: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -280,7 +288,7 @@ class AsyncRawDataEventsClient:
 
         Parameters
         ----------
-        filter : LisDataEventsRequestFilter
+        filter : LisDataEventsRequestFilterParams
 
         type : str
             The value must be user
@@ -301,7 +309,11 @@ class AsyncRawDataEventsClient:
             method="GET",
             params={
                 "filter": convert_and_respect_annotation_metadata(
-                    object_=filter, annotation=LisDataEventsRequestFilter, direction="write"
+                    object_=convert_and_respect_annotation_metadata(
+                        object_=filter, annotation=LisDataEventsRequestFilterParams, direction="write"
+                    ),
+                    annotation=LisDataEventsRequestFilterParams,
+                    direction="write",
                 ),
                 "type": type,
                 "summary": summary,
@@ -424,7 +436,7 @@ class AsyncRawDataEventsClient:
         self,
         *,
         user_id: typing.Optional[str] = OMIT,
-        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummaries] = OMIT,
+        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummariesParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[None]:
         """
@@ -435,7 +447,7 @@ class AsyncRawDataEventsClient:
         user_id : typing.Optional[str]
             Your identifier for the user.
 
-        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummaries]
+        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummariesParams]
             A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`.
 
         request_options : typing.Optional[RequestOptions]
@@ -451,7 +463,9 @@ class AsyncRawDataEventsClient:
             json={
                 "user_id": user_id,
                 "event_summaries": convert_and_respect_annotation_metadata(
-                    object_=event_summaries, annotation=CreateDataEventSummariesRequestEventSummaries, direction="write"
+                    object_=event_summaries,
+                    annotation=CreateDataEventSummariesRequestEventSummariesParams,
+                    direction="write",
                 ),
             },
             headers={

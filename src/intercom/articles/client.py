@@ -5,7 +5,7 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
-from ..types.article_translated_content import ArticleTranslatedContent
+from ..requests.article_translated_content import ArticleTranslatedContentParams
 from ..types.deleted_article_object import DeletedArticleObject
 from .raw_client import AsyncRawArticlesClient, RawArticlesClient
 from .types.article import Article
@@ -91,7 +91,7 @@ class ArticlesClient:
         state: typing.Optional[CreateArticleRequestState] = OMIT,
         parent_id: typing.Optional[int] = OMIT,
         parent_type: typing.Optional[CreateArticleRequestParentType] = OMIT,
-        translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
+        translated_content: typing.Optional[ArticleTranslatedContentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Article:
         """
@@ -120,7 +120,7 @@ class ArticlesClient:
         parent_type : typing.Optional[CreateArticleRequestParentType]
             The type of parent, which can either be a `collection` or `section`.
 
-        translated_content : typing.Optional[ArticleTranslatedContent]
+        translated_content : typing.Optional[ArticleTranslatedContentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -132,7 +132,7 @@ class ArticlesClient:
 
         Examples
         --------
-        from intercom import ArticleContent, ArticleTranslatedContent, Intercom
+        from intercom import Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
@@ -145,15 +145,16 @@ class ArticlesClient:
             state="published",
             parent_id=145,
             parent_type="collection",
-            translated_content=ArticleTranslatedContent(
-                fr=ArticleContent(
-                    title="Merci pour tout",
-                    description="Description de l'article",
-                    body="Corps de l'article",
-                    author_id=991267407,
-                    state="published",
-                ),
-            ),
+            translated_content={
+                "fr": {
+                    "type": "article_content",
+                    "title": "Merci pour tout",
+                    "description": "Description de l'article",
+                    "body": "Corps de l'article",
+                    "author_id": 991267407,
+                    "state": "published",
+                }
+            },
         )
         """
         _response = self._raw_client.create(
@@ -211,7 +212,7 @@ class ArticlesClient:
         state: typing.Optional[UpdateArticleRequestBodyState] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
         parent_type: typing.Optional[UpdateArticleRequestBodyParentType] = OMIT,
-        translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
+        translated_content: typing.Optional[ArticleTranslatedContentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Article:
         """
@@ -243,7 +244,7 @@ class ArticlesClient:
         parent_type : typing.Optional[UpdateArticleRequestBodyParentType]
             The type of parent, which can either be a `collection` or `section`.
 
-        translated_content : typing.Optional[ArticleTranslatedContent]
+        translated_content : typing.Optional[ArticleTranslatedContentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -449,7 +450,7 @@ class AsyncArticlesClient:
         state: typing.Optional[CreateArticleRequestState] = OMIT,
         parent_id: typing.Optional[int] = OMIT,
         parent_type: typing.Optional[CreateArticleRequestParentType] = OMIT,
-        translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
+        translated_content: typing.Optional[ArticleTranslatedContentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Article:
         """
@@ -478,7 +479,7 @@ class AsyncArticlesClient:
         parent_type : typing.Optional[CreateArticleRequestParentType]
             The type of parent, which can either be a `collection` or `section`.
 
-        translated_content : typing.Optional[ArticleTranslatedContent]
+        translated_content : typing.Optional[ArticleTranslatedContentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -492,7 +493,7 @@ class AsyncArticlesClient:
         --------
         import asyncio
 
-        from intercom import ArticleContent, ArticleTranslatedContent, AsyncIntercom
+        from intercom import AsyncIntercom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -508,15 +509,16 @@ class AsyncArticlesClient:
                 state="published",
                 parent_id=145,
                 parent_type="collection",
-                translated_content=ArticleTranslatedContent(
-                    fr=ArticleContent(
-                        title="Merci pour tout",
-                        description="Description de l'article",
-                        body="Corps de l'article",
-                        author_id=991267407,
-                        state="published",
-                    ),
-                ),
+                translated_content={
+                    "fr": {
+                        "type": "article_content",
+                        "title": "Merci pour tout",
+                        "description": "Description de l'article",
+                        "body": "Corps de l'article",
+                        "author_id": 991267407,
+                        "state": "published",
+                    }
+                },
             )
 
 
@@ -585,7 +587,7 @@ class AsyncArticlesClient:
         state: typing.Optional[UpdateArticleRequestBodyState] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
         parent_type: typing.Optional[UpdateArticleRequestBodyParentType] = OMIT,
-        translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
+        translated_content: typing.Optional[ArticleTranslatedContentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Article:
         """
@@ -617,7 +619,7 @@ class AsyncArticlesClient:
         parent_type : typing.Optional[UpdateArticleRequestBodyParentType]
             The type of parent, which can either be a `collection` or `section`.
 
-        translated_content : typing.Optional[ArticleTranslatedContent]
+        translated_content : typing.Optional[ArticleTranslatedContentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import Admin
+from .requests import AdminParams
 
-__all__ = ["Admin"]
+__all__ = ["Admin", "AdminParams"]

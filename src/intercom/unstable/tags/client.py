@@ -6,7 +6,7 @@ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.request_options import RequestOptions
 from ..types.tag_list import TagList
 from .raw_client import AsyncRawTagsClient, RawTagsClient
-from .types.create_tag_request_body import CreateTagRequestBody
+from .requests.create_tag_request_body import CreateTagRequestBodyParams
 from .types.tag import Tag
 
 # this is used as the default value for optional parameters
@@ -215,7 +215,7 @@ class TagsClient:
         return _response.data
 
     def create_tag(
-        self, *, request: CreateTagRequestBody, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateTagRequestBodyParams, request_options: typing.Optional[RequestOptions] = None
     ) -> Tag:
         """
         You can use this endpoint to perform the following operations:
@@ -234,7 +234,7 @@ class TagsClient:
 
         Parameters
         ----------
-        request : CreateTagRequestBody
+        request : CreateTagRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -247,15 +247,12 @@ class TagsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.unstable import CreateOrUpdateTagRequest
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.unstable.tags.create_tag(
-            request=CreateOrUpdateTagRequest(
-                name="test",
-            ),
+            request={"name": "test"},
         )
         """
         _response = self._raw_client.create_tag(request=request, request_options=request_options)
@@ -652,7 +649,7 @@ class AsyncTagsClient:
         return _response.data
 
     async def create_tag(
-        self, *, request: CreateTagRequestBody, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateTagRequestBodyParams, request_options: typing.Optional[RequestOptions] = None
     ) -> Tag:
         """
         You can use this endpoint to perform the following operations:
@@ -671,7 +668,7 @@ class AsyncTagsClient:
 
         Parameters
         ----------
-        request : CreateTagRequestBody
+        request : CreateTagRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -686,7 +683,6 @@ class AsyncTagsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.unstable import CreateOrUpdateTagRequest
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -695,9 +691,7 @@ class AsyncTagsClient:
 
         async def main() -> None:
             await client.unstable.tags.create_tag(
-                request=CreateOrUpdateTagRequest(
-                    name="test",
-                ),
+                request={"name": "test"},
             )
 
 

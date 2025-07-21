@@ -13,15 +13,25 @@ from .types import (
     UpdateContentImportSourceRequestStatus,
     UpdateContentImportSourceRequestSyncBehavior,
 )
+from .requests import (
+    ContentImportSourceParams,
+    ContentImportSourcesListParams,
+    ExternalPageParams,
+    ExternalPagesListParams,
+)
 
 __all__ = [
     "ContentImportSource",
+    "ContentImportSourceParams",
     "ContentImportSourceStatus",
     "ContentImportSourceSyncBehavior",
     "ContentImportSourcesList",
+    "ContentImportSourcesListParams",
     "CreateContentImportSourceRequestStatus",
     "ExternalPage",
+    "ExternalPageParams",
     "ExternalPagesList",
+    "ExternalPagesListParams",
     "UpdateContentImportSourceRequestStatus",
     "UpdateContentImportSourceRequestSyncBehavior",
 ]

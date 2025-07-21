@@ -558,7 +558,7 @@ client.articles.create(
 <dl>
 <dd>
 
-**translated_content:** `typing.Optional[ArticleTranslatedContent]` 
+**translated_content:** `typing.Optional[ArticleTranslatedContentParams]` 
     
 </dd>
 </dl>
@@ -764,7 +764,7 @@ client.articles.update(
 <dl>
 <dd>
 
-**translated_content:** `typing.Optional[ArticleTranslatedContent]` 
+**translated_content:** `typing.Optional[ArticleTranslatedContentParams]` 
     
 </dd>
 </dl>
@@ -3064,30 +3064,19 @@ The table below shows the operators you can use to define how you want to search
 <dd>
 
 ```python
-from intercom import (
-    Intercom,
-    MultipleFilterSearchRequest,
-    SingleFilterSearchRequest,
-    StartingAfterPaging,
-)
+from intercom import Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 response = client.contacts.search(
-    query=MultipleFilterSearchRequest(
-        operator="AND",
-        value=[
-            SingleFilterSearchRequest(
-                field="created_at",
-                operator=">",
-                value="1306054154",
-            )
+    query={
+        "operator": "AND",
+        "value": [
+            {"field": "created_at", "operator": ">", "value": "1306054154"}
         ],
-    ),
-    pagination=StartingAfterPaging(
-        per_page=5,
-    ),
+    },
+    pagination={"per_page": 5},
 )
 for item in response:
     yield item
@@ -3109,7 +3098,7 @@ for page in response.iter_pages():
 <dl>
 <dd>
 
-**query:** `SearchRequestQuery` 
+**query:** `SearchRequestQueryParams` 
     
 </dd>
 </dl>
@@ -3117,7 +3106,7 @@ for page in response.iter_pages():
 <dl>
 <dd>
 
-**pagination:** `typing.Optional[StartingAfterPaging]` 
+**pagination:** `typing.Optional[StartingAfterPagingParams]` 
     
 </dd>
 </dl>
@@ -3257,15 +3246,13 @@ You can create a new contact (ie. user or lead).
 <dd>
 
 ```python
-from intercom import CreateContactRequestWithEmail, Intercom
+from intercom import Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.contacts.create(
-    request=CreateContactRequestWithEmail(
-        email="joebloggs@intercom.io",
-    ),
+    request={"email": "joebloggs@intercom.io"},
 )
 
 ```
@@ -3282,7 +3269,7 @@ client.contacts.create(
 <dl>
 <dd>
 
-**request:** `CreateContactRequest` 
+**request:** `CreateContactRequestParams` 
     
 </dd>
 </dl>
@@ -4126,24 +4113,13 @@ Each operation will return a tag object.
 <dd>
 
 ```python
-from intercom import (
-    Intercom,
-    TagMultipleUsersRequest,
-    TagMultipleUsersRequestUsersItem,
-)
+from intercom import Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.tags.create(
-    request=TagMultipleUsersRequest(
-        name="test",
-        users=[
-            TagMultipleUsersRequestUsersItem(
-                id="123",
-            )
-        ],
-    ),
+    request={"name": "test", "users": [{"id": "123"}]},
 )
 
 ```
@@ -4160,7 +4136,7 @@ client.tags.create(
 <dl>
 <dd>
 
-**request:** `TagsCreateRequestBody` 
+**request:** `TagsCreateRequestBodyParams` 
     
 </dd>
 </dl>
@@ -4621,16 +4597,12 @@ This will return the Message model that has been created.
 
 ```python
 from intercom import Intercom
-from intercom.conversations import CreateConversationRequestFrom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.conversations.create(
-    from_=CreateConversationRequestFrom(
-        type="user",
-        id="123_doesnt_exist",
-    ),
+    from_={"type": "user", "id": "123_doesnt_exist"},
     body="Hello there",
 )
 
@@ -4648,7 +4620,7 @@ client.conversations.create(
 <dl>
 <dd>
 
-**from_:** `CreateConversationRequestFrom` 
+**from_:** `CreateConversationRequestFromParams` 
     
 </dd>
 </dl>
@@ -4999,30 +4971,19 @@ The table below shows the operators you can use to define how you want to search
 <dd>
 
 ```python
-from intercom import (
-    Intercom,
-    MultipleFilterSearchRequest,
-    SingleFilterSearchRequest,
-    StartingAfterPaging,
-)
+from intercom import Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 response = client.conversations.search(
-    query=MultipleFilterSearchRequest(
-        operator="AND",
-        value=[
-            SingleFilterSearchRequest(
-                field="created_at",
-                operator=">",
-                value="1306054154",
-            )
+    query={
+        "operator": "AND",
+        "value": [
+            {"field": "created_at", "operator": ">", "value": "1306054154"}
         ],
-    ),
-    pagination=StartingAfterPaging(
-        per_page=5,
-    ),
+    },
+    pagination={"per_page": 5},
 )
 for item in response:
     yield item
@@ -5044,7 +5005,7 @@ for page in response.iter_pages():
 <dl>
 <dd>
 
-**query:** `SearchRequestQuery` 
+**query:** `SearchRequestQueryParams` 
     
 </dd>
 </dl>
@@ -5052,7 +5013,7 @@ for page in response.iter_pages():
 <dl>
 <dd>
 
-**pagination:** `typing.Optional[StartingAfterPaging]` 
+**pagination:** `typing.Optional[StartingAfterPagingParams]` 
     
 </dd>
 </dl>
@@ -5099,17 +5060,19 @@ You can reply to a conversation with a message from an admin or on behalf of a c
 <dd>
 
 ```python
-from intercom import ContactReplyIntercomUserIdRequest, Intercom
+from intercom import Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.conversations.reply(
     conversation_id='123 or "last"',
-    request=ContactReplyIntercomUserIdRequest(
-        body="Thanks again :)",
-        intercom_user_id="667d60f18a68186f43bafdf4",
-    ),
+    request={
+        "message_type": "comment",
+        "type": "user",
+        "body": "Thanks again :)",
+        "intercom_user_id": "667d60f18a68186f43bafdf4",
+    },
 )
 
 ```
@@ -5134,7 +5097,7 @@ client.conversations.reply(
 <dl>
 <dd>
 
-**request:** `ReplyConversationRequest` 
+**request:** `ReplyConversationRequestParams` 
     
 </dd>
 </dl>
@@ -5186,16 +5149,13 @@ For managing conversations you can:
 
 ```python
 from intercom import Intercom
-from intercom.conversations import ConversationsManageRequestBody_Close
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.conversations.manage(
     conversation_id="123",
-    request=ConversationsManageRequestBody_Close(
-        admin_id="12345",
-    ),
+    request={"type": "admin", "admin_id": "12345", "message_type": "close"},
 )
 
 ```
@@ -5220,7 +5180,7 @@ client.conversations.manage(
 <dl>
 <dd>
 
-**request:** `ConversationsManageRequestBody` 
+**request:** `ConversationsManageRequestBodyParams` 
     
 </dd>
 </dl>
@@ -5348,9 +5308,6 @@ If you add a contact via the email parameter and there is no user/lead found on 
 
 ```python
 from intercom import Intercom
-from intercom.conversations import (
-    AttachContactToConversationRequestCustomerIntercomUserId,
-)
 
 client = Intercom(
     token="YOUR_TOKEN",
@@ -5358,9 +5315,7 @@ client = Intercom(
 client.conversations.attach_contact_as_admin(
     conversation_id="123",
     admin_id="12345",
-    customer=AttachContactToConversationRequestCustomerIntercomUserId(
-        intercom_user_id="667d61188a68186f43bafe0e",
-    ),
+    customer={"intercom_user_id": "667d61188a68186f43bafe0e"},
 )
 
 ```
@@ -5393,7 +5348,7 @@ client.conversations.attach_contact_as_admin(
 <dl>
 <dd>
 
-**customer:** `typing.Optional[AttachContactToConversationRequestCustomer]` 
+**customer:** `typing.Optional[AttachContactToConversationRequestCustomerParams]` 
     
 </dd>
 </dl>
@@ -5536,16 +5491,17 @@ If you are redacting a conversation part, it must have a `body`. If you are reda
 <dd>
 
 ```python
-from intercom import Intercom, RedactConversationRequest_ConversationPart
+from intercom import Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.conversations.redact_conversation_part(
-    request=RedactConversationRequest_ConversationPart(
-        conversation_id="really_123_doesnt_exist",
-        conversation_part_id="really_123_doesnt_exist",
-    ),
+    request={
+        "conversation_id": "really_123_doesnt_exist",
+        "conversation_part_id": "really_123_doesnt_exist",
+        "type": "conversation_part",
+    },
 )
 
 ```
@@ -5562,7 +5518,7 @@ client.conversations.redact_conversation_part(
 <dl>
 <dd>
 
-**request:** `RedactConversationRequest` 
+**request:** `RedactConversationRequestParams` 
     
 </dd>
 </dl>
@@ -5941,7 +5897,7 @@ client.data_attributes.update(
 <dl>
 <dd>
 
-**options:** `typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]]` — To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
+**options:** `typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItemParams]]` — To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
     
 </dd>
 </dl>
@@ -6160,17 +6116,17 @@ Duplicated events are responded to using the normal `202 Accepted` code - an err
 <dd>
 
 ```python
-from intercom import CreateDataEventRequestWithId, Intercom
+from intercom import Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.events.create(
-    request=CreateDataEventRequestWithId(
-        id="8a88a590-e1c3-41e2-a502-e0649dbf721c",
-        event_name="invited-friend",
-        created_at=1671028894,
-    ),
+    request={
+        "id": "8a88a590-e1c3-41e2-a502-e0649dbf721c",
+        "event_name": "invited-friend",
+        "created_at": 1671028894,
+    },
 )
 
 ```
@@ -6187,7 +6143,7 @@ client.events.create(
 <dl>
 <dd>
 
-**request:** `CreateDataEventRequest` 
+**request:** `CreateDataEventRequestParams` 
     
 </dd>
 </dl>
@@ -6263,7 +6219,7 @@ client.events.summaries()
 <dl>
 <dd>
 
-**event_summaries:** `typing.Optional[CreateDataEventSummariesRequestEventSummaries]` — A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`.
+**event_summaries:** `typing.Optional[CreateDataEventSummariesRequestEventSummariesParams]` — A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`.
     
 </dd>
 </dl>
@@ -6635,29 +6591,20 @@ This will return the Message model that has been created.
 <dd>
 
 ```python
-from intercom import (
-    CreateMessageRequest_Email,
-    CreateMessageRequestFrom,
-    CreateMessageRequestTo,
-    Intercom,
-)
+from intercom import Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.messages.create(
-    request=CreateMessageRequest_Email(
-        subject="Thanks for everything",
-        body="Hello there",
-        template="plain",
-        from_=CreateMessageRequestFrom(
-            id=394051,
-        ),
-        to=CreateMessageRequestTo(
-            type="user",
-            id="536e564f316c83104c000020",
-        ),
-    ),
+    request={
+        "subject": "Thanks for everything",
+        "body": "Hello there",
+        "template": "plain",
+        "from_": {"type": "admin", "id": 394051},
+        "to": {"type": "user", "id": "536e564f316c83104c000020"},
+        "message_type": "email",
+    },
 )
 
 ```
@@ -6674,7 +6621,7 @@ client.messages.create(
 <dl>
 <dd>
 
-**request:** `CreateMessageRequest` 
+**request:** `CreateMessageRequestParams` 
     
 </dd>
 </dl>
@@ -7500,17 +7447,19 @@ You can reply to a ticket with a message from an admin or on behalf of a contact
 <dd>
 
 ```python
-from intercom import ContactReplyTicketIntercomUserIdRequest, Intercom
+from intercom import Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.tickets.reply(
     ticket_id="123",
-    request=ContactReplyTicketIntercomUserIdRequest(
-        body="Thanks again :)",
-        intercom_user_id="667d619d8a68186f43bafe82",
-    ),
+    request={
+        "message_type": "comment",
+        "type": "user",
+        "body": "Thanks again :)",
+        "intercom_user_id": "667d619d8a68186f43bafe82",
+    },
 )
 
 ```
@@ -7535,7 +7484,7 @@ client.tickets.reply(
 <dl>
 <dd>
 
-**request:** `TicketsReplyRequestBody` 
+**request:** `TicketsReplyRequestBodyParams` 
     
 </dd>
 </dl>
@@ -7582,18 +7531,14 @@ You can create a new ticket.
 <dd>
 
 ```python
-from intercom import CreateTicketRequestContactsItemId, Intercom
+from intercom import Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.tickets.create(
     ticket_type_id="1234",
-    contacts=[
-        CreateTicketRequestContactsItemId(
-            id="667d61b78a68186f43bafe8d",
-        )
-    ],
+    contacts=[{"id": "667d61b78a68186f43bafe8d"}],
     ticket_attributes={
         "_default_title_": "example",
         "_default_description_": "there is a problem",
@@ -7622,7 +7567,7 @@ client.tickets.create(
 <dl>
 <dd>
 
-**contacts:** `typing.Sequence[CreateTicketRequestContactsItem]` — The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
+**contacts:** `typing.Sequence[CreateTicketRequestContactsItemParams]` — The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
     
 </dd>
 </dl>
@@ -7764,7 +7709,6 @@ You can update a ticket.
 
 ```python
 from intercom import Intercom
-from intercom.tickets import UpdateTicketRequestAssignment
 
 client = Intercom(
     token="YOUR_TOKEN",
@@ -7776,10 +7720,7 @@ client.tickets.update(
         "_default_description_": "there is a problem",
     },
     state="in_progress",
-    assignment=UpdateTicketRequestAssignment(
-        admin_id="991267899",
-        assignee_id="456",
-    ),
+    assignment={"admin_id": "991267899", "assignee_id": "456"},
 )
 
 ```
@@ -7844,7 +7785,7 @@ client.tickets.update(
 <dl>
 <dd>
 
-**assignment:** `typing.Optional[UpdateTicketRequestAssignment]` 
+**assignment:** `typing.Optional[UpdateTicketRequestAssignmentParams]` 
     
 </dd>
 </dl>
@@ -7951,30 +7892,19 @@ The table below shows the operators you can use to define how you want to search
 <dd>
 
 ```python
-from intercom import (
-    Intercom,
-    MultipleFilterSearchRequest,
-    SingleFilterSearchRequest,
-    StartingAfterPaging,
-)
+from intercom import Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 response = client.tickets.search(
-    query=MultipleFilterSearchRequest(
-        operator="AND",
-        value=[
-            SingleFilterSearchRequest(
-                field="created_at",
-                operator=">",
-                value="1306054154",
-            )
+    query={
+        "operator": "AND",
+        "value": [
+            {"field": "created_at", "operator": ">", "value": "1306054154"}
         ],
-    ),
-    pagination=StartingAfterPaging(
-        per_page=5,
-    ),
+    },
+    pagination={"per_page": 5},
 )
 for item in response:
     yield item
@@ -7996,7 +7926,7 @@ for page in response.iter_pages():
 <dl>
 <dd>
 
-**query:** `SearchRequestQuery` 
+**query:** `SearchRequestQueryParams` 
     
 </dd>
 </dl>
@@ -8004,7 +7934,7 @@ for page in response.iter_pages():
 <dl>
 <dd>
 
-**pagination:** `typing.Optional[StartingAfterPaging]` 
+**pagination:** `typing.Optional[StartingAfterPagingParams]` 
     
 </dd>
 </dl>
@@ -8126,16 +8056,13 @@ Sending a PUT request to `/visitors` will result in an update of an existing Vis
 <dd>
 
 ```python
-from intercom import Intercom, UpdateVisitorRequestWithUserId
+from intercom import Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.visitors.update(
-    request=UpdateVisitorRequestWithUserId(
-        user_id="fail",
-        name="Christian Fail",
-    ),
+    request={"user_id": "fail", "name": "Christian Fail"},
 )
 
 ```
@@ -8152,7 +8079,7 @@ client.visitors.update(
 <dl>
 <dd>
 
-**request:** `UpdateVisitorRequest` 
+**request:** `UpdateVisitorRequestParams` 
     
 </dd>
 </dl>
@@ -8204,20 +8131,14 @@ You can merge a Visitor to a Contact of role type `lead` or `user`.
 
 ```python
 from intercom import Intercom
-from intercom.visitors import UserWithId, VisitorWithUserId
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.visitors.merge_to_contact(
     type="user",
-    user=UserWithId(
-        id="8a88a590-e1c3-41e2-a502-e0649dbf721c",
-        email="foo@bar.com",
-    ),
-    visitor=VisitorWithUserId(
-        user_id="3ecf64d0-9ed1-4e9f-88e1-da7d6e6782f3",
-    ),
+    user={"id": "8a88a590-e1c3-41e2-a502-e0649dbf721c", "email": "foo@bar.com"},
+    visitor={"user_id": "3ecf64d0-9ed1-4e9f-88e1-da7d6e6782f3"},
 )
 
 ```
@@ -8242,7 +8163,7 @@ client.visitors.merge_to_contact(
 <dl>
 <dd>
 
-**user:** `ConvertVisitorRequestUser` — The unique identifiers retained after converting or merging.
+**user:** `ConvertVisitorRequestUserParams` — The unique identifiers retained after converting or merging.
     
 </dd>
 </dl>
@@ -8250,7 +8171,7 @@ client.visitors.merge_to_contact(
 <dl>
 <dd>
 
-**visitor:** `ConvertVisitorRequestVisitor` — The unique identifiers to convert a single Visitor.
+**visitor:** `ConvertVisitorRequestVisitorParams` — The unique identifiers to convert a single Visitor.
     
 </dd>
 </dl>
@@ -8421,7 +8342,7 @@ client.help_centers.collections.create(
 <dl>
 <dd>
 
-**translated_content:** `typing.Optional[GroupTranslatedContent]` 
+**translated_content:** `typing.Optional[GroupTranslatedContentParams]` 
     
 </dd>
 </dl>
@@ -8602,7 +8523,7 @@ client.help_centers.collections.update(
 <dl>
 <dd>
 
-**translated_content:** `typing.Optional[GroupTranslatedContent]` 
+**translated_content:** `typing.Optional[GroupTranslatedContentParams]` 
     
 </dd>
 </dl>
@@ -8789,7 +8710,6 @@ You can create a news item
 
 ```python
 from intercom import Intercom
-from intercom.news import NewsfeedAssignment
 
 client = Intercom(
     token="YOUR_TOKEN",
@@ -8802,12 +8722,7 @@ client.news.items.create(
     deliver_silently=True,
     labels=["Product", "Update", "New"],
     reactions=["😆", "😅"],
-    newsfeed_assignments=[
-        NewsfeedAssignment(
-            newsfeed_id=53,
-            published_at=1664638214,
-        )
-    ],
+    newsfeed_assignments=[{"newsfeed_id": 53, "published_at": 1664638214}],
 )
 
 ```
@@ -8880,7 +8795,7 @@ client.news.items.create(
 <dl>
 <dd>
 
-**newsfeed_assignments:** `typing.Optional[typing.Sequence[NewsfeedAssignment]]` — A list of newsfeed_assignments to assign to the specified newsfeed.
+**newsfeed_assignments:** `typing.Optional[typing.Sequence[NewsfeedAssignmentParams]]` — A list of newsfeed_assignments to assign to the specified newsfeed.
     
 </dd>
 </dl>
@@ -9074,7 +8989,7 @@ client.news.items.update(
 <dl>
 <dd>
 
-**newsfeed_assignments:** `typing.Optional[typing.Sequence[NewsfeedAssignment]]` — A list of newsfeed_assignments to assign to the specified newsfeed.
+**newsfeed_assignments:** `typing.Optional[typing.Sequence[NewsfeedAssignmentParams]]` — A list of newsfeed_assignments to assign to the specified newsfeed.
     
 </dd>
 </dl>
@@ -11551,7 +11466,7 @@ client.unstable.help_center.create_collection(
 <dl>
 <dd>
 
-**translated_content:** `typing.Optional[GroupTranslatedContent]` 
+**translated_content:** `typing.Optional[GroupTranslatedContentParams]` 
     
 </dd>
 </dl>
@@ -11732,7 +11647,7 @@ client.unstable.help_center.update_collection(
 <dl>
 <dd>
 
-**translated_content:** `typing.Optional[GroupTranslatedContent]` 
+**translated_content:** `typing.Optional[GroupTranslatedContentParams]` 
     
 </dd>
 </dl>
@@ -13648,29 +13563,18 @@ The table below shows the operators you can use to define how you want to search
 
 ```python
 from intercom import Intercom
-from intercom.unstable import (
-    MultipleFilterSearchRequest,
-    SingleFilterSearchRequest,
-    StartingAfterPaging,
-)
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.unstable.contacts.search_contacts(
-    query=MultipleFilterSearchRequest(
-        operator="AND",
-        value=[
-            SingleFilterSearchRequest(
-                field="created_at",
-                operator=">",
-                value="1306054154",
-            )
+    query={
+        "operator": "AND",
+        "value": [
+            {"field": "created_at", "operator": ">", "value": "1306054154"}
         ],
-    ),
-    pagination=StartingAfterPaging(
-        per_page=5,
-    ),
+    },
+    pagination={"per_page": 5},
 )
 
 ```
@@ -13687,7 +13591,7 @@ client.unstable.contacts.search_contacts(
 <dl>
 <dd>
 
-**query:** `SearchRequestQuery` 
+**query:** `SearchRequestQueryParams` 
     
 </dd>
 </dl>
@@ -13695,7 +13599,7 @@ client.unstable.contacts.search_contacts(
 <dl>
 <dd>
 
-**pagination:** `typing.Optional[StartingAfterPaging]` 
+**pagination:** `typing.Optional[StartingAfterPagingParams]` 
     
 </dd>
 </dl>
@@ -15036,23 +14940,12 @@ Each operation will return a tag object.
 
 ```python
 from intercom import Intercom
-from intercom.unstable import (
-    TagMultipleUsersRequest,
-    TagMultipleUsersRequestUsersItem,
-)
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.unstable.tags.create_tag(
-    request=TagMultipleUsersRequest(
-        name="test",
-        users=[
-            TagMultipleUsersRequestUsersItem(
-                id="123",
-            )
-        ],
-    ),
+    request={"name": "test", "users": [{"id": "123"}]},
 )
 
 ```
@@ -15069,7 +14962,7 @@ client.unstable.tags.create_tag(
 <dl>
 <dd>
 
-**request:** `CreateTagRequestBody` 
+**request:** `CreateTagRequestBodyParams` 
     
 </dd>
 </dl>
@@ -15525,16 +15418,12 @@ This will return the Message model that has been created.
 
 ```python
 from intercom import Intercom
-from intercom.unstable.conversations import CreateConversationRequestFrom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.unstable.conversations.create_conversation(
-    from_=CreateConversationRequestFrom(
-        type="user",
-        id="123_doesnt_exist",
-    ),
+    from_={"type": "user", "id": "123_doesnt_exist"},
     body="Hello there",
 )
 
@@ -15552,7 +15441,7 @@ client.unstable.conversations.create_conversation(
 <dl>
 <dd>
 
-**from_:** `CreateConversationRequestFrom` 
+**from_:** `CreateConversationRequestFromParams` 
     
 </dd>
 </dl>
@@ -15773,7 +15662,7 @@ client.unstable.conversations.update_conversation(
 <dl>
 <dd>
 
-**custom_attributes:** `typing.Optional[CustomAttributes]` 
+**custom_attributes:** `typing.Optional[CustomAttributesParams]` 
     
 </dd>
 </dl>
@@ -15997,29 +15886,18 @@ The table below shows the operators you can use to define how you want to search
 
 ```python
 from intercom import Intercom
-from intercom.unstable import (
-    MultipleFilterSearchRequest,
-    SingleFilterSearchRequest,
-    StartingAfterPaging,
-)
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.unstable.conversations.search_conversations(
-    query=MultipleFilterSearchRequest(
-        operator="AND",
-        value=[
-            SingleFilterSearchRequest(
-                field="created_at",
-                operator=">",
-                value="1306054154",
-            )
+    query={
+        "operator": "AND",
+        "value": [
+            {"field": "created_at", "operator": ">", "value": "1306054154"}
         ],
-    ),
-    pagination=StartingAfterPaging(
-        per_page=5,
-    ),
+    },
+    pagination={"per_page": 5},
 )
 
 ```
@@ -16036,7 +15914,7 @@ client.unstable.conversations.search_conversations(
 <dl>
 <dd>
 
-**query:** `SearchRequestQuery` 
+**query:** `SearchRequestQueryParams` 
     
 </dd>
 </dl>
@@ -16044,7 +15922,7 @@ client.unstable.conversations.search_conversations(
 <dl>
 <dd>
 
-**pagination:** `typing.Optional[StartingAfterPaging]` 
+**pagination:** `typing.Optional[StartingAfterPagingParams]` 
     
 </dd>
 </dl>
@@ -16092,17 +15970,18 @@ You can reply to a conversation with a message from an admin or on behalf of a c
 
 ```python
 from intercom import Intercom
-from intercom.unstable import ContactReplyIntercomUserIdRequest
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.unstable.conversations.reply_conversation(
     id='123 or "last"',
-    request=ContactReplyIntercomUserIdRequest(
-        body="Thanks again :)",
-        intercom_user_id="6762f1661bb69f9f2193bbbf",
-    ),
+    request={
+        "message_type": "comment",
+        "type": "user",
+        "body": "Thanks again :)",
+        "intercom_user_id": "6762f1661bb69f9f2193bbbf",
+    },
 )
 
 ```
@@ -16127,7 +16006,7 @@ client.unstable.conversations.reply_conversation(
 <dl>
 <dd>
 
-**request:** `ReplyConversationRequestBody` 
+**request:** `ReplyConversationRequestBodyParams` 
     
 </dd>
 </dl>
@@ -16179,16 +16058,13 @@ For managing conversations you can:
 
 ```python
 from intercom import Intercom
-from intercom.unstable.conversations import ManageConversationRequestBody_Close
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.unstable.conversations.manage_conversation(
     id="123",
-    request=ManageConversationRequestBody_Close(
-        admin_id="12345",
-    ),
+    request={"type": "admin", "admin_id": "12345", "message_type": "close"},
 )
 
 ```
@@ -16213,7 +16089,7 @@ client.unstable.conversations.manage_conversation(
 <dl>
 <dd>
 
-**request:** `ManageConversationRequestBody` 
+**request:** `ManageConversationRequestBodyParams` 
     
 </dd>
 </dl>
@@ -16265,9 +16141,6 @@ If you add a contact via the email parameter and there is no user/lead found on 
 
 ```python
 from intercom import Intercom
-from intercom.unstable.conversations import (
-    AttachContactToConversationRequestCustomerIntercomUserId,
-)
 
 client = Intercom(
     token="YOUR_TOKEN",
@@ -16275,9 +16148,7 @@ client = Intercom(
 client.unstable.conversations.attach_contact_to_conversation(
     id="123",
     admin_id="12345",
-    customer=AttachContactToConversationRequestCustomerIntercomUserId(
-        intercom_user_id="6762f19e1bb69f9f2193bbd5",
-    ),
+    customer={"intercom_user_id": "6762f19e1bb69f9f2193bbd5"},
 )
 
 ```
@@ -16310,7 +16181,7 @@ client.unstable.conversations.attach_contact_to_conversation(
 <dl>
 <dd>
 
-**customer:** `typing.Optional[AttachContactToConversationRequestCustomer]` 
+**customer:** `typing.Optional[AttachContactToConversationRequestCustomerParams]` 
     
 </dd>
 </dl>
@@ -16454,16 +16325,16 @@ If you are redacting a conversation part, it must have a `body`. If you are reda
 
 ```python
 from intercom import Intercom
-from intercom.unstable import RedactConversationRequest_ConversationPart
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.unstable.conversations.redact_conversation(
-    request=RedactConversationRequest_ConversationPart(
-        conversation_id="really_123_doesnt_exist",
-        conversation_part_id="really_123_doesnt_exist",
-    ),
+    request={
+        "conversation_id": "really_123_doesnt_exist",
+        "conversation_part_id": "really_123_doesnt_exist",
+        "type": "conversation_part",
+    },
 )
 
 ```
@@ -16480,7 +16351,7 @@ client.unstable.conversations.redact_conversation(
 <dl>
 <dd>
 
-**request:** `RedactConversationRequest` 
+**request:** `RedactConversationRequestParams` 
     
 </dd>
 </dl>
@@ -16567,7 +16438,7 @@ client.unstable.conversations.convert_conversation_to_ticket(
 <dl>
 <dd>
 
-**attributes:** `typing.Optional[TicketRequestCustomAttributes]` 
+**attributes:** `typing.Optional[TicketRequestCustomAttributesParams]` 
     
 </dd>
 </dl>
@@ -16617,7 +16488,6 @@ Notifies Intercom that a new conversation was created in your custom channel/pla
 
 ```python
 from intercom import Intercom
-from intercom.unstable import CustomChannelContact
 
 client = Intercom(
     token="YOUR_TOKEN",
@@ -16625,12 +16495,12 @@ client = Intercom(
 client.unstable.custom_channel_events.notify_new_conversation(
     event_id="evt_12345",
     external_conversation_id="conv_67890",
-    contact=CustomChannelContact(
-        type="user",
-        external_id="user_001",
-        name="Jane Doe",
-        email="jane.doe@example.com",
-    ),
+    contact={
+        "type": "user",
+        "external_id": "user_001",
+        "name": "Jane Doe",
+        "email": "jane.doe@example.com",
+    },
 )
 
 ```
@@ -16663,7 +16533,7 @@ client.unstable.custom_channel_events.notify_new_conversation(
 <dl>
 <dd>
 
-**contact:** `CustomChannelContact` 
+**contact:** `CustomChannelContactParams` 
     
 </dd>
 </dl>
@@ -16712,7 +16582,6 @@ Notifies Intercom that a new message was sent in a conversation on your custom c
 
 ```python
 from intercom import Intercom
-from intercom.unstable import CustomChannelContact
 
 client = Intercom(
     token="YOUR_TOKEN",
@@ -16720,12 +16589,12 @@ client = Intercom(
 client.unstable.custom_channel_events.notify_new_message(
     event_id="evt_54321",
     external_conversation_id="conv_98765",
-    contact=CustomChannelContact(
-        type="user",
-        external_id="user_002",
-        name="John Smith",
-        email="john.smith@example.com",
-    ),
+    contact={
+        "type": "user",
+        "external_id": "user_002",
+        "name": "John Smith",
+        "email": "john.smith@example.com",
+    },
     body="Hello, I need help with my order.",
 )
 
@@ -16767,7 +16636,7 @@ client.unstable.custom_channel_events.notify_new_message(
 <dl>
 <dd>
 
-**contact:** `CustomChannelContact` 
+**contact:** `CustomChannelContactParams` 
     
 </dd>
 </dl>
@@ -16816,7 +16685,6 @@ Notifies Intercom that a user selected a quick reply option in your custom chann
 
 ```python
 from intercom import Intercom
-from intercom.unstable import CustomChannelContact
 
 client = Intercom(
     token="YOUR_TOKEN",
@@ -16824,12 +16692,12 @@ client = Intercom(
 client.unstable.custom_channel_events.notify_quick_reply_selected(
     event_id="evt_67890",
     external_conversation_id="conv_13579",
-    contact=CustomChannelContact(
-        type="user",
-        external_id="user_003",
-        name="Alice Example",
-        email="alice@example.com",
-    ),
+    contact={
+        "type": "user",
+        "external_id": "user_003",
+        "name": "Alice Example",
+        "email": "alice@example.com",
+    },
     quick_reply_option_id="1234",
 )
 
@@ -16871,7 +16739,7 @@ client.unstable.custom_channel_events.notify_quick_reply_selected(
 <dl>
 <dd>
 
-**contact:** `CustomChannelContact` 
+**contact:** `CustomChannelContactParams` 
     
 </dd>
 </dl>
@@ -16920,7 +16788,6 @@ Notifies Intercom that a user provided a response to an attribute collector in y
 
 ```python
 from intercom import Intercom
-from intercom.unstable import CustomChannelAttribute, CustomChannelContact
 
 client = Intercom(
     token="YOUR_TOKEN",
@@ -16928,16 +16795,13 @@ client = Intercom(
 client.unstable.custom_channel_events.notify_attribute_collected(
     event_id="evt_24680",
     external_conversation_id="conv_11223",
-    contact=CustomChannelContact(
-        type="user",
-        external_id="user_004",
-        name="Bob Example",
-        email="bob@example.com",
-    ),
-    attribute=CustomChannelAttribute(
-        id="shipping_address",
-        value="123 Main St, Springfield",
-    ),
+    contact={
+        "type": "user",
+        "external_id": "user_004",
+        "name": "Bob Example",
+        "email": "bob@example.com",
+    },
+    attribute={"id": "shipping_address", "value": "123 Main St, Springfield"},
 )
 
 ```
@@ -16954,7 +16818,7 @@ client.unstable.custom_channel_events.notify_attribute_collected(
 <dl>
 <dd>
 
-**attribute:** `CustomChannelAttribute` 
+**attribute:** `CustomChannelAttributeParams` 
     
 </dd>
 </dl>
@@ -16978,7 +16842,7 @@ client.unstable.custom_channel_events.notify_attribute_collected(
 <dl>
 <dd>
 
-**contact:** `CustomChannelContact` 
+**contact:** `CustomChannelContactParams` 
     
 </dd>
 </dl>
@@ -17766,15 +17630,12 @@ You can optionally define the result page size as well with the `per_page` param
 
 ```python
 from intercom import Intercom
-from intercom.unstable.data_events import LisDataEventsRequestFilterUserId
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.unstable.data_events.lis_data_events(
-    filter=LisDataEventsRequestFilterUserId(
-        user_id="user_id",
-    ),
+    filter={"user_id": "user_id"},
     type="type",
 )
 
@@ -17792,7 +17653,7 @@ client.unstable.data_events.lis_data_events(
 <dl>
 <dd>
 
-**filter:** `LisDataEventsRequestFilter` 
+**filter:** `LisDataEventsRequestFilterParams` 
     
 </dd>
 </dl>
@@ -17994,7 +17855,7 @@ client.unstable.data_events.data_event_summaries()
 <dl>
 <dd>
 
-**event_summaries:** `typing.Optional[CreateDataEventSummariesRequestEventSummaries]` — A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`.
+**event_summaries:** `typing.Optional[CreateDataEventSummariesRequestEventSummariesParams]` — A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`.
     
 </dd>
 </dl>
@@ -18664,7 +18525,6 @@ You can create a news item
 
 ```python
 from intercom import Intercom
-from intercom.unstable.news import NewsfeedAssignment
 
 client = Intercom(
     token="YOUR_TOKEN",
@@ -18677,12 +18537,7 @@ client.unstable.news.create_news_item(
     deliver_silently=True,
     labels=["Product", "Update", "New"],
     reactions=["😆", "😅"],
-    newsfeed_assignments=[
-        NewsfeedAssignment(
-            newsfeed_id=53,
-            published_at=1664638214,
-        )
-    ],
+    newsfeed_assignments=[{"newsfeed_id": 53, "published_at": 1664638214}],
 )
 
 ```
@@ -18755,7 +18610,7 @@ client.unstable.news.create_news_item(
 <dl>
 <dd>
 
-**newsfeed_assignments:** `typing.Optional[typing.Sequence[NewsfeedAssignment]]` — A list of newsfeed_assignments to assign to the specified newsfeed.
+**newsfeed_assignments:** `typing.Optional[typing.Sequence[NewsfeedAssignmentParams]]` — A list of newsfeed_assignments to assign to the specified newsfeed.
     
 </dd>
 </dl>
@@ -18949,7 +18804,7 @@ client.unstable.news.update_news_item(
 <dl>
 <dd>
 
-**newsfeed_assignments:** `typing.Optional[typing.Sequence[NewsfeedAssignment]]` — A list of newsfeed_assignments to assign to the specified newsfeed.
+**newsfeed_assignments:** `typing.Optional[typing.Sequence[NewsfeedAssignmentParams]]` — A list of newsfeed_assignments to assign to the specified newsfeed.
     
 </dd>
 </dl>
@@ -20193,17 +20048,18 @@ You can reply to a ticket with a message from an admin or on behalf of a contact
 
 ```python
 from intercom import Intercom
-from intercom.unstable import ContactReplyTicketIntercomUserIdRequest
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.unstable.tickets.reply_ticket(
     id="123",
-    request=ContactReplyTicketIntercomUserIdRequest(
-        body="Thanks again :)",
-        intercom_user_id="6762f2a41bb69f9f2193bc4c",
-    ),
+    request={
+        "message_type": "comment",
+        "type": "user",
+        "body": "Thanks again :)",
+        "intercom_user_id": "6762f2a41bb69f9f2193bc4c",
+    },
 )
 
 ```
@@ -20228,7 +20084,7 @@ client.unstable.tickets.reply_ticket(
 <dl>
 <dd>
 
-**request:** `ReplyTicketRequestBody` 
+**request:** `ReplyTicketRequestBodyParams` 
     
 </dd>
 </dl>
@@ -20276,18 +20132,13 @@ Enqueues ticket creation for asynchronous processing, returning if the job was e
 
 ```python
 from intercom import Intercom
-from intercom.unstable import CreateTicketRequestContactsItemId
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.unstable.tickets.enqueue_create_ticket(
     ticket_type_id="1234",
-    contacts=[
-        CreateTicketRequestContactsItemId(
-            id="6762f2d81bb69f9f2193bc54",
-        )
-    ],
+    contacts=[{"id": "6762f2d81bb69f9f2193bc54"}],
 )
 
 ```
@@ -20312,7 +20163,7 @@ client.unstable.tickets.enqueue_create_ticket(
 <dl>
 <dd>
 
-**contacts:** `typing.Sequence[CreateTicketRequestContactsItem]` — The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
+**contacts:** `typing.Sequence[CreateTicketRequestContactsItemParams]` — The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
     
 </dd>
 </dl>
@@ -20358,7 +20209,7 @@ The ID of the conversation you want to link to the ticket. Here are the valid wa
 <dl>
 <dd>
 
-**assignment:** `typing.Optional[CreateTicketRequestAssignment]` 
+**assignment:** `typing.Optional[CreateTicketRequestAssignmentParams]` 
     
 </dd>
 </dl>
@@ -20749,29 +20600,18 @@ The table below shows the operators you can use to define how you want to search
 
 ```python
 from intercom import Intercom
-from intercom.unstable import (
-    MultipleFilterSearchRequest,
-    SingleFilterSearchRequest,
-    StartingAfterPaging,
-)
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.unstable.tickets.search_tickets(
-    query=MultipleFilterSearchRequest(
-        operator="AND",
-        value=[
-            SingleFilterSearchRequest(
-                field="created_at",
-                operator=">",
-                value="1306054154",
-            )
+    query={
+        "operator": "AND",
+        "value": [
+            {"field": "created_at", "operator": ">", "value": "1306054154"}
         ],
-    ),
-    pagination=StartingAfterPaging(
-        per_page=5,
-    ),
+    },
+    pagination={"per_page": 5},
 )
 
 ```
@@ -20788,7 +20628,7 @@ client.unstable.tickets.search_tickets(
 <dl>
 <dd>
 
-**query:** `SearchRequestQuery` 
+**query:** `SearchRequestQueryParams` 
     
 </dd>
 </dl>
@@ -20796,7 +20636,7 @@ client.unstable.tickets.search_tickets(
 <dl>
 <dd>
 
-**pagination:** `typing.Optional[StartingAfterPaging]` 
+**pagination:** `typing.Optional[StartingAfterPagingParams]` 
     
 </dd>
 </dl>

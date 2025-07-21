@@ -16,8 +16,8 @@ from ...types.deleted_object import DeletedObject
 from ...types.error import Error
 from ...types.news_item_request_state import NewsItemRequestState
 from ...types.paginated_news_item_response import PaginatedNewsItemResponse
+from ..requests.newsfeed_assignment import NewsfeedAssignmentParams
 from ..types.news_item import NewsItem
-from ..types.newsfeed_assignment import NewsfeedAssignment
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -84,7 +84,7 @@ class RawItemsClient:
         deliver_silently: typing.Optional[bool] = OMIT,
         labels: typing.Optional[typing.Sequence[str]] = OMIT,
         reactions: typing.Optional[typing.Sequence[typing.Optional[str]]] = OMIT,
-        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignment]] = OMIT,
+        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignmentParams]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[NewsItem]:
         """
@@ -113,7 +113,7 @@ class RawItemsClient:
         reactions : typing.Optional[typing.Sequence[typing.Optional[str]]]
             Ordered list of emoji reactions to the news item. When empty, reactions are disabled.
 
-        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignment]]
+        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignmentParams]]
             A list of newsfeed_assignments to assign to the specified newsfeed.
 
         request_options : typing.Optional[RequestOptions]
@@ -136,7 +136,9 @@ class RawItemsClient:
                 "labels": labels,
                 "reactions": reactions,
                 "newsfeed_assignments": convert_and_respect_annotation_metadata(
-                    object_=newsfeed_assignments, annotation=typing.Sequence[NewsfeedAssignment], direction="write"
+                    object_=newsfeed_assignments,
+                    annotation=typing.Sequence[NewsfeedAssignmentParams],
+                    direction="write",
                 ),
             },
             headers={
@@ -243,7 +245,7 @@ class RawItemsClient:
         deliver_silently: typing.Optional[bool] = OMIT,
         labels: typing.Optional[typing.Sequence[str]] = OMIT,
         reactions: typing.Optional[typing.Sequence[typing.Optional[str]]] = OMIT,
-        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignment]] = OMIT,
+        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignmentParams]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[NewsItem]:
         """
@@ -273,7 +275,7 @@ class RawItemsClient:
         reactions : typing.Optional[typing.Sequence[typing.Optional[str]]]
             Ordered list of emoji reactions to the news item. When empty, reactions are disabled.
 
-        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignment]]
+        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignmentParams]]
             A list of newsfeed_assignments to assign to the specified newsfeed.
 
         request_options : typing.Optional[RequestOptions]
@@ -296,7 +298,9 @@ class RawItemsClient:
                 "labels": labels,
                 "reactions": reactions,
                 "newsfeed_assignments": convert_and_respect_annotation_metadata(
-                    object_=newsfeed_assignments, annotation=typing.Sequence[NewsfeedAssignment], direction="write"
+                    object_=newsfeed_assignments,
+                    annotation=typing.Sequence[NewsfeedAssignmentParams],
+                    direction="write",
                 ),
             },
             headers={
@@ -465,7 +469,7 @@ class AsyncRawItemsClient:
         deliver_silently: typing.Optional[bool] = OMIT,
         labels: typing.Optional[typing.Sequence[str]] = OMIT,
         reactions: typing.Optional[typing.Sequence[typing.Optional[str]]] = OMIT,
-        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignment]] = OMIT,
+        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignmentParams]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[NewsItem]:
         """
@@ -494,7 +498,7 @@ class AsyncRawItemsClient:
         reactions : typing.Optional[typing.Sequence[typing.Optional[str]]]
             Ordered list of emoji reactions to the news item. When empty, reactions are disabled.
 
-        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignment]]
+        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignmentParams]]
             A list of newsfeed_assignments to assign to the specified newsfeed.
 
         request_options : typing.Optional[RequestOptions]
@@ -517,7 +521,9 @@ class AsyncRawItemsClient:
                 "labels": labels,
                 "reactions": reactions,
                 "newsfeed_assignments": convert_and_respect_annotation_metadata(
-                    object_=newsfeed_assignments, annotation=typing.Sequence[NewsfeedAssignment], direction="write"
+                    object_=newsfeed_assignments,
+                    annotation=typing.Sequence[NewsfeedAssignmentParams],
+                    direction="write",
                 ),
             },
             headers={
@@ -624,7 +630,7 @@ class AsyncRawItemsClient:
         deliver_silently: typing.Optional[bool] = OMIT,
         labels: typing.Optional[typing.Sequence[str]] = OMIT,
         reactions: typing.Optional[typing.Sequence[typing.Optional[str]]] = OMIT,
-        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignment]] = OMIT,
+        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignmentParams]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[NewsItem]:
         """
@@ -654,7 +660,7 @@ class AsyncRawItemsClient:
         reactions : typing.Optional[typing.Sequence[typing.Optional[str]]]
             Ordered list of emoji reactions to the news item. When empty, reactions are disabled.
 
-        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignment]]
+        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignmentParams]]
             A list of newsfeed_assignments to assign to the specified newsfeed.
 
         request_options : typing.Optional[RequestOptions]
@@ -677,7 +683,9 @@ class AsyncRawItemsClient:
                 "labels": labels,
                 "reactions": reactions,
                 "newsfeed_assignments": convert_and_respect_annotation_metadata(
-                    object_=newsfeed_assignments, annotation=typing.Sequence[NewsfeedAssignment], direction="write"
+                    object_=newsfeed_assignments,
+                    annotation=typing.Sequence[NewsfeedAssignmentParams],
+                    direction="write",
                 ),
             },
             headers={

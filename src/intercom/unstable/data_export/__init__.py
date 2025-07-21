@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import DataExport, DataExportStatus
+from .requests import DataExportParams
 
-__all__ = ["DataExport", "DataExportStatus"]
+__all__ = ["DataExport", "DataExportParams", "DataExportStatus"]

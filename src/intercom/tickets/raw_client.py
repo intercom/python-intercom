@@ -14,16 +14,16 @@ from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
-from ..types.create_ticket_request_contacts_item import CreateTicketRequestContactsItem
+from ..requests.create_ticket_request_contacts_item import CreateTicketRequestContactsItemParams
+from ..requests.search_request_query import SearchRequestQueryParams
+from ..requests.starting_after_paging import StartingAfterPagingParams
 from ..types.error import Error
-from ..types.search_request_query import SearchRequestQuery
-from ..types.starting_after_paging import StartingAfterPaging
 from ..types.ticket_list import TicketList
 from ..types.ticket_reply import TicketReply
 from ..types.ticket_request_custom_attributes import TicketRequestCustomAttributes
+from .requests.tickets_reply_request_body import TicketsReplyRequestBodyParams
+from .requests.update_ticket_request_assignment import UpdateTicketRequestAssignmentParams
 from .types.ticket import Ticket
-from .types.tickets_reply_request_body import TicketsReplyRequestBody
-from .types.update_ticket_request_assignment import UpdateTicketRequestAssignment
 from .types.update_ticket_request_state import UpdateTicketRequestState
 
 # this is used as the default value for optional parameters
@@ -38,7 +38,7 @@ class RawTicketsClient:
         self,
         ticket_id: str,
         *,
-        request: TicketsReplyRequestBody,
+        request: TicketsReplyRequestBodyParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[TicketReply]:
         """
@@ -48,7 +48,7 @@ class RawTicketsClient:
         ----------
         ticket_id : str
 
-        request : TicketsReplyRequestBody
+        request : TicketsReplyRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -62,7 +62,7 @@ class RawTicketsClient:
             f"tickets/{jsonable_encoder(ticket_id)}/reply",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=TicketsReplyRequestBody, direction="write"
+                object_=request, annotation=TicketsReplyRequestBodyParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -122,7 +122,7 @@ class RawTicketsClient:
         self,
         *,
         ticket_type_id: str,
-        contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        contacts: typing.Sequence[CreateTicketRequestContactsItemParams],
         company_id: typing.Optional[str] = OMIT,
         created_at: typing.Optional[int] = OMIT,
         ticket_attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
@@ -136,7 +136,7 @@ class RawTicketsClient:
         ticket_type_id : str
             The ID of the type of ticket you want to create
 
-        contacts : typing.Sequence[CreateTicketRequestContactsItem]
+        contacts : typing.Sequence[CreateTicketRequestContactsItemParams]
             The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
 
         company_id : typing.Optional[str]
@@ -161,7 +161,9 @@ class RawTicketsClient:
             json={
                 "ticket_type_id": ticket_type_id,
                 "contacts": convert_and_respect_annotation_metadata(
-                    object_=contacts, annotation=typing.Sequence[CreateTicketRequestContactsItem], direction="write"
+                    object_=contacts,
+                    annotation=typing.Sequence[CreateTicketRequestContactsItemParams],
+                    direction="write",
                 ),
                 "company_id": company_id,
                 "created_at": created_at,
@@ -256,7 +258,7 @@ class RawTicketsClient:
         open: typing.Optional[bool] = OMIT,
         is_shared: typing.Optional[bool] = OMIT,
         snoozed_until: typing.Optional[int] = OMIT,
-        assignment: typing.Optional[UpdateTicketRequestAssignment] = OMIT,
+        assignment: typing.Optional[UpdateTicketRequestAssignmentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Ticket]:
         """
@@ -282,7 +284,7 @@ class RawTicketsClient:
         snoozed_until : typing.Optional[int]
             The time you want the ticket to reopen.
 
-        assignment : typing.Optional[UpdateTicketRequestAssignment]
+        assignment : typing.Optional[UpdateTicketRequestAssignmentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -302,7 +304,7 @@ class RawTicketsClient:
                 "is_shared": is_shared,
                 "snoozed_until": snoozed_until,
                 "assignment": convert_and_respect_annotation_metadata(
-                    object_=assignment, annotation=UpdateTicketRequestAssignment, direction="write"
+                    object_=assignment, annotation=UpdateTicketRequestAssignmentParams, direction="write"
                 ),
             },
             headers={
@@ -351,8 +353,8 @@ class RawTicketsClient:
     def search(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[Ticket]:
         """
@@ -420,9 +422,9 @@ class RawTicketsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -437,10 +439,10 @@ class RawTicketsClient:
             method="POST",
             json={
                 "query": convert_and_respect_annotation_metadata(
-                    object_=query, annotation=SearchRequestQuery, direction="write"
+                    object_=query, annotation=SearchRequestQueryParams, direction="write"
                 ),
                 "pagination": convert_and_respect_annotation_metadata(
-                    object_=pagination, annotation=StartingAfterPaging, direction="write"
+                    object_=pagination, annotation=StartingAfterPagingParams, direction="write"
                 ),
             },
             headers={
@@ -486,7 +488,7 @@ class AsyncRawTicketsClient:
         self,
         ticket_id: str,
         *,
-        request: TicketsReplyRequestBody,
+        request: TicketsReplyRequestBodyParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[TicketReply]:
         """
@@ -496,7 +498,7 @@ class AsyncRawTicketsClient:
         ----------
         ticket_id : str
 
-        request : TicketsReplyRequestBody
+        request : TicketsReplyRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -510,7 +512,7 @@ class AsyncRawTicketsClient:
             f"tickets/{jsonable_encoder(ticket_id)}/reply",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=TicketsReplyRequestBody, direction="write"
+                object_=request, annotation=TicketsReplyRequestBodyParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -570,7 +572,7 @@ class AsyncRawTicketsClient:
         self,
         *,
         ticket_type_id: str,
-        contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        contacts: typing.Sequence[CreateTicketRequestContactsItemParams],
         company_id: typing.Optional[str] = OMIT,
         created_at: typing.Optional[int] = OMIT,
         ticket_attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
@@ -584,7 +586,7 @@ class AsyncRawTicketsClient:
         ticket_type_id : str
             The ID of the type of ticket you want to create
 
-        contacts : typing.Sequence[CreateTicketRequestContactsItem]
+        contacts : typing.Sequence[CreateTicketRequestContactsItemParams]
             The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
 
         company_id : typing.Optional[str]
@@ -609,7 +611,9 @@ class AsyncRawTicketsClient:
             json={
                 "ticket_type_id": ticket_type_id,
                 "contacts": convert_and_respect_annotation_metadata(
-                    object_=contacts, annotation=typing.Sequence[CreateTicketRequestContactsItem], direction="write"
+                    object_=contacts,
+                    annotation=typing.Sequence[CreateTicketRequestContactsItemParams],
+                    direction="write",
                 ),
                 "company_id": company_id,
                 "created_at": created_at,
@@ -706,7 +710,7 @@ class AsyncRawTicketsClient:
         open: typing.Optional[bool] = OMIT,
         is_shared: typing.Optional[bool] = OMIT,
         snoozed_until: typing.Optional[int] = OMIT,
-        assignment: typing.Optional[UpdateTicketRequestAssignment] = OMIT,
+        assignment: typing.Optional[UpdateTicketRequestAssignmentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Ticket]:
         """
@@ -732,7 +736,7 @@ class AsyncRawTicketsClient:
         snoozed_until : typing.Optional[int]
             The time you want the ticket to reopen.
 
-        assignment : typing.Optional[UpdateTicketRequestAssignment]
+        assignment : typing.Optional[UpdateTicketRequestAssignmentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -752,7 +756,7 @@ class AsyncRawTicketsClient:
                 "is_shared": is_shared,
                 "snoozed_until": snoozed_until,
                 "assignment": convert_and_respect_annotation_metadata(
-                    object_=assignment, annotation=UpdateTicketRequestAssignment, direction="write"
+                    object_=assignment, annotation=UpdateTicketRequestAssignmentParams, direction="write"
                 ),
             },
             headers={
@@ -801,8 +805,8 @@ class AsyncRawTicketsClient:
     async def search(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[Ticket]:
         """
@@ -870,9 +874,9 @@ class AsyncRawTicketsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -887,10 +891,10 @@ class AsyncRawTicketsClient:
             method="POST",
             json={
                 "query": convert_and_respect_annotation_metadata(
-                    object_=query, annotation=SearchRequestQuery, direction="write"
+                    object_=query, annotation=SearchRequestQueryParams, direction="write"
                 ),
                 "pagination": convert_and_respect_annotation_metadata(
-                    object_=pagination, annotation=StartingAfterPaging, direction="write"
+                    object_=pagination, annotation=StartingAfterPagingParams, direction="write"
                 ),
             },
             headers={

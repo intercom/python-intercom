@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import Contact
+from .requests import ContactParams
 
-__all__ = ["Contact"]
+__all__ = ["Contact", "ContactParams"]

@@ -4,5 +4,16 @@
 
 from .types import NewsItem, NewsItemState, Newsfeed, NewsfeedAssignment
 from . import feeds, items
+from .requests import NewsItemParams, NewsfeedAssignmentParams, NewsfeedParams
 
-__all__ = ["NewsItem", "NewsItemState", "Newsfeed", "NewsfeedAssignment", "feeds", "items"]
+__all__ = [
+    "NewsItem",
+    "NewsItemParams",
+    "NewsItemState",
+    "Newsfeed",
+    "NewsfeedAssignment",
+    "NewsfeedAssignmentParams",
+    "NewsfeedParams",
+    "feeds",
+    "items",
+]

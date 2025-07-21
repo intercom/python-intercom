@@ -8,10 +8,12 @@ from .types import (
     SubscriptionTypeContentTypesItem,
     SubscriptionTypeState,
 )
+from .requests import SubscriptionTypeParams
 
 __all__ = [
     "SubscriptionType",
     "SubscriptionTypeConsentType",
     "SubscriptionTypeContentTypesItem",
+    "SubscriptionTypeParams",
     "SubscriptionTypeState",
 ]

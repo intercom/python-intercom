@@ -14,16 +14,32 @@ from .types import (
     ArticleSearchResponse,
     ArticleSearchResponseData,
 )
+from .requests import (
+    ArticleListItemParams,
+    ArticleParams,
+    ArticleSearchHighlightsHighlightedSummaryItemItemParams,
+    ArticleSearchHighlightsHighlightedTitleItemParams,
+    ArticleSearchHighlightsParams,
+    ArticleSearchResponseDataParams,
+    ArticleSearchResponseParams,
+)
 
 __all__ = [
     "Article",
     "ArticleListItem",
+    "ArticleListItemParams",
     "ArticleListItemState",
+    "ArticleParams",
     "ArticleSearchHighlights",
     "ArticleSearchHighlightsHighlightedSummaryItemItem",
+    "ArticleSearchHighlightsHighlightedSummaryItemItemParams",
     "ArticleSearchHighlightsHighlightedSummaryItemItemType",
     "ArticleSearchHighlightsHighlightedTitleItem",
+    "ArticleSearchHighlightsHighlightedTitleItemParams",
     "ArticleSearchHighlightsHighlightedTitleItemType",
+    "ArticleSearchHighlightsParams",
     "ArticleSearchResponse",
     "ArticleSearchResponseData",
+    "ArticleSearchResponseDataParams",
+    "ArticleSearchResponseParams",
 ]

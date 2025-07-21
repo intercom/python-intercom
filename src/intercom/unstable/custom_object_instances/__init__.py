@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import CustomObjectInstance
+from .requests import CustomObjectInstanceParams
 
-__all__ = ["CustomObjectInstance"]
+__all__ = ["CustomObjectInstance", "CustomObjectInstanceParams"]

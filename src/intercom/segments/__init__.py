@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import Segment, SegmentPersonType
+from .requests import SegmentParams
 
-__all__ = ["Segment", "SegmentPersonType"]
+__all__ = ["Segment", "SegmentParams", "SegmentPersonType"]

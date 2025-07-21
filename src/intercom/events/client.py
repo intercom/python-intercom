@@ -4,10 +4,12 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..types.create_data_event_request import CreateDataEventRequest
+from ..requests.create_data_event_request import CreateDataEventRequestParams
 from ..types.data_event_summary import DataEventSummary
 from .raw_client import AsyncRawEventsClient, RawEventsClient
-from .types.create_data_event_summaries_request_event_summaries import CreateDataEventSummariesRequestEventSummaries
+from .requests.create_data_event_summaries_request_event_summaries import (
+    CreateDataEventSummariesRequestEventSummariesParams,
+)
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -106,7 +108,7 @@ class EventsClient:
         return _response.data
 
     def create(
-        self, *, request: CreateDataEventRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateDataEventRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
 
@@ -153,7 +155,7 @@ class EventsClient:
 
         Parameters
         ----------
-        request : CreateDataEventRequest
+        request : CreateDataEventRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -164,17 +166,17 @@ class EventsClient:
 
         Examples
         --------
-        from intercom import CreateDataEventRequestWithId, Intercom
+        from intercom import Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.events.create(
-            request=CreateDataEventRequestWithId(
-                id="8a88a590-e1c3-41e2-a502-e0649dbf721c",
-                event_name="invited-friend",
-                created_at=1671028894,
-            ),
+            request={
+                "id": "8a88a590-e1c3-41e2-a502-e0649dbf721c",
+                "event_name": "invited-friend",
+                "created_at": 1671028894,
+            },
         )
         """
         _response = self._raw_client.create(request=request, request_options=request_options)
@@ -184,7 +186,7 @@ class EventsClient:
         self,
         *,
         user_id: typing.Optional[str] = OMIT,
-        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummaries] = OMIT,
+        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummariesParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> None:
         """
@@ -195,7 +197,7 @@ class EventsClient:
         user_id : typing.Optional[str]
             Your identifier for the user.
 
-        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummaries]
+        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummariesParams]
             A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`.
 
         request_options : typing.Optional[RequestOptions]
@@ -321,7 +323,7 @@ class AsyncEventsClient:
         return _response.data
 
     async def create(
-        self, *, request: CreateDataEventRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateDataEventRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
 
@@ -368,7 +370,7 @@ class AsyncEventsClient:
 
         Parameters
         ----------
-        request : CreateDataEventRequest
+        request : CreateDataEventRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -381,7 +383,7 @@ class AsyncEventsClient:
         --------
         import asyncio
 
-        from intercom import AsyncIntercom, CreateDataEventRequestWithId
+        from intercom import AsyncIntercom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -390,11 +392,11 @@ class AsyncEventsClient:
 
         async def main() -> None:
             await client.events.create(
-                request=CreateDataEventRequestWithId(
-                    id="8a88a590-e1c3-41e2-a502-e0649dbf721c",
-                    event_name="invited-friend",
-                    created_at=1671028894,
-                ),
+                request={
+                    "id": "8a88a590-e1c3-41e2-a502-e0649dbf721c",
+                    "event_name": "invited-friend",
+                    "created_at": 1671028894,
+                },
             )
 
 
@@ -407,7 +409,7 @@ class AsyncEventsClient:
         self,
         *,
         user_id: typing.Optional[str] = OMIT,
-        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummaries] = OMIT,
+        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummariesParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> None:
         """
@@ -418,7 +420,7 @@ class AsyncEventsClient:
         user_id : typing.Optional[str]
             Your identifier for the user.
 
-        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummaries]
+        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummariesParams]
             A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`.
 
         request_options : typing.Optional[RequestOptions]

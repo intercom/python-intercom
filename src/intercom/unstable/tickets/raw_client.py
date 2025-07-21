@@ -14,15 +14,15 @@ from ..errors.bad_request_error import BadRequestError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..jobs.types.jobs import Jobs
-from ..types.create_ticket_request_assignment import CreateTicketRequestAssignment
-from ..types.create_ticket_request_contacts_item import CreateTicketRequestContactsItem
+from ..requests.create_ticket_request_assignment import CreateTicketRequestAssignmentParams
+from ..requests.create_ticket_request_contacts_item import CreateTicketRequestContactsItemParams
+from ..requests.search_request_query import SearchRequestQueryParams
+from ..requests.starting_after_paging import StartingAfterPagingParams
 from ..types.error import Error
-from ..types.search_request_query import SearchRequestQuery
-from ..types.starting_after_paging import StartingAfterPaging
 from ..types.ticket_list import TicketList
 from ..types.ticket_reply import TicketReply
+from .requests.reply_ticket_request_body import ReplyTicketRequestBodyParams
 from .types.delete_ticket_response import DeleteTicketResponse
-from .types.reply_ticket_request_body import ReplyTicketRequestBody
 from .types.ticket import Ticket
 
 # this is used as the default value for optional parameters
@@ -34,7 +34,7 @@ class RawTicketsClient:
         self._client_wrapper = client_wrapper
 
     def reply_ticket(
-        self, id: str, *, request: ReplyTicketRequestBody, request_options: typing.Optional[RequestOptions] = None
+        self, id: str, *, request: ReplyTicketRequestBodyParams, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[TicketReply]:
         """
         You can reply to a ticket with a message from an admin or on behalf of a contact, or with a note for admins.
@@ -43,7 +43,7 @@ class RawTicketsClient:
         ----------
         id : str
 
-        request : ReplyTicketRequestBody
+        request : ReplyTicketRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -57,7 +57,7 @@ class RawTicketsClient:
             f"tickets/{jsonable_encoder(id)}/reply",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=ReplyTicketRequestBody, direction="write"
+                object_=request, annotation=ReplyTicketRequestBodyParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -117,12 +117,12 @@ class RawTicketsClient:
         self,
         *,
         ticket_type_id: str,
-        contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        contacts: typing.Sequence[CreateTicketRequestContactsItemParams],
         skip_notifications: typing.Optional[bool] = OMIT,
         conversation_to_link_id: typing.Optional[str] = OMIT,
         company_id: typing.Optional[str] = OMIT,
         created_at: typing.Optional[int] = OMIT,
-        assignment: typing.Optional[CreateTicketRequestAssignment] = OMIT,
+        assignment: typing.Optional[CreateTicketRequestAssignmentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Jobs]:
         """
@@ -133,7 +133,7 @@ class RawTicketsClient:
         ticket_type_id : str
             The ID of the type of ticket you want to create
 
-        contacts : typing.Sequence[CreateTicketRequestContactsItem]
+        contacts : typing.Sequence[CreateTicketRequestContactsItemParams]
             The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
 
         skip_notifications : typing.Optional[bool]
@@ -152,7 +152,7 @@ class RawTicketsClient:
         created_at : typing.Optional[int]
             The time the ticket was created. If not provided, the current time will be used.
 
-        assignment : typing.Optional[CreateTicketRequestAssignment]
+        assignment : typing.Optional[CreateTicketRequestAssignmentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -169,13 +169,15 @@ class RawTicketsClient:
                 "skip_notifications": skip_notifications,
                 "ticket_type_id": ticket_type_id,
                 "contacts": convert_and_respect_annotation_metadata(
-                    object_=contacts, annotation=typing.Sequence[CreateTicketRequestContactsItem], direction="write"
+                    object_=contacts,
+                    annotation=typing.Sequence[CreateTicketRequestContactsItemParams],
+                    direction="write",
                 ),
                 "conversation_to_link_id": conversation_to_link_id,
                 "company_id": company_id,
                 "created_at": created_at,
                 "assignment": convert_and_respect_annotation_metadata(
-                    object_=assignment, annotation=CreateTicketRequestAssignment, direction="write"
+                    object_=assignment, annotation=CreateTicketRequestAssignmentParams, direction="write"
                 ),
             },
             headers={
@@ -460,8 +462,8 @@ class RawTicketsClient:
     def search_tickets(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[TicketList]:
         """
@@ -537,9 +539,9 @@ class RawTicketsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -554,10 +556,10 @@ class RawTicketsClient:
             method="POST",
             json={
                 "query": convert_and_respect_annotation_metadata(
-                    object_=query, annotation=SearchRequestQuery, direction="write"
+                    object_=query, annotation=SearchRequestQueryParams, direction="write"
                 ),
                 "pagination": convert_and_respect_annotation_metadata(
-                    object_=pagination, annotation=StartingAfterPaging, direction="write"
+                    object_=pagination, annotation=StartingAfterPagingParams, direction="write"
                 ),
             },
             headers={
@@ -587,7 +589,7 @@ class AsyncRawTicketsClient:
         self._client_wrapper = client_wrapper
 
     async def reply_ticket(
-        self, id: str, *, request: ReplyTicketRequestBody, request_options: typing.Optional[RequestOptions] = None
+        self, id: str, *, request: ReplyTicketRequestBodyParams, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[TicketReply]:
         """
         You can reply to a ticket with a message from an admin or on behalf of a contact, or with a note for admins.
@@ -596,7 +598,7 @@ class AsyncRawTicketsClient:
         ----------
         id : str
 
-        request : ReplyTicketRequestBody
+        request : ReplyTicketRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -610,7 +612,7 @@ class AsyncRawTicketsClient:
             f"tickets/{jsonable_encoder(id)}/reply",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=ReplyTicketRequestBody, direction="write"
+                object_=request, annotation=ReplyTicketRequestBodyParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -670,12 +672,12 @@ class AsyncRawTicketsClient:
         self,
         *,
         ticket_type_id: str,
-        contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        contacts: typing.Sequence[CreateTicketRequestContactsItemParams],
         skip_notifications: typing.Optional[bool] = OMIT,
         conversation_to_link_id: typing.Optional[str] = OMIT,
         company_id: typing.Optional[str] = OMIT,
         created_at: typing.Optional[int] = OMIT,
-        assignment: typing.Optional[CreateTicketRequestAssignment] = OMIT,
+        assignment: typing.Optional[CreateTicketRequestAssignmentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Jobs]:
         """
@@ -686,7 +688,7 @@ class AsyncRawTicketsClient:
         ticket_type_id : str
             The ID of the type of ticket you want to create
 
-        contacts : typing.Sequence[CreateTicketRequestContactsItem]
+        contacts : typing.Sequence[CreateTicketRequestContactsItemParams]
             The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
 
         skip_notifications : typing.Optional[bool]
@@ -705,7 +707,7 @@ class AsyncRawTicketsClient:
         created_at : typing.Optional[int]
             The time the ticket was created. If not provided, the current time will be used.
 
-        assignment : typing.Optional[CreateTicketRequestAssignment]
+        assignment : typing.Optional[CreateTicketRequestAssignmentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -722,13 +724,15 @@ class AsyncRawTicketsClient:
                 "skip_notifications": skip_notifications,
                 "ticket_type_id": ticket_type_id,
                 "contacts": convert_and_respect_annotation_metadata(
-                    object_=contacts, annotation=typing.Sequence[CreateTicketRequestContactsItem], direction="write"
+                    object_=contacts,
+                    annotation=typing.Sequence[CreateTicketRequestContactsItemParams],
+                    direction="write",
                 ),
                 "conversation_to_link_id": conversation_to_link_id,
                 "company_id": company_id,
                 "created_at": created_at,
                 "assignment": convert_and_respect_annotation_metadata(
-                    object_=assignment, annotation=CreateTicketRequestAssignment, direction="write"
+                    object_=assignment, annotation=CreateTicketRequestAssignmentParams, direction="write"
                 ),
             },
             headers={
@@ -1013,8 +1017,8 @@ class AsyncRawTicketsClient:
     async def search_tickets(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[TicketList]:
         """
@@ -1090,9 +1094,9 @@ class AsyncRawTicketsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1107,10 +1111,10 @@ class AsyncRawTicketsClient:
             method="POST",
             json={
                 "query": convert_and_respect_annotation_metadata(
-                    object_=query, annotation=SearchRequestQuery, direction="write"
+                    object_=query, annotation=SearchRequestQueryParams, direction="write"
                 ),
                 "pagination": convert_and_respect_annotation_metadata(
-                    object_=pagination, annotation=StartingAfterPaging, direction="write"
+                    object_=pagination, annotation=StartingAfterPagingParams, direction="write"
                 ),
             },
             headers={

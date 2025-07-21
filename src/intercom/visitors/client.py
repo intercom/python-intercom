@@ -5,11 +5,11 @@ import typing
 from ..contacts.types.contact import Contact
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..types.update_visitor_request import UpdateVisitorRequest
+from ..requests.update_visitor_request import UpdateVisitorRequestParams
 from ..types.visitor import Visitor
 from .raw_client import AsyncRawVisitorsClient, RawVisitorsClient
-from .types.convert_visitor_request_user import ConvertVisitorRequestUser
-from .types.convert_visitor_request_visitor import ConvertVisitorRequestVisitor
+from .requests.convert_visitor_request_user import ConvertVisitorRequestUserParams
+from .requests.convert_visitor_request_visitor import ConvertVisitorRequestVisitorParams
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -62,7 +62,7 @@ class VisitorsClient:
         return _response.data
 
     def update(
-        self, *, request: UpdateVisitorRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: UpdateVisitorRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> Visitor:
         """
         Sending a PUT request to `/visitors` will result in an update of an existing Visitor.
@@ -73,7 +73,7 @@ class VisitorsClient:
 
         Parameters
         ----------
-        request : UpdateVisitorRequest
+        request : UpdateVisitorRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -85,16 +85,13 @@ class VisitorsClient:
 
         Examples
         --------
-        from intercom import Intercom, UpdateVisitorRequestWithId
+        from intercom import Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.visitors.update(
-            request=UpdateVisitorRequestWithId(
-                id="667d61cc8a68186f43bafe95",
-                name="Gareth Bale",
-            ),
+            request={"id": "667d61cc8a68186f43bafe95", "name": "Gareth Bale"},
         )
         """
         _response = self._raw_client.update(request=request, request_options=request_options)
@@ -104,8 +101,8 @@ class VisitorsClient:
         self,
         *,
         type: str,
-        user: ConvertVisitorRequestUser,
-        visitor: ConvertVisitorRequestVisitor,
+        user: ConvertVisitorRequestUserParams,
+        visitor: ConvertVisitorRequestVisitorParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Contact:
         """
@@ -120,10 +117,10 @@ class VisitorsClient:
         type : str
             Represents the role of the Contact model. Accepts `lead` or `user`.
 
-        user : ConvertVisitorRequestUser
+        user : ConvertVisitorRequestUserParams
             The unique identifiers retained after converting or merging.
 
-        visitor : ConvertVisitorRequestVisitor
+        visitor : ConvertVisitorRequestVisitorParams
             The unique identifiers to convert a single Visitor.
 
         request_options : typing.Optional[RequestOptions]
@@ -137,20 +134,14 @@ class VisitorsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.visitors import UserWithId, VisitorWithUserId
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.visitors.merge_to_contact(
             type="user",
-            user=UserWithId(
-                id="8a88a590-e1c3-41e2-a502-e0649dbf721c",
-                email="foo@bar.com",
-            ),
-            visitor=VisitorWithUserId(
-                user_id="3ecf64d0-9ed1-4e9f-88e1-da7d6e6782f3",
-            ),
+            user={"id": "8a88a590-e1c3-41e2-a502-e0649dbf721c", "email": "foo@bar.com"},
+            visitor={"user_id": "3ecf64d0-9ed1-4e9f-88e1-da7d6e6782f3"},
         )
         """
         _response = self._raw_client.merge_to_contact(
@@ -214,7 +205,7 @@ class AsyncVisitorsClient:
         return _response.data
 
     async def update(
-        self, *, request: UpdateVisitorRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: UpdateVisitorRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> Visitor:
         """
         Sending a PUT request to `/visitors` will result in an update of an existing Visitor.
@@ -225,7 +216,7 @@ class AsyncVisitorsClient:
 
         Parameters
         ----------
-        request : UpdateVisitorRequest
+        request : UpdateVisitorRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -239,7 +230,7 @@ class AsyncVisitorsClient:
         --------
         import asyncio
 
-        from intercom import AsyncIntercom, UpdateVisitorRequestWithId
+        from intercom import AsyncIntercom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -248,10 +239,7 @@ class AsyncVisitorsClient:
 
         async def main() -> None:
             await client.visitors.update(
-                request=UpdateVisitorRequestWithId(
-                    id="667d61cc8a68186f43bafe95",
-                    name="Gareth Bale",
-                ),
+                request={"id": "667d61cc8a68186f43bafe95", "name": "Gareth Bale"},
             )
 
 
@@ -264,8 +252,8 @@ class AsyncVisitorsClient:
         self,
         *,
         type: str,
-        user: ConvertVisitorRequestUser,
-        visitor: ConvertVisitorRequestVisitor,
+        user: ConvertVisitorRequestUserParams,
+        visitor: ConvertVisitorRequestVisitorParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Contact:
         """
@@ -280,10 +268,10 @@ class AsyncVisitorsClient:
         type : str
             Represents the role of the Contact model. Accepts `lead` or `user`.
 
-        user : ConvertVisitorRequestUser
+        user : ConvertVisitorRequestUserParams
             The unique identifiers retained after converting or merging.
 
-        visitor : ConvertVisitorRequestVisitor
+        visitor : ConvertVisitorRequestVisitorParams
             The unique identifiers to convert a single Visitor.
 
         request_options : typing.Optional[RequestOptions]
@@ -299,7 +287,6 @@ class AsyncVisitorsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.visitors import UserWithId, VisitorWithUserId
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -309,13 +296,11 @@ class AsyncVisitorsClient:
         async def main() -> None:
             await client.visitors.merge_to_contact(
                 type="user",
-                user=UserWithId(
-                    id="8a88a590-e1c3-41e2-a502-e0649dbf721c",
-                    email="foo@bar.com",
-                ),
-                visitor=VisitorWithUserId(
-                    user_id="3ecf64d0-9ed1-4e9f-88e1-da7d6e6782f3",
-                ),
+                user={
+                    "id": "8a88a590-e1c3-41e2-a502-e0649dbf721c",
+                    "email": "foo@bar.com",
+                },
+                visitor={"user_id": "3ecf64d0-9ed1-4e9f-88e1-da7d6e6782f3"},
             )
 
 

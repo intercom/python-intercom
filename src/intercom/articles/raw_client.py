@@ -14,8 +14,8 @@ from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
+from ..requests.article_translated_content import ArticleTranslatedContentParams
 from ..types.article_list import ArticleList
-from ..types.article_translated_content import ArticleTranslatedContent
 from ..types.deleted_article_object import DeletedArticleObject
 from ..types.error import Error
 from .types.article import Article
@@ -120,7 +120,7 @@ class RawArticlesClient:
         state: typing.Optional[CreateArticleRequestState] = OMIT,
         parent_id: typing.Optional[int] = OMIT,
         parent_type: typing.Optional[CreateArticleRequestParentType] = OMIT,
-        translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
+        translated_content: typing.Optional[ArticleTranslatedContentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Article]:
         """
@@ -149,7 +149,7 @@ class RawArticlesClient:
         parent_type : typing.Optional[CreateArticleRequestParentType]
             The type of parent, which can either be a `collection` or `section`.
 
-        translated_content : typing.Optional[ArticleTranslatedContent]
+        translated_content : typing.Optional[ArticleTranslatedContentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -171,7 +171,7 @@ class RawArticlesClient:
                 "parent_id": parent_id,
                 "parent_type": parent_type,
                 "translated_content": convert_and_respect_annotation_metadata(
-                    object_=translated_content, annotation=ArticleTranslatedContent, direction="write"
+                    object_=translated_content, annotation=ArticleTranslatedContentParams, direction="write"
                 ),
             },
             headers={
@@ -289,7 +289,7 @@ class RawArticlesClient:
         state: typing.Optional[UpdateArticleRequestBodyState] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
         parent_type: typing.Optional[UpdateArticleRequestBodyParentType] = OMIT,
-        translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
+        translated_content: typing.Optional[ArticleTranslatedContentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Article]:
         """
@@ -321,7 +321,7 @@ class RawArticlesClient:
         parent_type : typing.Optional[UpdateArticleRequestBodyParentType]
             The type of parent, which can either be a `collection` or `section`.
 
-        translated_content : typing.Optional[ArticleTranslatedContent]
+        translated_content : typing.Optional[ArticleTranslatedContentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -343,7 +343,7 @@ class RawArticlesClient:
                 "parent_id": parent_id,
                 "parent_type": parent_type,
                 "translated_content": convert_and_respect_annotation_metadata(
-                    object_=translated_content, annotation=ArticleTranslatedContent, direction="write"
+                    object_=translated_content, annotation=ArticleTranslatedContentParams, direction="write"
                 ),
             },
             headers={
@@ -615,7 +615,7 @@ class AsyncRawArticlesClient:
         state: typing.Optional[CreateArticleRequestState] = OMIT,
         parent_id: typing.Optional[int] = OMIT,
         parent_type: typing.Optional[CreateArticleRequestParentType] = OMIT,
-        translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
+        translated_content: typing.Optional[ArticleTranslatedContentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Article]:
         """
@@ -644,7 +644,7 @@ class AsyncRawArticlesClient:
         parent_type : typing.Optional[CreateArticleRequestParentType]
             The type of parent, which can either be a `collection` or `section`.
 
-        translated_content : typing.Optional[ArticleTranslatedContent]
+        translated_content : typing.Optional[ArticleTranslatedContentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -666,7 +666,7 @@ class AsyncRawArticlesClient:
                 "parent_id": parent_id,
                 "parent_type": parent_type,
                 "translated_content": convert_and_respect_annotation_metadata(
-                    object_=translated_content, annotation=ArticleTranslatedContent, direction="write"
+                    object_=translated_content, annotation=ArticleTranslatedContentParams, direction="write"
                 ),
             },
             headers={
@@ -784,7 +784,7 @@ class AsyncRawArticlesClient:
         state: typing.Optional[UpdateArticleRequestBodyState] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
         parent_type: typing.Optional[UpdateArticleRequestBodyParentType] = OMIT,
-        translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
+        translated_content: typing.Optional[ArticleTranslatedContentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Article]:
         """
@@ -816,7 +816,7 @@ class AsyncRawArticlesClient:
         parent_type : typing.Optional[UpdateArticleRequestBodyParentType]
             The type of parent, which can either be a `collection` or `section`.
 
-        translated_content : typing.Optional[ArticleTranslatedContent]
+        translated_content : typing.Optional[ArticleTranslatedContentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -838,7 +838,7 @@ class AsyncRawArticlesClient:
                 "parent_id": parent_id,
                 "parent_type": parent_type,
                 "translated_content": convert_and_respect_annotation_metadata(
-                    object_=translated_content, annotation=ArticleTranslatedContent, direction="write"
+                    object_=translated_content, annotation=ArticleTranslatedContentParams, direction="write"
                 ),
             },
             headers={

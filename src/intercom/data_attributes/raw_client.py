@@ -16,11 +16,11 @@ from ..errors.unauthorized_error import UnauthorizedError
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..types.data_attribute_list import DataAttributeList
 from ..types.error import Error
+from .requests.update_data_attribute_request_options_item import UpdateDataAttributeRequestOptionsItemParams
 from .types.create_data_attribute_request_data_type import CreateDataAttributeRequestDataType
 from .types.create_data_attribute_request_model import CreateDataAttributeRequestModel
 from .types.data_attribute import DataAttribute
 from .types.data_attributes_list_request_model import DataAttributesListRequestModel
-from .types.update_data_attribute_request_options_item import UpdateDataAttributeRequestOptionsItem
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -193,7 +193,7 @@ class RawDataAttributesClient:
         *,
         archived: typing.Optional[bool] = OMIT,
         description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]] = OMIT,
+        options: typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItemParams]] = OMIT,
         messenger_writable: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[DataAttribute]:
@@ -216,7 +216,7 @@ class RawDataAttributesClient:
         description : typing.Optional[str]
             The readable description you see in the UI for the attribute.
 
-        options : typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]]
+        options : typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItemParams]]
             To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
 
         messenger_writable : typing.Optional[bool]
@@ -238,7 +238,7 @@ class RawDataAttributesClient:
                 "description": description,
                 "options": convert_and_respect_annotation_metadata(
                     object_=options,
-                    annotation=typing.Sequence[UpdateDataAttributeRequestOptionsItem],
+                    annotation=typing.Sequence[UpdateDataAttributeRequestOptionsItemParams],
                     direction="write",
                 ),
                 "messenger_writable": messenger_writable,
@@ -476,7 +476,7 @@ class AsyncRawDataAttributesClient:
         *,
         archived: typing.Optional[bool] = OMIT,
         description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]] = OMIT,
+        options: typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItemParams]] = OMIT,
         messenger_writable: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[DataAttribute]:
@@ -499,7 +499,7 @@ class AsyncRawDataAttributesClient:
         description : typing.Optional[str]
             The readable description you see in the UI for the attribute.
 
-        options : typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]]
+        options : typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItemParams]]
             To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
 
         messenger_writable : typing.Optional[bool]
@@ -521,7 +521,7 @@ class AsyncRawDataAttributesClient:
                 "description": description,
                 "options": convert_and_respect_annotation_metadata(
                     object_=options,
-                    annotation=typing.Sequence[UpdateDataAttributeRequestOptionsItem],
+                    annotation=typing.Sequence[UpdateDataAttributeRequestOptionsItemParams],
                     direction="write",
                 ),
                 "messenger_writable": messenger_writable,

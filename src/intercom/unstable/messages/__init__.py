@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import Message, MessageMessageType
+from .requests import MessageParams
 
-__all__ = ["Message", "MessageMessageType"]
+__all__ = ["Message", "MessageMessageType", "MessageParams"]

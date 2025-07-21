@@ -11,13 +11,29 @@ from .types import (
     CompanySegments,
     CompanyTags,
 )
+from .requests import (
+    CompaniesRetrieveResponseParams,
+    CompaniesRetrieveResponse_CompanyParams,
+    CompaniesRetrieveResponse_ListParams,
+    CompanyParams,
+    CompanyPlanParams,
+    CompanySegmentsParams,
+    CompanyTagsParams,
+)
 
 __all__ = [
     "CompaniesRetrieveResponse",
+    "CompaniesRetrieveResponseParams",
     "CompaniesRetrieveResponse_Company",
+    "CompaniesRetrieveResponse_CompanyParams",
     "CompaniesRetrieveResponse_List",
+    "CompaniesRetrieveResponse_ListParams",
     "Company",
+    "CompanyParams",
     "CompanyPlan",
+    "CompanyPlanParams",
     "CompanySegments",
+    "CompanySegmentsParams",
     "CompanyTags",
+    "CompanyTagsParams",
 ]

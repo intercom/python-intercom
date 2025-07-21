@@ -12,11 +12,11 @@ from ..core.serialization import convert_and_respect_annotation_metadata
 from ..core.unchecked_base_model import construct_type
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
+from ..requests.update_visitor_request import UpdateVisitorRequestParams
 from ..types.error import Error
-from ..types.update_visitor_request import UpdateVisitorRequest
 from ..types.visitor import Visitor
-from .types.convert_visitor_request_user import ConvertVisitorRequestUser
-from .types.convert_visitor_request_visitor import ConvertVisitorRequestVisitor
+from .requests.convert_visitor_request_user import ConvertVisitorRequestUserParams
+from .requests.convert_visitor_request_visitor import ConvertVisitorRequestVisitorParams
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -89,7 +89,7 @@ class RawVisitorsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def update(
-        self, *, request: UpdateVisitorRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: UpdateVisitorRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[Visitor]:
         """
         Sending a PUT request to `/visitors` will result in an update of an existing Visitor.
@@ -100,7 +100,7 @@ class RawVisitorsClient:
 
         Parameters
         ----------
-        request : UpdateVisitorRequest
+        request : UpdateVisitorRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -114,7 +114,7 @@ class RawVisitorsClient:
             "visitors",
             method="PUT",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=UpdateVisitorRequest, direction="write"
+                object_=request, annotation=UpdateVisitorRequestParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -163,8 +163,8 @@ class RawVisitorsClient:
         self,
         *,
         type: str,
-        user: ConvertVisitorRequestUser,
-        visitor: ConvertVisitorRequestVisitor,
+        user: ConvertVisitorRequestUserParams,
+        visitor: ConvertVisitorRequestVisitorParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Contact]:
         """
@@ -179,10 +179,10 @@ class RawVisitorsClient:
         type : str
             Represents the role of the Contact model. Accepts `lead` or `user`.
 
-        user : ConvertVisitorRequestUser
+        user : ConvertVisitorRequestUserParams
             The unique identifiers retained after converting or merging.
 
-        visitor : ConvertVisitorRequestVisitor
+        visitor : ConvertVisitorRequestVisitorParams
             The unique identifiers to convert a single Visitor.
 
         request_options : typing.Optional[RequestOptions]
@@ -199,10 +199,10 @@ class RawVisitorsClient:
             json={
                 "type": type,
                 "user": convert_and_respect_annotation_metadata(
-                    object_=user, annotation=ConvertVisitorRequestUser, direction="write"
+                    object_=user, annotation=ConvertVisitorRequestUserParams, direction="write"
                 ),
                 "visitor": convert_and_respect_annotation_metadata(
-                    object_=visitor, annotation=ConvertVisitorRequestVisitor, direction="write"
+                    object_=visitor, annotation=ConvertVisitorRequestVisitorParams, direction="write"
                 ),
             },
             headers={
@@ -307,7 +307,7 @@ class AsyncRawVisitorsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def update(
-        self, *, request: UpdateVisitorRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: UpdateVisitorRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Visitor]:
         """
         Sending a PUT request to `/visitors` will result in an update of an existing Visitor.
@@ -318,7 +318,7 @@ class AsyncRawVisitorsClient:
 
         Parameters
         ----------
-        request : UpdateVisitorRequest
+        request : UpdateVisitorRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -332,7 +332,7 @@ class AsyncRawVisitorsClient:
             "visitors",
             method="PUT",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=UpdateVisitorRequest, direction="write"
+                object_=request, annotation=UpdateVisitorRequestParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -381,8 +381,8 @@ class AsyncRawVisitorsClient:
         self,
         *,
         type: str,
-        user: ConvertVisitorRequestUser,
-        visitor: ConvertVisitorRequestVisitor,
+        user: ConvertVisitorRequestUserParams,
+        visitor: ConvertVisitorRequestVisitorParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Contact]:
         """
@@ -397,10 +397,10 @@ class AsyncRawVisitorsClient:
         type : str
             Represents the role of the Contact model. Accepts `lead` or `user`.
 
-        user : ConvertVisitorRequestUser
+        user : ConvertVisitorRequestUserParams
             The unique identifiers retained after converting or merging.
 
-        visitor : ConvertVisitorRequestVisitor
+        visitor : ConvertVisitorRequestVisitorParams
             The unique identifiers to convert a single Visitor.
 
         request_options : typing.Optional[RequestOptions]
@@ -417,10 +417,10 @@ class AsyncRawVisitorsClient:
             json={
                 "type": type,
                 "user": convert_and_respect_annotation_metadata(
-                    object_=user, annotation=ConvertVisitorRequestUser, direction="write"
+                    object_=user, annotation=ConvertVisitorRequestUserParams, direction="write"
                 ),
                 "visitor": convert_and_respect_annotation_metadata(
-                    object_=visitor, annotation=ConvertVisitorRequestVisitor, direction="write"
+                    object_=visitor, annotation=ConvertVisitorRequestVisitorParams, direction="write"
                 ),
             },
             headers={

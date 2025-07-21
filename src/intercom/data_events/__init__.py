@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import DataEvent
+from .requests import DataEventParams
 
-__all__ = ["DataEvent"]
+__all__ = ["DataEvent", "DataEventParams"]

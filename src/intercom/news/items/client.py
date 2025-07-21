@@ -7,8 +7,8 @@ from ...core.request_options import RequestOptions
 from ...types.deleted_object import DeletedObject
 from ...types.news_item_request_state import NewsItemRequestState
 from ...types.paginated_news_item_response import PaginatedNewsItemResponse
+from ..requests.newsfeed_assignment import NewsfeedAssignmentParams
 from ..types.news_item import NewsItem
-from ..types.newsfeed_assignment import NewsfeedAssignment
 from .raw_client import AsyncRawItemsClient, RawItemsClient
 
 # this is used as the default value for optional parameters
@@ -66,7 +66,7 @@ class ItemsClient:
         deliver_silently: typing.Optional[bool] = OMIT,
         labels: typing.Optional[typing.Sequence[str]] = OMIT,
         reactions: typing.Optional[typing.Sequence[typing.Optional[str]]] = OMIT,
-        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignment]] = OMIT,
+        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignmentParams]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> NewsItem:
         """
@@ -95,7 +95,7 @@ class ItemsClient:
         reactions : typing.Optional[typing.Sequence[typing.Optional[str]]]
             Ordered list of emoji reactions to the news item. When empty, reactions are disabled.
 
-        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignment]]
+        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignmentParams]]
             A list of newsfeed_assignments to assign to the specified newsfeed.
 
         request_options : typing.Optional[RequestOptions]
@@ -109,7 +109,6 @@ class ItemsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.news import NewsfeedAssignment
 
         client = Intercom(
             token="YOUR_TOKEN",
@@ -122,12 +121,7 @@ class ItemsClient:
             deliver_silently=True,
             labels=["Product", "Update", "New"],
             reactions=["😆", "😅"],
-            newsfeed_assignments=[
-                NewsfeedAssignment(
-                    newsfeed_id=53,
-                    published_at=1664638214,
-                )
-            ],
+            newsfeed_assignments=[{"newsfeed_id": 53, "published_at": 1664638214}],
         )
         """
         _response = self._raw_client.create(
@@ -185,7 +179,7 @@ class ItemsClient:
         deliver_silently: typing.Optional[bool] = OMIT,
         labels: typing.Optional[typing.Sequence[str]] = OMIT,
         reactions: typing.Optional[typing.Sequence[typing.Optional[str]]] = OMIT,
-        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignment]] = OMIT,
+        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignmentParams]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> NewsItem:
         """
@@ -215,7 +209,7 @@ class ItemsClient:
         reactions : typing.Optional[typing.Sequence[typing.Optional[str]]]
             Ordered list of emoji reactions to the news item. When empty, reactions are disabled.
 
-        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignment]]
+        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignmentParams]]
             A list of newsfeed_assignments to assign to the specified newsfeed.
 
         request_options : typing.Optional[RequestOptions]
@@ -346,7 +340,7 @@ class AsyncItemsClient:
         deliver_silently: typing.Optional[bool] = OMIT,
         labels: typing.Optional[typing.Sequence[str]] = OMIT,
         reactions: typing.Optional[typing.Sequence[typing.Optional[str]]] = OMIT,
-        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignment]] = OMIT,
+        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignmentParams]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> NewsItem:
         """
@@ -375,7 +369,7 @@ class AsyncItemsClient:
         reactions : typing.Optional[typing.Sequence[typing.Optional[str]]]
             Ordered list of emoji reactions to the news item. When empty, reactions are disabled.
 
-        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignment]]
+        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignmentParams]]
             A list of newsfeed_assignments to assign to the specified newsfeed.
 
         request_options : typing.Optional[RequestOptions]
@@ -391,7 +385,6 @@ class AsyncItemsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.news import NewsfeedAssignment
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -407,12 +400,7 @@ class AsyncItemsClient:
                 deliver_silently=True,
                 labels=["Product", "Update", "New"],
                 reactions=["😆", "😅"],
-                newsfeed_assignments=[
-                    NewsfeedAssignment(
-                        newsfeed_id=53,
-                        published_at=1664638214,
-                    )
-                ],
+                newsfeed_assignments=[{"newsfeed_id": 53, "published_at": 1664638214}],
             )
 
 
@@ -481,7 +469,7 @@ class AsyncItemsClient:
         deliver_silently: typing.Optional[bool] = OMIT,
         labels: typing.Optional[typing.Sequence[str]] = OMIT,
         reactions: typing.Optional[typing.Sequence[typing.Optional[str]]] = OMIT,
-        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignment]] = OMIT,
+        newsfeed_assignments: typing.Optional[typing.Sequence[NewsfeedAssignmentParams]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> NewsItem:
         """
@@ -511,7 +499,7 @@ class AsyncItemsClient:
         reactions : typing.Optional[typing.Sequence[typing.Optional[str]]]
             Ordered list of emoji reactions to the news item. When empty, reactions are disabled.
 
-        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignment]]
+        newsfeed_assignments : typing.Optional[typing.Sequence[NewsfeedAssignmentParams]]
             A list of newsfeed_assignments to assign to the specified newsfeed.
 
         request_options : typing.Optional[RequestOptions]

@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import Collection, HelpCenter, HelpCenterList
+from .requests import CollectionParams, HelpCenterListParams, HelpCenterParams
 
-__all__ = ["Collection", "HelpCenter", "HelpCenterList"]
+__all__ = ["Collection", "CollectionParams", "HelpCenter", "HelpCenterList", "HelpCenterListParams", "HelpCenterParams"]

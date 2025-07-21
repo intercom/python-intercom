@@ -4,8 +4,8 @@ import typing
 
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.request_options import RequestOptions
-from ..types.custom_channel_attribute import CustomChannelAttribute
-from ..types.custom_channel_contact import CustomChannelContact
+from ..requests.custom_channel_attribute import CustomChannelAttributeParams
+from ..requests.custom_channel_contact import CustomChannelContactParams
 from ..types.custom_channel_notification_response import CustomChannelNotificationResponse
 from .raw_client import AsyncRawCustomChannelEventsClient, RawCustomChannelEventsClient
 
@@ -33,7 +33,7 @@ class CustomChannelEventsClient:
         *,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> CustomChannelNotificationResponse:
         """
@@ -48,7 +48,7 @@ class CustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -61,7 +61,6 @@ class CustomChannelEventsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.unstable import CustomChannelContact
 
         client = Intercom(
             token="YOUR_TOKEN",
@@ -69,12 +68,12 @@ class CustomChannelEventsClient:
         client.unstable.custom_channel_events.notify_new_conversation(
             event_id="evt_12345",
             external_conversation_id="conv_67890",
-            contact=CustomChannelContact(
-                type="user",
-                external_id="user_001",
-                name="Jane Doe",
-                email="jane.doe@example.com",
-            ),
+            contact={
+                "type": "user",
+                "external_id": "user_001",
+                "name": "Jane Doe",
+                "email": "jane.doe@example.com",
+            },
         )
         """
         _response = self._raw_client.notify_new_conversation(
@@ -91,7 +90,7 @@ class CustomChannelEventsClient:
         body: str,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> CustomChannelNotificationResponse:
         """
@@ -109,7 +108,7 @@ class CustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -122,7 +121,6 @@ class CustomChannelEventsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.unstable import CustomChannelContact
 
         client = Intercom(
             token="YOUR_TOKEN",
@@ -130,12 +128,12 @@ class CustomChannelEventsClient:
         client.unstable.custom_channel_events.notify_new_message(
             event_id="evt_54321",
             external_conversation_id="conv_98765",
-            contact=CustomChannelContact(
-                type="user",
-                external_id="user_002",
-                name="John Smith",
-                email="john.smith@example.com",
-            ),
+            contact={
+                "type": "user",
+                "external_id": "user_002",
+                "name": "John Smith",
+                "email": "john.smith@example.com",
+            },
             body="Hello, I need help with my order.",
         )
         """
@@ -154,7 +152,7 @@ class CustomChannelEventsClient:
         quick_reply_option_id: str,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> CustomChannelNotificationResponse:
         """
@@ -172,7 +170,7 @@ class CustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -185,7 +183,6 @@ class CustomChannelEventsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.unstable import CustomChannelContact
 
         client = Intercom(
             token="YOUR_TOKEN",
@@ -193,12 +190,12 @@ class CustomChannelEventsClient:
         client.unstable.custom_channel_events.notify_quick_reply_selected(
             event_id="evt_67890",
             external_conversation_id="conv_13579",
-            contact=CustomChannelContact(
-                type="user",
-                external_id="user_003",
-                name="Alice Example",
-                email="alice@example.com",
-            ),
+            contact={
+                "type": "user",
+                "external_id": "user_003",
+                "name": "Alice Example",
+                "email": "alice@example.com",
+            },
             quick_reply_option_id="1234",
         )
         """
@@ -214,10 +211,10 @@ class CustomChannelEventsClient:
     def notify_attribute_collected(
         self,
         *,
-        attribute: CustomChannelAttribute,
+        attribute: CustomChannelAttributeParams,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> CustomChannelNotificationResponse:
         """
@@ -226,7 +223,7 @@ class CustomChannelEventsClient:
 
         Parameters
         ----------
-        attribute : CustomChannelAttribute
+        attribute : CustomChannelAttributeParams
 
         event_id : str
             Unique identifier for the event.
@@ -234,7 +231,7 @@ class CustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -247,7 +244,6 @@ class CustomChannelEventsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.unstable import CustomChannelAttribute, CustomChannelContact
 
         client = Intercom(
             token="YOUR_TOKEN",
@@ -255,16 +251,13 @@ class CustomChannelEventsClient:
         client.unstable.custom_channel_events.notify_attribute_collected(
             event_id="evt_24680",
             external_conversation_id="conv_11223",
-            contact=CustomChannelContact(
-                type="user",
-                external_id="user_004",
-                name="Bob Example",
-                email="bob@example.com",
-            ),
-            attribute=CustomChannelAttribute(
-                id="shipping_address",
-                value="123 Main St, Springfield",
-            ),
+            contact={
+                "type": "user",
+                "external_id": "user_004",
+                "name": "Bob Example",
+                "email": "bob@example.com",
+            },
+            attribute={"id": "shipping_address", "value": "123 Main St, Springfield"},
         )
         """
         _response = self._raw_client.notify_attribute_collected(
@@ -297,7 +290,7 @@ class AsyncCustomChannelEventsClient:
         *,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> CustomChannelNotificationResponse:
         """
@@ -312,7 +305,7 @@ class AsyncCustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -327,7 +320,6 @@ class AsyncCustomChannelEventsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.unstable import CustomChannelContact
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -338,12 +330,12 @@ class AsyncCustomChannelEventsClient:
             await client.unstable.custom_channel_events.notify_new_conversation(
                 event_id="evt_12345",
                 external_conversation_id="conv_67890",
-                contact=CustomChannelContact(
-                    type="user",
-                    external_id="user_001",
-                    name="Jane Doe",
-                    email="jane.doe@example.com",
-                ),
+                contact={
+                    "type": "user",
+                    "external_id": "user_001",
+                    "name": "Jane Doe",
+                    "email": "jane.doe@example.com",
+                },
             )
 
 
@@ -363,7 +355,7 @@ class AsyncCustomChannelEventsClient:
         body: str,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> CustomChannelNotificationResponse:
         """
@@ -381,7 +373,7 @@ class AsyncCustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -396,7 +388,6 @@ class AsyncCustomChannelEventsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.unstable import CustomChannelContact
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -407,12 +398,12 @@ class AsyncCustomChannelEventsClient:
             await client.unstable.custom_channel_events.notify_new_message(
                 event_id="evt_54321",
                 external_conversation_id="conv_98765",
-                contact=CustomChannelContact(
-                    type="user",
-                    external_id="user_002",
-                    name="John Smith",
-                    email="john.smith@example.com",
-                ),
+                contact={
+                    "type": "user",
+                    "external_id": "user_002",
+                    "name": "John Smith",
+                    "email": "john.smith@example.com",
+                },
                 body="Hello, I need help with my order.",
             )
 
@@ -434,7 +425,7 @@ class AsyncCustomChannelEventsClient:
         quick_reply_option_id: str,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> CustomChannelNotificationResponse:
         """
@@ -452,7 +443,7 @@ class AsyncCustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -467,7 +458,6 @@ class AsyncCustomChannelEventsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.unstable import CustomChannelContact
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -478,12 +468,12 @@ class AsyncCustomChannelEventsClient:
             await client.unstable.custom_channel_events.notify_quick_reply_selected(
                 event_id="evt_67890",
                 external_conversation_id="conv_13579",
-                contact=CustomChannelContact(
-                    type="user",
-                    external_id="user_003",
-                    name="Alice Example",
-                    email="alice@example.com",
-                ),
+                contact={
+                    "type": "user",
+                    "external_id": "user_003",
+                    "name": "Alice Example",
+                    "email": "alice@example.com",
+                },
                 quick_reply_option_id="1234",
             )
 
@@ -502,10 +492,10 @@ class AsyncCustomChannelEventsClient:
     async def notify_attribute_collected(
         self,
         *,
-        attribute: CustomChannelAttribute,
+        attribute: CustomChannelAttributeParams,
         event_id: str,
         external_conversation_id: str,
-        contact: CustomChannelContact,
+        contact: CustomChannelContactParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> CustomChannelNotificationResponse:
         """
@@ -514,7 +504,7 @@ class AsyncCustomChannelEventsClient:
 
         Parameters
         ----------
-        attribute : CustomChannelAttribute
+        attribute : CustomChannelAttributeParams
 
         event_id : str
             Unique identifier for the event.
@@ -522,7 +512,7 @@ class AsyncCustomChannelEventsClient:
         external_conversation_id : str
             Identifier for the conversation in your application.
 
-        contact : CustomChannelContact
+        contact : CustomChannelContactParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -537,7 +527,6 @@ class AsyncCustomChannelEventsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.unstable import CustomChannelAttribute, CustomChannelContact
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -548,16 +537,16 @@ class AsyncCustomChannelEventsClient:
             await client.unstable.custom_channel_events.notify_attribute_collected(
                 event_id="evt_24680",
                 external_conversation_id="conv_11223",
-                contact=CustomChannelContact(
-                    type="user",
-                    external_id="user_004",
-                    name="Bob Example",
-                    email="bob@example.com",
-                ),
-                attribute=CustomChannelAttribute(
-                    id="shipping_address",
-                    value="123 Main St, Springfield",
-                ),
+                contact={
+                    "type": "user",
+                    "external_id": "user_004",
+                    "name": "Bob Example",
+                    "email": "bob@example.com",
+                },
+                attribute={
+                    "id": "shipping_address",
+                    "value": "123 Main St, Springfield",
+                },
             )
 
 

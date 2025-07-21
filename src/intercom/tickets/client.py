@@ -5,15 +5,15 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
-from ..types.create_ticket_request_contacts_item import CreateTicketRequestContactsItem
-from ..types.search_request_query import SearchRequestQuery
-from ..types.starting_after_paging import StartingAfterPaging
+from ..requests.create_ticket_request_contacts_item import CreateTicketRequestContactsItemParams
+from ..requests.search_request_query import SearchRequestQueryParams
+from ..requests.starting_after_paging import StartingAfterPagingParams
 from ..types.ticket_reply import TicketReply
 from ..types.ticket_request_custom_attributes import TicketRequestCustomAttributes
 from .raw_client import AsyncRawTicketsClient, RawTicketsClient
+from .requests.tickets_reply_request_body import TicketsReplyRequestBodyParams
+from .requests.update_ticket_request_assignment import UpdateTicketRequestAssignmentParams
 from .types.ticket import Ticket
-from .types.tickets_reply_request_body import TicketsReplyRequestBody
-from .types.update_ticket_request_assignment import UpdateTicketRequestAssignment
 from .types.update_ticket_request_state import UpdateTicketRequestState
 
 # this is used as the default value for optional parameters
@@ -39,7 +39,7 @@ class TicketsClient:
         self,
         ticket_id: str,
         *,
-        request: TicketsReplyRequestBody,
+        request: TicketsReplyRequestBodyParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> TicketReply:
         """
@@ -49,7 +49,7 @@ class TicketsClient:
         ----------
         ticket_id : str
 
-        request : TicketsReplyRequestBody
+        request : TicketsReplyRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -61,17 +61,19 @@ class TicketsClient:
 
         Examples
         --------
-        from intercom import ContactReplyTicketIntercomUserIdRequest, Intercom
+        from intercom import Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.tickets.reply(
             ticket_id="123",
-            request=ContactReplyTicketIntercomUserIdRequest(
-                body="Thanks again :)",
-                intercom_user_id="667d619d8a68186f43bafe82",
-            ),
+            request={
+                "message_type": "comment",
+                "type": "user",
+                "body": "Thanks again :)",
+                "intercom_user_id": "667d619d8a68186f43bafe82",
+            },
         )
         """
         _response = self._raw_client.reply(ticket_id, request=request, request_options=request_options)
@@ -81,7 +83,7 @@ class TicketsClient:
         self,
         *,
         ticket_type_id: str,
-        contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        contacts: typing.Sequence[CreateTicketRequestContactsItemParams],
         company_id: typing.Optional[str] = OMIT,
         created_at: typing.Optional[int] = OMIT,
         ticket_attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
@@ -95,7 +97,7 @@ class TicketsClient:
         ticket_type_id : str
             The ID of the type of ticket you want to create
 
-        contacts : typing.Sequence[CreateTicketRequestContactsItem]
+        contacts : typing.Sequence[CreateTicketRequestContactsItemParams]
             The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
 
         company_id : typing.Optional[str]
@@ -116,18 +118,14 @@ class TicketsClient:
 
         Examples
         --------
-        from intercom import CreateTicketRequestContactsItemId, Intercom
+        from intercom import Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.tickets.create(
             ticket_type_id="1234",
-            contacts=[
-                CreateTicketRequestContactsItemId(
-                    id="667d61b78a68186f43bafe8d",
-                )
-            ],
+            contacts=[{"id": "667d61b78a68186f43bafe8d"}],
             ticket_attributes={
                 "_default_title_": "example",
                 "_default_description_": "there is a problem",
@@ -184,7 +182,7 @@ class TicketsClient:
         open: typing.Optional[bool] = OMIT,
         is_shared: typing.Optional[bool] = OMIT,
         snoozed_until: typing.Optional[int] = OMIT,
-        assignment: typing.Optional[UpdateTicketRequestAssignment] = OMIT,
+        assignment: typing.Optional[UpdateTicketRequestAssignmentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Ticket:
         """
@@ -210,7 +208,7 @@ class TicketsClient:
         snoozed_until : typing.Optional[int]
             The time you want the ticket to reopen.
 
-        assignment : typing.Optional[UpdateTicketRequestAssignment]
+        assignment : typing.Optional[UpdateTicketRequestAssignmentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -223,7 +221,6 @@ class TicketsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.tickets import UpdateTicketRequestAssignment
 
         client = Intercom(
             token="YOUR_TOKEN",
@@ -237,10 +234,7 @@ class TicketsClient:
             state="in_progress",
             open=True,
             snoozed_until=1673609604,
-            assignment=UpdateTicketRequestAssignment(
-                admin_id="991267883",
-                assignee_id="991267885",
-            ),
+            assignment={"admin_id": "991267883", "assignee_id": "991267885"},
         )
         """
         _response = self._raw_client.update(
@@ -258,8 +252,8 @@ class TicketsClient:
     def search(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[Ticket]:
         """
@@ -327,9 +321,9 @@ class TicketsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -341,30 +335,19 @@ class TicketsClient:
 
         Examples
         --------
-        from intercom import (
-            Intercom,
-            MultipleFilterSearchRequest,
-            SingleFilterSearchRequest,
-            StartingAfterPaging,
-        )
+        from intercom import Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         response = client.tickets.search(
-            query=MultipleFilterSearchRequest(
-                operator="AND",
-                value=[
-                    SingleFilterSearchRequest(
-                        field="created_at",
-                        operator=">",
-                        value="1306054154",
-                    )
+            query={
+                "operator": "AND",
+                "value": [
+                    {"field": "created_at", "operator": ">", "value": "1306054154"}
                 ],
-            ),
-            pagination=StartingAfterPaging(
-                per_page=5,
-            ),
+            },
+            pagination={"per_page": 5},
         )
         for item in response:
             yield item
@@ -394,7 +377,7 @@ class AsyncTicketsClient:
         self,
         ticket_id: str,
         *,
-        request: TicketsReplyRequestBody,
+        request: TicketsReplyRequestBodyParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> TicketReply:
         """
@@ -404,7 +387,7 @@ class AsyncTicketsClient:
         ----------
         ticket_id : str
 
-        request : TicketsReplyRequestBody
+        request : TicketsReplyRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -418,7 +401,7 @@ class AsyncTicketsClient:
         --------
         import asyncio
 
-        from intercom import AsyncIntercom, ContactReplyTicketIntercomUserIdRequest
+        from intercom import AsyncIntercom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -428,10 +411,12 @@ class AsyncTicketsClient:
         async def main() -> None:
             await client.tickets.reply(
                 ticket_id="123",
-                request=ContactReplyTicketIntercomUserIdRequest(
-                    body="Thanks again :)",
-                    intercom_user_id="667d619d8a68186f43bafe82",
-                ),
+                request={
+                    "message_type": "comment",
+                    "type": "user",
+                    "body": "Thanks again :)",
+                    "intercom_user_id": "667d619d8a68186f43bafe82",
+                },
             )
 
 
@@ -444,7 +429,7 @@ class AsyncTicketsClient:
         self,
         *,
         ticket_type_id: str,
-        contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        contacts: typing.Sequence[CreateTicketRequestContactsItemParams],
         company_id: typing.Optional[str] = OMIT,
         created_at: typing.Optional[int] = OMIT,
         ticket_attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
@@ -458,7 +443,7 @@ class AsyncTicketsClient:
         ticket_type_id : str
             The ID of the type of ticket you want to create
 
-        contacts : typing.Sequence[CreateTicketRequestContactsItem]
+        contacts : typing.Sequence[CreateTicketRequestContactsItemParams]
             The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
 
         company_id : typing.Optional[str]
@@ -481,7 +466,7 @@ class AsyncTicketsClient:
         --------
         import asyncio
 
-        from intercom import AsyncIntercom, CreateTicketRequestContactsItemId
+        from intercom import AsyncIntercom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -491,11 +476,7 @@ class AsyncTicketsClient:
         async def main() -> None:
             await client.tickets.create(
                 ticket_type_id="1234",
-                contacts=[
-                    CreateTicketRequestContactsItemId(
-                        id="667d61b78a68186f43bafe8d",
-                    )
-                ],
+                contacts=[{"id": "667d61b78a68186f43bafe8d"}],
                 ticket_attributes={
                     "_default_title_": "example",
                     "_default_description_": "there is a problem",
@@ -563,7 +544,7 @@ class AsyncTicketsClient:
         open: typing.Optional[bool] = OMIT,
         is_shared: typing.Optional[bool] = OMIT,
         snoozed_until: typing.Optional[int] = OMIT,
-        assignment: typing.Optional[UpdateTicketRequestAssignment] = OMIT,
+        assignment: typing.Optional[UpdateTicketRequestAssignmentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Ticket:
         """
@@ -589,7 +570,7 @@ class AsyncTicketsClient:
         snoozed_until : typing.Optional[int]
             The time you want the ticket to reopen.
 
-        assignment : typing.Optional[UpdateTicketRequestAssignment]
+        assignment : typing.Optional[UpdateTicketRequestAssignmentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -604,7 +585,6 @@ class AsyncTicketsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.tickets import UpdateTicketRequestAssignment
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -621,10 +601,7 @@ class AsyncTicketsClient:
                 state="in_progress",
                 open=True,
                 snoozed_until=1673609604,
-                assignment=UpdateTicketRequestAssignment(
-                    admin_id="991267883",
-                    assignee_id="991267885",
-                ),
+                assignment={"admin_id": "991267883", "assignee_id": "991267885"},
             )
 
 
@@ -645,8 +622,8 @@ class AsyncTicketsClient:
     async def search(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[Ticket]:
         """
@@ -714,9 +691,9 @@ class AsyncTicketsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -730,12 +707,7 @@ class AsyncTicketsClient:
         --------
         import asyncio
 
-        from intercom import (
-            AsyncIntercom,
-            MultipleFilterSearchRequest,
-            SingleFilterSearchRequest,
-            StartingAfterPaging,
-        )
+        from intercom import AsyncIntercom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -744,19 +716,13 @@ class AsyncTicketsClient:
 
         async def main() -> None:
             response = await client.tickets.search(
-                query=MultipleFilterSearchRequest(
-                    operator="AND",
-                    value=[
-                        SingleFilterSearchRequest(
-                            field="created_at",
-                            operator=">",
-                            value="1306054154",
-                        )
+                query={
+                    "operator": "AND",
+                    "value": [
+                        {"field": "created_at", "operator": ">", "value": "1306054154"}
                     ],
-                ),
-                pagination=StartingAfterPaging(
-                    per_page=5,
-                ),
+                },
+                pagination={"per_page": 5},
             )
             async for item in response:
                 yield item

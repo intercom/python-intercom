@@ -1,14 +1,14 @@
 # Intercom Python Library
 
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fintercom%2Fpython-intercom)
-[![pypi](https://img.shields.io/pypi/v/intercom-python)](https://pypi.python.org/pypi/intercom-python)
+[![pypi](https://img.shields.io/pypi/v/python-intercom)](https://pypi.python.org/pypi/python-intercom)
 
 The Intercom Python library provides convenient access to the Intercom API from Python.
 
 ## Installation
 
 ```sh
-pip install intercom-python
+pip install python-intercom
 ```
 
 ## Reference

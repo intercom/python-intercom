@@ -6,8 +6,8 @@ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from ..types.tag_list import TagList
 from .raw_client import AsyncRawTagsClient, RawTagsClient
+from .requests.tags_create_request_body import TagsCreateRequestBodyParams
 from .types.tag import Tag
-from .types.tags_create_request_body import TagsCreateRequestBody
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -224,7 +224,9 @@ class TagsClient:
         _response = self._raw_client.list(request_options=request_options)
         return _response.data
 
-    def create(self, *, request: TagsCreateRequestBody, request_options: typing.Optional[RequestOptions] = None) -> Tag:
+    def create(
+        self, *, request: TagsCreateRequestBodyParams, request_options: typing.Optional[RequestOptions] = None
+    ) -> Tag:
         """
         You can use this endpoint to perform the following operations:
 
@@ -242,7 +244,7 @@ class TagsClient:
 
         Parameters
         ----------
-        request : TagsCreateRequestBody
+        request : TagsCreateRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -254,15 +256,13 @@ class TagsClient:
 
         Examples
         --------
-        from intercom import CreateOrUpdateTagRequest, Intercom
+        from intercom import Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.tags.create(
-            request=CreateOrUpdateTagRequest(
-                name="test",
-            ),
+            request={"name": "test"},
         )
         """
         _response = self._raw_client.create(request=request, request_options=request_options)
@@ -667,7 +667,7 @@ class AsyncTagsClient:
         return _response.data
 
     async def create(
-        self, *, request: TagsCreateRequestBody, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: TagsCreateRequestBodyParams, request_options: typing.Optional[RequestOptions] = None
     ) -> Tag:
         """
         You can use this endpoint to perform the following operations:
@@ -686,7 +686,7 @@ class AsyncTagsClient:
 
         Parameters
         ----------
-        request : TagsCreateRequestBody
+        request : TagsCreateRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -700,7 +700,7 @@ class AsyncTagsClient:
         --------
         import asyncio
 
-        from intercom import AsyncIntercom, CreateOrUpdateTagRequest
+        from intercom import AsyncIntercom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -709,9 +709,7 @@ class AsyncTagsClient:
 
         async def main() -> None:
             await client.tags.create(
-                request=CreateOrUpdateTagRequest(
-                    name="test",
-                ),
+                request={"name": "test"},
             )
 
 

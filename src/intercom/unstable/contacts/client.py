@@ -5,6 +5,8 @@ import typing
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.request_options import RequestOptions
 from ...types.create_contact_request_two import CreateContactRequestTwo
+from ..requests.search_request_query import SearchRequestQueryParams
+from ..requests.starting_after_paging import StartingAfterPagingParams
 from ..types.contact_archived import ContactArchived
 from ..types.contact_attached_companies import ContactAttachedCompanies
 from ..types.contact_blocked import ContactBlocked
@@ -12,8 +14,6 @@ from ..types.contact_deleted import ContactDeleted
 from ..types.contact_list import ContactList
 from ..types.contact_segments import ContactSegments
 from ..types.contact_unarchived import ContactUnarchived
-from ..types.search_request_query import SearchRequestQuery
-from ..types.starting_after_paging import StartingAfterPaging
 from ..types.subscription_type_list import SubscriptionTypeList
 from ..types.tag_list import TagList
 from .raw_client import AsyncRawContactsClient, RawContactsClient
@@ -388,8 +388,8 @@ class ContactsClient:
     def search_contacts(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ContactList:
         """
@@ -496,9 +496,9 @@ class ContactsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -511,29 +511,18 @@ class ContactsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.unstable import (
-            MultipleFilterSearchRequest,
-            SingleFilterSearchRequest,
-            StartingAfterPaging,
-        )
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.unstable.contacts.search_contacts(
-            query=MultipleFilterSearchRequest(
-                operator="AND",
-                value=[
-                    SingleFilterSearchRequest(
-                        field="created_at",
-                        operator=">",
-                        value="1306054154",
-                    )
+            query={
+                "operator": "AND",
+                "value": [
+                    {"field": "created_at", "operator": ">", "value": "1306054154"}
                 ],
-            ),
-            pagination=StartingAfterPaging(
-                per_page=5,
-            ),
+            },
+            pagination={"per_page": 5},
         )
         """
         _response = self._raw_client.search_contacts(
@@ -1161,8 +1150,8 @@ class AsyncContactsClient:
     async def search_contacts(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ContactList:
         """
@@ -1269,9 +1258,9 @@ class AsyncContactsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1286,11 +1275,6 @@ class AsyncContactsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.unstable import (
-            MultipleFilterSearchRequest,
-            SingleFilterSearchRequest,
-            StartingAfterPaging,
-        )
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -1299,19 +1283,13 @@ class AsyncContactsClient:
 
         async def main() -> None:
             await client.unstable.contacts.search_contacts(
-                query=MultipleFilterSearchRequest(
-                    operator="AND",
-                    value=[
-                        SingleFilterSearchRequest(
-                            field="created_at",
-                            operator=">",
-                            value="1306054154",
-                        )
+                query={
+                    "operator": "AND",
+                    "value": [
+                        {"field": "created_at", "operator": ">", "value": "1306054154"}
                     ],
-                ),
-                pagination=StartingAfterPaging(
-                    per_page=5,
-                ),
+                },
+                pagination={"per_page": 5},
             )
 
 

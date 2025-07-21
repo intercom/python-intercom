@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import AiAgent, AiAgentSourceType
+from .requests import AiAgentParams
 
-__all__ = ["AiAgent", "AiAgentSourceType"]
+__all__ = ["AiAgent", "AiAgentParams", "AiAgentSourceType"]

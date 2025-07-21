@@ -11,13 +11,29 @@ from .types import (
     VisitorWithId,
     VisitorWithUserId,
 )
+from .requests import (
+    ConvertVisitorRequestUserParams,
+    ConvertVisitorRequestVisitorParams,
+    UserWithIdParams,
+    UserWithUserIdParams,
+    VisitorWithEmailParams,
+    VisitorWithIdParams,
+    VisitorWithUserIdParams,
+)
 
 __all__ = [
     "ConvertVisitorRequestUser",
+    "ConvertVisitorRequestUserParams",
     "ConvertVisitorRequestVisitor",
+    "ConvertVisitorRequestVisitorParams",
     "UserWithId",
+    "UserWithIdParams",
     "UserWithUserId",
+    "UserWithUserIdParams",
     "VisitorWithEmail",
+    "VisitorWithEmailParams",
     "VisitorWithId",
+    "VisitorWithIdParams",
     "VisitorWithUserId",
+    "VisitorWithUserIdParams",
 ]

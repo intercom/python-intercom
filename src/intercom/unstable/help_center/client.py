@@ -4,9 +4,9 @@ import typing
 
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.request_options import RequestOptions
+from ..requests.group_translated_content import GroupTranslatedContentParams
 from ..types.collection_list import CollectionList
 from ..types.deleted_collection_object import DeletedCollectionObject
-from ..types.group_translated_content import GroupTranslatedContent
 from .raw_client import AsyncRawHelpCenterClient, RawHelpCenterClient
 from .types.collection import Collection
 from .types.help_center import HelpCenter
@@ -64,7 +64,7 @@ class HelpCenterClient:
         *,
         name: str,
         description: typing.Optional[str] = OMIT,
-        translated_content: typing.Optional[GroupTranslatedContent] = OMIT,
+        translated_content: typing.Optional[GroupTranslatedContentParams] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
         help_center_id: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -80,7 +80,7 @@ class HelpCenterClient:
         description : typing.Optional[str]
             The description of the collection. For multilingual collections, this will be the description of the default language's content.
 
-        translated_content : typing.Optional[GroupTranslatedContent]
+        translated_content : typing.Optional[GroupTranslatedContentParams]
 
         parent_id : typing.Optional[str]
             The id of the parent collection. If `null` then it will be created as the first level collection.
@@ -154,7 +154,7 @@ class HelpCenterClient:
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
-        translated_content: typing.Optional[GroupTranslatedContent] = OMIT,
+        translated_content: typing.Optional[GroupTranslatedContentParams] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Collection:
@@ -172,7 +172,7 @@ class HelpCenterClient:
         description : typing.Optional[str]
             The description of the collection. For multilingual collections, this will be the description of the default language's content.
 
-        translated_content : typing.Optional[GroupTranslatedContent]
+        translated_content : typing.Optional[GroupTranslatedContentParams]
 
         parent_id : typing.Optional[str]
             The id of the parent collection. If `null` then it will be updated as the first level collection.
@@ -354,7 +354,7 @@ class AsyncHelpCenterClient:
         *,
         name: str,
         description: typing.Optional[str] = OMIT,
-        translated_content: typing.Optional[GroupTranslatedContent] = OMIT,
+        translated_content: typing.Optional[GroupTranslatedContentParams] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
         help_center_id: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -370,7 +370,7 @@ class AsyncHelpCenterClient:
         description : typing.Optional[str]
             The description of the collection. For multilingual collections, this will be the description of the default language's content.
 
-        translated_content : typing.Optional[GroupTranslatedContent]
+        translated_content : typing.Optional[GroupTranslatedContentParams]
 
         parent_id : typing.Optional[str]
             The id of the parent collection. If `null` then it will be created as the first level collection.
@@ -462,7 +462,7 @@ class AsyncHelpCenterClient:
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
-        translated_content: typing.Optional[GroupTranslatedContent] = OMIT,
+        translated_content: typing.Optional[GroupTranslatedContentParams] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Collection:
@@ -480,7 +480,7 @@ class AsyncHelpCenterClient:
         description : typing.Optional[str]
             The description of the collection. For multilingual collections, this will be the description of the default language's content.
 
-        translated_content : typing.Optional[GroupTranslatedContent]
+        translated_content : typing.Optional[GroupTranslatedContentParams]
 
         parent_id : typing.Optional[str]
             The id of the parent collection. If `null` then it will be updated as the first level collection.

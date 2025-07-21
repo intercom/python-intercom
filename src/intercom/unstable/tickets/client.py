@@ -5,15 +5,15 @@ import typing
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.request_options import RequestOptions
 from ..jobs.types.jobs import Jobs
-from ..types.create_ticket_request_assignment import CreateTicketRequestAssignment
-from ..types.create_ticket_request_contacts_item import CreateTicketRequestContactsItem
-from ..types.search_request_query import SearchRequestQuery
-from ..types.starting_after_paging import StartingAfterPaging
+from ..requests.create_ticket_request_assignment import CreateTicketRequestAssignmentParams
+from ..requests.create_ticket_request_contacts_item import CreateTicketRequestContactsItemParams
+from ..requests.search_request_query import SearchRequestQueryParams
+from ..requests.starting_after_paging import StartingAfterPagingParams
 from ..types.ticket_list import TicketList
 from ..types.ticket_reply import TicketReply
 from .raw_client import AsyncRawTicketsClient, RawTicketsClient
+from .requests.reply_ticket_request_body import ReplyTicketRequestBodyParams
 from .types.delete_ticket_response import DeleteTicketResponse
-from .types.reply_ticket_request_body import ReplyTicketRequestBody
 from .types.ticket import Ticket
 
 # this is used as the default value for optional parameters
@@ -36,7 +36,7 @@ class TicketsClient:
         return self._raw_client
 
     def reply_ticket(
-        self, id: str, *, request: ReplyTicketRequestBody, request_options: typing.Optional[RequestOptions] = None
+        self, id: str, *, request: ReplyTicketRequestBodyParams, request_options: typing.Optional[RequestOptions] = None
     ) -> TicketReply:
         """
         You can reply to a ticket with a message from an admin or on behalf of a contact, or with a note for admins.
@@ -45,7 +45,7 @@ class TicketsClient:
         ----------
         id : str
 
-        request : ReplyTicketRequestBody
+        request : ReplyTicketRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -58,17 +58,18 @@ class TicketsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.unstable import ContactReplyTicketIntercomUserIdRequest
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.unstable.tickets.reply_ticket(
             id="123",
-            request=ContactReplyTicketIntercomUserIdRequest(
-                body="Thanks again :)",
-                intercom_user_id="6762f2971bb69f9f2193bc49",
-            ),
+            request={
+                "message_type": "comment",
+                "type": "user",
+                "body": "Thanks again :)",
+                "intercom_user_id": "6762f2971bb69f9f2193bc49",
+            },
         )
         """
         _response = self._raw_client.reply_ticket(id, request=request, request_options=request_options)
@@ -78,12 +79,12 @@ class TicketsClient:
         self,
         *,
         ticket_type_id: str,
-        contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        contacts: typing.Sequence[CreateTicketRequestContactsItemParams],
         skip_notifications: typing.Optional[bool] = OMIT,
         conversation_to_link_id: typing.Optional[str] = OMIT,
         company_id: typing.Optional[str] = OMIT,
         created_at: typing.Optional[int] = OMIT,
-        assignment: typing.Optional[CreateTicketRequestAssignment] = OMIT,
+        assignment: typing.Optional[CreateTicketRequestAssignmentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Jobs:
         """
@@ -94,7 +95,7 @@ class TicketsClient:
         ticket_type_id : str
             The ID of the type of ticket you want to create
 
-        contacts : typing.Sequence[CreateTicketRequestContactsItem]
+        contacts : typing.Sequence[CreateTicketRequestContactsItemParams]
             The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
 
         skip_notifications : typing.Optional[bool]
@@ -113,7 +114,7 @@ class TicketsClient:
         created_at : typing.Optional[int]
             The time the ticket was created. If not provided, the current time will be used.
 
-        assignment : typing.Optional[CreateTicketRequestAssignment]
+        assignment : typing.Optional[CreateTicketRequestAssignmentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -126,18 +127,13 @@ class TicketsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.unstable import CreateTicketRequestContactsItemId
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.unstable.tickets.enqueue_create_ticket(
             ticket_type_id="1234",
-            contacts=[
-                CreateTicketRequestContactsItemId(
-                    id="6762f2d81bb69f9f2193bc54",
-                )
-            ],
+            contacts=[{"id": "6762f2d81bb69f9f2193bc54"}],
         )
         """
         _response = self._raw_client.enqueue_create_ticket(
@@ -309,8 +305,8 @@ class TicketsClient:
     def search_tickets(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> TicketList:
         """
@@ -386,9 +382,9 @@ class TicketsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -401,29 +397,18 @@ class TicketsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.unstable import (
-            MultipleFilterSearchRequest,
-            SingleFilterSearchRequest,
-            StartingAfterPaging,
-        )
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.unstable.tickets.search_tickets(
-            query=MultipleFilterSearchRequest(
-                operator="AND",
-                value=[
-                    SingleFilterSearchRequest(
-                        field="created_at",
-                        operator=">",
-                        value="1306054154",
-                    )
+            query={
+                "operator": "AND",
+                "value": [
+                    {"field": "created_at", "operator": ">", "value": "1306054154"}
                 ],
-            ),
-            pagination=StartingAfterPaging(
-                per_page=5,
-            ),
+            },
+            pagination={"per_page": 5},
         )
         """
         _response = self._raw_client.search_tickets(query=query, pagination=pagination, request_options=request_options)
@@ -446,7 +431,7 @@ class AsyncTicketsClient:
         return self._raw_client
 
     async def reply_ticket(
-        self, id: str, *, request: ReplyTicketRequestBody, request_options: typing.Optional[RequestOptions] = None
+        self, id: str, *, request: ReplyTicketRequestBodyParams, request_options: typing.Optional[RequestOptions] = None
     ) -> TicketReply:
         """
         You can reply to a ticket with a message from an admin or on behalf of a contact, or with a note for admins.
@@ -455,7 +440,7 @@ class AsyncTicketsClient:
         ----------
         id : str
 
-        request : ReplyTicketRequestBody
+        request : ReplyTicketRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -470,7 +455,6 @@ class AsyncTicketsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.unstable import ContactReplyTicketIntercomUserIdRequest
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -480,10 +464,12 @@ class AsyncTicketsClient:
         async def main() -> None:
             await client.unstable.tickets.reply_ticket(
                 id="123",
-                request=ContactReplyTicketIntercomUserIdRequest(
-                    body="Thanks again :)",
-                    intercom_user_id="6762f2971bb69f9f2193bc49",
-                ),
+                request={
+                    "message_type": "comment",
+                    "type": "user",
+                    "body": "Thanks again :)",
+                    "intercom_user_id": "6762f2971bb69f9f2193bc49",
+                },
             )
 
 
@@ -496,12 +482,12 @@ class AsyncTicketsClient:
         self,
         *,
         ticket_type_id: str,
-        contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        contacts: typing.Sequence[CreateTicketRequestContactsItemParams],
         skip_notifications: typing.Optional[bool] = OMIT,
         conversation_to_link_id: typing.Optional[str] = OMIT,
         company_id: typing.Optional[str] = OMIT,
         created_at: typing.Optional[int] = OMIT,
-        assignment: typing.Optional[CreateTicketRequestAssignment] = OMIT,
+        assignment: typing.Optional[CreateTicketRequestAssignmentParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Jobs:
         """
@@ -512,7 +498,7 @@ class AsyncTicketsClient:
         ticket_type_id : str
             The ID of the type of ticket you want to create
 
-        contacts : typing.Sequence[CreateTicketRequestContactsItem]
+        contacts : typing.Sequence[CreateTicketRequestContactsItemParams]
             The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
 
         skip_notifications : typing.Optional[bool]
@@ -531,7 +517,7 @@ class AsyncTicketsClient:
         created_at : typing.Optional[int]
             The time the ticket was created. If not provided, the current time will be used.
 
-        assignment : typing.Optional[CreateTicketRequestAssignment]
+        assignment : typing.Optional[CreateTicketRequestAssignmentParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -546,7 +532,6 @@ class AsyncTicketsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.unstable import CreateTicketRequestContactsItemId
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -556,11 +541,7 @@ class AsyncTicketsClient:
         async def main() -> None:
             await client.unstable.tickets.enqueue_create_ticket(
                 ticket_type_id="1234",
-                contacts=[
-                    CreateTicketRequestContactsItemId(
-                        id="6762f2d81bb69f9f2193bc54",
-                    )
-                ],
+                contacts=[{"id": "6762f2d81bb69f9f2193bc54"}],
             )
 
 
@@ -759,8 +740,8 @@ class AsyncTicketsClient:
     async def search_tickets(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> TicketList:
         """
@@ -836,9 +817,9 @@ class AsyncTicketsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -853,11 +834,6 @@ class AsyncTicketsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.unstable import (
-            MultipleFilterSearchRequest,
-            SingleFilterSearchRequest,
-            StartingAfterPaging,
-        )
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -866,19 +842,13 @@ class AsyncTicketsClient:
 
         async def main() -> None:
             await client.unstable.tickets.search_tickets(
-                query=MultipleFilterSearchRequest(
-                    operator="AND",
-                    value=[
-                        SingleFilterSearchRequest(
-                            field="created_at",
-                            operator=">",
-                            value="1306054154",
-                        )
+                query={
+                    "operator": "AND",
+                    "value": [
+                        {"field": "created_at", "operator": ">", "value": "1306054154"}
                     ],
-                ),
-                pagination=StartingAfterPaging(
-                    per_page=5,
-                ),
+                },
+                pagination={"per_page": 5},
             )
 
 

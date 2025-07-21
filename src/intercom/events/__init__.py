@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import CreateDataEventSummariesRequestEventSummaries
+from .requests import CreateDataEventSummariesRequestEventSummariesParams
 
-__all__ = ["CreateDataEventSummariesRequestEventSummaries"]
+__all__ = ["CreateDataEventSummariesRequestEventSummaries", "CreateDataEventSummariesRequestEventSummariesParams"]

@@ -6,18 +6,18 @@ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
 from ..messages.types.message import Message
+from ..requests.redact_conversation_request import RedactConversationRequestParams
+from ..requests.reply_conversation_request import ReplyConversationRequestParams
+from ..requests.search_request_query import SearchRequestQueryParams
+from ..requests.starting_after_paging import StartingAfterPagingParams
 from ..tickets.types.ticket import Ticket
 from ..types.custom_attributes import CustomAttributes
-from ..types.redact_conversation_request import RedactConversationRequest
-from ..types.reply_conversation_request import ReplyConversationRequest
-from ..types.search_request_query import SearchRequestQuery
-from ..types.starting_after_paging import StartingAfterPaging
 from ..types.ticket_request_custom_attributes import TicketRequestCustomAttributes
 from .raw_client import AsyncRawConversationsClient, RawConversationsClient
-from .types.attach_contact_to_conversation_request_customer import AttachContactToConversationRequestCustomer
+from .requests.attach_contact_to_conversation_request_customer import AttachContactToConversationRequestCustomerParams
+from .requests.conversations_manage_request_body import ConversationsManageRequestBodyParams
+from .requests.create_conversation_request_from import CreateConversationRequestFromParams
 from .types.conversation import Conversation
-from .types.conversations_manage_request_body import ConversationsManageRequestBody
-from .types.create_conversation_request_from import CreateConversationRequestFrom
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -89,7 +89,7 @@ class ConversationsClient:
     def create(
         self,
         *,
-        from_: CreateConversationRequestFrom,
+        from_: CreateConversationRequestFromParams,
         body: str,
         created_at: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -107,7 +107,7 @@ class ConversationsClient:
 
         Parameters
         ----------
-        from_ : CreateConversationRequestFrom
+        from_ : CreateConversationRequestFromParams
 
         body : str
             The content of the message. HTML is not supported.
@@ -126,16 +126,12 @@ class ConversationsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.conversations import CreateConversationRequestFrom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.conversations.create(
-            from_=CreateConversationRequestFrom(
-                type="user",
-                id="667d60d18a68186f43bafddd",
-            ),
+            from_={"type": "user", "id": "667d60d18a68186f43bafddd"},
             body="Hello there",
         )
         """
@@ -258,8 +254,8 @@ class ConversationsClient:
     def search(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[Conversation]:
         """
@@ -365,9 +361,9 @@ class ConversationsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -379,30 +375,19 @@ class ConversationsClient:
 
         Examples
         --------
-        from intercom import (
-            Intercom,
-            MultipleFilterSearchRequest,
-            SingleFilterSearchRequest,
-            StartingAfterPaging,
-        )
+        from intercom import Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         response = client.conversations.search(
-            query=MultipleFilterSearchRequest(
-                operator="AND",
-                value=[
-                    SingleFilterSearchRequest(
-                        field="created_at",
-                        operator=">",
-                        value="1306054154",
-                    )
+            query={
+                "operator": "AND",
+                "value": [
+                    {"field": "created_at", "operator": ">", "value": "1306054154"}
                 ],
-            ),
-            pagination=StartingAfterPaging(
-                per_page=5,
-            ),
+            },
+            pagination={"per_page": 5},
         )
         for item in response:
             yield item
@@ -416,7 +401,7 @@ class ConversationsClient:
         self,
         conversation_id: str,
         *,
-        request: ReplyConversationRequest,
+        request: ReplyConversationRequestParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Conversation:
         """
@@ -427,7 +412,7 @@ class ConversationsClient:
         conversation_id : str
             The Intercom provisioned identifier for the conversation or the string "last" to reply to the last part of the conversation
 
-        request : ReplyConversationRequest
+        request : ReplyConversationRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -439,17 +424,19 @@ class ConversationsClient:
 
         Examples
         --------
-        from intercom import ContactReplyIntercomUserIdRequest, Intercom
+        from intercom import Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.conversations.reply(
             conversation_id='123 or "last"',
-            request=ContactReplyIntercomUserIdRequest(
-                body="Thanks again :)",
-                intercom_user_id="667d60f18a68186f43bafdf4",
-            ),
+            request={
+                "message_type": "comment",
+                "type": "user",
+                "body": "Thanks again :)",
+                "intercom_user_id": "667d60f18a68186f43bafdf4",
+            },
         )
         """
         _response = self._raw_client.reply(conversation_id, request=request, request_options=request_options)
@@ -459,7 +446,7 @@ class ConversationsClient:
         self,
         conversation_id: str,
         *,
-        request: ConversationsManageRequestBody,
+        request: ConversationsManageRequestBodyParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Conversation:
         """
@@ -474,7 +461,7 @@ class ConversationsClient:
         conversation_id : str
             The identifier for the conversation as given by Intercom.
 
-        request : ConversationsManageRequestBody
+        request : ConversationsManageRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -487,16 +474,13 @@ class ConversationsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.conversations import ConversationsManageRequestBody_Close
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.conversations.manage(
             conversation_id="123",
-            request=ConversationsManageRequestBody_Close(
-                admin_id="12345",
-            ),
+            request={"type": "admin", "admin_id": "12345", "message_type": "close"},
         )
         """
         _response = self._raw_client.manage(conversation_id, request=request, request_options=request_options)
@@ -546,7 +530,7 @@ class ConversationsClient:
         conversation_id: str,
         *,
         admin_id: typing.Optional[str] = OMIT,
-        customer: typing.Optional[AttachContactToConversationRequestCustomer] = OMIT,
+        customer: typing.Optional[AttachContactToConversationRequestCustomerParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Conversation:
         """
@@ -564,7 +548,7 @@ class ConversationsClient:
         admin_id : typing.Optional[str]
             The `id` of the admin who is adding the new participant.
 
-        customer : typing.Optional[AttachContactToConversationRequestCustomer]
+        customer : typing.Optional[AttachContactToConversationRequestCustomerParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -577,9 +561,6 @@ class ConversationsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.conversations import (
-            AttachContactToConversationRequestCustomerIntercomUserId,
-        )
 
         client = Intercom(
             token="YOUR_TOKEN",
@@ -587,9 +568,7 @@ class ConversationsClient:
         client.conversations.attach_contact_as_admin(
             conversation_id="123",
             admin_id="12345",
-            customer=AttachContactToConversationRequestCustomerIntercomUserId(
-                intercom_user_id="667d61168a68186f43bafe0d",
-            ),
+            customer={"intercom_user_id": "667d61168a68186f43bafe0d"},
         )
         """
         _response = self._raw_client.attach_contact_as_admin(
@@ -650,7 +629,7 @@ class ConversationsClient:
         return _response.data
 
     def redact_conversation_part(
-        self, *, request: RedactConversationRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: RedactConversationRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> Conversation:
         """
         You can redact a conversation part or the source message of a conversation (as seen in the source object).
@@ -661,7 +640,7 @@ class ConversationsClient:
 
         Parameters
         ----------
-        request : RedactConversationRequest
+        request : RedactConversationRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -673,16 +652,17 @@ class ConversationsClient:
 
         Examples
         --------
-        from intercom import Intercom, RedactConversationRequest_ConversationPart
+        from intercom import Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.conversations.redact_conversation_part(
-            request=RedactConversationRequest_ConversationPart(
-                conversation_id="19894788788",
-                conversation_part_id="19381789428",
-            ),
+            request={
+                "conversation_id": "19894788788",
+                "conversation_part_id": "19381789428",
+                "type": "conversation_part",
+            },
         )
         """
         _response = self._raw_client.redact_conversation_part(request=request, request_options=request_options)
@@ -812,7 +792,7 @@ class AsyncConversationsClient:
     async def create(
         self,
         *,
-        from_: CreateConversationRequestFrom,
+        from_: CreateConversationRequestFromParams,
         body: str,
         created_at: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -830,7 +810,7 @@ class AsyncConversationsClient:
 
         Parameters
         ----------
-        from_ : CreateConversationRequestFrom
+        from_ : CreateConversationRequestFromParams
 
         body : str
             The content of the message. HTML is not supported.
@@ -851,7 +831,6 @@ class AsyncConversationsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.conversations import CreateConversationRequestFrom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -860,10 +839,7 @@ class AsyncConversationsClient:
 
         async def main() -> None:
             await client.conversations.create(
-                from_=CreateConversationRequestFrom(
-                    type="user",
-                    id="667d60d18a68186f43bafddd",
-                ),
+                from_={"type": "user", "id": "667d60d18a68186f43bafddd"},
                 body="Hello there",
             )
 
@@ -1005,8 +981,8 @@ class AsyncConversationsClient:
     async def search(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[Conversation]:
         """
@@ -1112,9 +1088,9 @@ class AsyncConversationsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1128,12 +1104,7 @@ class AsyncConversationsClient:
         --------
         import asyncio
 
-        from intercom import (
-            AsyncIntercom,
-            MultipleFilterSearchRequest,
-            SingleFilterSearchRequest,
-            StartingAfterPaging,
-        )
+        from intercom import AsyncIntercom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -1142,19 +1113,13 @@ class AsyncConversationsClient:
 
         async def main() -> None:
             response = await client.conversations.search(
-                query=MultipleFilterSearchRequest(
-                    operator="AND",
-                    value=[
-                        SingleFilterSearchRequest(
-                            field="created_at",
-                            operator=">",
-                            value="1306054154",
-                        )
+                query={
+                    "operator": "AND",
+                    "value": [
+                        {"field": "created_at", "operator": ">", "value": "1306054154"}
                     ],
-                ),
-                pagination=StartingAfterPaging(
-                    per_page=5,
-                ),
+                },
+                pagination={"per_page": 5},
             )
             async for item in response:
                 yield item
@@ -1172,7 +1137,7 @@ class AsyncConversationsClient:
         self,
         conversation_id: str,
         *,
-        request: ReplyConversationRequest,
+        request: ReplyConversationRequestParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Conversation:
         """
@@ -1183,7 +1148,7 @@ class AsyncConversationsClient:
         conversation_id : str
             The Intercom provisioned identifier for the conversation or the string "last" to reply to the last part of the conversation
 
-        request : ReplyConversationRequest
+        request : ReplyConversationRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1197,7 +1162,7 @@ class AsyncConversationsClient:
         --------
         import asyncio
 
-        from intercom import AsyncIntercom, ContactReplyIntercomUserIdRequest
+        from intercom import AsyncIntercom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -1207,10 +1172,12 @@ class AsyncConversationsClient:
         async def main() -> None:
             await client.conversations.reply(
                 conversation_id='123 or "last"',
-                request=ContactReplyIntercomUserIdRequest(
-                    body="Thanks again :)",
-                    intercom_user_id="667d60f18a68186f43bafdf4",
-                ),
+                request={
+                    "message_type": "comment",
+                    "type": "user",
+                    "body": "Thanks again :)",
+                    "intercom_user_id": "667d60f18a68186f43bafdf4",
+                },
             )
 
 
@@ -1223,7 +1190,7 @@ class AsyncConversationsClient:
         self,
         conversation_id: str,
         *,
-        request: ConversationsManageRequestBody,
+        request: ConversationsManageRequestBodyParams,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Conversation:
         """
@@ -1238,7 +1205,7 @@ class AsyncConversationsClient:
         conversation_id : str
             The identifier for the conversation as given by Intercom.
 
-        request : ConversationsManageRequestBody
+        request : ConversationsManageRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1253,7 +1220,6 @@ class AsyncConversationsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.conversations import ConversationsManageRequestBody_Close
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -1263,9 +1229,7 @@ class AsyncConversationsClient:
         async def main() -> None:
             await client.conversations.manage(
                 conversation_id="123",
-                request=ConversationsManageRequestBody_Close(
-                    admin_id="12345",
-                ),
+                request={"type": "admin", "admin_id": "12345", "message_type": "close"},
             )
 
 
@@ -1326,7 +1290,7 @@ class AsyncConversationsClient:
         conversation_id: str,
         *,
         admin_id: typing.Optional[str] = OMIT,
-        customer: typing.Optional[AttachContactToConversationRequestCustomer] = OMIT,
+        customer: typing.Optional[AttachContactToConversationRequestCustomerParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Conversation:
         """
@@ -1344,7 +1308,7 @@ class AsyncConversationsClient:
         admin_id : typing.Optional[str]
             The `id` of the admin who is adding the new participant.
 
-        customer : typing.Optional[AttachContactToConversationRequestCustomer]
+        customer : typing.Optional[AttachContactToConversationRequestCustomerParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1359,9 +1323,6 @@ class AsyncConversationsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.conversations import (
-            AttachContactToConversationRequestCustomerIntercomUserId,
-        )
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -1372,9 +1333,7 @@ class AsyncConversationsClient:
             await client.conversations.attach_contact_as_admin(
                 conversation_id="123",
                 admin_id="12345",
-                customer=AttachContactToConversationRequestCustomerIntercomUserId(
-                    intercom_user_id="667d61168a68186f43bafe0d",
-                ),
+                customer={"intercom_user_id": "667d61168a68186f43bafe0d"},
             )
 
 
@@ -1446,7 +1405,7 @@ class AsyncConversationsClient:
         return _response.data
 
     async def redact_conversation_part(
-        self, *, request: RedactConversationRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: RedactConversationRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> Conversation:
         """
         You can redact a conversation part or the source message of a conversation (as seen in the source object).
@@ -1457,7 +1416,7 @@ class AsyncConversationsClient:
 
         Parameters
         ----------
-        request : RedactConversationRequest
+        request : RedactConversationRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1471,7 +1430,7 @@ class AsyncConversationsClient:
         --------
         import asyncio
 
-        from intercom import AsyncIntercom, RedactConversationRequest_ConversationPart
+        from intercom import AsyncIntercom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -1480,10 +1439,11 @@ class AsyncConversationsClient:
 
         async def main() -> None:
             await client.conversations.redact_conversation_part(
-                request=RedactConversationRequest_ConversationPart(
-                    conversation_id="19894788788",
-                    conversation_part_id="19381789428",
-                ),
+                request={
+                    "conversation_id": "19894788788",
+                    "conversation_part_id": "19381789428",
+                    "type": "conversation_part",
+                },
             )
 
 

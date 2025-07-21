@@ -15,10 +15,10 @@ from ...errors.bad_request_error import BadRequestError
 from ...errors.not_found_error import NotFoundError
 from ...errors.unauthorized_error import UnauthorizedError
 from ...help_center.types.collection import Collection
+from ...requests.group_translated_content import GroupTranslatedContentParams
 from ...types.collection_list import CollectionList
 from ...types.deleted_collection_object import DeletedCollectionObject
 from ...types.error import Error
-from ...types.group_translated_content import GroupTranslatedContent
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -107,7 +107,7 @@ class RawCollectionsClient:
         *,
         name: str,
         description: typing.Optional[str] = OMIT,
-        translated_content: typing.Optional[GroupTranslatedContent] = OMIT,
+        translated_content: typing.Optional[GroupTranslatedContentParams] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
         help_center_id: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -123,7 +123,7 @@ class RawCollectionsClient:
         description : typing.Optional[str]
             The description of the collection. For multilingual collections, this will be the description of the default language's content.
 
-        translated_content : typing.Optional[GroupTranslatedContent]
+        translated_content : typing.Optional[GroupTranslatedContentParams]
 
         parent_id : typing.Optional[str]
             The id of the parent collection. If `null` then it will be created as the first level collection.
@@ -146,7 +146,7 @@ class RawCollectionsClient:
                 "name": name,
                 "description": description,
                 "translated_content": convert_and_respect_annotation_metadata(
-                    object_=translated_content, annotation=GroupTranslatedContent, direction="write"
+                    object_=translated_content, annotation=GroupTranslatedContentParams, direction="write"
                 ),
                 "parent_id": parent_id,
                 "help_center_id": help_center_id,
@@ -261,7 +261,7 @@ class RawCollectionsClient:
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
-        translated_content: typing.Optional[GroupTranslatedContent] = OMIT,
+        translated_content: typing.Optional[GroupTranslatedContentParams] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Collection]:
@@ -279,7 +279,7 @@ class RawCollectionsClient:
         description : typing.Optional[str]
             The description of the collection. For multilingual collections, this will be the description of the default language's content.
 
-        translated_content : typing.Optional[GroupTranslatedContent]
+        translated_content : typing.Optional[GroupTranslatedContentParams]
 
         parent_id : typing.Optional[str]
             The id of the parent collection. If `null` then it will be updated as the first level collection.
@@ -299,7 +299,7 @@ class RawCollectionsClient:
                 "name": name,
                 "description": description,
                 "translated_content": convert_and_respect_annotation_metadata(
-                    object_=translated_content, annotation=GroupTranslatedContent, direction="write"
+                    object_=translated_content, annotation=GroupTranslatedContentParams, direction="write"
                 ),
                 "parent_id": parent_id,
             },
@@ -494,7 +494,7 @@ class AsyncRawCollectionsClient:
         *,
         name: str,
         description: typing.Optional[str] = OMIT,
-        translated_content: typing.Optional[GroupTranslatedContent] = OMIT,
+        translated_content: typing.Optional[GroupTranslatedContentParams] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
         help_center_id: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -510,7 +510,7 @@ class AsyncRawCollectionsClient:
         description : typing.Optional[str]
             The description of the collection. For multilingual collections, this will be the description of the default language's content.
 
-        translated_content : typing.Optional[GroupTranslatedContent]
+        translated_content : typing.Optional[GroupTranslatedContentParams]
 
         parent_id : typing.Optional[str]
             The id of the parent collection. If `null` then it will be created as the first level collection.
@@ -533,7 +533,7 @@ class AsyncRawCollectionsClient:
                 "name": name,
                 "description": description,
                 "translated_content": convert_and_respect_annotation_metadata(
-                    object_=translated_content, annotation=GroupTranslatedContent, direction="write"
+                    object_=translated_content, annotation=GroupTranslatedContentParams, direction="write"
                 ),
                 "parent_id": parent_id,
                 "help_center_id": help_center_id,
@@ -648,7 +648,7 @@ class AsyncRawCollectionsClient:
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
-        translated_content: typing.Optional[GroupTranslatedContent] = OMIT,
+        translated_content: typing.Optional[GroupTranslatedContentParams] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Collection]:
@@ -666,7 +666,7 @@ class AsyncRawCollectionsClient:
         description : typing.Optional[str]
             The description of the collection. For multilingual collections, this will be the description of the default language's content.
 
-        translated_content : typing.Optional[GroupTranslatedContent]
+        translated_content : typing.Optional[GroupTranslatedContentParams]
 
         parent_id : typing.Optional[str]
             The id of the parent collection. If `null` then it will be updated as the first level collection.
@@ -686,7 +686,7 @@ class AsyncRawCollectionsClient:
                 "name": name,
                 "description": description,
                 "translated_content": convert_and_respect_annotation_metadata(
-                    object_=translated_content, annotation=GroupTranslatedContent, direction="write"
+                    object_=translated_content, annotation=GroupTranslatedContentParams, direction="write"
                 ),
                 "parent_id": parent_id,
             },

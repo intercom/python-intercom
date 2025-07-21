@@ -4,7 +4,7 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..types.create_message_request import CreateMessageRequest
+from ..requests.create_message_request import CreateMessageRequestParams
 from .raw_client import AsyncRawMessagesClient, RawMessagesClient
 from .types.message import Message
 
@@ -28,7 +28,7 @@ class MessagesClient:
         return self._raw_client
 
     def create(
-        self, *, request: CreateMessageRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateMessageRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> Message:
         """
         You can create a message that has been initiated by an admin. The conversation can be either an in-app message or an email.
@@ -45,7 +45,7 @@ class MessagesClient:
 
         Parameters
         ----------
-        request : CreateMessageRequest
+        request : CreateMessageRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -57,29 +57,20 @@ class MessagesClient:
 
         Examples
         --------
-        from intercom import (
-            CreateMessageRequest_Email,
-            CreateMessageRequestFrom,
-            CreateMessageRequestTo,
-            Intercom,
-        )
+        from intercom import Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.messages.create(
-            request=CreateMessageRequest_Email(
-                subject="Thanks for everything",
-                body="Hello there",
-                template="plain",
-                from_=CreateMessageRequestFrom(
-                    id=394051,
-                ),
-                to=CreateMessageRequestTo(
-                    type="user",
-                    id="536e564f316c83104c000020",
-                ),
-            ),
+            request={
+                "subject": "Thanks for everything",
+                "body": "Hello there",
+                "template": "plain",
+                "from_": {"type": "admin", "id": 394051},
+                "to": {"type": "user", "id": "536e564f316c83104c000020"},
+                "message_type": "email",
+            },
         )
         """
         _response = self._raw_client.create(request=request, request_options=request_options)
@@ -102,7 +93,7 @@ class AsyncMessagesClient:
         return self._raw_client
 
     async def create(
-        self, *, request: CreateMessageRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateMessageRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> Message:
         """
         You can create a message that has been initiated by an admin. The conversation can be either an in-app message or an email.
@@ -119,7 +110,7 @@ class AsyncMessagesClient:
 
         Parameters
         ----------
-        request : CreateMessageRequest
+        request : CreateMessageRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -133,12 +124,7 @@ class AsyncMessagesClient:
         --------
         import asyncio
 
-        from intercom import (
-            AsyncIntercom,
-            CreateMessageRequest_Email,
-            CreateMessageRequestFrom,
-            CreateMessageRequestTo,
-        )
+        from intercom import AsyncIntercom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -147,18 +133,14 @@ class AsyncMessagesClient:
 
         async def main() -> None:
             await client.messages.create(
-                request=CreateMessageRequest_Email(
-                    subject="Thanks for everything",
-                    body="Hello there",
-                    template="plain",
-                    from_=CreateMessageRequestFrom(
-                        id=394051,
-                    ),
-                    to=CreateMessageRequestTo(
-                        type="user",
-                        id="536e564f316c83104c000020",
-                    ),
-                ),
+                request={
+                    "subject": "Thanks for everything",
+                    "body": "Hello there",
+                    "template": "plain",
+                    "from_": {"type": "admin", "id": 394051},
+                    "to": {"type": "user", "id": "536e564f316c83104c000020"},
+                    "message_type": "email",
+                },
             )
 
 

@@ -7,8 +7,10 @@ from ...core.request_options import RequestOptions
 from ...types.create_data_event_request_two import CreateDataEventRequestTwo
 from ..types.data_event_summary import DataEventSummary
 from .raw_client import AsyncRawDataEventsClient, RawDataEventsClient
-from .types.create_data_event_summaries_request_event_summaries import CreateDataEventSummariesRequestEventSummaries
-from .types.lis_data_events_request_filter import LisDataEventsRequestFilter
+from .requests.create_data_event_summaries_request_event_summaries import (
+    CreateDataEventSummariesRequestEventSummariesParams,
+)
+from .requests.lis_data_events_request_filter import LisDataEventsRequestFilterParams
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -32,7 +34,7 @@ class DataEventsClient:
     def lis_data_events(
         self,
         *,
-        filter: LisDataEventsRequestFilter,
+        filter: LisDataEventsRequestFilterParams,
         type: str,
         summary: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -55,7 +57,7 @@ class DataEventsClient:
 
         Parameters
         ----------
-        filter : LisDataEventsRequestFilter
+        filter : LisDataEventsRequestFilterParams
 
         type : str
             The value must be user
@@ -74,15 +76,12 @@ class DataEventsClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.unstable.data_events import LisDataEventsRequestFilterUserId
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.unstable.data_events.lis_data_events(
-            filter=LisDataEventsRequestFilterUserId(
-                user_id="user_id",
-            ),
+            filter={"user_id": "user_id"},
             type="type",
         )
         """
@@ -166,7 +165,7 @@ class DataEventsClient:
         self,
         *,
         user_id: typing.Optional[str] = OMIT,
-        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummaries] = OMIT,
+        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummariesParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> None:
         """
@@ -177,7 +176,7 @@ class DataEventsClient:
         user_id : typing.Optional[str]
             Your identifier for the user.
 
-        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummaries]
+        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummariesParams]
             A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`.
 
         request_options : typing.Optional[RequestOptions]
@@ -220,7 +219,7 @@ class AsyncDataEventsClient:
     async def lis_data_events(
         self,
         *,
-        filter: LisDataEventsRequestFilter,
+        filter: LisDataEventsRequestFilterParams,
         type: str,
         summary: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -243,7 +242,7 @@ class AsyncDataEventsClient:
 
         Parameters
         ----------
-        filter : LisDataEventsRequestFilter
+        filter : LisDataEventsRequestFilterParams
 
         type : str
             The value must be user
@@ -264,7 +263,6 @@ class AsyncDataEventsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.unstable.data_events import LisDataEventsRequestFilterUserId
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -273,9 +271,7 @@ class AsyncDataEventsClient:
 
         async def main() -> None:
             await client.unstable.data_events.lis_data_events(
-                filter=LisDataEventsRequestFilterUserId(
-                    user_id="user_id",
-                ),
+                filter={"user_id": "user_id"},
                 type="type",
             )
 
@@ -370,7 +366,7 @@ class AsyncDataEventsClient:
         self,
         *,
         user_id: typing.Optional[str] = OMIT,
-        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummaries] = OMIT,
+        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummariesParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> None:
         """
@@ -381,7 +377,7 @@ class AsyncDataEventsClient:
         user_id : typing.Optional[str]
             Your identifier for the user.
 
-        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummaries]
+        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummariesParams]
             A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`.
 
         request_options : typing.Optional[RequestOptions]

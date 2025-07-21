@@ -13,7 +13,7 @@ from ..errors.bad_request_error import BadRequestError
 from ..errors.forbidden_error import ForbiddenError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
-from ..types.create_message_request import CreateMessageRequest
+from ..requests.create_message_request import CreateMessageRequestParams
 from ..types.error import Error
 from .types.message import Message
 
@@ -26,7 +26,7 @@ class RawMessagesClient:
         self._client_wrapper = client_wrapper
 
     def create(
-        self, *, request: CreateMessageRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateMessageRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[Message]:
         """
         You can create a message that has been initiated by an admin. The conversation can be either an in-app message or an email.
@@ -43,7 +43,7 @@ class RawMessagesClient:
 
         Parameters
         ----------
-        request : CreateMessageRequest
+        request : CreateMessageRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -57,7 +57,7 @@ class RawMessagesClient:
             "messages",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=CreateMessageRequest, direction="write"
+                object_=request, annotation=CreateMessageRequestParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -130,7 +130,7 @@ class AsyncRawMessagesClient:
         self._client_wrapper = client_wrapper
 
     async def create(
-        self, *, request: CreateMessageRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateMessageRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Message]:
         """
         You can create a message that has been initiated by an admin. The conversation can be either an in-app message or an email.
@@ -147,7 +147,7 @@ class AsyncRawMessagesClient:
 
         Parameters
         ----------
-        request : CreateMessageRequest
+        request : CreateMessageRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -161,7 +161,7 @@ class AsyncRawMessagesClient:
             "messages",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=CreateMessageRequest, direction="write"
+                object_=request, annotation=CreateMessageRequestParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",

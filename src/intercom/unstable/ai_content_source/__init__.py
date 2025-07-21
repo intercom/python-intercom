@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import ContentSource, ContentSourceContentType
+from .requests import ContentSourceParams
 
-__all__ = ["ContentSource", "ContentSourceContentType"]
+__all__ = ["ContentSource", "ContentSourceContentType", "ContentSourceParams"]

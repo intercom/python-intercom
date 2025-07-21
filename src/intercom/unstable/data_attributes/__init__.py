@@ -10,6 +10,7 @@ from .types import (
     DataAttributeModel,
     LisDataAttributesRequestModel,
 )
+from .requests import DataAttributeParams
 
 __all__ = [
     "CreateDataAttributeRequestDataType",
@@ -17,5 +18,6 @@ __all__ = [
     "DataAttribute",
     "DataAttributeDataType",
     "DataAttributeModel",
+    "DataAttributeParams",
     "LisDataAttributesRequestModel",
 ]

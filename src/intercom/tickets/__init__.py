@@ -16,18 +16,32 @@ from .types import (
     UpdateTicketRequestAssignment,
     UpdateTicketRequestState,
 )
+from .requests import (
+    TicketContactsParams,
+    TicketParams,
+    TicketPartParams,
+    TicketTypeParams,
+    TicketsReplyRequestBodyParams,
+    UpdateTicketRequestAssignmentParams,
+)
 
 __all__ = [
     "Ticket",
     "TicketCategory",
     "TicketContacts",
+    "TicketContactsParams",
+    "TicketParams",
     "TicketPart",
+    "TicketPartParams",
     "TicketPartPreviousTicketState",
     "TicketPartTicketState",
     "TicketTicketState",
     "TicketType",
     "TicketTypeCategory",
+    "TicketTypeParams",
     "TicketsReplyRequestBody",
+    "TicketsReplyRequestBodyParams",
     "UpdateTicketRequestAssignment",
+    "UpdateTicketRequestAssignmentParams",
     "UpdateTicketRequestState",
 ]

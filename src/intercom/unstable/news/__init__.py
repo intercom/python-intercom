@@ -3,5 +3,14 @@
 # isort: skip_file
 
 from .types import NewsItem, NewsItemState, Newsfeed, NewsfeedAssignment
+from .requests import NewsItemParams, NewsfeedAssignmentParams, NewsfeedParams
 
-__all__ = ["NewsItem", "NewsItemState", "Newsfeed", "NewsfeedAssignment"]
+__all__ = [
+    "NewsItem",
+    "NewsItemParams",
+    "NewsItemState",
+    "Newsfeed",
+    "NewsfeedAssignment",
+    "NewsfeedAssignmentParams",
+    "NewsfeedParams",
+]

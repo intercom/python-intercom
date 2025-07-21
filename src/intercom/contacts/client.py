@@ -6,14 +6,14 @@ from ..companies.types.company import Company
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
+from ..requests.create_contact_request import CreateContactRequestParams
+from ..requests.search_request_query import SearchRequestQueryParams
+from ..requests.starting_after_paging import StartingAfterPagingParams
 from ..subscription_types.types.subscription_type import SubscriptionType
 from ..types.contact_archived import ContactArchived
 from ..types.contact_deleted import ContactDeleted
 from ..types.contact_segments import ContactSegments
 from ..types.contact_unarchived import ContactUnarchived
-from ..types.create_contact_request import CreateContactRequest
-from ..types.search_request_query import SearchRequestQuery
-from ..types.starting_after_paging import StartingAfterPaging
 from ..types.subscription_type_list import SubscriptionTypeList
 from ..types.tag_list import TagList
 from .raw_client import AsyncRawContactsClient, RawContactsClient
@@ -484,8 +484,8 @@ class ContactsClient:
     def search(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[Contact]:
         """
@@ -591,9 +591,9 @@ class ContactsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -605,30 +605,19 @@ class ContactsClient:
 
         Examples
         --------
-        from intercom import (
-            Intercom,
-            MultipleFilterSearchRequest,
-            SingleFilterSearchRequest,
-            StartingAfterPaging,
-        )
+        from intercom import Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         response = client.contacts.search(
-            query=MultipleFilterSearchRequest(
-                operator="AND",
-                value=[
-                    SingleFilterSearchRequest(
-                        field="created_at",
-                        operator=">",
-                        value="1306054154",
-                    )
+            query={
+                "operator": "AND",
+                "value": [
+                    {"field": "created_at", "operator": ">", "value": "1306054154"}
                 ],
-            ),
-            pagination=StartingAfterPaging(
-                per_page=5,
-            ),
+            },
+            pagination={"per_page": 5},
         )
         for item in response:
             yield item
@@ -691,14 +680,14 @@ class ContactsClient:
         )
 
     def create(
-        self, *, request: CreateContactRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateContactRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> Contact:
         """
         You can create a new contact (ie. user or lead).
 
         Parameters
         ----------
-        request : CreateContactRequest
+        request : CreateContactRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -710,15 +699,13 @@ class ContactsClient:
 
         Examples
         --------
-        from intercom import CreateContactRequestWithEmail, Intercom
+        from intercom import Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.contacts.create(
-            request=CreateContactRequestWithEmail(
-                email="joebloggs@intercom.io",
-            ),
+            request={"email": "joebloggs@intercom.io"},
         )
         """
         _response = self._raw_client.create(request=request, request_options=request_options)
@@ -1335,8 +1322,8 @@ class AsyncContactsClient:
     async def search(
         self,
         *,
-        query: SearchRequestQuery,
-        pagination: typing.Optional[StartingAfterPaging] = OMIT,
+        query: SearchRequestQueryParams,
+        pagination: typing.Optional[StartingAfterPagingParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[Contact]:
         """
@@ -1442,9 +1429,9 @@ class AsyncContactsClient:
 
         Parameters
         ----------
-        query : SearchRequestQuery
+        query : SearchRequestQueryParams
 
-        pagination : typing.Optional[StartingAfterPaging]
+        pagination : typing.Optional[StartingAfterPagingParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1458,12 +1445,7 @@ class AsyncContactsClient:
         --------
         import asyncio
 
-        from intercom import (
-            AsyncIntercom,
-            MultipleFilterSearchRequest,
-            SingleFilterSearchRequest,
-            StartingAfterPaging,
-        )
+        from intercom import AsyncIntercom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -1472,19 +1454,13 @@ class AsyncContactsClient:
 
         async def main() -> None:
             response = await client.contacts.search(
-                query=MultipleFilterSearchRequest(
-                    operator="AND",
-                    value=[
-                        SingleFilterSearchRequest(
-                            field="created_at",
-                            operator=">",
-                            value="1306054154",
-                        )
+                query={
+                    "operator": "AND",
+                    "value": [
+                        {"field": "created_at", "operator": ">", "value": "1306054154"}
                     ],
-                ),
-                pagination=StartingAfterPaging(
-                    per_page=5,
-                ),
+                },
+                pagination={"per_page": 5},
             )
             async for item in response:
                 yield item
@@ -1560,14 +1536,14 @@ class AsyncContactsClient:
         )
 
     async def create(
-        self, *, request: CreateContactRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateContactRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> Contact:
         """
         You can create a new contact (ie. user or lead).
 
         Parameters
         ----------
-        request : CreateContactRequest
+        request : CreateContactRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1581,7 +1557,7 @@ class AsyncContactsClient:
         --------
         import asyncio
 
-        from intercom import AsyncIntercom, CreateContactRequestWithEmail
+        from intercom import AsyncIntercom
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -1590,9 +1566,7 @@ class AsyncContactsClient:
 
         async def main() -> None:
             await client.contacts.create(
-                request=CreateContactRequestWithEmail(
-                    email="joebloggs@intercom.io",
-                ),
+                request={"email": "joebloggs@intercom.io"},
             )
 
 

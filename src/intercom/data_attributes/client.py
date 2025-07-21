@@ -6,11 +6,11 @@ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from ..types.data_attribute_list import DataAttributeList
 from .raw_client import AsyncRawDataAttributesClient, RawDataAttributesClient
+from .requests.update_data_attribute_request_options_item import UpdateDataAttributeRequestOptionsItemParams
 from .types.create_data_attribute_request_data_type import CreateDataAttributeRequestDataType
 from .types.create_data_attribute_request_model import CreateDataAttributeRequestModel
 from .types.data_attribute import DataAttribute
 from .types.data_attributes_list_request_model import DataAttributesListRequestModel
-from .types.update_data_attribute_request_options_item import UpdateDataAttributeRequestOptionsItem
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -143,7 +143,7 @@ class DataAttributesClient:
         *,
         archived: typing.Optional[bool] = OMIT,
         description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]] = OMIT,
+        options: typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItemParams]] = OMIT,
         messenger_writable: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> DataAttribute:
@@ -166,7 +166,7 @@ class DataAttributesClient:
         description : typing.Optional[str]
             The readable description you see in the UI for the attribute.
 
-        options : typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]]
+        options : typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItemParams]]
             To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
 
         messenger_writable : typing.Optional[bool]
@@ -183,7 +183,6 @@ class DataAttributesClient:
         Examples
         --------
         from intercom import Intercom
-        from intercom.data_attributes import UpdateDataAttributeRequestOptionsItem
 
         client = Intercom(
             token="YOUR_TOKEN",
@@ -192,14 +191,7 @@ class DataAttributesClient:
             data_attribute_id="1",
             archived=False,
             description="Just a plain old ring",
-            options=[
-                UpdateDataAttributeRequestOptionsItem(
-                    value="1-10",
-                ),
-                UpdateDataAttributeRequestOptionsItem(
-                    value="11-20",
-                ),
-            ],
+            options=[{"value": "1-10"}, {"value": "11-20"}],
         )
         """
         _response = self._raw_client.update(
@@ -356,7 +348,7 @@ class AsyncDataAttributesClient:
         *,
         archived: typing.Optional[bool] = OMIT,
         description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]] = OMIT,
+        options: typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItemParams]] = OMIT,
         messenger_writable: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> DataAttribute:
@@ -379,7 +371,7 @@ class AsyncDataAttributesClient:
         description : typing.Optional[str]
             The readable description you see in the UI for the attribute.
 
-        options : typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]]
+        options : typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItemParams]]
             To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
 
         messenger_writable : typing.Optional[bool]
@@ -398,7 +390,6 @@ class AsyncDataAttributesClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.data_attributes import UpdateDataAttributeRequestOptionsItem
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -410,14 +401,7 @@ class AsyncDataAttributesClient:
                 data_attribute_id="1",
                 archived=False,
                 description="Just a plain old ring",
-                options=[
-                    UpdateDataAttributeRequestOptionsItem(
-                        value="1-10",
-                    ),
-                    UpdateDataAttributeRequestOptionsItem(
-                        value="11-20",
-                    ),
-                ],
+                options=[{"value": "1-10"}, {"value": "11-20"}],
             )
 
 

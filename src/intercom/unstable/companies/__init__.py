@@ -3,5 +3,15 @@
 # isort: skip_file
 
 from .types import Company, CompanyPlan, CompanySegments, CompanyTags
+from .requests import CompanyParams, CompanyPlanParams, CompanySegmentsParams, CompanyTagsParams
 
-__all__ = ["Company", "CompanyPlan", "CompanySegments", "CompanyTags"]
+__all__ = [
+    "Company",
+    "CompanyParams",
+    "CompanyPlan",
+    "CompanyPlanParams",
+    "CompanySegments",
+    "CompanySegmentsParams",
+    "CompanyTags",
+    "CompanyTagsParams",
+]

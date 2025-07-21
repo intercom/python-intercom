@@ -15,7 +15,7 @@ from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..types.error import Error
 from ..types.tag_list import TagList
-from .types.create_tag_request_body import CreateTagRequestBody
+from .requests.create_tag_request_body import CreateTagRequestBodyParams
 from .types.tag import Tag
 
 # this is used as the default value for optional parameters
@@ -356,7 +356,7 @@ class RawTagsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def create_tag(
-        self, *, request: CreateTagRequestBody, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateTagRequestBodyParams, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[Tag]:
         """
         You can use this endpoint to perform the following operations:
@@ -375,7 +375,7 @@ class RawTagsClient:
 
         Parameters
         ----------
-        request : CreateTagRequestBody
+        request : CreateTagRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -389,7 +389,7 @@ class RawTagsClient:
             "tags",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=CreateTagRequestBody, direction="write"
+                object_=request, annotation=CreateTagRequestBodyParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -1051,7 +1051,7 @@ class AsyncRawTagsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def create_tag(
-        self, *, request: CreateTagRequestBody, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateTagRequestBodyParams, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Tag]:
         """
         You can use this endpoint to perform the following operations:
@@ -1070,7 +1070,7 @@ class AsyncRawTagsClient:
 
         Parameters
         ----------
-        request : CreateTagRequestBody
+        request : CreateTagRequestBodyParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1084,7 +1084,7 @@ class AsyncRawTagsClient:
             "tags",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=CreateTagRequestBody, direction="write"
+                object_=request, annotation=CreateTagRequestBodyParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",

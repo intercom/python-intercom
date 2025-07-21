@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import Jobs, JobsStatus
+from .requests import JobsParams
 
-__all__ = ["Jobs", "JobsStatus"]
+__all__ = ["Jobs", "JobsParams", "JobsStatus"]

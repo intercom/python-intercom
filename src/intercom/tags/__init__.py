@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import Tag, TagsCreateRequestBody
+from .requests import TagParams, TagsCreateRequestBodyParams
 
-__all__ = ["Tag", "TagsCreateRequestBody"]
+__all__ = ["Tag", "TagParams", "TagsCreateRequestBody", "TagsCreateRequestBodyParams"]

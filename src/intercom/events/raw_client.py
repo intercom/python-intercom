@@ -10,10 +10,12 @@ from ..core.request_options import RequestOptions
 from ..core.serialization import convert_and_respect_annotation_metadata
 from ..core.unchecked_base_model import construct_type
 from ..errors.unauthorized_error import UnauthorizedError
-from ..types.create_data_event_request import CreateDataEventRequest
+from ..requests.create_data_event_request import CreateDataEventRequestParams
 from ..types.data_event_summary import DataEventSummary
 from ..types.error import Error
-from .types.create_data_event_summaries_request_event_summaries import CreateDataEventSummariesRequestEventSummaries
+from .requests.create_data_event_summaries_request_event_summaries import (
+    CreateDataEventSummariesRequestEventSummariesParams,
+)
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -118,7 +120,7 @@ class RawEventsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def create(
-        self, *, request: CreateDataEventRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateDataEventRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[None]:
         """
 
@@ -165,7 +167,7 @@ class RawEventsClient:
 
         Parameters
         ----------
-        request : CreateDataEventRequest
+        request : CreateDataEventRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -178,7 +180,7 @@ class RawEventsClient:
             "events",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=CreateDataEventRequest, direction="write"
+                object_=request, annotation=CreateDataEventRequestParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -209,7 +211,7 @@ class RawEventsClient:
         self,
         *,
         user_id: typing.Optional[str] = OMIT,
-        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummaries] = OMIT,
+        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummariesParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[None]:
         """
@@ -220,7 +222,7 @@ class RawEventsClient:
         user_id : typing.Optional[str]
             Your identifier for the user.
 
-        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummaries]
+        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummariesParams]
             A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`.
 
         request_options : typing.Optional[RequestOptions]
@@ -236,7 +238,9 @@ class RawEventsClient:
             json={
                 "user_id": user_id,
                 "event_summaries": convert_and_respect_annotation_metadata(
-                    object_=event_summaries, annotation=CreateDataEventSummariesRequestEventSummaries, direction="write"
+                    object_=event_summaries,
+                    annotation=CreateDataEventSummariesRequestEventSummariesParams,
+                    direction="write",
                 ),
             },
             headers={
@@ -364,7 +368,7 @@ class AsyncRawEventsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def create(
-        self, *, request: CreateDataEventRequest, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: CreateDataEventRequestParams, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[None]:
         """
 
@@ -411,7 +415,7 @@ class AsyncRawEventsClient:
 
         Parameters
         ----------
-        request : CreateDataEventRequest
+        request : CreateDataEventRequestParams
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -424,7 +428,7 @@ class AsyncRawEventsClient:
             "events",
             method="POST",
             json=convert_and_respect_annotation_metadata(
-                object_=request, annotation=CreateDataEventRequest, direction="write"
+                object_=request, annotation=CreateDataEventRequestParams, direction="write"
             ),
             headers={
                 "content-type": "application/json",
@@ -455,7 +459,7 @@ class AsyncRawEventsClient:
         self,
         *,
         user_id: typing.Optional[str] = OMIT,
-        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummaries] = OMIT,
+        event_summaries: typing.Optional[CreateDataEventSummariesRequestEventSummariesParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[None]:
         """
@@ -466,7 +470,7 @@ class AsyncRawEventsClient:
         user_id : typing.Optional[str]
             Your identifier for the user.
 
-        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummaries]
+        event_summaries : typing.Optional[CreateDataEventSummariesRequestEventSummariesParams]
             A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`.
 
         request_options : typing.Optional[RequestOptions]
@@ -482,7 +486,9 @@ class AsyncRawEventsClient:
             json={
                 "user_id": user_id,
                 "event_summaries": convert_and_respect_annotation_metadata(
-                    object_=event_summaries, annotation=CreateDataEventSummariesRequestEventSummaries, direction="write"
+                    object_=event_summaries,
+                    annotation=CreateDataEventSummariesRequestEventSummariesParams,
+                    direction="write",
                 ),
             },
             headers={

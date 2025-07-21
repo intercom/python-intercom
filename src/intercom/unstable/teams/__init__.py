@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import Team
+from .requests import TeamParams
 
-__all__ = ["Team"]
+__all__ = ["Team", "TeamParams"]
