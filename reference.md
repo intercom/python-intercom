@@ -98,7 +98,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.admins.away(
-    admin_id="admin_id",
+    admin_id=1,
     away_mode_enabled=True,
     away_mode_reassign=True,
 )
@@ -117,7 +117,7 @@ client.admins.away(
 <dl>
 <dd>
 
-**admin_id:** `str` — The unique identifier of a given admin
+**admin_id:** `int` — The unique identifier of a given admin
     
 </dd>
 </dl>
@@ -134,6 +134,14 @@ client.admins.away(
 <dd>
 
 **away_mode_reassign:** `bool` — Set to "true" to assign any new conversation replies to your default inbox.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**away_status_reason_id:** `typing.Optional[int]` — The unique identifier of the away status reason
     
 </dd>
 </dl>
@@ -325,7 +333,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.admins.find(
-    admin_id="123",
+    admin_id=1,
 )
 
 ```
@@ -342,7 +350,813 @@ client.admins.find(
 <dl>
 <dd>
 
-**admin_id:** `str` — The unique identifier of a given admin
+**admin_id:** `int` — The unique identifier of a given admin
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## AI Content
+<details><summary><code>client.ai_content.<a href="src/intercom/ai_content/client.py">list_content_import_sources</a>()</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can retrieve a list of all content import sources for a workspace.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.ai_content.list_content_import_sources()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.ai_content.<a href="src/intercom/ai_content/client.py">create_content_import_source</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can create a new content import source by sending a POST request to this endpoint.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.ai_content.create_content_import_source(
+    url="https://www.example.com",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**url:** `str` — The URL of the content import source.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**status:** `typing.Optional[CreateContentImportSourceRequestStatus]` — The status of the content import source.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.ai_content.<a href="src/intercom/ai_content/client.py">get_content_import_source</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.ai_content.get_content_import_source(
+    source_id="source_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**source_id:** `str` — The unique identifier for the content import source which is given by Intercom.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.ai_content.<a href="src/intercom/ai_content/client.py">update_content_import_source</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can update an existing content import source.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.ai_content.update_content_import_source(
+    source_id="source_id",
+    sync_behavior="api",
+    url="https://www.example.com",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**source_id:** `str` — The unique identifier for the content import source which is given by Intercom.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sync_behavior:** `UpdateContentImportSourceRequestSyncBehavior` — If you intend to create or update External Pages via the API, this should be set to `api`. You can not change the value to or from api.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**url:** `str` — The URL of the content import source. This may only be different from the existing value if the sync behavior is API.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**status:** `typing.Optional[UpdateContentImportSourceRequestStatus]` — The status of the content import source.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.ai_content.<a href="src/intercom/ai_content/client.py">delete_content_import_source</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can delete a content import source by making a DELETE request this endpoint. This will also delete all external pages that were imported from this source.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.ai_content.delete_content_import_source(
+    source_id="source_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**source_id:** `str` — The unique identifier for the content import source which is given by Intercom.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.ai_content.<a href="src/intercom/ai_content/client.py">list_external_pages</a>()</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can retrieve a list of all external pages for a workspace.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.ai_content.list_external_pages()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.ai_content.<a href="src/intercom/ai_content/client.py">create_external_page</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can create a new external page by sending a POST request to this endpoint. If an external page already exists with the specified source_id and external_id, it will be updated instead.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.ai_content.create_external_page(
+    title="Test",
+    html="<html><body><h1>Test</h1></body></html>",
+    url="https://www.example.com",
+    source_id=44,
+    external_id="abc1234",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**title:** `str` — The title of the external page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**html:** `str` — The body of the external page in HTML.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**source_id:** `int` — The unique identifier for the source of the external page which was given by Intercom. Every external page must be associated with a Content Import Source which represents the place it comes from and from which it inherits a default audience (configured in the UI). For a new source, make a POST request to the Content Import Source endpoint and an ID for the source will be returned in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**external_id:** `str` — The identifier for the external page which was given by the source. Must be unique for the source.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**url:** `typing.Optional[str]` — The URL of the external page. This will be used by Fin to link end users to the page it based its answer on. When a URL is not present, Fin will not reference the source.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ai_agent_availability:** `typing.Optional[bool]` — Whether the external page should be used to answer questions by AI Agent. Will not default when updating an existing external page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ai_copilot_availability:** `typing.Optional[bool]` — Whether the external page should be used to answer questions by AI Copilot. Will not default when updating an existing external page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.ai_content.<a href="src/intercom/ai_content/client.py">get_external_page</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can retrieve an external page.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.ai_content.get_external_page(
+    page_id="page_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page_id:** `str` — The unique identifier for the external page which is given by Intercom.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.ai_content.<a href="src/intercom/ai_content/client.py">update_external_page</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can update an existing external page (if it was created via the API).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.ai_content.update_external_page(
+    page_id="page_id",
+    title="Test",
+    html="<html><body><h1>Test</h1></body></html>",
+    url="https://www.example.com",
+    source_id=47,
+    external_id="5678",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page_id:** `str` — The unique identifier for the external page which is given by Intercom.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**title:** `str` — The title of the external page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**html:** `str` — The body of the external page in HTML.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**url:** `str` — The URL of the external page. This will be used by Fin to link end users to the page it based its answer on.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**source_id:** `int` — The unique identifier for the source of the external page which was given by Intercom. Every external page must be associated with a Content Import Source which represents the place it comes from and from which it inherits a default audience (configured in the UI). For a new source, make a POST request to the Content Import Source endpoint and an ID for the source will be returned in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**fin_availability:** `typing.Optional[bool]` — Whether the external page should be used to answer questions by Fin.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**external_id:** `typing.Optional[str]` — The identifier for the external page which was given by the source. Must be unique for the source.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.ai_content.<a href="src/intercom/ai_content/client.py">delete_external_page</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Sending a DELETE request for an external page will remove it from the content library UI and from being used for AI answers.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.ai_content.delete_external_page(
+    page_id="page_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page_id:** `str` — The unique identifier for the external page which is given by Intercom.
     
 </dd>
 </dl>
@@ -475,17 +1289,19 @@ You can create a new article by making a POST request to `https://api.intercom.i
 <dd>
 
 ```python
-from intercom import Intercom
+from intercom import CreateArticleRequest, Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.articles.create(
-    title="Thanks for everything",
-    description="Description of the Article",
-    body="Body of the Article",
-    author_id=1295,
-    state="published",
+    request=CreateArticleRequest(
+        title="Thanks for everything",
+        description="Description of the Article",
+        body="Body of the Article",
+        author_id=1295,
+        state="published",
+    ),
 )
 
 ```
@@ -502,63 +1318,7 @@ client.articles.create(
 <dl>
 <dd>
 
-**title:** `str` — The title of the article.For multilingual articles, this will be the title of the default language's content.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**author_id:** `int` — The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**description:** `typing.Optional[str]` — The description of the article. For multilingual articles, this will be the description of the default language's content.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**body:** `typing.Optional[str]` — The content of the article. For multilingual articles, this will be the body of the default language's content.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**state:** `typing.Optional[CreateArticleRequestState]` — Whether the article will be `published` or will be a `draft`. Defaults to draft. For multilingual articles, this will be the state of the default language's content.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**parent_id:** `typing.Optional[int]` — The id of the article's parent collection or section. An article without this field stands alone.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**parent_type:** `typing.Optional[CreateArticleRequestParentType]` — The type of parent, which can either be a `collection` or `section`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**translated_content:** `typing.Optional[ArticleTranslatedContent]` 
+**request:** `typing.Optional[CreateArticleRequest]` 
     
 </dd>
 </dl>
@@ -611,7 +1371,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.articles.find(
-    article_id="123",
+    article_id=1,
 )
 
 ```
@@ -628,7 +1388,7 @@ client.articles.find(
 <dl>
 <dd>
 
-**article_id:** `str` — The unique identifier for the article which is given by Intercom.
+**article_id:** `int` — The unique identifier for the article which is given by Intercom.
     
 </dd>
 </dl>
@@ -681,7 +1441,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.articles.update(
-    article_id="123",
+    article_id=1,
     title="Christmas is here!",
     body="<p>New gifts in store for the jolly season</p>",
 )
@@ -700,7 +1460,7 @@ client.articles.update(
 <dl>
 <dd>
 
-**article_id:** `str` — The unique identifier for the article which is given by Intercom.
+**article_id:** `int` — The unique identifier for the article which is given by Intercom.
     
 </dd>
 </dl>
@@ -740,7 +1500,7 @@ client.articles.update(
 <dl>
 <dd>
 
-**state:** `typing.Optional[UpdateArticleRequestBodyState]` — Whether the article will be `published` or will be a `draft`. Defaults to draft. For multilingual articles, this will be the state of the default language's content.
+**state:** `typing.Optional[UpdateArticleRequestState]` — Whether the article will be `published` or will be a `draft`. Defaults to draft. For multilingual articles, this will be the state of the default language's content.
     
 </dd>
 </dl>
@@ -756,7 +1516,7 @@ client.articles.update(
 <dl>
 <dd>
 
-**parent_type:** `typing.Optional[UpdateArticleRequestBodyParentType]` — The type of parent, which can either be a `collection` or `section`.
+**parent_type:** `typing.Optional[str]` — The type of parent, which can either be a `collection` or `section`.
     
 </dd>
 </dl>
@@ -817,7 +1577,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.articles.delete(
-    article_id="123",
+    article_id=1,
 )
 
 ```
@@ -834,7 +1594,7 @@ client.articles.delete(
 <dl>
 <dd>
 
-**article_id:** `str` — The unique identifier for the article which is given by Intercom.
+**article_id:** `int` — The unique identifier for the article which is given by Intercom.
     
 </dd>
 </dl>
@@ -949,6 +1709,650 @@ client.articles.search(
 </dl>
 </details>
 
+## Away Status Reasons
+<details><summary><code>client.away_status_reasons.<a href="src/intercom/away_status_reasons/client.py">list_away_status_reasons</a>()</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns a list of all away status reasons configured for the workspace, including deleted ones.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.away_status_reasons.list_away_status_reasons()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Export
+<details><summary><code>client.export.<a href="src/intercom/export/client.py">enqueue_a_new_reporting_data_export_job</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.export.enqueue_a_new_reporting_data_export_job(
+    dataset_id="conversation",
+    attribute_ids=["conversation_id", "conversation_started_at"],
+    start_time=1717490000,
+    end_time=1717510000,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**dataset_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**attribute_ids:** `typing.Sequence[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**start_time:** `int` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**end_time:** `int` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.export.<a href="src/intercom/export/client.py">list_available_datasets_and_attributes</a>()</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.export.list_available_datasets_and_attributes()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Data Export
+<details><summary><code>client.data_export.<a href="src/intercom/data_export/client.py">export_reporting_data</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.data_export.export_reporting_data(
+    job_identifier="job_identifier",
+    app_id="app_id",
+    client_id="client_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**job_identifier:** `str` — Unique identifier of the job.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**app_id:** `str` — The Intercom defined code of the workspace the company is associated to.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**client_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.data_export.<a href="src/intercom/data_export/client.py">download_reporting_data_export</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.data_export.download_reporting_data_export(
+    job_identifier="job_identifier",
+    app_id="app_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**job_identifier:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**app_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.data_export.<a href="src/intercom/data_export/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+To create your export job, you need to send a `POST` request to the export endpoint `https://api.intercom.io/export/content/data`.
+
+The only parameters you need to provide are the range of dates that you want exported.
+
+>🚧 Limit of one active job
+>
+> You can only have one active job per workspace. You will receive a HTTP status code of 429 with the message Exceeded rate limit of 1 pending message data export jobs if you attempt to create a second concurrent job.
+
+>❗️ Updated_at not included
+>
+> It should be noted that the timeframe only includes messages sent during the time period and not messages that were only updated during this period. For example, if a message was updated yesterday but sent two days ago, you would need to set the created_at_after date before the message was sent to include that in your retrieval job.
+
+>📘 Date ranges are inclusive
+>
+> Requesting data for 2018-06-01 until 2018-06-30 will get all data for those days including those specified - e.g. 2018-06-01 00:00:00 until 2018-06-30 23:59:99.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.data_export.create(
+    created_at_after=1734519776,
+    created_at_before=1734537776,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**created_at_after:** `int` — The start date that you request data for. It must be formatted as a unix timestamp.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**created_at_before:** `int` — The end date that you request data for. It must be formatted as a unix timestamp.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.data_export.<a href="src/intercom/data_export/client.py">find</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can view the status of your job by sending a `GET` request to the URL
+`https://api.intercom.io/export/content/data/{job_identifier}` - the `{job_identifier}` is the value returned in the response when you first created the export job. More on it can be seen in the Export Job Model.
+
+> 🚧 Jobs expire after two days
+> All jobs that have completed processing (and are thus available to download from the provided URL) will have an expiry limit of two days from when the export ob completed. After this, the data will no longer be available.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.data_export.find(
+    job_identifier="job_identifier",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**job_identifier:** `str` — job_identifier
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.data_export.<a href="src/intercom/data_export/client.py">cancel</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can cancel your job
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.data_export.cancel(
+    job_identifier="job_identifier",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**job_identifier:** `str` — job_identifier
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.data_export.<a href="src/intercom/data_export/client.py">download</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+When a job has a status of complete, and thus a filled download_url, you can download your data by hitting that provided URL, formatted like so: https://api.intercom.io/download/content/data/xyz1234.
+
+Your exported message data will be streamed continuously back down to you in a gzipped CSV format.
+
+> 📘 Octet header required
+>
+> You will have to specify the header Accept: `application/octet-stream` when hitting this endpoint.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.data_export.download(
+    job_identifier="job_identifier",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**job_identifier:** `str` — job_identifier
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## HelpCenters
 <details><summary><code>client.help_centers.<a href="src/intercom/help_centers/client.py">find</a>(...)</code></summary>
 <dl>
@@ -983,7 +2387,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.help_centers.find(
-    help_center_id="123",
+    help_center_id=1,
 )
 
 ```
@@ -1000,7 +2404,7 @@ client.help_centers.find(
 <dl>
 <dd>
 
-**help_center_id:** `str` — The unique identifier for the Help Center which is given by Intercom.
+**help_center_id:** `int` — The unique identifier for the collection which is given by Intercom.
     
 </dd>
 </dl>
@@ -1082,6 +2486,454 @@ for page in response.iter_pages():
 <dd>
 
 **per_page:** `typing.Optional[int]` — How many results to display per page. Defaults to 15
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Internal Articles
+<details><summary><code>client.internal_articles.<a href="src/intercom/internal_articles/client.py">list_internal_articles</a>()</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can fetch a list of all internal articles by making a GET request to `https://api.intercom.io/internal_articles`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.internal_articles.list_internal_articles()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.internal_articles.<a href="src/intercom/internal_articles/client.py">create_internal_article</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can create a new internal article by making a POST request to `https://api.intercom.io/internal_articles`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import CreateInternalArticleRequest, Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.internal_articles.create_internal_article(
+    request=CreateInternalArticleRequest(
+        title="Thanks for everything",
+        body="Body of the Internal Article",
+        author_id=1295,
+        owner_id=1295,
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `typing.Optional[CreateInternalArticleRequest]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.internal_articles.<a href="src/intercom/internal_articles/client.py">retrieve_internal_article</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can fetch the details of a single internal article by making a GET request to `https://api.intercom.io/internal_articles/<id>`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.internal_articles.retrieve_internal_article(
+    internal_article_id=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**internal_article_id:** `int` — The unique identifier for the article which is given by Intercom.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.internal_articles.<a href="src/intercom/internal_articles/client.py">update_internal_article</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can update the details of a single internal article by making a PUT request to `https://api.intercom.io/internal_articles/<id>`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.internal_articles.update_internal_article(
+    internal_article_id=1,
+    title="Christmas is here!",
+    body="<p>New gifts in store for the jolly season</p>",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**internal_article_id:** `int` — The unique identifier for the internal article which is given by Intercom.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**title:** `typing.Optional[str]` — The title of the article.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**body:** `typing.Optional[str]` — The content of the article.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**author_id:** `typing.Optional[int]` — The id of the author of the article.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**owner_id:** `typing.Optional[int]` — The id of the author of the article.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.internal_articles.<a href="src/intercom/internal_articles/client.py">delete_internal_article</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can delete a single internal article by making a DELETE request to `https://api.intercom.io/internal_articles/<id>`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.internal_articles.delete_internal_article(
+    internal_article_id=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**internal_article_id:** `int` — The unique identifier for the internal article which is given by Intercom.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.internal_articles.<a href="src/intercom/internal_articles/client.py">search_internal_articles</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can search for internal articles by making a GET request to `https://api.intercom.io/internal_articles/search`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.internal_articles.search_internal_articles()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**folder_id:** `typing.Optional[str]` — The ID of the folder to search in.
     
 </dd>
 </dl>
@@ -1260,12 +3112,18 @@ Companies are looked up via `company_id` in a `POST` request, if not found via `
 <dd>
 
 ```python
-from intercom import Intercom
+from intercom import CreateOrUpdateCompanyRequest, Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
-client.companies.create_or_update()
+client.companies.create_or_update(
+    request=CreateOrUpdateCompanyRequest(
+        name="my company",
+        company_id="company_remote_id",
+        remote_created_at=1374138000,
+    ),
+)
 
 ```
 </dd>
@@ -1281,71 +3139,7 @@ client.companies.create_or_update()
 <dl>
 <dd>
 
-**name:** `typing.Optional[str]` — The name of the Company
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**company_id:** `typing.Optional[str]` — The company id you have defined for the company. Can't be updated
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**plan:** `typing.Optional[str]` — The name of the plan you have associated with the company.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**size:** `typing.Optional[int]` — The number of employees in this company.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**website:** `typing.Optional[str]` — The URL for this company's website. Please note that the value specified here is not validated. Accepts any string.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**industry:** `typing.Optional[str]` — The industry that this company operates in.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**custom_attributes:** `typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]` — A hash of key/value pairs containing any other data about the company you want Intercom to store.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**remote_created_at:** `typing.Optional[int]` — The time the company was created by you.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**monthly_spend:** `typing.Optional[int]` — How much revenue the company generates for your business. Note that this will truncate floats. i.e. it only allow for whole integers, 155.98 will be truncated to 155. Note that this has an upper limit of 2**31-1 or 2147483647..
+**request:** `typing.Optional[CreateOrUpdateCompanyRequest]` 
     
 </dd>
 </dl>
@@ -1630,22 +3424,6 @@ client.companies.list_attached_contacts(
 <dd>
 
 **company_id:** `str` — The unique identifier for the company which is given by Intercom
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page:** `typing.Optional[int]` — The page of results to fetch. Defaults to first page
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**per_page:** `typing.Optional[int]` — How many results to return per page. Defaults to 15
     
 </dd>
 </dl>
@@ -1954,7 +3732,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.companies.attach_contact(
-    contact_id="contact_id",
+    contact_id=1,
     company_id="123",
 )
 
@@ -1972,7 +3750,7 @@ client.companies.attach_contact(
 <dl>
 <dd>
 
-**contact_id:** `str` — The unique identifier for the contact which is given by Intercom
+**contact_id:** `int` — The unique identifier for the contact which is given by Intercom
     
 </dd>
 </dl>
@@ -2610,7 +4388,7 @@ client.contacts.find(
 <dl>
 <dd>
 
-**contact_id:** `str` — id
+**contact_id:** `str` — contact_id
     
 </dd>
 </dl>
@@ -2643,6 +4421,12 @@ client.contacts.find(
 <dd>
 
 You can update an existing contact (ie. user or lead).
+
+{% admonition type="info" %}
+  This endpoint handles both **contact updates** and **custom object associations**.
+
+  See _`update a contact with an association to a custom object instance`_ in the request/response examples to see the custom object association format.
+{% /admonition %}
 </dd>
 </dl>
 </dd>
@@ -2664,8 +4448,7 @@ client = Intercom(
 )
 client.contacts.update(
     contact_id="63a07ddf05a32042dffac965",
-    email="joebloggs@intercom.io",
-    name="joe bloggs",
+    custom_attributes={"order": ["21"]},
 )
 
 ```
@@ -2840,7 +4623,7 @@ client.contacts.delete(
 <dl>
 <dd>
 
-**contact_id:** `str` — id
+**contact_id:** `str` — contact_id
     
 </dd>
 </dl>
@@ -2893,8 +4676,8 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.contacts.merge_lead_in_user(
-    lead_id="667d60ac8a68186f43bafdbb",
-    contact_id="667d60ac8a68186f43bafdbc",
+    lead_id="6762f0d51bb69f9f2193bb7f",
+    contact_id="6762f0d51bb69f9f2193bb80",
 )
 
 ```
@@ -2911,7 +4694,7 @@ client.contacts.merge_lead_in_user(
 <dl>
 <dd>
 
-**lead_id:** `str` — The unique identifier for the contact to merge away from. Must be a lead.
+**lead_id:** `typing.Optional[str]` — The unique identifier for the contact to merge away from. Must be a lead.
     
 </dd>
 </dl>
@@ -2919,7 +4702,7 @@ client.contacts.merge_lead_in_user(
 <dl>
 <dd>
 
-**contact_id:** `str` — The unique identifier for the contact to merge into. Must be a user.
+**contact_id:** `typing.Optional[str]` — The unique identifier for the contact to merge into. Must be a user.
     
 </dd>
 </dl>
@@ -3302,6 +5085,76 @@ client.contacts.create(
 </dl>
 </details>
 
+<details><summary><code>client.contacts.<a href="src/intercom/contacts/client.py">show_contact_by_external_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can fetch the details of a single contact by external ID. Note that this endpoint only supports users and not leads.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.contacts.show_contact_by_external_id(
+    external_id="cdd29344-5e0c-4ef0-ac56-f9ba2979bc27",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**external_id:** `str` — The external ID of the user that you want to retrieve
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.contacts.<a href="src/intercom/contacts/client.py">archive</a>(...)</code></summary>
 <dl>
 <dd>
@@ -3352,7 +5205,7 @@ client.contacts.archive(
 <dl>
 <dd>
 
-**contact_id:** `str` — id
+**contact_id:** `str` — contact_id
     
 </dd>
 </dl>
@@ -3422,7 +5275,77 @@ client.contacts.unarchive(
 <dl>
 <dd>
 
-**contact_id:** `str` — id
+**contact_id:** `str` — contact_id
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.contacts.<a href="src/intercom/contacts/client.py">block_contact</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Block a single contact.<br>**Note:** conversations of the contact will also be archived during the process.<br>More details in [FAQ How do I block Inbox spam?](https://www.intercom.com/help/en/articles/8838656-inbox-faqs)
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.contacts.block_contact(
+    contact_id="63a07ddf05a32042dffac965",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**contact_id:** `str` — contact_id
     
 </dd>
 </dl>
@@ -3655,7 +5578,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.notes.find(
-    note_id="1",
+    note_id=1,
 )
 
 ```
@@ -3672,7 +5595,7 @@ client.notes.find(
 <dl>
 <dd>
 
-**note_id:** `str` — The unique identifier of a given note
+**note_id:** `int` — The unique identifier of a given note
     
 </dd>
 </dl>
@@ -3999,7 +5922,7 @@ client.tags.untag_conversation(
 <dl>
 <dd>
 
-**tag_id:** `str` — id
+**tag_id:** `str` — tag_id
     
 </dd>
 </dl>
@@ -4726,7 +6649,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.conversations.find(
-    conversation_id="123",
+    conversation_id=1,
     display_as="plaintext",
 )
 
@@ -4744,7 +6667,7 @@ client.conversations.find(
 <dl>
 <dd>
 
-**conversation_id:** `str` — The id of the conversation to target
+**conversation_id:** `int` — The id of the conversation to target
     
 </dd>
 </dl>
@@ -4753,6 +6676,14 @@ client.conversations.find(
 <dd>
 
 **display_as:** `typing.Optional[str]` — Set to plaintext to retrieve conversation messages in plain text.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include_translations:** `typing.Optional[bool]` — If set to true, conversation parts will be translated to the detected language of the conversation.
     
 </dd>
 </dl>
@@ -4790,6 +6721,12 @@ You can update an existing conversation.
 {% admonition type="info" name="Replying and other actions" %}
 If you want to reply to a coveration or take an action such as assign, unassign, open, close or snooze, take a look at the reply and manage endpoints.
 {% /admonition %}
+
+{% admonition type="info" %}
+  This endpoint handles both **conversation updates** and **custom object associations**.
+
+  See _`update a conversation with an association to a custom object instance`_ in the request/response examples to see the custom object association format.
+{% /admonition %}
 </dd>
 </dl>
 </dd>
@@ -4810,9 +6747,10 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.conversations.update(
-    conversation_id="123",
+    conversation_id=1,
     display_as="plaintext",
     read=True,
+    title="new conversation title",
     custom_attributes={"issue_type": "Billing", "priority": "High"},
 )
 
@@ -4830,7 +6768,7 @@ client.conversations.update(
 <dl>
 <dd>
 
-**conversation_id:** `str` — The id of the conversation to target
+**conversation_id:** `int` — The id of the conversation to target
     
 </dd>
 </dl>
@@ -4854,7 +6792,93 @@ client.conversations.update(
 <dl>
 <dd>
 
+**title:** `typing.Optional[str]` — The title given to the conversation
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **custom_attributes:** `typing.Optional[CustomAttributes]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**company_id:** `typing.Optional[str]` — The ID of the company that the conversation is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.conversations.<a href="src/intercom/conversations/client.py">delete_conversation</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can delete a single conversation.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.conversations.delete_conversation(
+    conversation_id=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**conversation_id:** `int` — id
     
 </dd>
 </dl>
@@ -4907,7 +6931,7 @@ There are some limitations to the amount of multiple's there can be:
 
 ### Accepted Fields
 
-Most keys listed as part of the The conversation model is searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foorbar"`).
+Most keys listed in the conversation model are searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foorbar"`).
 The `source.body` field is unique as the search will not be performed against the entire value, but instead against every element of the value separately. For example, when searching for a conversation with a `"I need support"` body - the query should contain a `=` operator with the value `"support"` for such conversation to be returned. A query with a `=` operator and a `"need support"` value will not yield a result.
 
 | Field                                     | Type                                                                                                                                                   |
@@ -5108,7 +7132,7 @@ client.conversations.reply(
     conversation_id='123 or "last"',
     request=ContactReplyIntercomUserIdRequest(
         body="Thanks again :)",
-        intercom_user_id="667d60f18a68186f43bafdf4",
+        intercom_user_id="6762f1571bb69f9f2193bbbb",
     ),
 )
 
@@ -5240,82 +7264,6 @@ client.conversations.manage(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/intercom/conversations/client.py">run_assignment_rules</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-{% admonition type="danger" name="Deprecation of Run Assignment Rules" %}
-Run assignment rules is now deprecated in version 2.12 and future versions and will be permanently removed on December 31, 2026. After this date, any requests made to this endpoint will fail.
-{% /admonition %}
-You can let a conversation be automatically assigned following assignment rules.
-{% admonition type="warning" name="When using workflows" %}
-It is not possible to use this endpoint with Workflows.
-{% /admonition %}
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from intercom import Intercom
-
-client = Intercom(
-    token="YOUR_TOKEN",
-)
-client.conversations.run_assignment_rules(
-    conversation_id="123",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**conversation_id:** `str` — The identifier for the conversation as given by Intercom.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 <details><summary><code>client.conversations.<a href="src/intercom/conversations/client.py">attach_contact_as_admin</a>(...)</code></summary>
 <dl>
 <dd>
@@ -5359,7 +7307,7 @@ client.conversations.attach_contact_as_admin(
     conversation_id="123",
     admin_id="12345",
     customer=AttachContactToConversationRequestCustomerIntercomUserId(
-        intercom_user_id="667d61188a68186f43bafe0e",
+        intercom_user_id="6762f19e1bb69f9f2193bbd5",
     ),
 )
 
@@ -5615,8 +7563,8 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.conversations.convert_to_ticket(
-    conversation_id="123",
-    ticket_type_id="80",
+    conversation_id=1,
+    ticket_type_id="54",
 )
 
 ```
@@ -5633,7 +7581,7 @@ client.conversations.convert_to_ticket(
 <dl>
 <dd>
 
-**conversation_id:** `str` — The id of the conversation to target
+**conversation_id:** `int` — The id of the conversation to target
     
 </dd>
 </dl>
@@ -5650,6 +7598,889 @@ client.conversations.convert_to_ticket(
 <dd>
 
 **attributes:** `typing.Optional[TicketRequestCustomAttributes]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.conversations.<a href="src/intercom/conversations/client.py">run_assignment_rules</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.conversations.run_assignment_rules(
+    conversation_id="conversation_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**conversation_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Custom Channel Events
+<details><summary><code>client.custom_channel_events.<a href="src/intercom/custom_channel_events/client.py">notify_new_conversation</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Notifies Intercom that a new conversation was created in your custom channel/platform. This triggers conversation creation and workflow automations within Intercom for your custom channel integration.
+> **Note:** This endpoint is currently under managed availability. Please reach out to your accounts team to discuss access and tailored, hands-on support.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import CustomChannelContact, Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.custom_channel_events.notify_new_conversation(
+    event_id="event_id",
+    external_conversation_id="external_conversation_id",
+    contact=CustomChannelContact(
+        type="user",
+        external_id="external_id",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**event_id:** `str` — Unique identifier for the event.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**external_conversation_id:** `str` — Identifier for the conversation in your application.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**contact:** `CustomChannelContact` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.custom_channel_events.<a href="src/intercom/custom_channel_events/client.py">notify_new_message</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Notifies Intercom that a new message was sent in a conversation on your custom channel/platform. This allows Intercom to process the message and trigger any relevant workflow automations.
+> **Note:** This endpoint is currently under managed availability. Please reach out to your accounts team to discuss access and tailored, hands-on support.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import CustomChannelContact, Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.custom_channel_events.notify_new_message(
+    body="body",
+    event_id="event_id",
+    external_conversation_id="external_conversation_id",
+    contact=CustomChannelContact(
+        type="user",
+        external_id="external_id",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**body:** `str` — The message content sent by the user.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**event_id:** `str` — Unique identifier for the event.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**external_conversation_id:** `str` — Identifier for the conversation in your application.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**contact:** `CustomChannelContact` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.custom_channel_events.<a href="src/intercom/custom_channel_events/client.py">notify_quick_reply_selected</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Notifies Intercom that a user selected a quick reply option in your custom channel/platform. This allows Intercom to process the response and trigger any relevant workflow automations.
+> **Note:** This endpoint is currently under managed availability. Please reach out to your accounts team to discuss access and tailored, hands-on support.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import CustomChannelContact, Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.custom_channel_events.notify_quick_reply_selected(
+    event_id="evt_67890",
+    external_conversation_id="conv_13579",
+    contact=CustomChannelContact(
+        type="user",
+        external_id="user_003",
+        name="Alice Example",
+        email="alice@example.com",
+    ),
+    quick_reply_option_id="1234",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**quick_reply_option_id:** `str` — Id of the selected quick reply option.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**event_id:** `str` — Unique identifier for the event.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**external_conversation_id:** `str` — Identifier for the conversation in your application.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**contact:** `CustomChannelContact` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.custom_channel_events.<a href="src/intercom/custom_channel_events/client.py">notify_attribute_collected</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Notifies Intercom that a user provided a response to an attribute collector in your custom channel/platform. This allows Intercom to process the attribute and trigger any relevant workflow automations.
+> **Note:** This endpoint is currently under managed availability. Please reach out to your accounts team to discuss access and tailored, hands-on support.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import CustomChannelAttribute, CustomChannelContact, Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.custom_channel_events.notify_attribute_collected(
+    attribute=CustomChannelAttribute(
+        id="id",
+        value="value",
+    ),
+    event_id="event_id",
+    external_conversation_id="external_conversation_id",
+    contact=CustomChannelContact(
+        type="user",
+        external_id="external_id",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**attribute:** `CustomChannelAttribute` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**event_id:** `str` — Unique identifier for the event.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**external_conversation_id:** `str` — Identifier for the conversation in your application.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**contact:** `CustomChannelContact` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Custom Object Instances
+<details><summary><code>client.custom_object_instances.<a href="src/intercom/custom_object_instances/client.py">get_custom_object_instances_by_external_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetch a Custom Object Instance by external_id.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.custom_object_instances.get_custom_object_instances_by_external_id(
+    custom_object_type_identifier="Order",
+    external_id="external_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**custom_object_type_identifier:** `str` — The unique identifier of the custom object type that defines the structure of the custom object instance.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**external_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.custom_object_instances.<a href="src/intercom/custom_object_instances/client.py">create_custom_object_instances</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create or update a custom object instance
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.custom_object_instances.create_custom_object_instances(
+    custom_object_type_identifier="Order",
+    external_id="123",
+    external_created_at=1392036272,
+    external_updated_at=1392036272,
+    custom_attributes={
+        "order_number": "ORDER-12345",
+        "total_amount": "custom_attributes",
+    },
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**custom_object_type_identifier:** `str` — The unique identifier of the custom object type that defines the structure of the custom object instance.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**external_id:** `typing.Optional[str]` — A unique identifier for the Custom Object instance in the external system it originated from.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**external_created_at:** `typing.Optional[int]` — The time when the Custom Object instance was created in the external system it originated from.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**external_updated_at:** `typing.Optional[int]` — The time when the Custom Object instance was last updated in the external system it originated from.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**custom_attributes:** `typing.Optional[typing.Dict[str, typing.Optional[str]]]` — The custom attributes which are set for the Custom Object instance.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.custom_object_instances.<a href="src/intercom/custom_object_instances/client.py">delete_custom_object_instances_by_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a single Custom Object instance by external_id.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.custom_object_instances.delete_custom_object_instances_by_id(
+    custom_object_type_identifier="Order",
+    external_id="external_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**custom_object_type_identifier:** `str` — The unique identifier of the custom object type that defines the structure of the custom object instance.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**external_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.custom_object_instances.<a href="src/intercom/custom_object_instances/client.py">get_custom_object_instances_by_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetch a Custom Object Instance by id.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.custom_object_instances.get_custom_object_instances_by_id(
+    custom_object_type_identifier="Order",
+    custom_object_instance_id="custom_object_instance_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**custom_object_type_identifier:** `str` — The unique identifier of the custom object type that defines the structure of the custom object instance.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**custom_object_instance_id:** `str` — The id or external_id of the custom object instance
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.custom_object_instances.<a href="src/intercom/custom_object_instances/client.py">delete_custom_object_instances_by_external_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a single Custom Object instance using the Intercom defined id.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.custom_object_instances.delete_custom_object_instances_by_external_id(
+    custom_object_type_identifier="Order",
+    custom_object_instance_id="custom_object_instance_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**custom_object_type_identifier:** `str` — The unique identifier of the custom object type that defines the structure of the custom object instance.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**custom_object_instance_id:** `str` — The Intercom defined id of the custom object instance
     
 </dd>
 </dl>
@@ -5773,17 +8604,23 @@ You can create a data attributes for a `contact` or a `company`.
 <dd>
 
 ```python
-from intercom import Intercom
+from intercom import (
+    CreateDataAttributeRequestOptions,
+    CreateDataAttributeRequestOptionsOptionsItem,
+    Intercom,
+)
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.data_attributes.create(
-    name="My Data Attribute",
-    model="contact",
-    data_type="string",
-    description="Just a plain old ring",
-    options=["options"],
+    request=CreateDataAttributeRequestOptions(
+        options=[
+            CreateDataAttributeRequestOptionsOptionsItem(
+                value="1-10",
+            )
+        ],
+    ),
 )
 
 ```
@@ -5800,47 +8637,7 @@ client.data_attributes.create(
 <dl>
 <dd>
 
-**name:** `str` — The name of the data attribute.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**model:** `CreateDataAttributeRequestModel` — The model that the data attribute belongs to.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**data_type:** `CreateDataAttributeRequestDataType` — The type of data stored for this attribute.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**description:** `typing.Optional[str]` — The readable description you see in the UI for the attribute.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**options:** `typing.Optional[typing.Sequence[str]]` — To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**messenger_writable:** `typing.Optional[bool]` — Can this attribute be updated by the Messenger
+**request:** `CreateDataAttributeRequest` 
     
 </dd>
 </dl>
@@ -5898,9 +8695,8 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.data_attributes.update(
-    data_attribute_id="1",
-    archived=True,
-    description="Trying to archieve",
+    data_attribute_id=1,
+    request={"description": "Trying to archieve", "archived": True},
 )
 
 ```
@@ -5917,7 +8713,7 @@ client.data_attributes.update(
 <dl>
 <dd>
 
-**data_attribute_id:** `str` — The data attribute id
+**data_attribute_id:** `int` — The data attribute id
     
 </dd>
 </dl>
@@ -5925,31 +8721,7 @@ client.data_attributes.update(
 <dl>
 <dd>
 
-**archived:** `typing.Optional[bool]` — Whether the attribute is to be archived or not.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**description:** `typing.Optional[str]` — The readable description you see in the UI for the attribute.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**options:** `typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]]` — To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**messenger_writable:** `typing.Optional[bool]` — Can this attribute be updated by the Messenger
+**request:** `UpdateDataAttributeRequestBody` 
     
 </dd>
 </dl>
@@ -6283,8 +9055,8 @@ client.events.summaries()
 </dl>
 </details>
 
-## Data Export
-<details><summary><code>client.data_export.<a href="src/intercom/data_export/client.py">create</a>(...)</code></summary>
+## Jobs
+<details><summary><code>client.jobs.<a href="src/intercom/jobs/client.py">status</a>(...)</code></summary>
 <dl>
 <dd>
 
@@ -6296,21 +9068,7 @@ client.events.summaries()
 <dl>
 <dd>
 
-To create your export job, you need to send a `POST` request to the export endpoint `https://api.intercom.io/export/content/data`.
-
-The only parameters you need to provide are the range of dates that you want exported.
-
->🚧 Limit of one active job
->
-> You can only have one active job per workspace. You will receive a HTTP status code of 429 with the message Exceeded rate limit of 1 pending message data export jobs if you attempt to create a second concurrent job.
-
->❗️ Updated_at not included
->
-> It should be noted that the timeframe only includes messages sent during the time period and not messages that were only updated during this period. For example, if a message was updated yesterday but sent two days ago, you would need to set the created_at_after date before the message was sent to include that in your retrieval job.
-
->📘 Date ranges are inclusive
->
-> Requesting data for 2018-06-01 until 2018-06-30 will get all data for those days including those specified - e.g. 2018-06-01 00:00:00 until 2018-06-30 23:59:99.
+Retrieve the status of job execution.
 </dd>
 </dl>
 </dd>
@@ -6330,9 +9088,8 @@ from intercom import Intercom
 client = Intercom(
     token="YOUR_TOKEN",
 )
-client.data_export.create(
-    created_at_after=1719474967,
-    created_at_before=1719492967,
+client.jobs.status(
+    job_id="job_id",
 )
 
 ```
@@ -6349,235 +9106,7 @@ client.data_export.create(
 <dl>
 <dd>
 
-**created_at_after:** `int` — The start date that you request data for. It must be formatted as a unix timestamp.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**created_at_before:** `int` — The end date that you request data for. It must be formatted as a unix timestamp.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.data_export.<a href="src/intercom/data_export/client.py">find</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-You can view the status of your job by sending a `GET` request to the URL
-`https://api.intercom.io/export/content/data/{job_identifier}` - the `{job_identifier}` is the value returned in the response when you first created the export job. More on it can be seen in the Export Job Model.
-
-> 🚧 Jobs expire after two days
-> All jobs that have completed processing (and are thus available to download from the provided URL) will have an expiry limit of two days from when the export ob completed. After this, the data will no longer be available.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from intercom import Intercom
-
-client = Intercom(
-    token="YOUR_TOKEN",
-)
-client.data_export.find(
-    job_identifier="job_identifier",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**job_identifier:** `str` — job_identifier
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.data_export.<a href="src/intercom/data_export/client.py">cancel</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-You can cancel your job
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from intercom import Intercom
-
-client = Intercom(
-    token="YOUR_TOKEN",
-)
-client.data_export.cancel(
-    job_identifier="job_identifier",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**job_identifier:** `str` — job_identifier
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.data_export.<a href="src/intercom/data_export/client.py">download</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-When a job has a status of complete, and thus a filled download_url, you can download your data by hitting that provided URL, formatted like so: https://api.intercom.io/download/content/data/xyz1234.
-
-Your exported message data will be streamed continuously back down to you in a gzipped CSV format.
-
-> 📘 Octet header required
->
-> You will have to specify the header Accept: `application/octet-stream` when hitting this endpoint.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from intercom import Intercom
-
-client = Intercom(
-    token="YOUR_TOKEN",
-)
-client.data_export.download(
-    job_identifier="job_identifier",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**job_identifier:** `str` — job_identifier
+**job_id:** `str` — The unique identifier for the job which is given by Intercom
     
 </dd>
 </dl>
@@ -6674,7 +9203,7 @@ client.messages.create(
 <dl>
 <dd>
 
-**request:** `CreateMessageRequest` 
+**request:** `typing.Optional[CreateMessageRequest]` 
     
 </dd>
 </dl>
@@ -6925,14 +9454,16 @@ If custom attributes are specified, they will be added to the user or lead's cus
 <dd>
 
 ```python
-from intercom import Intercom
+from intercom import CreatePhoneSwitchRequest, Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.phone_call_redirects.create(
-    phone="+40241100100",
-    custom_attributes={"issue_type": "Billing", "priority": "High"},
+    request=CreatePhoneSwitchRequest(
+        phone="+40241100100",
+        custom_attributes={"issue_type": "Billing", "priority": "High"},
+    ),
 )
 
 ```
@@ -6949,7 +9480,7 @@ client.phone_call_redirects.create(
 <dl>
 <dd>
 
-**phone:** `str` — Phone number in E.164 format, that will receive the SMS to continue the conversation in the Messenger.
+**request:** `typing.Optional[CreatePhoneSwitchRequest]` 
     
 </dd>
 </dl>
@@ -6957,7 +9488,357 @@ client.phone_call_redirects.create(
 <dl>
 <dd>
 
-**custom_attributes:** `typing.Optional[CustomAttributes]` 
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Calls
+<details><summary><code>client.calls.<a href="src/intercom/calls/client.py">list_calls</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of calls.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.calls.list_calls()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page:** `typing.Optional[int]` — The page of results to fetch. Defaults to first page
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**per_page:** `typing.Optional[int]` — How many results to display per page. Defaults to 25. Max 25.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.calls.<a href="src/intercom/calls/client.py">show_call</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a single call by id.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.calls.show_call(
+    call_id="call_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**call_id:** `str` — The id of the call to retrieve
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.calls.<a href="src/intercom/calls/client.py">show_call_recording</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Redirects to a signed URL for the call's recording if it exists.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.calls.show_call_recording(
+    call_id="call_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**call_id:** `str` — The id of the call
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.calls.<a href="src/intercom/calls/client.py">show_call_transcript</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the transcript for the specified call as a downloadable text file.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.calls.show_call_transcript(
+    call_id="call_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**call_id:** `str` — The id of the call
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.calls.<a href="src/intercom/calls/client.py">list_calls_with_transcripts</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve calls by a list of conversation ids and include transcripts when available.
+A maximum of 20 `conversation_ids` can be provided. If none are provided or more than 20 are provided, a 400 error is returned.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.calls.list_calls_with_transcripts(
+    conversation_ids=["64619700005694", "64619700005695"],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**conversation_ids:** `typing.Sequence[str]` — A list of conversation ids to fetch calls for. Maximum 20.
     
 </dd>
 </dl>
@@ -7108,6 +9989,67 @@ client.teams.find(
 </dl>
 </details>
 
+## Ticket States
+<details><summary><code>client.ticket_states.<a href="src/intercom/ticket_states/client.py">list_ticket_states</a>()</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can get a list of all ticket states for a workspace.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.ticket_states.list_ticket_states()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Ticket Types
 <details><summary><code>client.ticket_types.<a href="src/intercom/ticket_types/client.py">list</a>()</code></summary>
 <dl>
@@ -7200,16 +10142,18 @@ You can create a new ticket type.
 <dd>
 
 ```python
-from intercom import Intercom
+from intercom import CreateTicketTypeRequest, Intercom
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.ticket_types.create(
-    name="Customer Issue",
-    description="Customer Report Template",
-    category="Customer",
-    icon="🎟️",
+    request=CreateTicketTypeRequest(
+        name="Customer Issue",
+        description="Customer Report Template",
+        category="Customer",
+        icon="🎟️",
+    ),
 )
 
 ```
@@ -7226,39 +10170,7 @@ client.ticket_types.create(
 <dl>
 <dd>
 
-**name:** `str` — The name of the ticket type.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**description:** `typing.Optional[str]` — The description of the ticket type.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**category:** `typing.Optional[CreateTicketTypeRequestCategory]` — Category of the Ticket Type.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**icon:** `typing.Optional[str]` — The icon of the ticket type.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**is_internal:** `typing.Optional[bool]` — Whether the tickets associated with this ticket type are intended for internal use only or will be shared with customers. This is currently a limited attribute.
+**request:** `typing.Optional[CreateTicketTypeRequest]` 
     
 </dd>
 </dl>
@@ -7428,7 +10340,7 @@ client.ticket_types.update(
 <dl>
 <dd>
 
-**category:** `typing.Optional[UpdateTicketTypeRequestBodyCategory]` — Category of the Ticket Type.
+**category:** `typing.Optional[UpdateTicketTypeRequestCategory]` — Category of the Ticket Type.
     
 </dd>
 </dl>
@@ -7509,7 +10421,7 @@ client.tickets.reply(
     ticket_id="123",
     request=ContactReplyTicketIntercomUserIdRequest(
         body="Thanks again :)",
-        intercom_user_id="667d619d8a68186f43bafe82",
+        intercom_user_id="6762f2971bb69f9f2193bc49",
     ),
 )
 
@@ -7591,13 +10503,9 @@ client.tickets.create(
     ticket_type_id="1234",
     contacts=[
         CreateTicketRequestContactsItemId(
-            id="667d61b78a68186f43bafe8d",
+            id="6762f2d81bb69f9f2193bc54",
         )
     ],
-    ticket_attributes={
-        "_default_title_": "example",
-        "_default_description_": "there is a problem",
-    },
 )
 
 ```
@@ -7630,7 +10538,29 @@ client.tickets.create(
 <dl>
 <dd>
 
-**company_id:** `typing.Optional[str]` — The ID of the company that the ticket is associated with. The ID that you set upon company creation.
+**skip_notifications:** `typing.Optional[bool]` — Option to disable notifications when a Ticket is created.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**conversation_to_link_id:** `typing.Optional[str]` 
+
+The ID of the conversation you want to link to the ticket. Here are the valid ways of linking two tickets:
+ - conversation | back-office ticket
+ - customer tickets | non-shared back-office ticket
+ - conversation | tracker ticket
+ - customer ticket | tracker ticket
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**company_id:** `typing.Optional[str]` — The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom
     
 </dd>
 </dl>
@@ -7646,7 +10576,136 @@ client.tickets.create(
 <dl>
 <dd>
 
-**ticket_attributes:** `typing.Optional[TicketRequestCustomAttributes]` 
+**assignment:** `typing.Optional[CreateTicketRequestAssignment]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.tickets.<a href="src/intercom/tickets/client.py">enqueue_create_ticket</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Enqueues ticket creation for asynchronous processing, returning if the job was enqueued successfully to be processed. We attempt to perform a best-effort validation on inputs before tasks are enqueued. If the given parameters are incorrect, we won't enqueue the job.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import CreateTicketRequestContactsItemId, Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.tickets.enqueue_create_ticket(
+    ticket_type_id="1234",
+    contacts=[
+        CreateTicketRequestContactsItemId(
+            id="6762f2d81bb69f9f2193bc54",
+        )
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**ticket_type_id:** `str` — The ID of the type of ticket you want to create
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**contacts:** `typing.Sequence[CreateTicketRequestContactsItem]` — The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**skip_notifications:** `typing.Optional[bool]` — Option to disable notifications when a Ticket is created.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**conversation_to_link_id:** `typing.Optional[str]` 
+
+The ID of the conversation you want to link to the ticket. Here are the valid ways of linking two tickets:
+ - conversation | back-office ticket
+ - customer tickets | non-shared back-office ticket
+ - conversation | tracker ticket
+ - customer ticket | tracker ticket
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**company_id:** `typing.Optional[str]` — The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**created_at:** `typing.Optional[int]` — The time the ticket was created. If not provided, the current time will be used.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**assignment:** `typing.Optional[CreateTicketRequestAssignment]` 
     
 </dd>
 </dl>
@@ -7764,22 +10823,13 @@ You can update a ticket.
 
 ```python
 from intercom import Intercom
-from intercom.tickets import UpdateTicketRequestAssignment
 
 client = Intercom(
     token="YOUR_TOKEN",
 )
 client.tickets.update(
     ticket_id="ticket_id",
-    ticket_attributes={
-        "_default_title_": "example",
-        "_default_description_": "there is a problem",
-    },
-    state="in_progress",
-    assignment=UpdateTicketRequestAssignment(
-        admin_id="991267899",
-        assignee_id="456",
-    ),
+    ticket_state_id="123",
 )
 
 ```
@@ -7812,7 +10862,15 @@ client.tickets.update(
 <dl>
 <dd>
 
-**state:** `typing.Optional[UpdateTicketRequestState]` — The state of the ticket.
+**ticket_state_id:** `typing.Optional[str]` — The ID of the ticket state associated with the ticket type.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**company_id:** `typing.Optional[str]` — The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company.
     
 </dd>
 </dl>
@@ -7844,7 +10902,85 @@ client.tickets.update(
 <dl>
 <dd>
 
-**assignment:** `typing.Optional[UpdateTicketRequestAssignment]` 
+**admin_id:** `typing.Optional[int]` — The ID of the admin performing ticket update. Needed for workflows execution and attributing actions to specific admins.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**assignee_id:** `typing.Optional[str]` — The ID of the admin or team to which the ticket is assigned. Set this 0 to unassign it.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.tickets.<a href="src/intercom/tickets/client.py">delete_ticket</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can delete a ticket using the Intercom provided ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.tickets.delete_ticket(
+    ticket_id="ticket_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**ticket_id:** `str` — The unique identifier for the ticket which is given by Intercom.
     
 </dd>
 </dl>
@@ -7898,6 +11034,7 @@ There are some limitations to the amount of multiples there can be:
 ### Accepted Fields
 
 Most keys listed as part of the Ticket model are searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foobar"`).
+The `source.body` field is unique as the search will not be performed against the entire value, but instead against every element of the value separately. For example, when searching for a conversation with a `"I need support"` body - the query should contain a `=` operator with the value `"support"` for such conversation to be returned. A query with a `=` operator and a `"need support"` value will not yield a result.
 
 | Field                                     | Type                                                                                     |
 | :---------------------------------------- | :--------------------------------------------------------------------------------------- |
@@ -7916,6 +11053,13 @@ Most keys listed as part of the Ticket model are searchable, whether writeable o
 | state                                     | String                                                                                   |
 | snoozed_until                             | Date (UNIX timestamp)                                                                    |
 | ticket_attribute.{id}                     | String or Boolean or Date (UNIX timestamp) or Float or Integer                           |
+
+{% admonition type="info" name="Searching by Category" %}
+When searching for tickets by the **`category`** field, specific terms must be used instead of the category names:
+* For **Customer** category tickets, use the term `request`.
+* For **Back-office** category tickets, use the term `task`.
+* For **Tracker** category tickets, use the term `tracker`.
+{% /admonition %}
 
 ### Accepted Operators
 
@@ -8490,7 +11634,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.help_centers.collections.find(
-    collection_id="123",
+    collection_id=1,
 )
 
 ```
@@ -8507,7 +11651,7 @@ client.help_centers.collections.find(
 <dl>
 <dd>
 
-**collection_id:** `str` — The unique identifier for the collection which is given by Intercom.
+**collection_id:** `int` — The unique identifier for the collection which is given by Intercom.
     
 </dd>
 </dl>
@@ -8560,7 +11704,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.help_centers.collections.update(
-    collection_id="123",
+    collection_id=1,
     name="Update collection name",
 )
 
@@ -8578,7 +11722,7 @@ client.help_centers.collections.update(
 <dl>
 <dd>
 
-**collection_id:** `str` — The unique identifier for the collection which is given by Intercom.
+**collection_id:** `int` — The unique identifier for the collection which is given by Intercom.
     
 </dd>
 </dl>
@@ -8663,7 +11807,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.help_centers.collections.delete(
-    collection_id="123",
+    collection_id=1,
 )
 
 ```
@@ -8680,7 +11824,7 @@ client.help_centers.collections.delete(
 <dl>
 <dd>
 
-**collection_id:** `str` — The unique identifier for the collection which is given by Intercom.
+**collection_id:** `int` — The unique identifier for the collection which is given by Intercom.
     
 </dd>
 </dl>
@@ -8797,7 +11941,7 @@ client = Intercom(
 client.news.items.create(
     title="Halloween is here!",
     body="<p>New costumes in store for this spooky season</p>",
-    sender_id=991267734,
+    sender_id=991267834,
     state="live",
     deliver_silently=True,
     labels=["Product", "Update", "New"],
@@ -8933,7 +12077,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.news.items.find(
-    news_item_id="123",
+    news_item_id=1,
 )
 
 ```
@@ -8950,7 +12094,7 @@ client.news.items.find(
 <dl>
 <dd>
 
-**news_item_id:** `str` — The unique identifier for the news item which is given by Intercom.
+**news_item_id:** `int` — The unique identifier for the news item which is given by Intercom.
     
 </dd>
 </dl>
@@ -8989,10 +12133,10 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.news.items.update(
-    news_item_id="123",
+    news_item_id=1,
     title="Christmas is here!",
     body="<p>New gifts in store for the jolly season</p>",
-    sender_id=991267748,
+    sender_id=991267848,
     reactions=["😝", "😂"],
 )
 
@@ -9010,7 +12154,7 @@ client.news.items.update(
 <dl>
 <dd>
 
-**news_item_id:** `str` — The unique identifier for the news item which is given by Intercom.
+**news_item_id:** `int` — The unique identifier for the news item which is given by Intercom.
     
 </dd>
 </dl>
@@ -9127,7 +12271,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.news.items.delete(
-    news_item_id="123",
+    news_item_id=1,
 )
 
 ```
@@ -9144,7 +12288,7 @@ client.news.items.delete(
 <dl>
 <dd>
 
-**news_item_id:** `str` — The unique identifier for the news item which is given by Intercom.
+**news_item_id:** `int` — The unique identifier for the news item which is given by Intercom.
     
 </dd>
 </dl>
@@ -11309,10 +14453,7 @@ client = Intercom(
 )
 client.unstable.export.enqueue_a_new_reporting_data_export_job(
     dataset_id="conversation",
-    attribute_ids=[
-        "conversation.id",
-        "conversation.first_user_conversation_part_created_at",
-    ],
+    attribute_ids=["conversation_id", "conversation_started_at"],
     start_time=1717490000,
     end_time=1717510000,
 )
@@ -11944,6 +15085,455 @@ client.unstable.help_center.list_help_centers()
 
 <dl>
 <dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Internal Articles
+<details><summary><code>client.unstable.internal_articles.<a href="src/intercom/unstable/internal_articles/client.py">list_internal_articles</a>()</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can fetch a list of all internal articles by making a GET request to `https://api.intercom.io/internal_articles`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.internal_articles.list_internal_articles()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.unstable.internal_articles.<a href="src/intercom/unstable/internal_articles/client.py">create_internal_article</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can create a new internal article by making a POST request to `https://api.intercom.io/internal_articles`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+from intercom.unstable import CreateInternalArticleRequest
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.internal_articles.create_internal_article(
+    request=CreateInternalArticleRequest(
+        title="Thanks for everything",
+        body="Body of the Internal Article",
+        author_id=1295,
+        owner_id=1295,
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `typing.Optional[CreateInternalArticleRequest]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.unstable.internal_articles.<a href="src/intercom/unstable/internal_articles/client.py">retrieve_internal_article</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can fetch the details of a single internal article by making a GET request to `https://api.intercom.io/internal_articles/<id>`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.internal_articles.retrieve_internal_article(
+    id=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `int` — The unique identifier for the article which is given by Intercom.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.unstable.internal_articles.<a href="src/intercom/unstable/internal_articles/client.py">update_internal_article</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can update the details of a single internal article by making a PUT request to `https://api.intercom.io/internal_articles/<id>`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.internal_articles.update_internal_article(
+    id=1,
+    title="Christmas is here!",
+    body="<p>New gifts in store for the jolly season</p>",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `int` — The unique identifier for the internal article which is given by Intercom.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**title:** `typing.Optional[str]` — The title of the article.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**body:** `typing.Optional[str]` — The content of the article.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**author_id:** `typing.Optional[int]` — The id of the author of the article.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**owner_id:** `typing.Optional[int]` — The id of the author of the article.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.unstable.internal_articles.<a href="src/intercom/unstable/internal_articles/client.py">delete_internal_article</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can delete a single internal article by making a DELETE request to `https://api.intercom.io/internal_articles/<id>`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.internal_articles.delete_internal_article(
+    id=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `int` — The unique identifier for the internal article which is given by Intercom.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.unstable.internal_articles.<a href="src/intercom/unstable/internal_articles/client.py">search_internal_articles</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can search for internal articles by making a GET request to `https://api.intercom.io/internal_articles/search`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.internal_articles.search_internal_articles()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**folder_id:** `typing.Optional[str]` — The ID of the folder to search in.
+    
+</dd>
+</dl>
 
 <dl>
 <dd>
@@ -15664,6 +19254,14 @@ client.unstable.conversations.retrieve_conversation(
 <dl>
 <dd>
 
+**include_translations:** `typing.Optional[bool]` — If set to true, conversation parts will be translated to the detected language of the conversation.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -17534,11 +21132,7 @@ client = Intercom(
     token="YOUR_TOKEN",
 )
 client.unstable.data_attributes.create_data_attribute(
-    name="My Data Attribute",
-    model="contact",
-    data_type="string",
-    description="Just a plain old ring",
-    options=["options"],
+    request={"key": "value"},
 )
 
 ```
@@ -17555,47 +21149,7 @@ client.unstable.data_attributes.create_data_attribute(
 <dl>
 <dd>
 
-**name:** `str` — The name of the data attribute.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**model:** `CreateDataAttributeRequestModel` — The model that the data attribute belongs to.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**data_type:** `CreateDataAttributeRequestDataType` — The type of data stored for this attribute.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**description:** `typing.Optional[str]` — The readable description you see in the UI for the attribute.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**options:** `typing.Optional[typing.Sequence[str]]` — To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**messenger_writable:** `typing.Optional[bool]` — Can this attribute be updated by the Messenger
+**request:** `typing.Optional[typing.Any]` 
     
 </dd>
 </dl>
@@ -17654,8 +21208,7 @@ client = Intercom(
 )
 client.unstable.data_attributes.update_data_attribute(
     id=1,
-    archived=True,
-    description="Trying to archieve",
+    request={"key": "value"},
 )
 
 ```
@@ -17680,31 +21233,7 @@ client.unstable.data_attributes.update_data_attribute(
 <dl>
 <dd>
 
-**archived:** `typing.Optional[bool]` — Whether the attribute is to be archived or not.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**description:** `typing.Optional[str]` — The readable description you see in the UI for the attribute.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**options:** `typing.Optional[typing.Sequence[str]]` — To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**messenger_writable:** `typing.Optional[bool]` — Can this attribute be updated by the Messenger
+**request:** `typing.Optional[typing.Any]` 
     
 </dd>
 </dl>
@@ -18380,6 +21909,191 @@ client.unstable.jobs.status(
 <dd>
 
 **id:** `str` — The unique identifier for the job which is given by Intercom
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Macros
+<details><summary><code>client.unstable.macros.<a href="src/intercom/unstable/macros/client.py">list_macros</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can fetch a list of all macros (saved replies) in your workspace for use in automating responses.
+
+The macros are returned in descending order by updated_at.
+
+**Pagination**
+
+This endpoint uses cursor-based pagination via the `starting_after` parameter. The cursor is a Base64-encoded JSON array containing `[updated_at, id]` of the last item from the previous page.
+
+**Placeholder Transformation**
+
+The API transforms Intercom placeholders to a more standard XML-like format:
+- From: `{{user.name | fallback: 'there'}}`
+- To: `<attribute key="user.name" default="there"/>`
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.macros.list_macros(
+    starting_after="WzE3MTk0OTM3NTcuMCwgIjEyMyJd",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**per_page:** `typing.Optional[int]` — The number of results per page
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**starting_after:** `typing.Optional[str]` — Base64-encoded cursor containing [updated_at, id] for pagination
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**updated_since:** `typing.Optional[int]` — Unix timestamp to filter macros updated after this time
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.unstable.macros.<a href="src/intercom/unstable/macros/client.py">get_macro</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+You can fetch a single macro (saved reply) by its ID. The macro will only be returned if it is visible to the authenticated user based on its visibility settings.
+
+**Visibility Rules**
+
+A macro is returned based on its `visible_to` setting:
+- `everyone`: Always visible to all team members
+- `specific_teams`: Only visible if the authenticated user belongs to one of the teams specified in `visible_to_team_ids`
+
+If a macro exists but is not visible to the authenticated user, a 404 error is returned.
+
+**Placeholder Transformation**
+
+The API transforms Intercom placeholders to a more standard XML-like format in the `body` field:
+- From: `{{user.name | fallback: 'there'}}`
+- To: `<attribute key="user.name" default="there"/>`
+
+Default values in placeholders are HTML-escaped for security.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.macros.get_macro(
+    id="123",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The unique identifier of the macro
     
 </dd>
 </dl>
@@ -19433,6 +23147,364 @@ client.unstable.switch.create_phone_switch(
 <dd>
 
 **request:** `typing.Optional[typing.Any]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Unstable Calls
+<details><summary><code>client.unstable.calls.<a href="src/intercom/unstable/calls/client.py">list_calls</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of calls.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.calls.list_calls()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page:** `typing.Optional[int]` — The page of results to fetch. Defaults to first page
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**per_page:** `typing.Optional[int]` — How many results to display per page. Defaults to 25. Max 25.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.unstable.calls.<a href="src/intercom/unstable/calls/client.py">show_call</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a single call by id.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.calls.show_call(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The id of the call to retrieve
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.unstable.calls.<a href="src/intercom/unstable/calls/client.py">show_call_recording</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Redirects to a signed URL for the call's recording if it exists.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.calls.show_call_recording(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The id of the call
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.unstable.calls.<a href="src/intercom/unstable/calls/client.py">show_call_transcript</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the transcript for the specified call as a downloadable text file.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.calls.show_call_transcript(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The id of the call
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.unstable.calls.<a href="src/intercom/unstable/calls/client.py">list_calls_with_transcripts</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve calls by a list of conversation ids and include transcripts when available.
+A maximum of 20 `conversation_ids` can be provided. If none are provided or more than 20 are provided, a 400 error is returned.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.calls.list_calls_with_transcripts(
+    conversation_ids=["64619700005694", "64619700005695"],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**conversation_ids:** `typing.Sequence[str]` — A list of conversation ids to fetch calls for. Maximum 20.
     
 </dd>
 </dl>
@@ -21034,6 +25106,269 @@ client.unstable.visitors.convert_visitor(
 <dd>
 
 **visitor:** `typing.Optional[typing.Any]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Brands
+<details><summary><code>client.unstable.brands.<a href="src/intercom/unstable/brands/client.py">list_brands</a>()</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieves all brands for the workspace, including the default brand.
+The default brand id always matches the workspace 
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.brands.list_brands()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.unstable.brands.<a href="src/intercom/unstable/brands/client.py">retrieve_brand</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a specific brand by its unique identifier
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.brands.retrieve_brand(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The unique identifier of the brand
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Emails
+<details><summary><code>client.unstable.emails.<a href="src/intercom/unstable/emails/client.py">list_emails</a>()</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Lists all sender email address settings for the workspace
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.emails.list_emails()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.unstable.emails.<a href="src/intercom/unstable/emails/client.py">retrieve_email</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a specific email setting by its unique identifier
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.emails.retrieve_email(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The unique identifier of the email setting
     
 </dd>
 </dl>

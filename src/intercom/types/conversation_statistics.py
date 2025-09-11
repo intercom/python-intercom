@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
+from .conversation_response_time import ConversationResponseTime
 
 
 class ConversationStatistics(UncheckedBaseModel):
@@ -12,7 +13,7 @@ class ConversationStatistics(UncheckedBaseModel):
     A Statistics object containing all information required for reporting, with timestamps and calculated metrics.
     """
 
-    type: typing.Literal["conversation_statistics"] = pydantic.Field(default="conversation_statistics")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     
     """
@@ -105,6 +106,25 @@ class ConversationStatistics(UncheckedBaseModel):
     count_conversation_parts: typing.Optional[int] = pydantic.Field(default=None)
     """
     Total number of conversation parts.
+    """
+
+    assigned_team_first_response_time_by_team: typing.Optional[typing.List[ConversationResponseTime]] = pydantic.Field(
+        default=None
+    )
+    """
+    An array of conversation response time objects
+    """
+
+    assigned_team_first_response_time_in_office_hours: typing.Optional[typing.List[ConversationResponseTime]] = (
+        pydantic.Field(default=None)
+    )
+    """
+    An array of conversation response time objects within office hours
+    """
+
+    handling_time: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Time from conversation assignment to conversation close in seconds.
     """
 
     if IS_PYDANTIC_V2:

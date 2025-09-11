@@ -14,7 +14,7 @@ class AiAgent(UncheckedBaseModel):
     Data related to AI Agent involvement in the conversation.
     """
 
-    source_type: AiAgentSourceType = pydantic.Field()
+    source_type: typing.Optional[AiAgentSourceType] = pydantic.Field(default=None)
     """
     The type of the source that triggered AI Agent involvement in the conversation.
     """
@@ -42,6 +42,16 @@ class AiAgent(UncheckedBaseModel):
     rating_remark: typing.Optional[str] = pydantic.Field(default=None)
     """
     The customer satisfaction rating remark given to AI Agent.
+    """
+
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The time when the AI agent rating was created.
+    """
+
+    updated_at: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The time when the AI agent rating was last updated.
     """
 
     content_sources: typing.Optional[ContentSourcesList] = None

@@ -13,22 +13,22 @@ class ContactTags(UncheckedBaseModel):
     An object containing tags meta data about the tags that a contact has. Up to 10 will be displayed here. Use the url to get more.
     """
 
-    data: typing.List[AddressableList] = pydantic.Field()
+    data: typing.Optional[typing.List[AddressableList]] = pydantic.Field(default=None)
     """
     This object represents the tags attached to a contact.
     """
 
-    url: str = pydantic.Field()
+    url: typing.Optional[str] = pydantic.Field(default=None)
     """
     url to get more tag resources for this contact
     """
 
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     Int representing the total number of tags attached to this contact
     """
 
-    has_more: bool = pydantic.Field()
+    has_more: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether there's more Addressable Objects to be viewed. If true, use the url to view all
     """

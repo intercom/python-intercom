@@ -11,8 +11,7 @@ from ...core.request_options import RequestOptions
 from ...core.unchecked_base_model import construct_type
 from ...errors.unauthorized_error import UnauthorizedError
 from ...types.error import Error
-from ...types.paginated_news_item_response import PaginatedNewsItemResponse
-from ...types.paginated_newsfeed_response import PaginatedNewsfeedResponse
+from ...types.paginated_response import PaginatedResponse
 from ..types.newsfeed import Newsfeed
 
 
@@ -22,7 +21,7 @@ class RawFeedsClient:
 
     def list_items(
         self, newsfeed_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[PaginatedNewsItemResponse]:
+    ) -> HttpResponse[PaginatedResponse]:
         """
         You can fetch a list of all news items that are live on a given newsfeed
 
@@ -36,7 +35,7 @@ class RawFeedsClient:
 
         Returns
         -------
-        HttpResponse[PaginatedNewsItemResponse]
+        HttpResponse[PaginatedResponse]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -47,9 +46,9 @@ class RawFeedsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    PaginatedNewsItemResponse,
+                    PaginatedResponse,
                     construct_type(
-                        type_=PaginatedNewsItemResponse,  # type: ignore
+                        type_=PaginatedResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -70,9 +69,7 @@ class RawFeedsClient:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
-    def list(
-        self, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[PaginatedNewsfeedResponse]:
+    def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[PaginatedResponse]:
         """
         You can fetch a list of all newsfeeds
 
@@ -83,7 +80,7 @@ class RawFeedsClient:
 
         Returns
         -------
-        HttpResponse[PaginatedNewsfeedResponse]
+        HttpResponse[PaginatedResponse]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -94,9 +91,9 @@ class RawFeedsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    PaginatedNewsfeedResponse,
+                    PaginatedResponse,
                     construct_type(
-                        type_=PaginatedNewsfeedResponse,  # type: ignore
+                        type_=PaginatedResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -174,7 +171,7 @@ class AsyncRawFeedsClient:
 
     async def list_items(
         self, newsfeed_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[PaginatedNewsItemResponse]:
+    ) -> AsyncHttpResponse[PaginatedResponse]:
         """
         You can fetch a list of all news items that are live on a given newsfeed
 
@@ -188,7 +185,7 @@ class AsyncRawFeedsClient:
 
         Returns
         -------
-        AsyncHttpResponse[PaginatedNewsItemResponse]
+        AsyncHttpResponse[PaginatedResponse]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -199,9 +196,9 @@ class AsyncRawFeedsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    PaginatedNewsItemResponse,
+                    PaginatedResponse,
                     construct_type(
-                        type_=PaginatedNewsItemResponse,  # type: ignore
+                        type_=PaginatedResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -224,7 +221,7 @@ class AsyncRawFeedsClient:
 
     async def list(
         self, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[PaginatedNewsfeedResponse]:
+    ) -> AsyncHttpResponse[PaginatedResponse]:
         """
         You can fetch a list of all newsfeeds
 
@@ -235,7 +232,7 @@ class AsyncRawFeedsClient:
 
         Returns
         -------
-        AsyncHttpResponse[PaginatedNewsfeedResponse]
+        AsyncHttpResponse[PaginatedResponse]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -246,9 +243,9 @@ class AsyncRawFeedsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    PaginatedNewsfeedResponse,
+                    PaginatedResponse,
                     construct_type(
-                        type_=PaginatedNewsfeedResponse,  # type: ignore
+                        type_=PaginatedResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )

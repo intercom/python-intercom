@@ -2,6 +2,20 @@
 
 # isort: skip_file
 
-from .types import Contact
+from .types import (
+    Contact,
+    ContactsCreateResponse,
+    ContactsFindResponse,
+    ContactsMergeLeadInUserResponse,
+    ContactsUpdateResponse,
+    ShowContactByExternalIdResponse,
+)
 
-__all__ = ["Contact"]
+__all__ = [
+    "Contact",
+    "ContactsCreateResponse",
+    "ContactsFindResponse",
+    "ContactsMergeLeadInUserResponse",
+    "ContactsUpdateResponse",
+    "ShowContactByExternalIdResponse",
+]

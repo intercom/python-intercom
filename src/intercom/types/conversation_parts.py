@@ -13,17 +13,17 @@ class ConversationParts(UncheckedBaseModel):
     A list of Conversation Part objects for each part message in the conversation. This is only returned when Retrieving a Conversation, and ignored when Listing all Conversations. There is a limit of 500 parts.
     """
 
-    type: typing.Literal["conversation_part.list"] = pydantic.Field(default="conversation_part.list")
+    type: typing.Optional[typing.Literal["conversation_part.list"]] = pydantic.Field(default=None)
     """
     
     """
 
-    conversation_parts: typing.List[ConversationPart] = pydantic.Field()
+    conversation_parts: typing.Optional[typing.List[ConversationPart]] = pydantic.Field(default=None)
     """
     A list of Conversation Part objects for each part message in the conversation. This is only returned when Retrieving a Conversation, and ignored when Listing all Conversations. There is a limit of 500 parts.
     """
 
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     
     """

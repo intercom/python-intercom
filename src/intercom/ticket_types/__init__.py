@@ -2,13 +2,8 @@
 
 # isort: skip_file
 
-from .types import CreateTicketTypeRequestCategory, UpdateTicketTypeRequestBodyCategory
+from .types import UpdateTicketTypeRequestCategory
 from . import attributes
 from .attributes import CreateTicketTypeAttributeRequestDataType
 
-__all__ = [
-    "CreateTicketTypeAttributeRequestDataType",
-    "CreateTicketTypeRequestCategory",
-    "UpdateTicketTypeRequestBodyCategory",
-    "attributes",
-]
+__all__ = ["CreateTicketTypeAttributeRequestDataType", "UpdateTicketTypeRequestCategory", "attributes"]

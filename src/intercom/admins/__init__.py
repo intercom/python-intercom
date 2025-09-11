@@ -2,6 +2,6 @@
 
 # isort: skip_file
 
-from .types import Admin, AdminAvatar
+from .types import Admin
 
-__all__ = ["Admin", "AdminAvatar"]
+__all__ = ["Admin"]

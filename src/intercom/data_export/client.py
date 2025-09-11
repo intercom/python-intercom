@@ -6,6 +6,7 @@ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from .raw_client import AsyncRawDataExportClient, RawDataExportClient
 from .types.data_export import DataExport
+from .types.data_export_export_reporting_data_response import DataExportExportReportingDataResponse
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -25,6 +26,85 @@ class DataExportClient:
         RawDataExportClient
         """
         return self._raw_client
+
+    def export_reporting_data(
+        self,
+        job_identifier: str,
+        *,
+        app_id: str,
+        client_id: str,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> DataExportExportReportingDataResponse:
+        """
+        Parameters
+        ----------
+        job_identifier : str
+            Unique identifier of the job.
+
+        app_id : str
+            The Intercom defined code of the workspace the company is associated to.
+
+        client_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        DataExportExportReportingDataResponse
+            Job status returned successfully
+
+        Examples
+        --------
+        from intercom import Intercom
+
+        client = Intercom(
+            token="YOUR_TOKEN",
+        )
+        client.data_export.export_reporting_data(
+            job_identifier="job_identifier",
+            app_id="app_id",
+            client_id="client_id",
+        )
+        """
+        _response = self._raw_client.export_reporting_data(
+            job_identifier, app_id=app_id, client_id=client_id, request_options=request_options
+        )
+        return _response.data
+
+    def download_reporting_data_export(
+        self, job_identifier: str, *, app_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
+        """
+        Parameters
+        ----------
+        job_identifier : str
+
+        app_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        from intercom import Intercom
+
+        client = Intercom(
+            token="YOUR_TOKEN",
+        )
+        client.data_export.download_reporting_data_export(
+            job_identifier="job_identifier",
+            app_id="app_id",
+        )
+        """
+        _response = self._raw_client.download_reporting_data_export(
+            job_identifier, app_id=app_id, request_options=request_options
+        )
+        return _response.data
 
     def create(
         self, *, created_at_after: int, created_at_before: int, request_options: typing.Optional[RequestOptions] = None
@@ -70,8 +150,8 @@ class DataExportClient:
             token="YOUR_TOKEN",
         )
         client.data_export.create(
-            created_at_after=1719474967,
-            created_at_before=1719492967,
+            created_at_after=1734519776,
+            created_at_before=1734537776,
         )
         """
         _response = self._raw_client.create(
@@ -197,6 +277,101 @@ class AsyncDataExportClient:
         """
         return self._raw_client
 
+    async def export_reporting_data(
+        self,
+        job_identifier: str,
+        *,
+        app_id: str,
+        client_id: str,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> DataExportExportReportingDataResponse:
+        """
+        Parameters
+        ----------
+        job_identifier : str
+            Unique identifier of the job.
+
+        app_id : str
+            The Intercom defined code of the workspace the company is associated to.
+
+        client_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        DataExportExportReportingDataResponse
+            Job status returned successfully
+
+        Examples
+        --------
+        import asyncio
+
+        from intercom import AsyncIntercom
+
+        client = AsyncIntercom(
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.data_export.export_reporting_data(
+                job_identifier="job_identifier",
+                app_id="app_id",
+                client_id="client_id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.export_reporting_data(
+            job_identifier, app_id=app_id, client_id=client_id, request_options=request_options
+        )
+        return _response.data
+
+    async def download_reporting_data_export(
+        self, job_identifier: str, *, app_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
+        """
+        Parameters
+        ----------
+        job_identifier : str
+
+        app_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import asyncio
+
+        from intercom import AsyncIntercom
+
+        client = AsyncIntercom(
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.data_export.download_reporting_data_export(
+                job_identifier="job_identifier",
+                app_id="app_id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.download_reporting_data_export(
+            job_identifier, app_id=app_id, request_options=request_options
+        )
+        return _response.data
+
     async def create(
         self, *, created_at_after: int, created_at_before: int, request_options: typing.Optional[RequestOptions] = None
     ) -> DataExport:
@@ -246,8 +421,8 @@ class AsyncDataExportClient:
 
         async def main() -> None:
             await client.data_export.create(
-                created_at_after=1719474967,
-                created_at_before=1719492967,
+                created_at_after=1734519776,
+                created_at_before=1734537776,
             )
 
 

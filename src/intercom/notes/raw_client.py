@@ -170,13 +170,13 @@ class RawNotesClient:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
-    def find(self, note_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[Note]:
+    def find(self, note_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[Note]:
         """
         You can fetch the details of a single note.
 
         Parameters
         ----------
-        note_id : str
+        note_id : int
             The unique identifier of a given note
 
         request_options : typing.Optional[RequestOptions]
@@ -384,14 +384,14 @@ class AsyncRawNotesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def find(
-        self, note_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, note_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Note]:
         """
         You can fetch the details of a single note.
 
         Parameters
         ----------
-        note_id : str
+        note_id : int
             The unique identifier of a given note
 
         request_options : typing.Optional[RequestOptions]

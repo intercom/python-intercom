@@ -16,33 +16,33 @@ class SubscriptionType(UncheckedBaseModel):
     A subscription type lets customers easily opt out of non-essential communications without missing what's important to them.
     """
 
-    type: typing.Literal["subscription"] = pydantic.Field(default="subscription")
+    type: typing.Optional[typing.Literal["subscription"]] = pydantic.Field(default=None)
     """
     The type of the object - subscription
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The unique identifier representing the subscription type.
     """
 
-    state: SubscriptionTypeState = pydantic.Field()
+    state: typing.Optional[SubscriptionTypeState] = pydantic.Field(default=None)
     """
     The state of the subscription type.
     """
 
-    default_translation: Translation
-    translations: typing.List[Translation] = pydantic.Field()
+    default_translation: typing.Optional[Translation] = None
+    translations: typing.Optional[typing.List[Translation]] = pydantic.Field(default=None)
     """
     An array of translations objects with the localised version of the subscription type in each available locale within your translation settings.
     """
 
-    consent_type: SubscriptionTypeConsentType = pydantic.Field()
+    consent_type: typing.Optional[SubscriptionTypeConsentType] = pydantic.Field(default=None)
     """
     Describes the type of consent.
     """
 
-    content_types: typing.List[SubscriptionTypeContentTypesItem] = pydantic.Field()
+    content_types: typing.Optional[typing.List[SubscriptionTypeContentTypesItem]] = pydantic.Field(default=None)
     """
     The message types that this subscription supports - can contain `email` or `sms_message`.
     """

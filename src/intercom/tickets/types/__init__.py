@@ -2,30 +2,48 @@
 
 # isort: skip_file
 
+from .delete_ticket_response import DeleteTicketResponse
 from .ticket import Ticket
 from .ticket_category import TicketCategory
 from .ticket_contacts import TicketContacts
 from .ticket_part import TicketPart
 from .ticket_part_previous_ticket_state import TicketPartPreviousTicketState
 from .ticket_part_ticket_state import TicketPartTicketState
-from .ticket_ticket_state import TicketTicketState
+from .ticket_part_updated_attribute_data import TicketPartUpdatedAttributeData
+from .ticket_part_updated_attribute_data_attribute import TicketPartUpdatedAttributeDataAttribute
+from .ticket_part_updated_attribute_data_value import TicketPartUpdatedAttributeDataValue
+from .ticket_part_updated_attribute_data_value_id import TicketPartUpdatedAttributeDataValueId
+from .ticket_part_updated_attribute_data_value_label import TicketPartUpdatedAttributeDataValueLabel
+from .ticket_state import TicketState
+from .ticket_state_category import TicketStateCategory
+from .ticket_state_detailed import TicketStateDetailed
+from .ticket_state_detailed_category import TicketStateDetailedCategory
+from .ticket_state_detailed_ticket_types import TicketStateDetailedTicketTypes
 from .ticket_type import TicketType
 from .ticket_type_category import TicketTypeCategory
+from .ticket_type_ticket_states import TicketTypeTicketStates
 from .tickets_reply_request_body import TicketsReplyRequestBody
-from .update_ticket_request_assignment import UpdateTicketRequestAssignment
-from .update_ticket_request_state import UpdateTicketRequestState
 
 __all__ = [
+    "DeleteTicketResponse",
     "Ticket",
     "TicketCategory",
     "TicketContacts",
     "TicketPart",
     "TicketPartPreviousTicketState",
     "TicketPartTicketState",
-    "TicketTicketState",
+    "TicketPartUpdatedAttributeData",
+    "TicketPartUpdatedAttributeDataAttribute",
+    "TicketPartUpdatedAttributeDataValue",
+    "TicketPartUpdatedAttributeDataValueId",
+    "TicketPartUpdatedAttributeDataValueLabel",
+    "TicketState",
+    "TicketStateCategory",
+    "TicketStateDetailed",
+    "TicketStateDetailedCategory",
+    "TicketStateDetailedTicketTypes",
     "TicketType",
     "TicketTypeCategory",
+    "TicketTypeTicketStates",
     "TicketsReplyRequestBody",
-    "UpdateTicketRequestAssignment",
-    "UpdateTicketRequestState",
 ]

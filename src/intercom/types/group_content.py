@@ -12,17 +12,17 @@ class GroupContent(UncheckedBaseModel):
     The Content of a Group.
     """
 
-    type: typing.Literal["group_content"] = pydantic.Field(default="group_content")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     The type of object - `group_content` .
     """
 
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the collection or section.
     """
 
-    description: str = pydantic.Field()
+    description: typing.Optional[str] = pydantic.Field(default=None)
     """
     The description of the collection. Only available for collections.
     """

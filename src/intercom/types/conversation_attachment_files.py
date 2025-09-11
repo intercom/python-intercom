@@ -12,17 +12,17 @@ class ConversationAttachmentFiles(UncheckedBaseModel):
     Properties of the attachment files in a conversation part
     """
 
-    content_type: str = pydantic.Field()
+    content_type: typing.Optional[str] = pydantic.Field(default=None)
     """
     The content type of the file
     """
 
-    data: str = pydantic.Field()
+    data: typing.Optional[str] = pydantic.Field(default=None)
     """
     The base64 encoded file data.
     """
 
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the file.
     """

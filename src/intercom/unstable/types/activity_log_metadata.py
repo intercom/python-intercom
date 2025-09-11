@@ -57,6 +57,16 @@ class ActivityLogMetadata(UncheckedBaseModel):
     The name of the Admin who initiated the activity.
     """
 
+    conversation_assignment_limit: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The conversation assignment limit value for an admin.
+    """
+
+    ticket_assignment_limit: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The ticket assignment limit value for an admin.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

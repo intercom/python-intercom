@@ -13,12 +13,12 @@ class TeamList(UncheckedBaseModel):
     This will return a list of team objects for the App.
     """
 
-    type: typing.Literal["team.list"] = pydantic.Field(default="team.list")
+    type: typing.Optional[typing.Literal["team.list"]] = pydantic.Field(default=None)
     """
     The type of the object
     """
 
-    teams: typing.List[Team] = pydantic.Field()
+    teams: typing.Optional[typing.List[Team]] = pydantic.Field(default=None)
     """
     A list of team objects
     """

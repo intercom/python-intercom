@@ -26,12 +26,12 @@ class Conversation(UncheckedBaseModel):
     Conversations are how you can communicate with users in Intercom. They are created when a contact replies to an outbound message, or when one admin directly sends a message to a single contact.
     """
 
-    type: typing.Optional[typing.Literal["conversation"]] = pydantic.Field(default=None)
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     Always conversation.
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id representing the conversation.
     """
@@ -41,12 +41,12 @@ class Conversation(UncheckedBaseModel):
     The title given to the conversation.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The time the conversation was created.
     """
 
-    updated_at: int = pydantic.Field()
+    updated_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The last time the conversation was updated.
     """
@@ -61,17 +61,17 @@ class Conversation(UncheckedBaseModel):
     If set this is the time in the future when this conversation will be marked as open. i.e. it will be in a snoozed state until this time. i.e. it will be in a snoozed state until this time.
     """
 
-    open: bool = pydantic.Field()
+    open: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Indicates whether a conversation is open (true) or closed (false).
     """
 
-    state: ConversationState = pydantic.Field()
+    state: typing.Optional[ConversationState] = pydantic.Field(default=None)
     """
     Can be set to "open", "closed" or "snoozed".
     """
 
-    read: bool = pydantic.Field()
+    read: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Indicates whether a conversation has been read.
     """
@@ -91,12 +91,17 @@ class Conversation(UncheckedBaseModel):
     The id of the team assigned to the conversation. If it's not assigned to a team it will return null.
     """
 
+    company_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The ID of the company that the conversation is associated with. The unique identifier for the company which is given by Intercom.
+    """
+
     tags: typing.Optional[Tags] = None
     conversation_rating: typing.Optional[ConversationRating] = None
-    source: ConversationSource
-    contacts: ConversationContacts
-    teammates: ConversationTeammates
-    custom_attributes: CustomAttributes
+    source: typing.Optional[ConversationSource] = None
+    contacts: typing.Optional[ConversationContacts] = None
+    teammates: typing.Optional[ConversationTeammates] = None
+    custom_attributes: typing.Optional[CustomAttributes] = None
     first_contact_reply: typing.Optional[ConversationFirstContactReply] = None
     sla_applied: typing.Optional[SlaApplied] = None
     statistics: typing.Optional[ConversationStatistics] = None

@@ -11,12 +11,10 @@ from .types import (
     ArticleSearchHighlightsHighlightedSummaryItemItemType,
     ArticleSearchHighlightsHighlightedTitleItem,
     ArticleSearchHighlightsHighlightedTitleItemType,
-    CreateArticleRequestParentType,
-    CreateArticleRequestState,
-    SearchArticlesResponse,
-    SearchArticlesResponseData,
-    UpdateArticleRequestBodyParentType,
-    UpdateArticleRequestBodyState,
+    ArticleSearchResponse,
+    ArticleSearchResponseData,
+    InternalArticle,
+    UpdateArticleRequestState,
 )
 
 __all__ = [
@@ -28,10 +26,8 @@ __all__ = [
     "ArticleSearchHighlightsHighlightedSummaryItemItemType",
     "ArticleSearchHighlightsHighlightedTitleItem",
     "ArticleSearchHighlightsHighlightedTitleItemType",
-    "CreateArticleRequestParentType",
-    "CreateArticleRequestState",
-    "SearchArticlesResponse",
-    "SearchArticlesResponseData",
-    "UpdateArticleRequestBodyParentType",
-    "UpdateArticleRequestBodyState",
+    "ArticleSearchResponse",
+    "ArticleSearchResponseData",
+    "InternalArticle",
+    "UpdateArticleRequestState",
 ]

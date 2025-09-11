@@ -26,14 +26,14 @@ class HelpCentersClient:
         """
         return self._raw_client
 
-    def find(self, help_center_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> HelpCenter:
+    def find(self, help_center_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> HelpCenter:
         """
         You can fetch the details of a single Help Center by making a GET request to `https://api.intercom.io/help_center/help_center/<id>`.
 
         Parameters
         ----------
-        help_center_id : str
-            The unique identifier for the Help Center which is given by Intercom.
+        help_center_id : int
+            The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -51,7 +51,7 @@ class HelpCentersClient:
             token="YOUR_TOKEN",
         )
         client.help_centers.find(
-            help_center_id="123",
+            help_center_id=1,
         )
         """
         _response = self._raw_client.find(help_center_id, request_options=request_options)
@@ -116,14 +116,14 @@ class AsyncHelpCentersClient:
         """
         return self._raw_client
 
-    async def find(self, help_center_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> HelpCenter:
+    async def find(self, help_center_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> HelpCenter:
         """
         You can fetch the details of a single Help Center by making a GET request to `https://api.intercom.io/help_center/help_center/<id>`.
 
         Parameters
         ----------
-        help_center_id : str
-            The unique identifier for the Help Center which is given by Intercom.
+        help_center_id : int
+            The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -146,7 +146,7 @@ class AsyncHelpCentersClient:
 
         async def main() -> None:
             await client.help_centers.find(
-                help_center_id="123",
+                help_center_id=1,
             )
 
 

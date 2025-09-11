@@ -13,12 +13,12 @@ class SegmentList(UncheckedBaseModel):
     This will return a list of Segment Objects. The result may also have a pages object if the response is paginated.
     """
 
-    type: typing.Literal["segment.list"] = pydantic.Field(default="segment.list")
+    type: typing.Optional[typing.Literal["segment.list"]] = pydantic.Field(default=None)
     """
     The type of the object
     """
 
-    segments: typing.List[Segment] = pydantic.Field()
+    segments: typing.Optional[typing.List[Segment]] = pydantic.Field(default=None)
     """
     A list of Segment objects
     """

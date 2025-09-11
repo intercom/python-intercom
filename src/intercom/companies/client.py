@@ -7,6 +7,7 @@ from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
 from ..types.company_attached_contacts import CompanyAttachedContacts
 from ..types.company_attached_segments import CompanyAttachedSegments
+from ..types.create_or_update_company_request import CreateOrUpdateCompanyRequest
 from ..types.deleted_company_object import DeletedCompanyObject
 from .raw_client import AsyncRawCompaniesClient, RawCompaniesClient
 from .types.companies_retrieve_response import CompaniesRetrieveResponse
@@ -111,15 +112,7 @@ class CompaniesClient:
     def create_or_update(
         self,
         *,
-        name: typing.Optional[str] = OMIT,
-        company_id: typing.Optional[str] = OMIT,
-        plan: typing.Optional[str] = OMIT,
-        size: typing.Optional[int] = OMIT,
-        website: typing.Optional[str] = OMIT,
-        industry: typing.Optional[str] = OMIT,
-        custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
-        remote_created_at: typing.Optional[int] = OMIT,
-        monthly_spend: typing.Optional[int] = OMIT,
+        request: typing.Optional[CreateOrUpdateCompanyRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Company:
         """
@@ -135,32 +128,7 @@ class CompaniesClient:
 
         Parameters
         ----------
-        name : typing.Optional[str]
-            The name of the Company
-
-        company_id : typing.Optional[str]
-            The company id you have defined for the company. Can't be updated
-
-        plan : typing.Optional[str]
-            The name of the plan you have associated with the company.
-
-        size : typing.Optional[int]
-            The number of employees in this company.
-
-        website : typing.Optional[str]
-            The URL for this company's website. Please note that the value specified here is not validated. Accepts any string.
-
-        industry : typing.Optional[str]
-            The industry that this company operates in.
-
-        custom_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
-            A hash of key/value pairs containing any other data about the company you want Intercom to store.
-
-        remote_created_at : typing.Optional[int]
-            The time the company was created by you.
-
-        monthly_spend : typing.Optional[int]
-            How much revenue the company generates for your business. Note that this will truncate floats. i.e. it only allow for whole integers, 155.98 will be truncated to 155. Note that this has an upper limit of 2**31-1 or 2147483647..
+        request : typing.Optional[CreateOrUpdateCompanyRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -172,29 +140,20 @@ class CompaniesClient:
 
         Examples
         --------
-        from intercom import Intercom
+        from intercom import CreateOrUpdateCompanyRequest, Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.companies.create_or_update(
-            name="my company",
-            company_id="company_remote_id",
-            remote_created_at=1374138000,
+            request=CreateOrUpdateCompanyRequest(
+                name="my company",
+                company_id="company_remote_id",
+                remote_created_at=1374138000,
+            ),
         )
         """
-        _response = self._raw_client.create_or_update(
-            name=name,
-            company_id=company_id,
-            plan=plan,
-            size=size,
-            website=website,
-            industry=industry,
-            custom_attributes=custom_attributes,
-            remote_created_at=remote_created_at,
-            monthly_spend=monthly_spend,
-            request_options=request_options,
-        )
+        _response = self._raw_client.create_or_update(request=request, request_options=request_options)
         return _response.data
 
     def find(self, company_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Company:
@@ -297,12 +256,7 @@ class CompaniesClient:
         return _response.data
 
     def list_attached_contacts(
-        self,
-        company_id: str,
-        *,
-        page: typing.Optional[int] = None,
-        per_page: typing.Optional[int] = None,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, company_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> CompanyAttachedContacts:
         """
         You can fetch a list of all contacts that belong to a company.
@@ -311,12 +265,6 @@ class CompaniesClient:
         ----------
         company_id : str
             The unique identifier for the company which is given by Intercom
-
-        page : typing.Optional[int]
-            The page of results to fetch. Defaults to first page
-
-        per_page : typing.Optional[int]
-            How many results to return per page. Defaults to 15
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -337,9 +285,7 @@ class CompaniesClient:
             company_id="5f4d3c1c-7b1b-4d7d-a97e-6095715c6632",
         )
         """
-        _response = self._raw_client.list_attached_contacts(
-            company_id, page=page, per_page=per_page, request_options=request_options
-        )
+        _response = self._raw_client.list_attached_contacts(company_id, request_options=request_options)
         return _response.data
 
     def list_attached_segments(
@@ -481,14 +427,14 @@ class CompaniesClient:
         return self._raw_client.scroll(scroll_param=scroll_param, request_options=request_options)
 
     def attach_contact(
-        self, contact_id: str, *, company_id: str, request_options: typing.Optional[RequestOptions] = None
+        self, contact_id: int, *, company_id: str, request_options: typing.Optional[RequestOptions] = None
     ) -> Company:
         """
         You can attach a company to a single contact.
 
         Parameters
         ----------
-        contact_id : str
+        contact_id : int
             The unique identifier for the contact which is given by Intercom
 
         company_id : str
@@ -510,8 +456,8 @@ class CompaniesClient:
             token="YOUR_TOKEN",
         )
         client.companies.attach_contact(
-            contact_id="contact_id",
-            company_id="667d608d8a68186f43bafd70",
+            contact_id=1,
+            company_id="6762f09a1bb69f9f2193bb34",
         )
         """
         _response = self._raw_client.attach_contact(contact_id, company_id=company_id, request_options=request_options)
@@ -658,15 +604,7 @@ class AsyncCompaniesClient:
     async def create_or_update(
         self,
         *,
-        name: typing.Optional[str] = OMIT,
-        company_id: typing.Optional[str] = OMIT,
-        plan: typing.Optional[str] = OMIT,
-        size: typing.Optional[int] = OMIT,
-        website: typing.Optional[str] = OMIT,
-        industry: typing.Optional[str] = OMIT,
-        custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
-        remote_created_at: typing.Optional[int] = OMIT,
-        monthly_spend: typing.Optional[int] = OMIT,
+        request: typing.Optional[CreateOrUpdateCompanyRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Company:
         """
@@ -682,32 +620,7 @@ class AsyncCompaniesClient:
 
         Parameters
         ----------
-        name : typing.Optional[str]
-            The name of the Company
-
-        company_id : typing.Optional[str]
-            The company id you have defined for the company. Can't be updated
-
-        plan : typing.Optional[str]
-            The name of the plan you have associated with the company.
-
-        size : typing.Optional[int]
-            The number of employees in this company.
-
-        website : typing.Optional[str]
-            The URL for this company's website. Please note that the value specified here is not validated. Accepts any string.
-
-        industry : typing.Optional[str]
-            The industry that this company operates in.
-
-        custom_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
-            A hash of key/value pairs containing any other data about the company you want Intercom to store.
-
-        remote_created_at : typing.Optional[int]
-            The time the company was created by you.
-
-        monthly_spend : typing.Optional[int]
-            How much revenue the company generates for your business. Note that this will truncate floats. i.e. it only allow for whole integers, 155.98 will be truncated to 155. Note that this has an upper limit of 2**31-1 or 2147483647..
+        request : typing.Optional[CreateOrUpdateCompanyRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -721,7 +634,7 @@ class AsyncCompaniesClient:
         --------
         import asyncio
 
-        from intercom import AsyncIntercom
+        from intercom import AsyncIntercom, CreateOrUpdateCompanyRequest
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -730,26 +643,17 @@ class AsyncCompaniesClient:
 
         async def main() -> None:
             await client.companies.create_or_update(
-                name="my company",
-                company_id="company_remote_id",
-                remote_created_at=1374138000,
+                request=CreateOrUpdateCompanyRequest(
+                    name="my company",
+                    company_id="company_remote_id",
+                    remote_created_at=1374138000,
+                ),
             )
 
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.create_or_update(
-            name=name,
-            company_id=company_id,
-            plan=plan,
-            size=size,
-            website=website,
-            industry=industry,
-            custom_attributes=custom_attributes,
-            remote_created_at=remote_created_at,
-            monthly_spend=monthly_spend,
-            request_options=request_options,
-        )
+        _response = await self._raw_client.create_or_update(request=request, request_options=request_options)
         return _response.data
 
     async def find(self, company_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Company:
@@ -876,12 +780,7 @@ class AsyncCompaniesClient:
         return _response.data
 
     async def list_attached_contacts(
-        self,
-        company_id: str,
-        *,
-        page: typing.Optional[int] = None,
-        per_page: typing.Optional[int] = None,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, company_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> CompanyAttachedContacts:
         """
         You can fetch a list of all contacts that belong to a company.
@@ -890,12 +789,6 @@ class AsyncCompaniesClient:
         ----------
         company_id : str
             The unique identifier for the company which is given by Intercom
-
-        page : typing.Optional[int]
-            The page of results to fetch. Defaults to first page
-
-        per_page : typing.Optional[int]
-            How many results to return per page. Defaults to 15
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -924,9 +817,7 @@ class AsyncCompaniesClient:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.list_attached_contacts(
-            company_id, page=page, per_page=per_page, request_options=request_options
-        )
+        _response = await self._raw_client.list_attached_contacts(company_id, request_options=request_options)
         return _response.data
 
     async def list_attached_segments(
@@ -1094,14 +985,14 @@ class AsyncCompaniesClient:
         return await self._raw_client.scroll(scroll_param=scroll_param, request_options=request_options)
 
     async def attach_contact(
-        self, contact_id: str, *, company_id: str, request_options: typing.Optional[RequestOptions] = None
+        self, contact_id: int, *, company_id: str, request_options: typing.Optional[RequestOptions] = None
     ) -> Company:
         """
         You can attach a company to a single contact.
 
         Parameters
         ----------
-        contact_id : str
+        contact_id : int
             The unique identifier for the contact which is given by Intercom
 
         company_id : str
@@ -1128,8 +1019,8 @@ class AsyncCompaniesClient:
 
         async def main() -> None:
             await client.companies.attach_contact(
-                contact_id="contact_id",
-                company_id="667d608d8a68186f43bafd70",
+                contact_id=1,
+                company_id="6762f09a1bb69f9f2193bb34",
             )
 
 

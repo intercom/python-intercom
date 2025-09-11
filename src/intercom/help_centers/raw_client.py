@@ -22,15 +22,15 @@ class RawHelpCentersClient:
         self._client_wrapper = client_wrapper
 
     def find(
-        self, help_center_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, help_center_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[HelpCenter]:
         """
         You can fetch the details of a single Help Center by making a GET request to `https://api.intercom.io/help_center/help_center/<id>`.
 
         Parameters
         ----------
-        help_center_id : str
-            The unique identifier for the Help Center which is given by Intercom.
+        help_center_id : int
+            The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -160,15 +160,15 @@ class AsyncRawHelpCentersClient:
         self._client_wrapper = client_wrapper
 
     async def find(
-        self, help_center_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, help_center_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[HelpCenter]:
         """
         You can fetch the details of a single Help Center by making a GET request to `https://api.intercom.io/help_center/help_center/<id>`.
 
         Parameters
         ----------
-        help_center_id : str
-            The unique identifier for the Help Center which is given by Intercom.
+        help_center_id : int
+            The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

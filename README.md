@@ -3,7 +3,7 @@
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fintercom%2Fpython-intercom)
 [![pypi](https://img.shields.io/pypi/v/python-intercom)](https://pypi.python.org/pypi/python-intercom)
 
-The Intercom Python library provides convenient access to the Intercom API from Python.
+The Intercom Python library provides convenient access to the Intercom APIs from Python.
 
 ## Installation
 
@@ -25,12 +25,8 @@ from intercom import Intercom
 client = Intercom(
     token="YOUR_TOKEN",
 )
-client.articles.create(
-    title="Thanks for everything",
-    description="Description of the Article",
-    body="Body of the Article",
-    author_id=1295,
-    state="published",
+client.ai_content.create_content_import_source(
+    url="https://www.example.com",
 )
 ```
 
@@ -49,12 +45,8 @@ client = AsyncIntercom(
 
 
 async def main() -> None:
-    await client.articles.create(
-        title="Thanks for everything",
-        description="Description of the Article",
-        body="Body of the Article",
-        author_id=1295,
-        state="published",
+    await client.ai_content.create_content_import_source(
+        url="https://www.example.com",
     )
 
 
@@ -70,7 +62,7 @@ will be thrown.
 from intercom.core.api_error import ApiError
 
 try:
-    client.articles.create(...)
+    client.ai_content.create_content_import_source(...)
 except ApiError as e:
     print(e.status_code)
     print(e.body)
@@ -107,7 +99,7 @@ from intercom import Intercom
 client = Intercom(
     ...,
 )
-response = client.articles.with_raw_response.create(...)
+response = client.ai_content.with_raw_response.create_content_import_source(...)
 print(response.headers)  # access the response headers
 print(response.data)  # access the underlying object
 pager = client.articles.list(...)
@@ -135,7 +127,7 @@ A request is deemed retryable when any of the following HTTP status codes is ret
 Use the `max_retries` request option to configure this behavior.
 
 ```python
-client.articles.create(..., request_options={
+client.ai_content.create_content_import_source(..., request_options={
     "max_retries": 1
 })
 ```
@@ -155,7 +147,7 @@ client = Intercom(
 
 
 # Override timeout for a specific method
-client.articles.create(..., request_options={
+client.ai_content.create_content_import_source(..., request_options={
     "timeout_in_seconds": 1
 })
 ```

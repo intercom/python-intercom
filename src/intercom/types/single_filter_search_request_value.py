@@ -2,4 +2,6 @@
 
 import typing
 
-SingleFilterSearchRequestValue = typing.Union[str, int, typing.List[str], typing.List[int]]
+from .single_filter_search_request_value_item import SingleFilterSearchRequestValueItem
+
+SingleFilterSearchRequestValue = typing.Union[str, int, typing.List[SingleFilterSearchRequestValueItem]]

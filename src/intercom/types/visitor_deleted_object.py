@@ -12,17 +12,17 @@ class VisitorDeletedObject(UncheckedBaseModel):
     Response returned when an object is deleted
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The unique identifier for the visitor which is given by Intercom.
     """
 
-    type: typing.Literal["visitor"] = pydantic.Field(default="visitor")
+    type: typing.Optional[typing.Literal["visitor"]] = pydantic.Field(default=None)
     """
     The type of object which was deleted
     """
 
-    user_id: str = pydantic.Field()
+    user_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     Automatically generated identifier for the Visitor.
     """

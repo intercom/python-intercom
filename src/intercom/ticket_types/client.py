@@ -5,11 +5,11 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from ..tickets.types.ticket_type import TicketType
+from ..types.create_ticket_type_request import CreateTicketTypeRequest
 from ..types.ticket_type_list import TicketTypeList
 from .attributes.client import AsyncAttributesClient, AttributesClient
 from .raw_client import AsyncRawTicketTypesClient, RawTicketTypesClient
-from .types.create_ticket_type_request_category import CreateTicketTypeRequestCategory
-from .types.update_ticket_type_request_body_category import UpdateTicketTypeRequestBodyCategory
+from .types.update_ticket_type_request_category import UpdateTicketTypeRequestCategory
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -60,13 +60,9 @@ class TicketTypesClient:
     def create(
         self,
         *,
-        name: str,
-        description: typing.Optional[str] = OMIT,
-        category: typing.Optional[CreateTicketTypeRequestCategory] = OMIT,
-        icon: typing.Optional[str] = OMIT,
-        is_internal: typing.Optional[bool] = OMIT,
+        request: typing.Optional[CreateTicketTypeRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> TicketType:
+    ) -> typing.Optional[TicketType]:
         """
         You can create a new ticket type.
         > 📘 Creating ticket types.
@@ -76,54 +72,38 @@ class TicketTypesClient:
 
         Parameters
         ----------
-        name : str
-            The name of the ticket type.
-
-        description : typing.Optional[str]
-            The description of the ticket type.
-
-        category : typing.Optional[CreateTicketTypeRequestCategory]
-            Category of the Ticket Type.
-
-        icon : typing.Optional[str]
-            The icon of the ticket type.
-
-        is_internal : typing.Optional[bool]
-            Whether the tickets associated with this ticket type are intended for internal use only or will be shared with customers. This is currently a limited attribute.
+        request : typing.Optional[CreateTicketTypeRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        TicketType
+        typing.Optional[TicketType]
             Ticket type created
 
         Examples
         --------
-        from intercom import Intercom
+        from intercom import CreateTicketTypeRequest, Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.ticket_types.create(
-            name="Customer Issue",
-            description="Customer Report Template",
-            category="Customer",
-            icon="🎟️",
+            request=CreateTicketTypeRequest(
+                name="Customer Issue",
+                description="Customer Report Template",
+                category="Customer",
+                icon="🎟️",
+            ),
         )
         """
-        _response = self._raw_client.create(
-            name=name,
-            description=description,
-            category=category,
-            icon=icon,
-            is_internal=is_internal,
-            request_options=request_options,
-        )
+        _response = self._raw_client.create(request=request, request_options=request_options)
         return _response.data
 
-    def get(self, ticket_type_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> TicketType:
+    def get(
+        self, ticket_type_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Optional[TicketType]:
         """
         You can fetch the details of a single ticket type.
 
@@ -137,7 +117,7 @@ class TicketTypesClient:
 
         Returns
         -------
-        TicketType
+        typing.Optional[TicketType]
             Ticket type found
 
         Examples
@@ -160,12 +140,12 @@ class TicketTypesClient:
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
-        category: typing.Optional[UpdateTicketTypeRequestBodyCategory] = OMIT,
+        category: typing.Optional[UpdateTicketTypeRequestCategory] = OMIT,
         icon: typing.Optional[str] = OMIT,
         archived: typing.Optional[bool] = OMIT,
         is_internal: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> TicketType:
+    ) -> typing.Optional[TicketType]:
         """
 
         You can update a ticket type.
@@ -185,7 +165,7 @@ class TicketTypesClient:
         description : typing.Optional[str]
             The description of the ticket type.
 
-        category : typing.Optional[UpdateTicketTypeRequestBodyCategory]
+        category : typing.Optional[UpdateTicketTypeRequestCategory]
             Category of the Ticket Type.
 
         icon : typing.Optional[str]
@@ -202,7 +182,7 @@ class TicketTypesClient:
 
         Returns
         -------
-        TicketType
+        typing.Optional[TicketType]
             Ticket type updated
 
         Examples
@@ -283,13 +263,9 @@ class AsyncTicketTypesClient:
     async def create(
         self,
         *,
-        name: str,
-        description: typing.Optional[str] = OMIT,
-        category: typing.Optional[CreateTicketTypeRequestCategory] = OMIT,
-        icon: typing.Optional[str] = OMIT,
-        is_internal: typing.Optional[bool] = OMIT,
+        request: typing.Optional[CreateTicketTypeRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> TicketType:
+    ) -> typing.Optional[TicketType]:
         """
         You can create a new ticket type.
         > 📘 Creating ticket types.
@@ -299,34 +275,21 @@ class AsyncTicketTypesClient:
 
         Parameters
         ----------
-        name : str
-            The name of the ticket type.
-
-        description : typing.Optional[str]
-            The description of the ticket type.
-
-        category : typing.Optional[CreateTicketTypeRequestCategory]
-            Category of the Ticket Type.
-
-        icon : typing.Optional[str]
-            The icon of the ticket type.
-
-        is_internal : typing.Optional[bool]
-            Whether the tickets associated with this ticket type are intended for internal use only or will be shared with customers. This is currently a limited attribute.
+        request : typing.Optional[CreateTicketTypeRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        TicketType
+        typing.Optional[TicketType]
             Ticket type created
 
         Examples
         --------
         import asyncio
 
-        from intercom import AsyncIntercom
+        from intercom import AsyncIntercom, CreateTicketTypeRequest
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -335,26 +298,23 @@ class AsyncTicketTypesClient:
 
         async def main() -> None:
             await client.ticket_types.create(
-                name="Customer Issue",
-                description="Customer Report Template",
-                category="Customer",
-                icon="🎟️",
+                request=CreateTicketTypeRequest(
+                    name="Customer Issue",
+                    description="Customer Report Template",
+                    category="Customer",
+                    icon="🎟️",
+                ),
             )
 
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.create(
-            name=name,
-            description=description,
-            category=category,
-            icon=icon,
-            is_internal=is_internal,
-            request_options=request_options,
-        )
+        _response = await self._raw_client.create(request=request, request_options=request_options)
         return _response.data
 
-    async def get(self, ticket_type_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> TicketType:
+    async def get(
+        self, ticket_type_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Optional[TicketType]:
         """
         You can fetch the details of a single ticket type.
 
@@ -368,7 +328,7 @@ class AsyncTicketTypesClient:
 
         Returns
         -------
-        TicketType
+        typing.Optional[TicketType]
             Ticket type found
 
         Examples
@@ -399,12 +359,12 @@ class AsyncTicketTypesClient:
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
-        category: typing.Optional[UpdateTicketTypeRequestBodyCategory] = OMIT,
+        category: typing.Optional[UpdateTicketTypeRequestCategory] = OMIT,
         icon: typing.Optional[str] = OMIT,
         archived: typing.Optional[bool] = OMIT,
         is_internal: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> TicketType:
+    ) -> typing.Optional[TicketType]:
         """
 
         You can update a ticket type.
@@ -424,7 +384,7 @@ class AsyncTicketTypesClient:
         description : typing.Optional[str]
             The description of the ticket type.
 
-        category : typing.Optional[UpdateTicketTypeRequestBodyCategory]
+        category : typing.Optional[UpdateTicketTypeRequestCategory]
             Category of the Ticket Type.
 
         icon : typing.Optional[str]
@@ -441,7 +401,7 @@ class AsyncTicketTypesClient:
 
         Returns
         -------
-        TicketType
+        typing.Optional[TicketType]
             Ticket type updated
 
         Examples

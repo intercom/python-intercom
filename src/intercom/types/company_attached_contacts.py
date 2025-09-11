@@ -14,17 +14,17 @@ class CompanyAttachedContacts(UncheckedBaseModel):
     A list of Contact Objects
     """
 
-    type: typing.Literal["list"] = pydantic.Field(default="list")
+    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
     """
     The type of object - `list`
     """
 
-    data: typing.List[Contact] = pydantic.Field()
+    data: typing.Optional[typing.List[Contact]] = pydantic.Field(default=None)
     """
     An array containing Contact Objects
     """
 
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     The total number of contacts
     """

@@ -5,17 +5,25 @@ import typing
 
 import httpx
 from .admins.client import AdminsClient, AsyncAdminsClient
+from .ai_content.client import AiContentClient, AsyncAiContentClient
 from .articles.client import ArticlesClient, AsyncArticlesClient
+from .away_status_reasons.client import AsyncAwayStatusReasonsClient, AwayStatusReasonsClient
+from .calls.client import AsyncCallsClient, CallsClient
 from .companies.client import AsyncCompaniesClient, CompaniesClient
 from .contacts.client import AsyncContactsClient, ContactsClient
 from .conversations.client import AsyncConversationsClient, ConversationsClient
 from .core.api_error import ApiError
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
+from .custom_channel_events.client import AsyncCustomChannelEventsClient, CustomChannelEventsClient
+from .custom_object_instances.client import AsyncCustomObjectInstancesClient, CustomObjectInstancesClient
 from .data_attributes.client import AsyncDataAttributesClient, DataAttributesClient
 from .data_export.client import AsyncDataExportClient, DataExportClient
 from .environment import IntercomEnvironment
 from .events.client import AsyncEventsClient, EventsClient
+from .export.client import AsyncExportClient, ExportClient
 from .help_centers.client import AsyncHelpCentersClient, HelpCentersClient
+from .internal_articles.client import AsyncInternalArticlesClient, InternalArticlesClient
+from .jobs.client import AsyncJobsClient, JobsClient
 from .messages.client import AsyncMessagesClient, MessagesClient
 from .news.client import AsyncNewsClient, NewsClient
 from .notes.client import AsyncNotesClient, NotesClient
@@ -24,6 +32,7 @@ from .segments.client import AsyncSegmentsClient, SegmentsClient
 from .subscription_types.client import AsyncSubscriptionTypesClient, SubscriptionTypesClient
 from .tags.client import AsyncTagsClient, TagsClient
 from .teams.client import AsyncTeamsClient, TeamsClient
+from .ticket_states.client import AsyncTicketStatesClient, TicketStatesClient
 from .ticket_types.client import AsyncTicketTypesClient, TicketTypesClient
 from .tickets.client import AsyncTicketsClient, TicketsClient
 from .unstable.client import AsyncUnstableClient, UnstableClient
@@ -95,21 +104,30 @@ class Intercom:
             timeout=_defaulted_timeout,
         )
         self.admins = AdminsClient(client_wrapper=self._client_wrapper)
+        self.ai_content = AiContentClient(client_wrapper=self._client_wrapper)
         self.articles = ArticlesClient(client_wrapper=self._client_wrapper)
+        self.away_status_reasons = AwayStatusReasonsClient(client_wrapper=self._client_wrapper)
+        self.export = ExportClient(client_wrapper=self._client_wrapper)
+        self.data_export = DataExportClient(client_wrapper=self._client_wrapper)
         self.help_centers = HelpCentersClient(client_wrapper=self._client_wrapper)
+        self.internal_articles = InternalArticlesClient(client_wrapper=self._client_wrapper)
         self.companies = CompaniesClient(client_wrapper=self._client_wrapper)
         self.contacts = ContactsClient(client_wrapper=self._client_wrapper)
         self.notes = NotesClient(client_wrapper=self._client_wrapper)
         self.tags = TagsClient(client_wrapper=self._client_wrapper)
         self.conversations = ConversationsClient(client_wrapper=self._client_wrapper)
+        self.custom_channel_events = CustomChannelEventsClient(client_wrapper=self._client_wrapper)
+        self.custom_object_instances = CustomObjectInstancesClient(client_wrapper=self._client_wrapper)
         self.data_attributes = DataAttributesClient(client_wrapper=self._client_wrapper)
         self.events = EventsClient(client_wrapper=self._client_wrapper)
-        self.data_export = DataExportClient(client_wrapper=self._client_wrapper)
+        self.jobs = JobsClient(client_wrapper=self._client_wrapper)
         self.messages = MessagesClient(client_wrapper=self._client_wrapper)
         self.segments = SegmentsClient(client_wrapper=self._client_wrapper)
         self.subscription_types = SubscriptionTypesClient(client_wrapper=self._client_wrapper)
         self.phone_call_redirects = PhoneCallRedirectsClient(client_wrapper=self._client_wrapper)
+        self.calls = CallsClient(client_wrapper=self._client_wrapper)
         self.teams = TeamsClient(client_wrapper=self._client_wrapper)
+        self.ticket_states = TicketStatesClient(client_wrapper=self._client_wrapper)
         self.ticket_types = TicketTypesClient(client_wrapper=self._client_wrapper)
         self.tickets = TicketsClient(client_wrapper=self._client_wrapper)
         self.visitors = VisitorsClient(client_wrapper=self._client_wrapper)
@@ -182,21 +200,30 @@ class AsyncIntercom:
             timeout=_defaulted_timeout,
         )
         self.admins = AsyncAdminsClient(client_wrapper=self._client_wrapper)
+        self.ai_content = AsyncAiContentClient(client_wrapper=self._client_wrapper)
         self.articles = AsyncArticlesClient(client_wrapper=self._client_wrapper)
+        self.away_status_reasons = AsyncAwayStatusReasonsClient(client_wrapper=self._client_wrapper)
+        self.export = AsyncExportClient(client_wrapper=self._client_wrapper)
+        self.data_export = AsyncDataExportClient(client_wrapper=self._client_wrapper)
         self.help_centers = AsyncHelpCentersClient(client_wrapper=self._client_wrapper)
+        self.internal_articles = AsyncInternalArticlesClient(client_wrapper=self._client_wrapper)
         self.companies = AsyncCompaniesClient(client_wrapper=self._client_wrapper)
         self.contacts = AsyncContactsClient(client_wrapper=self._client_wrapper)
         self.notes = AsyncNotesClient(client_wrapper=self._client_wrapper)
         self.tags = AsyncTagsClient(client_wrapper=self._client_wrapper)
         self.conversations = AsyncConversationsClient(client_wrapper=self._client_wrapper)
+        self.custom_channel_events = AsyncCustomChannelEventsClient(client_wrapper=self._client_wrapper)
+        self.custom_object_instances = AsyncCustomObjectInstancesClient(client_wrapper=self._client_wrapper)
         self.data_attributes = AsyncDataAttributesClient(client_wrapper=self._client_wrapper)
         self.events = AsyncEventsClient(client_wrapper=self._client_wrapper)
-        self.data_export = AsyncDataExportClient(client_wrapper=self._client_wrapper)
+        self.jobs = AsyncJobsClient(client_wrapper=self._client_wrapper)
         self.messages = AsyncMessagesClient(client_wrapper=self._client_wrapper)
         self.segments = AsyncSegmentsClient(client_wrapper=self._client_wrapper)
         self.subscription_types = AsyncSubscriptionTypesClient(client_wrapper=self._client_wrapper)
         self.phone_call_redirects = AsyncPhoneCallRedirectsClient(client_wrapper=self._client_wrapper)
+        self.calls = AsyncCallsClient(client_wrapper=self._client_wrapper)
         self.teams = AsyncTeamsClient(client_wrapper=self._client_wrapper)
+        self.ticket_states = AsyncTicketStatesClient(client_wrapper=self._client_wrapper)
         self.ticket_types = AsyncTicketTypesClient(client_wrapper=self._client_wrapper)
         self.tickets = AsyncTicketsClient(client_wrapper=self._client_wrapper)
         self.visitors = AsyncVisitorsClient(client_wrapper=self._client_wrapper)

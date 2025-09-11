@@ -12,7 +12,7 @@ class Reference(UncheckedBaseModel):
     reference to another object
     """
 
-    type: str = pydantic.Field()
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     
     """

@@ -49,8 +49,8 @@ class CompaniesRetrieveResponse_Company(UncheckedBaseModel):
 class CompaniesRetrieveResponse_List(UncheckedBaseModel):
     type: typing.Literal["list"] = "list"
     pages: typing.Optional[OffsetPages] = None
-    total_count: int
-    data: typing.List[Company]
+    total_count: typing.Optional[int] = None
+    data: typing.Optional[typing.List[Company]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

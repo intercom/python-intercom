@@ -13,22 +13,22 @@ class Team(UncheckedBaseModel):
     Teams are groups of admins in Intercom.
     """
 
-    type: typing.Literal["team"] = pydantic.Field(default="team")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     Value is always "team"
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id of the team
     """
 
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the team
     """
 
-    admin_ids: typing.List[int] = pydantic.Field()
+    admin_ids: typing.Optional[typing.List[int]] = pydantic.Field(default=None)
     """
     The list of admin IDs that are a part of the team.
     """

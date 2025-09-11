@@ -13,12 +13,12 @@ class DataAttributeList(UncheckedBaseModel):
     A list of all data attributes belonging to a workspace for contacts, companies or conversations.
     """
 
-    type: typing.Literal["list"] = pydantic.Field(default="list")
+    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
     """
     The type of the object
     """
 
-    data: typing.List[DataAttribute] = pydantic.Field()
+    data: typing.Optional[typing.List[DataAttribute]] = pydantic.Field(default=None)
     """
     A list of data attributes
     """

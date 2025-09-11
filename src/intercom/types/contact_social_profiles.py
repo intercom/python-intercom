@@ -13,7 +13,7 @@ class ContactSocialProfiles(UncheckedBaseModel):
     An object containing social profiles that a contact has.
     """
 
-    data: typing.List[SocialProfile] = pydantic.Field()
+    data: typing.Optional[typing.List[SocialProfile]] = pydantic.Field(default=None)
     """
     A list of social profiles objects associated with the contact.
     """

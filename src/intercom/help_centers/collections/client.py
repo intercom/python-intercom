@@ -131,13 +131,13 @@ class CollectionsClient:
         )
         return _response.data
 
-    def find(self, collection_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Collection:
+    def find(self, collection_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> Collection:
         """
         You can fetch the details of a single collection by making a GET request to `https://api.intercom.io/help_center/collections/<id>`.
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -156,7 +156,7 @@ class CollectionsClient:
             token="YOUR_TOKEN",
         )
         client.help_centers.collections.find(
-            collection_id="123",
+            collection_id=1,
         )
         """
         _response = self._raw_client.find(collection_id, request_options=request_options)
@@ -164,7 +164,7 @@ class CollectionsClient:
 
     def update(
         self,
-        collection_id: str,
+        collection_id: int,
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
@@ -177,7 +177,7 @@ class CollectionsClient:
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         name : typing.Optional[str]
@@ -207,7 +207,7 @@ class CollectionsClient:
             token="YOUR_TOKEN",
         )
         client.help_centers.collections.update(
-            collection_id="123",
+            collection_id=1,
             name="Update collection name",
         )
         """
@@ -222,14 +222,14 @@ class CollectionsClient:
         return _response.data
 
     def delete(
-        self, collection_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, collection_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> DeletedCollectionObject:
         """
         You can delete a single collection by making a DELETE request to `https://api.intercom.io/collections/<id>`.
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -248,7 +248,7 @@ class CollectionsClient:
             token="YOUR_TOKEN",
         )
         client.help_centers.collections.delete(
-            collection_id="123",
+            collection_id=1,
         )
         """
         _response = self._raw_client.delete(collection_id, request_options=request_options)
@@ -389,13 +389,13 @@ class AsyncCollectionsClient:
         )
         return _response.data
 
-    async def find(self, collection_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Collection:
+    async def find(self, collection_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> Collection:
         """
         You can fetch the details of a single collection by making a GET request to `https://api.intercom.io/help_center/collections/<id>`.
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -419,7 +419,7 @@ class AsyncCollectionsClient:
 
         async def main() -> None:
             await client.help_centers.collections.find(
-                collection_id="123",
+                collection_id=1,
             )
 
 
@@ -430,7 +430,7 @@ class AsyncCollectionsClient:
 
     async def update(
         self,
-        collection_id: str,
+        collection_id: int,
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
@@ -443,7 +443,7 @@ class AsyncCollectionsClient:
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         name : typing.Optional[str]
@@ -478,7 +478,7 @@ class AsyncCollectionsClient:
 
         async def main() -> None:
             await client.help_centers.collections.update(
-                collection_id="123",
+                collection_id=1,
                 name="Update collection name",
             )
 
@@ -496,14 +496,14 @@ class AsyncCollectionsClient:
         return _response.data
 
     async def delete(
-        self, collection_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, collection_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> DeletedCollectionObject:
         """
         You can delete a single collection by making a DELETE request to `https://api.intercom.io/collections/<id>`.
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -527,7 +527,7 @@ class AsyncCollectionsClient:
 
         async def main() -> None:
             await client.help_centers.collections.delete(
-                collection_id="123",
+                collection_id=1,
             )
 
 

@@ -12,17 +12,17 @@ class AddressableList(UncheckedBaseModel):
     A list used to access other resources from a parent model.
     """
 
-    type: str = pydantic.Field()
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     The addressable object type
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id of the addressable object
     """
 
-    url: str = pydantic.Field()
+    url: typing.Optional[str] = pydantic.Field(default=None)
     """
     Url to get more company resources for this contact
     """

@@ -12,17 +12,17 @@ class DeletedCompanyObject(UncheckedBaseModel):
     Response returned when an object is deleted
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The unique identifier for the company which is given by Intercom.
     """
 
-    object: typing.Literal["company"] = pydantic.Field(default="company")
+    object: typing.Optional[typing.Literal["company"]] = pydantic.Field(default=None)
     """
     The type of object which was deleted. - `company`
     """
 
-    deleted: bool = pydantic.Field()
+    deleted: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether the company was deleted successfully or not.
     """

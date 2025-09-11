@@ -2,4 +2,6 @@
 
 import typing
 
-CustomAttributes = typing.Dict[str, typing.Optional[typing.Any]]
+from .custom_attributes_value import CustomAttributesValue
+
+CustomAttributes = typing.Dict[str, CustomAttributesValue]

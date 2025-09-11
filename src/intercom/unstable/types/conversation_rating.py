@@ -29,6 +29,11 @@ class ConversationRating(UncheckedBaseModel):
     The time the rating was requested in the conversation being rated.
     """
 
+    updated_at: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The time the rating was last updated.
+    """
+
     contact: typing.Optional[ContactReference] = None
     teammate: typing.Optional[Reference] = None
 

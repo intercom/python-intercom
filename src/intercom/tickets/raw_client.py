@@ -14,17 +14,17 @@ from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
+from ..jobs.types.jobs import Jobs
+from ..types.create_ticket_request_assignment import CreateTicketRequestAssignment
 from ..types.create_ticket_request_contacts_item import CreateTicketRequestContactsItem
 from ..types.error import Error
 from ..types.search_request_query import SearchRequestQuery
 from ..types.starting_after_paging import StartingAfterPaging
 from ..types.ticket_list import TicketList
 from ..types.ticket_reply import TicketReply
-from ..types.ticket_request_custom_attributes import TicketRequestCustomAttributes
+from .types.delete_ticket_response import DeleteTicketResponse
 from .types.ticket import Ticket
 from .types.tickets_reply_request_body import TicketsReplyRequestBody
-from .types.update_ticket_request_assignment import UpdateTicketRequestAssignment
-from .types.update_ticket_request_state import UpdateTicketRequestState
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -56,7 +56,7 @@ class RawTicketsClient:
         Returns
         -------
         HttpResponse[TicketReply]
-            Admin quick_reply reply
+            Admin Reply to send Quick Reply Options
         """
         _response = self._client_wrapper.httpx_client.request(
             f"tickets/{jsonable_encoder(ticket_id)}/reply",
@@ -123,11 +123,13 @@ class RawTicketsClient:
         *,
         ticket_type_id: str,
         contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        skip_notifications: typing.Optional[bool] = OMIT,
+        conversation_to_link_id: typing.Optional[str] = OMIT,
         company_id: typing.Optional[str] = OMIT,
         created_at: typing.Optional[int] = OMIT,
-        ticket_attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
+        assignment: typing.Optional[CreateTicketRequestAssignment] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[Ticket]:
+    ) -> HttpResponse[typing.Optional[Ticket]]:
         """
         You can create a new ticket.
 
@@ -139,33 +141,47 @@ class RawTicketsClient:
         contacts : typing.Sequence[CreateTicketRequestContactsItem]
             The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
 
+        skip_notifications : typing.Optional[bool]
+            Option to disable notifications when a Ticket is created.
+
+        conversation_to_link_id : typing.Optional[str]
+            The ID of the conversation you want to link to the ticket. Here are the valid ways of linking two tickets:
+             - conversation | back-office ticket
+             - customer tickets | non-shared back-office ticket
+             - conversation | tracker ticket
+             - customer ticket | tracker ticket
+
         company_id : typing.Optional[str]
-            The ID of the company that the ticket is associated with. The ID that you set upon company creation.
+            The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom
 
         created_at : typing.Optional[int]
             The time the ticket was created. If not provided, the current time will be used.
 
-        ticket_attributes : typing.Optional[TicketRequestCustomAttributes]
+        assignment : typing.Optional[CreateTicketRequestAssignment]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[Ticket]
+        HttpResponse[typing.Optional[Ticket]]
             Successful response
         """
         _response = self._client_wrapper.httpx_client.request(
             "tickets",
             method="POST",
             json={
+                "skip_notifications": skip_notifications,
                 "ticket_type_id": ticket_type_id,
                 "contacts": convert_and_respect_annotation_metadata(
                     object_=contacts, annotation=typing.Sequence[CreateTicketRequestContactsItem], direction="write"
                 ),
+                "conversation_to_link_id": conversation_to_link_id,
                 "company_id": company_id,
                 "created_at": created_at,
-                "ticket_attributes": ticket_attributes,
+                "assignment": convert_and_respect_annotation_metadata(
+                    object_=assignment, annotation=CreateTicketRequestAssignment, direction="write"
+                ),
             },
             headers={
                 "content-type": "application/json",
@@ -174,11 +190,13 @@ class RawTicketsClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Ticket,
+                    typing.Optional[Ticket],
                     construct_type(
-                        type_=Ticket,  # type: ignore
+                        type_=typing.Optional[Ticket],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -199,7 +217,117 @@ class RawTicketsClient:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
-    def get(self, ticket_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[Ticket]:
+    def enqueue_create_ticket(
+        self,
+        *,
+        ticket_type_id: str,
+        contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        skip_notifications: typing.Optional[bool] = OMIT,
+        conversation_to_link_id: typing.Optional[str] = OMIT,
+        company_id: typing.Optional[str] = OMIT,
+        created_at: typing.Optional[int] = OMIT,
+        assignment: typing.Optional[CreateTicketRequestAssignment] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[Jobs]:
+        """
+        Enqueues ticket creation for asynchronous processing, returning if the job was enqueued successfully to be processed. We attempt to perform a best-effort validation on inputs before tasks are enqueued. If the given parameters are incorrect, we won't enqueue the job.
+
+        Parameters
+        ----------
+        ticket_type_id : str
+            The ID of the type of ticket you want to create
+
+        contacts : typing.Sequence[CreateTicketRequestContactsItem]
+            The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
+
+        skip_notifications : typing.Optional[bool]
+            Option to disable notifications when a Ticket is created.
+
+        conversation_to_link_id : typing.Optional[str]
+            The ID of the conversation you want to link to the ticket. Here are the valid ways of linking two tickets:
+             - conversation | back-office ticket
+             - customer tickets | non-shared back-office ticket
+             - conversation | tracker ticket
+             - customer ticket | tracker ticket
+
+        company_id : typing.Optional[str]
+            The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom
+
+        created_at : typing.Optional[int]
+            The time the ticket was created. If not provided, the current time will be used.
+
+        assignment : typing.Optional[CreateTicketRequestAssignment]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[Jobs]
+            Successful response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "tickets/enqueue",
+            method="POST",
+            json={
+                "skip_notifications": skip_notifications,
+                "ticket_type_id": ticket_type_id,
+                "contacts": convert_and_respect_annotation_metadata(
+                    object_=contacts, annotation=typing.Sequence[CreateTicketRequestContactsItem], direction="write"
+                ),
+                "conversation_to_link_id": conversation_to_link_id,
+                "company_id": company_id,
+                "created_at": created_at,
+                "assignment": convert_and_respect_annotation_metadata(
+                    object_=assignment, annotation=CreateTicketRequestAssignment, direction="write"
+                ),
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    Jobs,
+                    construct_type(
+                        type_=Jobs,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get(
+        self, ticket_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[typing.Optional[Ticket]]:
         """
         You can fetch the details of a single ticket.
 
@@ -213,7 +341,7 @@ class RawTicketsClient:
 
         Returns
         -------
-        HttpResponse[Ticket]
+        HttpResponse[typing.Optional[Ticket]]
             Ticket found
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -222,11 +350,13 @@ class RawTicketsClient:
             request_options=request_options,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Ticket,
+                    typing.Optional[Ticket],
                     construct_type(
-                        type_=Ticket,  # type: ignore
+                        type_=typing.Optional[Ticket],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -252,13 +382,15 @@ class RawTicketsClient:
         ticket_id: str,
         *,
         ticket_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
-        state: typing.Optional[UpdateTicketRequestState] = OMIT,
+        ticket_state_id: typing.Optional[str] = OMIT,
+        company_id: typing.Optional[str] = OMIT,
         open: typing.Optional[bool] = OMIT,
         is_shared: typing.Optional[bool] = OMIT,
         snoozed_until: typing.Optional[int] = OMIT,
-        assignment: typing.Optional[UpdateTicketRequestAssignment] = OMIT,
+        admin_id: typing.Optional[int] = OMIT,
+        assignee_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[Ticket]:
+    ) -> HttpResponse[typing.Optional[Ticket]]:
         """
         You can update a ticket.
 
@@ -270,8 +402,11 @@ class RawTicketsClient:
         ticket_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
             The attributes set on the ticket.
 
-        state : typing.Optional[UpdateTicketRequestState]
-            The state of the ticket.
+        ticket_state_id : typing.Optional[str]
+            The ID of the ticket state associated with the ticket type.
+
+        company_id : typing.Optional[str]
+            The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company.
 
         open : typing.Optional[bool]
             Specify if a ticket is open. Set to false to close a ticket. Closing a ticket will also unsnooze it.
@@ -282,14 +417,18 @@ class RawTicketsClient:
         snoozed_until : typing.Optional[int]
             The time you want the ticket to reopen.
 
-        assignment : typing.Optional[UpdateTicketRequestAssignment]
+        admin_id : typing.Optional[int]
+            The ID of the admin performing ticket update. Needed for workflows execution and attributing actions to specific admins.
+
+        assignee_id : typing.Optional[str]
+            The ID of the admin or team to which the ticket is assigned. Set this 0 to unassign it.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[Ticket]
+        HttpResponse[typing.Optional[Ticket]]
             Successful response
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -297,13 +436,13 @@ class RawTicketsClient:
             method="PUT",
             json={
                 "ticket_attributes": ticket_attributes,
-                "state": state,
+                "ticket_state_id": ticket_state_id,
+                "company_id": company_id,
                 "open": open,
                 "is_shared": is_shared,
                 "snoozed_until": snoozed_until,
-                "assignment": convert_and_respect_annotation_metadata(
-                    object_=assignment, annotation=UpdateTicketRequestAssignment, direction="write"
-                ),
+                "admin_id": admin_id,
+                "assignee_id": assignee_id,
             },
             headers={
                 "content-type": "application/json",
@@ -312,11 +451,85 @@ class RawTicketsClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Ticket,
+                    typing.Optional[Ticket],
                     construct_type(
-                        type_=Ticket,  # type: ignore
+                        type_=typing.Optional[Ticket],  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def delete_ticket(
+        self, ticket_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[DeleteTicketResponse]:
+        """
+        You can delete a ticket using the Intercom provided ID.
+
+        Parameters
+        ----------
+        ticket_id : str
+            The unique identifier for the ticket which is given by Intercom.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[DeleteTicketResponse]
+            successful
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"tickets/{jsonable_encoder(ticket_id)}",
+            method="DELETE",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    DeleteTicketResponse,
+                    construct_type(
+                        type_=DeleteTicketResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -354,7 +567,7 @@ class RawTicketsClient:
         query: SearchRequestQuery,
         pagination: typing.Optional[StartingAfterPaging] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[Ticket]:
+    ) -> SyncPager[typing.Optional[Ticket]]:
         """
         You can search for multiple tickets by the value of their attributes in order to fetch exactly which ones you want.
 
@@ -378,6 +591,7 @@ class RawTicketsClient:
         ### Accepted Fields
 
         Most keys listed as part of the Ticket model are searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foobar"`).
+        The `source.body` field is unique as the search will not be performed against the entire value, but instead against every element of the value separately. For example, when searching for a conversation with a `"I need support"` body - the query should contain a `=` operator with the value `"support"` for such conversation to be returned. A query with a `=` operator and a `"need support"` value will not yield a result.
 
         | Field                                     | Type                                                                                     |
         | :---------------------------------------- | :--------------------------------------------------------------------------------------- |
@@ -396,6 +610,13 @@ class RawTicketsClient:
         | state                                     | String                                                                                   |
         | snoozed_until                             | Date (UNIX timestamp)                                                                    |
         | ticket_attribute.{id}                     | String or Boolean or Date (UNIX timestamp) or Float or Integer                           |
+
+        {% admonition type="info" name="Searching by Category" %}
+        When searching for tickets by the **`category`** field, specific terms must be used instead of the category names:
+        * For **Customer** category tickets, use the term `request`.
+        * For **Back-office** category tickets, use the term `task`.
+        * For **Tracker** category tickets, use the term `tracker`.
+        {% /admonition %}
 
         ### Accepted Operators
 
@@ -429,7 +650,7 @@ class RawTicketsClient:
 
         Returns
         -------
-        SyncPager[Ticket]
+        SyncPager[typing.Optional[Ticket]]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -504,7 +725,7 @@ class AsyncRawTicketsClient:
         Returns
         -------
         AsyncHttpResponse[TicketReply]
-            Admin quick_reply reply
+            Admin Reply to send Quick Reply Options
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"tickets/{jsonable_encoder(ticket_id)}/reply",
@@ -571,11 +792,13 @@ class AsyncRawTicketsClient:
         *,
         ticket_type_id: str,
         contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        skip_notifications: typing.Optional[bool] = OMIT,
+        conversation_to_link_id: typing.Optional[str] = OMIT,
         company_id: typing.Optional[str] = OMIT,
         created_at: typing.Optional[int] = OMIT,
-        ticket_attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
+        assignment: typing.Optional[CreateTicketRequestAssignment] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[Ticket]:
+    ) -> AsyncHttpResponse[typing.Optional[Ticket]]:
         """
         You can create a new ticket.
 
@@ -587,33 +810,47 @@ class AsyncRawTicketsClient:
         contacts : typing.Sequence[CreateTicketRequestContactsItem]
             The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
 
+        skip_notifications : typing.Optional[bool]
+            Option to disable notifications when a Ticket is created.
+
+        conversation_to_link_id : typing.Optional[str]
+            The ID of the conversation you want to link to the ticket. Here are the valid ways of linking two tickets:
+             - conversation | back-office ticket
+             - customer tickets | non-shared back-office ticket
+             - conversation | tracker ticket
+             - customer ticket | tracker ticket
+
         company_id : typing.Optional[str]
-            The ID of the company that the ticket is associated with. The ID that you set upon company creation.
+            The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom
 
         created_at : typing.Optional[int]
             The time the ticket was created. If not provided, the current time will be used.
 
-        ticket_attributes : typing.Optional[TicketRequestCustomAttributes]
+        assignment : typing.Optional[CreateTicketRequestAssignment]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[Ticket]
+        AsyncHttpResponse[typing.Optional[Ticket]]
             Successful response
         """
         _response = await self._client_wrapper.httpx_client.request(
             "tickets",
             method="POST",
             json={
+                "skip_notifications": skip_notifications,
                 "ticket_type_id": ticket_type_id,
                 "contacts": convert_and_respect_annotation_metadata(
                     object_=contacts, annotation=typing.Sequence[CreateTicketRequestContactsItem], direction="write"
                 ),
+                "conversation_to_link_id": conversation_to_link_id,
                 "company_id": company_id,
                 "created_at": created_at,
-                "ticket_attributes": ticket_attributes,
+                "assignment": convert_and_respect_annotation_metadata(
+                    object_=assignment, annotation=CreateTicketRequestAssignment, direction="write"
+                ),
             },
             headers={
                 "content-type": "application/json",
@@ -622,11 +859,13 @@ class AsyncRawTicketsClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Ticket,
+                    typing.Optional[Ticket],
                     construct_type(
-                        type_=Ticket,  # type: ignore
+                        type_=typing.Optional[Ticket],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -647,9 +886,117 @@ class AsyncRawTicketsClient:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    async def enqueue_create_ticket(
+        self,
+        *,
+        ticket_type_id: str,
+        contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        skip_notifications: typing.Optional[bool] = OMIT,
+        conversation_to_link_id: typing.Optional[str] = OMIT,
+        company_id: typing.Optional[str] = OMIT,
+        created_at: typing.Optional[int] = OMIT,
+        assignment: typing.Optional[CreateTicketRequestAssignment] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[Jobs]:
+        """
+        Enqueues ticket creation for asynchronous processing, returning if the job was enqueued successfully to be processed. We attempt to perform a best-effort validation on inputs before tasks are enqueued. If the given parameters are incorrect, we won't enqueue the job.
+
+        Parameters
+        ----------
+        ticket_type_id : str
+            The ID of the type of ticket you want to create
+
+        contacts : typing.Sequence[CreateTicketRequestContactsItem]
+            The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
+
+        skip_notifications : typing.Optional[bool]
+            Option to disable notifications when a Ticket is created.
+
+        conversation_to_link_id : typing.Optional[str]
+            The ID of the conversation you want to link to the ticket. Here are the valid ways of linking two tickets:
+             - conversation | back-office ticket
+             - customer tickets | non-shared back-office ticket
+             - conversation | tracker ticket
+             - customer ticket | tracker ticket
+
+        company_id : typing.Optional[str]
+            The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom
+
+        created_at : typing.Optional[int]
+            The time the ticket was created. If not provided, the current time will be used.
+
+        assignment : typing.Optional[CreateTicketRequestAssignment]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[Jobs]
+            Successful response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "tickets/enqueue",
+            method="POST",
+            json={
+                "skip_notifications": skip_notifications,
+                "ticket_type_id": ticket_type_id,
+                "contacts": convert_and_respect_annotation_metadata(
+                    object_=contacts, annotation=typing.Sequence[CreateTicketRequestContactsItem], direction="write"
+                ),
+                "conversation_to_link_id": conversation_to_link_id,
+                "company_id": company_id,
+                "created_at": created_at,
+                "assignment": convert_and_respect_annotation_metadata(
+                    object_=assignment, annotation=CreateTicketRequestAssignment, direction="write"
+                ),
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    Jobs,
+                    construct_type(
+                        type_=Jobs,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     async def get(
         self, ticket_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[Ticket]:
+    ) -> AsyncHttpResponse[typing.Optional[Ticket]]:
         """
         You can fetch the details of a single ticket.
 
@@ -663,7 +1010,7 @@ class AsyncRawTicketsClient:
 
         Returns
         -------
-        AsyncHttpResponse[Ticket]
+        AsyncHttpResponse[typing.Optional[Ticket]]
             Ticket found
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -672,11 +1019,13 @@ class AsyncRawTicketsClient:
             request_options=request_options,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Ticket,
+                    typing.Optional[Ticket],
                     construct_type(
-                        type_=Ticket,  # type: ignore
+                        type_=typing.Optional[Ticket],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -702,13 +1051,15 @@ class AsyncRawTicketsClient:
         ticket_id: str,
         *,
         ticket_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
-        state: typing.Optional[UpdateTicketRequestState] = OMIT,
+        ticket_state_id: typing.Optional[str] = OMIT,
+        company_id: typing.Optional[str] = OMIT,
         open: typing.Optional[bool] = OMIT,
         is_shared: typing.Optional[bool] = OMIT,
         snoozed_until: typing.Optional[int] = OMIT,
-        assignment: typing.Optional[UpdateTicketRequestAssignment] = OMIT,
+        admin_id: typing.Optional[int] = OMIT,
+        assignee_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[Ticket]:
+    ) -> AsyncHttpResponse[typing.Optional[Ticket]]:
         """
         You can update a ticket.
 
@@ -720,8 +1071,11 @@ class AsyncRawTicketsClient:
         ticket_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
             The attributes set on the ticket.
 
-        state : typing.Optional[UpdateTicketRequestState]
-            The state of the ticket.
+        ticket_state_id : typing.Optional[str]
+            The ID of the ticket state associated with the ticket type.
+
+        company_id : typing.Optional[str]
+            The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company.
 
         open : typing.Optional[bool]
             Specify if a ticket is open. Set to false to close a ticket. Closing a ticket will also unsnooze it.
@@ -732,14 +1086,18 @@ class AsyncRawTicketsClient:
         snoozed_until : typing.Optional[int]
             The time you want the ticket to reopen.
 
-        assignment : typing.Optional[UpdateTicketRequestAssignment]
+        admin_id : typing.Optional[int]
+            The ID of the admin performing ticket update. Needed for workflows execution and attributing actions to specific admins.
+
+        assignee_id : typing.Optional[str]
+            The ID of the admin or team to which the ticket is assigned. Set this 0 to unassign it.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[Ticket]
+        AsyncHttpResponse[typing.Optional[Ticket]]
             Successful response
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -747,13 +1105,13 @@ class AsyncRawTicketsClient:
             method="PUT",
             json={
                 "ticket_attributes": ticket_attributes,
-                "state": state,
+                "ticket_state_id": ticket_state_id,
+                "company_id": company_id,
                 "open": open,
                 "is_shared": is_shared,
                 "snoozed_until": snoozed_until,
-                "assignment": convert_and_respect_annotation_metadata(
-                    object_=assignment, annotation=UpdateTicketRequestAssignment, direction="write"
-                ),
+                "admin_id": admin_id,
+                "assignee_id": assignee_id,
             },
             headers={
                 "content-type": "application/json",
@@ -762,11 +1120,85 @@ class AsyncRawTicketsClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Ticket,
+                    typing.Optional[Ticket],
                     construct_type(
-                        type_=Ticket,  # type: ignore
+                        type_=typing.Optional[Ticket],  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def delete_ticket(
+        self, ticket_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[DeleteTicketResponse]:
+        """
+        You can delete a ticket using the Intercom provided ID.
+
+        Parameters
+        ----------
+        ticket_id : str
+            The unique identifier for the ticket which is given by Intercom.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[DeleteTicketResponse]
+            successful
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"tickets/{jsonable_encoder(ticket_id)}",
+            method="DELETE",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    DeleteTicketResponse,
+                    construct_type(
+                        type_=DeleteTicketResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -804,7 +1236,7 @@ class AsyncRawTicketsClient:
         query: SearchRequestQuery,
         pagination: typing.Optional[StartingAfterPaging] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[Ticket]:
+    ) -> AsyncPager[typing.Optional[Ticket]]:
         """
         You can search for multiple tickets by the value of their attributes in order to fetch exactly which ones you want.
 
@@ -828,6 +1260,7 @@ class AsyncRawTicketsClient:
         ### Accepted Fields
 
         Most keys listed as part of the Ticket model are searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foobar"`).
+        The `source.body` field is unique as the search will not be performed against the entire value, but instead against every element of the value separately. For example, when searching for a conversation with a `"I need support"` body - the query should contain a `=` operator with the value `"support"` for such conversation to be returned. A query with a `=` operator and a `"need support"` value will not yield a result.
 
         | Field                                     | Type                                                                                     |
         | :---------------------------------------- | :--------------------------------------------------------------------------------------- |
@@ -846,6 +1279,13 @@ class AsyncRawTicketsClient:
         | state                                     | String                                                                                   |
         | snoozed_until                             | Date (UNIX timestamp)                                                                    |
         | ticket_attribute.{id}                     | String or Boolean or Date (UNIX timestamp) or Float or Integer                           |
+
+        {% admonition type="info" name="Searching by Category" %}
+        When searching for tickets by the **`category`** field, specific terms must be used instead of the category names:
+        * For **Customer** category tickets, use the term `request`.
+        * For **Back-office** category tickets, use the term `task`.
+        * For **Tracker** category tickets, use the term `tracker`.
+        {% /admonition %}
 
         ### Accepted Operators
 
@@ -879,7 +1319,7 @@ class AsyncRawTicketsClient:
 
         Returns
         -------
-        AsyncPager[Ticket]
+        AsyncPager[typing.Optional[Ticket]]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(

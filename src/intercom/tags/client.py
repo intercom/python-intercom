@@ -167,7 +167,7 @@ class TagsClient:
             conversation_id
 
         tag_id : str
-            id
+            tag_id
 
         admin_id : str
             The unique identifier for the admin which is given by Intercom.
@@ -593,7 +593,7 @@ class AsyncTagsClient:
             conversation_id
 
         tag_id : str
-            id
+            tag_id
 
         admin_id : str
             The unique identifier for the admin which is given by Intercom.

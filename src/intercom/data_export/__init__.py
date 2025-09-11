@@ -2,6 +2,6 @@
 
 # isort: skip_file
 
-from .types import DataExport, DataExportStatus
+from .types import DataExport, DataExportExportReportingDataResponse, DataExportStatus
 
-__all__ = ["DataExport", "DataExportStatus"]
+__all__ = ["DataExport", "DataExportExportReportingDataResponse", "DataExportStatus"]

@@ -12,7 +12,7 @@ class ActivityLogPerformedBy(UncheckedBaseModel):
     Details about the Admin involved in the activity.
     """
 
-    type: typing.Optional[typing.Literal["admin"]] = pydantic.Field(default=None)
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     String representing the object's type. Always has the value `admin`.
     """

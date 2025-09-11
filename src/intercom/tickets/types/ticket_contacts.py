@@ -13,12 +13,12 @@ class TicketContacts(UncheckedBaseModel):
     The list of contacts affected by a ticket.
     """
 
-    type: typing.Literal["contact.list"] = pydantic.Field(default="contact.list")
+    type: typing.Optional[typing.Literal["contact.list"]] = pydantic.Field(default=None)
     """
     always contact.list
     """
 
-    contacts: typing.List[ContactReference] = pydantic.Field()
+    contacts: typing.Optional[typing.List[ContactReference]] = pydantic.Field(default=None)
     """
     The list of contacts affected by this ticket.
     """

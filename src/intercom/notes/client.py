@@ -121,13 +121,13 @@ class NotesClient:
         _response = self._raw_client.create(contact_id, body=body, admin_id=admin_id, request_options=request_options)
         return _response.data
 
-    def find(self, note_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Note:
+    def find(self, note_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> Note:
         """
         You can fetch the details of a single note.
 
         Parameters
         ----------
-        note_id : str
+        note_id : int
             The unique identifier of a given note
 
         request_options : typing.Optional[RequestOptions]
@@ -146,7 +146,7 @@ class NotesClient:
             token="YOUR_TOKEN",
         )
         client.notes.find(
-            note_id="1",
+            note_id=1,
         )
         """
         _response = self._raw_client.find(note_id, request_options=request_options)
@@ -281,13 +281,13 @@ class AsyncNotesClient:
         )
         return _response.data
 
-    async def find(self, note_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Note:
+    async def find(self, note_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> Note:
         """
         You can fetch the details of a single note.
 
         Parameters
         ----------
-        note_id : str
+        note_id : int
             The unique identifier of a given note
 
         request_options : typing.Optional[RequestOptions]
@@ -311,7 +311,7 @@ class AsyncNotesClient:
 
         async def main() -> None:
             await client.notes.find(
-                note_id="1",
+                note_id=1,
             )
 
 
