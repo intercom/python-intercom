@@ -8,6 +8,7 @@ description = ""
 readme = "README.md"
 authors = []
 keywords = []
+license = "MIT"
 
 classifiers = [
     "Intended Audience :: Developers",
