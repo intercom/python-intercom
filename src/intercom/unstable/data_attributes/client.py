@@ -6,8 +6,6 @@ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.request_options import RequestOptions
 from ..types.data_attribute_list import DataAttributeList
 from .raw_client import AsyncRawDataAttributesClient, RawDataAttributesClient
-from .types.create_data_attribute_request_data_type import CreateDataAttributeRequestDataType
-from .types.create_data_attribute_request_model import CreateDataAttributeRequestModel
 from .types.data_attribute import DataAttribute
 from .types.lis_data_attributes_request_model import LisDataAttributesRequestModel
 
@@ -71,38 +69,14 @@ class DataAttributesClient:
         return _response.data
 
     def create_data_attribute(
-        self,
-        *,
-        name: str,
-        model: CreateDataAttributeRequestModel,
-        data_type: CreateDataAttributeRequestDataType,
-        description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[str]] = OMIT,
-        messenger_writable: typing.Optional[bool] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> DataAttribute:
         """
         You can create a data attributes for a `contact` or a `company`.
 
         Parameters
         ----------
-        name : str
-            The name of the data attribute.
-
-        model : CreateDataAttributeRequestModel
-            The model that the data attribute belongs to.
-
-        data_type : CreateDataAttributeRequestDataType
-            The type of data stored for this attribute.
-
-        description : typing.Optional[str]
-            The readable description you see in the UI for the attribute.
-
-        options : typing.Optional[typing.Sequence[str]]
-            To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-
-        messenger_writable : typing.Optional[bool]
-            Can this attribute be updated by the Messenger
+        request : typing.Optional[typing.Any]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -120,30 +94,17 @@ class DataAttributesClient:
             token="YOUR_TOKEN",
         )
         client.unstable.data_attributes.create_data_attribute(
-            name="Mithril Shirt",
-            model="company",
-            data_type="string",
+            request={"key": "value"},
         )
         """
-        _response = self._raw_client.create_data_attribute(
-            name=name,
-            model=model,
-            data_type=data_type,
-            description=description,
-            options=options,
-            messenger_writable=messenger_writable,
-            request_options=request_options,
-        )
+        _response = self._raw_client.create_data_attribute(request=request, request_options=request_options)
         return _response.data
 
     def update_data_attribute(
         self,
         id: int,
         *,
-        archived: typing.Optional[bool] = OMIT,
-        description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[str]] = OMIT,
-        messenger_writable: typing.Optional[bool] = OMIT,
+        request: typing.Optional[typing.Any] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> DataAttribute:
         """
@@ -159,17 +120,7 @@ class DataAttributesClient:
         id : int
             The data attribute id
 
-        archived : typing.Optional[bool]
-            Whether the attribute is to be archived or not.
-
-        description : typing.Optional[str]
-            The readable description you see in the UI for the attribute.
-
-        options : typing.Optional[typing.Sequence[str]]
-            To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-
-        messenger_writable : typing.Optional[bool]
-            Can this attribute be updated by the Messenger
+        request : typing.Optional[typing.Any]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -188,19 +139,10 @@ class DataAttributesClient:
         )
         client.unstable.data_attributes.update_data_attribute(
             id=1,
-            archived=False,
-            description="Just a plain old ring",
-            options=["options", "options"],
+            request={"key": "value"},
         )
         """
-        _response = self._raw_client.update_data_attribute(
-            id,
-            archived=archived,
-            description=description,
-            options=options,
-            messenger_writable=messenger_writable,
-            request_options=request_options,
-        )
+        _response = self._raw_client.update_data_attribute(id, request=request, request_options=request_options)
         return _response.data
 
 
@@ -268,38 +210,14 @@ class AsyncDataAttributesClient:
         return _response.data
 
     async def create_data_attribute(
-        self,
-        *,
-        name: str,
-        model: CreateDataAttributeRequestModel,
-        data_type: CreateDataAttributeRequestDataType,
-        description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[str]] = OMIT,
-        messenger_writable: typing.Optional[bool] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> DataAttribute:
         """
         You can create a data attributes for a `contact` or a `company`.
 
         Parameters
         ----------
-        name : str
-            The name of the data attribute.
-
-        model : CreateDataAttributeRequestModel
-            The model that the data attribute belongs to.
-
-        data_type : CreateDataAttributeRequestDataType
-            The type of data stored for this attribute.
-
-        description : typing.Optional[str]
-            The readable description you see in the UI for the attribute.
-
-        options : typing.Optional[typing.Sequence[str]]
-            To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-
-        messenger_writable : typing.Optional[bool]
-            Can this attribute be updated by the Messenger
+        request : typing.Optional[typing.Any]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -322,33 +240,20 @@ class AsyncDataAttributesClient:
 
         async def main() -> None:
             await client.unstable.data_attributes.create_data_attribute(
-                name="Mithril Shirt",
-                model="company",
-                data_type="string",
+                request={"key": "value"},
             )
 
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.create_data_attribute(
-            name=name,
-            model=model,
-            data_type=data_type,
-            description=description,
-            options=options,
-            messenger_writable=messenger_writable,
-            request_options=request_options,
-        )
+        _response = await self._raw_client.create_data_attribute(request=request, request_options=request_options)
         return _response.data
 
     async def update_data_attribute(
         self,
         id: int,
         *,
-        archived: typing.Optional[bool] = OMIT,
-        description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[str]] = OMIT,
-        messenger_writable: typing.Optional[bool] = OMIT,
+        request: typing.Optional[typing.Any] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> DataAttribute:
         """
@@ -364,17 +269,7 @@ class AsyncDataAttributesClient:
         id : int
             The data attribute id
 
-        archived : typing.Optional[bool]
-            Whether the attribute is to be archived or not.
-
-        description : typing.Optional[str]
-            The readable description you see in the UI for the attribute.
-
-        options : typing.Optional[typing.Sequence[str]]
-            To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-
-        messenger_writable : typing.Optional[bool]
-            Can this attribute be updated by the Messenger
+        request : typing.Optional[typing.Any]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -398,20 +293,11 @@ class AsyncDataAttributesClient:
         async def main() -> None:
             await client.unstable.data_attributes.update_data_attribute(
                 id=1,
-                archived=False,
-                description="Just a plain old ring",
-                options=["options", "options"],
+                request={"key": "value"},
             )
 
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.update_data_attribute(
-            id,
-            archived=archived,
-            description=description,
-            options=options,
-            messenger_writable=messenger_writable,
-            request_options=request_options,
-        )
+        _response = await self._raw_client.update_data_attribute(id, request=request, request_options=request_options)
         return _response.data

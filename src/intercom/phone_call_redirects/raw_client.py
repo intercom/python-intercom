@@ -7,11 +7,12 @@ from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.request_options import RequestOptions
+from ..core.serialization import convert_and_respect_annotation_metadata
 from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
-from ..types.custom_attributes import CustomAttributes
+from ..types.create_phone_switch_request import CreatePhoneSwitchRequest
 from ..types.error import Error
 from ..types.phone_switch import PhoneSwitch
 
@@ -26,10 +27,9 @@ class RawPhoneCallRedirectsClient:
     def create(
         self,
         *,
-        phone: str,
-        custom_attributes: typing.Optional[CustomAttributes] = OMIT,
+        request: typing.Optional[CreatePhoneSwitchRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[PhoneSwitch]:
+    ) -> HttpResponse[typing.Optional[PhoneSwitch]]:
         """
         You can use the API to deflect phone calls to the Intercom Messenger.
         Calling this endpoint will send an SMS with a link to the Messenger to the phone number specified.
@@ -38,26 +38,22 @@ class RawPhoneCallRedirectsClient:
 
         Parameters
         ----------
-        phone : str
-            Phone number in E.164 format, that will receive the SMS to continue the conversation in the Messenger.
-
-        custom_attributes : typing.Optional[CustomAttributes]
+        request : typing.Optional[CreatePhoneSwitchRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[PhoneSwitch]
+        HttpResponse[typing.Optional[PhoneSwitch]]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
             "phone_call_redirects",
             method="POST",
-            json={
-                "phone": phone,
-                "custom_attributes": custom_attributes,
-            },
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=CreatePhoneSwitchRequest, direction="write"
+            ),
             headers={
                 "content-type": "application/json",
             },
@@ -65,11 +61,13 @@ class RawPhoneCallRedirectsClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    PhoneSwitch,
+                    typing.Optional[PhoneSwitch],
                     construct_type(
-                        type_=PhoneSwitch,  # type: ignore
+                        type_=typing.Optional[PhoneSwitch],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -120,10 +118,9 @@ class AsyncRawPhoneCallRedirectsClient:
     async def create(
         self,
         *,
-        phone: str,
-        custom_attributes: typing.Optional[CustomAttributes] = OMIT,
+        request: typing.Optional[CreatePhoneSwitchRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[PhoneSwitch]:
+    ) -> AsyncHttpResponse[typing.Optional[PhoneSwitch]]:
         """
         You can use the API to deflect phone calls to the Intercom Messenger.
         Calling this endpoint will send an SMS with a link to the Messenger to the phone number specified.
@@ -132,26 +129,22 @@ class AsyncRawPhoneCallRedirectsClient:
 
         Parameters
         ----------
-        phone : str
-            Phone number in E.164 format, that will receive the SMS to continue the conversation in the Messenger.
-
-        custom_attributes : typing.Optional[CustomAttributes]
+        request : typing.Optional[CreatePhoneSwitchRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[PhoneSwitch]
+        AsyncHttpResponse[typing.Optional[PhoneSwitch]]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(
             "phone_call_redirects",
             method="POST",
-            json={
-                "phone": phone,
-                "custom_attributes": custom_attributes,
-            },
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=CreatePhoneSwitchRequest, direction="write"
+            ),
             headers={
                 "content-type": "application/json",
             },
@@ -159,11 +152,13 @@ class AsyncRawPhoneCallRedirectsClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    PhoneSwitch,
+                    typing.Optional[PhoneSwitch],
                     construct_type(
-                        type_=PhoneSwitch,  # type: ignore
+                        type_=typing.Optional[PhoneSwitch],  # type: ignore
                         object_=_response.json(),
                     ),
                 )

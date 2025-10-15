@@ -13,22 +13,22 @@ class ContactNotes(UncheckedBaseModel):
     An object containing notes meta data about the notes that a contact has. Up to 10 will be displayed here. Use the url to get more.
     """
 
-    data: typing.List[AddressableList] = pydantic.Field()
+    data: typing.Optional[typing.List[AddressableList]] = pydantic.Field(default=None)
     """
     This object represents the notes attached to a contact.
     """
 
-    url: str = pydantic.Field()
+    url: typing.Optional[str] = pydantic.Field(default=None)
     """
     Url to get more company resources for this contact
     """
 
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     Int representing the total number of companyies attached to this contact
     """
 
-    has_more: bool = pydantic.Field()
+    has_more: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether there's more Addressable Objects to be viewed. If true, use the url to view all
     """

@@ -29,7 +29,7 @@ class AdminsClient:
         """
         return self._raw_client
 
-    def identify(self, *, request_options: typing.Optional[RequestOptions] = None) -> AdminWithApp:
+    def identify(self, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Optional[AdminWithApp]:
         """
 
         You can view the currently authorised admin along with the embedded app object (a "workspace" in legacy terminology).
@@ -45,7 +45,7 @@ class AdminsClient:
 
         Returns
         -------
-        AdminWithApp
+        typing.Optional[AdminWithApp]
             Successful response
 
         Examples
@@ -62,18 +62,19 @@ class AdminsClient:
 
     def away(
         self,
-        admin_id: str,
+        admin_id: int,
         *,
         away_mode_enabled: bool,
         away_mode_reassign: bool,
+        away_status_reason_id: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> Admin:
+    ) -> typing.Optional[Admin]:
         """
         You can set an Admin as away for the Inbox.
 
         Parameters
         ----------
-        admin_id : str
+        admin_id : int
             The unique identifier of a given admin
 
         away_mode_enabled : bool
@@ -82,12 +83,15 @@ class AdminsClient:
         away_mode_reassign : bool
             Set to "true" to assign any new conversation replies to your default inbox.
 
+        away_status_reason_id : typing.Optional[int]
+            The unique identifier of the away status reason
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        Admin
+        typing.Optional[Admin]
             Successful response
 
         Examples
@@ -98,15 +102,17 @@ class AdminsClient:
             token="YOUR_TOKEN",
         )
         client.admins.away(
-            admin_id="admin_id",
+            admin_id=1,
             away_mode_enabled=True,
             away_mode_reassign=True,
+            away_status_reason_id=12345,
         )
         """
         _response = self._raw_client.away(
             admin_id,
             away_mode_enabled=away_mode_enabled,
             away_mode_reassign=away_mode_reassign,
+            away_status_reason_id=away_status_reason_id,
             request_options=request_options,
         )
         return _response.data
@@ -180,13 +186,13 @@ class AdminsClient:
         _response = self._raw_client.list(request_options=request_options)
         return _response.data
 
-    def find(self, admin_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Admin:
+    def find(self, admin_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Optional[Admin]:
         """
         You can retrieve the details of a single admin.
 
         Parameters
         ----------
-        admin_id : str
+        admin_id : int
             The unique identifier of a given admin
 
         request_options : typing.Optional[RequestOptions]
@@ -194,7 +200,7 @@ class AdminsClient:
 
         Returns
         -------
-        Admin
+        typing.Optional[Admin]
             Admin found
 
         Examples
@@ -205,7 +211,7 @@ class AdminsClient:
             token="YOUR_TOKEN",
         )
         client.admins.find(
-            admin_id="123",
+            admin_id=1,
         )
         """
         _response = self._raw_client.find(admin_id, request_options=request_options)
@@ -227,7 +233,9 @@ class AsyncAdminsClient:
         """
         return self._raw_client
 
-    async def identify(self, *, request_options: typing.Optional[RequestOptions] = None) -> AdminWithApp:
+    async def identify(
+        self, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Optional[AdminWithApp]:
         """
 
         You can view the currently authorised admin along with the embedded app object (a "workspace" in legacy terminology).
@@ -243,7 +251,7 @@ class AsyncAdminsClient:
 
         Returns
         -------
-        AdminWithApp
+        typing.Optional[AdminWithApp]
             Successful response
 
         Examples
@@ -268,18 +276,19 @@ class AsyncAdminsClient:
 
     async def away(
         self,
-        admin_id: str,
+        admin_id: int,
         *,
         away_mode_enabled: bool,
         away_mode_reassign: bool,
+        away_status_reason_id: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> Admin:
+    ) -> typing.Optional[Admin]:
         """
         You can set an Admin as away for the Inbox.
 
         Parameters
         ----------
-        admin_id : str
+        admin_id : int
             The unique identifier of a given admin
 
         away_mode_enabled : bool
@@ -288,12 +297,15 @@ class AsyncAdminsClient:
         away_mode_reassign : bool
             Set to "true" to assign any new conversation replies to your default inbox.
 
+        away_status_reason_id : typing.Optional[int]
+            The unique identifier of the away status reason
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        Admin
+        typing.Optional[Admin]
             Successful response
 
         Examples
@@ -309,9 +321,10 @@ class AsyncAdminsClient:
 
         async def main() -> None:
             await client.admins.away(
-                admin_id="admin_id",
+                admin_id=1,
                 away_mode_enabled=True,
                 away_mode_reassign=True,
+                away_status_reason_id=12345,
             )
 
 
@@ -321,6 +334,7 @@ class AsyncAdminsClient:
             admin_id,
             away_mode_enabled=away_mode_enabled,
             away_mode_reassign=away_mode_reassign,
+            away_status_reason_id=away_status_reason_id,
             request_options=request_options,
         )
         return _response.data
@@ -410,13 +424,15 @@ class AsyncAdminsClient:
         _response = await self._raw_client.list(request_options=request_options)
         return _response.data
 
-    async def find(self, admin_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Admin:
+    async def find(
+        self, admin_id: int, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Optional[Admin]:
         """
         You can retrieve the details of a single admin.
 
         Parameters
         ----------
-        admin_id : str
+        admin_id : int
             The unique identifier of a given admin
 
         request_options : typing.Optional[RequestOptions]
@@ -424,7 +440,7 @@ class AsyncAdminsClient:
 
         Returns
         -------
-        Admin
+        typing.Optional[Admin]
             Admin found
 
         Examples
@@ -440,7 +456,7 @@ class AsyncAdminsClient:
 
         async def main() -> None:
             await client.admins.find(
-                admin_id="123",
+                admin_id=1,
             )
 
 

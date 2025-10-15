@@ -3,6 +3,7 @@
 # isort: skip_file
 
 from .tag import Tag
+from .tag_basic import TagBasic
 from .tags_create_request_body import TagsCreateRequestBody
 
-__all__ = ["Tag", "TagsCreateRequestBody"]
+__all__ = ["Tag", "TagBasic", "TagsCreateRequestBody"]

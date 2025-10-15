@@ -14,15 +14,15 @@ class PagesLink(UncheckedBaseModel):
     Their responses are likely to contain a pages object that hosts pagination links which a client can use to paginate through the data without having to construct a query. The link relations for the pages field are as follows.
     """
 
-    type: typing.Literal["pages"] = "pages"
-    page: int
+    type: typing.Optional[typing.Literal["pages"]] = None
+    page: typing.Optional[int] = None
     next: typing.Optional[str] = pydantic.Field(default=None)
     """
     A link to the next page of results. A response that does not contain a next link does not have further data to fetch.
     """
 
-    per_page: int
-    total_pages: int
+    per_page: typing.Optional[int] = None
+    total_pages: typing.Optional[int] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

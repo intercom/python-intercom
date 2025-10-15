@@ -12,12 +12,10 @@ from .article_search_highlights_highlighted_summary_item_item_type import (
 )
 from .article_search_highlights_highlighted_title_item import ArticleSearchHighlightsHighlightedTitleItem
 from .article_search_highlights_highlighted_title_item_type import ArticleSearchHighlightsHighlightedTitleItemType
-from .create_article_request_parent_type import CreateArticleRequestParentType
-from .create_article_request_state import CreateArticleRequestState
-from .search_articles_response import SearchArticlesResponse
-from .search_articles_response_data import SearchArticlesResponseData
-from .update_article_request_body_parent_type import UpdateArticleRequestBodyParentType
-from .update_article_request_body_state import UpdateArticleRequestBodyState
+from .article_search_response import ArticleSearchResponse
+from .article_search_response_data import ArticleSearchResponseData
+from .internal_article import InternalArticle
+from .update_article_request_state import UpdateArticleRequestState
 
 __all__ = [
     "Article",
@@ -28,10 +26,8 @@ __all__ = [
     "ArticleSearchHighlightsHighlightedSummaryItemItemType",
     "ArticleSearchHighlightsHighlightedTitleItem",
     "ArticleSearchHighlightsHighlightedTitleItemType",
-    "CreateArticleRequestParentType",
-    "CreateArticleRequestState",
-    "SearchArticlesResponse",
-    "SearchArticlesResponseData",
-    "UpdateArticleRequestBodyParentType",
-    "UpdateArticleRequestBodyState",
+    "ArticleSearchResponse",
+    "ArticleSearchResponseData",
+    "InternalArticle",
+    "UpdateArticleRequestState",
 ]

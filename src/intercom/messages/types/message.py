@@ -28,7 +28,7 @@ class Message(UncheckedBaseModel):
     The time the conversation was created.
     """
 
-    subject: str = pydantic.Field()
+    subject: typing.Optional[str] = pydantic.Field(default=None)
     """
     The subject of the message. Only present if message_type: email.
     """
@@ -43,7 +43,7 @@ class Message(UncheckedBaseModel):
     The type of message that was sent. Can be email, inapp, facebook or twitter.
     """
 
-    conversation_id: str = pydantic.Field()
+    conversation_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The associated conversation_id
     """

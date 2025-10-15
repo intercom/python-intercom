@@ -42,7 +42,7 @@ class AttributesClient:
         list_items: typing.Optional[str] = OMIT,
         allow_multiple_values: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> TicketTypeAttribute:
+    ) -> typing.Optional[TicketTypeAttribute]:
         """
         You can create a new attribute for a ticket type.
 
@@ -86,7 +86,7 @@ class AttributesClient:
 
         Returns
         -------
-        TicketTypeAttribute
+        typing.Optional[TicketTypeAttribute]
             Ticket Type Attribute created
 
         Examples
@@ -136,7 +136,7 @@ class AttributesClient:
         allow_multiple_values: typing.Optional[bool] = OMIT,
         archived: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> TicketTypeAttribute:
+    ) -> typing.Optional[TicketTypeAttribute]:
         """
         You can update an existing attribute for a ticket type.
 
@@ -183,7 +183,7 @@ class AttributesClient:
 
         Returns
         -------
-        TicketTypeAttribute
+        typing.Optional[TicketTypeAttribute]
             Ticket Type Attribute updated
 
         Examples
@@ -247,7 +247,7 @@ class AsyncAttributesClient:
         list_items: typing.Optional[str] = OMIT,
         allow_multiple_values: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> TicketTypeAttribute:
+    ) -> typing.Optional[TicketTypeAttribute]:
         """
         You can create a new attribute for a ticket type.
 
@@ -291,7 +291,7 @@ class AsyncAttributesClient:
 
         Returns
         -------
-        TicketTypeAttribute
+        typing.Optional[TicketTypeAttribute]
             Ticket Type Attribute created
 
         Examples
@@ -349,7 +349,7 @@ class AsyncAttributesClient:
         allow_multiple_values: typing.Optional[bool] = OMIT,
         archived: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> TicketTypeAttribute:
+    ) -> typing.Optional[TicketTypeAttribute]:
         """
         You can update an existing attribute for a ticket type.
 
@@ -396,7 +396,7 @@ class AsyncAttributesClient:
 
         Returns
         -------
-        TicketTypeAttribute
+        typing.Optional[TicketTypeAttribute]
             Ticket Type Attribute updated
 
         Examples

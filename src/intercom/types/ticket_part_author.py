@@ -13,12 +13,12 @@ class TicketPartAuthor(UncheckedBaseModel):
     The author that wrote or triggered the part. Can be a bot, admin, team or user.
     """
 
-    type: TicketPartAuthorType = pydantic.Field()
+    type: typing.Optional[TicketPartAuthorType] = pydantic.Field(default=None)
     """
     The type of the author
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id of the author
     """
@@ -28,7 +28,7 @@ class TicketPartAuthor(UncheckedBaseModel):
     The name of the author
     """
 
-    email: str = pydantic.Field()
+    email: typing.Optional[str] = pydantic.Field(default=None)
     """
     The email of the author
     """

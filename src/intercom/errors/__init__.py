@@ -5,7 +5,15 @@
 from .bad_request_error import BadRequestError
 from .forbidden_error import ForbiddenError
 from .not_found_error import NotFoundError
+from .too_many_requests_error import TooManyRequestsError
 from .unauthorized_error import UnauthorizedError
 from .unprocessable_entity_error import UnprocessableEntityError
 
-__all__ = ["BadRequestError", "ForbiddenError", "NotFoundError", "UnauthorizedError", "UnprocessableEntityError"]
+__all__ = [
+    "BadRequestError",
+    "ForbiddenError",
+    "NotFoundError",
+    "TooManyRequestsError",
+    "UnauthorizedError",
+    "UnprocessableEntityError",
+]

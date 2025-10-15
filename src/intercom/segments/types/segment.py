@@ -13,22 +13,22 @@ class Segment(UncheckedBaseModel):
     A segment is a group of your contacts defined by the rules that you set.
     """
 
-    type: typing.Literal["segment"] = pydantic.Field(default="segment")
+    type: typing.Optional[typing.Literal["segment"]] = pydantic.Field(default=None)
     """
     The type of object.
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The unique identifier representing the segment.
     """
 
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the segment.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The time the segment was created.
     """
@@ -38,7 +38,7 @@ class Segment(UncheckedBaseModel):
     The time the segment was updated.
     """
 
-    person_type: SegmentPersonType = pydantic.Field()
+    person_type: typing.Optional[SegmentPersonType] = pydantic.Field(default=None)
     """
     Type of the contact: contact (lead) or user.
     """

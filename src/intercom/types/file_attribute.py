@@ -12,33 +12,33 @@ class FileAttribute(UncheckedBaseModel):
     The value describing a file upload set for a custom attribute
     """
 
-    type: str
-    name: str = pydantic.Field()
+    type: typing.Optional[str] = None
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the file
     """
 
-    url: str = pydantic.Field()
+    url: typing.Optional[str] = pydantic.Field(default=None)
     """
     The url of the file. This is a temporary URL and will expire after 30 minutes.
     """
 
-    content_type: str = pydantic.Field()
+    content_type: typing.Optional[str] = pydantic.Field(default=None)
     """
     The type of file
     """
 
-    filesize: int = pydantic.Field()
+    filesize: typing.Optional[int] = pydantic.Field(default=None)
     """
     The size of the file in bytes
     """
 
-    width: int = pydantic.Field()
+    width: typing.Optional[int] = pydantic.Field(default=None)
     """
     The width of the file in pixels, if applicable
     """
 
-    height: int = pydantic.Field()
+    height: typing.Optional[int] = pydantic.Field(default=None)
     """
     The height of the file in pixels, if applicable
     """

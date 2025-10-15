@@ -3,6 +3,7 @@
 # isort: skip_file
 
 from .data_export import DataExport
+from .data_export_export_reporting_data_response import DataExportExportReportingDataResponse
 from .data_export_status import DataExportStatus
 
-__all__ = ["DataExport", "DataExportStatus"]
+__all__ = ["DataExport", "DataExportExportReportingDataResponse", "DataExportStatus"]

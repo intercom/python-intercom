@@ -15,7 +15,7 @@ from ...errors.unauthorized_error import UnauthorizedError
 from ...types.deleted_object import DeletedObject
 from ...types.error import Error
 from ...types.news_item_request_state import NewsItemRequestState
-from ...types.paginated_news_item_response import PaginatedNewsItemResponse
+from ...types.paginated_response import PaginatedResponse
 from ..types.news_item import NewsItem
 from ..types.newsfeed_assignment import NewsfeedAssignment
 
@@ -27,9 +27,7 @@ class RawItemsClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def list(
-        self, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[PaginatedNewsItemResponse]:
+    def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[PaginatedResponse]:
         """
         You can fetch a list of all news items
 
@@ -40,7 +38,7 @@ class RawItemsClient:
 
         Returns
         -------
-        HttpResponse[PaginatedNewsItemResponse]
+        HttpResponse[PaginatedResponse]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -51,9 +49,9 @@ class RawItemsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    PaginatedNewsItemResponse,
+                    PaginatedResponse,
                     construct_type(
-                        type_=PaginatedNewsItemResponse,  # type: ignore
+                        type_=PaginatedResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -172,14 +170,14 @@ class RawItemsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def find(
-        self, news_item_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, news_item_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[NewsItem]:
         """
         You can fetch the details of a single news item.
 
         Parameters
         ----------
-        news_item_id : str
+        news_item_id : int
             The unique identifier for the news item which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -234,7 +232,7 @@ class RawItemsClient:
 
     def update(
         self,
-        news_item_id: str,
+        news_item_id: int,
         *,
         title: str,
         sender_id: int,
@@ -249,7 +247,7 @@ class RawItemsClient:
         """
         Parameters
         ----------
-        news_item_id : str
+        news_item_id : int
             The unique identifier for the news item which is given by Intercom.
 
         title : str
@@ -343,14 +341,14 @@ class RawItemsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def delete(
-        self, news_item_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, news_item_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[DeletedObject]:
         """
         You can delete a single news item.
 
         Parameters
         ----------
-        news_item_id : str
+        news_item_id : int
             The unique identifier for the news item which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -410,7 +408,7 @@ class AsyncRawItemsClient:
 
     async def list(
         self, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[PaginatedNewsItemResponse]:
+    ) -> AsyncHttpResponse[PaginatedResponse]:
         """
         You can fetch a list of all news items
 
@@ -421,7 +419,7 @@ class AsyncRawItemsClient:
 
         Returns
         -------
-        AsyncHttpResponse[PaginatedNewsItemResponse]
+        AsyncHttpResponse[PaginatedResponse]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -432,9 +430,9 @@ class AsyncRawItemsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    PaginatedNewsItemResponse,
+                    PaginatedResponse,
                     construct_type(
-                        type_=PaginatedNewsItemResponse,  # type: ignore
+                        type_=PaginatedResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -553,14 +551,14 @@ class AsyncRawItemsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def find(
-        self, news_item_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, news_item_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[NewsItem]:
         """
         You can fetch the details of a single news item.
 
         Parameters
         ----------
-        news_item_id : str
+        news_item_id : int
             The unique identifier for the news item which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -615,7 +613,7 @@ class AsyncRawItemsClient:
 
     async def update(
         self,
-        news_item_id: str,
+        news_item_id: int,
         *,
         title: str,
         sender_id: int,
@@ -630,7 +628,7 @@ class AsyncRawItemsClient:
         """
         Parameters
         ----------
-        news_item_id : str
+        news_item_id : int
             The unique identifier for the news item which is given by Intercom.
 
         title : str
@@ -724,14 +722,14 @@ class AsyncRawItemsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def delete(
-        self, news_item_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, news_item_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[DeletedObject]:
         """
         You can delete a single news item.
 
         Parameters
         ----------
-        news_item_id : str
+        news_item_id : int
             The unique identifier for the news item which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]

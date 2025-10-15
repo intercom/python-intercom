@@ -3,5 +3,17 @@
 # isort: skip_file
 
 from .contact import Contact
+from .contacts_create_response import ContactsCreateResponse
+from .contacts_find_response import ContactsFindResponse
+from .contacts_merge_lead_in_user_response import ContactsMergeLeadInUserResponse
+from .contacts_update_response import ContactsUpdateResponse
+from .show_contact_by_external_id_response import ShowContactByExternalIdResponse
 
-__all__ = ["Contact"]
+__all__ = [
+    "Contact",
+    "ContactsCreateResponse",
+    "ContactsFindResponse",
+    "ContactsMergeLeadInUserResponse",
+    "ContactsUpdateResponse",
+    "ShowContactByExternalIdResponse",
+]

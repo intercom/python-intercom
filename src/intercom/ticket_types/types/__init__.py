@@ -2,7 +2,6 @@
 
 # isort: skip_file
 
-from .create_ticket_type_request_category import CreateTicketTypeRequestCategory
-from .update_ticket_type_request_body_category import UpdateTicketTypeRequestBodyCategory
+from .update_ticket_type_request_category import UpdateTicketTypeRequestCategory
 
-__all__ = ["CreateTicketTypeRequestCategory", "UpdateTicketTypeRequestBodyCategory"]
+__all__ = ["UpdateTicketTypeRequestCategory"]

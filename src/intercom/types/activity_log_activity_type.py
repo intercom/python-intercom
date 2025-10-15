@@ -4,7 +4,8 @@ import typing
 
 ActivityLogActivityType = typing.Union[
     typing.Literal[
-        "admin_assignment_limit_change",
+        "admin_conversation_assignment_limit_change",
+        "admin_ticket_assignment_limit_change",
         "admin_away_mode_change",
         "admin_deletion",
         "admin_deprovisioned",

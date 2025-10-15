@@ -13,12 +13,12 @@ class TicketTypeList(UncheckedBaseModel):
     A list of ticket types associated with a given workspace.
     """
 
-    type: typing.Literal["ticket_type_attributes.list"] = pydantic.Field(default="ticket_type_attributes.list")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
-    String representing the object's type. Always has the value `ticket_type.list`.
+    String representing the object's type. Always has the value `list`.
     """
 
-    ticket_types: typing.List[TicketType] = pydantic.Field()
+    data: typing.Optional[typing.List[typing.Optional[TicketType]]] = pydantic.Field(default=None)
     """
     A list of ticket_types associated with a given workspace.
     """

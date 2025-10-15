@@ -15,17 +15,17 @@ class TicketReply(UncheckedBaseModel):
     A Ticket Part representing a note, comment, or quick_reply on a ticket
     """
 
-    type: typing.Literal["ticket_part"] = pydantic.Field(default="ticket_part")
+    type: typing.Optional[typing.Literal["ticket_part"]] = pydantic.Field(default=None)
     """
     Always ticket_part
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id representing the part.
     """
 
-    part_type: TicketReplyPartType = pydantic.Field()
+    part_type: typing.Optional[TicketReplyPartType] = pydantic.Field(default=None)
     """
     Type of the part
     """
@@ -35,7 +35,7 @@ class TicketReply(UncheckedBaseModel):
     The message body, which may contain HTML.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The time the note was created.
     """

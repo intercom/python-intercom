@@ -13,17 +13,17 @@ class NoteList(UncheckedBaseModel):
     A paginated list of notes associated with a contact.
     """
 
-    type: typing.Literal["list"] = pydantic.Field(default="list")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     String representing the object's type. Always has the value `list`.
     """
 
-    data: typing.List[Note] = pydantic.Field()
+    data: typing.Optional[typing.List[Note]] = pydantic.Field(default=None)
     """
     An array of notes.
     """
 
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     A count of the total number of notes.
     """

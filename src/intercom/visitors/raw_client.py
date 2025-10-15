@@ -26,7 +26,9 @@ class RawVisitorsClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def find(self, *, user_id: str, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[Visitor]:
+    def find(
+        self, *, user_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[typing.Optional[Visitor]]:
         """
         You can fetch the details of a single visitor.
 
@@ -40,7 +42,7 @@ class RawVisitorsClient:
 
         Returns
         -------
-        HttpResponse[Visitor]
+        HttpResponse[typing.Optional[Visitor]]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -52,11 +54,13 @@ class RawVisitorsClient:
             request_options=request_options,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Visitor,
+                    typing.Optional[Visitor],
                     construct_type(
-                        type_=Visitor,  # type: ignore
+                        type_=typing.Optional[Visitor],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -90,7 +94,7 @@ class RawVisitorsClient:
 
     def update(
         self, *, request: UpdateVisitorRequest, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[Visitor]:
+    ) -> HttpResponse[typing.Optional[Visitor]]:
         """
         Sending a PUT request to `/visitors` will result in an update of an existing Visitor.
 
@@ -107,7 +111,7 @@ class RawVisitorsClient:
 
         Returns
         -------
-        HttpResponse[Visitor]
+        HttpResponse[typing.Optional[Visitor]]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -123,11 +127,13 @@ class RawVisitorsClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Visitor,
+                    typing.Optional[Visitor],
                     construct_type(
-                        type_=Visitor,  # type: ignore
+                        type_=typing.Optional[Visitor],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -244,7 +250,7 @@ class AsyncRawVisitorsClient:
 
     async def find(
         self, *, user_id: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[Visitor]:
+    ) -> AsyncHttpResponse[typing.Optional[Visitor]]:
         """
         You can fetch the details of a single visitor.
 
@@ -258,7 +264,7 @@ class AsyncRawVisitorsClient:
 
         Returns
         -------
-        AsyncHttpResponse[Visitor]
+        AsyncHttpResponse[typing.Optional[Visitor]]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -270,11 +276,13 @@ class AsyncRawVisitorsClient:
             request_options=request_options,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Visitor,
+                    typing.Optional[Visitor],
                     construct_type(
-                        type_=Visitor,  # type: ignore
+                        type_=typing.Optional[Visitor],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -308,7 +316,7 @@ class AsyncRawVisitorsClient:
 
     async def update(
         self, *, request: UpdateVisitorRequest, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[Visitor]:
+    ) -> AsyncHttpResponse[typing.Optional[Visitor]]:
         """
         Sending a PUT request to `/visitors` will result in an update of an existing Visitor.
 
@@ -325,7 +333,7 @@ class AsyncRawVisitorsClient:
 
         Returns
         -------
-        AsyncHttpResponse[Visitor]
+        AsyncHttpResponse[typing.Optional[Visitor]]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -341,11 +349,13 @@ class AsyncRawVisitorsClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Visitor,
+                    typing.Optional[Visitor],
                     construct_type(
-                        type_=Visitor,  # type: ignore
+                        type_=typing.Optional[Visitor],  # type: ignore
                         object_=_response.json(),
                     ),
                 )

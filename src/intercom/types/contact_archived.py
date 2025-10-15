@@ -4,30 +4,15 @@ import typing
 
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from .contact_reference import ContactReference
 
 
-class ContactArchived(UncheckedBaseModel):
+class ContactArchived(ContactReference):
     """
     archived contact object
     """
 
-    type: typing.Literal["contact"] = pydantic.Field(default="contact")
-    """
-    always contact
-    """
-
-    id: str = pydantic.Field()
-    """
-    The unique identifier for the contact which is given by Intercom.
-    """
-
-    external_id: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    The unique identifier for the contact which is provided by the Client.
-    """
-
-    archived: bool = pydantic.Field()
+    archived: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether the contact is archived or not.
     """

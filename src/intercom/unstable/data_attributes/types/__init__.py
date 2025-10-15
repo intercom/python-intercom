@@ -2,18 +2,9 @@
 
 # isort: skip_file
 
-from .create_data_attribute_request_data_type import CreateDataAttributeRequestDataType
-from .create_data_attribute_request_model import CreateDataAttributeRequestModel
 from .data_attribute import DataAttribute
 from .data_attribute_data_type import DataAttributeDataType
 from .data_attribute_model import DataAttributeModel
 from .lis_data_attributes_request_model import LisDataAttributesRequestModel
 
-__all__ = [
-    "CreateDataAttributeRequestDataType",
-    "CreateDataAttributeRequestModel",
-    "DataAttribute",
-    "DataAttributeDataType",
-    "DataAttributeModel",
-    "LisDataAttributesRequestModel",
-]
+__all__ = ["DataAttribute", "DataAttributeDataType", "DataAttributeModel", "LisDataAttributesRequestModel"]

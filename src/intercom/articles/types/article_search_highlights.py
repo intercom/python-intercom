@@ -14,17 +14,21 @@ class ArticleSearchHighlights(UncheckedBaseModel):
     The highlighted results of an Article search. In the examples provided my search query is always "my query".
     """
 
-    article_id: str = pydantic.Field()
+    article_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The ID of the corresponding article.
     """
 
-    highlighted_title: typing.List[ArticleSearchHighlightsHighlightedTitleItem] = pydantic.Field()
+    highlighted_title: typing.Optional[typing.List[ArticleSearchHighlightsHighlightedTitleItem]] = pydantic.Field(
+        default=None
+    )
     """
     An Article title highlighted.
     """
 
-    highlighted_summary: typing.List[typing.List[ArticleSearchHighlightsHighlightedSummaryItemItem]] = pydantic.Field()
+    highlighted_summary: typing.Optional[
+        typing.List[typing.List[ArticleSearchHighlightsHighlightedSummaryItemItem]]
+    ] = pydantic.Field(default=None)
     """
     An Article description and body text highlighted.
     """

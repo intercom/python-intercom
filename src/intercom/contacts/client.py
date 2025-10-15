@@ -8,6 +8,7 @@ from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
 from ..subscription_types.types.subscription_type import SubscriptionType
 from ..types.contact_archived import ContactArchived
+from ..types.contact_blocked import ContactBlocked
 from ..types.contact_deleted import ContactDeleted
 from ..types.contact_segments import ContactSegments
 from ..types.contact_unarchived import ContactUnarchived
@@ -18,6 +19,11 @@ from ..types.subscription_type_list import SubscriptionTypeList
 from ..types.tag_list import TagList
 from .raw_client import AsyncRawContactsClient, RawContactsClient
 from .types.contact import Contact
+from .types.contacts_create_response import ContactsCreateResponse
+from .types.contacts_find_response import ContactsFindResponse
+from .types.contacts_merge_lead_in_user_response import ContactsMergeLeadInUserResponse
+from .types.contacts_update_response import ContactsUpdateResponse
+from .types.show_contact_by_external_id_response import ShowContactByExternalIdResponse
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -284,21 +290,21 @@ class ContactsClient:
         _response = self._raw_client.list_attached_tags(contact_id, request_options=request_options)
         return _response.data
 
-    def find(self, contact_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Contact:
+    def find(self, contact_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> ContactsFindResponse:
         """
         You can fetch the details of a single contact.
 
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        Contact
+        ContactsFindResponse
             successful
 
         Examples
@@ -331,9 +337,15 @@ class ContactsClient:
         unsubscribed_from_emails: typing.Optional[bool] = OMIT,
         custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> Contact:
+    ) -> ContactsUpdateResponse:
         """
         You can update an existing contact (ie. user or lead).
+
+        {% admonition type="info" %}
+          This endpoint handles both **contact updates** and **custom object associations**.
+
+          See _`update a contact with an association to a custom object instance`_ in the request/response examples to see the custom object association format.
+        {% /admonition %}
 
         Parameters
         ----------
@@ -378,7 +390,7 @@ class ContactsClient:
 
         Returns
         -------
-        Contact
+        ContactsUpdateResponse
             successful
 
         Examples
@@ -418,7 +430,7 @@ class ContactsClient:
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -443,17 +455,21 @@ class ContactsClient:
         return _response.data
 
     def merge_lead_in_user(
-        self, *, lead_id: str, contact_id: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> Contact:
+        self,
+        *,
+        lead_id: typing.Optional[str] = OMIT,
+        contact_id: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ContactsMergeLeadInUserResponse:
         """
         You can merge a contact with a `role` of `lead` into a contact with a `role` of `user`.
 
         Parameters
         ----------
-        lead_id : str
+        lead_id : typing.Optional[str]
             The unique identifier for the contact to merge away from. Must be a lead.
 
-        contact_id : str
+        contact_id : typing.Optional[str]
             The unique identifier for the contact to merge into. Must be a user.
 
         request_options : typing.Optional[RequestOptions]
@@ -461,7 +477,7 @@ class ContactsClient:
 
         Returns
         -------
-        Contact
+        ContactsMergeLeadInUserResponse
             successful
 
         Examples
@@ -472,8 +488,8 @@ class ContactsClient:
             token="YOUR_TOKEN",
         )
         client.contacts.merge_lead_in_user(
-            lead_id="667d60ac8a68186f43bafdbb",
-            contact_id="667d60ac8a68186f43bafdbc",
+            lead_id="6762f0d51bb69f9f2193bb7f",
+            contact_id="6762f0d51bb69f9f2193bb80",
         )
         """
         _response = self._raw_client.merge_lead_in_user(
@@ -692,7 +708,7 @@ class ContactsClient:
 
     def create(
         self, *, request: CreateContactRequest, request_options: typing.Optional[RequestOptions] = None
-    ) -> Contact:
+    ) -> ContactsCreateResponse:
         """
         You can create a new contact (ie. user or lead).
 
@@ -705,7 +721,7 @@ class ContactsClient:
 
         Returns
         -------
-        Contact
+        ContactsCreateResponse
             successful
 
         Examples
@@ -724,6 +740,39 @@ class ContactsClient:
         _response = self._raw_client.create(request=request, request_options=request_options)
         return _response.data
 
+    def show_contact_by_external_id(
+        self, external_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ShowContactByExternalIdResponse:
+        """
+        You can fetch the details of a single contact by external ID. Note that this endpoint only supports users and not leads.
+
+        Parameters
+        ----------
+        external_id : str
+            The external ID of the user that you want to retrieve
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ShowContactByExternalIdResponse
+            successful
+
+        Examples
+        --------
+        from intercom import Intercom
+
+        client = Intercom(
+            token="YOUR_TOKEN",
+        )
+        client.contacts.show_contact_by_external_id(
+            external_id="cdd29344-5e0c-4ef0-ac56-f9ba2979bc27",
+        )
+        """
+        _response = self._raw_client.show_contact_by_external_id(external_id, request_options=request_options)
+        return _response.data
+
     def archive(self, contact_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> ContactArchived:
         """
         You can archive a single contact.
@@ -731,7 +780,7 @@ class ContactsClient:
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -764,7 +813,7 @@ class ContactsClient:
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -786,6 +835,39 @@ class ContactsClient:
         )
         """
         _response = self._raw_client.unarchive(contact_id, request_options=request_options)
+        return _response.data
+
+    def block_contact(
+        self, contact_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ContactBlocked:
+        """
+        Block a single contact.<br>**Note:** conversations of the contact will also be archived during the process.<br>More details in [FAQ How do I block Inbox spam?](https://www.intercom.com/help/en/articles/8838656-inbox-faqs)
+
+        Parameters
+        ----------
+        contact_id : str
+            contact_id
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContactBlocked
+            successful
+
+        Examples
+        --------
+        from intercom import Intercom
+
+        client = Intercom(
+            token="YOUR_TOKEN",
+        )
+        client.contacts.block_contact(
+            contact_id="63a07ddf05a32042dffac965",
+        )
+        """
+        _response = self._raw_client.block_contact(contact_id, request_options=request_options)
         return _response.data
 
 
@@ -1101,21 +1183,23 @@ class AsyncContactsClient:
         _response = await self._raw_client.list_attached_tags(contact_id, request_options=request_options)
         return _response.data
 
-    async def find(self, contact_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Contact:
+    async def find(
+        self, contact_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ContactsFindResponse:
         """
         You can fetch the details of a single contact.
 
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        Contact
+        ContactsFindResponse
             successful
 
         Examples
@@ -1156,9 +1240,15 @@ class AsyncContactsClient:
         unsubscribed_from_emails: typing.Optional[bool] = OMIT,
         custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> Contact:
+    ) -> ContactsUpdateResponse:
         """
         You can update an existing contact (ie. user or lead).
+
+        {% admonition type="info" %}
+          This endpoint handles both **contact updates** and **custom object associations**.
+
+          See _`update a contact with an association to a custom object instance`_ in the request/response examples to see the custom object association format.
+        {% /admonition %}
 
         Parameters
         ----------
@@ -1203,7 +1293,7 @@ class AsyncContactsClient:
 
         Returns
         -------
-        Contact
+        ContactsUpdateResponse
             successful
 
         Examples
@@ -1253,7 +1343,7 @@ class AsyncContactsClient:
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1286,17 +1376,21 @@ class AsyncContactsClient:
         return _response.data
 
     async def merge_lead_in_user(
-        self, *, lead_id: str, contact_id: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> Contact:
+        self,
+        *,
+        lead_id: typing.Optional[str] = OMIT,
+        contact_id: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ContactsMergeLeadInUserResponse:
         """
         You can merge a contact with a `role` of `lead` into a contact with a `role` of `user`.
 
         Parameters
         ----------
-        lead_id : str
+        lead_id : typing.Optional[str]
             The unique identifier for the contact to merge away from. Must be a lead.
 
-        contact_id : str
+        contact_id : typing.Optional[str]
             The unique identifier for the contact to merge into. Must be a user.
 
         request_options : typing.Optional[RequestOptions]
@@ -1304,7 +1398,7 @@ class AsyncContactsClient:
 
         Returns
         -------
-        Contact
+        ContactsMergeLeadInUserResponse
             successful
 
         Examples
@@ -1320,8 +1414,8 @@ class AsyncContactsClient:
 
         async def main() -> None:
             await client.contacts.merge_lead_in_user(
-                lead_id="667d60ac8a68186f43bafdbb",
-                contact_id="667d60ac8a68186f43bafdbc",
+                lead_id="6762f0d51bb69f9f2193bb7f",
+                contact_id="6762f0d51bb69f9f2193bb80",
             )
 
 
@@ -1561,7 +1655,7 @@ class AsyncContactsClient:
 
     async def create(
         self, *, request: CreateContactRequest, request_options: typing.Optional[RequestOptions] = None
-    ) -> Contact:
+    ) -> ContactsCreateResponse:
         """
         You can create a new contact (ie. user or lead).
 
@@ -1574,7 +1668,7 @@ class AsyncContactsClient:
 
         Returns
         -------
-        Contact
+        ContactsCreateResponse
             successful
 
         Examples
@@ -1601,6 +1695,47 @@ class AsyncContactsClient:
         _response = await self._raw_client.create(request=request, request_options=request_options)
         return _response.data
 
+    async def show_contact_by_external_id(
+        self, external_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ShowContactByExternalIdResponse:
+        """
+        You can fetch the details of a single contact by external ID. Note that this endpoint only supports users and not leads.
+
+        Parameters
+        ----------
+        external_id : str
+            The external ID of the user that you want to retrieve
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ShowContactByExternalIdResponse
+            successful
+
+        Examples
+        --------
+        import asyncio
+
+        from intercom import AsyncIntercom
+
+        client = AsyncIntercom(
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.contacts.show_contact_by_external_id(
+                external_id="cdd29344-5e0c-4ef0-ac56-f9ba2979bc27",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.show_contact_by_external_id(external_id, request_options=request_options)
+        return _response.data
+
     async def archive(
         self, contact_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ContactArchived:
@@ -1610,7 +1745,7 @@ class AsyncContactsClient:
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1651,7 +1786,7 @@ class AsyncContactsClient:
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1681,4 +1816,45 @@ class AsyncContactsClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.unarchive(contact_id, request_options=request_options)
+        return _response.data
+
+    async def block_contact(
+        self, contact_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ContactBlocked:
+        """
+        Block a single contact.<br>**Note:** conversations of the contact will also be archived during the process.<br>More details in [FAQ How do I block Inbox spam?](https://www.intercom.com/help/en/articles/8838656-inbox-faqs)
+
+        Parameters
+        ----------
+        contact_id : str
+            contact_id
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContactBlocked
+            successful
+
+        Examples
+        --------
+        import asyncio
+
+        from intercom import AsyncIntercom
+
+        client = AsyncIntercom(
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.contacts.block_contact(
+                contact_id="63a07ddf05a32042dffac965",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.block_contact(contact_id, request_options=request_options)
         return _response.data
