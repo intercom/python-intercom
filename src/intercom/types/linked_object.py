@@ -13,12 +13,12 @@ class LinkedObject(UncheckedBaseModel):
     A linked conversation or ticket.
     """
 
-    type: LinkedObjectType = pydantic.Field()
+    type: typing.Optional[LinkedObjectType] = pydantic.Field(default=None)
     """
     ticket or conversation
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The ID of the linked object
     """

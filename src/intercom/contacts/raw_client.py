@@ -17,6 +17,7 @@ from ..errors.unauthorized_error import UnauthorizedError
 from ..subscription_types.types.subscription_type import SubscriptionType
 from ..types.contact_archived import ContactArchived
 from ..types.contact_attached_companies import ContactAttachedCompanies
+from ..types.contact_blocked import ContactBlocked
 from ..types.contact_deleted import ContactDeleted
 from ..types.contact_list import ContactList
 from ..types.contact_segments import ContactSegments
@@ -28,6 +29,11 @@ from ..types.starting_after_paging import StartingAfterPaging
 from ..types.subscription_type_list import SubscriptionTypeList
 from ..types.tag_list import TagList
 from .types.contact import Contact
+from .types.contacts_create_response import ContactsCreateResponse
+from .types.contacts_find_response import ContactsFindResponse
+from .types.contacts_merge_lead_in_user_response import ContactsMergeLeadInUserResponse
+from .types.contacts_update_response import ContactsUpdateResponse
+from .types.show_contact_by_external_id_response import ShowContactByExternalIdResponse
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -466,21 +472,21 @@ class RawContactsClient:
 
     def find(
         self, contact_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[Contact]:
+    ) -> HttpResponse[ContactsFindResponse]:
         """
         You can fetch the details of a single contact.
 
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[Contact]
+        HttpResponse[ContactsFindResponse]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -491,9 +497,9 @@ class RawContactsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Contact,
+                    ContactsFindResponse,
                     construct_type(
-                        type_=Contact,  # type: ignore
+                        type_=ContactsFindResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -530,9 +536,15 @@ class RawContactsClient:
         unsubscribed_from_emails: typing.Optional[bool] = OMIT,
         custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[Contact]:
+    ) -> HttpResponse[ContactsUpdateResponse]:
         """
         You can update an existing contact (ie. user or lead).
+
+        {% admonition type="info" %}
+          This endpoint handles both **contact updates** and **custom object associations**.
+
+          See _`update a contact with an association to a custom object instance`_ in the request/response examples to see the custom object association format.
+        {% /admonition %}
 
         Parameters
         ----------
@@ -577,7 +589,7 @@ class RawContactsClient:
 
         Returns
         -------
-        HttpResponse[Contact]
+        HttpResponse[ContactsUpdateResponse]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -605,9 +617,9 @@ class RawContactsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Contact,
+                    ContactsUpdateResponse,
                     construct_type(
-                        type_=Contact,  # type: ignore
+                        type_=ContactsUpdateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -637,7 +649,7 @@ class RawContactsClient:
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -679,17 +691,21 @@ class RawContactsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def merge_lead_in_user(
-        self, *, lead_id: str, contact_id: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[Contact]:
+        self,
+        *,
+        lead_id: typing.Optional[str] = OMIT,
+        contact_id: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[ContactsMergeLeadInUserResponse]:
         """
         You can merge a contact with a `role` of `lead` into a contact with a `role` of `user`.
 
         Parameters
         ----------
-        lead_id : str
+        lead_id : typing.Optional[str]
             The unique identifier for the contact to merge away from. Must be a lead.
 
-        contact_id : str
+        contact_id : typing.Optional[str]
             The unique identifier for the contact to merge into. Must be a user.
 
         request_options : typing.Optional[RequestOptions]
@@ -697,7 +713,7 @@ class RawContactsClient:
 
         Returns
         -------
-        HttpResponse[Contact]
+        HttpResponse[ContactsMergeLeadInUserResponse]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -716,9 +732,9 @@ class RawContactsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Contact,
+                    ContactsMergeLeadInUserResponse,
                     construct_type(
-                        type_=Contact,  # type: ignore
+                        type_=ContactsMergeLeadInUserResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -1003,7 +1019,7 @@ class RawContactsClient:
 
     def create(
         self, *, request: CreateContactRequest, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[Contact]:
+    ) -> HttpResponse[ContactsCreateResponse]:
         """
         You can create a new contact (ie. user or lead).
 
@@ -1016,7 +1032,7 @@ class RawContactsClient:
 
         Returns
         -------
-        HttpResponse[Contact]
+        HttpResponse[ContactsCreateResponse]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -1034,9 +1050,59 @@ class RawContactsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Contact,
+                    ContactsCreateResponse,
                     construct_type(
-                        type_=Contact,  # type: ignore
+                        type_=ContactsCreateResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def show_contact_by_external_id(
+        self, external_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ShowContactByExternalIdResponse]:
+        """
+        You can fetch the details of a single contact by external ID. Note that this endpoint only supports users and not leads.
+
+        Parameters
+        ----------
+        external_id : str
+            The external ID of the user that you want to retrieve
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ShowContactByExternalIdResponse]
+            successful
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"contacts/find_by_external_id/{jsonable_encoder(external_id)}",
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ShowContactByExternalIdResponse,
+                    construct_type(
+                        type_=ShowContactByExternalIdResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -1066,7 +1132,7 @@ class RawContactsClient:
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1105,7 +1171,7 @@ class RawContactsClient:
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1126,6 +1192,45 @@ class RawContactsClient:
                     ContactUnarchived,
                     construct_type(
                         type_=ContactUnarchived,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def block_contact(
+        self, contact_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ContactBlocked]:
+        """
+        Block a single contact.<br>**Note:** conversations of the contact will also be archived during the process.<br>More details in [FAQ How do I block Inbox spam?](https://www.intercom.com/help/en/articles/8838656-inbox-faqs)
+
+        Parameters
+        ----------
+        contact_id : str
+            contact_id
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ContactBlocked]
+            successful
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"contacts/{jsonable_encoder(contact_id)}/block",
+            method="POST",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ContactBlocked,
+                    construct_type(
+                        type_=ContactBlocked,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -1572,21 +1677,21 @@ class AsyncRawContactsClient:
 
     async def find(
         self, contact_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[Contact]:
+    ) -> AsyncHttpResponse[ContactsFindResponse]:
         """
         You can fetch the details of a single contact.
 
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[Contact]
+        AsyncHttpResponse[ContactsFindResponse]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1597,9 +1702,9 @@ class AsyncRawContactsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Contact,
+                    ContactsFindResponse,
                     construct_type(
-                        type_=Contact,  # type: ignore
+                        type_=ContactsFindResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -1636,9 +1741,15 @@ class AsyncRawContactsClient:
         unsubscribed_from_emails: typing.Optional[bool] = OMIT,
         custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[Contact]:
+    ) -> AsyncHttpResponse[ContactsUpdateResponse]:
         """
         You can update an existing contact (ie. user or lead).
+
+        {% admonition type="info" %}
+          This endpoint handles both **contact updates** and **custom object associations**.
+
+          See _`update a contact with an association to a custom object instance`_ in the request/response examples to see the custom object association format.
+        {% /admonition %}
 
         Parameters
         ----------
@@ -1683,7 +1794,7 @@ class AsyncRawContactsClient:
 
         Returns
         -------
-        AsyncHttpResponse[Contact]
+        AsyncHttpResponse[ContactsUpdateResponse]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1711,9 +1822,9 @@ class AsyncRawContactsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Contact,
+                    ContactsUpdateResponse,
                     construct_type(
-                        type_=Contact,  # type: ignore
+                        type_=ContactsUpdateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -1743,7 +1854,7 @@ class AsyncRawContactsClient:
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1785,17 +1896,21 @@ class AsyncRawContactsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def merge_lead_in_user(
-        self, *, lead_id: str, contact_id: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[Contact]:
+        self,
+        *,
+        lead_id: typing.Optional[str] = OMIT,
+        contact_id: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[ContactsMergeLeadInUserResponse]:
         """
         You can merge a contact with a `role` of `lead` into a contact with a `role` of `user`.
 
         Parameters
         ----------
-        lead_id : str
+        lead_id : typing.Optional[str]
             The unique identifier for the contact to merge away from. Must be a lead.
 
-        contact_id : str
+        contact_id : typing.Optional[str]
             The unique identifier for the contact to merge into. Must be a user.
 
         request_options : typing.Optional[RequestOptions]
@@ -1803,7 +1918,7 @@ class AsyncRawContactsClient:
 
         Returns
         -------
-        AsyncHttpResponse[Contact]
+        AsyncHttpResponse[ContactsMergeLeadInUserResponse]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1822,9 +1937,9 @@ class AsyncRawContactsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Contact,
+                    ContactsMergeLeadInUserResponse,
                     construct_type(
-                        type_=Contact,  # type: ignore
+                        type_=ContactsMergeLeadInUserResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -2115,7 +2230,7 @@ class AsyncRawContactsClient:
 
     async def create(
         self, *, request: CreateContactRequest, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[Contact]:
+    ) -> AsyncHttpResponse[ContactsCreateResponse]:
         """
         You can create a new contact (ie. user or lead).
 
@@ -2128,7 +2243,7 @@ class AsyncRawContactsClient:
 
         Returns
         -------
-        AsyncHttpResponse[Contact]
+        AsyncHttpResponse[ContactsCreateResponse]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -2146,9 +2261,59 @@ class AsyncRawContactsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Contact,
+                    ContactsCreateResponse,
                     construct_type(
-                        type_=Contact,  # type: ignore
+                        type_=ContactsCreateResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def show_contact_by_external_id(
+        self, external_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ShowContactByExternalIdResponse]:
+        """
+        You can fetch the details of a single contact by external ID. Note that this endpoint only supports users and not leads.
+
+        Parameters
+        ----------
+        external_id : str
+            The external ID of the user that you want to retrieve
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ShowContactByExternalIdResponse]
+            successful
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"contacts/find_by_external_id/{jsonable_encoder(external_id)}",
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ShowContactByExternalIdResponse,
+                    construct_type(
+                        type_=ShowContactByExternalIdResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -2178,7 +2343,7 @@ class AsyncRawContactsClient:
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2217,7 +2382,7 @@ class AsyncRawContactsClient:
         Parameters
         ----------
         contact_id : str
-            id
+            contact_id
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2238,6 +2403,45 @@ class AsyncRawContactsClient:
                     ContactUnarchived,
                     construct_type(
                         type_=ContactUnarchived,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def block_contact(
+        self, contact_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ContactBlocked]:
+        """
+        Block a single contact.<br>**Note:** conversations of the contact will also be archived during the process.<br>More details in [FAQ How do I block Inbox spam?](https://www.intercom.com/help/en/articles/8838656-inbox-faqs)
+
+        Parameters
+        ----------
+        contact_id : str
+            contact_id
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ContactBlocked]
+            successful
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"contacts/{jsonable_encoder(contact_id)}/block",
+            method="POST",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ContactBlocked,
+                    construct_type(
+                        type_=ContactBlocked,  # type: ignore
                         object_=_response.json(),
                     ),
                 )

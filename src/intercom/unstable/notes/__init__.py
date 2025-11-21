@@ -2,6 +2,6 @@
 
 # isort: skip_file
 
-from .types import Note, NoteContact
+from .types import CompanyNote, CompanyNoteCompany, Note, NoteContact
 
-__all__ = ["Note", "NoteContact"]
+__all__ = ["CompanyNote", "CompanyNoteCompany", "Note", "NoteContact"]

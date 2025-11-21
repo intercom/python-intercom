@@ -12,7 +12,7 @@ class AdminWithAppAvatar(UncheckedBaseModel):
     This object represents the avatar associated with the admin.
     """
 
-    type: typing.Optional[typing.Literal["avatar"]] = pydantic.Field(default=None)
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     This is a string that identifies the type of the object. It will always have the value `avatar`.
     """

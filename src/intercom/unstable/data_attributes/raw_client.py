@@ -15,8 +15,6 @@ from ..errors.unauthorized_error import UnauthorizedError
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..types.data_attribute_list import DataAttributeList
 from ..types.error import Error
-from .types.create_data_attribute_request_data_type import CreateDataAttributeRequestDataType
-from .types.create_data_attribute_request_model import CreateDataAttributeRequestModel
 from .types.data_attribute import DataAttribute
 from .types.lis_data_attributes_request_model import LisDataAttributesRequestModel
 
@@ -90,38 +88,14 @@ class RawDataAttributesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def create_data_attribute(
-        self,
-        *,
-        name: str,
-        model: CreateDataAttributeRequestModel,
-        data_type: CreateDataAttributeRequestDataType,
-        description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[str]] = OMIT,
-        messenger_writable: typing.Optional[bool] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[DataAttribute]:
         """
         You can create a data attributes for a `contact` or a `company`.
 
         Parameters
         ----------
-        name : str
-            The name of the data attribute.
-
-        model : CreateDataAttributeRequestModel
-            The model that the data attribute belongs to.
-
-        data_type : CreateDataAttributeRequestDataType
-            The type of data stored for this attribute.
-
-        description : typing.Optional[str]
-            The readable description you see in the UI for the attribute.
-
-        options : typing.Optional[typing.Sequence[str]]
-            To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-
-        messenger_writable : typing.Optional[bool]
-            Can this attribute be updated by the Messenger
+        request : typing.Optional[typing.Any]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -134,14 +108,7 @@ class RawDataAttributesClient:
         _response = self._client_wrapper.httpx_client.request(
             "data_attributes",
             method="POST",
-            json={
-                "name": name,
-                "model": model,
-                "data_type": data_type,
-                "description": description,
-                "options": options,
-                "messenger_writable": messenger_writable,
-            },
+            json=request,
             headers={
                 "content-type": "application/json",
             },
@@ -189,10 +156,7 @@ class RawDataAttributesClient:
         self,
         id: int,
         *,
-        archived: typing.Optional[bool] = OMIT,
-        description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[str]] = OMIT,
-        messenger_writable: typing.Optional[bool] = OMIT,
+        request: typing.Optional[typing.Any] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[DataAttribute]:
         """
@@ -208,17 +172,7 @@ class RawDataAttributesClient:
         id : int
             The data attribute id
 
-        archived : typing.Optional[bool]
-            Whether the attribute is to be archived or not.
-
-        description : typing.Optional[str]
-            The readable description you see in the UI for the attribute.
-
-        options : typing.Optional[typing.Sequence[str]]
-            To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-
-        messenger_writable : typing.Optional[bool]
-            Can this attribute be updated by the Messenger
+        request : typing.Optional[typing.Any]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -231,12 +185,7 @@ class RawDataAttributesClient:
         _response = self._client_wrapper.httpx_client.request(
             f"data_attributes/{jsonable_encoder(id)}",
             method="PUT",
-            json={
-                "archived": archived,
-                "description": description,
-                "options": options,
-                "messenger_writable": messenger_writable,
-            },
+            json=request,
             headers={
                 "content-type": "application/json",
             },
@@ -369,38 +318,14 @@ class AsyncRawDataAttributesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def create_data_attribute(
-        self,
-        *,
-        name: str,
-        model: CreateDataAttributeRequestModel,
-        data_type: CreateDataAttributeRequestDataType,
-        description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[str]] = OMIT,
-        messenger_writable: typing.Optional[bool] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[DataAttribute]:
         """
         You can create a data attributes for a `contact` or a `company`.
 
         Parameters
         ----------
-        name : str
-            The name of the data attribute.
-
-        model : CreateDataAttributeRequestModel
-            The model that the data attribute belongs to.
-
-        data_type : CreateDataAttributeRequestDataType
-            The type of data stored for this attribute.
-
-        description : typing.Optional[str]
-            The readable description you see in the UI for the attribute.
-
-        options : typing.Optional[typing.Sequence[str]]
-            To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-
-        messenger_writable : typing.Optional[bool]
-            Can this attribute be updated by the Messenger
+        request : typing.Optional[typing.Any]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -413,14 +338,7 @@ class AsyncRawDataAttributesClient:
         _response = await self._client_wrapper.httpx_client.request(
             "data_attributes",
             method="POST",
-            json={
-                "name": name,
-                "model": model,
-                "data_type": data_type,
-                "description": description,
-                "options": options,
-                "messenger_writable": messenger_writable,
-            },
+            json=request,
             headers={
                 "content-type": "application/json",
             },
@@ -468,10 +386,7 @@ class AsyncRawDataAttributesClient:
         self,
         id: int,
         *,
-        archived: typing.Optional[bool] = OMIT,
-        description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[str]] = OMIT,
-        messenger_writable: typing.Optional[bool] = OMIT,
+        request: typing.Optional[typing.Any] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[DataAttribute]:
         """
@@ -487,17 +402,7 @@ class AsyncRawDataAttributesClient:
         id : int
             The data attribute id
 
-        archived : typing.Optional[bool]
-            Whether the attribute is to be archived or not.
-
-        description : typing.Optional[str]
-            The readable description you see in the UI for the attribute.
-
-        options : typing.Optional[typing.Sequence[str]]
-            To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-
-        messenger_writable : typing.Optional[bool]
-            Can this attribute be updated by the Messenger
+        request : typing.Optional[typing.Any]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -510,12 +415,7 @@ class AsyncRawDataAttributesClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"data_attributes/{jsonable_encoder(id)}",
             method="PUT",
-            json={
-                "archived": archived,
-                "description": description,
-                "options": options,
-                "messenger_writable": messenger_writable,
-            },
+            json=request,
             headers={
                 "content-type": "application/json",
             },

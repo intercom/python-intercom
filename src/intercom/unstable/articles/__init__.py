@@ -13,6 +13,7 @@ from .types import (
     ArticleSearchHighlightsHighlightedTitleItemType,
     ArticleSearchResponse,
     ArticleSearchResponseData,
+    InternalArticle,
 )
 
 __all__ = [
@@ -26,4 +27,5 @@ __all__ = [
     "ArticleSearchHighlightsHighlightedTitleItemType",
     "ArticleSearchResponse",
     "ArticleSearchResponseData",
+    "InternalArticle",
 ]

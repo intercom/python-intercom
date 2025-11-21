@@ -12,22 +12,22 @@ class DataEventSummaryItem(UncheckedBaseModel):
     This will return a summary of a data event for the App.
     """
 
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the event
     """
 
-    first: str = pydantic.Field()
+    first: typing.Optional[str] = pydantic.Field(default=None)
     """
     The first time the event was sent
     """
 
-    last: str = pydantic.Field()
+    last: typing.Optional[str] = pydantic.Field(default=None)
     """
     The last time the event was sent
     """
 
-    count: int = pydantic.Field()
+    count: typing.Optional[int] = pydantic.Field(default=None)
     """
     The number of times the event was sent
     """

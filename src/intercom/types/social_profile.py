@@ -12,17 +12,17 @@ class SocialProfile(UncheckedBaseModel):
     A Social Profile allows you to label your contacts, companies, and conversations and list them using that Social Profile.
     """
 
-    type: typing.Literal["social_profile"] = pydantic.Field(default="social_profile")
+    type: typing.Optional[typing.Literal["social_profile"]] = pydantic.Field(default=None)
     """
     value is "social_profile"
     """
 
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the Social media profile
     """
 
-    url: str = pydantic.Field()
+    url: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the Social media profile
     """

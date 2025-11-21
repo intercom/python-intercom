@@ -11,7 +11,7 @@ from .cursor_pages import CursorPages
 
 class NoteList(UncheckedBaseModel):
     """
-    A paginated list of notes associated with a contact.
+    A paginated list of notes associated with a contact or a company.
     """
 
     type: typing.Optional[str] = pydantic.Field(default=None)

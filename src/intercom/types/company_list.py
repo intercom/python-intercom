@@ -15,12 +15,12 @@ class CompanyList(UncheckedBaseModel):
     """
 
     pages: typing.Optional[OffsetPages] = None
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     The total number of companies.
     """
 
-    data: typing.List[Company] = pydantic.Field()
+    data: typing.Optional[typing.List[Company]] = pydantic.Field(default=None)
     """
     An array containing Company Objects.
     """

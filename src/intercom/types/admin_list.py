@@ -13,12 +13,12 @@ class AdminList(UncheckedBaseModel):
     A list of admins associated with a given workspace.
     """
 
-    type: typing.Literal["admin.list"] = pydantic.Field(default="admin.list")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     String representing the object's type. Always has the value `admin.list`.
     """
 
-    admins: typing.List[Admin] = pydantic.Field()
+    admins: typing.Optional[typing.List[typing.Optional[Admin]]] = pydantic.Field(default=None)
     """
     A list of admins associated with a given workspace.
     """

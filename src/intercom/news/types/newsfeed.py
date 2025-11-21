@@ -14,22 +14,17 @@ class Newsfeed(UncheckedBaseModel):
     Newsfeeds currently cannot be edited through the API, please refer to [this article](https://www.intercom.com/help/en/articles/6362267-getting-started-with-news) to set up your newsfeeds in Intercom.
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The unique identifier for the newsfeed which is given by Intercom.
     """
 
-    type: typing.Literal["newsfeed"] = pydantic.Field(default="newsfeed")
-    """
-    The type of object.
-    """
-
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the newsfeed. This name will never be visible to your users.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     Timestamp for when the newsfeed was created.
     """

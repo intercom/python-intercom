@@ -13,12 +13,12 @@ class Tags(UncheckedBaseModel):
     A list of tags objects associated with a conversation
     """
 
-    type: typing.Literal["tag.list"] = pydantic.Field(default="tag.list")
+    type: typing.Optional[typing.Literal["tag.list"]] = pydantic.Field(default=None)
     """
     The type of the object
     """
 
-    tags: typing.List[Tag] = pydantic.Field()
+    tags: typing.Optional[typing.List[Tag]] = pydantic.Field(default=None)
     """
     A list of tags objects associated with the conversation.
     """

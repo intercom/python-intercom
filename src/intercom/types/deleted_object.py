@@ -12,17 +12,17 @@ class DeletedObject(UncheckedBaseModel):
     Response returned when an object is deleted
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The unique identifier for the news item which you provided in the URL.
     """
 
-    object: typing.Literal["news-item"] = pydantic.Field(default="news-item")
+    object: typing.Optional[typing.Literal["news-item"]] = pydantic.Field(default=None)
     """
     The type of object which was deleted - news-item.
     """
 
-    deleted: bool = pydantic.Field()
+    deleted: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether the news item was deleted successfully or not.
     """

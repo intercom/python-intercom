@@ -14,17 +14,17 @@ class ContactList(UncheckedBaseModel):
     Contacts are your users in Intercom.
     """
 
-    type: typing.Literal["list"] = pydantic.Field(default="list")
+    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
     """
     Always list
     """
 
-    data: typing.List[Contact] = pydantic.Field()
+    data: typing.Optional[typing.List[Contact]] = pydantic.Field(default=None)
     """
     The list of contact objects
     """
 
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     A count of the total number of objects.
     """

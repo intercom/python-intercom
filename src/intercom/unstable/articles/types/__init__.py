@@ -14,6 +14,7 @@ from .article_search_highlights_highlighted_title_item import ArticleSearchHighl
 from .article_search_highlights_highlighted_title_item_type import ArticleSearchHighlightsHighlightedTitleItemType
 from .article_search_response import ArticleSearchResponse
 from .article_search_response_data import ArticleSearchResponseData
+from .internal_article import InternalArticle
 
 __all__ = [
     "Article",
@@ -26,4 +27,5 @@ __all__ = [
     "ArticleSearchHighlightsHighlightedTitleItemType",
     "ArticleSearchResponse",
     "ArticleSearchResponseData",
+    "InternalArticle",
 ]

@@ -14,17 +14,17 @@ class Note(UncheckedBaseModel):
     Notes allow you to annotate and comment on your contacts.
     """
 
-    type: typing.Literal["note"] = pydantic.Field(default="note")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     String representing the object's type. Always has the value `note`.
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id of the note.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The time the note was created.
     """
@@ -34,12 +34,12 @@ class Note(UncheckedBaseModel):
     Represents the contact that the note was created about.
     """
 
-    author: Admin = pydantic.Field()
+    author: typing.Optional[Admin] = pydantic.Field(default=None)
     """
     Optional. Represents the Admin that created the note.
     """
 
-    body: str = pydantic.Field()
+    body: typing.Optional[str] = pydantic.Field(default=None)
     """
     The body text of the note.
     """

@@ -4,7 +4,7 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..types.custom_attributes import CustomAttributes
+from ..types.create_phone_switch_request import CreatePhoneSwitchRequest
 from ..types.phone_switch import PhoneSwitch
 from .raw_client import AsyncRawPhoneCallRedirectsClient, RawPhoneCallRedirectsClient
 
@@ -30,10 +30,9 @@ class PhoneCallRedirectsClient:
     def create(
         self,
         *,
-        phone: str,
-        custom_attributes: typing.Optional[CustomAttributes] = OMIT,
+        request: typing.Optional[CreatePhoneSwitchRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> PhoneSwitch:
+    ) -> typing.Optional[PhoneSwitch]:
         """
         You can use the API to deflect phone calls to the Intercom Messenger.
         Calling this endpoint will send an SMS with a link to the Messenger to the phone number specified.
@@ -42,34 +41,31 @@ class PhoneCallRedirectsClient:
 
         Parameters
         ----------
-        phone : str
-            Phone number in E.164 format, that will receive the SMS to continue the conversation in the Messenger.
-
-        custom_attributes : typing.Optional[CustomAttributes]
+        request : typing.Optional[CreatePhoneSwitchRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        PhoneSwitch
+        typing.Optional[PhoneSwitch]
             successful
 
         Examples
         --------
-        from intercom import Intercom
+        from intercom import CreatePhoneSwitchRequest, Intercom
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.phone_call_redirects.create(
-            phone="+353832345678",
-            custom_attributes={"issue_type": "Billing", "priority": "High"},
+            request=CreatePhoneSwitchRequest(
+                phone="+353832345678",
+                custom_attributes={"issue_type": "Billing", "priority": "High"},
+            ),
         )
         """
-        _response = self._raw_client.create(
-            phone=phone, custom_attributes=custom_attributes, request_options=request_options
-        )
+        _response = self._raw_client.create(request=request, request_options=request_options)
         return _response.data
 
 
@@ -91,10 +87,9 @@ class AsyncPhoneCallRedirectsClient:
     async def create(
         self,
         *,
-        phone: str,
-        custom_attributes: typing.Optional[CustomAttributes] = OMIT,
+        request: typing.Optional[CreatePhoneSwitchRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> PhoneSwitch:
+    ) -> typing.Optional[PhoneSwitch]:
         """
         You can use the API to deflect phone calls to the Intercom Messenger.
         Calling this endpoint will send an SMS with a link to the Messenger to the phone number specified.
@@ -103,24 +98,21 @@ class AsyncPhoneCallRedirectsClient:
 
         Parameters
         ----------
-        phone : str
-            Phone number in E.164 format, that will receive the SMS to continue the conversation in the Messenger.
-
-        custom_attributes : typing.Optional[CustomAttributes]
+        request : typing.Optional[CreatePhoneSwitchRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        PhoneSwitch
+        typing.Optional[PhoneSwitch]
             successful
 
         Examples
         --------
         import asyncio
 
-        from intercom import AsyncIntercom
+        from intercom import AsyncIntercom, CreatePhoneSwitchRequest
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -129,14 +121,14 @@ class AsyncPhoneCallRedirectsClient:
 
         async def main() -> None:
             await client.phone_call_redirects.create(
-                phone="+353832345678",
-                custom_attributes={"issue_type": "Billing", "priority": "High"},
+                request=CreatePhoneSwitchRequest(
+                    phone="+353832345678",
+                    custom_attributes={"issue_type": "Billing", "priority": "High"},
+                ),
             )
 
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.create(
-            phone=phone, custom_attributes=custom_attributes, request_options=request_options
-        )
+        _response = await self._raw_client.create(request=request, request_options=request_options)
         return _response.data

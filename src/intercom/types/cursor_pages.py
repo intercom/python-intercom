@@ -14,7 +14,7 @@ class CursorPages(UncheckedBaseModel):
     A "cursor" or pointer is used to keep track of the current position in the result set, allowing the API to return the data in small chunks or "pages" as needed.
     """
 
-    type: typing.Literal["pages"] = pydantic.Field(default="pages")
+    type: typing.Optional[typing.Literal["pages"]] = pydantic.Field(default=None)
     """
     the type of object `pages`.
     """

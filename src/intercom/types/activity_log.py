@@ -15,12 +15,12 @@ class ActivityLog(UncheckedBaseModel):
     Activities performed by Admins.
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id representing the activity.
     """
 
-    performed_by: ActivityLogPerformedBy = pydantic.Field()
+    performed_by: typing.Optional[ActivityLogPerformedBy] = pydantic.Field(default=None)
     """
     Details about the Admin involved in the activity.
     """
@@ -31,7 +31,7 @@ class ActivityLog(UncheckedBaseModel):
     The time the activity was created.
     """
 
-    activity_type: ActivityLogActivityType
+    activity_type: typing.Optional[ActivityLogActivityType] = None
     activity_description: typing.Optional[str] = pydantic.Field(default=None)
     """
     A sentence or two describing the activity.

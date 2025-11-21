@@ -12,37 +12,37 @@ class PartAttachment(UncheckedBaseModel):
     The file attached to a part
     """
 
-    type: str = pydantic.Field()
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     The type of attachment
     """
 
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the attachment
     """
 
-    url: str = pydantic.Field()
+    url: typing.Optional[str] = pydantic.Field(default=None)
     """
     The URL of the attachment
     """
 
-    content_type: str = pydantic.Field()
+    content_type: typing.Optional[str] = pydantic.Field(default=None)
     """
     The content type of the attachment
     """
 
-    filesize: int = pydantic.Field()
+    filesize: typing.Optional[int] = pydantic.Field(default=None)
     """
     The size of the attachment
     """
 
-    width: int = pydantic.Field()
+    width: typing.Optional[int] = pydantic.Field(default=None)
     """
     The width of the attachment
     """
 
-    height: int = pydantic.Field()
+    height: typing.Optional[int] = pydantic.Field(default=None)
     """
     The height of the attachment
     """

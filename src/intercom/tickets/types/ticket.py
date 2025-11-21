@@ -10,7 +10,7 @@ from ...types.ticket_custom_attributes import TicketCustomAttributes
 from ...types.ticket_parts import TicketParts
 from .ticket_category import TicketCategory
 from .ticket_contacts import TicketContacts
-from .ticket_ticket_state import TicketTicketState
+from .ticket_state import TicketState
 from .ticket_type import TicketType
 
 
@@ -19,34 +19,30 @@ class Ticket(UncheckedBaseModel):
     Tickets are how you track requests from your users.
     """
 
-    type: typing.Literal["ticket"] = pydantic.Field(default="ticket")
+    type: typing.Optional[typing.Literal["ticket"]] = pydantic.Field(default=None)
     """
     Always ticket
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The unique identifier for the ticket which is given by Intercom.
     """
 
-    ticket_id: str = pydantic.Field()
+    ticket_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The ID of the Ticket used in the Intercom Inbox and Messenger. Do not use ticket_id for API queries.
     """
 
-    category: TicketCategory = pydantic.Field()
+    category: typing.Optional[TicketCategory] = pydantic.Field(default=None)
     """
     Category of the Ticket.
     """
 
-    ticket_attributes: TicketCustomAttributes
-    ticket_state: TicketTicketState = pydantic.Field()
-    """
-    The state the ticket is currently in
-    """
-
-    ticket_type: TicketType
-    contacts: TicketContacts
+    ticket_attributes: typing.Optional[TicketCustomAttributes] = None
+    ticket_state: typing.Optional[TicketState] = None
+    ticket_type: typing.Optional[TicketType] = None
+    contacts: typing.Optional[TicketContacts] = None
     admin_assignee_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id representing the admin assigned to the ticket.
@@ -82,16 +78,6 @@ class Ticket(UncheckedBaseModel):
     is_shared: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether or not the ticket is shared with the customer.
-    """
-
-    ticket_state_internal_label: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    The state the ticket is currently in, in a human readable form - visible in Intercom
-    """
-
-    ticket_state_external_label: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    The state the ticket is currently in, in a human readable form - visible to customers, in the messenger, email and tickets portal.
     """
 
     if IS_PYDANTIC_V2:

@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 from ....core.unchecked_base_model import UncheckedBaseModel
+from .company_notes import CompanyNotes
 from .company_plan import CompanyPlan
 from .company_segments import CompanySegments
 from .company_tags import CompanyTags
@@ -104,6 +105,11 @@ class Company(UncheckedBaseModel):
     segments: typing.Optional[CompanySegments] = pydantic.Field(default=None)
     """
     The list of segments associated with the company
+    """
+
+    notes: typing.Optional[CompanyNotes] = pydantic.Field(default=None)
+    """
+    The list of notes associated with the company
     """
 
     if IS_PYDANTIC_V2:

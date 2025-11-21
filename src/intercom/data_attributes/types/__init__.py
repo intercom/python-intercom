@@ -2,20 +2,9 @@
 
 # isort: skip_file
 
-from .create_data_attribute_request_data_type import CreateDataAttributeRequestDataType
-from .create_data_attribute_request_model import CreateDataAttributeRequestModel
 from .data_attribute import DataAttribute
 from .data_attribute_data_type import DataAttributeDataType
 from .data_attribute_model import DataAttributeModel
 from .data_attributes_list_request_model import DataAttributesListRequestModel
-from .update_data_attribute_request_options_item import UpdateDataAttributeRequestOptionsItem
 
-__all__ = [
-    "CreateDataAttributeRequestDataType",
-    "CreateDataAttributeRequestModel",
-    "DataAttribute",
-    "DataAttributeDataType",
-    "DataAttributeModel",
-    "DataAttributesListRequestModel",
-    "UpdateDataAttributeRequestOptionsItem",
-]
+__all__ = ["DataAttribute", "DataAttributeDataType", "DataAttributeModel", "DataAttributesListRequestModel"]

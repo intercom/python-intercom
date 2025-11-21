@@ -195,14 +195,14 @@ class RawCollectionsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def find(
-        self, collection_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, collection_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[Collection]:
         """
         You can fetch the details of a single collection by making a GET request to `https://api.intercom.io/help_center/collections/<id>`.
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -257,7 +257,7 @@ class RawCollectionsClient:
 
     def update(
         self,
-        collection_id: str,
+        collection_id: int,
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
@@ -270,7 +270,7 @@ class RawCollectionsClient:
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         name : typing.Optional[str]
@@ -347,14 +347,14 @@ class RawCollectionsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def delete(
-        self, collection_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, collection_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[DeletedCollectionObject]:
         """
         You can delete a single collection by making a DELETE request to `https://api.intercom.io/collections/<id>`.
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -582,14 +582,14 @@ class AsyncRawCollectionsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def find(
-        self, collection_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, collection_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Collection]:
         """
         You can fetch the details of a single collection by making a GET request to `https://api.intercom.io/help_center/collections/<id>`.
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -644,7 +644,7 @@ class AsyncRawCollectionsClient:
 
     async def update(
         self,
-        collection_id: str,
+        collection_id: int,
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
@@ -657,7 +657,7 @@ class AsyncRawCollectionsClient:
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         name : typing.Optional[str]
@@ -734,14 +734,14 @@ class AsyncRawCollectionsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def delete(
-        self, collection_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, collection_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[DeletedCollectionObject]:
         """
         You can delete a single collection by making a DELETE request to `https://api.intercom.io/collections/<id>`.
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]

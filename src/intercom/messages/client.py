@@ -28,7 +28,10 @@ class MessagesClient:
         return self._raw_client
 
     def create(
-        self, *, request: CreateMessageRequest, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        request: typing.Optional[CreateMessageRequest] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> Message:
         """
         You can create a message that has been initiated by an admin. The conversation can be either an in-app message or an email.
@@ -45,7 +48,7 @@ class MessagesClient:
 
         Parameters
         ----------
-        request : CreateMessageRequest
+        request : typing.Optional[CreateMessageRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -102,7 +105,10 @@ class AsyncMessagesClient:
         return self._raw_client
 
     async def create(
-        self, *, request: CreateMessageRequest, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        request: typing.Optional[CreateMessageRequest] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> Message:
         """
         You can create a message that has been initiated by an admin. The conversation can be either an in-app message or an email.
@@ -119,7 +125,7 @@ class AsyncMessagesClient:
 
         Parameters
         ----------
-        request : CreateMessageRequest
+        request : typing.Optional[CreateMessageRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

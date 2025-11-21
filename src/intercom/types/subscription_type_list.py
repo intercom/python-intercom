@@ -13,12 +13,12 @@ class SubscriptionTypeList(UncheckedBaseModel):
     A list of subscription type objects.
     """
 
-    type: typing.Literal["list"] = pydantic.Field(default="list")
+    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
     """
     The type of the object
     """
 
-    data: typing.List[SubscriptionType] = pydantic.Field()
+    data: typing.Optional[typing.List[SubscriptionType]] = pydantic.Field(default=None)
     """
     A list of subscription type objects associated with the workspace .
     """
