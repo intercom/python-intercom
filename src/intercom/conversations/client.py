@@ -7,6 +7,7 @@ from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
 from ..messages.types.message import Message
 from ..tickets.types.ticket import Ticket
+from ..types.conversation_deleted import ConversationDeleted
 from ..types.custom_attributes import CustomAttributes
 from ..types.redact_conversation_request import RedactConversationRequest
 from ..types.reply_conversation_request import ReplyConversationRequest
@@ -134,7 +135,7 @@ class ConversationsClient:
         client.conversations.create(
             from_=CreateConversationRequestFrom(
                 type="user",
-                id="667d60d18a68186f43bafddd",
+                id="6762f11b1bb69f9f2193bba3",
             ),
             body="Hello there",
         )
@@ -146,9 +147,10 @@ class ConversationsClient:
 
     def find(
         self,
-        conversation_id: str,
+        conversation_id: int,
         *,
         display_as: typing.Optional[str] = None,
+        include_translations: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Conversation:
         """
@@ -165,11 +167,14 @@ class ConversationsClient:
 
         Parameters
         ----------
-        conversation_id : str
+        conversation_id : int
             The id of the conversation to target
 
         display_as : typing.Optional[str]
             Set to plaintext to retrieve conversation messages in plain text.
+
+        include_translations : typing.Optional[bool]
+            If set to true, conversation parts will be translated to the detected language of the conversation.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -187,20 +192,27 @@ class ConversationsClient:
             token="YOUR_TOKEN",
         )
         client.conversations.find(
-            conversation_id="123",
+            conversation_id=1,
             display_as="plaintext",
         )
         """
-        _response = self._raw_client.find(conversation_id, display_as=display_as, request_options=request_options)
+        _response = self._raw_client.find(
+            conversation_id,
+            display_as=display_as,
+            include_translations=include_translations,
+            request_options=request_options,
+        )
         return _response.data
 
     def update(
         self,
-        conversation_id: str,
+        conversation_id: int,
         *,
         display_as: typing.Optional[str] = None,
         read: typing.Optional[bool] = OMIT,
+        title: typing.Optional[str] = OMIT,
         custom_attributes: typing.Optional[CustomAttributes] = OMIT,
+        company_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Conversation:
         """
@@ -211,9 +223,15 @@ class ConversationsClient:
         If you want to reply to a coveration or take an action such as assign, unassign, open, close or snooze, take a look at the reply and manage endpoints.
         {% /admonition %}
 
+        {% admonition type="info" %}
+          This endpoint handles both **conversation updates** and **custom object associations**.
+
+          See _`update a conversation with an association to a custom object instance`_ in the request/response examples to see the custom object association format.
+        {% /admonition %}
+
         Parameters
         ----------
-        conversation_id : str
+        conversation_id : int
             The id of the conversation to target
 
         display_as : typing.Optional[str]
@@ -222,7 +240,13 @@ class ConversationsClient:
         read : typing.Optional[bool]
             Mark a conversation as read within Intercom.
 
+        title : typing.Optional[str]
+            The title given to the conversation
+
         custom_attributes : typing.Optional[CustomAttributes]
+
+        company_id : typing.Optional[str]
+            The ID of the company that the conversation is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -230,7 +254,7 @@ class ConversationsClient:
         Returns
         -------
         Conversation
-            conversation found
+            update a conversation with an association to a custom object instance
 
         Examples
         --------
@@ -240,9 +264,10 @@ class ConversationsClient:
             token="YOUR_TOKEN",
         )
         client.conversations.update(
-            conversation_id="123",
+            conversation_id=1,
             display_as="plaintext",
             read=True,
+            title="new conversation title",
             custom_attributes={"issue_type": "Billing", "priority": "High"},
         )
         """
@@ -250,9 +275,44 @@ class ConversationsClient:
             conversation_id,
             display_as=display_as,
             read=read,
+            title=title,
             custom_attributes=custom_attributes,
+            company_id=company_id,
             request_options=request_options,
         )
+        return _response.data
+
+    def delete_conversation(
+        self, conversation_id: int, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationDeleted:
+        """
+        You can delete a single conversation.
+
+        Parameters
+        ----------
+        conversation_id : int
+            id
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationDeleted
+            successful
+
+        Examples
+        --------
+        from intercom import Intercom
+
+        client = Intercom(
+            token="YOUR_TOKEN",
+        )
+        client.conversations.delete_conversation(
+            conversation_id=1,
+        )
+        """
+        _response = self._raw_client.delete_conversation(conversation_id, request_options=request_options)
         return _response.data
 
     def search(
@@ -284,7 +344,7 @@ class ConversationsClient:
 
         ### Accepted Fields
 
-        Most keys listed as part of the The conversation model is searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foorbar"`).
+        Most keys listed in the conversation model are searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foorbar"`).
         The `source.body` field is unique as the search will not be performed against the entire value, but instead against every element of the value separately. For example, when searching for a conversation with a `"I need support"` body - the query should contain a `=` operator with the value `"support"` for such conversation to be returned. A query with a `=` operator and a `"need support"` value will not yield a result.
 
         | Field                                     | Type                                                                                                                                                   |
@@ -448,7 +508,7 @@ class ConversationsClient:
             conversation_id='123 or "last"',
             request=ContactReplyIntercomUserIdRequest(
                 body="Thanks again :)",
-                intercom_user_id="667d60f18a68186f43bafdf4",
+                intercom_user_id="6762f1571bb69f9f2193bbbb",
             ),
         )
         """
@@ -502,45 +562,6 @@ class ConversationsClient:
         _response = self._raw_client.manage(conversation_id, request=request, request_options=request_options)
         return _response.data
 
-    def run_assignment_rules(
-        self, conversation_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> Conversation:
-        """
-        {% admonition type="danger" name="Deprecation of Run Assignment Rules" %}
-        Run assignment rules is now deprecated in version 2.12 and future versions and will be permanently removed on December 31, 2026. After this date, any requests made to this endpoint will fail.
-        {% /admonition %}
-        You can let a conversation be automatically assigned following assignment rules.
-        {% admonition type="warning" name="When using workflows" %}
-        It is not possible to use this endpoint with Workflows.
-        {% /admonition %}
-
-        Parameters
-        ----------
-        conversation_id : str
-            The identifier for the conversation as given by Intercom.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        Conversation
-            Assign a conversation using assignment rules
-
-        Examples
-        --------
-        from intercom import Intercom
-
-        client = Intercom(
-            token="YOUR_TOKEN",
-        )
-        client.conversations.run_assignment_rules(
-            conversation_id="123",
-        )
-        """
-        _response = self._raw_client.run_assignment_rules(conversation_id, request_options=request_options)
-        return _response.data
-
     def attach_contact_as_admin(
         self,
         conversation_id: str,
@@ -588,7 +609,7 @@ class ConversationsClient:
             conversation_id="123",
             admin_id="12345",
             customer=AttachContactToConversationRequestCustomerIntercomUserId(
-                intercom_user_id="667d61168a68186f43bafe0d",
+                intercom_user_id="6762f19b1bb69f9f2193bbd4",
             ),
         )
         """
@@ -690,18 +711,18 @@ class ConversationsClient:
 
     def convert_to_ticket(
         self,
-        conversation_id: str,
+        conversation_id: int,
         *,
         ticket_type_id: str,
         attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> Ticket:
+    ) -> typing.Optional[Ticket]:
         """
         You can convert a conversation to a ticket.
 
         Parameters
         ----------
-        conversation_id : str
+        conversation_id : int
             The id of the conversation to target
 
         ticket_type_id : str
@@ -714,7 +735,7 @@ class ConversationsClient:
 
         Returns
         -------
-        Ticket
+        typing.Optional[Ticket]
             successful
 
         Examples
@@ -725,13 +746,42 @@ class ConversationsClient:
             token="YOUR_TOKEN",
         )
         client.conversations.convert_to_ticket(
-            conversation_id="123",
-            ticket_type_id="79",
+            conversation_id=1,
+            ticket_type_id="53",
         )
         """
         _response = self._raw_client.convert_to_ticket(
             conversation_id, ticket_type_id=ticket_type_id, attributes=attributes, request_options=request_options
         )
+        return _response.data
+
+    def run_assignment_rules(
+        self, conversation_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
+        """
+        Parameters
+        ----------
+        conversation_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        from intercom import Intercom
+
+        client = Intercom(
+            token="YOUR_TOKEN",
+        )
+        client.conversations.run_assignment_rules(
+            conversation_id="conversation_id",
+        )
+        """
+        _response = self._raw_client.run_assignment_rules(conversation_id, request_options=request_options)
         return _response.data
 
 
@@ -862,7 +912,7 @@ class AsyncConversationsClient:
             await client.conversations.create(
                 from_=CreateConversationRequestFrom(
                     type="user",
-                    id="667d60d18a68186f43bafddd",
+                    id="6762f11b1bb69f9f2193bba3",
                 ),
                 body="Hello there",
             )
@@ -877,9 +927,10 @@ class AsyncConversationsClient:
 
     async def find(
         self,
-        conversation_id: str,
+        conversation_id: int,
         *,
         display_as: typing.Optional[str] = None,
+        include_translations: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Conversation:
         """
@@ -896,11 +947,14 @@ class AsyncConversationsClient:
 
         Parameters
         ----------
-        conversation_id : str
+        conversation_id : int
             The id of the conversation to target
 
         display_as : typing.Optional[str]
             Set to plaintext to retrieve conversation messages in plain text.
+
+        include_translations : typing.Optional[bool]
+            If set to true, conversation parts will be translated to the detected language of the conversation.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -923,23 +977,30 @@ class AsyncConversationsClient:
 
         async def main() -> None:
             await client.conversations.find(
-                conversation_id="123",
+                conversation_id=1,
                 display_as="plaintext",
             )
 
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.find(conversation_id, display_as=display_as, request_options=request_options)
+        _response = await self._raw_client.find(
+            conversation_id,
+            display_as=display_as,
+            include_translations=include_translations,
+            request_options=request_options,
+        )
         return _response.data
 
     async def update(
         self,
-        conversation_id: str,
+        conversation_id: int,
         *,
         display_as: typing.Optional[str] = None,
         read: typing.Optional[bool] = OMIT,
+        title: typing.Optional[str] = OMIT,
         custom_attributes: typing.Optional[CustomAttributes] = OMIT,
+        company_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Conversation:
         """
@@ -950,9 +1011,15 @@ class AsyncConversationsClient:
         If you want to reply to a coveration or take an action such as assign, unassign, open, close or snooze, take a look at the reply and manage endpoints.
         {% /admonition %}
 
+        {% admonition type="info" %}
+          This endpoint handles both **conversation updates** and **custom object associations**.
+
+          See _`update a conversation with an association to a custom object instance`_ in the request/response examples to see the custom object association format.
+        {% /admonition %}
+
         Parameters
         ----------
-        conversation_id : str
+        conversation_id : int
             The id of the conversation to target
 
         display_as : typing.Optional[str]
@@ -961,7 +1028,13 @@ class AsyncConversationsClient:
         read : typing.Optional[bool]
             Mark a conversation as read within Intercom.
 
+        title : typing.Optional[str]
+            The title given to the conversation
+
         custom_attributes : typing.Optional[CustomAttributes]
+
+        company_id : typing.Optional[str]
+            The ID of the company that the conversation is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -969,7 +1042,7 @@ class AsyncConversationsClient:
         Returns
         -------
         Conversation
-            conversation found
+            update a conversation with an association to a custom object instance
 
         Examples
         --------
@@ -984,9 +1057,10 @@ class AsyncConversationsClient:
 
         async def main() -> None:
             await client.conversations.update(
-                conversation_id="123",
+                conversation_id=1,
                 display_as="plaintext",
                 read=True,
+                title="new conversation title",
                 custom_attributes={"issue_type": "Billing", "priority": "High"},
             )
 
@@ -997,9 +1071,52 @@ class AsyncConversationsClient:
             conversation_id,
             display_as=display_as,
             read=read,
+            title=title,
             custom_attributes=custom_attributes,
+            company_id=company_id,
             request_options=request_options,
         )
+        return _response.data
+
+    async def delete_conversation(
+        self, conversation_id: int, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationDeleted:
+        """
+        You can delete a single conversation.
+
+        Parameters
+        ----------
+        conversation_id : int
+            id
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationDeleted
+            successful
+
+        Examples
+        --------
+        import asyncio
+
+        from intercom import AsyncIntercom
+
+        client = AsyncIntercom(
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.delete_conversation(
+                conversation_id=1,
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.delete_conversation(conversation_id, request_options=request_options)
         return _response.data
 
     async def search(
@@ -1031,7 +1148,7 @@ class AsyncConversationsClient:
 
         ### Accepted Fields
 
-        Most keys listed as part of the The conversation model is searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foorbar"`).
+        Most keys listed in the conversation model are searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foorbar"`).
         The `source.body` field is unique as the search will not be performed against the entire value, but instead against every element of the value separately. For example, when searching for a conversation with a `"I need support"` body - the query should contain a `=` operator with the value `"support"` for such conversation to be returned. A query with a `=` operator and a `"need support"` value will not yield a result.
 
         | Field                                     | Type                                                                                                                                                   |
@@ -1209,7 +1326,7 @@ class AsyncConversationsClient:
                 conversation_id='123 or "last"',
                 request=ContactReplyIntercomUserIdRequest(
                     body="Thanks again :)",
-                    intercom_user_id="667d60f18a68186f43bafdf4",
+                    intercom_user_id="6762f1571bb69f9f2193bbbb",
                 ),
             )
 
@@ -1274,53 +1391,6 @@ class AsyncConversationsClient:
         _response = await self._raw_client.manage(conversation_id, request=request, request_options=request_options)
         return _response.data
 
-    async def run_assignment_rules(
-        self, conversation_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> Conversation:
-        """
-        {% admonition type="danger" name="Deprecation of Run Assignment Rules" %}
-        Run assignment rules is now deprecated in version 2.12 and future versions and will be permanently removed on December 31, 2026. After this date, any requests made to this endpoint will fail.
-        {% /admonition %}
-        You can let a conversation be automatically assigned following assignment rules.
-        {% admonition type="warning" name="When using workflows" %}
-        It is not possible to use this endpoint with Workflows.
-        {% /admonition %}
-
-        Parameters
-        ----------
-        conversation_id : str
-            The identifier for the conversation as given by Intercom.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        Conversation
-            Assign a conversation using assignment rules
-
-        Examples
-        --------
-        import asyncio
-
-        from intercom import AsyncIntercom
-
-        client = AsyncIntercom(
-            token="YOUR_TOKEN",
-        )
-
-
-        async def main() -> None:
-            await client.conversations.run_assignment_rules(
-                conversation_id="123",
-            )
-
-
-        asyncio.run(main())
-        """
-        _response = await self._raw_client.run_assignment_rules(conversation_id, request_options=request_options)
-        return _response.data
-
     async def attach_contact_as_admin(
         self,
         conversation_id: str,
@@ -1373,7 +1443,7 @@ class AsyncConversationsClient:
                 conversation_id="123",
                 admin_id="12345",
                 customer=AttachContactToConversationRequestCustomerIntercomUserId(
-                    intercom_user_id="667d61168a68186f43bafe0d",
+                    intercom_user_id="6762f19b1bb69f9f2193bbd4",
                 ),
             )
 
@@ -1494,18 +1564,18 @@ class AsyncConversationsClient:
 
     async def convert_to_ticket(
         self,
-        conversation_id: str,
+        conversation_id: int,
         *,
         ticket_type_id: str,
         attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> Ticket:
+    ) -> typing.Optional[Ticket]:
         """
         You can convert a conversation to a ticket.
 
         Parameters
         ----------
-        conversation_id : str
+        conversation_id : int
             The id of the conversation to target
 
         ticket_type_id : str
@@ -1518,7 +1588,7 @@ class AsyncConversationsClient:
 
         Returns
         -------
-        Ticket
+        typing.Optional[Ticket]
             successful
 
         Examples
@@ -1534,8 +1604,8 @@ class AsyncConversationsClient:
 
         async def main() -> None:
             await client.conversations.convert_to_ticket(
-                conversation_id="123",
-                ticket_type_id="79",
+                conversation_id=1,
+                ticket_type_id="53",
             )
 
 
@@ -1544,4 +1614,41 @@ class AsyncConversationsClient:
         _response = await self._raw_client.convert_to_ticket(
             conversation_id, ticket_type_id=ticket_type_id, attributes=attributes, request_options=request_options
         )
+        return _response.data
+
+    async def run_assignment_rules(
+        self, conversation_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
+        """
+        Parameters
+        ----------
+        conversation_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import asyncio
+
+        from intercom import AsyncIntercom
+
+        client = AsyncIntercom(
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.run_assignment_rules(
+                conversation_id="conversation_id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.run_assignment_rules(conversation_id, request_options=request_options)
         return _response.data

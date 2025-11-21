@@ -3,12 +3,11 @@ name = "python-intercom"
 
 [tool.poetry]
 name = "python-intercom"
-version = "4.0.0"
+version = "4.1.0"
 description = ""
 readme = "README.md"
 authors = []
 keywords = []
-license = "MIT"
 
 classifiers = [
     "Intended Audience :: Developers",

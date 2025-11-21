@@ -2,6 +2,6 @@
 
 # isort: skip_file
 
-from .types import Company, CompanyPlan, CompanySegments, CompanyTags
+from .types import Company, CompanyNotes, CompanyPlan, CompanySegments, CompanyTags
 
-__all__ = ["Company", "CompanyPlan", "CompanySegments", "CompanyTags"]
+__all__ = ["Company", "CompanyNotes", "CompanyPlan", "CompanySegments", "CompanyTags"]

@@ -5,35 +5,30 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
-from .contact_company import ContactCompany
+from .company_data import CompanyData
 
 
 class ContactCompanies(UncheckedBaseModel):
     """
-    An object containing companies meta data about the companies that a contact has. Up to 10 will be displayed here. Use the url to get more.
+    An object with metadata about companies attached to a contact . Up to 10 will be displayed here. Use the url to get more.
     """
 
-    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
+    data: typing.Optional[typing.List[CompanyData]] = pydantic.Field(default=None)
     """
-    The type of object
-    """
-
-    data: typing.Optional[typing.List[ContactCompany]] = pydantic.Field(default=None)
-    """
-    An array containing Company Objects
+    An array of company data objects attached to the contact.
     """
 
-    url: str = pydantic.Field()
+    url: typing.Optional[str] = pydantic.Field(default=None)
     """
     Url to get more company resources for this contact
     """
 
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Int representing the total number of companyies attached to this contact
+    Integer representing the total number of companies attached to this contact
     """
 
-    has_more: bool = pydantic.Field()
+    has_more: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether there's more Addressable Objects to be viewed. If true, use the url to view all
     """

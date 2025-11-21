@@ -12,17 +12,17 @@ class Translation(UncheckedBaseModel):
     A translation object contains the localised details of a subscription type.
     """
 
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The localised name of the subscription type.
     """
 
-    description: str = pydantic.Field()
+    description: typing.Optional[str] = pydantic.Field(default=None)
     """
     The localised description of the subscription type.
     """
 
-    locale: str = pydantic.Field()
+    locale: typing.Optional[str] = pydantic.Field(default=None)
     """
     The two character identifier for the language of the translation object.
     """

@@ -12,17 +12,17 @@ class HelpCenter(UncheckedBaseModel):
     Help Centers contain collections
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The unique identifier for the Help Center which is given by Intercom.
     """
 
-    workspace_id: str = pydantic.Field()
+    workspace_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id of the workspace which the Help Center belongs to.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The time when the Help Center was created.
     """
@@ -32,19 +32,29 @@ class HelpCenter(UncheckedBaseModel):
     The time when the Help Center was last updated.
     """
 
-    identifier: str = pydantic.Field()
+    identifier: typing.Optional[str] = pydantic.Field(default=None)
     """
     The identifier of the Help Center. This is used in the URL of the Help Center.
     """
 
-    website_turned_on: bool = pydantic.Field()
+    website_turned_on: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether the Help Center is turned on or not. This is controlled in your Help Center settings.
     """
 
-    display_name: str = pydantic.Field()
+    display_name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The display name of the Help Center only seen by teammates.
+    """
+
+    url: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The URL for the help center, if you have a custom domain then this will show the URL using the custom domain.
+    """
+
+    custom_domain: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Custom domain configured for the help center
     """
 
     if IS_PYDANTIC_V2:

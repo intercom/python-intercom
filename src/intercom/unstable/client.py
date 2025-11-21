@@ -5,6 +5,8 @@ from .admins.client import AdminsClient, AsyncAdminsClient
 from .ai_content.client import AiContentClient, AsyncAiContentClient
 from .articles.client import ArticlesClient, AsyncArticlesClient
 from .away_status_reasons.client import AsyncAwayStatusReasonsClient, AwayStatusReasonsClient
+from .brands.client import AsyncBrandsClient, BrandsClient
+from .calls.client import AsyncCallsClient, CallsClient
 from .companies.client import AsyncCompaniesClient, CompaniesClient
 from .contacts.client import AsyncContactsClient, ContactsClient
 from .conversations.client import AsyncConversationsClient, ConversationsClient
@@ -13,9 +15,12 @@ from .custom_object_instances.client import AsyncCustomObjectInstancesClient, Cu
 from .data_attributes.client import AsyncDataAttributesClient, DataAttributesClient
 from .data_events.client import AsyncDataEventsClient, DataEventsClient
 from .data_export.client import AsyncDataExportClient, DataExportClient
+from .emails.client import AsyncEmailsClient, EmailsClient
 from .export.client import AsyncExportClient, ExportClient
 from .help_center.client import AsyncHelpCenterClient, HelpCenterClient
+from .internal_articles.client import AsyncInternalArticlesClient, InternalArticlesClient
 from .jobs.client import AsyncJobsClient, JobsClient
+from .macros.client import AsyncMacrosClient, MacrosClient
 from .messages.client import AsyncMessagesClient, MessagesClient
 from .news.client import AsyncNewsClient, NewsClient
 from .notes.client import AsyncNotesClient, NotesClient
@@ -47,11 +52,13 @@ class UnstableClient:
 
         self.help_center = HelpCenterClient(client_wrapper=client_wrapper)
 
+        self.internal_articles = InternalArticlesClient(client_wrapper=client_wrapper)
+
         self.companies = CompaniesClient(client_wrapper=client_wrapper)
 
-        self.contacts = ContactsClient(client_wrapper=client_wrapper)
-
         self.notes = NotesClient(client_wrapper=client_wrapper)
+
+        self.contacts = ContactsClient(client_wrapper=client_wrapper)
 
         self.subscription_types = SubscriptionTypesClient(client_wrapper=client_wrapper)
 
@@ -71,6 +78,8 @@ class UnstableClient:
 
         self.jobs = JobsClient(client_wrapper=client_wrapper)
 
+        self.macros = MacrosClient(client_wrapper=client_wrapper)
+
         self.messages = MessagesClient(client_wrapper=client_wrapper)
 
         self.news = NewsClient(client_wrapper=client_wrapper)
@@ -78,6 +87,8 @@ class UnstableClient:
         self.segments = SegmentsClient(client_wrapper=client_wrapper)
 
         self.switch = SwitchClient(client_wrapper=client_wrapper)
+
+        self.calls = CallsClient(client_wrapper=client_wrapper)
 
         self.teams = TeamsClient(client_wrapper=client_wrapper)
 
@@ -90,6 +101,10 @@ class UnstableClient:
         self.tickets = TicketsClient(client_wrapper=client_wrapper)
 
         self.visitors = VisitorsClient(client_wrapper=client_wrapper)
+
+        self.brands = BrandsClient(client_wrapper=client_wrapper)
+
+        self.emails = EmailsClient(client_wrapper=client_wrapper)
 
     @property
     def with_raw_response(self) -> RawUnstableClient:
@@ -118,11 +133,13 @@ class AsyncUnstableClient:
 
         self.help_center = AsyncHelpCenterClient(client_wrapper=client_wrapper)
 
+        self.internal_articles = AsyncInternalArticlesClient(client_wrapper=client_wrapper)
+
         self.companies = AsyncCompaniesClient(client_wrapper=client_wrapper)
 
-        self.contacts = AsyncContactsClient(client_wrapper=client_wrapper)
-
         self.notes = AsyncNotesClient(client_wrapper=client_wrapper)
+
+        self.contacts = AsyncContactsClient(client_wrapper=client_wrapper)
 
         self.subscription_types = AsyncSubscriptionTypesClient(client_wrapper=client_wrapper)
 
@@ -142,6 +159,8 @@ class AsyncUnstableClient:
 
         self.jobs = AsyncJobsClient(client_wrapper=client_wrapper)
 
+        self.macros = AsyncMacrosClient(client_wrapper=client_wrapper)
+
         self.messages = AsyncMessagesClient(client_wrapper=client_wrapper)
 
         self.news = AsyncNewsClient(client_wrapper=client_wrapper)
@@ -149,6 +168,8 @@ class AsyncUnstableClient:
         self.segments = AsyncSegmentsClient(client_wrapper=client_wrapper)
 
         self.switch = AsyncSwitchClient(client_wrapper=client_wrapper)
+
+        self.calls = AsyncCallsClient(client_wrapper=client_wrapper)
 
         self.teams = AsyncTeamsClient(client_wrapper=client_wrapper)
 
@@ -161,6 +182,10 @@ class AsyncUnstableClient:
         self.tickets = AsyncTicketsClient(client_wrapper=client_wrapper)
 
         self.visitors = AsyncVisitorsClient(client_wrapper=client_wrapper)
+
+        self.brands = AsyncBrandsClient(client_wrapper=client_wrapper)
+
+        self.emails = AsyncEmailsClient(client_wrapper=client_wrapper)
 
     @property
     def with_raw_response(self) -> AsyncRawUnstableClient:

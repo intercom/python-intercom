@@ -5,7 +5,12 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
+from ..tags.types.tag_basic import TagBasic
 from .conversation_part_author import ConversationPartAuthor
+from .conversation_part_metadata import ConversationPartMetadata
+from .conversation_part_state import ConversationPartState
+from .email_message_metadata import EmailMessageMetadata
+from .event_details import EventDetails
 from .part_attachment import PartAttachment
 from .reference import Reference
 
@@ -15,17 +20,17 @@ class ConversationPart(UncheckedBaseModel):
     A Conversation Part represents a message in the conversation.
     """
 
-    type: typing.Literal["conversation_part"] = pydantic.Field(default="conversation_part")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     Always conversation_part
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id representing the conversation part.
     """
 
-    part_type: str = pydantic.Field()
+    part_type: typing.Optional[str] = pydantic.Field(default=None)
     """
     The type of conversation part.
     """
@@ -35,7 +40,7 @@ class ConversationPart(UncheckedBaseModel):
     The message body, which may contain HTML. For Twitter, this will show a generic message regarding why the body is obscured.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The time the conversation part was created.
     """
@@ -45,7 +50,7 @@ class ConversationPart(UncheckedBaseModel):
     The last time the conversation part was updated.
     """
 
-    notified_at: int = pydantic.Field()
+    notified_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The time the user was notified with the conversation part.
     """
@@ -55,7 +60,7 @@ class ConversationPart(UncheckedBaseModel):
     The id of the admin that was assigned the conversation by this conversation_part (null if there has been no change in assignment.)
     """
 
-    author: ConversationPartAuthor
+    author: typing.Optional[ConversationPartAuthor] = None
     attachments: typing.Optional[typing.List[PartAttachment]] = pydantic.Field(default=None)
     """
     A list of attachments for the part.
@@ -66,9 +71,27 @@ class ConversationPart(UncheckedBaseModel):
     The external id of the conversation part
     """
 
-    redacted: bool = pydantic.Field()
+    redacted: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether or not the conversation part has been redacted.
+    """
+
+    email_message_metadata: typing.Optional[EmailMessageMetadata] = None
+    metadata: typing.Optional[ConversationPartMetadata] = None
+    state: typing.Optional[ConversationPartState] = pydantic.Field(default=None)
+    """
+    Indicates the current state of conversation when the conversation part was created.
+    """
+
+    tags: typing.Optional[typing.List[TagBasic]] = pydantic.Field(default=None)
+    """
+    A list of tags objects associated with the conversation part.
+    """
+
+    event_details: typing.Optional[EventDetails] = None
+    app_package_code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The app package code if this part was created via API. null if the part was not created via API.
     """
 
     if IS_PYDANTIC_V2:

@@ -494,8 +494,8 @@ class RawTicketsClient:
         | id                                        | String                                                                                   |
         | created_at                                | Date (UNIX timestamp)                                                                    |
         | updated_at                                | Date (UNIX timestamp)                                                                    |
-        | _default_title_                           | String                                                                                   |
-        | _default_description_                     | String                                                                                   |
+        | title                           | String                                                                                   |
+        | description                     | String                                                                                   |
         | category                                  | String                                                                                   |
         | ticket_type_id                            | String                                                                                   |
         | contact_ids                               | String                                                                                   |
@@ -1047,8 +1047,8 @@ class AsyncRawTicketsClient:
         | id                                        | String                                                                                   |
         | created_at                                | Date (UNIX timestamp)                                                                    |
         | updated_at                                | Date (UNIX timestamp)                                                                    |
-        | _default_title_                           | String                                                                                   |
-        | _default_description_                     | String                                                                                   |
+        | title                           | String                                                                                   |
+        | description                     | String                                                                                   |
         | category                                  | String                                                                                   |
         | ticket_type_id                            | String                                                                                   |
         | contact_ids                               | String                                                                                   |

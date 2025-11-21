@@ -14,7 +14,7 @@ from ...types.contact_tags import ContactTags
 
 class Contact(UncheckedBaseModel):
     """
-    Contact are the objects that represent your leads and users in Intercom.
+    Contacts represent your leads and users in Intercom.
     """
 
     type: typing.Optional[typing.Literal["contact"]] = pydantic.Field(default=None)
@@ -22,7 +22,7 @@ class Contact(UncheckedBaseModel):
     The type of object.
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The unique identifier for the contact which is given by Intercom.
     """
@@ -32,12 +32,12 @@ class Contact(UncheckedBaseModel):
     The unique identifier for the contact which is provided by the Client.
     """
 
-    workspace_id: str = pydantic.Field()
+    workspace_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id of the workspace which the contact belongs to.
     """
 
-    role: str = pydantic.Field()
+    role: typing.Optional[str] = pydantic.Field(default=None)
     """
     The role of the contact.
     """
@@ -57,11 +57,6 @@ class Contact(UncheckedBaseModel):
     The contacts phone.
     """
 
-    formatted_phone: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    The contacts phone number normalized to the E164 format
-    """
-
     name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The contacts name.
@@ -72,27 +67,27 @@ class Contact(UncheckedBaseModel):
     The id of an admin that has been assigned account ownership of the contact.
     """
 
-    has_hard_bounced: bool = pydantic.Field()
+    has_hard_bounced: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether the contact has had an email sent to them hard bounce.
     """
 
-    marked_email_as_spam: bool = pydantic.Field()
+    marked_email_as_spam: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether the contact has marked an email sent to them as spam.
     """
 
-    unsubscribed_from_emails: bool = pydantic.Field()
+    unsubscribed_from_emails: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether the contact is unsubscribed from emails.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     (UNIX timestamp) The time when the contact was created.
     """
 
-    updated_at: int = pydantic.Field()
+    updated_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     (UNIX timestamp) The time when the contact was last updated.
     """
@@ -225,8 +220,8 @@ class Contact(UncheckedBaseModel):
     tags: typing.Optional[ContactTags] = None
     notes: typing.Optional[ContactNotes] = None
     companies: typing.Optional[ContactCompanies] = None
-    location: ContactLocation
-    social_profiles: ContactSocialProfiles
+    location: typing.Optional[ContactLocation] = None
+    social_profiles: typing.Optional[ContactSocialProfiles] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

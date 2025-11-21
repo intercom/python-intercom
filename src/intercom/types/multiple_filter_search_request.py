@@ -20,7 +20,7 @@ class MultipleFilterSearchRequest(UncheckedBaseModel):
     An operator to allow boolean inspection between multiple fields.
     """
 
-    value: typing.Optional[typing.List["MultipleOrSingleFilterSearchRequest"]] = None
+    value: typing.Optional["MultipleFilterSearchRequestValue"] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
@@ -32,6 +32,6 @@ class MultipleFilterSearchRequest(UncheckedBaseModel):
             extra = pydantic.Extra.allow
 
 
-from .multiple_or_single_filter_search_request import MultipleOrSingleFilterSearchRequest  # noqa: E402, F401, I001
+from .multiple_filter_search_request_value import MultipleFilterSearchRequestValue  # noqa: E402, F401, I001
 
 update_forward_refs(MultipleFilterSearchRequest)

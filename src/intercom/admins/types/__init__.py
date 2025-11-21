@@ -3,6 +3,5 @@
 # isort: skip_file
 
 from .admin import Admin
-from .admin_avatar import AdminAvatar
 
-__all__ = ["Admin", "AdminAvatar"]
+__all__ = ["Admin"]

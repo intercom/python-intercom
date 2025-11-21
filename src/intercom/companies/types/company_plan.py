@@ -8,7 +8,7 @@ from ...core.unchecked_base_model import UncheckedBaseModel
 
 
 class CompanyPlan(UncheckedBaseModel):
-    type: typing.Optional[typing.Literal["plan"]] = pydantic.Field(default=None)
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     Value is always "plan"
     """

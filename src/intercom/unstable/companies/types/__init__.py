@@ -3,8 +3,9 @@
 # isort: skip_file
 
 from .company import Company
+from .company_notes import CompanyNotes
 from .company_plan import CompanyPlan
 from .company_segments import CompanySegments
 from .company_tags import CompanyTags
 
-__all__ = ["Company", "CompanyPlan", "CompanySegments", "CompanyTags"]
+__all__ = ["Company", "CompanyNotes", "CompanyPlan", "CompanySegments", "CompanyTags"]

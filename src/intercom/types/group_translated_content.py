@@ -15,7 +15,7 @@ class GroupTranslatedContent(UncheckedBaseModel):
     The Translated Content of an Group. The keys are the locale codes and the values are the translated content of the Group.
     """
 
-    type: typing.Literal["group_translated_content"] = pydantic.Field(default="group_translated_content")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     The type of object - group_translated_content.
     """

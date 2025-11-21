@@ -26,7 +26,10 @@ class RawMessagesClient:
         self._client_wrapper = client_wrapper
 
     def create(
-        self, *, request: CreateMessageRequest, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        request: typing.Optional[CreateMessageRequest] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Message]:
         """
         You can create a message that has been initiated by an admin. The conversation can be either an in-app message or an email.
@@ -43,7 +46,7 @@ class RawMessagesClient:
 
         Parameters
         ----------
-        request : CreateMessageRequest
+        request : typing.Optional[CreateMessageRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -130,7 +133,10 @@ class AsyncRawMessagesClient:
         self._client_wrapper = client_wrapper
 
     async def create(
-        self, *, request: CreateMessageRequest, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        request: typing.Optional[CreateMessageRequest] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Message]:
         """
         You can create a message that has been initiated by an admin. The conversation can be either an in-app message or an email.
@@ -147,7 +153,7 @@ class AsyncRawMessagesClient:
 
         Parameters
         ----------
-        request : CreateMessageRequest
+        request : typing.Optional[CreateMessageRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

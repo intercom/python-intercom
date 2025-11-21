@@ -18,27 +18,27 @@ class Visitor(UncheckedBaseModel):
     Visitors are useful for representing anonymous people that have not yet been identified. They usually represent website visitors. Visitors are not visible in Intercom platform. The Visitors resource provides methods to fetch, update, convert and delete.
     """
 
-    type: typing.Literal["visitor"] = pydantic.Field(default="visitor")
+    type: typing.Optional[typing.Literal["visitor"]] = pydantic.Field(default=None)
     """
     Value is 'visitor'
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The Intercom defined id representing the Visitor.
     """
 
-    user_id: str = pydantic.Field()
+    user_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     Automatically generated identifier for the Visitor.
     """
 
-    anonymous: bool = pydantic.Field()
+    anonymous: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Identifies if this visitor is anonymous.
     """
 
-    email: str = pydantic.Field()
+    email: typing.Optional[str] = pydantic.Field(default=None)
     """
     The email of the visitor.
     """
@@ -59,7 +59,7 @@ class Visitor(UncheckedBaseModel):
     """
 
     avatar: typing.Optional[VisitorAvatar] = None
-    app_id: str = pydantic.Field()
+    app_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id of the app the visitor is associated with.
     """
@@ -71,7 +71,7 @@ class Visitor(UncheckedBaseModel):
     The time the Lead last recorded making a request.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The time the Visitor was added to Intercom.
     """
@@ -81,7 +81,7 @@ class Visitor(UncheckedBaseModel):
     The time the Visitor was added to Intercom.
     """
 
-    signed_up_at: int = pydantic.Field()
+    signed_up_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The time the Visitor signed up for your product.
     """

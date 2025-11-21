@@ -9,6 +9,7 @@ from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
 from ..core.pagination import AsyncPager, BaseHttpResponse, SyncPager
 from ..core.request_options import RequestOptions
+from ..core.serialization import convert_and_respect_annotation_metadata
 from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
 from ..errors.not_found_error import NotFoundError
@@ -17,8 +18,10 @@ from ..types.company_attached_contacts import CompanyAttachedContacts
 from ..types.company_attached_segments import CompanyAttachedSegments
 from ..types.company_list import CompanyList
 from ..types.company_scroll import CompanyScroll
+from ..types.create_or_update_company_request import CreateOrUpdateCompanyRequest
 from ..types.deleted_company_object import DeletedCompanyObject
 from ..types.error import Error
+from ..types.update_company_request_body import UpdateCompanyRequestBody
 from .types.companies_retrieve_response import CompaniesRetrieveResponse
 from .types.company import Company
 
@@ -135,15 +138,7 @@ class RawCompaniesClient:
     def create_or_update(
         self,
         *,
-        name: typing.Optional[str] = OMIT,
-        company_id: typing.Optional[str] = OMIT,
-        plan: typing.Optional[str] = OMIT,
-        size: typing.Optional[int] = OMIT,
-        website: typing.Optional[str] = OMIT,
-        industry: typing.Optional[str] = OMIT,
-        custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
-        remote_created_at: typing.Optional[int] = OMIT,
-        monthly_spend: typing.Optional[int] = OMIT,
+        request: typing.Optional[CreateOrUpdateCompanyRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Company]:
         """
@@ -159,32 +154,7 @@ class RawCompaniesClient:
 
         Parameters
         ----------
-        name : typing.Optional[str]
-            The name of the Company
-
-        company_id : typing.Optional[str]
-            The company id you have defined for the company. Can't be updated
-
-        plan : typing.Optional[str]
-            The name of the plan you have associated with the company.
-
-        size : typing.Optional[int]
-            The number of employees in this company.
-
-        website : typing.Optional[str]
-            The URL for this company's website. Please note that the value specified here is not validated. Accepts any string.
-
-        industry : typing.Optional[str]
-            The industry that this company operates in.
-
-        custom_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
-            A hash of key/value pairs containing any other data about the company you want Intercom to store.
-
-        remote_created_at : typing.Optional[int]
-            The time the company was created by you.
-
-        monthly_spend : typing.Optional[int]
-            How much revenue the company generates for your business. Note that this will truncate floats. i.e. it only allow for whole integers, 155.98 will be truncated to 155. Note that this has an upper limit of 2**31-1 or 2147483647..
+        request : typing.Optional[CreateOrUpdateCompanyRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -197,17 +167,9 @@ class RawCompaniesClient:
         _response = self._client_wrapper.httpx_client.request(
             "companies",
             method="POST",
-            json={
-                "name": name,
-                "company_id": company_id,
-                "plan": plan,
-                "size": size,
-                "website": website,
-                "industry": industry,
-                "custom_attributes": custom_attributes,
-                "remote_created_at": remote_created_at,
-                "monthly_spend": monthly_spend,
-            },
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=CreateOrUpdateCompanyRequest, direction="write"
+            ),
             headers={
                 "content-type": "application/json",
             },
@@ -313,7 +275,11 @@ class RawCompaniesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def update(
-        self, company_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        company_id: str,
+        *,
+        request: typing.Optional[UpdateCompanyRequestBody] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Company]:
         """
         You can update a single company using the Intercom provisioned `id`.
@@ -327,6 +293,8 @@ class RawCompaniesClient:
         company_id : str
             The unique identifier for the company which is given by Intercom
 
+        request : typing.Optional[UpdateCompanyRequestBody]
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -338,7 +306,14 @@ class RawCompaniesClient:
         _response = self._client_wrapper.httpx_client.request(
             f"companies/{jsonable_encoder(company_id)}",
             method="PUT",
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=UpdateCompanyRequestBody, direction="write"
+            ),
+            headers={
+                "content-type": "application/json",
+            },
             request_options=request_options,
+            omit=OMIT,
         )
         try:
             if 200 <= _response.status_code < 300:
@@ -439,12 +414,7 @@ class RawCompaniesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def list_attached_contacts(
-        self,
-        company_id: str,
-        *,
-        page: typing.Optional[int] = None,
-        per_page: typing.Optional[int] = None,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, company_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[CompanyAttachedContacts]:
         """
         You can fetch a list of all contacts that belong to a company.
@@ -453,12 +423,6 @@ class RawCompaniesClient:
         ----------
         company_id : str
             The unique identifier for the company which is given by Intercom
-
-        page : typing.Optional[int]
-            The page of results to fetch. Defaults to first page
-
-        per_page : typing.Optional[int]
-            How many results to return per page. Defaults to 15
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -471,10 +435,6 @@ class RawCompaniesClient:
         _response = self._client_wrapper.httpx_client.request(
             f"companies/{jsonable_encoder(company_id)}/contacts",
             method="GET",
-            params={
-                "page": page,
-                "per_page": per_page,
-            },
             request_options=request_options,
         )
         try:
@@ -703,11 +663,13 @@ class RawCompaniesClient:
             request_options=request_options,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _parsed_response = typing.cast(
-                    CompanyScroll,
+                    typing.Optional[CompanyScroll],
                     construct_type(
-                        type_=CompanyScroll,  # type: ignore
+                        type_=typing.Optional[CompanyScroll],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -738,14 +700,14 @@ class RawCompaniesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def attach_contact(
-        self, contact_id: str, *, company_id: str, request_options: typing.Optional[RequestOptions] = None
+        self, contact_id: int, *, company_id: str, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[Company]:
         """
         You can attach a company to a single contact.
 
         Parameters
         ----------
-        contact_id : str
+        contact_id : int
             The unique identifier for the contact which is given by Intercom
 
         company_id : str
@@ -993,15 +955,7 @@ class AsyncRawCompaniesClient:
     async def create_or_update(
         self,
         *,
-        name: typing.Optional[str] = OMIT,
-        company_id: typing.Optional[str] = OMIT,
-        plan: typing.Optional[str] = OMIT,
-        size: typing.Optional[int] = OMIT,
-        website: typing.Optional[str] = OMIT,
-        industry: typing.Optional[str] = OMIT,
-        custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
-        remote_created_at: typing.Optional[int] = OMIT,
-        monthly_spend: typing.Optional[int] = OMIT,
+        request: typing.Optional[CreateOrUpdateCompanyRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Company]:
         """
@@ -1017,32 +971,7 @@ class AsyncRawCompaniesClient:
 
         Parameters
         ----------
-        name : typing.Optional[str]
-            The name of the Company
-
-        company_id : typing.Optional[str]
-            The company id you have defined for the company. Can't be updated
-
-        plan : typing.Optional[str]
-            The name of the plan you have associated with the company.
-
-        size : typing.Optional[int]
-            The number of employees in this company.
-
-        website : typing.Optional[str]
-            The URL for this company's website. Please note that the value specified here is not validated. Accepts any string.
-
-        industry : typing.Optional[str]
-            The industry that this company operates in.
-
-        custom_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
-            A hash of key/value pairs containing any other data about the company you want Intercom to store.
-
-        remote_created_at : typing.Optional[int]
-            The time the company was created by you.
-
-        monthly_spend : typing.Optional[int]
-            How much revenue the company generates for your business. Note that this will truncate floats. i.e. it only allow for whole integers, 155.98 will be truncated to 155. Note that this has an upper limit of 2**31-1 or 2147483647..
+        request : typing.Optional[CreateOrUpdateCompanyRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1055,17 +984,9 @@ class AsyncRawCompaniesClient:
         _response = await self._client_wrapper.httpx_client.request(
             "companies",
             method="POST",
-            json={
-                "name": name,
-                "company_id": company_id,
-                "plan": plan,
-                "size": size,
-                "website": website,
-                "industry": industry,
-                "custom_attributes": custom_attributes,
-                "remote_created_at": remote_created_at,
-                "monthly_spend": monthly_spend,
-            },
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=CreateOrUpdateCompanyRequest, direction="write"
+            ),
             headers={
                 "content-type": "application/json",
             },
@@ -1171,7 +1092,11 @@ class AsyncRawCompaniesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def update(
-        self, company_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        company_id: str,
+        *,
+        request: typing.Optional[UpdateCompanyRequestBody] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Company]:
         """
         You can update a single company using the Intercom provisioned `id`.
@@ -1185,6 +1110,8 @@ class AsyncRawCompaniesClient:
         company_id : str
             The unique identifier for the company which is given by Intercom
 
+        request : typing.Optional[UpdateCompanyRequestBody]
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1196,7 +1123,14 @@ class AsyncRawCompaniesClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"companies/{jsonable_encoder(company_id)}",
             method="PUT",
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=UpdateCompanyRequestBody, direction="write"
+            ),
+            headers={
+                "content-type": "application/json",
+            },
             request_options=request_options,
+            omit=OMIT,
         )
         try:
             if 200 <= _response.status_code < 300:
@@ -1297,12 +1231,7 @@ class AsyncRawCompaniesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def list_attached_contacts(
-        self,
-        company_id: str,
-        *,
-        page: typing.Optional[int] = None,
-        per_page: typing.Optional[int] = None,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, company_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[CompanyAttachedContacts]:
         """
         You can fetch a list of all contacts that belong to a company.
@@ -1311,12 +1240,6 @@ class AsyncRawCompaniesClient:
         ----------
         company_id : str
             The unique identifier for the company which is given by Intercom
-
-        page : typing.Optional[int]
-            The page of results to fetch. Defaults to first page
-
-        per_page : typing.Optional[int]
-            How many results to return per page. Defaults to 15
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1329,10 +1252,6 @@ class AsyncRawCompaniesClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"companies/{jsonable_encoder(company_id)}/contacts",
             method="GET",
-            params={
-                "page": page,
-                "per_page": per_page,
-            },
             request_options=request_options,
         )
         try:
@@ -1564,11 +1483,13 @@ class AsyncRawCompaniesClient:
             request_options=request_options,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _parsed_response = typing.cast(
-                    CompanyScroll,
+                    typing.Optional[CompanyScroll],
                     construct_type(
-                        type_=CompanyScroll,  # type: ignore
+                        type_=typing.Optional[CompanyScroll],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -1602,14 +1523,14 @@ class AsyncRawCompaniesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def attach_contact(
-        self, contact_id: str, *, company_id: str, request_options: typing.Optional[RequestOptions] = None
+        self, contact_id: int, *, company_id: str, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Company]:
         """
         You can attach a company to a single contact.
 
         Parameters
         ----------
-        contact_id : str
+        contact_id : int
             The unique identifier for the contact which is given by Intercom
 
         company_id : str

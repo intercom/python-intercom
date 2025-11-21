@@ -14,18 +14,18 @@ class CollectionList(UncheckedBaseModel):
     This will return a list of Collections for the App.
     """
 
-    type: typing.Literal["list"] = pydantic.Field(default="list")
+    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
     """
     The type of the object - `list`.
     """
 
     pages: typing.Optional[OffsetPages] = None
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     A count of the total number of collections.
     """
 
-    data: typing.List[Collection] = pydantic.Field()
+    data: typing.Optional[typing.List[Collection]] = pydantic.Field(default=None)
     """
     An array of collection objects
     """

@@ -23,6 +23,56 @@ class RawNotesClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
+    def list_company_notes(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[NoteList]:
+        """
+        You can fetch a list of notes that are associated to a company.
+
+        Parameters
+        ----------
+        id : str
+            The unique identifier for the company which is given by Intercom
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[NoteList]
+            Successful response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"companies/{jsonable_encoder(id)}/notes",
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    NoteList,
+                    construct_type(
+                        type_=NoteList,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     def list_notes(self, id: int, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[NoteList]:
         """
         You can fetch a list of notes that are associated to a contact.
@@ -208,6 +258,56 @@ class RawNotesClient:
 class AsyncRawNotesClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
+
+    async def list_company_notes(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[NoteList]:
+        """
+        You can fetch a list of notes that are associated to a company.
+
+        Parameters
+        ----------
+        id : str
+            The unique identifier for the company which is given by Intercom
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[NoteList]
+            Successful response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"companies/{jsonable_encoder(id)}/notes",
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    NoteList,
+                    construct_type(
+                        type_=NoteList,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def list_notes(
         self, id: int, *, request_options: typing.Optional[RequestOptions] = None

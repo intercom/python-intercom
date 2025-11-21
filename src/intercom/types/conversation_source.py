@@ -12,25 +12,25 @@ from .part_attachment import PartAttachment
 
 class ConversationSource(UncheckedBaseModel):
     """
-    The Conversation Part that originated this conversation, which can be Contact, Admin, Campaign, Automated or Operator initiated.
+    The type of the conversation part that started this conversation. Can be Contact, Admin, Campaign, Automated or Operator initiated.
     """
 
-    type: ConversationSourceType = pydantic.Field()
+    type: typing.Optional[ConversationSourceType] = pydantic.Field(default=None)
     """
     This includes conversation, email, facebook, instagram, phone_call, phone_switch, push, sms, twitter and whatsapp.
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id representing the message.
     """
 
-    delivered_as: str = pydantic.Field()
+    delivered_as: typing.Optional[str] = pydantic.Field(default=None)
     """
     The conversation's initiation type. Possible values are customer_initiated, campaigns_initiated (legacy campaigns), operator_initiated (Custom bot), automated (Series and other outbounds with dynamic audience message) and admin_initiated (fixed audience message, ticket initiated by an admin, group email).
     """
 
-    subject: str = pydantic.Field()
+    subject: typing.Optional[str] = pydantic.Field(default=None)
     """
     Optional. The message subject. For Twitter, this will show a generic message regarding why the subject is obscured.
     """
@@ -40,7 +40,7 @@ class ConversationSource(UncheckedBaseModel):
     The message body, which may contain HTML. For Twitter, this will show a generic message regarding why the body is obscured.
     """
 
-    author: ConversationPartAuthor
+    author: typing.Optional[ConversationPartAuthor] = None
     attachments: typing.Optional[typing.List[PartAttachment]] = pydantic.Field(default=None)
     """
     A list of attachments for the part.
@@ -51,7 +51,7 @@ class ConversationSource(UncheckedBaseModel):
     The URL where the conversation was started. For Twitter, Email, and Bots, this will be blank.
     """
 
-    redacted: bool = pydantic.Field()
+    redacted: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether or not the source message has been redacted. Only applicable for contact initiated messages.
     """

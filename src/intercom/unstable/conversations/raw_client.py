@@ -223,6 +223,7 @@ class RawConversationsClient:
         id: int,
         *,
         display_as: typing.Optional[str] = None,
+        include_translations: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Conversation]:
         """
@@ -243,7 +244,10 @@ class RawConversationsClient:
             The id of the conversation to target
 
         display_as : typing.Optional[str]
-            Set to plaintext to retrieve conversation messages in plain text.
+            Set to plaintext to retrieve conversation messages in plain text. This affects both the body and subject fields.
+
+        include_translations : typing.Optional[bool]
+            If set to true, conversation parts will be translated to the detected language of the conversation.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -258,6 +262,7 @@ class RawConversationsClient:
             method="GET",
             params={
                 "display_as": display_as,
+                "include_translations": include_translations,
             },
             request_options=request_options,
         )
@@ -340,7 +345,7 @@ class RawConversationsClient:
             The id of the conversation to target
 
         display_as : typing.Optional[str]
-            Set to plaintext to retrieve conversation messages in plain text.
+            Set to plaintext to retrieve conversation messages in plain text. This affects both the body and subject fields.
 
         read : typing.Optional[bool]
             Mark a conversation as read within Intercom.
@@ -1347,6 +1352,7 @@ class AsyncRawConversationsClient:
         id: int,
         *,
         display_as: typing.Optional[str] = None,
+        include_translations: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Conversation]:
         """
@@ -1367,7 +1373,10 @@ class AsyncRawConversationsClient:
             The id of the conversation to target
 
         display_as : typing.Optional[str]
-            Set to plaintext to retrieve conversation messages in plain text.
+            Set to plaintext to retrieve conversation messages in plain text. This affects both the body and subject fields.
+
+        include_translations : typing.Optional[bool]
+            If set to true, conversation parts will be translated to the detected language of the conversation.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1382,6 +1391,7 @@ class AsyncRawConversationsClient:
             method="GET",
             params={
                 "display_as": display_as,
+                "include_translations": include_translations,
             },
             request_options=request_options,
         )
@@ -1464,7 +1474,7 @@ class AsyncRawConversationsClient:
             The id of the conversation to target
 
         display_as : typing.Optional[str]
-            Set to plaintext to retrieve conversation messages in plain text.
+            Set to plaintext to retrieve conversation messages in plain text. This affects both the body and subject fields.
 
         read : typing.Optional[bool]
             Mark a conversation as read within Intercom.

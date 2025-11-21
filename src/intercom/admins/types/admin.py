@@ -6,7 +6,6 @@ import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 from ...core.unchecked_base_model import UncheckedBaseModel
 from ...types.team_priority_level import TeamPriorityLevel
-from .admin_avatar import AdminAvatar
 
 
 class Admin(UncheckedBaseModel):
@@ -14,7 +13,7 @@ class Admin(UncheckedBaseModel):
     Admins are teammate accounts that have access to a workspace.
     """
 
-    type: typing.Optional[typing.Literal["admin"]] = pydantic.Field(default=None)
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     String representing the object's type. Always has the value `admin`.
     """
@@ -49,6 +48,11 @@ class Admin(UncheckedBaseModel):
     Identifies if this admin is set to automatically reassign new conversations to the apps default inbox.
     """
 
+    away_status_reason_id: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The unique identifier of the away status reason
+    """
+
     has_inbox_seat: bool = pydantic.Field()
     """
     Identifies if this admin has a paid inbox seat to restrict/allow features that require them.
@@ -59,9 +63,9 @@ class Admin(UncheckedBaseModel):
     This object represents the avatar associated with the admin.
     """
 
-    avatar: typing.Optional[AdminAvatar] = pydantic.Field(default=None)
+    avatar: typing.Optional[str] = pydantic.Field(default=None)
     """
-    The avatar object associated with the admin
+    Image for the associated team or teammate
     """
 
     team_priority_level: typing.Optional[TeamPriorityLevel] = None

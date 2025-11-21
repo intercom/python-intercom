@@ -12,17 +12,17 @@ class DeletedCollectionObject(UncheckedBaseModel):
     Response returned when an object is deleted
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The unique identifier for the collection which you provided in the URL.
     """
 
-    object: typing.Literal["collection"] = pydantic.Field(default="collection")
+    object: typing.Optional[typing.Literal["collection"]] = pydantic.Field(default=None)
     """
     The type of object which was deleted. - `collection`
     """
 
-    deleted: bool = pydantic.Field()
+    deleted: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether the collection was deleted successfully or not.
     """

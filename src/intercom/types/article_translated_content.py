@@ -15,7 +15,7 @@ class ArticleTranslatedContent(UncheckedBaseModel):
     The Translated Content of an Article. The keys are the locale codes and the values are the translated content of the article.
     """
 
-    type: typing.Optional[typing.Literal["article_translated_content"]] = pydantic.Field(default=None)
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     The type of object - article_translated_content.
     """

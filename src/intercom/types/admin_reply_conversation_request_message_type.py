@@ -2,4 +2,4 @@
 
 import typing
 
-AdminReplyConversationRequestMessageType = typing.Union[typing.Literal["comment", "note"], typing.Any]
+AdminReplyConversationRequestMessageType = typing.Union[typing.Literal["comment", "note", "quick_reply"], typing.Any]

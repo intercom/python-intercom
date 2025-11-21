@@ -14,12 +14,12 @@ class DataEventList(UncheckedBaseModel):
     This will return a list of data events for the App.
     """
 
-    type: typing.Literal["event.list"] = pydantic.Field(default="event.list")
+    type: typing.Optional[typing.Literal["event.list"]] = pydantic.Field(default=None)
     """
     The type of the object
     """
 
-    events: typing.List[DataEvent] = pydantic.Field()
+    events: typing.Optional[typing.List[DataEvent]] = pydantic.Field(default=None)
     """
     A list of data events
     """

@@ -14,17 +14,17 @@ class SlaApplied(UncheckedBaseModel):
     Important: if there are any canceled sla_events for the conversation - meaning an SLA has been manually removed from a conversation, the sla_status will always be returned as null.
     """
 
-    type: str = pydantic.Field()
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     object type
     """
 
-    sla_name: str = pydantic.Field()
+    sla_name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the SLA as given by the teammate when it was created.
     """
 
-    sla_status: SlaAppliedSlaStatus = pydantic.Field()
+    sla_status: typing.Optional[SlaAppliedSlaStatus] = pydantic.Field(default=None)
     """
     SLA statuses:
                 - `hit`: If there’s at least one hit event in the underlying sla_events table, and no “missed” or “canceled” events for the conversation.

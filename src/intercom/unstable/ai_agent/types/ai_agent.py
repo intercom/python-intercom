@@ -44,6 +44,16 @@ class AiAgent(UncheckedBaseModel):
     The customer satisfaction rating remark given to AI Agent.
     """
 
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The time when the AI agent rating was created.
+    """
+
+    updated_at: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The time when the AI agent rating was last updated.
+    """
+
     content_sources: typing.Optional[ContentSourcesList] = None
 
     if IS_PYDANTIC_V2:

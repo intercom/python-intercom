@@ -5,16 +5,16 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
+from ..jobs.types.jobs import Jobs
+from ..types.create_ticket_request_assignment import CreateTicketRequestAssignment
 from ..types.create_ticket_request_contacts_item import CreateTicketRequestContactsItem
 from ..types.search_request_query import SearchRequestQuery
 from ..types.starting_after_paging import StartingAfterPaging
 from ..types.ticket_reply import TicketReply
-from ..types.ticket_request_custom_attributes import TicketRequestCustomAttributes
 from .raw_client import AsyncRawTicketsClient, RawTicketsClient
+from .types.delete_ticket_response import DeleteTicketResponse
 from .types.ticket import Ticket
 from .types.tickets_reply_request_body import TicketsReplyRequestBody
-from .types.update_ticket_request_assignment import UpdateTicketRequestAssignment
-from .types.update_ticket_request_state import UpdateTicketRequestState
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -57,7 +57,7 @@ class TicketsClient:
         Returns
         -------
         TicketReply
-            Admin quick_reply reply
+            Admin Reply to send Quick Reply Options
 
         Examples
         --------
@@ -70,7 +70,7 @@ class TicketsClient:
             ticket_id="123",
             request=ContactReplyTicketIntercomUserIdRequest(
                 body="Thanks again :)",
-                intercom_user_id="667d619d8a68186f43bafe82",
+                intercom_user_id="6762f2971bb69f9f2193bc49",
             ),
         )
         """
@@ -82,11 +82,13 @@ class TicketsClient:
         *,
         ticket_type_id: str,
         contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        skip_notifications: typing.Optional[bool] = OMIT,
+        conversation_to_link_id: typing.Optional[str] = OMIT,
         company_id: typing.Optional[str] = OMIT,
         created_at: typing.Optional[int] = OMIT,
-        ticket_attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
+        assignment: typing.Optional[CreateTicketRequestAssignment] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> Ticket:
+    ) -> typing.Optional[Ticket]:
         """
         You can create a new ticket.
 
@@ -98,20 +100,30 @@ class TicketsClient:
         contacts : typing.Sequence[CreateTicketRequestContactsItem]
             The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
 
+        skip_notifications : typing.Optional[bool]
+            Option to disable notifications when a Ticket is created.
+
+        conversation_to_link_id : typing.Optional[str]
+            The ID of the conversation you want to link to the ticket. Here are the valid ways of linking two tickets:
+             - conversation | back-office ticket
+             - customer tickets | non-shared back-office ticket
+             - conversation | tracker ticket
+             - customer ticket | tracker ticket
+
         company_id : typing.Optional[str]
-            The ID of the company that the ticket is associated with. The ID that you set upon company creation.
+            The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom
 
         created_at : typing.Optional[int]
             The time the ticket was created. If not provided, the current time will be used.
 
-        ticket_attributes : typing.Optional[TicketRequestCustomAttributes]
+        assignment : typing.Optional[CreateTicketRequestAssignment]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        Ticket
+        typing.Optional[Ticket]
             Successful response
 
         Examples
@@ -125,26 +137,103 @@ class TicketsClient:
             ticket_type_id="1234",
             contacts=[
                 CreateTicketRequestContactsItemId(
-                    id="667d61b78a68186f43bafe8d",
+                    id="6762f2d81bb69f9f2193bc54",
                 )
             ],
-            ticket_attributes={
-                "_default_title_": "example",
-                "_default_description_": "there is a problem",
-            },
         )
         """
         _response = self._raw_client.create(
             ticket_type_id=ticket_type_id,
             contacts=contacts,
+            skip_notifications=skip_notifications,
+            conversation_to_link_id=conversation_to_link_id,
             company_id=company_id,
             created_at=created_at,
-            ticket_attributes=ticket_attributes,
+            assignment=assignment,
             request_options=request_options,
         )
         return _response.data
 
-    def get(self, ticket_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Ticket:
+    def enqueue_create_ticket(
+        self,
+        *,
+        ticket_type_id: str,
+        contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        skip_notifications: typing.Optional[bool] = OMIT,
+        conversation_to_link_id: typing.Optional[str] = OMIT,
+        company_id: typing.Optional[str] = OMIT,
+        created_at: typing.Optional[int] = OMIT,
+        assignment: typing.Optional[CreateTicketRequestAssignment] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> Jobs:
+        """
+        Enqueues ticket creation for asynchronous processing, returning if the job was enqueued successfully to be processed. We attempt to perform a best-effort validation on inputs before tasks are enqueued. If the given parameters are incorrect, we won't enqueue the job.
+
+        Parameters
+        ----------
+        ticket_type_id : str
+            The ID of the type of ticket you want to create
+
+        contacts : typing.Sequence[CreateTicketRequestContactsItem]
+            The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
+
+        skip_notifications : typing.Optional[bool]
+            Option to disable notifications when a Ticket is created.
+
+        conversation_to_link_id : typing.Optional[str]
+            The ID of the conversation you want to link to the ticket. Here are the valid ways of linking two tickets:
+             - conversation | back-office ticket
+             - customer tickets | non-shared back-office ticket
+             - conversation | tracker ticket
+             - customer ticket | tracker ticket
+
+        company_id : typing.Optional[str]
+            The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom
+
+        created_at : typing.Optional[int]
+            The time the ticket was created. If not provided, the current time will be used.
+
+        assignment : typing.Optional[CreateTicketRequestAssignment]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Jobs
+            Successful response
+
+        Examples
+        --------
+        from intercom import CreateTicketRequestContactsItemId, Intercom
+
+        client = Intercom(
+            token="YOUR_TOKEN",
+        )
+        client.tickets.enqueue_create_ticket(
+            ticket_type_id="1234",
+            contacts=[
+                CreateTicketRequestContactsItemId(
+                    id="6762f2d81bb69f9f2193bc54",
+                )
+            ],
+        )
+        """
+        _response = self._raw_client.enqueue_create_ticket(
+            ticket_type_id=ticket_type_id,
+            contacts=contacts,
+            skip_notifications=skip_notifications,
+            conversation_to_link_id=conversation_to_link_id,
+            company_id=company_id,
+            created_at=created_at,
+            assignment=assignment,
+            request_options=request_options,
+        )
+        return _response.data
+
+    def get(
+        self, ticket_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Optional[Ticket]:
         """
         You can fetch the details of a single ticket.
 
@@ -158,7 +247,7 @@ class TicketsClient:
 
         Returns
         -------
-        Ticket
+        typing.Optional[Ticket]
             Ticket found
 
         Examples
@@ -180,13 +269,15 @@ class TicketsClient:
         ticket_id: str,
         *,
         ticket_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
-        state: typing.Optional[UpdateTicketRequestState] = OMIT,
+        ticket_state_id: typing.Optional[str] = OMIT,
+        company_id: typing.Optional[str] = OMIT,
         open: typing.Optional[bool] = OMIT,
         is_shared: typing.Optional[bool] = OMIT,
         snoozed_until: typing.Optional[int] = OMIT,
-        assignment: typing.Optional[UpdateTicketRequestAssignment] = OMIT,
+        admin_id: typing.Optional[int] = OMIT,
+        assignee_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> Ticket:
+    ) -> typing.Optional[Ticket]:
         """
         You can update a ticket.
 
@@ -198,8 +289,11 @@ class TicketsClient:
         ticket_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
             The attributes set on the ticket.
 
-        state : typing.Optional[UpdateTicketRequestState]
-            The state of the ticket.
+        ticket_state_id : typing.Optional[str]
+            The ID of the ticket state associated with the ticket type.
+
+        company_id : typing.Optional[str]
+            The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company.
 
         open : typing.Optional[bool]
             Specify if a ticket is open. Set to false to close a ticket. Closing a ticket will also unsnooze it.
@@ -210,20 +304,23 @@ class TicketsClient:
         snoozed_until : typing.Optional[int]
             The time you want the ticket to reopen.
 
-        assignment : typing.Optional[UpdateTicketRequestAssignment]
+        admin_id : typing.Optional[int]
+            The ID of the admin performing ticket update. Needed for workflows execution and attributing actions to specific admins.
+
+        assignee_id : typing.Optional[str]
+            The ID of the admin or team to which the ticket is assigned. Set this 0 to unassign it.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        Ticket
+        typing.Optional[Ticket]
             Successful response
 
         Examples
         --------
         from intercom import Intercom
-        from intercom.tickets import UpdateTicketRequestAssignment
 
         client = Intercom(
             token="YOUR_TOKEN",
@@ -234,25 +331,58 @@ class TicketsClient:
                 "_default_title_": "example",
                 "_default_description_": "there is a problem",
             },
-            state="in_progress",
+            ticket_state_id="123",
             open=True,
             snoozed_until=1673609604,
-            assignment=UpdateTicketRequestAssignment(
-                admin_id="991267883",
-                assignee_id="991267885",
-            ),
+            admin_id=991268011,
+            assignee_id="123",
         )
         """
         _response = self._raw_client.update(
             ticket_id,
             ticket_attributes=ticket_attributes,
-            state=state,
+            ticket_state_id=ticket_state_id,
+            company_id=company_id,
             open=open,
             is_shared=is_shared,
             snoozed_until=snoozed_until,
-            assignment=assignment,
+            admin_id=admin_id,
+            assignee_id=assignee_id,
             request_options=request_options,
         )
+        return _response.data
+
+    def delete_ticket(
+        self, ticket_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> DeleteTicketResponse:
+        """
+        You can delete a ticket using the Intercom provided ID.
+
+        Parameters
+        ----------
+        ticket_id : str
+            The unique identifier for the ticket which is given by Intercom.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        DeleteTicketResponse
+            successful
+
+        Examples
+        --------
+        from intercom import Intercom
+
+        client = Intercom(
+            token="YOUR_TOKEN",
+        )
+        client.tickets.delete_ticket(
+            ticket_id="ticket_id",
+        )
+        """
+        _response = self._raw_client.delete_ticket(ticket_id, request_options=request_options)
         return _response.data
 
     def search(
@@ -261,7 +391,7 @@ class TicketsClient:
         query: SearchRequestQuery,
         pagination: typing.Optional[StartingAfterPaging] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[Ticket]:
+    ) -> SyncPager[typing.Optional[Ticket]]:
         """
         You can search for multiple tickets by the value of their attributes in order to fetch exactly which ones you want.
 
@@ -285,14 +415,15 @@ class TicketsClient:
         ### Accepted Fields
 
         Most keys listed as part of the Ticket model are searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foobar"`).
+        The `source.body` field is unique as the search will not be performed against the entire value, but instead against every element of the value separately. For example, when searching for a conversation with a `"I need support"` body - the query should contain a `=` operator with the value `"support"` for such conversation to be returned. A query with a `=` operator and a `"need support"` value will not yield a result.
 
         | Field                                     | Type                                                                                     |
         | :---------------------------------------- | :--------------------------------------------------------------------------------------- |
         | id                                        | String                                                                                   |
         | created_at                                | Date (UNIX timestamp)                                                                    |
         | updated_at                                | Date (UNIX timestamp)                                                                    |
-        | _default_title_                           | String                                                                                   |
-        | _default_description_                     | String                                                                                   |
+        | title                           | String                                                                                   |
+        | description                     | String                                                                                   |
         | category                                  | String                                                                                   |
         | ticket_type_id                            | String                                                                                   |
         | contact_ids                               | String                                                                                   |
@@ -303,6 +434,13 @@ class TicketsClient:
         | state                                     | String                                                                                   |
         | snoozed_until                             | Date (UNIX timestamp)                                                                    |
         | ticket_attribute.{id}                     | String or Boolean or Date (UNIX timestamp) or Float or Integer                           |
+
+        {% admonition type="info" name="Searching by Category" %}
+        When searching for tickets by the **`category`** field, specific terms must be used instead of the category names:
+        * For **Customer** category tickets, use the term `request`.
+        * For **Back-office** category tickets, use the term `task`.
+        * For **Tracker** category tickets, use the term `tracker`.
+        {% /admonition %}
 
         ### Accepted Operators
 
@@ -336,7 +474,7 @@ class TicketsClient:
 
         Returns
         -------
-        SyncPager[Ticket]
+        SyncPager[typing.Optional[Ticket]]
             successful
 
         Examples
@@ -412,7 +550,7 @@ class AsyncTicketsClient:
         Returns
         -------
         TicketReply
-            Admin quick_reply reply
+            Admin Reply to send Quick Reply Options
 
         Examples
         --------
@@ -430,7 +568,7 @@ class AsyncTicketsClient:
                 ticket_id="123",
                 request=ContactReplyTicketIntercomUserIdRequest(
                     body="Thanks again :)",
-                    intercom_user_id="667d619d8a68186f43bafe82",
+                    intercom_user_id="6762f2971bb69f9f2193bc49",
                 ),
             )
 
@@ -445,11 +583,13 @@ class AsyncTicketsClient:
         *,
         ticket_type_id: str,
         contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        skip_notifications: typing.Optional[bool] = OMIT,
+        conversation_to_link_id: typing.Optional[str] = OMIT,
         company_id: typing.Optional[str] = OMIT,
         created_at: typing.Optional[int] = OMIT,
-        ticket_attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
+        assignment: typing.Optional[CreateTicketRequestAssignment] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> Ticket:
+    ) -> typing.Optional[Ticket]:
         """
         You can create a new ticket.
 
@@ -461,20 +601,30 @@ class AsyncTicketsClient:
         contacts : typing.Sequence[CreateTicketRequestContactsItem]
             The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
 
+        skip_notifications : typing.Optional[bool]
+            Option to disable notifications when a Ticket is created.
+
+        conversation_to_link_id : typing.Optional[str]
+            The ID of the conversation you want to link to the ticket. Here are the valid ways of linking two tickets:
+             - conversation | back-office ticket
+             - customer tickets | non-shared back-office ticket
+             - conversation | tracker ticket
+             - customer ticket | tracker ticket
+
         company_id : typing.Optional[str]
-            The ID of the company that the ticket is associated with. The ID that you set upon company creation.
+            The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom
 
         created_at : typing.Optional[int]
             The time the ticket was created. If not provided, the current time will be used.
 
-        ticket_attributes : typing.Optional[TicketRequestCustomAttributes]
+        assignment : typing.Optional[CreateTicketRequestAssignment]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        Ticket
+        typing.Optional[Ticket]
             Successful response
 
         Examples
@@ -493,13 +643,9 @@ class AsyncTicketsClient:
                 ticket_type_id="1234",
                 contacts=[
                     CreateTicketRequestContactsItemId(
-                        id="667d61b78a68186f43bafe8d",
+                        id="6762f2d81bb69f9f2193bc54",
                     )
                 ],
-                ticket_attributes={
-                    "_default_title_": "example",
-                    "_default_description_": "there is a problem",
-                },
             )
 
 
@@ -508,14 +654,103 @@ class AsyncTicketsClient:
         _response = await self._raw_client.create(
             ticket_type_id=ticket_type_id,
             contacts=contacts,
+            skip_notifications=skip_notifications,
+            conversation_to_link_id=conversation_to_link_id,
             company_id=company_id,
             created_at=created_at,
-            ticket_attributes=ticket_attributes,
+            assignment=assignment,
             request_options=request_options,
         )
         return _response.data
 
-    async def get(self, ticket_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Ticket:
+    async def enqueue_create_ticket(
+        self,
+        *,
+        ticket_type_id: str,
+        contacts: typing.Sequence[CreateTicketRequestContactsItem],
+        skip_notifications: typing.Optional[bool] = OMIT,
+        conversation_to_link_id: typing.Optional[str] = OMIT,
+        company_id: typing.Optional[str] = OMIT,
+        created_at: typing.Optional[int] = OMIT,
+        assignment: typing.Optional[CreateTicketRequestAssignment] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> Jobs:
+        """
+        Enqueues ticket creation for asynchronous processing, returning if the job was enqueued successfully to be processed. We attempt to perform a best-effort validation on inputs before tasks are enqueued. If the given parameters are incorrect, we won't enqueue the job.
+
+        Parameters
+        ----------
+        ticket_type_id : str
+            The ID of the type of ticket you want to create
+
+        contacts : typing.Sequence[CreateTicketRequestContactsItem]
+            The list of contacts (users or leads) affected by this ticket. Currently only one is allowed
+
+        skip_notifications : typing.Optional[bool]
+            Option to disable notifications when a Ticket is created.
+
+        conversation_to_link_id : typing.Optional[str]
+            The ID of the conversation you want to link to the ticket. Here are the valid ways of linking two tickets:
+             - conversation | back-office ticket
+             - customer tickets | non-shared back-office ticket
+             - conversation | tracker ticket
+             - customer ticket | tracker ticket
+
+        company_id : typing.Optional[str]
+            The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom
+
+        created_at : typing.Optional[int]
+            The time the ticket was created. If not provided, the current time will be used.
+
+        assignment : typing.Optional[CreateTicketRequestAssignment]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Jobs
+            Successful response
+
+        Examples
+        --------
+        import asyncio
+
+        from intercom import AsyncIntercom, CreateTicketRequestContactsItemId
+
+        client = AsyncIntercom(
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.tickets.enqueue_create_ticket(
+                ticket_type_id="1234",
+                contacts=[
+                    CreateTicketRequestContactsItemId(
+                        id="6762f2d81bb69f9f2193bc54",
+                    )
+                ],
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.enqueue_create_ticket(
+            ticket_type_id=ticket_type_id,
+            contacts=contacts,
+            skip_notifications=skip_notifications,
+            conversation_to_link_id=conversation_to_link_id,
+            company_id=company_id,
+            created_at=created_at,
+            assignment=assignment,
+            request_options=request_options,
+        )
+        return _response.data
+
+    async def get(
+        self, ticket_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Optional[Ticket]:
         """
         You can fetch the details of a single ticket.
 
@@ -529,7 +764,7 @@ class AsyncTicketsClient:
 
         Returns
         -------
-        Ticket
+        typing.Optional[Ticket]
             Ticket found
 
         Examples
@@ -559,13 +794,15 @@ class AsyncTicketsClient:
         ticket_id: str,
         *,
         ticket_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
-        state: typing.Optional[UpdateTicketRequestState] = OMIT,
+        ticket_state_id: typing.Optional[str] = OMIT,
+        company_id: typing.Optional[str] = OMIT,
         open: typing.Optional[bool] = OMIT,
         is_shared: typing.Optional[bool] = OMIT,
         snoozed_until: typing.Optional[int] = OMIT,
-        assignment: typing.Optional[UpdateTicketRequestAssignment] = OMIT,
+        admin_id: typing.Optional[int] = OMIT,
+        assignee_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> Ticket:
+    ) -> typing.Optional[Ticket]:
         """
         You can update a ticket.
 
@@ -577,8 +814,11 @@ class AsyncTicketsClient:
         ticket_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
             The attributes set on the ticket.
 
-        state : typing.Optional[UpdateTicketRequestState]
-            The state of the ticket.
+        ticket_state_id : typing.Optional[str]
+            The ID of the ticket state associated with the ticket type.
+
+        company_id : typing.Optional[str]
+            The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company.
 
         open : typing.Optional[bool]
             Specify if a ticket is open. Set to false to close a ticket. Closing a ticket will also unsnooze it.
@@ -589,14 +829,18 @@ class AsyncTicketsClient:
         snoozed_until : typing.Optional[int]
             The time you want the ticket to reopen.
 
-        assignment : typing.Optional[UpdateTicketRequestAssignment]
+        admin_id : typing.Optional[int]
+            The ID of the admin performing ticket update. Needed for workflows execution and attributing actions to specific admins.
+
+        assignee_id : typing.Optional[str]
+            The ID of the admin or team to which the ticket is assigned. Set this 0 to unassign it.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        Ticket
+        typing.Optional[Ticket]
             Successful response
 
         Examples
@@ -604,7 +848,6 @@ class AsyncTicketsClient:
         import asyncio
 
         from intercom import AsyncIntercom
-        from intercom.tickets import UpdateTicketRequestAssignment
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -618,13 +861,11 @@ class AsyncTicketsClient:
                     "_default_title_": "example",
                     "_default_description_": "there is a problem",
                 },
-                state="in_progress",
+                ticket_state_id="123",
                 open=True,
                 snoozed_until=1673609604,
-                assignment=UpdateTicketRequestAssignment(
-                    admin_id="991267883",
-                    assignee_id="991267885",
-                ),
+                admin_id=991268011,
+                assignee_id="123",
             )
 
 
@@ -633,13 +874,56 @@ class AsyncTicketsClient:
         _response = await self._raw_client.update(
             ticket_id,
             ticket_attributes=ticket_attributes,
-            state=state,
+            ticket_state_id=ticket_state_id,
+            company_id=company_id,
             open=open,
             is_shared=is_shared,
             snoozed_until=snoozed_until,
-            assignment=assignment,
+            admin_id=admin_id,
+            assignee_id=assignee_id,
             request_options=request_options,
         )
+        return _response.data
+
+    async def delete_ticket(
+        self, ticket_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> DeleteTicketResponse:
+        """
+        You can delete a ticket using the Intercom provided ID.
+
+        Parameters
+        ----------
+        ticket_id : str
+            The unique identifier for the ticket which is given by Intercom.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        DeleteTicketResponse
+            successful
+
+        Examples
+        --------
+        import asyncio
+
+        from intercom import AsyncIntercom
+
+        client = AsyncIntercom(
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.tickets.delete_ticket(
+                ticket_id="ticket_id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.delete_ticket(ticket_id, request_options=request_options)
         return _response.data
 
     async def search(
@@ -648,7 +932,7 @@ class AsyncTicketsClient:
         query: SearchRequestQuery,
         pagination: typing.Optional[StartingAfterPaging] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[Ticket]:
+    ) -> AsyncPager[typing.Optional[Ticket]]:
         """
         You can search for multiple tickets by the value of their attributes in order to fetch exactly which ones you want.
 
@@ -672,14 +956,15 @@ class AsyncTicketsClient:
         ### Accepted Fields
 
         Most keys listed as part of the Ticket model are searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foobar"`).
+        The `source.body` field is unique as the search will not be performed against the entire value, but instead against every element of the value separately. For example, when searching for a conversation with a `"I need support"` body - the query should contain a `=` operator with the value `"support"` for such conversation to be returned. A query with a `=` operator and a `"need support"` value will not yield a result.
 
         | Field                                     | Type                                                                                     |
         | :---------------------------------------- | :--------------------------------------------------------------------------------------- |
         | id                                        | String                                                                                   |
         | created_at                                | Date (UNIX timestamp)                                                                    |
         | updated_at                                | Date (UNIX timestamp)                                                                    |
-        | _default_title_                           | String                                                                                   |
-        | _default_description_                     | String                                                                                   |
+        | title                           | String                                                                                   |
+        | description                     | String                                                                                   |
         | category                                  | String                                                                                   |
         | ticket_type_id                            | String                                                                                   |
         | contact_ids                               | String                                                                                   |
@@ -690,6 +975,13 @@ class AsyncTicketsClient:
         | state                                     | String                                                                                   |
         | snoozed_until                             | Date (UNIX timestamp)                                                                    |
         | ticket_attribute.{id}                     | String or Boolean or Date (UNIX timestamp) or Float or Integer                           |
+
+        {% admonition type="info" name="Searching by Category" %}
+        When searching for tickets by the **`category`** field, specific terms must be used instead of the category names:
+        * For **Customer** category tickets, use the term `request`.
+        * For **Back-office** category tickets, use the term `task`.
+        * For **Tracker** category tickets, use the term `tracker`.
+        {% /admonition %}
 
         ### Accepted Operators
 
@@ -723,7 +1015,7 @@ class AsyncTicketsClient:
 
         Returns
         -------
-        AsyncPager[Ticket]
+        AsyncPager[typing.Optional[Ticket]]
             successful
 
         Examples

@@ -27,6 +27,37 @@ class NotesClient:
         """
         return self._raw_client
 
+    def list_company_notes(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> NoteList:
+        """
+        You can fetch a list of notes that are associated to a company.
+
+        Parameters
+        ----------
+        id : str
+            The unique identifier for the company which is given by Intercom
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        NoteList
+            Successful response
+
+        Examples
+        --------
+        from intercom import Intercom
+
+        client = Intercom(
+            token="YOUR_TOKEN",
+        )
+        client.unstable.notes.list_company_notes(
+            id="5f4d3c1c-7b1b-4d7d-a97e-6095715c6632",
+        )
+        """
+        _response = self._raw_client.list_company_notes(id, request_options=request_options)
+        return _response.data
+
     def list_notes(self, id: int, *, request_options: typing.Optional[RequestOptions] = None) -> NoteList:
         """
         You can fetch a list of notes that are associated to a contact.
@@ -157,6 +188,45 @@ class AsyncNotesClient:
         AsyncRawNotesClient
         """
         return self._raw_client
+
+    async def list_company_notes(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> NoteList:
+        """
+        You can fetch a list of notes that are associated to a company.
+
+        Parameters
+        ----------
+        id : str
+            The unique identifier for the company which is given by Intercom
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        NoteList
+            Successful response
+
+        Examples
+        --------
+        import asyncio
+
+        from intercom import AsyncIntercom
+
+        client = AsyncIntercom(
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.unstable.notes.list_company_notes(
+                id="5f4d3c1c-7b1b-4d7d-a97e-6095715c6632",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.list_company_notes(id, request_options=request_options)
+        return _response.data
 
     async def list_notes(self, id: int, *, request_options: typing.Optional[RequestOptions] = None) -> NoteList:
         """

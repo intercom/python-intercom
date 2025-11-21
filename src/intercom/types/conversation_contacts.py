@@ -13,8 +13,12 @@ class ConversationContacts(UncheckedBaseModel):
     The list of contacts (users or leads) involved in this conversation. This will only contain one customer unless more were added via the group conversation feature.
     """
 
-    type: typing.Literal["contact.list"] = "contact.list"
-    contacts: typing.List[ContactReference] = pydantic.Field()
+    type: typing.Optional[typing.Literal["contact.list"]] = pydantic.Field(default=None)
+    """
+    
+    """
+
+    contacts: typing.Optional[typing.List[ContactReference]] = pydantic.Field(default=None)
     """
     The list of contacts (users or leads) involved in this conversation. This will only contain one customer unless more were added via the group conversation feature.
     """

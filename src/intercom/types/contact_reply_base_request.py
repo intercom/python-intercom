@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
+from .contact_reply_base_request_reply_options_item import ContactReplyBaseRequestReplyOptionsItem
 
 
 class ContactReplyBaseRequest(UncheckedBaseModel):
@@ -23,6 +24,11 @@ class ContactReplyBaseRequest(UncheckedBaseModel):
     attachment_urls: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     A list of image URLs that will be added as attachments. You can include up to 10 URLs.
+    """
+
+    reply_options: typing.Optional[typing.List[ContactReplyBaseRequestReplyOptionsItem]] = pydantic.Field(default=None)
+    """
+    The quick reply selection the contact wishes to respond with. These map to buttons displayed in the Messenger UI if sent by a bot, or the reply options sent by an Admin via the API.
     """
 
     if IS_PYDANTIC_V2:

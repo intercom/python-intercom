@@ -8,13 +8,14 @@ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
 from ..core.request_options import RequestOptions
+from ..core.serialization import convert_and_respect_annotation_metadata
 from ..core.unchecked_base_model import construct_type
 from ..errors.unauthorized_error import UnauthorizedError
 from ..tickets.types.ticket_type import TicketType
+from ..types.create_ticket_type_request import CreateTicketTypeRequest
 from ..types.error import Error
 from ..types.ticket_type_list import TicketTypeList
-from .types.create_ticket_type_request_category import CreateTicketTypeRequestCategory
-from .types.update_ticket_type_request_body_category import UpdateTicketTypeRequestBodyCategory
+from .types.update_ticket_type_request_category import UpdateTicketTypeRequestCategory
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -72,13 +73,9 @@ class RawTicketTypesClient:
     def create(
         self,
         *,
-        name: str,
-        description: typing.Optional[str] = OMIT,
-        category: typing.Optional[CreateTicketTypeRequestCategory] = OMIT,
-        icon: typing.Optional[str] = OMIT,
-        is_internal: typing.Optional[bool] = OMIT,
+        request: typing.Optional[CreateTicketTypeRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[TicketType]:
+    ) -> HttpResponse[typing.Optional[TicketType]]:
         """
         You can create a new ticket type.
         > 📘 Creating ticket types.
@@ -88,39 +85,22 @@ class RawTicketTypesClient:
 
         Parameters
         ----------
-        name : str
-            The name of the ticket type.
-
-        description : typing.Optional[str]
-            The description of the ticket type.
-
-        category : typing.Optional[CreateTicketTypeRequestCategory]
-            Category of the Ticket Type.
-
-        icon : typing.Optional[str]
-            The icon of the ticket type.
-
-        is_internal : typing.Optional[bool]
-            Whether the tickets associated with this ticket type are intended for internal use only or will be shared with customers. This is currently a limited attribute.
+        request : typing.Optional[CreateTicketTypeRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[TicketType]
+        HttpResponse[typing.Optional[TicketType]]
             Ticket type created
         """
         _response = self._client_wrapper.httpx_client.request(
             "ticket_types",
             method="POST",
-            json={
-                "name": name,
-                "description": description,
-                "category": category,
-                "icon": icon,
-                "is_internal": is_internal,
-            },
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=CreateTicketTypeRequest, direction="write"
+            ),
             headers={
                 "content-type": "application/json",
             },
@@ -128,11 +108,13 @@ class RawTicketTypesClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    TicketType,
+                    typing.Optional[TicketType],
                     construct_type(
-                        type_=TicketType,  # type: ignore
+                        type_=typing.Optional[TicketType],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -155,7 +137,7 @@ class RawTicketTypesClient:
 
     def get(
         self, ticket_type_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[TicketType]:
+    ) -> HttpResponse[typing.Optional[TicketType]]:
         """
         You can fetch the details of a single ticket type.
 
@@ -169,7 +151,7 @@ class RawTicketTypesClient:
 
         Returns
         -------
-        HttpResponse[TicketType]
+        HttpResponse[typing.Optional[TicketType]]
             Ticket type found
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -178,11 +160,13 @@ class RawTicketTypesClient:
             request_options=request_options,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    TicketType,
+                    typing.Optional[TicketType],
                     construct_type(
-                        type_=TicketType,  # type: ignore
+                        type_=typing.Optional[TicketType],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -209,12 +193,12 @@ class RawTicketTypesClient:
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
-        category: typing.Optional[UpdateTicketTypeRequestBodyCategory] = OMIT,
+        category: typing.Optional[UpdateTicketTypeRequestCategory] = OMIT,
         icon: typing.Optional[str] = OMIT,
         archived: typing.Optional[bool] = OMIT,
         is_internal: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[TicketType]:
+    ) -> HttpResponse[typing.Optional[TicketType]]:
         """
 
         You can update a ticket type.
@@ -234,7 +218,7 @@ class RawTicketTypesClient:
         description : typing.Optional[str]
             The description of the ticket type.
 
-        category : typing.Optional[UpdateTicketTypeRequestBodyCategory]
+        category : typing.Optional[UpdateTicketTypeRequestCategory]
             Category of the Ticket Type.
 
         icon : typing.Optional[str]
@@ -251,7 +235,7 @@ class RawTicketTypesClient:
 
         Returns
         -------
-        HttpResponse[TicketType]
+        HttpResponse[typing.Optional[TicketType]]
             Ticket type updated
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -272,11 +256,13 @@ class RawTicketTypesClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    TicketType,
+                    typing.Optional[TicketType],
                     construct_type(
-                        type_=TicketType,  # type: ignore
+                        type_=typing.Optional[TicketType],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -352,13 +338,9 @@ class AsyncRawTicketTypesClient:
     async def create(
         self,
         *,
-        name: str,
-        description: typing.Optional[str] = OMIT,
-        category: typing.Optional[CreateTicketTypeRequestCategory] = OMIT,
-        icon: typing.Optional[str] = OMIT,
-        is_internal: typing.Optional[bool] = OMIT,
+        request: typing.Optional[CreateTicketTypeRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[TicketType]:
+    ) -> AsyncHttpResponse[typing.Optional[TicketType]]:
         """
         You can create a new ticket type.
         > 📘 Creating ticket types.
@@ -368,39 +350,22 @@ class AsyncRawTicketTypesClient:
 
         Parameters
         ----------
-        name : str
-            The name of the ticket type.
-
-        description : typing.Optional[str]
-            The description of the ticket type.
-
-        category : typing.Optional[CreateTicketTypeRequestCategory]
-            Category of the Ticket Type.
-
-        icon : typing.Optional[str]
-            The icon of the ticket type.
-
-        is_internal : typing.Optional[bool]
-            Whether the tickets associated with this ticket type are intended for internal use only or will be shared with customers. This is currently a limited attribute.
+        request : typing.Optional[CreateTicketTypeRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[TicketType]
+        AsyncHttpResponse[typing.Optional[TicketType]]
             Ticket type created
         """
         _response = await self._client_wrapper.httpx_client.request(
             "ticket_types",
             method="POST",
-            json={
-                "name": name,
-                "description": description,
-                "category": category,
-                "icon": icon,
-                "is_internal": is_internal,
-            },
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=CreateTicketTypeRequest, direction="write"
+            ),
             headers={
                 "content-type": "application/json",
             },
@@ -408,11 +373,13 @@ class AsyncRawTicketTypesClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    TicketType,
+                    typing.Optional[TicketType],
                     construct_type(
-                        type_=TicketType,  # type: ignore
+                        type_=typing.Optional[TicketType],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -435,7 +402,7 @@ class AsyncRawTicketTypesClient:
 
     async def get(
         self, ticket_type_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[TicketType]:
+    ) -> AsyncHttpResponse[typing.Optional[TicketType]]:
         """
         You can fetch the details of a single ticket type.
 
@@ -449,7 +416,7 @@ class AsyncRawTicketTypesClient:
 
         Returns
         -------
-        AsyncHttpResponse[TicketType]
+        AsyncHttpResponse[typing.Optional[TicketType]]
             Ticket type found
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -458,11 +425,13 @@ class AsyncRawTicketTypesClient:
             request_options=request_options,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    TicketType,
+                    typing.Optional[TicketType],
                     construct_type(
-                        type_=TicketType,  # type: ignore
+                        type_=typing.Optional[TicketType],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -489,12 +458,12 @@ class AsyncRawTicketTypesClient:
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
-        category: typing.Optional[UpdateTicketTypeRequestBodyCategory] = OMIT,
+        category: typing.Optional[UpdateTicketTypeRequestCategory] = OMIT,
         icon: typing.Optional[str] = OMIT,
         archived: typing.Optional[bool] = OMIT,
         is_internal: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[TicketType]:
+    ) -> AsyncHttpResponse[typing.Optional[TicketType]]:
         """
 
         You can update a ticket type.
@@ -514,7 +483,7 @@ class AsyncRawTicketTypesClient:
         description : typing.Optional[str]
             The description of the ticket type.
 
-        category : typing.Optional[UpdateTicketTypeRequestBodyCategory]
+        category : typing.Optional[UpdateTicketTypeRequestCategory]
             Category of the Ticket Type.
 
         icon : typing.Optional[str]
@@ -531,7 +500,7 @@ class AsyncRawTicketTypesClient:
 
         Returns
         -------
-        AsyncHttpResponse[TicketType]
+        AsyncHttpResponse[typing.Optional[TicketType]]
             Ticket type updated
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -552,11 +521,13 @@ class AsyncRawTicketTypesClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    TicketType,
+                    typing.Optional[TicketType],
                     construct_type(
-                        type_=TicketType,  # type: ignore
+                        type_=typing.Optional[TicketType],  # type: ignore
                         object_=_response.json(),
                     ),
                 )

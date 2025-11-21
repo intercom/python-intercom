@@ -26,6 +26,7 @@ from .article_translated_content import ArticleTranslatedContent
 from .assign_conversation_request import AssignConversationRequest
 from .assign_conversation_request_type import AssignConversationRequestType
 from .away_status_reason import AwayStatusReason
+from .call_list import CallList
 from .close_conversation_request import CloseConversationRequest
 from .collection_list import CollectionList
 from .company_attached_contacts import CompanyAttachedContacts
@@ -82,7 +83,17 @@ from .conversation_source import ConversationSource
 from .conversation_source_type import ConversationSourceType
 from .conversation_statistics import ConversationStatistics
 from .conversation_teammates import ConversationTeammates
+from .create_article_request import CreateArticleRequest
+from .create_article_request_state import CreateArticleRequestState
+from .create_data_attribute_request import CreateDataAttributeRequest
+from .create_data_attribute_request_one import CreateDataAttributeRequestOne
+from .create_data_attribute_request_one_data_type import CreateDataAttributeRequestOneDataType
+from .create_data_attribute_request_options import CreateDataAttributeRequestOptions
+from .create_data_attribute_request_options_options_item import CreateDataAttributeRequestOptionsOptionsItem
+from .create_internal_article_request import CreateInternalArticleRequest
+from .create_or_update_company_request import CreateOrUpdateCompanyRequest
 from .create_or_update_tag_request import CreateOrUpdateTagRequest
+from .create_phone_switch_request import CreatePhoneSwitchRequest
 from .create_ticket_reply_with_comment_request import CreateTicketReplyWithCommentRequest
 from .create_ticket_request_assignment import CreateTicketRequestAssignment
 from .create_ticket_request_body import CreateTicketRequestBody
@@ -90,6 +101,8 @@ from .create_ticket_request_contacts_item import CreateTicketRequestContactsItem
 from .create_ticket_request_contacts_item_email import CreateTicketRequestContactsItemEmail
 from .create_ticket_request_contacts_item_external_id import CreateTicketRequestContactsItemExternalId
 from .create_ticket_request_contacts_item_id import CreateTicketRequestContactsItemId
+from .create_ticket_type_request import CreateTicketTypeRequest
+from .create_ticket_type_request_category import CreateTicketTypeRequestCategory
 from .cursor_pages import CursorPages
 from .custom_action_finished import CustomActionFinished
 from .custom_action_finished_action import CustomActionFinishedAction
@@ -119,6 +132,7 @@ from .datetime import Datetime
 from .deleted_article_object import DeletedArticleObject
 from .deleted_collection_object import DeletedCollectionObject
 from .deleted_company_object import DeletedCompanyObject
+from .deleted_internal_article_object import DeletedInternalArticleObject
 from .deleted_object import DeletedObject
 from .email_address_header import EmailAddressHeader
 from .email_message_metadata import EmailMessageMetadata
@@ -130,6 +144,7 @@ from .group_content import GroupContent
 from .group_translated_content import GroupTranslatedContent
 from .intercom_version import IntercomVersion
 from .intercom_version_unstable import IntercomVersionUnstable
+from .internal_article_list import InternalArticleList
 from .linked_object import LinkedObject
 from .linked_object_list import LinkedObjectList
 from .linked_object_type import LinkedObjectType
@@ -205,10 +220,9 @@ from .ticket_type_list import TicketTypeList
 from .translation import Translation
 from .untag_company_request import UntagCompanyRequest
 from .untag_company_request_companies_item import UntagCompanyRequestCompaniesItem
-from .update_article_request_body import UpdateArticleRequestBody
-from .update_article_request_state import UpdateArticleRequestState
-from .update_ticket_type_request_body import UpdateTicketTypeRequestBody
-from .update_ticket_type_request_category import UpdateTicketTypeRequestCategory
+from .update_data_attribute_request_body import UpdateDataAttributeRequestBody
+from .update_data_attribute_request_options import UpdateDataAttributeRequestOptions
+from .update_data_attribute_request_options_options_item import UpdateDataAttributeRequestOptionsOptionsItem
 from .visitor import Visitor
 from .visitor_avatar import VisitorAvatar
 from .visitor_companies import VisitorCompanies
@@ -249,6 +263,7 @@ __all__ = [
     "AssignConversationRequest",
     "AssignConversationRequestType",
     "AwayStatusReason",
+    "CallList",
     "CloseConversationRequest",
     "CollectionList",
     "CompanyAttachedContacts",
@@ -305,7 +320,17 @@ __all__ = [
     "ConversationSourceType",
     "ConversationStatistics",
     "ConversationTeammates",
+    "CreateArticleRequest",
+    "CreateArticleRequestState",
+    "CreateDataAttributeRequest",
+    "CreateDataAttributeRequestOne",
+    "CreateDataAttributeRequestOneDataType",
+    "CreateDataAttributeRequestOptions",
+    "CreateDataAttributeRequestOptionsOptionsItem",
+    "CreateInternalArticleRequest",
+    "CreateOrUpdateCompanyRequest",
     "CreateOrUpdateTagRequest",
+    "CreatePhoneSwitchRequest",
     "CreateTicketReplyWithCommentRequest",
     "CreateTicketRequestAssignment",
     "CreateTicketRequestBody",
@@ -313,6 +338,8 @@ __all__ = [
     "CreateTicketRequestContactsItemEmail",
     "CreateTicketRequestContactsItemExternalId",
     "CreateTicketRequestContactsItemId",
+    "CreateTicketTypeRequest",
+    "CreateTicketTypeRequestCategory",
     "CursorPages",
     "CustomActionFinished",
     "CustomActionFinishedAction",
@@ -342,6 +369,7 @@ __all__ = [
     "DeletedArticleObject",
     "DeletedCollectionObject",
     "DeletedCompanyObject",
+    "DeletedInternalArticleObject",
     "DeletedObject",
     "EmailAddressHeader",
     "EmailMessageMetadata",
@@ -353,6 +381,7 @@ __all__ = [
     "GroupTranslatedContent",
     "IntercomVersion",
     "IntercomVersionUnstable",
+    "InternalArticleList",
     "LinkedObject",
     "LinkedObjectList",
     "LinkedObjectType",
@@ -424,10 +453,9 @@ __all__ = [
     "Translation",
     "UntagCompanyRequest",
     "UntagCompanyRequestCompaniesItem",
-    "UpdateArticleRequestBody",
-    "UpdateArticleRequestState",
-    "UpdateTicketTypeRequestBody",
-    "UpdateTicketTypeRequestCategory",
+    "UpdateDataAttributeRequestBody",
+    "UpdateDataAttributeRequestOptions",
+    "UpdateDataAttributeRequestOptionsOptionsItem",
     "Visitor",
     "VisitorAvatar",
     "VisitorCompanies",

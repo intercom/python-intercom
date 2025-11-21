@@ -2,7 +2,9 @@
 
 # isort: skip_file
 
+from .company_note import CompanyNote
+from .company_note_company import CompanyNoteCompany
 from .note import Note
 from .note_contact import NoteContact
 
-__all__ = ["Note", "NoteContact"]
+__all__ = ["CompanyNote", "CompanyNoteCompany", "Note", "NoteContact"]
