@@ -91,7 +91,12 @@ class EventsClient:
             token="YOUR_TOKEN",
         )
         client.events.list(
+            user_id="user_id",
+            intercom_user_id="intercom_user_id",
+            email="email",
             type="type",
+            summary=True,
+            per_page=1,
         )
         """
         _response = self._raw_client.list(
@@ -303,7 +308,12 @@ class AsyncEventsClient:
 
         async def main() -> None:
             await client.events.list(
+                user_id="user_id",
+                intercom_user_id="intercom_user_id",
+                email="email",
                 type="type",
+                summary=True,
+                per_page=1,
             )
 
 

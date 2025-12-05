@@ -2,4 +2,4 @@
 
 import typing
 
-CreateDataEventRequestTwo = typing.Optional[typing.Any]
+CreateDataEventRequestTwo = typing.Any

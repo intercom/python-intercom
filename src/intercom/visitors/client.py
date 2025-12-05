@@ -30,7 +30,9 @@ class VisitorsClient:
         """
         return self._raw_client
 
-    def find(self, *, user_id: str, request_options: typing.Optional[RequestOptions] = None) -> Visitor:
+    def find(
+        self, *, user_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Optional[Visitor]:
         """
         You can fetch the details of a single visitor.
 
@@ -44,7 +46,7 @@ class VisitorsClient:
 
         Returns
         -------
-        Visitor
+        typing.Optional[Visitor]
             successful
 
         Examples
@@ -63,7 +65,7 @@ class VisitorsClient:
 
     def update(
         self, *, request: UpdateVisitorRequest, request_options: typing.Optional[RequestOptions] = None
-    ) -> Visitor:
+    ) -> typing.Optional[Visitor]:
         """
         Sending a PUT request to `/visitors` will result in an update of an existing Visitor.
 
@@ -80,7 +82,7 @@ class VisitorsClient:
 
         Returns
         -------
-        Visitor
+        typing.Optional[Visitor]
             successful
 
         Examples
@@ -92,7 +94,7 @@ class VisitorsClient:
         )
         client.visitors.update(
             request=UpdateVisitorRequestWithId(
-                id="667d61cc8a68186f43bafe95",
+                id="6762f30c1bb69f9f2193bc5e",
                 name="Gareth Bale",
             ),
         )
@@ -174,7 +176,9 @@ class AsyncVisitorsClient:
         """
         return self._raw_client
 
-    async def find(self, *, user_id: str, request_options: typing.Optional[RequestOptions] = None) -> Visitor:
+    async def find(
+        self, *, user_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Optional[Visitor]:
         """
         You can fetch the details of a single visitor.
 
@@ -188,7 +192,7 @@ class AsyncVisitorsClient:
 
         Returns
         -------
-        Visitor
+        typing.Optional[Visitor]
             successful
 
         Examples
@@ -215,7 +219,7 @@ class AsyncVisitorsClient:
 
     async def update(
         self, *, request: UpdateVisitorRequest, request_options: typing.Optional[RequestOptions] = None
-    ) -> Visitor:
+    ) -> typing.Optional[Visitor]:
         """
         Sending a PUT request to `/visitors` will result in an update of an existing Visitor.
 
@@ -232,7 +236,7 @@ class AsyncVisitorsClient:
 
         Returns
         -------
-        Visitor
+        typing.Optional[Visitor]
             successful
 
         Examples
@@ -249,7 +253,7 @@ class AsyncVisitorsClient:
         async def main() -> None:
             await client.visitors.update(
                 request=UpdateVisitorRequestWithId(
-                    id="667d61cc8a68186f43bafe95",
+                    id="6762f30c1bb69f9f2193bc5e",
                     name="Gareth Bale",
                 ),
             )

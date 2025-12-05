@@ -60,14 +60,14 @@ class ArticlesClient:
         return _response.data
 
     def create_article(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
     ) -> Article:
         """
         You can create a new article by making a POST request to `https://api.intercom.io/articles`.
 
         Parameters
         ----------
-        request : typing.Optional[typing.Any]
+        request : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -199,6 +199,8 @@ class ArticlesClient:
         client.unstable.articles.search_articles(
             phrase="Getting started",
             state="published",
+            help_center_id=1,
+            highlight=True,
         )
         """
         _response = self._raw_client.search_articles(
@@ -265,14 +267,14 @@ class AsyncArticlesClient:
         return _response.data
 
     async def create_article(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
     ) -> Article:
         """
         You can create a new article by making a POST request to `https://api.intercom.io/articles`.
 
         Parameters
         ----------
-        request : typing.Optional[typing.Any]
+        request : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -433,6 +435,8 @@ class AsyncArticlesClient:
             await client.unstable.articles.search_articles(
                 phrase="Getting started",
                 state="published",
+                help_center_id=1,
+                highlight=True,
             )
 
 

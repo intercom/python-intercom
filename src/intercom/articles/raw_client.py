@@ -7,7 +7,7 @@ from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
-from ..core.pagination import AsyncPager, BaseHttpResponse, SyncPager
+from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
 from ..core.serialization import convert_and_respect_annotation_metadata
 from ..core.unchecked_base_model import construct_type
@@ -16,15 +16,13 @@ from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..types.article_list import ArticleList
 from ..types.article_translated_content import ArticleTranslatedContent
+from ..types.create_article_request import CreateArticleRequest
 from ..types.deleted_article_object import DeletedArticleObject
 from ..types.error import Error
 from .types.article import Article
 from .types.article_list_item import ArticleListItem
-from .types.create_article_request_parent_type import CreateArticleRequestParentType
-from .types.create_article_request_state import CreateArticleRequestState
-from .types.search_articles_response import SearchArticlesResponse
-from .types.update_article_request_body_parent_type import UpdateArticleRequestBodyParentType
-from .types.update_article_request_body_state import UpdateArticleRequestBodyState
+from .types.article_search_response import ArticleSearchResponse
+from .types.update_article_request_state import UpdateArticleRequestState
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -40,7 +38,7 @@ class RawArticlesClient:
         page: typing.Optional[int] = None,
         per_page: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ArticleListItem]:
+    ) -> SyncPager[ArticleListItem, ArticleList]:
         """
         You can fetch a list of all articles by making a GET request to `https://api.intercom.io/articles`.
 
@@ -61,7 +59,7 @@ class RawArticlesClient:
 
         Returns
         -------
-        SyncPager[ArticleListItem]
+        SyncPager[ArticleListItem, ArticleList]
             successful
         """
         page = page if page is not None else 1
@@ -91,9 +89,7 @@ class RawArticlesClient:
                     per_page=per_page,
                     request_options=request_options,
                 )
-                return SyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 401:
                 raise UnauthorizedError(
                     headers=dict(_response.headers),
@@ -113,14 +109,7 @@ class RawArticlesClient:
     def create(
         self,
         *,
-        title: str,
-        author_id: int,
-        description: typing.Optional[str] = OMIT,
-        body: typing.Optional[str] = OMIT,
-        state: typing.Optional[CreateArticleRequestState] = OMIT,
-        parent_id: typing.Optional[int] = OMIT,
-        parent_type: typing.Optional[CreateArticleRequestParentType] = OMIT,
-        translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
+        request: typing.Optional[CreateArticleRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Article]:
         """
@@ -128,28 +117,7 @@ class RawArticlesClient:
 
         Parameters
         ----------
-        title : str
-            The title of the article.For multilingual articles, this will be the title of the default language's content.
-
-        author_id : int
-            The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace.
-
-        description : typing.Optional[str]
-            The description of the article. For multilingual articles, this will be the description of the default language's content.
-
-        body : typing.Optional[str]
-            The content of the article. For multilingual articles, this will be the body of the default language's content.
-
-        state : typing.Optional[CreateArticleRequestState]
-            Whether the article will be `published` or will be a `draft`. Defaults to draft. For multilingual articles, this will be the state of the default language's content.
-
-        parent_id : typing.Optional[int]
-            The id of the article's parent collection or section. An article without this field stands alone.
-
-        parent_type : typing.Optional[CreateArticleRequestParentType]
-            The type of parent, which can either be a `collection` or `section`.
-
-        translated_content : typing.Optional[ArticleTranslatedContent]
+        request : typing.Optional[CreateArticleRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -162,18 +130,9 @@ class RawArticlesClient:
         _response = self._client_wrapper.httpx_client.request(
             "articles",
             method="POST",
-            json={
-                "title": title,
-                "description": description,
-                "body": body,
-                "author_id": author_id,
-                "state": state,
-                "parent_id": parent_id,
-                "parent_type": parent_type,
-                "translated_content": convert_and_respect_annotation_metadata(
-                    object_=translated_content, annotation=ArticleTranslatedContent, direction="write"
-                ),
-            },
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=CreateArticleRequest, direction="write"
+            ),
             headers={
                 "content-type": "application/json",
             },
@@ -194,9 +153,9 @@ class RawArticlesClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -218,14 +177,14 @@ class RawArticlesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def find(
-        self, article_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, article_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[Article]:
         """
         You can fetch the details of a single article by making a GET request to `https://api.intercom.io/articles/<id>`.
 
         Parameters
         ----------
-        article_id : str
+        article_id : int
             The unique identifier for the article which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -266,9 +225,9 @@ class RawArticlesClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -280,15 +239,15 @@ class RawArticlesClient:
 
     def update(
         self,
-        article_id: str,
+        article_id: int,
         *,
         title: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
         body: typing.Optional[str] = OMIT,
         author_id: typing.Optional[int] = OMIT,
-        state: typing.Optional[UpdateArticleRequestBodyState] = OMIT,
+        state: typing.Optional[UpdateArticleRequestState] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
-        parent_type: typing.Optional[UpdateArticleRequestBodyParentType] = OMIT,
+        parent_type: typing.Optional[str] = OMIT,
         translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Article]:
@@ -297,7 +256,7 @@ class RawArticlesClient:
 
         Parameters
         ----------
-        article_id : str
+        article_id : int
             The unique identifier for the article which is given by Intercom.
 
         title : typing.Optional[str]
@@ -312,13 +271,13 @@ class RawArticlesClient:
         author_id : typing.Optional[int]
             The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace.
 
-        state : typing.Optional[UpdateArticleRequestBodyState]
+        state : typing.Optional[UpdateArticleRequestState]
             Whether the article will be `published` or will be a `draft`. Defaults to draft. For multilingual articles, this will be the state of the default language's content.
 
         parent_id : typing.Optional[str]
             The id of the article's parent collection or section. An article without this field stands alone.
 
-        parent_type : typing.Optional[UpdateArticleRequestBodyParentType]
+        parent_type : typing.Optional[str]
             The type of parent, which can either be a `collection` or `section`.
 
         translated_content : typing.Optional[ArticleTranslatedContent]
@@ -377,9 +336,9 @@ class RawArticlesClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -390,14 +349,14 @@ class RawArticlesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def delete(
-        self, article_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, article_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[DeletedArticleObject]:
         """
         You can delete a single article by making a DELETE request to `https://api.intercom.io/articles/<id>`.
 
         Parameters
         ----------
-        article_id : str
+        article_id : int
             The unique identifier for the article which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -438,9 +397,9 @@ class RawArticlesClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -458,7 +417,7 @@ class RawArticlesClient:
         help_center_id: typing.Optional[int] = None,
         highlight: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[SearchArticlesResponse]:
+    ) -> HttpResponse[ArticleSearchResponse]:
         """
         You can search for articles by making a GET request to `https://api.intercom.io/articles/search`.
 
@@ -481,7 +440,7 @@ class RawArticlesClient:
 
         Returns
         -------
-        HttpResponse[SearchArticlesResponse]
+        HttpResponse[ArticleSearchResponse]
             Search successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -498,9 +457,9 @@ class RawArticlesClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    SearchArticlesResponse,
+                    ArticleSearchResponse,
                     construct_type(
-                        type_=SearchArticlesResponse,  # type: ignore
+                        type_=ArticleSearchResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -532,7 +491,7 @@ class AsyncRawArticlesClient:
         page: typing.Optional[int] = None,
         per_page: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ArticleListItem]:
+    ) -> AsyncPager[ArticleListItem, ArticleList]:
         """
         You can fetch a list of all articles by making a GET request to `https://api.intercom.io/articles`.
 
@@ -553,7 +512,7 @@ class AsyncRawArticlesClient:
 
         Returns
         -------
-        AsyncPager[ArticleListItem]
+        AsyncPager[ArticleListItem, ArticleList]
             successful
         """
         page = page if page is not None else 1
@@ -586,9 +545,7 @@ class AsyncRawArticlesClient:
                         request_options=request_options,
                     )
 
-                return AsyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 401:
                 raise UnauthorizedError(
                     headers=dict(_response.headers),
@@ -608,14 +565,7 @@ class AsyncRawArticlesClient:
     async def create(
         self,
         *,
-        title: str,
-        author_id: int,
-        description: typing.Optional[str] = OMIT,
-        body: typing.Optional[str] = OMIT,
-        state: typing.Optional[CreateArticleRequestState] = OMIT,
-        parent_id: typing.Optional[int] = OMIT,
-        parent_type: typing.Optional[CreateArticleRequestParentType] = OMIT,
-        translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
+        request: typing.Optional[CreateArticleRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Article]:
         """
@@ -623,28 +573,7 @@ class AsyncRawArticlesClient:
 
         Parameters
         ----------
-        title : str
-            The title of the article.For multilingual articles, this will be the title of the default language's content.
-
-        author_id : int
-            The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace.
-
-        description : typing.Optional[str]
-            The description of the article. For multilingual articles, this will be the description of the default language's content.
-
-        body : typing.Optional[str]
-            The content of the article. For multilingual articles, this will be the body of the default language's content.
-
-        state : typing.Optional[CreateArticleRequestState]
-            Whether the article will be `published` or will be a `draft`. Defaults to draft. For multilingual articles, this will be the state of the default language's content.
-
-        parent_id : typing.Optional[int]
-            The id of the article's parent collection or section. An article without this field stands alone.
-
-        parent_type : typing.Optional[CreateArticleRequestParentType]
-            The type of parent, which can either be a `collection` or `section`.
-
-        translated_content : typing.Optional[ArticleTranslatedContent]
+        request : typing.Optional[CreateArticleRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -657,18 +586,9 @@ class AsyncRawArticlesClient:
         _response = await self._client_wrapper.httpx_client.request(
             "articles",
             method="POST",
-            json={
-                "title": title,
-                "description": description,
-                "body": body,
-                "author_id": author_id,
-                "state": state,
-                "parent_id": parent_id,
-                "parent_type": parent_type,
-                "translated_content": convert_and_respect_annotation_metadata(
-                    object_=translated_content, annotation=ArticleTranslatedContent, direction="write"
-                ),
-            },
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=CreateArticleRequest, direction="write"
+            ),
             headers={
                 "content-type": "application/json",
             },
@@ -689,9 +609,9 @@ class AsyncRawArticlesClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -713,14 +633,14 @@ class AsyncRawArticlesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def find(
-        self, article_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, article_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Article]:
         """
         You can fetch the details of a single article by making a GET request to `https://api.intercom.io/articles/<id>`.
 
         Parameters
         ----------
-        article_id : str
+        article_id : int
             The unique identifier for the article which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -761,9 +681,9 @@ class AsyncRawArticlesClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -775,15 +695,15 @@ class AsyncRawArticlesClient:
 
     async def update(
         self,
-        article_id: str,
+        article_id: int,
         *,
         title: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
         body: typing.Optional[str] = OMIT,
         author_id: typing.Optional[int] = OMIT,
-        state: typing.Optional[UpdateArticleRequestBodyState] = OMIT,
+        state: typing.Optional[UpdateArticleRequestState] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
-        parent_type: typing.Optional[UpdateArticleRequestBodyParentType] = OMIT,
+        parent_type: typing.Optional[str] = OMIT,
         translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Article]:
@@ -792,7 +712,7 @@ class AsyncRawArticlesClient:
 
         Parameters
         ----------
-        article_id : str
+        article_id : int
             The unique identifier for the article which is given by Intercom.
 
         title : typing.Optional[str]
@@ -807,13 +727,13 @@ class AsyncRawArticlesClient:
         author_id : typing.Optional[int]
             The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace.
 
-        state : typing.Optional[UpdateArticleRequestBodyState]
+        state : typing.Optional[UpdateArticleRequestState]
             Whether the article will be `published` or will be a `draft`. Defaults to draft. For multilingual articles, this will be the state of the default language's content.
 
         parent_id : typing.Optional[str]
             The id of the article's parent collection or section. An article without this field stands alone.
 
-        parent_type : typing.Optional[UpdateArticleRequestBodyParentType]
+        parent_type : typing.Optional[str]
             The type of parent, which can either be a `collection` or `section`.
 
         translated_content : typing.Optional[ArticleTranslatedContent]
@@ -872,9 +792,9 @@ class AsyncRawArticlesClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -885,14 +805,14 @@ class AsyncRawArticlesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def delete(
-        self, article_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, article_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[DeletedArticleObject]:
         """
         You can delete a single article by making a DELETE request to `https://api.intercom.io/articles/<id>`.
 
         Parameters
         ----------
-        article_id : str
+        article_id : int
             The unique identifier for the article which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -933,9 +853,9 @@ class AsyncRawArticlesClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -953,7 +873,7 @@ class AsyncRawArticlesClient:
         help_center_id: typing.Optional[int] = None,
         highlight: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[SearchArticlesResponse]:
+    ) -> AsyncHttpResponse[ArticleSearchResponse]:
         """
         You can search for articles by making a GET request to `https://api.intercom.io/articles/search`.
 
@@ -976,7 +896,7 @@ class AsyncRawArticlesClient:
 
         Returns
         -------
-        AsyncHttpResponse[SearchArticlesResponse]
+        AsyncHttpResponse[ArticleSearchResponse]
             Search successful
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -993,9 +913,9 @@ class AsyncRawArticlesClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    SearchArticlesResponse,
+                    ArticleSearchResponse,
                     construct_type(
-                        type_=SearchArticlesResponse,  # type: ignore
+                        type_=ArticleSearchResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )

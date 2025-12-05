@@ -2,4 +2,4 @@
 
 import typing
 
-UpdateVisitorRequestOne = typing.Optional[typing.Any]
+UpdateVisitorRequestOne = typing.Any

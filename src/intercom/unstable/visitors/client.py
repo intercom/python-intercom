@@ -101,8 +101,8 @@ class VisitorsClient:
         self,
         *,
         type: str,
-        user: typing.Optional[typing.Any] = OMIT,
-        visitor: typing.Optional[typing.Any] = OMIT,
+        user: typing.Any,
+        visitor: typing.Any,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Contact:
         """
@@ -117,9 +117,9 @@ class VisitorsClient:
         type : str
             Represents the role of the Contact model. Accepts `lead` or `user`.
 
-        user : typing.Optional[typing.Any]
+        user : typing.Any
 
-        visitor : typing.Optional[typing.Any]
+        visitor : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -254,8 +254,8 @@ class AsyncVisitorsClient:
         self,
         *,
         type: str,
-        user: typing.Optional[typing.Any] = OMIT,
-        visitor: typing.Optional[typing.Any] = OMIT,
+        user: typing.Any,
+        visitor: typing.Any,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Contact:
         """
@@ -270,9 +270,9 @@ class AsyncVisitorsClient:
         type : str
             Represents the role of the Contact model. Accepts `lead` or `user`.
 
-        user : typing.Optional[typing.Any]
+        user : typing.Any
 
-        visitor : typing.Optional[typing.Any]
+        visitor : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

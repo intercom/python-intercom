@@ -6,7 +6,7 @@ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.request_options import RequestOptions
 from ...types.deleted_object import DeletedObject
 from ...types.news_item_request_state import NewsItemRequestState
-from ...types.paginated_news_item_response import PaginatedNewsItemResponse
+from ...types.paginated_response import PaginatedResponse
 from ..types.news_item import NewsItem
 from ..types.newsfeed_assignment import NewsfeedAssignment
 from .raw_client import AsyncRawItemsClient, RawItemsClient
@@ -30,7 +30,7 @@ class ItemsClient:
         """
         return self._raw_client
 
-    def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> PaginatedNewsItemResponse:
+    def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> PaginatedResponse:
         """
         You can fetch a list of all news items
 
@@ -41,7 +41,7 @@ class ItemsClient:
 
         Returns
         -------
-        PaginatedNewsItemResponse
+        PaginatedResponse
             successful
 
         Examples
@@ -117,7 +117,7 @@ class ItemsClient:
         client.news.items.create(
             title="Halloween is here!",
             body="<p>New costumes in store for this spooky season</p>",
-            sender_id=991267734,
+            sender_id=991267834,
             state="live",
             deliver_silently=True,
             labels=["Product", "Update", "New"],
@@ -143,13 +143,13 @@ class ItemsClient:
         )
         return _response.data
 
-    def find(self, news_item_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> NewsItem:
+    def find(self, news_item_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> NewsItem:
         """
         You can fetch the details of a single news item.
 
         Parameters
         ----------
-        news_item_id : str
+        news_item_id : int
             The unique identifier for the news item which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -168,7 +168,7 @@ class ItemsClient:
             token="YOUR_TOKEN",
         )
         client.news.items.find(
-            news_item_id="123",
+            news_item_id=1,
         )
         """
         _response = self._raw_client.find(news_item_id, request_options=request_options)
@@ -176,7 +176,7 @@ class ItemsClient:
 
     def update(
         self,
-        news_item_id: str,
+        news_item_id: int,
         *,
         title: str,
         sender_id: int,
@@ -191,7 +191,7 @@ class ItemsClient:
         """
         Parameters
         ----------
-        news_item_id : str
+        news_item_id : int
             The unique identifier for the news item which is given by Intercom.
 
         title : str
@@ -234,10 +234,10 @@ class ItemsClient:
             token="YOUR_TOKEN",
         )
         client.news.items.update(
-            news_item_id="123",
+            news_item_id=1,
             title="Christmas is here!",
             body="<p>New gifts in store for the jolly season</p>",
-            sender_id=991267745,
+            sender_id=991267845,
             reactions=["😝", "😂"],
         )
         """
@@ -255,13 +255,13 @@ class ItemsClient:
         )
         return _response.data
 
-    def delete(self, news_item_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> DeletedObject:
+    def delete(self, news_item_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> DeletedObject:
         """
         You can delete a single news item.
 
         Parameters
         ----------
-        news_item_id : str
+        news_item_id : int
             The unique identifier for the news item which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -280,7 +280,7 @@ class ItemsClient:
             token="YOUR_TOKEN",
         )
         client.news.items.delete(
-            news_item_id="123",
+            news_item_id=1,
         )
         """
         _response = self._raw_client.delete(news_item_id, request_options=request_options)
@@ -302,7 +302,7 @@ class AsyncItemsClient:
         """
         return self._raw_client
 
-    async def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> PaginatedNewsItemResponse:
+    async def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> PaginatedResponse:
         """
         You can fetch a list of all news items
 
@@ -313,7 +313,7 @@ class AsyncItemsClient:
 
         Returns
         -------
-        PaginatedNewsItemResponse
+        PaginatedResponse
             successful
 
         Examples
@@ -402,7 +402,7 @@ class AsyncItemsClient:
             await client.news.items.create(
                 title="Halloween is here!",
                 body="<p>New costumes in store for this spooky season</p>",
-                sender_id=991267734,
+                sender_id=991267834,
                 state="live",
                 deliver_silently=True,
                 labels=["Product", "Update", "New"],
@@ -431,13 +431,13 @@ class AsyncItemsClient:
         )
         return _response.data
 
-    async def find(self, news_item_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> NewsItem:
+    async def find(self, news_item_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> NewsItem:
         """
         You can fetch the details of a single news item.
 
         Parameters
         ----------
-        news_item_id : str
+        news_item_id : int
             The unique identifier for the news item which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -461,7 +461,7 @@ class AsyncItemsClient:
 
         async def main() -> None:
             await client.news.items.find(
-                news_item_id="123",
+                news_item_id=1,
             )
 
 
@@ -472,7 +472,7 @@ class AsyncItemsClient:
 
     async def update(
         self,
-        news_item_id: str,
+        news_item_id: int,
         *,
         title: str,
         sender_id: int,
@@ -487,7 +487,7 @@ class AsyncItemsClient:
         """
         Parameters
         ----------
-        news_item_id : str
+        news_item_id : int
             The unique identifier for the news item which is given by Intercom.
 
         title : str
@@ -535,10 +535,10 @@ class AsyncItemsClient:
 
         async def main() -> None:
             await client.news.items.update(
-                news_item_id="123",
+                news_item_id=1,
                 title="Christmas is here!",
                 body="<p>New gifts in store for the jolly season</p>",
-                sender_id=991267745,
+                sender_id=991267845,
                 reactions=["😝", "😂"],
             )
 
@@ -560,14 +560,14 @@ class AsyncItemsClient:
         return _response.data
 
     async def delete(
-        self, news_item_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, news_item_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> DeletedObject:
         """
         You can delete a single news item.
 
         Parameters
         ----------
-        news_item_id : str
+        news_item_id : int
             The unique identifier for the news item which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -591,7 +591,7 @@ class AsyncItemsClient:
 
         async def main() -> None:
             await client.news.items.delete(
-                news_item_id="123",
+                news_item_id=1,
             )
 
 

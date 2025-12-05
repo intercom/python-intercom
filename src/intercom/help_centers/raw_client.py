@@ -7,7 +7,7 @@ from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
-from ..core.pagination import AsyncPager, BaseHttpResponse, SyncPager
+from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
 from ..core.unchecked_base_model import construct_type
 from ..errors.not_found_error import NotFoundError
@@ -22,15 +22,15 @@ class RawHelpCentersClient:
         self._client_wrapper = client_wrapper
 
     def find(
-        self, help_center_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, help_center_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[HelpCenter]:
         """
         You can fetch the details of a single Help Center by making a GET request to `https://api.intercom.io/help_center/help_center/<id>`.
 
         Parameters
         ----------
-        help_center_id : str
-            The unique identifier for the Help Center which is given by Intercom.
+        help_center_id : int
+            The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -70,9 +70,9 @@ class RawHelpCentersClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -88,7 +88,7 @@ class RawHelpCentersClient:
         page: typing.Optional[int] = None,
         per_page: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[HelpCenter]:
+    ) -> SyncPager[HelpCenter, HelpCenterList]:
         """
         You can list all Help Centers by making a GET request to `https://api.intercom.io/help_center/help_centers`.
 
@@ -105,7 +105,7 @@ class RawHelpCentersClient:
 
         Returns
         -------
-        SyncPager[HelpCenter]
+        SyncPager[HelpCenter, HelpCenterList]
             Help Centers found
         """
         page = page if page is not None else 1
@@ -135,9 +135,7 @@ class RawHelpCentersClient:
                     per_page=per_page,
                     request_options=request_options,
                 )
-                return SyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 401:
                 raise UnauthorizedError(
                     headers=dict(_response.headers),
@@ -160,15 +158,15 @@ class AsyncRawHelpCentersClient:
         self._client_wrapper = client_wrapper
 
     async def find(
-        self, help_center_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, help_center_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[HelpCenter]:
         """
         You can fetch the details of a single Help Center by making a GET request to `https://api.intercom.io/help_center/help_center/<id>`.
 
         Parameters
         ----------
-        help_center_id : str
-            The unique identifier for the Help Center which is given by Intercom.
+        help_center_id : int
+            The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -208,9 +206,9 @@ class AsyncRawHelpCentersClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -226,7 +224,7 @@ class AsyncRawHelpCentersClient:
         page: typing.Optional[int] = None,
         per_page: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[HelpCenter]:
+    ) -> AsyncPager[HelpCenter, HelpCenterList]:
         """
         You can list all Help Centers by making a GET request to `https://api.intercom.io/help_center/help_centers`.
 
@@ -243,7 +241,7 @@ class AsyncRawHelpCentersClient:
 
         Returns
         -------
-        AsyncPager[HelpCenter]
+        AsyncPager[HelpCenter, HelpCenterList]
             Help Centers found
         """
         page = page if page is not None else 1
@@ -276,9 +274,7 @@ class AsyncRawHelpCentersClient:
                         request_options=request_options,
                     )
 
-                return AsyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 401:
                 raise UnauthorizedError(
                     headers=dict(_response.headers),

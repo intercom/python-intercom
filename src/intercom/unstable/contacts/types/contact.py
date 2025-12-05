@@ -213,7 +213,7 @@ class Contact(UncheckedBaseModel):
     (UNIX timestamp) The last time the contact used the iOS app.
     """
 
-    custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
+    custom_attributes: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
     """
     The custom attributes which are set for the contact.
     """

@@ -2,6 +2,4 @@
 
 import typing
 
-TicketRequestCustomAttributesValue = typing.Union[
-    typing.Optional[str], float, bool, typing.List[typing.Optional[typing.Any]]
-]
+TicketRequestCustomAttributesValue = typing.Union[typing.Optional[str], float, bool, typing.List[typing.Any]]

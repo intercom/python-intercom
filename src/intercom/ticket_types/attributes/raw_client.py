@@ -37,7 +37,7 @@ class RawAttributesClient:
         list_items: typing.Optional[str] = OMIT,
         allow_multiple_values: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[TicketTypeAttribute]:
+    ) -> HttpResponse[typing.Optional[TicketTypeAttribute]]:
         """
         You can create a new attribute for a ticket type.
 
@@ -81,7 +81,7 @@ class RawAttributesClient:
 
         Returns
         -------
-        HttpResponse[TicketTypeAttribute]
+        HttpResponse[typing.Optional[TicketTypeAttribute]]
             Ticket Type Attribute created
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -106,11 +106,13 @@ class RawAttributesClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    TicketTypeAttribute,
+                    typing.Optional[TicketTypeAttribute],
                     construct_type(
-                        type_=TicketTypeAttribute,  # type: ignore
+                        type_=typing.Optional[TicketTypeAttribute],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -147,7 +149,7 @@ class RawAttributesClient:
         allow_multiple_values: typing.Optional[bool] = OMIT,
         archived: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[TicketTypeAttribute]:
+    ) -> HttpResponse[typing.Optional[TicketTypeAttribute]]:
         """
         You can update an existing attribute for a ticket type.
 
@@ -194,7 +196,7 @@ class RawAttributesClient:
 
         Returns
         -------
-        HttpResponse[TicketTypeAttribute]
+        HttpResponse[typing.Optional[TicketTypeAttribute]]
             Ticket Type Attribute updated
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -219,11 +221,13 @@ class RawAttributesClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    TicketTypeAttribute,
+                    typing.Optional[TicketTypeAttribute],
                     construct_type(
-                        type_=TicketTypeAttribute,  # type: ignore
+                        type_=typing.Optional[TicketTypeAttribute],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -264,7 +268,7 @@ class AsyncRawAttributesClient:
         list_items: typing.Optional[str] = OMIT,
         allow_multiple_values: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[TicketTypeAttribute]:
+    ) -> AsyncHttpResponse[typing.Optional[TicketTypeAttribute]]:
         """
         You can create a new attribute for a ticket type.
 
@@ -308,7 +312,7 @@ class AsyncRawAttributesClient:
 
         Returns
         -------
-        AsyncHttpResponse[TicketTypeAttribute]
+        AsyncHttpResponse[typing.Optional[TicketTypeAttribute]]
             Ticket Type Attribute created
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -333,11 +337,13 @@ class AsyncRawAttributesClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    TicketTypeAttribute,
+                    typing.Optional[TicketTypeAttribute],
                     construct_type(
-                        type_=TicketTypeAttribute,  # type: ignore
+                        type_=typing.Optional[TicketTypeAttribute],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -374,7 +380,7 @@ class AsyncRawAttributesClient:
         allow_multiple_values: typing.Optional[bool] = OMIT,
         archived: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[TicketTypeAttribute]:
+    ) -> AsyncHttpResponse[typing.Optional[TicketTypeAttribute]]:
         """
         You can update an existing attribute for a ticket type.
 
@@ -421,7 +427,7 @@ class AsyncRawAttributesClient:
 
         Returns
         -------
-        AsyncHttpResponse[TicketTypeAttribute]
+        AsyncHttpResponse[typing.Optional[TicketTypeAttribute]]
             Ticket Type Attribute updated
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -446,11 +452,13 @@ class AsyncRawAttributesClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    TicketTypeAttribute,
+                    typing.Optional[TicketTypeAttribute],
                     construct_type(
-                        type_=TicketTypeAttribute,  # type: ignore
+                        type_=typing.Optional[TicketTypeAttribute],  # type: ignore
                         object_=_response.json(),
                     ),
                 )

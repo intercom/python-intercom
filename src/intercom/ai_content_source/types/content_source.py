@@ -12,22 +12,22 @@ class ContentSource(UncheckedBaseModel):
     The content source used by AI Agent in the conversation.
     """
 
-    content_type: typing.Literal["custom_answer"] = pydantic.Field(default="custom_answer")
+    content_type: typing.Optional[typing.Literal["custom_answer"]] = pydantic.Field(default=None)
     """
     The type of the content source.
     """
 
-    url: str = pydantic.Field()
+    url: typing.Optional[str] = pydantic.Field(default=None)
     """
     The internal URL linking to the content source for teammates.
     """
 
-    title: str = pydantic.Field()
+    title: typing.Optional[str] = pydantic.Field(default=None)
     """
     The title of the content source.
     """
 
-    locale: str = pydantic.Field()
+    locale: typing.Optional[str] = pydantic.Field(default=None)
     """
     The ISO 639 language code of the content source.
     """

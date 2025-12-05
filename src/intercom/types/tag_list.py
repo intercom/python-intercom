@@ -13,12 +13,12 @@ class TagList(UncheckedBaseModel):
     A list of tags objects in the workspace.
     """
 
-    type: typing.Literal["list"] = pydantic.Field(default="list")
+    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
     """
     The type of the object
     """
 
-    data: typing.List[Tag] = pydantic.Field()
+    data: typing.Optional[typing.List[Tag]] = pydantic.Field(default=None)
     """
     A list of tags objects associated with the workspace .
     """

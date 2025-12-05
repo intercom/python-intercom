@@ -225,7 +225,7 @@ class ContactsClient:
         last_seen_at: typing.Optional[int] = OMIT,
         owner_id: typing.Optional[int] = OMIT,
         unsubscribed_from_emails: typing.Optional[bool] = OMIT,
-        custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
+        custom_attributes: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> UpdateContactResponse:
         """
@@ -272,7 +272,7 @@ class ContactsClient:
         unsubscribed_from_emails : typing.Optional[bool]
             Whether the contact is unsubscribed from emails
 
-        custom_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
+        custom_attributes : typing.Optional[typing.Dict[str, typing.Any]]
             The custom attributes which are set for the contact
 
         request_options : typing.Optional[RequestOptions]
@@ -972,7 +972,7 @@ class AsyncContactsClient:
         last_seen_at: typing.Optional[int] = OMIT,
         owner_id: typing.Optional[int] = OMIT,
         unsubscribed_from_emails: typing.Optional[bool] = OMIT,
-        custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
+        custom_attributes: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> UpdateContactResponse:
         """
@@ -1019,7 +1019,7 @@ class AsyncContactsClient:
         unsubscribed_from_emails : typing.Optional[bool]
             Whether the contact is unsubscribed from emails
 
-        custom_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
+        custom_attributes : typing.Optional[typing.Dict[str, typing.Any]]
             The custom attributes which are set for the contact
 
         request_options : typing.Optional[RequestOptions]

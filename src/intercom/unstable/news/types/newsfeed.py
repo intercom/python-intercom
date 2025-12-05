@@ -19,6 +19,11 @@ class Newsfeed(UncheckedBaseModel):
     The unique identifier for the newsfeed which is given by Intercom.
     """
 
+    type: typing.Optional[typing.Literal["newsfeed"]] = pydantic.Field(default=None)
+    """
+    The type of object.
+    """
+
     name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the newsfeed. This name will never be visible to your users.

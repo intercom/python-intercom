@@ -13,22 +13,22 @@ class DataExport(UncheckedBaseModel):
     The data export api is used to view all message sent & viewed in a given timeframe.
     """
 
-    job_identifier: str = pydantic.Field()
+    job_identifier: typing.Optional[str] = pydantic.Field(default=None)
     """
     The identifier for your job.
     """
 
-    status: DataExportStatus = pydantic.Field()
+    status: typing.Optional[DataExportStatus] = pydantic.Field(default=None)
     """
     The current state of your job.
     """
 
-    download_expires_at: str = pydantic.Field()
+    download_expires_at: typing.Optional[str] = pydantic.Field(default=None)
     """
     The time after which you will not be able to access the data.
     """
 
-    download_url: str = pydantic.Field()
+    download_url: typing.Optional[str] = pydantic.Field(default=None)
     """
     The location where you can download your data.
     """

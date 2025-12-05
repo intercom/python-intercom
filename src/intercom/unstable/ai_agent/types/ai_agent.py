@@ -6,6 +6,8 @@ import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 from ....core.unchecked_base_model import UncheckedBaseModel
 from ...types.content_sources_list import ContentSourcesList
+from .ai_agent_last_answer_type import AiAgentLastAnswerType
+from .ai_agent_resolution_state import AiAgentResolutionState
 from .ai_agent_source_type import AiAgentSourceType
 
 
@@ -24,12 +26,12 @@ class AiAgent(UncheckedBaseModel):
     The title of the source that triggered AI Agent involvement in the conversation. If this is `essentials_plan_setup` then it will return `null`.
     """
 
-    last_answer_type: typing.Optional[str] = pydantic.Field(default=None)
+    last_answer_type: typing.Optional[AiAgentLastAnswerType] = pydantic.Field(default=None)
     """
     The type of the last answer delivered by AI Agent. If no answer was delivered then this will return `null`
     """
 
-    resolution_state: typing.Optional[str] = pydantic.Field(default=None)
+    resolution_state: typing.Optional[AiAgentResolutionState] = pydantic.Field(default=None)
     """
     The resolution state of AI Agent. If no AI or custom answer has been delivered then this will return `null`.
     """
@@ -42,6 +44,16 @@ class AiAgent(UncheckedBaseModel):
     rating_remark: typing.Optional[str] = pydantic.Field(default=None)
     """
     The customer satisfaction rating remark given to AI Agent.
+    """
+
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The time when the AI agent rating was created.
+    """
+
+    updated_at: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The time when the AI agent rating was last updated.
     """
 
     content_sources: typing.Optional[ContentSourcesList] = None

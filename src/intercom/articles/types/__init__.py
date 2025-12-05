@@ -2,22 +2,62 @@
 
 # isort: skip_file
 
-from .article import Article
-from .article_list_item import ArticleListItem
-from .article_list_item_state import ArticleListItemState
-from .article_search_highlights import ArticleSearchHighlights
-from .article_search_highlights_highlighted_summary_item_item import ArticleSearchHighlightsHighlightedSummaryItemItem
-from .article_search_highlights_highlighted_summary_item_item_type import (
-    ArticleSearchHighlightsHighlightedSummaryItemItemType,
-)
-from .article_search_highlights_highlighted_title_item import ArticleSearchHighlightsHighlightedTitleItem
-from .article_search_highlights_highlighted_title_item_type import ArticleSearchHighlightsHighlightedTitleItemType
-from .create_article_request_parent_type import CreateArticleRequestParentType
-from .create_article_request_state import CreateArticleRequestState
-from .search_articles_response import SearchArticlesResponse
-from .search_articles_response_data import SearchArticlesResponseData
-from .update_article_request_body_parent_type import UpdateArticleRequestBodyParentType
-from .update_article_request_body_state import UpdateArticleRequestBodyState
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .article import Article
+    from .article_list_item import ArticleListItem
+    from .article_list_item_state import ArticleListItemState
+    from .article_search_highlights import ArticleSearchHighlights
+    from .article_search_highlights_highlighted_summary_item_item import (
+        ArticleSearchHighlightsHighlightedSummaryItemItem,
+    )
+    from .article_search_highlights_highlighted_summary_item_item_type import (
+        ArticleSearchHighlightsHighlightedSummaryItemItemType,
+    )
+    from .article_search_highlights_highlighted_title_item import ArticleSearchHighlightsHighlightedTitleItem
+    from .article_search_highlights_highlighted_title_item_type import ArticleSearchHighlightsHighlightedTitleItemType
+    from .article_search_response import ArticleSearchResponse
+    from .article_search_response_data import ArticleSearchResponseData
+    from .internal_article import InternalArticle
+    from .update_article_request_state import UpdateArticleRequestState
+_dynamic_imports: typing.Dict[str, str] = {
+    "Article": ".article",
+    "ArticleListItem": ".article_list_item",
+    "ArticleListItemState": ".article_list_item_state",
+    "ArticleSearchHighlights": ".article_search_highlights",
+    "ArticleSearchHighlightsHighlightedSummaryItemItem": ".article_search_highlights_highlighted_summary_item_item",
+    "ArticleSearchHighlightsHighlightedSummaryItemItemType": ".article_search_highlights_highlighted_summary_item_item_type",
+    "ArticleSearchHighlightsHighlightedTitleItem": ".article_search_highlights_highlighted_title_item",
+    "ArticleSearchHighlightsHighlightedTitleItemType": ".article_search_highlights_highlighted_title_item_type",
+    "ArticleSearchResponse": ".article_search_response",
+    "ArticleSearchResponseData": ".article_search_response_data",
+    "InternalArticle": ".internal_article",
+    "UpdateArticleRequestState": ".update_article_request_state",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "Article",
@@ -28,10 +68,8 @@ __all__ = [
     "ArticleSearchHighlightsHighlightedSummaryItemItemType",
     "ArticleSearchHighlightsHighlightedTitleItem",
     "ArticleSearchHighlightsHighlightedTitleItemType",
-    "CreateArticleRequestParentType",
-    "CreateArticleRequestState",
-    "SearchArticlesResponse",
-    "SearchArticlesResponseData",
-    "UpdateArticleRequestBodyParentType",
-    "UpdateArticleRequestBodyState",
+    "ArticleSearchResponse",
+    "ArticleSearchResponseData",
+    "InternalArticle",
+    "UpdateArticleRequestState",
 ]

@@ -2,12 +2,46 @@
 
 # isort: skip_file
 
-from .create_data_event_summaries_request_event_summaries import CreateDataEventSummariesRequestEventSummaries
-from .data_event import DataEvent
-from .lis_data_events_request_filter import LisDataEventsRequestFilter
-from .lis_data_events_request_filter_email import LisDataEventsRequestFilterEmail
-from .lis_data_events_request_filter_intercom_user_id import LisDataEventsRequestFilterIntercomUserId
-from .lis_data_events_request_filter_user_id import LisDataEventsRequestFilterUserId
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .create_data_event_summaries_request_event_summaries import CreateDataEventSummariesRequestEventSummaries
+    from .data_event import DataEvent
+    from .lis_data_events_request_filter import LisDataEventsRequestFilter
+    from .lis_data_events_request_filter_email import LisDataEventsRequestFilterEmail
+    from .lis_data_events_request_filter_intercom_user_id import LisDataEventsRequestFilterIntercomUserId
+    from .lis_data_events_request_filter_user_id import LisDataEventsRequestFilterUserId
+_dynamic_imports: typing.Dict[str, str] = {
+    "CreateDataEventSummariesRequestEventSummaries": ".create_data_event_summaries_request_event_summaries",
+    "DataEvent": ".data_event",
+    "LisDataEventsRequestFilter": ".lis_data_events_request_filter",
+    "LisDataEventsRequestFilterEmail": ".lis_data_events_request_filter_email",
+    "LisDataEventsRequestFilterIntercomUserId": ".lis_data_events_request_filter_intercom_user_id",
+    "LisDataEventsRequestFilterUserId": ".lis_data_events_request_filter_user_id",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "CreateDataEventSummariesRequestEventSummaries",

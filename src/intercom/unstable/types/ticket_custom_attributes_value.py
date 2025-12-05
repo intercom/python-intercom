@@ -4,6 +4,4 @@ import typing
 
 from .file_attribute import FileAttribute
 
-TicketCustomAttributesValue = typing.Union[
-    typing.Optional[str], float, bool, typing.List[typing.Optional[typing.Any]], FileAttribute
-]
+TicketCustomAttributesValue = typing.Union[typing.Optional[str], float, bool, typing.List[typing.Any], FileAttribute]

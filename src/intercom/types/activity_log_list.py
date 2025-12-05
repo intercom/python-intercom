@@ -14,13 +14,13 @@ class ActivityLogList(UncheckedBaseModel):
     A paginated list of activity logs.
     """
 
-    type: typing.Literal["activity_log.list"] = pydantic.Field(default="activity_log.list")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     String representing the object's type. Always has the value `activity_log.list`.
     """
 
     pages: typing.Optional[CursorPages] = None
-    activity_logs: typing.List[ActivityLog] = pydantic.Field()
+    activity_logs: typing.Optional[typing.List[typing.Optional[ActivityLog]]] = pydantic.Field(default=None)
     """
     An array of activity logs
     """

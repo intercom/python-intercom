@@ -12,37 +12,37 @@ class App(UncheckedBaseModel):
     App is a workspace on Intercom
     """
 
-    type: str = pydantic.Field()
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     
     """
 
-    id_code: str = pydantic.Field()
+    id_code: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id of the app.
     """
 
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the app.
     """
 
-    region: str = pydantic.Field()
+    region: typing.Optional[str] = pydantic.Field(default=None)
     """
     The Intercom region the app is located in.
     """
 
-    timezone: str = pydantic.Field()
+    timezone: typing.Optional[str] = pydantic.Field(default=None)
     """
     The timezone of the region where the app is located.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     When the app was created.
     """
 
-    identity_verification: bool = pydantic.Field()
+    identity_verification: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether or not the app uses identity verification.
     """

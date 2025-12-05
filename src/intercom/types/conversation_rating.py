@@ -14,23 +14,28 @@ class ConversationRating(UncheckedBaseModel):
     The Conversation Rating object which contains information on the rating and/or remark added by a Contact and the Admin assigned to the conversation.
     """
 
-    rating: int = pydantic.Field()
+    rating: typing.Optional[int] = pydantic.Field(default=None)
     """
     The rating, between 1 and 5, for the conversation.
     """
 
-    remark: str = pydantic.Field()
+    remark: typing.Optional[str] = pydantic.Field(default=None)
     """
     An optional field to add a remark to correspond to the number rating
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The time the rating was requested in the conversation being rated.
     """
 
-    contact: ContactReference
-    teammate: Reference
+    updated_at: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The time the rating was last updated.
+    """
+
+    contact: typing.Optional[ContactReference] = None
+    teammate: typing.Optional[Reference] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

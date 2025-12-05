@@ -8,17 +8,17 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 
 
 class UntagCompanyRequestCompaniesItem(UncheckedBaseModel):
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The Intercom defined id representing the company.
     """
 
-    company_id: str = pydantic.Field()
+    company_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The company id you have defined for the company.
     """
 
-    untag: typing.Literal[True] = pydantic.Field(default=True)
+    untag: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Always set to true
     """

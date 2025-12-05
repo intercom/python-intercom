@@ -14,47 +14,47 @@ class AdminWithApp(UncheckedBaseModel):
     Admins are the teammate accounts that have access to a workspace
     """
 
-    type: typing.Literal["admin"] = pydantic.Field(default="admin")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     String representing the object's type. Always has the value `admin`.
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id representing the admin.
     """
 
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the admin.
     """
 
-    email: str = pydantic.Field()
+    email: typing.Optional[str] = pydantic.Field(default=None)
     """
     The email of the admin.
     """
 
-    job_title: str = pydantic.Field()
+    job_title: typing.Optional[str] = pydantic.Field(default=None)
     """
     The job title of the admin.
     """
 
-    away_mode_enabled: bool = pydantic.Field()
+    away_mode_enabled: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Identifies if this admin is currently set in away mode.
     """
 
-    away_mode_reassign: bool = pydantic.Field()
+    away_mode_reassign: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Identifies if this admin is set to automatically reassign new conversations to the apps default inbox.
     """
 
-    has_inbox_seat: bool = pydantic.Field()
+    has_inbox_seat: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Identifies if this admin has a paid inbox seat to restrict/allow features that require them.
     """
 
-    team_ids: typing.List[int] = pydantic.Field()
+    team_ids: typing.Optional[typing.List[int]] = pydantic.Field(default=None)
     """
     This is a list of ids of the teams that this admin is part of.
     """

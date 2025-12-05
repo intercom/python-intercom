@@ -78,7 +78,10 @@ class ConversationsClient:
         client = Intercom(
             token="YOUR_TOKEN",
         )
-        client.unstable.conversations.list_conversations()
+        client.unstable.conversations.list_conversations(
+            per_page=1,
+            starting_after="starting_after",
+        )
         """
         _response = self._raw_client.list_conversations(
             per_page=per_page, starting_after=starting_after, request_options=request_options
@@ -148,6 +151,7 @@ class ConversationsClient:
         id: int,
         *,
         display_as: typing.Optional[str] = None,
+        include_translations: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Conversation:
         """
@@ -168,7 +172,10 @@ class ConversationsClient:
             The id of the conversation to target
 
         display_as : typing.Optional[str]
-            Set to plaintext to retrieve conversation messages in plain text.
+            Set to plaintext to retrieve conversation messages in plain text. This affects both the body and subject fields.
+
+        include_translations : typing.Optional[bool]
+            If set to true, conversation parts will be translated to the detected language of the conversation.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -188,9 +195,12 @@ class ConversationsClient:
         client.unstable.conversations.retrieve_conversation(
             id=1,
             display_as="plaintext",
+            include_translations=True,
         )
         """
-        _response = self._raw_client.retrieve_conversation(id, display_as=display_as, request_options=request_options)
+        _response = self._raw_client.retrieve_conversation(
+            id, display_as=display_as, include_translations=include_translations, request_options=request_options
+        )
         return _response.data
 
     def update_conversation(
@@ -224,7 +234,7 @@ class ConversationsClient:
             The id of the conversation to target
 
         display_as : typing.Optional[str]
-            Set to plaintext to retrieve conversation messages in plain text.
+            Set to plaintext to retrieve conversation messages in plain text. This affects both the body and subject fields.
 
         read : typing.Optional[bool]
             Mark a conversation as read within Intercom.
@@ -800,7 +810,10 @@ class AsyncConversationsClient:
 
 
         async def main() -> None:
-            await client.unstable.conversations.list_conversations()
+            await client.unstable.conversations.list_conversations(
+                per_page=1,
+                starting_after="starting_after",
+            )
 
 
         asyncio.run(main())
@@ -881,6 +894,7 @@ class AsyncConversationsClient:
         id: int,
         *,
         display_as: typing.Optional[str] = None,
+        include_translations: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Conversation:
         """
@@ -901,7 +915,10 @@ class AsyncConversationsClient:
             The id of the conversation to target
 
         display_as : typing.Optional[str]
-            Set to plaintext to retrieve conversation messages in plain text.
+            Set to plaintext to retrieve conversation messages in plain text. This affects both the body and subject fields.
+
+        include_translations : typing.Optional[bool]
+            If set to true, conversation parts will be translated to the detected language of the conversation.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -926,13 +943,14 @@ class AsyncConversationsClient:
             await client.unstable.conversations.retrieve_conversation(
                 id=1,
                 display_as="plaintext",
+                include_translations=True,
             )
 
 
         asyncio.run(main())
         """
         _response = await self._raw_client.retrieve_conversation(
-            id, display_as=display_as, request_options=request_options
+            id, display_as=display_as, include_translations=include_translations, request_options=request_options
         )
         return _response.data
 
@@ -967,7 +985,7 @@ class AsyncConversationsClient:
             The id of the conversation to target
 
         display_as : typing.Optional[str]
-            Set to plaintext to retrieve conversation messages in plain text.
+            Set to plaintext to retrieve conversation messages in plain text. This affects both the body and subject fields.
 
         read : typing.Optional[bool]
             Mark a conversation as read within Intercom.

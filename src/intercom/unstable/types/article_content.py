@@ -13,7 +13,7 @@ class ArticleContent(UncheckedBaseModel):
     The Content of an Article.
     """
 
-    type: typing.Optional[str] = pydantic.Field(default=None)
+    type: typing.Optional[typing.Literal["article_content"]] = pydantic.Field(default=None)
     """
     The type of object - `article_content` .
     """

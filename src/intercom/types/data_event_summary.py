@@ -33,7 +33,7 @@ class DataEventSummary(UncheckedBaseModel):
     The user ID of the user
     """
 
-    events: typing.List[DataEventSummaryItem] = pydantic.Field()
+    events: typing.List[typing.Optional[DataEventSummaryItem]] = pydantic.Field()
     """
     A summary of data events
     """

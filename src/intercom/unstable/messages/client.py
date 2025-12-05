@@ -4,7 +4,7 @@ import typing
 
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.request_options import RequestOptions
-from ...types.create_message_request_three import CreateMessageRequestThree
+from ..types.create_message_request import CreateMessageRequest
 from ..types.whatsapp_message_status_list import WhatsappMessageStatusList
 from .raw_client import AsyncRawMessagesClient, RawMessagesClient
 from .types.message import Message
@@ -29,7 +29,10 @@ class MessagesClient:
         return self._raw_client
 
     def create_message(
-        self, *, request: CreateMessageRequestThree, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        request: typing.Optional[CreateMessageRequest] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> Message:
         """
         You can create a message that has been initiated by an admin. The conversation can be either an in-app message, an email, sms or whatsapp.
@@ -46,7 +49,7 @@ class MessagesClient:
 
         Parameters
         ----------
-        request : CreateMessageRequestThree
+        request : typing.Optional[CreateMessageRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -117,6 +120,8 @@ class MessagesClient:
         )
         client.unstable.messages.get_whats_app_message_status(
             ruleset_id="ruleset_id",
+            per_page=1,
+            starting_after="starting_after",
         )
         """
         _response = self._raw_client.get_whats_app_message_status(
@@ -141,7 +146,10 @@ class AsyncMessagesClient:
         return self._raw_client
 
     async def create_message(
-        self, *, request: CreateMessageRequestThree, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        request: typing.Optional[CreateMessageRequest] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> Message:
         """
         You can create a message that has been initiated by an admin. The conversation can be either an in-app message, an email, sms or whatsapp.
@@ -158,7 +166,7 @@ class AsyncMessagesClient:
 
         Parameters
         ----------
-        request : CreateMessageRequestThree
+        request : typing.Optional[CreateMessageRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -242,6 +250,8 @@ class AsyncMessagesClient:
         async def main() -> None:
             await client.unstable.messages.get_whats_app_message_status(
                 ruleset_id="ruleset_id",
+                per_page=1,
+                starting_after="starting_after",
             )
 
 

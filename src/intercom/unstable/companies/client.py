@@ -95,6 +95,8 @@ class CompaniesClient:
             company_id="12345",
             tag_id="678910",
             segment_id="98765",
+            page=1,
+            per_page=1,
         )
         """
         _response = self._raw_client.retrieve_company(
@@ -109,7 +111,7 @@ class CompaniesClient:
         return _response.data
 
     def create_or_update_company(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
     ) -> Company:
         """
         You can create or update a company.
@@ -124,7 +126,7 @@ class CompaniesClient:
 
         Parameters
         ----------
-        request : typing.Optional[typing.Any]
+        request : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -359,6 +361,8 @@ class CompaniesClient:
             token="YOUR_TOKEN",
         )
         client.unstable.companies.list_all_companies(
+            page=1,
+            per_page=1,
             order="desc",
         )
         """
@@ -407,7 +411,9 @@ class CompaniesClient:
         client = Intercom(
             token="YOUR_TOKEN",
         )
-        client.unstable.companies.scroll_over_all_companies()
+        client.unstable.companies.scroll_over_all_companies(
+            scroll_param="scroll_param",
+        )
         """
         _response = self._raw_client.scroll_over_all_companies(
             scroll_param=scroll_param, request_options=request_options
@@ -575,6 +581,8 @@ class AsyncCompaniesClient:
                 company_id="12345",
                 tag_id="678910",
                 segment_id="98765",
+                page=1,
+                per_page=1,
             )
 
 
@@ -592,7 +600,7 @@ class AsyncCompaniesClient:
         return _response.data
 
     async def create_or_update_company(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
     ) -> Company:
         """
         You can create or update a company.
@@ -607,7 +615,7 @@ class AsyncCompaniesClient:
 
         Parameters
         ----------
-        request : typing.Optional[typing.Any]
+        request : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -897,6 +905,8 @@ class AsyncCompaniesClient:
 
         async def main() -> None:
             await client.unstable.companies.list_all_companies(
+                page=1,
+                per_page=1,
                 order="desc",
             )
 
@@ -953,7 +963,9 @@ class AsyncCompaniesClient:
 
 
         async def main() -> None:
-            await client.unstable.companies.scroll_over_all_companies()
+            await client.unstable.companies.scroll_over_all_companies(
+                scroll_param="scroll_param",
+            )
 
 
         asyncio.run(main())

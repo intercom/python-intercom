@@ -12,12 +12,12 @@ class ConversationFirstContactReply(UncheckedBaseModel):
     An object containing information on the first users message. For a contact initiated message this will represent the users original message.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     
     """
 
-    type: str = pydantic.Field()
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     
     """

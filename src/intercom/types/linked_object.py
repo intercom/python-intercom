@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
+from .linked_object_category import LinkedObjectCategory
 from .linked_object_type import LinkedObjectType
 
 
@@ -13,17 +14,17 @@ class LinkedObject(UncheckedBaseModel):
     A linked conversation or ticket.
     """
 
-    type: LinkedObjectType = pydantic.Field()
+    type: typing.Optional[LinkedObjectType] = pydantic.Field(default=None)
     """
     ticket or conversation
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The ID of the linked object
     """
 
-    category: typing.Optional[str] = pydantic.Field(default=None)
+    category: typing.Optional[LinkedObjectCategory] = pydantic.Field(default=None)
     """
     Category of the Linked Ticket Object.
     """

@@ -14,37 +14,37 @@ class NewsItem(UncheckedBaseModel):
     A News Item is a content type in Intercom enabling you to announce product updates, company news, promotions, events and more with your customers.
     """
 
-    type: typing.Literal["news-item"] = pydantic.Field(default="news-item")
+    type: typing.Optional[typing.Literal["news-item"]] = pydantic.Field(default=None)
     """
     The type of object.
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The unique identifier for the news item which is given by Intercom.
     """
 
-    workspace_id: str = pydantic.Field()
+    workspace_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id of the workspace which the news item belongs to.
     """
 
-    title: str = pydantic.Field()
+    title: typing.Optional[str] = pydantic.Field(default=None)
     """
     The title of the news item.
     """
 
-    body: str = pydantic.Field()
+    body: typing.Optional[str] = pydantic.Field(default=None)
     """
     The news item body, which may contain HTML.
     """
 
-    sender_id: int = pydantic.Field()
+    sender_id: typing.Optional[int] = pydantic.Field(default=None)
     """
     The id of the sender of the news item. Must be a teammate on the workspace.
     """
 
-    state: NewsItemState = pydantic.Field()
+    state: typing.Optional[NewsItemState] = pydantic.Field(default=None)
     """
     News items will not be visible to your users in the assigned newsfeeds until they are set live.
     """
@@ -74,7 +74,7 @@ class NewsItem(UncheckedBaseModel):
     When set to true, the news item will appear in the messenger newsfeed without showing a notification badge.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     Timestamp for when the news item was created.
     """

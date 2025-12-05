@@ -7,6 +7,7 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2
 from ...core.unchecked_base_model import UncheckedBaseModel
 from ...types.ticket_type_attribute_list import TicketTypeAttributeList
 from .ticket_type_category import TicketTypeCategory
+from .ticket_type_ticket_states import TicketTypeTicketStates
 
 
 class TicketType(UncheckedBaseModel):
@@ -14,48 +15,53 @@ class TicketType(UncheckedBaseModel):
     A ticket type, used to define the data fields to be captured in a ticket.
     """
 
-    type: typing.Literal["ticket_type"] = pydantic.Field(default="ticket_type")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     String representing the object's type. Always has the value `ticket_type`.
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id representing the ticket type.
     """
 
-    category: TicketTypeCategory = pydantic.Field()
+    category: typing.Optional[TicketTypeCategory] = pydantic.Field(default=None)
     """
     Category of the Ticket Type.
     """
 
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the ticket type
     """
 
-    description: str = pydantic.Field()
+    description: typing.Optional[str] = pydantic.Field(default=None)
     """
     The description of the ticket type
     """
 
-    icon: str = pydantic.Field()
+    icon: typing.Optional[str] = pydantic.Field(default=None)
     """
     The icon of the ticket type
     """
 
-    workspace_id: str = pydantic.Field()
+    workspace_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id of the workspace that the ticket type belongs to.
     """
 
-    ticket_type_attributes: TicketTypeAttributeList
-    archived: bool = pydantic.Field()
+    ticket_type_attributes: typing.Optional[TicketTypeAttributeList] = None
+    ticket_states: typing.Optional[TicketTypeTicketStates] = pydantic.Field(default=None)
+    """
+    A list of ticket states associated with a given ticket type.
+    """
+
+    archived: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether the ticket type is archived or not.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The date and time the ticket type was created.
     """

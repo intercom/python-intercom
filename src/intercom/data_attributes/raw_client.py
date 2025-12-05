@@ -14,13 +14,12 @@ from ..errors.bad_request_error import BadRequestError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
+from ..types.create_data_attribute_request import CreateDataAttributeRequest
 from ..types.data_attribute_list import DataAttributeList
 from ..types.error import Error
-from .types.create_data_attribute_request_data_type import CreateDataAttributeRequestDataType
-from .types.create_data_attribute_request_model import CreateDataAttributeRequestModel
+from ..types.update_data_attribute_request_body import UpdateDataAttributeRequestBody
 from .types.data_attribute import DataAttribute
 from .types.data_attributes_list_request_model import DataAttributesListRequestModel
-from .types.update_data_attribute_request_options_item import UpdateDataAttributeRequestOptionsItem
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -92,38 +91,14 @@ class RawDataAttributesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def create(
-        self,
-        *,
-        name: str,
-        model: CreateDataAttributeRequestModel,
-        data_type: CreateDataAttributeRequestDataType,
-        description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[str]] = OMIT,
-        messenger_writable: typing.Optional[bool] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, request: CreateDataAttributeRequest, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[DataAttribute]:
         """
         You can create a data attributes for a `contact` or a `company`.
 
         Parameters
         ----------
-        name : str
-            The name of the data attribute.
-
-        model : CreateDataAttributeRequestModel
-            The model that the data attribute belongs to.
-
-        data_type : CreateDataAttributeRequestDataType
-            The type of data stored for this attribute.
-
-        description : typing.Optional[str]
-            The readable description you see in the UI for the attribute.
-
-        options : typing.Optional[typing.Sequence[str]]
-            To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-
-        messenger_writable : typing.Optional[bool]
-            Can this attribute be updated by the Messenger
+        request : CreateDataAttributeRequest
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -136,14 +111,9 @@ class RawDataAttributesClient:
         _response = self._client_wrapper.httpx_client.request(
             "data_attributes",
             method="POST",
-            json={
-                "name": name,
-                "model": model,
-                "data_type": data_type,
-                "description": description,
-                "options": options,
-                "messenger_writable": messenger_writable,
-            },
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=CreateDataAttributeRequest, direction="write"
+            ),
             headers={
                 "content-type": "application/json",
             },
@@ -164,9 +134,9 @@ class RawDataAttributesClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -189,12 +159,9 @@ class RawDataAttributesClient:
 
     def update(
         self,
-        data_attribute_id: str,
+        data_attribute_id: int,
         *,
-        archived: typing.Optional[bool] = OMIT,
-        description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]] = OMIT,
-        messenger_writable: typing.Optional[bool] = OMIT,
+        request: UpdateDataAttributeRequestBody,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[DataAttribute]:
         """
@@ -207,20 +174,10 @@ class RawDataAttributesClient:
 
         Parameters
         ----------
-        data_attribute_id : str
+        data_attribute_id : int
             The data attribute id
 
-        archived : typing.Optional[bool]
-            Whether the attribute is to be archived or not.
-
-        description : typing.Optional[str]
-            The readable description you see in the UI for the attribute.
-
-        options : typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]]
-            To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-
-        messenger_writable : typing.Optional[bool]
-            Can this attribute be updated by the Messenger
+        request : UpdateDataAttributeRequestBody
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -233,16 +190,9 @@ class RawDataAttributesClient:
         _response = self._client_wrapper.httpx_client.request(
             f"data_attributes/{jsonable_encoder(data_attribute_id)}",
             method="PUT",
-            json={
-                "archived": archived,
-                "description": description,
-                "options": convert_and_respect_annotation_metadata(
-                    object_=options,
-                    annotation=typing.Sequence[UpdateDataAttributeRequestOptionsItem],
-                    direction="write",
-                ),
-                "messenger_writable": messenger_writable,
-            },
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=UpdateDataAttributeRequestBody, direction="write"
+            ),
             headers={
                 "content-type": "application/json",
             },
@@ -263,9 +213,9 @@ class RawDataAttributesClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -285,9 +235,9 @@ class RawDataAttributesClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -296,9 +246,9 @@ class RawDataAttributesClient:
                 raise UnprocessableEntityError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -375,38 +325,14 @@ class AsyncRawDataAttributesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def create(
-        self,
-        *,
-        name: str,
-        model: CreateDataAttributeRequestModel,
-        data_type: CreateDataAttributeRequestDataType,
-        description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[str]] = OMIT,
-        messenger_writable: typing.Optional[bool] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, request: CreateDataAttributeRequest, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[DataAttribute]:
         """
         You can create a data attributes for a `contact` or a `company`.
 
         Parameters
         ----------
-        name : str
-            The name of the data attribute.
-
-        model : CreateDataAttributeRequestModel
-            The model that the data attribute belongs to.
-
-        data_type : CreateDataAttributeRequestDataType
-            The type of data stored for this attribute.
-
-        description : typing.Optional[str]
-            The readable description you see in the UI for the attribute.
-
-        options : typing.Optional[typing.Sequence[str]]
-            To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-
-        messenger_writable : typing.Optional[bool]
-            Can this attribute be updated by the Messenger
+        request : CreateDataAttributeRequest
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -419,14 +345,9 @@ class AsyncRawDataAttributesClient:
         _response = await self._client_wrapper.httpx_client.request(
             "data_attributes",
             method="POST",
-            json={
-                "name": name,
-                "model": model,
-                "data_type": data_type,
-                "description": description,
-                "options": options,
-                "messenger_writable": messenger_writable,
-            },
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=CreateDataAttributeRequest, direction="write"
+            ),
             headers={
                 "content-type": "application/json",
             },
@@ -447,9 +368,9 @@ class AsyncRawDataAttributesClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -472,12 +393,9 @@ class AsyncRawDataAttributesClient:
 
     async def update(
         self,
-        data_attribute_id: str,
+        data_attribute_id: int,
         *,
-        archived: typing.Optional[bool] = OMIT,
-        description: typing.Optional[str] = OMIT,
-        options: typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]] = OMIT,
-        messenger_writable: typing.Optional[bool] = OMIT,
+        request: UpdateDataAttributeRequestBody,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[DataAttribute]:
         """
@@ -490,20 +408,10 @@ class AsyncRawDataAttributesClient:
 
         Parameters
         ----------
-        data_attribute_id : str
+        data_attribute_id : int
             The data attribute id
 
-        archived : typing.Optional[bool]
-            Whether the attribute is to be archived or not.
-
-        description : typing.Optional[str]
-            The readable description you see in the UI for the attribute.
-
-        options : typing.Optional[typing.Sequence[UpdateDataAttributeRequestOptionsItem]]
-            To create list attributes. Provide a set of hashes with `value` as the key of the options you want to make. `data_type` must be `string`.
-
-        messenger_writable : typing.Optional[bool]
-            Can this attribute be updated by the Messenger
+        request : UpdateDataAttributeRequestBody
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -516,16 +424,9 @@ class AsyncRawDataAttributesClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"data_attributes/{jsonable_encoder(data_attribute_id)}",
             method="PUT",
-            json={
-                "archived": archived,
-                "description": description,
-                "options": convert_and_respect_annotation_metadata(
-                    object_=options,
-                    annotation=typing.Sequence[UpdateDataAttributeRequestOptionsItem],
-                    direction="write",
-                ),
-                "messenger_writable": messenger_writable,
-            },
+            json=convert_and_respect_annotation_metadata(
+                object_=request, annotation=UpdateDataAttributeRequestBody, direction="write"
+            ),
             headers={
                 "content-type": "application/json",
             },
@@ -546,9 +447,9 @@ class AsyncRawDataAttributesClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -568,9 +469,9 @@ class AsyncRawDataAttributesClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -579,9 +480,9 @@ class AsyncRawDataAttributesClient:
                 raise UnprocessableEntityError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),

@@ -2,27 +2,76 @@
 
 # isort: skip_file
 
-from .delete_ticket_response import DeleteTicketResponse
-from .reply_ticket_request_body import ReplyTicketRequestBody
-from .ticket import Ticket
-from .ticket_category import TicketCategory
-from .ticket_contacts import TicketContacts
-from .ticket_part import TicketPart
-from .ticket_part_previous_ticket_state import TicketPartPreviousTicketState
-from .ticket_part_ticket_state import TicketPartTicketState
-from .ticket_part_updated_attribute_data import TicketPartUpdatedAttributeData
-from .ticket_part_updated_attribute_data_attribute import TicketPartUpdatedAttributeDataAttribute
-from .ticket_part_updated_attribute_data_value import TicketPartUpdatedAttributeDataValue
-from .ticket_part_updated_attribute_data_value_id import TicketPartUpdatedAttributeDataValueId
-from .ticket_part_updated_attribute_data_value_label import TicketPartUpdatedAttributeDataValueLabel
-from .ticket_state import TicketState
-from .ticket_state_category import TicketStateCategory
-from .ticket_state_detailed import TicketStateDetailed
-from .ticket_state_detailed_category import TicketStateDetailedCategory
-from .ticket_state_detailed_ticket_types import TicketStateDetailedTicketTypes
-from .ticket_type import TicketType
-from .ticket_type_category import TicketTypeCategory
-from .ticket_type_ticket_states import TicketTypeTicketStates
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .delete_ticket_response import DeleteTicketResponse
+    from .reply_ticket_request_body import ReplyTicketRequestBody
+    from .ticket import Ticket
+    from .ticket_category import TicketCategory
+    from .ticket_contacts import TicketContacts
+    from .ticket_part import TicketPart
+    from .ticket_part_previous_ticket_state import TicketPartPreviousTicketState
+    from .ticket_part_ticket_state import TicketPartTicketState
+    from .ticket_part_updated_attribute_data import TicketPartUpdatedAttributeData
+    from .ticket_part_updated_attribute_data_attribute import TicketPartUpdatedAttributeDataAttribute
+    from .ticket_part_updated_attribute_data_value import TicketPartUpdatedAttributeDataValue
+    from .ticket_part_updated_attribute_data_value_id import TicketPartUpdatedAttributeDataValueId
+    from .ticket_part_updated_attribute_data_value_label import TicketPartUpdatedAttributeDataValueLabel
+    from .ticket_state import TicketState
+    from .ticket_state_category import TicketStateCategory
+    from .ticket_state_detailed import TicketStateDetailed
+    from .ticket_state_detailed_category import TicketStateDetailedCategory
+    from .ticket_state_detailed_ticket_types import TicketStateDetailedTicketTypes
+    from .ticket_type import TicketType
+    from .ticket_type_category import TicketTypeCategory
+    from .ticket_type_ticket_states import TicketTypeTicketStates
+_dynamic_imports: typing.Dict[str, str] = {
+    "DeleteTicketResponse": ".delete_ticket_response",
+    "ReplyTicketRequestBody": ".reply_ticket_request_body",
+    "Ticket": ".ticket",
+    "TicketCategory": ".ticket_category",
+    "TicketContacts": ".ticket_contacts",
+    "TicketPart": ".ticket_part",
+    "TicketPartPreviousTicketState": ".ticket_part_previous_ticket_state",
+    "TicketPartTicketState": ".ticket_part_ticket_state",
+    "TicketPartUpdatedAttributeData": ".ticket_part_updated_attribute_data",
+    "TicketPartUpdatedAttributeDataAttribute": ".ticket_part_updated_attribute_data_attribute",
+    "TicketPartUpdatedAttributeDataValue": ".ticket_part_updated_attribute_data_value",
+    "TicketPartUpdatedAttributeDataValueId": ".ticket_part_updated_attribute_data_value_id",
+    "TicketPartUpdatedAttributeDataValueLabel": ".ticket_part_updated_attribute_data_value_label",
+    "TicketState": ".ticket_state",
+    "TicketStateCategory": ".ticket_state_category",
+    "TicketStateDetailed": ".ticket_state_detailed",
+    "TicketStateDetailedCategory": ".ticket_state_detailed_category",
+    "TicketStateDetailedTicketTypes": ".ticket_state_detailed_ticket_types",
+    "TicketType": ".ticket_type",
+    "TicketTypeCategory": ".ticket_type_category",
+    "TicketTypeTicketStates": ".ticket_type_ticket_states",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "DeleteTicketResponse",

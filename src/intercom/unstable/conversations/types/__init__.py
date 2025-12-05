@@ -2,24 +2,70 @@
 
 # isort: skip_file
 
-from .attach_contact_to_conversation_request_customer import AttachContactToConversationRequestCustomer
-from .attach_contact_to_conversation_request_customer_customer import AttachContactToConversationRequestCustomerCustomer
-from .attach_contact_to_conversation_request_customer_intercom_user_id import (
-    AttachContactToConversationRequestCustomerIntercomUserId,
-)
-from .attach_contact_to_conversation_request_customer_user_id import AttachContactToConversationRequestCustomerUserId
-from .conversation import Conversation
-from .conversation_priority import ConversationPriority
-from .conversation_state import ConversationState
-from .create_conversation_request_from import CreateConversationRequestFrom
-from .create_conversation_request_from_type import CreateConversationRequestFromType
-from .manage_conversation_request_body import (
-    ManageConversationRequestBody,
-    ManageConversationRequestBody_Assignment,
-    ManageConversationRequestBody_Close,
-    ManageConversationRequestBody_Open,
-    ManageConversationRequestBody_Snoozed,
-)
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .attach_contact_to_conversation_request_customer import AttachContactToConversationRequestCustomer
+    from .attach_contact_to_conversation_request_customer_customer import (
+        AttachContactToConversationRequestCustomerCustomer,
+    )
+    from .attach_contact_to_conversation_request_customer_intercom_user_id import (
+        AttachContactToConversationRequestCustomerIntercomUserId,
+    )
+    from .attach_contact_to_conversation_request_customer_user_id import (
+        AttachContactToConversationRequestCustomerUserId,
+    )
+    from .conversation import Conversation
+    from .conversation_priority import ConversationPriority
+    from .conversation_state import ConversationState
+    from .create_conversation_request_from import CreateConversationRequestFrom
+    from .create_conversation_request_from_type import CreateConversationRequestFromType
+    from .manage_conversation_request_body import (
+        ManageConversationRequestBody,
+        ManageConversationRequestBody_Assignment,
+        ManageConversationRequestBody_Close,
+        ManageConversationRequestBody_Open,
+        ManageConversationRequestBody_Snoozed,
+    )
+_dynamic_imports: typing.Dict[str, str] = {
+    "AttachContactToConversationRequestCustomer": ".attach_contact_to_conversation_request_customer",
+    "AttachContactToConversationRequestCustomerCustomer": ".attach_contact_to_conversation_request_customer_customer",
+    "AttachContactToConversationRequestCustomerIntercomUserId": ".attach_contact_to_conversation_request_customer_intercom_user_id",
+    "AttachContactToConversationRequestCustomerUserId": ".attach_contact_to_conversation_request_customer_user_id",
+    "Conversation": ".conversation",
+    "ConversationPriority": ".conversation_priority",
+    "ConversationState": ".conversation_state",
+    "CreateConversationRequestFrom": ".create_conversation_request_from",
+    "CreateConversationRequestFromType": ".create_conversation_request_from_type",
+    "ManageConversationRequestBody": ".manage_conversation_request_body",
+    "ManageConversationRequestBody_Assignment": ".manage_conversation_request_body",
+    "ManageConversationRequestBody_Close": ".manage_conversation_request_body",
+    "ManageConversationRequestBody_Open": ".manage_conversation_request_body",
+    "ManageConversationRequestBody_Snoozed": ".manage_conversation_request_body",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AttachContactToConversationRequestCustomer",

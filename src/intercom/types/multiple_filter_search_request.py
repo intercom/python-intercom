@@ -7,7 +7,6 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, update_forward_refs
 from ..core.unchecked_base_model import UncheckedBaseModel
-from .multiple_filter_search_request_operator import MultipleFilterSearchRequestOperator
 
 
 class MultipleFilterSearchRequest(UncheckedBaseModel):
@@ -20,7 +19,7 @@ class MultipleFilterSearchRequest(UncheckedBaseModel):
     An operator to allow boolean inspection between multiple fields.
     """
 
-    value: typing.Optional[typing.List["MultipleOrSingleFilterSearchRequest"]] = None
+    value: typing.Optional["MultipleFilterSearchRequestValue"] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
@@ -32,6 +31,19 @@ class MultipleFilterSearchRequest(UncheckedBaseModel):
             extra = pydantic.Extra.allow
 
 
-from .multiple_or_single_filter_search_request import MultipleOrSingleFilterSearchRequest  # noqa: E402, F401, I001
+from .single_filter_search_request_value import SingleFilterSearchRequestValue  # noqa: E402, I001
+from .single_filter_search_request_value_two_item import SingleFilterSearchRequestValueTwoItem  # noqa: E402, I001
+from .single_filter_search_request_operator import SingleFilterSearchRequestOperator  # noqa: E402, I001
+from .single_filter_search_request import SingleFilterSearchRequest  # noqa: E402, I001
+from .multiple_filter_search_request_operator import MultipleFilterSearchRequestOperator  # noqa: E402, I001
+from .multiple_filter_search_request_value import MultipleFilterSearchRequestValue  # noqa: E402, I001
 
-update_forward_refs(MultipleFilterSearchRequest)
+update_forward_refs(
+    MultipleFilterSearchRequest,
+    MultipleFilterSearchRequestOperator=MultipleFilterSearchRequestOperator,
+    MultipleFilterSearchRequestValue=MultipleFilterSearchRequestValue,
+    SingleFilterSearchRequest=SingleFilterSearchRequest,
+    SingleFilterSearchRequestOperator=SingleFilterSearchRequestOperator,
+    SingleFilterSearchRequestValue=SingleFilterSearchRequestValue,
+    SingleFilterSearchRequestValueTwoItem=SingleFilterSearchRequestValueTwoItem,
+)

@@ -13,22 +13,22 @@ class ContactSubscriptionTypes(UncheckedBaseModel):
     An object containing Subscription Types meta data about the SubscriptionTypes that a contact has.
     """
 
-    data: typing.List[AddressableList] = pydantic.Field()
+    data: typing.Optional[typing.List[AddressableList]] = pydantic.Field(default=None)
     """
     This object represents the subscriptions attached to a contact.
     """
 
-    url: str = pydantic.Field()
+    url: typing.Optional[str] = pydantic.Field(default=None)
     """
     Url to get more subscription type resources for this contact
     """
 
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     Int representing the total number of subscription types attached to this contact
     """
 
-    has_more: bool = pydantic.Field()
+    has_more: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether there's more Addressable Objects to be viewed. If true, use the url to view all
     """

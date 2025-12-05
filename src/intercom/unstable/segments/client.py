@@ -50,7 +50,9 @@ class SegmentsClient:
         client = Intercom(
             token="YOUR_TOKEN",
         )
-        client.unstable.segments.list_segments()
+        client.unstable.segments.list_segments(
+            include_count=True,
+        )
         """
         _response = self._raw_client.list_segments(include_count=include_count, request_options=request_options)
         return _response.data
@@ -133,7 +135,9 @@ class AsyncSegmentsClient:
 
 
         async def main() -> None:
-            await client.unstable.segments.list_segments()
+            await client.unstable.segments.list_segments(
+                include_count=True,
+            )
 
 
         asyncio.run(main())

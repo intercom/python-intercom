@@ -7,7 +7,7 @@ from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
-from ..core.pagination import AsyncPager, BaseHttpResponse, SyncPager
+from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
 from ..core.unchecked_base_model import construct_type
 from ..errors.not_found_error import NotFoundError
@@ -31,7 +31,7 @@ class RawNotesClient:
         page: typing.Optional[int] = None,
         per_page: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[Note]:
+    ) -> SyncPager[Note, NoteList]:
         """
         You can fetch a list of notes that are associated to a contact.
 
@@ -51,7 +51,7 @@ class RawNotesClient:
 
         Returns
         -------
-        SyncPager[Note]
+        SyncPager[Note, NoteList]
             Successful response
         """
         page = page if page is not None else 1
@@ -82,16 +82,14 @@ class RawNotesClient:
                     per_page=per_page,
                     request_options=request_options,
                 )
-                return SyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 404:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -158,9 +156,9 @@ class RawNotesClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -170,13 +168,13 @@ class RawNotesClient:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
-    def find(self, note_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[Note]:
+    def find(self, note_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[Note]:
         """
         You can fetch the details of a single note.
 
         Parameters
         ----------
-        note_id : str
+        note_id : int
             The unique identifier of a given note
 
         request_options : typing.Optional[RequestOptions]
@@ -217,9 +215,9 @@ class RawNotesClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -241,7 +239,7 @@ class AsyncRawNotesClient:
         page: typing.Optional[int] = None,
         per_page: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[Note]:
+    ) -> AsyncPager[Note, NoteList]:
         """
         You can fetch a list of notes that are associated to a contact.
 
@@ -261,7 +259,7 @@ class AsyncRawNotesClient:
 
         Returns
         -------
-        AsyncPager[Note]
+        AsyncPager[Note, NoteList]
             Successful response
         """
         page = page if page is not None else 1
@@ -295,16 +293,14 @@ class AsyncRawNotesClient:
                         request_options=request_options,
                     )
 
-                return AsyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 404:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -371,9 +367,9 @@ class AsyncRawNotesClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -384,14 +380,14 @@ class AsyncRawNotesClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def find(
-        self, note_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, note_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Note]:
         """
         You can fetch the details of a single note.
 
         Parameters
         ----------
-        note_id : str
+        note_id : int
             The unique identifier of a given note
 
         request_options : typing.Optional[RequestOptions]
@@ -432,9 +428,9 @@ class AsyncRawNotesClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),

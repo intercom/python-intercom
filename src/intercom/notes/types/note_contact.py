@@ -12,7 +12,7 @@ class NoteContact(UncheckedBaseModel):
     Represents the contact that the note was created about.
     """
 
-    type: typing.Optional[typing.Literal["contact"]] = pydantic.Field(default=None)
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     String representing the object's type. Always has the value `contact`.
     """

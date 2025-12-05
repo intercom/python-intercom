@@ -8,7 +8,7 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 
 
 class StartingAfterPaging(UncheckedBaseModel):
-    per_page: int = pydantic.Field()
+    per_page: typing.Optional[int] = pydantic.Field(default=None)
     """
     The number of results to fetch per page.
     """

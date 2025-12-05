@@ -14,17 +14,17 @@ class TicketList(UncheckedBaseModel):
     Tickets are how you track requests from your users.
     """
 
-    type: typing.Literal["ticket.list"] = pydantic.Field(default="ticket.list")
+    type: typing.Optional[typing.Literal["ticket.list"]] = pydantic.Field(default=None)
     """
     Always ticket.list
     """
 
-    tickets: typing.List[Ticket] = pydantic.Field()
+    tickets: typing.Optional[typing.List[typing.Optional[Ticket]]] = pydantic.Field(default=None)
     """
     The list of ticket objects
     """
 
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     A count of the total number of objects.
     """
