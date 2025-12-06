@@ -79,9 +79,9 @@ class RawTicketsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -101,9 +101,9 @@ class RawTicketsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -198,9 +198,9 @@ class RawTicketsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -277,7 +277,7 @@ class RawTicketsClient:
         self,
         id: str,
         *,
-        ticket_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
+        ticket_attributes: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         ticket_state_id: typing.Optional[str] = OMIT,
         company_id: typing.Optional[str] = OMIT,
         open: typing.Optional[bool] = OMIT,
@@ -295,7 +295,7 @@ class RawTicketsClient:
         id : str
             The unique identifier for the ticket which is given by Intercom
 
-        ticket_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
+        ticket_attributes : typing.Optional[typing.Dict[str, typing.Any]]
             The attributes set on the ticket.
 
         ticket_state_id : typing.Optional[str]
@@ -362,9 +362,9 @@ class RawTicketsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -384,9 +384,9 @@ class RawTicketsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -445,9 +445,9 @@ class RawTicketsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -494,8 +494,8 @@ class RawTicketsClient:
         | id                                        | String                                                                                   |
         | created_at                                | Date (UNIX timestamp)                                                                    |
         | updated_at                                | Date (UNIX timestamp)                                                                    |
-        | _default_title_                           | String                                                                                   |
-        | _default_description_                     | String                                                                                   |
+        | title                           | String                                                                                   |
+        | description                     | String                                                                                   |
         | category                                  | String                                                                                   |
         | ticket_type_id                            | String                                                                                   |
         | contact_ids                               | String                                                                                   |
@@ -632,9 +632,9 @@ class AsyncRawTicketsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -654,9 +654,9 @@ class AsyncRawTicketsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -751,9 +751,9 @@ class AsyncRawTicketsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -830,7 +830,7 @@ class AsyncRawTicketsClient:
         self,
         id: str,
         *,
-        ticket_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
+        ticket_attributes: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         ticket_state_id: typing.Optional[str] = OMIT,
         company_id: typing.Optional[str] = OMIT,
         open: typing.Optional[bool] = OMIT,
@@ -848,7 +848,7 @@ class AsyncRawTicketsClient:
         id : str
             The unique identifier for the ticket which is given by Intercom
 
-        ticket_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
+        ticket_attributes : typing.Optional[typing.Dict[str, typing.Any]]
             The attributes set on the ticket.
 
         ticket_state_id : typing.Optional[str]
@@ -915,9 +915,9 @@ class AsyncRawTicketsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -937,9 +937,9 @@ class AsyncRawTicketsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -998,9 +998,9 @@ class AsyncRawTicketsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1047,8 +1047,8 @@ class AsyncRawTicketsClient:
         | id                                        | String                                                                                   |
         | created_at                                | Date (UNIX timestamp)                                                                    |
         | updated_at                                | Date (UNIX timestamp)                                                                    |
-        | _default_title_                           | String                                                                                   |
-        | _default_description_                     | String                                                                                   |
+        | title                           | String                                                                                   |
+        | description                     | String                                                                                   |
         | category                                  | String                                                                                   |
         | ticket_type_id                            | String                                                                                   |
         | contact_ids                               | String                                                                                   |

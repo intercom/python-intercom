@@ -10,6 +10,7 @@ from ...types.reference import Reference
 from ...types.ticket_part_author import TicketPartAuthor
 from .ticket_part_previous_ticket_state import TicketPartPreviousTicketState
 from .ticket_part_ticket_state import TicketPartTicketState
+from .ticket_part_updated_attribute_data import TicketPartUpdatedAttributeData
 
 
 class TicketPart(UncheckedBaseModel):
@@ -17,17 +18,17 @@ class TicketPart(UncheckedBaseModel):
     A Ticket Part represents a message in the ticket.
     """
 
-    type: typing.Literal["ticket_part"] = pydantic.Field(default="ticket_part")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     Always ticket_part
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id representing the ticket part.
     """
 
-    part_type: str = pydantic.Field()
+    part_type: typing.Optional[str] = pydantic.Field(default=None)
     """
     The type of ticket part.
     """
@@ -42,12 +43,12 @@ class TicketPart(UncheckedBaseModel):
     The previous state of the ticket.
     """
 
-    ticket_state: TicketPartTicketState = pydantic.Field()
+    ticket_state: typing.Optional[TicketPartTicketState] = pydantic.Field(default=None)
     """
     The state of the ticket.
     """
 
-    created_at: int = pydantic.Field()
+    created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The time the ticket part was created.
     """
@@ -76,6 +77,16 @@ class TicketPart(UncheckedBaseModel):
     redacted: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether or not the ticket part has been redacted.
+    """
+
+    app_package_code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The app package code if this part was created via API. Note this field won't show if the part was not created via API.
+    """
+
+    updated_attribute_data: typing.Optional[TicketPartUpdatedAttributeData] = pydantic.Field(default=None)
+    """
+    The updated attribute data of the ticket part. Only present for attribute update parts.
     """
 
     if IS_PYDANTIC_V2:

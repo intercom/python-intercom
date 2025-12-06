@@ -47,6 +47,16 @@ class HelpCenter(UncheckedBaseModel):
     The display name of the Help Center only seen by teammates.
     """
 
+    url: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The URL for the help center, if you have a custom domain then this will show the URL using the custom domain.
+    """
+
+    custom_domain: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Custom domain configured for the help center
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

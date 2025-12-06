@@ -8,7 +8,7 @@ from .quick_reply_option import QuickReplyOption
 
 
 class ConversationPartMetadataQuickReplyOptionsItem(QuickReplyOption):
-    translations: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
+    translations: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
     """
     The translations for the quick reply option.
     """

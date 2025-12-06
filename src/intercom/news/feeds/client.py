@@ -4,8 +4,7 @@ import typing
 
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.request_options import RequestOptions
-from ...types.paginated_news_item_response import PaginatedNewsItemResponse
-from ...types.paginated_newsfeed_response import PaginatedNewsfeedResponse
+from ...types.paginated_response import PaginatedResponse
 from ..types.newsfeed import Newsfeed
 from .raw_client import AsyncRawFeedsClient, RawFeedsClient
 
@@ -27,7 +26,7 @@ class FeedsClient:
 
     def list_items(
         self, newsfeed_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> PaginatedNewsItemResponse:
+    ) -> PaginatedResponse:
         """
         You can fetch a list of all news items that are live on a given newsfeed
 
@@ -41,7 +40,7 @@ class FeedsClient:
 
         Returns
         -------
-        PaginatedNewsItemResponse
+        PaginatedResponse
             successful
 
         Examples
@@ -58,7 +57,7 @@ class FeedsClient:
         _response = self._raw_client.list_items(newsfeed_id, request_options=request_options)
         return _response.data
 
-    def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> PaginatedNewsfeedResponse:
+    def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> PaginatedResponse:
         """
         You can fetch a list of all newsfeeds
 
@@ -69,7 +68,7 @@ class FeedsClient:
 
         Returns
         -------
-        PaginatedNewsfeedResponse
+        PaginatedResponse
             successful
 
         Examples
@@ -133,7 +132,7 @@ class AsyncFeedsClient:
 
     async def list_items(
         self, newsfeed_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> PaginatedNewsItemResponse:
+    ) -> PaginatedResponse:
         """
         You can fetch a list of all news items that are live on a given newsfeed
 
@@ -147,7 +146,7 @@ class AsyncFeedsClient:
 
         Returns
         -------
-        PaginatedNewsItemResponse
+        PaginatedResponse
             successful
 
         Examples
@@ -172,7 +171,7 @@ class AsyncFeedsClient:
         _response = await self._raw_client.list_items(newsfeed_id, request_options=request_options)
         return _response.data
 
-    async def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> PaginatedNewsfeedResponse:
+    async def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> PaginatedResponse:
         """
         You can fetch a list of all newsfeeds
 
@@ -183,7 +182,7 @@ class AsyncFeedsClient:
 
         Returns
         -------
-        PaginatedNewsfeedResponse
+        PaginatedResponse
             successful
 
         Examples

@@ -15,6 +15,11 @@ class Company(UncheckedBaseModel):
     Companies allow you to represent organizations using your product. Each company will have its own description and be associated with contacts. You can fetch, create, update and list companies.
     """
 
+    type: typing.Optional[typing.Literal["company"]] = pydantic.Field(default=None)
+    """
+    Value is `company`
+    """
+
     id: str = pydantic.Field()
     """
     The Intercom defined id representing the company.
@@ -86,7 +91,7 @@ class Company(UncheckedBaseModel):
     The number of users in the company.
     """
 
-    custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
+    custom_attributes: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
     """
     The custom attributes you have set on the company.
     """

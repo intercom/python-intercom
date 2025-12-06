@@ -2,6 +2,52 @@
 
 # isort: skip_file
 
-from .contact import Contact
+import typing
+from importlib import import_module
 
-__all__ = ["Contact"]
+if typing.TYPE_CHECKING:
+    from .contact import Contact
+    from .contacts_create_response import ContactsCreateResponse
+    from .contacts_find_response import ContactsFindResponse
+    from .contacts_merge_lead_in_user_response import ContactsMergeLeadInUserResponse
+    from .contacts_update_response import ContactsUpdateResponse
+    from .show_contact_by_external_id_response import ShowContactByExternalIdResponse
+_dynamic_imports: typing.Dict[str, str] = {
+    "Contact": ".contact",
+    "ContactsCreateResponse": ".contacts_create_response",
+    "ContactsFindResponse": ".contacts_find_response",
+    "ContactsMergeLeadInUserResponse": ".contacts_merge_lead_in_user_response",
+    "ContactsUpdateResponse": ".contacts_update_response",
+    "ShowContactByExternalIdResponse": ".show_contact_by_external_id_response",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
+
+__all__ = [
+    "Contact",
+    "ContactsCreateResponse",
+    "ContactsFindResponse",
+    "ContactsMergeLeadInUserResponse",
+    "ContactsUpdateResponse",
+    "ShowContactByExternalIdResponse",
+]

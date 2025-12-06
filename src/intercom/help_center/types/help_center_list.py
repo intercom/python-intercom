@@ -13,12 +13,12 @@ class HelpCenterList(UncheckedBaseModel):
     A list of Help Centers belonging to the App
     """
 
-    type: typing.Literal["list"] = pydantic.Field(default="list")
+    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
     """
     The type of the object - `list`.
     """
 
-    data: typing.List[HelpCenter] = pydantic.Field()
+    data: typing.Optional[typing.List[HelpCenter]] = pydantic.Field(default=None)
     """
     An array of Help Center objects
     """

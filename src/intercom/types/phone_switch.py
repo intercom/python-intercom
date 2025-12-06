@@ -12,12 +12,12 @@ class PhoneSwitch(UncheckedBaseModel):
     Phone Switch Response
     """
 
-    type: typing.Literal["phone_call_redirect"] = pydantic.Field(default="phone_call_redirect")
+    type: typing.Optional[typing.Literal["phone_call_redirect"]] = pydantic.Field(default=None)
     """
     
     """
 
-    phone: str = pydantic.Field()
+    phone: typing.Optional[str] = pydantic.Field(default=None)
     """
     Phone number in E.164 format, that has received the SMS to continue the conversation in the Messenger.
     """

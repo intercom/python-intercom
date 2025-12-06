@@ -7,7 +7,7 @@ from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
-from ..core.pagination import AsyncPager, BaseHttpResponse, SyncPager
+from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
 from ..core.serialization import convert_and_respect_annotation_metadata
 from ..core.unchecked_base_model import construct_type
@@ -18,9 +18,10 @@ from ..errors.unauthorized_error import UnauthorizedError
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..messages.types.message import Message
 from ..tickets.types.ticket import Ticket
+from ..types.conversation_deleted import ConversationDeleted
+from ..types.conversation_list import ConversationList
 from ..types.custom_attributes import CustomAttributes
 from ..types.error import Error
-from ..types.paginated_conversation_response import PaginatedConversationResponse
 from ..types.redact_conversation_request import RedactConversationRequest
 from ..types.reply_conversation_request import ReplyConversationRequest
 from ..types.search_request_query import SearchRequestQuery
@@ -45,7 +46,7 @@ class RawConversationsClient:
         per_page: typing.Optional[int] = None,
         starting_after: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[Conversation]:
+    ) -> SyncPager[Conversation, ConversationList]:
         """
         You can fetch a list of all conversations.
 
@@ -68,7 +69,7 @@ class RawConversationsClient:
 
         Returns
         -------
-        SyncPager[Conversation]
+        SyncPager[Conversation, ConversationList]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -83,9 +84,9 @@ class RawConversationsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _parsed_response = typing.cast(
-                    PaginatedConversationResponse,
+                    ConversationList,
                     construct_type(
-                        type_=PaginatedConversationResponse,  # type: ignore
+                        type_=ConversationList,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -100,9 +101,7 @@ class RawConversationsClient:
                         starting_after=_parsed_next,
                         request_options=request_options,
                     )
-                return SyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 401:
                 raise UnauthorizedError(
                     headers=dict(_response.headers),
@@ -219,9 +218,9 @@ class RawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -236,6 +235,7 @@ class RawConversationsClient:
         conversation_id: str,
         *,
         display_as: typing.Optional[str] = None,
+        include_translations: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Conversation]:
         """
@@ -258,6 +258,9 @@ class RawConversationsClient:
         display_as : typing.Optional[str]
             Set to plaintext to retrieve conversation messages in plain text.
 
+        include_translations : typing.Optional[bool]
+            If set to true, conversation parts will be translated to the detected language of the conversation.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -271,6 +274,7 @@ class RawConversationsClient:
             method="GET",
             params={
                 "display_as": display_as,
+                "include_translations": include_translations,
             },
             request_options=request_options,
         )
@@ -310,9 +314,9 @@ class RawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -328,7 +332,9 @@ class RawConversationsClient:
         *,
         display_as: typing.Optional[str] = None,
         read: typing.Optional[bool] = OMIT,
+        title: typing.Optional[str] = OMIT,
         custom_attributes: typing.Optional[CustomAttributes] = OMIT,
+        company_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Conversation]:
         """
@@ -337,6 +343,12 @@ class RawConversationsClient:
 
         {% admonition type="info" name="Replying and other actions" %}
         If you want to reply to a coveration or take an action such as assign, unassign, open, close or snooze, take a look at the reply and manage endpoints.
+        {% /admonition %}
+
+        {% admonition type="info" %}
+          This endpoint handles both **conversation updates** and **custom object associations**.
+
+          See _`update a conversation with an association to a custom object instance`_ in the request/response examples to see the custom object association format.
         {% /admonition %}
 
         Parameters
@@ -350,7 +362,13 @@ class RawConversationsClient:
         read : typing.Optional[bool]
             Mark a conversation as read within Intercom.
 
+        title : typing.Optional[str]
+            The title given to the conversation
+
         custom_attributes : typing.Optional[CustomAttributes]
+
+        company_id : typing.Optional[str]
+            The ID of the company that the conversation is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -358,7 +376,7 @@ class RawConversationsClient:
         Returns
         -------
         HttpResponse[Conversation]
-            conversation found
+            update a conversation with an association to a custom object instance
         """
         _response = self._client_wrapper.httpx_client.request(
             f"conversations/{jsonable_encoder(conversation_id)}",
@@ -368,7 +386,11 @@ class RawConversationsClient:
             },
             json={
                 "read": read,
-                "custom_attributes": custom_attributes,
+                "title": title,
+                "custom_attributes": convert_and_respect_annotation_metadata(
+                    object_=custom_attributes, annotation=CustomAttributes, direction="write"
+                ),
+                "company_id": company_id,
             },
             headers={
                 "content-type": "application/json",
@@ -412,9 +434,70 @@ class RawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def delete_conversation(
+        self, conversation_id: int, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ConversationDeleted]:
+        """
+        You can delete a single conversation.
+
+        Parameters
+        ----------
+        conversation_id : int
+            id
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ConversationDeleted]
+            successful
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(conversation_id)}",
+            method="DELETE",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationDeleted,
+                    construct_type(
+                        type_=ConversationDeleted,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -430,7 +513,7 @@ class RawConversationsClient:
         query: SearchRequestQuery,
         pagination: typing.Optional[StartingAfterPaging] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[Conversation]:
+    ) -> SyncPager[Conversation, ConversationList]:
         """
         You can search for multiple conversations by the value of their attributes in order to fetch exactly which ones you want.
 
@@ -453,7 +536,7 @@ class RawConversationsClient:
 
         ### Accepted Fields
 
-        Most keys listed as part of the The conversation model is searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foorbar"`).
+        Most keys listed in the conversation model are searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foorbar"`).
         The `source.body` field is unique as the search will not be performed against the entire value, but instead against every element of the value separately. For example, when searching for a conversation with a `"I need support"` body - the query should contain a `=` operator with the value `"support"` for such conversation to be returned. A query with a `=` operator and a `"need support"` value will not yield a result.
 
         | Field                                     | Type                                                                                                                                                   |
@@ -543,7 +626,7 @@ class RawConversationsClient:
 
         Returns
         -------
-        SyncPager[Conversation]
+        SyncPager[Conversation, ConversationList]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -566,9 +649,9 @@ class RawConversationsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _parsed_response = typing.cast(
-                    PaginatedConversationResponse,
+                    ConversationList,
                     construct_type(
-                        type_=PaginatedConversationResponse,  # type: ignore
+                        type_=ConversationList,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -583,9 +666,7 @@ class RawConversationsClient:
                         pagination=pagination,
                         request_options=request_options,
                     )
-                return SyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
@@ -664,9 +745,9 @@ class RawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -753,87 +834,9 @@ class RawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
-                            object_=_response.json(),
-                        ),
-                    ),
-                )
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
-        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
-
-    def run_assignment_rules(
-        self, conversation_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[Conversation]:
-        """
-        {% admonition type="danger" name="Deprecation of Run Assignment Rules" %}
-        Run assignment rules is now deprecated in version 2.12 and future versions and will be permanently removed on December 31, 2026. After this date, any requests made to this endpoint will fail.
-        {% /admonition %}
-        You can let a conversation be automatically assigned following assignment rules.
-        {% admonition type="warning" name="When using workflows" %}
-        It is not possible to use this endpoint with Workflows.
-        {% /admonition %}
-
-        Parameters
-        ----------
-        conversation_id : str
-            The identifier for the conversation as given by Intercom.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        HttpResponse[Conversation]
-            Assign a conversation using assignment rules
-        """
-        _response = self._client_wrapper.httpx_client.request(
-            f"conversations/{jsonable_encoder(conversation_id)}/run_assignment_rules",
-            method="POST",
-            request_options=request_options,
-        )
-        try:
-            if 200 <= _response.status_code < 300:
-                _data = typing.cast(
-                    Conversation,
-                    construct_type(
-                        type_=Conversation,  # type: ignore
-                        object_=_response.json(),
-                    ),
-                )
-                return HttpResponse(response=_response, data=_data)
-            if _response.status_code == 401:
-                raise UnauthorizedError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        Error,
-                        construct_type(
-                            type_=Error,  # type: ignore
-                            object_=_response.json(),
-                        ),
-                    ),
-                )
-            if _response.status_code == 403:
-                raise ForbiddenError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        Error,
-                        construct_type(
-                            type_=Error,  # type: ignore
-                            object_=_response.json(),
-                        ),
-                    ),
-                )
-            if _response.status_code == 404:
-                raise NotFoundError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        typing.Optional[typing.Any],
-                        construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -927,9 +930,9 @@ class RawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1021,9 +1024,9 @@ class RawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1032,9 +1035,9 @@ class RawConversationsClient:
                 raise UnprocessableEntityError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1103,9 +1106,9 @@ class RawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1117,18 +1120,18 @@ class RawConversationsClient:
 
     def convert_to_ticket(
         self,
-        conversation_id: str,
+        conversation_id: int,
         *,
         ticket_type_id: str,
         attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[Ticket]:
+    ) -> HttpResponse[typing.Optional[Ticket]]:
         """
         You can convert a conversation to a ticket.
 
         Parameters
         ----------
-        conversation_id : str
+        conversation_id : int
             The id of the conversation to target
 
         ticket_type_id : str
@@ -1141,7 +1144,7 @@ class RawConversationsClient:
 
         Returns
         -------
-        HttpResponse[Ticket]
+        HttpResponse[typing.Optional[Ticket]]
             successful
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -1158,11 +1161,13 @@ class RawConversationsClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Ticket,
+                    typing.Optional[Ticket],
                     construct_type(
-                        type_=Ticket,  # type: ignore
+                        type_=typing.Optional[Ticket],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -1171,9 +1176,87 @@ class RawConversationsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def run_assignment_rules(
+        self, conversation_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[Conversation]:
+        """
+        {% admonition type="danger" name="Deprecation of Run Assignment Rules" %}
+        Run assignment rules is now deprecated in version 2.12 and future versions and will be permanently removed on December 31, 2026. After this date, any requests made to this endpoint will fail.
+        {% /admonition %}
+        You can let a conversation be automatically assigned following assignment rules.
+        {% admonition type="warning" name="When using workflows" %}
+        It is not possible to use this endpoint with Workflows.
+        {% /admonition %}
+
+        Parameters
+        ----------
+        conversation_id : str
+            The identifier for the conversation as given by Intercom.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[Conversation]
+            Assign a conversation using assignment rules
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(conversation_id)}/run_assignment_rules",
+            method="POST",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    Conversation,
+                    construct_type(
+                        type_=Conversation,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1194,7 +1277,7 @@ class AsyncRawConversationsClient:
         per_page: typing.Optional[int] = None,
         starting_after: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[Conversation]:
+    ) -> AsyncPager[Conversation, ConversationList]:
         """
         You can fetch a list of all conversations.
 
@@ -1217,7 +1300,7 @@ class AsyncRawConversationsClient:
 
         Returns
         -------
-        AsyncPager[Conversation]
+        AsyncPager[Conversation, ConversationList]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1232,9 +1315,9 @@ class AsyncRawConversationsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _parsed_response = typing.cast(
-                    PaginatedConversationResponse,
+                    ConversationList,
                     construct_type(
-                        type_=PaginatedConversationResponse,  # type: ignore
+                        type_=ConversationList,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -1252,9 +1335,7 @@ class AsyncRawConversationsClient:
                             request_options=request_options,
                         )
 
-                return AsyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 401:
                 raise UnauthorizedError(
                     headers=dict(_response.headers),
@@ -1371,9 +1452,9 @@ class AsyncRawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1388,6 +1469,7 @@ class AsyncRawConversationsClient:
         conversation_id: str,
         *,
         display_as: typing.Optional[str] = None,
+        include_translations: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Conversation]:
         """
@@ -1410,6 +1492,9 @@ class AsyncRawConversationsClient:
         display_as : typing.Optional[str]
             Set to plaintext to retrieve conversation messages in plain text.
 
+        include_translations : typing.Optional[bool]
+            If set to true, conversation parts will be translated to the detected language of the conversation.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1423,6 +1508,7 @@ class AsyncRawConversationsClient:
             method="GET",
             params={
                 "display_as": display_as,
+                "include_translations": include_translations,
             },
             request_options=request_options,
         )
@@ -1462,9 +1548,9 @@ class AsyncRawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1480,7 +1566,9 @@ class AsyncRawConversationsClient:
         *,
         display_as: typing.Optional[str] = None,
         read: typing.Optional[bool] = OMIT,
+        title: typing.Optional[str] = OMIT,
         custom_attributes: typing.Optional[CustomAttributes] = OMIT,
+        company_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Conversation]:
         """
@@ -1489,6 +1577,12 @@ class AsyncRawConversationsClient:
 
         {% admonition type="info" name="Replying and other actions" %}
         If you want to reply to a coveration or take an action such as assign, unassign, open, close or snooze, take a look at the reply and manage endpoints.
+        {% /admonition %}
+
+        {% admonition type="info" %}
+          This endpoint handles both **conversation updates** and **custom object associations**.
+
+          See _`update a conversation with an association to a custom object instance`_ in the request/response examples to see the custom object association format.
         {% /admonition %}
 
         Parameters
@@ -1502,7 +1596,13 @@ class AsyncRawConversationsClient:
         read : typing.Optional[bool]
             Mark a conversation as read within Intercom.
 
+        title : typing.Optional[str]
+            The title given to the conversation
+
         custom_attributes : typing.Optional[CustomAttributes]
+
+        company_id : typing.Optional[str]
+            The ID of the company that the conversation is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1510,7 +1610,7 @@ class AsyncRawConversationsClient:
         Returns
         -------
         AsyncHttpResponse[Conversation]
-            conversation found
+            update a conversation with an association to a custom object instance
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"conversations/{jsonable_encoder(conversation_id)}",
@@ -1520,7 +1620,11 @@ class AsyncRawConversationsClient:
             },
             json={
                 "read": read,
-                "custom_attributes": custom_attributes,
+                "title": title,
+                "custom_attributes": convert_and_respect_annotation_metadata(
+                    object_=custom_attributes, annotation=CustomAttributes, direction="write"
+                ),
+                "company_id": company_id,
             },
             headers={
                 "content-type": "application/json",
@@ -1564,9 +1668,70 @@ class AsyncRawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def delete_conversation(
+        self, conversation_id: int, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ConversationDeleted]:
+        """
+        You can delete a single conversation.
+
+        Parameters
+        ----------
+        conversation_id : int
+            id
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ConversationDeleted]
+            successful
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(conversation_id)}",
+            method="DELETE",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationDeleted,
+                    construct_type(
+                        type_=ConversationDeleted,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1582,7 +1747,7 @@ class AsyncRawConversationsClient:
         query: SearchRequestQuery,
         pagination: typing.Optional[StartingAfterPaging] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[Conversation]:
+    ) -> AsyncPager[Conversation, ConversationList]:
         """
         You can search for multiple conversations by the value of their attributes in order to fetch exactly which ones you want.
 
@@ -1605,7 +1770,7 @@ class AsyncRawConversationsClient:
 
         ### Accepted Fields
 
-        Most keys listed as part of the The conversation model is searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foorbar"`).
+        Most keys listed in the conversation model are searchable, whether writeable or not. The value you search for has to match the accepted type, otherwise the query will fail (ie. as `created_at` accepts a date, the `value` cannot be a string such as `"foorbar"`).
         The `source.body` field is unique as the search will not be performed against the entire value, but instead against every element of the value separately. For example, when searching for a conversation with a `"I need support"` body - the query should contain a `=` operator with the value `"support"` for such conversation to be returned. A query with a `=` operator and a `"need support"` value will not yield a result.
 
         | Field                                     | Type                                                                                                                                                   |
@@ -1695,7 +1860,7 @@ class AsyncRawConversationsClient:
 
         Returns
         -------
-        AsyncPager[Conversation]
+        AsyncPager[Conversation, ConversationList]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1718,9 +1883,9 @@ class AsyncRawConversationsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _parsed_response = typing.cast(
-                    PaginatedConversationResponse,
+                    ConversationList,
                     construct_type(
-                        type_=PaginatedConversationResponse,  # type: ignore
+                        type_=ConversationList,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -1738,9 +1903,7 @@ class AsyncRawConversationsClient:
                             request_options=request_options,
                         )
 
-                return AsyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
@@ -1819,9 +1982,9 @@ class AsyncRawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1908,87 +2071,9 @@ class AsyncRawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
-                            object_=_response.json(),
-                        ),
-                    ),
-                )
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
-        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
-
-    async def run_assignment_rules(
-        self, conversation_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[Conversation]:
-        """
-        {% admonition type="danger" name="Deprecation of Run Assignment Rules" %}
-        Run assignment rules is now deprecated in version 2.12 and future versions and will be permanently removed on December 31, 2026. After this date, any requests made to this endpoint will fail.
-        {% /admonition %}
-        You can let a conversation be automatically assigned following assignment rules.
-        {% admonition type="warning" name="When using workflows" %}
-        It is not possible to use this endpoint with Workflows.
-        {% /admonition %}
-
-        Parameters
-        ----------
-        conversation_id : str
-            The identifier for the conversation as given by Intercom.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        AsyncHttpResponse[Conversation]
-            Assign a conversation using assignment rules
-        """
-        _response = await self._client_wrapper.httpx_client.request(
-            f"conversations/{jsonable_encoder(conversation_id)}/run_assignment_rules",
-            method="POST",
-            request_options=request_options,
-        )
-        try:
-            if 200 <= _response.status_code < 300:
-                _data = typing.cast(
-                    Conversation,
-                    construct_type(
-                        type_=Conversation,  # type: ignore
-                        object_=_response.json(),
-                    ),
-                )
-                return AsyncHttpResponse(response=_response, data=_data)
-            if _response.status_code == 401:
-                raise UnauthorizedError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        Error,
-                        construct_type(
-                            type_=Error,  # type: ignore
-                            object_=_response.json(),
-                        ),
-                    ),
-                )
-            if _response.status_code == 403:
-                raise ForbiddenError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        Error,
-                        construct_type(
-                            type_=Error,  # type: ignore
-                            object_=_response.json(),
-                        ),
-                    ),
-                )
-            if _response.status_code == 404:
-                raise NotFoundError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        typing.Optional[typing.Any],
-                        construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -2082,9 +2167,9 @@ class AsyncRawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -2176,9 +2261,9 @@ class AsyncRawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -2187,9 +2272,9 @@ class AsyncRawConversationsClient:
                 raise UnprocessableEntityError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -2258,9 +2343,9 @@ class AsyncRawConversationsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -2272,18 +2357,18 @@ class AsyncRawConversationsClient:
 
     async def convert_to_ticket(
         self,
-        conversation_id: str,
+        conversation_id: int,
         *,
         ticket_type_id: str,
         attributes: typing.Optional[TicketRequestCustomAttributes] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[Ticket]:
+    ) -> AsyncHttpResponse[typing.Optional[Ticket]]:
         """
         You can convert a conversation to a ticket.
 
         Parameters
         ----------
-        conversation_id : str
+        conversation_id : int
             The id of the conversation to target
 
         ticket_type_id : str
@@ -2296,7 +2381,7 @@ class AsyncRawConversationsClient:
 
         Returns
         -------
-        AsyncHttpResponse[Ticket]
+        AsyncHttpResponse[typing.Optional[Ticket]]
             successful
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -2313,11 +2398,13 @@ class AsyncRawConversationsClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Ticket,
+                    typing.Optional[Ticket],
                     construct_type(
-                        type_=Ticket,  # type: ignore
+                        type_=typing.Optional[Ticket],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -2326,9 +2413,87 @@ class AsyncRawConversationsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def run_assignment_rules(
+        self, conversation_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[Conversation]:
+        """
+        {% admonition type="danger" name="Deprecation of Run Assignment Rules" %}
+        Run assignment rules is now deprecated in version 2.12 and future versions and will be permanently removed on December 31, 2026. After this date, any requests made to this endpoint will fail.
+        {% /admonition %}
+        You can let a conversation be automatically assigned following assignment rules.
+        {% admonition type="warning" name="When using workflows" %}
+        It is not possible to use this endpoint with Workflows.
+        {% /admonition %}
+
+        Parameters
+        ----------
+        conversation_id : str
+            The identifier for the conversation as given by Intercom.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[Conversation]
+            Assign a conversation using assignment rules
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(conversation_id)}/run_assignment_rules",
+            method="POST",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    Conversation,
+                    construct_type(
+                        type_=Conversation,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        construct_type(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),

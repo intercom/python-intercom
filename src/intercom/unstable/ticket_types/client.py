@@ -54,7 +54,7 @@ class TicketTypesClient:
         return _response.data
 
     def create_ticket_type(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[TicketType]:
         """
         You can create a new ticket type.
@@ -65,7 +65,7 @@ class TicketTypesClient:
 
         Parameters
         ----------
-        request : typing.Optional[typing.Any]
+        request : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -173,7 +173,7 @@ class AsyncTicketTypesClient:
         return _response.data
 
     async def create_ticket_type(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[TicketType]:
         """
         You can create a new ticket type.
@@ -184,7 +184,7 @@ class AsyncTicketTypesClient:
 
         Parameters
         ----------
-        request : typing.Optional[typing.Any]
+        request : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

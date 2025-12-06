@@ -14,7 +14,7 @@ class Admin(UncheckedBaseModel):
     Admins are teammate accounts that have access to a workspace.
     """
 
-    type: typing.Optional[typing.Literal["admin"]] = pydantic.Field(default=None)
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     String representing the object's type. Always has the value `admin`.
     """
@@ -47,6 +47,11 @@ class Admin(UncheckedBaseModel):
     away_mode_reassign: bool = pydantic.Field()
     """
     Identifies if this admin is set to automatically reassign new conversations to the apps default inbox.
+    """
+
+    away_status_reason_id: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The unique identifier of the away status reason
     """
 
     has_inbox_seat: bool = pydantic.Field()

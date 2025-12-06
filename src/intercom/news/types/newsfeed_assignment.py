@@ -12,12 +12,12 @@ class NewsfeedAssignment(UncheckedBaseModel):
     Assigns a news item to a newsfeed.
     """
 
-    newsfeed_id: int = pydantic.Field()
+    newsfeed_id: typing.Optional[int] = pydantic.Field(default=None)
     """
     The unique identifier for the newsfeed which is given by Intercom. Publish dates cannot be in the future, to schedule news items use the dedicated feature in app (see this article).
     """
 
-    published_at: int = pydantic.Field()
+    published_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     Publish date of the news item on the newsfeed, use this field if you want to set a publish date in the past (e.g. when importing existing news items). On write, this field will be ignored if the news item state is "draft".
     """

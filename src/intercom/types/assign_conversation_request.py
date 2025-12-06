@@ -21,7 +21,7 @@ class AssignConversationRequest(UncheckedBaseModel):
 
     assignee_id: str = pydantic.Field()
     """
-    The `id` of the `admin` or `team` which will be assigned the conversation. A conversation can be assigned both an admin and a team.\nSet `0` if you want this assign to no admin or team (ie. Unassigned).
+    The `id` of the `admin` or `team` which will be assigned the conversation. A conversation can be assigned both an admin and a team.\\nSet `0` if you want this assign to no admin or team (ie. Unassigned).
     """
 
     body: typing.Optional[str] = pydantic.Field(default=None)

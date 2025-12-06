@@ -23,7 +23,7 @@ class SegmentList(UncheckedBaseModel):
     A list of Segment objects
     """
 
-    pages: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
+    pages: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
     """
     A pagination object, which may be empty, indicating no further pages to fetch.
     """

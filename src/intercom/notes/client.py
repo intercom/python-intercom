@@ -5,6 +5,7 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
+from ..types.note_list import NoteList
 from .raw_client import AsyncRawNotesClient, RawNotesClient
 from .types.note import Note
 
@@ -34,7 +35,7 @@ class NotesClient:
         page: typing.Optional[int] = None,
         per_page: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[Note]:
+    ) -> SyncPager[Note, NoteList]:
         """
         You can fetch a list of notes that are associated to a contact.
 
@@ -54,7 +55,7 @@ class NotesClient:
 
         Returns
         -------
-        SyncPager[Note]
+        SyncPager[Note, NoteList]
             Successful response
 
         Examples
@@ -121,13 +122,13 @@ class NotesClient:
         _response = self._raw_client.create(contact_id, body=body, admin_id=admin_id, request_options=request_options)
         return _response.data
 
-    def find(self, note_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Note:
+    def find(self, note_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> Note:
         """
         You can fetch the details of a single note.
 
         Parameters
         ----------
-        note_id : str
+        note_id : int
             The unique identifier of a given note
 
         request_options : typing.Optional[RequestOptions]
@@ -146,7 +147,7 @@ class NotesClient:
             token="YOUR_TOKEN",
         )
         client.notes.find(
-            note_id="1",
+            note_id=1,
         )
         """
         _response = self._raw_client.find(note_id, request_options=request_options)
@@ -175,7 +176,7 @@ class AsyncNotesClient:
         page: typing.Optional[int] = None,
         per_page: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[Note]:
+    ) -> AsyncPager[Note, NoteList]:
         """
         You can fetch a list of notes that are associated to a contact.
 
@@ -195,7 +196,7 @@ class AsyncNotesClient:
 
         Returns
         -------
-        AsyncPager[Note]
+        AsyncPager[Note, NoteList]
             Successful response
 
         Examples
@@ -281,13 +282,13 @@ class AsyncNotesClient:
         )
         return _response.data
 
-    async def find(self, note_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Note:
+    async def find(self, note_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> Note:
         """
         You can fetch the details of a single note.
 
         Parameters
         ----------
-        note_id : str
+        note_id : int
             The unique identifier of a given note
 
         request_options : typing.Optional[RequestOptions]
@@ -311,7 +312,7 @@ class AsyncNotesClient:
 
         async def main() -> None:
             await client.notes.find(
-                note_id="1",
+                note_id=1,
             )
 
 

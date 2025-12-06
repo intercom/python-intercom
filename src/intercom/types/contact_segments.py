@@ -13,12 +13,12 @@ class ContactSegments(UncheckedBaseModel):
     A list of segments objects attached to a specific contact.
     """
 
-    type: typing.Literal["list"] = pydantic.Field(default="list")
+    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
     """
     The type of the object
     """
 
-    data: typing.List[Segment] = pydantic.Field()
+    data: typing.Optional[typing.List[Segment]] = pydantic.Field(default=None)
     """
     Segment objects associated with the contact.
     """

@@ -1,0 +1,11 @@
+{
+  "cliVersion": "3.0.2",
+  "generatorName": "fernapi/fern-python-sdk",
+  "generatorVersion": "4.41.8",
+  "generatorConfig": {
+    "client_class_name": "Intercom",
+    "pydantic_config": {
+      "skip_validation": true
+    }
+  }
+}

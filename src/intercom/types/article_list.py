@@ -13,18 +13,18 @@ class ArticleList(UncheckedBaseModel):
     This will return a list of articles for the App.
     """
 
-    type: typing.Literal["list"] = pydantic.Field(default="list")
+    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
     """
     The type of the object - `list`.
     """
 
-    pages: typing.Optional[typing.Optional[typing.Any]] = None
-    total_count: int = pydantic.Field()
+    pages: typing.Optional[typing.Any] = None
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     A count of the total number of articles.
     """
 
-    data: typing.List[ArticleListItem] = pydantic.Field()
+    data: typing.Optional[typing.List[ArticleListItem]] = pydantic.Field(default=None)
     """
     An array of Article objects
     """

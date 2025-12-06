@@ -13,17 +13,17 @@ class TicketParts(UncheckedBaseModel):
     A list of Ticket Part objects for each note and event in the ticket. There is a limit of 500 parts.
     """
 
-    type: typing.Literal["ticket_part.list"] = pydantic.Field(default="ticket_part.list")
+    type: typing.Optional[typing.Literal["ticket_part.list"]] = pydantic.Field(default=None)
     """
     
     """
 
-    ticket_parts: typing.List[TicketPart] = pydantic.Field()
+    ticket_parts: typing.Optional[typing.List[TicketPart]] = pydantic.Field(default=None)
     """
     A list of Ticket Part objects for each ticket. There is a limit of 500 parts.
     """
 
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     
     """

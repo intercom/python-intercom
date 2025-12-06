@@ -13,12 +13,12 @@ class CompanyAttachedSegments(UncheckedBaseModel):
     A list of Segment Objects
     """
 
-    type: typing.Literal["list"] = pydantic.Field(default="list")
+    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
     """
     The type of object - `list`
     """
 
-    data: typing.List[Segment] = pydantic.Field()
+    data: typing.Optional[typing.List[Segment]] = pydantic.Field(default=None)
     """
     An array containing Segment Objects
     """

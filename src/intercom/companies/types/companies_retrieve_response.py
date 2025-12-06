@@ -32,7 +32,7 @@ class CompaniesRetrieveResponse_Company(UncheckedBaseModel):
     monthly_spend: int
     session_count: int
     user_count: int
-    custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = None
+    custom_attributes: typing.Optional[typing.Dict[str, typing.Any]] = None
     tags: typing.Optional[CompanyTags] = None
     segments: typing.Optional[CompanySegments] = None
 
@@ -49,8 +49,8 @@ class CompaniesRetrieveResponse_Company(UncheckedBaseModel):
 class CompaniesRetrieveResponse_List(UncheckedBaseModel):
     type: typing.Literal["list"] = "list"
     pages: typing.Optional[OffsetPages] = None
-    total_count: int
-    data: typing.List[Company]
+    total_count: typing.Optional[int] = None
+    data: typing.Optional[typing.List[Company]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

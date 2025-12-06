@@ -14,6 +14,11 @@ class NewsItem(UncheckedBaseModel):
     A News Item is a content type in Intercom enabling you to announce product updates, company news, promotions, events and more with your customers.
     """
 
+    type: typing.Optional[typing.Literal["news-item"]] = pydantic.Field(default=None)
+    """
+    The type of object.
+    """
+
     id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The unique identifier for the news item which is given by Intercom.

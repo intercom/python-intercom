@@ -12,7 +12,7 @@ class GroupContent(UncheckedBaseModel):
     The Content of a Group.
     """
 
-    type: typing.Optional[str] = pydantic.Field(default=None)
+    type: typing.Optional[typing.Literal["group_content"]] = pydantic.Field(default=None)
     """
     The type of object - `group_content` .
     """

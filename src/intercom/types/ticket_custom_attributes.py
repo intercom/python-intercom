@@ -2,4 +2,4 @@
 
 import typing
 
-TicketCustomAttributes = typing.Dict[str, typing.Optional[typing.Any]]
+TicketCustomAttributes = typing.Dict[str, typing.Any]

@@ -64,10 +64,7 @@ class ExportClient:
         )
         client.unstable.export.enqueue_a_new_reporting_data_export_job(
             dataset_id="conversation",
-            attribute_ids=[
-                "conversation.id",
-                "conversation.first_user_conversation_part_created_at",
-            ],
+            attribute_ids=["conversation_id", "conversation_started_at"],
             start_time=1717490000,
             end_time=1717510000,
         )
@@ -165,10 +162,7 @@ class AsyncExportClient:
         async def main() -> None:
             await client.unstable.export.enqueue_a_new_reporting_data_export_job(
                 dataset_id="conversation",
-                attribute_ids=[
-                    "conversation.id",
-                    "conversation.first_user_conversation_part_created_at",
-                ],
+                attribute_ids=["conversation_id", "conversation_started_at"],
                 start_time=1717490000,
                 end_time=1717510000,
             )

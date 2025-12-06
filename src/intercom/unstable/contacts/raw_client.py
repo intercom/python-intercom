@@ -88,9 +88,9 @@ class RawContactsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -149,9 +149,9 @@ class RawContactsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -216,9 +216,9 @@ class RawContactsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -277,9 +277,9 @@ class RawContactsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -353,7 +353,7 @@ class RawContactsClient:
         last_seen_at: typing.Optional[int] = OMIT,
         owner_id: typing.Optional[int] = OMIT,
         unsubscribed_from_emails: typing.Optional[bool] = OMIT,
-        custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
+        custom_attributes: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[UpdateContactResponse]:
         """
@@ -400,7 +400,7 @@ class RawContactsClient:
         unsubscribed_from_emails : typing.Optional[bool]
             Whether the contact is unsubscribed from emails
 
-        custom_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
+        custom_attributes : typing.Optional[typing.Dict[str, typing.Any]]
             The custom attributes which are set for the contact
 
         request_options : typing.Optional[RequestOptions]
@@ -1064,9 +1064,9 @@ class AsyncRawContactsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1125,9 +1125,9 @@ class AsyncRawContactsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1192,9 +1192,9 @@ class AsyncRawContactsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1253,9 +1253,9 @@ class AsyncRawContactsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1329,7 +1329,7 @@ class AsyncRawContactsClient:
         last_seen_at: typing.Optional[int] = OMIT,
         owner_id: typing.Optional[int] = OMIT,
         unsubscribed_from_emails: typing.Optional[bool] = OMIT,
-        custom_attributes: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = OMIT,
+        custom_attributes: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[UpdateContactResponse]:
         """
@@ -1376,7 +1376,7 @@ class AsyncRawContactsClient:
         unsubscribed_from_emails : typing.Optional[bool]
             Whether the contact is unsubscribed from emails
 
-        custom_attributes : typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
+        custom_attributes : typing.Optional[typing.Dict[str, typing.Any]]
             The custom attributes which are set for the contact
 
         request_options : typing.Optional[RequestOptions]

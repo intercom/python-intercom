@@ -9,13 +9,13 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 
 
 class ContentSourcesList(UncheckedBaseModel):
-    type: typing.Literal["content_source.list"] = "content_source.list"
-    total_count: int = pydantic.Field()
+    type: typing.Optional[typing.Literal["content_source.list"]] = None
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     The total number of content sources used by AI Agent in the conversation.
     """
 
-    content_sources: typing.List[ContentSource] = pydantic.Field()
+    content_sources: typing.Optional[typing.List[ContentSource]] = pydantic.Field(default=None)
     """
     The content sources used by AI Agent in the conversation.
     """

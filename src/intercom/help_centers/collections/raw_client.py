@@ -7,7 +7,7 @@ from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.http_response import AsyncHttpResponse, HttpResponse
 from ...core.jsonable_encoder import jsonable_encoder
-from ...core.pagination import AsyncPager, BaseHttpResponse, SyncPager
+from ...core.pagination import AsyncPager, SyncPager
 from ...core.request_options import RequestOptions
 from ...core.serialization import convert_and_respect_annotation_metadata
 from ...core.unchecked_base_model import construct_type
@@ -34,7 +34,7 @@ class RawCollectionsClient:
         page: typing.Optional[int] = None,
         per_page: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[Collection]:
+    ) -> SyncPager[Collection, CollectionList]:
         """
         You can fetch a list of all collections by making a GET request to `https://api.intercom.io/help_center/collections`.
 
@@ -53,7 +53,7 @@ class RawCollectionsClient:
 
         Returns
         -------
-        SyncPager[Collection]
+        SyncPager[Collection, CollectionList]
             Successful
         """
         page = page if page is not None else 1
@@ -83,9 +83,7 @@ class RawCollectionsClient:
                     per_page=per_page,
                     request_options=request_options,
                 )
-                return SyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 401:
                 raise UnauthorizedError(
                     headers=dict(_response.headers),
@@ -171,9 +169,9 @@ class RawCollectionsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -195,14 +193,14 @@ class RawCollectionsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def find(
-        self, collection_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, collection_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[Collection]:
         """
         You can fetch the details of a single collection by making a GET request to `https://api.intercom.io/help_center/collections/<id>`.
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -243,9 +241,9 @@ class RawCollectionsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -257,7 +255,7 @@ class RawCollectionsClient:
 
     def update(
         self,
-        collection_id: str,
+        collection_id: int,
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
@@ -270,7 +268,7 @@ class RawCollectionsClient:
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         name : typing.Optional[str]
@@ -334,9 +332,9 @@ class RawCollectionsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -347,14 +345,14 @@ class RawCollectionsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def delete(
-        self, collection_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, collection_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[DeletedCollectionObject]:
         """
         You can delete a single collection by making a DELETE request to `https://api.intercom.io/collections/<id>`.
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -395,9 +393,9 @@ class RawCollectionsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -418,7 +416,7 @@ class AsyncRawCollectionsClient:
         page: typing.Optional[int] = None,
         per_page: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[Collection]:
+    ) -> AsyncPager[Collection, CollectionList]:
         """
         You can fetch a list of all collections by making a GET request to `https://api.intercom.io/help_center/collections`.
 
@@ -437,7 +435,7 @@ class AsyncRawCollectionsClient:
 
         Returns
         -------
-        AsyncPager[Collection]
+        AsyncPager[Collection, CollectionList]
             Successful
         """
         page = page if page is not None else 1
@@ -470,9 +468,7 @@ class AsyncRawCollectionsClient:
                         request_options=request_options,
                     )
 
-                return AsyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 401:
                 raise UnauthorizedError(
                     headers=dict(_response.headers),
@@ -558,9 +554,9 @@ class AsyncRawCollectionsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -582,14 +578,14 @@ class AsyncRawCollectionsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def find(
-        self, collection_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, collection_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Collection]:
         """
         You can fetch the details of a single collection by making a GET request to `https://api.intercom.io/help_center/collections/<id>`.
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -630,9 +626,9 @@ class AsyncRawCollectionsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -644,7 +640,7 @@ class AsyncRawCollectionsClient:
 
     async def update(
         self,
-        collection_id: str,
+        collection_id: int,
         *,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
@@ -657,7 +653,7 @@ class AsyncRawCollectionsClient:
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         name : typing.Optional[str]
@@ -721,9 +717,9 @@ class AsyncRawCollectionsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -734,14 +730,14 @@ class AsyncRawCollectionsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def delete(
-        self, collection_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, collection_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[DeletedCollectionObject]:
         """
         You can delete a single collection by making a DELETE request to `https://api.intercom.io/collections/<id>`.
 
         Parameters
         ----------
-        collection_id : str
+        collection_id : int
             The unique identifier for the collection which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -782,9 +778,9 @@ class AsyncRawCollectionsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),

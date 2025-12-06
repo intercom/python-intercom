@@ -13,32 +13,32 @@ class ArticleContent(UncheckedBaseModel):
     The Content of an Article.
     """
 
-    type: typing.Literal["article_content"] = pydantic.Field(default="article_content")
+    type: typing.Optional[typing.Literal["article_content"]] = pydantic.Field(default=None)
     """
     The type of object - `article_content` .
     """
 
-    title: str = pydantic.Field()
+    title: typing.Optional[str] = pydantic.Field(default=None)
     """
     The title of the article.
     """
 
-    description: str = pydantic.Field()
+    description: typing.Optional[str] = pydantic.Field(default=None)
     """
     The description of the article.
     """
 
-    body: str = pydantic.Field()
+    body: typing.Optional[str] = pydantic.Field(default=None)
     """
     The body of the article.
     """
 
-    author_id: int = pydantic.Field()
+    author_id: typing.Optional[int] = pydantic.Field(default=None)
     """
     The ID of the author of the article.
     """
 
-    state: ArticleContentState = pydantic.Field()
+    state: typing.Optional[ArticleContentState] = pydantic.Field(default=None)
     """
     Whether the article is `published` or is a `draft` .
     """

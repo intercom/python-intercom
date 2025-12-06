@@ -13,27 +13,36 @@ class Team(UncheckedBaseModel):
     Teams are groups of admins in Intercom.
     """
 
-    type: typing.Literal["team"] = pydantic.Field(default="team")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     Value is always "team"
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id of the team
     """
 
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The name of the team
     """
 
-    admin_ids: typing.List[int] = pydantic.Field()
+    admin_ids: typing.Optional[typing.List[int]] = pydantic.Field(default=None)
     """
     The list of admin IDs that are a part of the team.
     """
 
     admin_priority_level: typing.Optional[AdminPriorityLevel] = None
+    assignment_limit: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The assignment limit for the team. This field is only present when the team's distribution type is load balanced.
+    """
+
+    distribution_method: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Describes how assignments are distributed among the team members
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

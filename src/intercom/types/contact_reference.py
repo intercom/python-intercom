@@ -12,12 +12,12 @@ class ContactReference(UncheckedBaseModel):
     reference to contact object
     """
 
-    type: typing.Literal["contact"] = pydantic.Field(default="contact")
+    type: typing.Optional[typing.Literal["contact"]] = pydantic.Field(default=None)
     """
     always contact
     """
 
-    id: str = pydantic.Field()
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The unique identifier for the contact which is given by Intercom.
     """

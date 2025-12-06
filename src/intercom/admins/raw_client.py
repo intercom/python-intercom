@@ -9,6 +9,7 @@ from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
 from ..core.request_options import RequestOptions
 from ..core.unchecked_base_model import construct_type
+from ..errors.bad_request_error import BadRequestError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..types.activity_log_list import ActivityLogList
@@ -25,7 +26,9 @@ class RawAdminsClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def identify(self, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[AdminWithApp]:
+    def identify(
+        self, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[typing.Optional[AdminWithApp]]:
         """
 
         You can view the currently authorised admin along with the embedded app object (a "workspace" in legacy terminology).
@@ -41,7 +44,7 @@ class RawAdminsClient:
 
         Returns
         -------
-        HttpResponse[AdminWithApp]
+        HttpResponse[typing.Optional[AdminWithApp]]
             Successful response
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -50,11 +53,13 @@ class RawAdminsClient:
             request_options=request_options,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    AdminWithApp,
+                    typing.Optional[AdminWithApp],
                     construct_type(
-                        type_=AdminWithApp,  # type: ignore
+                        type_=typing.Optional[AdminWithApp],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -66,18 +71,19 @@ class RawAdminsClient:
 
     def away(
         self,
-        admin_id: str,
+        admin_id: int,
         *,
         away_mode_enabled: bool,
         away_mode_reassign: bool,
+        away_status_reason_id: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[Admin]:
+    ) -> HttpResponse[typing.Optional[Admin]]:
         """
         You can set an Admin as away for the Inbox.
 
         Parameters
         ----------
-        admin_id : str
+        admin_id : int
             The unique identifier of a given admin
 
         away_mode_enabled : bool
@@ -86,12 +92,15 @@ class RawAdminsClient:
         away_mode_reassign : bool
             Set to "true" to assign any new conversation replies to your default inbox.
 
+        away_status_reason_id : typing.Optional[int]
+            The unique identifier of the away status reason
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[Admin]
+        HttpResponse[typing.Optional[Admin]]
             Successful response
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -100,6 +109,7 @@ class RawAdminsClient:
             json={
                 "away_mode_enabled": away_mode_enabled,
                 "away_mode_reassign": away_mode_reassign,
+                "away_status_reason_id": away_status_reason_id,
             },
             headers={
                 "content-type": "application/json",
@@ -108,15 +118,28 @@ class RawAdminsClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Admin,
+                    typing.Optional[Admin],
                     construct_type(
-                        type_=Admin,  # type: ignore
+                        type_=typing.Optional[Admin],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
                 return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             if _response.status_code == 401:
                 raise UnauthorizedError(
                     headers=dict(_response.headers),
@@ -132,9 +155,9 @@ class RawAdminsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -250,13 +273,15 @@ class RawAdminsClient:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
-    def find(self, admin_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[Admin]:
+    def find(
+        self, admin_id: int, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[typing.Optional[Admin]]:
         """
         You can retrieve the details of a single admin.
 
         Parameters
         ----------
-        admin_id : str
+        admin_id : int
             The unique identifier of a given admin
 
         request_options : typing.Optional[RequestOptions]
@@ -264,7 +289,7 @@ class RawAdminsClient:
 
         Returns
         -------
-        HttpResponse[Admin]
+        HttpResponse[typing.Optional[Admin]]
             Admin found
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -273,11 +298,13 @@ class RawAdminsClient:
             request_options=request_options,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Admin,
+                    typing.Optional[Admin],
                     construct_type(
-                        type_=Admin,  # type: ignore
+                        type_=typing.Optional[Admin],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -297,9 +324,9 @@ class RawAdminsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -316,7 +343,7 @@ class AsyncRawAdminsClient:
 
     async def identify(
         self, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[AdminWithApp]:
+    ) -> AsyncHttpResponse[typing.Optional[AdminWithApp]]:
         """
 
         You can view the currently authorised admin along with the embedded app object (a "workspace" in legacy terminology).
@@ -332,7 +359,7 @@ class AsyncRawAdminsClient:
 
         Returns
         -------
-        AsyncHttpResponse[AdminWithApp]
+        AsyncHttpResponse[typing.Optional[AdminWithApp]]
             Successful response
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -341,11 +368,13 @@ class AsyncRawAdminsClient:
             request_options=request_options,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    AdminWithApp,
+                    typing.Optional[AdminWithApp],
                     construct_type(
-                        type_=AdminWithApp,  # type: ignore
+                        type_=typing.Optional[AdminWithApp],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -357,18 +386,19 @@ class AsyncRawAdminsClient:
 
     async def away(
         self,
-        admin_id: str,
+        admin_id: int,
         *,
         away_mode_enabled: bool,
         away_mode_reassign: bool,
+        away_status_reason_id: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[Admin]:
+    ) -> AsyncHttpResponse[typing.Optional[Admin]]:
         """
         You can set an Admin as away for the Inbox.
 
         Parameters
         ----------
-        admin_id : str
+        admin_id : int
             The unique identifier of a given admin
 
         away_mode_enabled : bool
@@ -377,12 +407,15 @@ class AsyncRawAdminsClient:
         away_mode_reassign : bool
             Set to "true" to assign any new conversation replies to your default inbox.
 
+        away_status_reason_id : typing.Optional[int]
+            The unique identifier of the away status reason
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[Admin]
+        AsyncHttpResponse[typing.Optional[Admin]]
             Successful response
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -391,6 +424,7 @@ class AsyncRawAdminsClient:
             json={
                 "away_mode_enabled": away_mode_enabled,
                 "away_mode_reassign": away_mode_reassign,
+                "away_status_reason_id": away_status_reason_id,
             },
             headers={
                 "content-type": "application/json",
@@ -399,15 +433,28 @@ class AsyncRawAdminsClient:
             omit=OMIT,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Admin,
+                    typing.Optional[Admin],
                     construct_type(
-                        type_=Admin,  # type: ignore
+                        type_=typing.Optional[Admin],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
                 return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             if _response.status_code == 401:
                 raise UnauthorizedError(
                     headers=dict(_response.headers),
@@ -423,9 +470,9 @@ class AsyncRawAdminsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -542,14 +589,14 @@ class AsyncRawAdminsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def find(
-        self, admin_id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[Admin]:
+        self, admin_id: int, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[typing.Optional[Admin]]:
         """
         You can retrieve the details of a single admin.
 
         Parameters
         ----------
-        admin_id : str
+        admin_id : int
             The unique identifier of a given admin
 
         request_options : typing.Optional[RequestOptions]
@@ -557,7 +604,7 @@ class AsyncRawAdminsClient:
 
         Returns
         -------
-        AsyncHttpResponse[Admin]
+        AsyncHttpResponse[typing.Optional[Admin]]
             Admin found
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -566,11 +613,13 @@ class AsyncRawAdminsClient:
             request_options=request_options,
         )
         try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    Admin,
+                    typing.Optional[Admin],
                     construct_type(
-                        type_=Admin,  # type: ignore
+                        type_=typing.Optional[Admin],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -590,9 +639,9 @@ class AsyncRawAdminsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),

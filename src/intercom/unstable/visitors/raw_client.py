@@ -77,9 +77,9 @@ class RawVisitorsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -148,9 +148,9 @@ class RawVisitorsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -164,8 +164,8 @@ class RawVisitorsClient:
         self,
         *,
         type: str,
-        user: typing.Optional[typing.Any] = OMIT,
-        visitor: typing.Optional[typing.Any] = OMIT,
+        user: typing.Any,
+        visitor: typing.Any,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Contact]:
         """
@@ -180,9 +180,9 @@ class RawVisitorsClient:
         type : str
             Represents the role of the Contact model. Accepts `lead` or `user`.
 
-        user : typing.Optional[typing.Any]
+        user : typing.Any
 
-        visitor : typing.Optional[typing.Any]
+        visitor : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -291,9 +291,9 @@ class AsyncRawVisitorsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -362,9 +362,9 @@ class AsyncRawVisitorsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        typing.Optional[typing.Any],
+                        typing.Any,
                         construct_type(
-                            type_=typing.Optional[typing.Any],  # type: ignore
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -378,8 +378,8 @@ class AsyncRawVisitorsClient:
         self,
         *,
         type: str,
-        user: typing.Optional[typing.Any] = OMIT,
-        visitor: typing.Optional[typing.Any] = OMIT,
+        user: typing.Any,
+        visitor: typing.Any,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Contact]:
         """
@@ -394,9 +394,9 @@ class AsyncRawVisitorsClient:
         type : str
             Represents the role of the Contact model. Accepts `lead` or `user`.
 
-        user : typing.Optional[typing.Any]
+        user : typing.Any
 
-        visitor : typing.Optional[typing.Any]
+        visitor : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

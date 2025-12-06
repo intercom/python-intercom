@@ -12,7 +12,7 @@ class DataExportCsv(UncheckedBaseModel):
     A CSV output file
     """
 
-    user_id: str = pydantic.Field()
+    user_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The user_id of the user who was sent the message.
     """
@@ -22,37 +22,37 @@ class DataExportCsv(UncheckedBaseModel):
     The external_user_id of the user who was sent the message
     """
 
-    company_id: str = pydantic.Field()
+    company_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The company ID of the user in relation to the message that was sent. Will return -1 if no company is present.
     """
 
-    email: str = pydantic.Field()
+    email: typing.Optional[str] = pydantic.Field(default=None)
     """
     The users email who was sent the message.
     """
 
-    name: str = pydantic.Field()
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
     The full name of the user receiving the message
     """
 
-    ruleset_id: str = pydantic.Field()
+    ruleset_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id of the message.
     """
 
-    content_id: str = pydantic.Field()
+    content_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The specific content that was received. In an A/B test each version has its own Content ID.
     """
 
-    content_type: str = pydantic.Field()
+    content_type: typing.Optional[str] = pydantic.Field(default=None)
     """
     Email, Chat, Post etc.
     """
 
-    content_title: str = pydantic.Field()
+    content_title: typing.Optional[str] = pydantic.Field(default=None)
     """
     The title of the content you see in your Intercom workspace.
     """

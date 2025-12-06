@@ -2,4 +2,4 @@
 
 import typing
 
-CreateContactRequestTwo = typing.Optional[typing.Any]
+CreateContactRequestTwo = typing.Any

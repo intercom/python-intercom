@@ -14,12 +14,12 @@ class CompanyScroll(UncheckedBaseModel):
     Companies allow you to represent organizations using your product. Each company will have its own description and be associated with contacts. You can fetch, create, update and list companies.
     """
 
-    type: typing.Literal["list"] = pydantic.Field(default="list")
+    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
     """
     The type of object - `list`
     """
 
-    data: typing.List[Company]
+    data: typing.Optional[typing.List[Company]] = None
     pages: typing.Optional[CursorPages] = None
     total_count: typing.Optional[int] = pydantic.Field(default=None)
     """

@@ -5,16 +5,15 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
+from ..types.article_list import ArticleList
 from ..types.article_translated_content import ArticleTranslatedContent
+from ..types.create_article_request import CreateArticleRequest
 from ..types.deleted_article_object import DeletedArticleObject
 from .raw_client import AsyncRawArticlesClient, RawArticlesClient
 from .types.article import Article
 from .types.article_list_item import ArticleListItem
-from .types.create_article_request_parent_type import CreateArticleRequestParentType
-from .types.create_article_request_state import CreateArticleRequestState
-from .types.search_articles_response import SearchArticlesResponse
-from .types.update_article_request_body_parent_type import UpdateArticleRequestBodyParentType
-from .types.update_article_request_body_state import UpdateArticleRequestBodyState
+from .types.article_search_response import ArticleSearchResponse
+from .types.update_article_request_state import UpdateArticleRequestState
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -41,7 +40,7 @@ class ArticlesClient:
         page: typing.Optional[int] = None,
         per_page: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ArticleListItem]:
+    ) -> SyncPager[ArticleListItem, ArticleList]:
         """
         You can fetch a list of all articles by making a GET request to `https://api.intercom.io/articles`.
 
@@ -62,7 +61,7 @@ class ArticlesClient:
 
         Returns
         -------
-        SyncPager[ArticleListItem]
+        SyncPager[ArticleListItem, ArticleList]
             successful
 
         Examples
@@ -84,14 +83,7 @@ class ArticlesClient:
     def create(
         self,
         *,
-        title: str,
-        author_id: int,
-        description: typing.Optional[str] = OMIT,
-        body: typing.Optional[str] = OMIT,
-        state: typing.Optional[CreateArticleRequestState] = OMIT,
-        parent_id: typing.Optional[int] = OMIT,
-        parent_type: typing.Optional[CreateArticleRequestParentType] = OMIT,
-        translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
+        request: typing.Optional[CreateArticleRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Article:
         """
@@ -99,28 +91,7 @@ class ArticlesClient:
 
         Parameters
         ----------
-        title : str
-            The title of the article.For multilingual articles, this will be the title of the default language's content.
-
-        author_id : int
-            The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace.
-
-        description : typing.Optional[str]
-            The description of the article. For multilingual articles, this will be the description of the default language's content.
-
-        body : typing.Optional[str]
-            The content of the article. For multilingual articles, this will be the body of the default language's content.
-
-        state : typing.Optional[CreateArticleRequestState]
-            Whether the article will be `published` or will be a `draft`. Defaults to draft. For multilingual articles, this will be the state of the default language's content.
-
-        parent_id : typing.Optional[int]
-            The id of the article's parent collection or section. An article without this field stands alone.
-
-        parent_type : typing.Optional[CreateArticleRequestParentType]
-            The type of parent, which can either be a `collection` or `section`.
-
-        translated_content : typing.Optional[ArticleTranslatedContent]
+        request : typing.Optional[CreateArticleRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -132,50 +103,47 @@ class ArticlesClient:
 
         Examples
         --------
-        from intercom import ArticleContent, ArticleTranslatedContent, Intercom
+        from intercom import (
+            ArticleContent,
+            ArticleTranslatedContent,
+            CreateArticleRequest,
+            Intercom,
+        )
 
         client = Intercom(
             token="YOUR_TOKEN",
         )
         client.articles.create(
-            title="Thanks for everything",
-            description="Description of the Article",
-            body="Body of the Article",
-            author_id=991267407,
-            state="published",
-            parent_id=145,
-            parent_type="collection",
-            translated_content=ArticleTranslatedContent(
-                fr=ArticleContent(
-                    title="Merci pour tout",
-                    description="Description de l'article",
-                    body="Corps de l'article",
-                    author_id=991267407,
-                    state="published",
+            request=CreateArticleRequest(
+                title="Thanks for everything",
+                description="Description of the Article",
+                body="Body of the Article",
+                author_id=991267497,
+                state="published",
+                parent_id=145,
+                parent_type="collection",
+                translated_content=ArticleTranslatedContent(
+                    fr=ArticleContent(
+                        title="Merci pour tout",
+                        description="Description de l'article",
+                        body="Corps de l'article",
+                        author_id=991267497,
+                        state="published",
+                    ),
                 ),
             ),
         )
         """
-        _response = self._raw_client.create(
-            title=title,
-            author_id=author_id,
-            description=description,
-            body=body,
-            state=state,
-            parent_id=parent_id,
-            parent_type=parent_type,
-            translated_content=translated_content,
-            request_options=request_options,
-        )
+        _response = self._raw_client.create(request=request, request_options=request_options)
         return _response.data
 
-    def find(self, article_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Article:
+    def find(self, article_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> Article:
         """
         You can fetch the details of a single article by making a GET request to `https://api.intercom.io/articles/<id>`.
 
         Parameters
         ----------
-        article_id : str
+        article_id : int
             The unique identifier for the article which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -194,7 +162,7 @@ class ArticlesClient:
             token="YOUR_TOKEN",
         )
         client.articles.find(
-            article_id="123",
+            article_id=1,
         )
         """
         _response = self._raw_client.find(article_id, request_options=request_options)
@@ -202,15 +170,15 @@ class ArticlesClient:
 
     def update(
         self,
-        article_id: str,
+        article_id: int,
         *,
         title: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
         body: typing.Optional[str] = OMIT,
         author_id: typing.Optional[int] = OMIT,
-        state: typing.Optional[UpdateArticleRequestBodyState] = OMIT,
+        state: typing.Optional[UpdateArticleRequestState] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
-        parent_type: typing.Optional[UpdateArticleRequestBodyParentType] = OMIT,
+        parent_type: typing.Optional[str] = OMIT,
         translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Article:
@@ -219,7 +187,7 @@ class ArticlesClient:
 
         Parameters
         ----------
-        article_id : str
+        article_id : int
             The unique identifier for the article which is given by Intercom.
 
         title : typing.Optional[str]
@@ -234,13 +202,13 @@ class ArticlesClient:
         author_id : typing.Optional[int]
             The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace.
 
-        state : typing.Optional[UpdateArticleRequestBodyState]
+        state : typing.Optional[UpdateArticleRequestState]
             Whether the article will be `published` or will be a `draft`. Defaults to draft. For multilingual articles, this will be the state of the default language's content.
 
         parent_id : typing.Optional[str]
             The id of the article's parent collection or section. An article without this field stands alone.
 
-        parent_type : typing.Optional[UpdateArticleRequestBodyParentType]
+        parent_type : typing.Optional[str]
             The type of parent, which can either be a `collection` or `section`.
 
         translated_content : typing.Optional[ArticleTranslatedContent]
@@ -261,7 +229,7 @@ class ArticlesClient:
             token="YOUR_TOKEN",
         )
         client.articles.update(
-            article_id="123",
+            article_id=1,
             title="Christmas is here!",
             body="<p>New gifts in store for the jolly season</p>",
         )
@@ -281,14 +249,14 @@ class ArticlesClient:
         return _response.data
 
     def delete(
-        self, article_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, article_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> DeletedArticleObject:
         """
         You can delete a single article by making a DELETE request to `https://api.intercom.io/articles/<id>`.
 
         Parameters
         ----------
-        article_id : str
+        article_id : int
             The unique identifier for the article which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -307,7 +275,7 @@ class ArticlesClient:
             token="YOUR_TOKEN",
         )
         client.articles.delete(
-            article_id="123",
+            article_id=1,
         )
         """
         _response = self._raw_client.delete(article_id, request_options=request_options)
@@ -321,7 +289,7 @@ class ArticlesClient:
         help_center_id: typing.Optional[int] = None,
         highlight: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SearchArticlesResponse:
+    ) -> ArticleSearchResponse:
         """
         You can search for articles by making a GET request to `https://api.intercom.io/articles/search`.
 
@@ -344,7 +312,7 @@ class ArticlesClient:
 
         Returns
         -------
-        SearchArticlesResponse
+        ArticleSearchResponse
             Search successful
 
         Examples
@@ -357,6 +325,8 @@ class ArticlesClient:
         client.articles.search(
             phrase="Getting started",
             state="published",
+            help_center_id=1,
+            highlight=True,
         )
         """
         _response = self._raw_client.search(
@@ -390,7 +360,7 @@ class AsyncArticlesClient:
         page: typing.Optional[int] = None,
         per_page: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ArticleListItem]:
+    ) -> AsyncPager[ArticleListItem, ArticleList]:
         """
         You can fetch a list of all articles by making a GET request to `https://api.intercom.io/articles`.
 
@@ -411,7 +381,7 @@ class AsyncArticlesClient:
 
         Returns
         -------
-        AsyncPager[ArticleListItem]
+        AsyncPager[ArticleListItem, ArticleList]
             successful
 
         Examples
@@ -442,14 +412,7 @@ class AsyncArticlesClient:
     async def create(
         self,
         *,
-        title: str,
-        author_id: int,
-        description: typing.Optional[str] = OMIT,
-        body: typing.Optional[str] = OMIT,
-        state: typing.Optional[CreateArticleRequestState] = OMIT,
-        parent_id: typing.Optional[int] = OMIT,
-        parent_type: typing.Optional[CreateArticleRequestParentType] = OMIT,
-        translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
+        request: typing.Optional[CreateArticleRequest] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Article:
         """
@@ -457,28 +420,7 @@ class AsyncArticlesClient:
 
         Parameters
         ----------
-        title : str
-            The title of the article.For multilingual articles, this will be the title of the default language's content.
-
-        author_id : int
-            The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace.
-
-        description : typing.Optional[str]
-            The description of the article. For multilingual articles, this will be the description of the default language's content.
-
-        body : typing.Optional[str]
-            The content of the article. For multilingual articles, this will be the body of the default language's content.
-
-        state : typing.Optional[CreateArticleRequestState]
-            Whether the article will be `published` or will be a `draft`. Defaults to draft. For multilingual articles, this will be the state of the default language's content.
-
-        parent_id : typing.Optional[int]
-            The id of the article's parent collection or section. An article without this field stands alone.
-
-        parent_type : typing.Optional[CreateArticleRequestParentType]
-            The type of parent, which can either be a `collection` or `section`.
-
-        translated_content : typing.Optional[ArticleTranslatedContent]
+        request : typing.Optional[CreateArticleRequest]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -492,7 +434,12 @@ class AsyncArticlesClient:
         --------
         import asyncio
 
-        from intercom import ArticleContent, ArticleTranslatedContent, AsyncIntercom
+        from intercom import (
+            ArticleContent,
+            ArticleTranslatedContent,
+            AsyncIntercom,
+            CreateArticleRequest,
+        )
 
         client = AsyncIntercom(
             token="YOUR_TOKEN",
@@ -501,20 +448,22 @@ class AsyncArticlesClient:
 
         async def main() -> None:
             await client.articles.create(
-                title="Thanks for everything",
-                description="Description of the Article",
-                body="Body of the Article",
-                author_id=991267407,
-                state="published",
-                parent_id=145,
-                parent_type="collection",
-                translated_content=ArticleTranslatedContent(
-                    fr=ArticleContent(
-                        title="Merci pour tout",
-                        description="Description de l'article",
-                        body="Corps de l'article",
-                        author_id=991267407,
-                        state="published",
+                request=CreateArticleRequest(
+                    title="Thanks for everything",
+                    description="Description of the Article",
+                    body="Body of the Article",
+                    author_id=991267497,
+                    state="published",
+                    parent_id=145,
+                    parent_type="collection",
+                    translated_content=ArticleTranslatedContent(
+                        fr=ArticleContent(
+                            title="Merci pour tout",
+                            description="Description de l'article",
+                            body="Corps de l'article",
+                            author_id=991267497,
+                            state="published",
+                        ),
                     ),
                 ),
             )
@@ -522,26 +471,16 @@ class AsyncArticlesClient:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.create(
-            title=title,
-            author_id=author_id,
-            description=description,
-            body=body,
-            state=state,
-            parent_id=parent_id,
-            parent_type=parent_type,
-            translated_content=translated_content,
-            request_options=request_options,
-        )
+        _response = await self._raw_client.create(request=request, request_options=request_options)
         return _response.data
 
-    async def find(self, article_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> Article:
+    async def find(self, article_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> Article:
         """
         You can fetch the details of a single article by making a GET request to `https://api.intercom.io/articles/<id>`.
 
         Parameters
         ----------
-        article_id : str
+        article_id : int
             The unique identifier for the article which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -565,7 +504,7 @@ class AsyncArticlesClient:
 
         async def main() -> None:
             await client.articles.find(
-                article_id="123",
+                article_id=1,
             )
 
 
@@ -576,15 +515,15 @@ class AsyncArticlesClient:
 
     async def update(
         self,
-        article_id: str,
+        article_id: int,
         *,
         title: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
         body: typing.Optional[str] = OMIT,
         author_id: typing.Optional[int] = OMIT,
-        state: typing.Optional[UpdateArticleRequestBodyState] = OMIT,
+        state: typing.Optional[UpdateArticleRequestState] = OMIT,
         parent_id: typing.Optional[str] = OMIT,
-        parent_type: typing.Optional[UpdateArticleRequestBodyParentType] = OMIT,
+        parent_type: typing.Optional[str] = OMIT,
         translated_content: typing.Optional[ArticleTranslatedContent] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Article:
@@ -593,7 +532,7 @@ class AsyncArticlesClient:
 
         Parameters
         ----------
-        article_id : str
+        article_id : int
             The unique identifier for the article which is given by Intercom.
 
         title : typing.Optional[str]
@@ -608,13 +547,13 @@ class AsyncArticlesClient:
         author_id : typing.Optional[int]
             The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace.
 
-        state : typing.Optional[UpdateArticleRequestBodyState]
+        state : typing.Optional[UpdateArticleRequestState]
             Whether the article will be `published` or will be a `draft`. Defaults to draft. For multilingual articles, this will be the state of the default language's content.
 
         parent_id : typing.Optional[str]
             The id of the article's parent collection or section. An article without this field stands alone.
 
-        parent_type : typing.Optional[UpdateArticleRequestBodyParentType]
+        parent_type : typing.Optional[str]
             The type of parent, which can either be a `collection` or `section`.
 
         translated_content : typing.Optional[ArticleTranslatedContent]
@@ -640,7 +579,7 @@ class AsyncArticlesClient:
 
         async def main() -> None:
             await client.articles.update(
-                article_id="123",
+                article_id=1,
                 title="Christmas is here!",
                 body="<p>New gifts in store for the jolly season</p>",
             )
@@ -663,14 +602,14 @@ class AsyncArticlesClient:
         return _response.data
 
     async def delete(
-        self, article_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self, article_id: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> DeletedArticleObject:
         """
         You can delete a single article by making a DELETE request to `https://api.intercom.io/articles/<id>`.
 
         Parameters
         ----------
-        article_id : str
+        article_id : int
             The unique identifier for the article which is given by Intercom.
 
         request_options : typing.Optional[RequestOptions]
@@ -694,7 +633,7 @@ class AsyncArticlesClient:
 
         async def main() -> None:
             await client.articles.delete(
-                article_id="123",
+                article_id=1,
             )
 
 
@@ -711,7 +650,7 @@ class AsyncArticlesClient:
         help_center_id: typing.Optional[int] = None,
         highlight: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SearchArticlesResponse:
+    ) -> ArticleSearchResponse:
         """
         You can search for articles by making a GET request to `https://api.intercom.io/articles/search`.
 
@@ -734,7 +673,7 @@ class AsyncArticlesClient:
 
         Returns
         -------
-        SearchArticlesResponse
+        ArticleSearchResponse
             Search successful
 
         Examples
@@ -752,6 +691,8 @@ class AsyncArticlesClient:
             await client.articles.search(
                 phrase="Getting started",
                 state="published",
+                help_center_id=1,
+                highlight=True,
             )
 
 

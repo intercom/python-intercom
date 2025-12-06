@@ -127,6 +127,11 @@ class ConversationStatistics(UncheckedBaseModel):
     Time from conversation assignment to conversation close in seconds.
     """
 
+    adjusted_handling_time: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Adjusted handling time for conversation in seconds. This is the active handling time excluding idle periods when teammates are not actively working on the conversation.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

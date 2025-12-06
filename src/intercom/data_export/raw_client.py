@@ -9,7 +9,9 @@ from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
 from ..core.request_options import RequestOptions
 from ..core.unchecked_base_model import construct_type
+from ..errors.not_found_error import NotFoundError
 from .types.data_export import DataExport
+from .types.data_export_export_reporting_data_response import DataExportExportReportingDataResponse
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -18,6 +20,121 @@ OMIT = typing.cast(typing.Any, ...)
 class RawDataExportClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
+
+    def export_reporting_data(
+        self,
+        job_identifier: str,
+        *,
+        app_id: str,
+        client_id: str,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[DataExportExportReportingDataResponse]:
+        """
+        Parameters
+        ----------
+        job_identifier : str
+            Unique identifier of the job.
+
+        app_id : str
+            The Intercom defined code of the workspace the company is associated to.
+
+        client_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[DataExportExportReportingDataResponse]
+            Job status returned successfully
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"export/reporting_data/{jsonable_encoder(job_identifier)}",
+            method="GET",
+            params={
+                "app_id": app_id,
+                "client_id": client_id,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    DataExportExportReportingDataResponse,
+                    construct_type(
+                        type_=DataExportExportReportingDataResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def download_reporting_data_export(
+        self, job_identifier: str, *, app_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[None]:
+        """
+        Download the data from a completed reporting data export job.
+
+        > Octet header required
+        >
+        > You will have to specify the header Accept: `application/octet-stream` when hitting this endpoint.
+
+        Parameters
+        ----------
+        job_identifier : str
+
+        app_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[None]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"download/reporting_data/{jsonable_encoder(job_identifier)}",
+            method="GET",
+            params={
+                "app_id": app_id,
+            },
+            headers={
+                "Accept": "application/octet-stream",
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                return HttpResponse(response=_response, data=None)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def create(
         self, *, created_at_after: int, created_at_before: int, request_options: typing.Optional[RequestOptions] = None
@@ -206,6 +323,121 @@ class RawDataExportClient:
 class AsyncRawDataExportClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
+
+    async def export_reporting_data(
+        self,
+        job_identifier: str,
+        *,
+        app_id: str,
+        client_id: str,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[DataExportExportReportingDataResponse]:
+        """
+        Parameters
+        ----------
+        job_identifier : str
+            Unique identifier of the job.
+
+        app_id : str
+            The Intercom defined code of the workspace the company is associated to.
+
+        client_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[DataExportExportReportingDataResponse]
+            Job status returned successfully
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"export/reporting_data/{jsonable_encoder(job_identifier)}",
+            method="GET",
+            params={
+                "app_id": app_id,
+                "client_id": client_id,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    DataExportExportReportingDataResponse,
+                    construct_type(
+                        type_=DataExportExportReportingDataResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def download_reporting_data_export(
+        self, job_identifier: str, *, app_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[None]:
+        """
+        Download the data from a completed reporting data export job.
+
+        > Octet header required
+        >
+        > You will have to specify the header Accept: `application/octet-stream` when hitting this endpoint.
+
+        Parameters
+        ----------
+        job_identifier : str
+
+        app_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[None]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"download/reporting_data/{jsonable_encoder(job_identifier)}",
+            method="GET",
+            params={
+                "app_id": app_id,
+            },
+            headers={
+                "Accept": "application/octet-stream",
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                return AsyncHttpResponse(response=_response, data=None)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def create(
         self, *, created_at_after: int, created_at_before: int, request_options: typing.Optional[RequestOptions] = None

@@ -42,7 +42,7 @@ class TicketTypeAttribute(UncheckedBaseModel):
     The type of the data attribute (allowed values: "string list integer decimal boolean datetime files")
     """
 
-    input_options: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
+    input_options: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
     """
     Input options for the attribute
     """

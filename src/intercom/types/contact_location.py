@@ -12,7 +12,7 @@ class ContactLocation(UncheckedBaseModel):
     An object containing location meta data about a Intercom contact.
     """
 
-    type: typing.Literal["location"] = pydantic.Field(default="location")
+    type: typing.Optional[str] = pydantic.Field(default=None)
     """
     Always location
     """

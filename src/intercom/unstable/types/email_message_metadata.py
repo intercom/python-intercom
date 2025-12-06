@@ -23,6 +23,11 @@ class EmailMessageMetadata(UncheckedBaseModel):
     A list of an email address headers.
     """
 
+    message_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The unique identifier for the email message as specified in the Message-ID header
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

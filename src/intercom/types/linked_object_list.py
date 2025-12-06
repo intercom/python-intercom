@@ -13,22 +13,22 @@ class LinkedObjectList(UncheckedBaseModel):
     An object containing metadata about linked conversations and linked tickets. Up to 1000 can be returned.
     """
 
-    type: typing.Literal["list"] = pydantic.Field(default="list")
+    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
     """
     Always list.
     """
 
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     The total number of linked objects.
     """
 
-    has_more: bool = pydantic.Field()
+    has_more: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether or not there are more linked objects than returned.
     """
 
-    data: typing.List[LinkedObject] = pydantic.Field()
+    data: typing.Optional[typing.List[LinkedObject]] = pydantic.Field(default=None)
     """
     An array containing the linked conversations and linked tickets.
     """

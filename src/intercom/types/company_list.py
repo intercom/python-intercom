@@ -14,13 +14,18 @@ class CompanyList(UncheckedBaseModel):
     This will return a list of companies for the App.
     """
 
+    type: typing.Optional[typing.Literal["list"]] = pydantic.Field(default=None)
+    """
+    The type of object - `list`.
+    """
+
     pages: typing.Optional[OffsetPages] = None
-    total_count: int = pydantic.Field()
+    total_count: typing.Optional[int] = pydantic.Field(default=None)
     """
     The total number of companies.
     """
 
-    data: typing.List[Company] = pydantic.Field()
+    data: typing.Optional[typing.List[Company]] = pydantic.Field(default=None)
     """
     An array containing Company Objects.
     """

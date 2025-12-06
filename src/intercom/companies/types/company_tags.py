@@ -17,7 +17,7 @@ class CompanyTags(UncheckedBaseModel):
     The type of the object
     """
 
-    tags: typing.Optional[typing.List[typing.Optional[typing.Any]]] = None
+    tags: typing.Optional[typing.List[typing.Any]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

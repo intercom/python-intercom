@@ -27,7 +27,7 @@ class SwitchClient:
         return self._raw_client
 
     def create_phone_switch(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[PhoneSwitch]:
         """
         You can use the API to deflect phone calls to the Intercom Messenger.
@@ -37,7 +37,7 @@ class SwitchClient:
 
         Parameters
         ----------
-        request : typing.Optional[typing.Any]
+        request : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -78,7 +78,7 @@ class AsyncSwitchClient:
         return self._raw_client
 
     async def create_phone_switch(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[PhoneSwitch]:
         """
         You can use the API to deflect phone calls to the Intercom Messenger.
@@ -88,7 +88,7 @@ class AsyncSwitchClient:
 
         Parameters
         ----------
-        request : typing.Optional[typing.Any]
+        request : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

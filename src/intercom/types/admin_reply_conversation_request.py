@@ -7,6 +7,7 @@ from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
 from .admin_reply_conversation_request_message_type import AdminReplyConversationRequestMessageType
 from .conversation_attachment_files import ConversationAttachmentFiles
+from .quick_reply_option import QuickReplyOption
 
 
 class AdminReplyConversationRequest(UncheckedBaseModel):
@@ -29,6 +30,11 @@ class AdminReplyConversationRequest(UncheckedBaseModel):
     created_at: typing.Optional[int] = pydantic.Field(default=None)
     """
     The time the reply was created. If not provided, the current time will be used.
+    """
+
+    reply_options: typing.Optional[typing.List[QuickReplyOption]] = pydantic.Field(default=None)
+    """
+    The quick reply options to display to the end user. Must be present for quick_reply message types.
     """
 
     attachment_urls: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
