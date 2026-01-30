@@ -3,15 +3,35 @@
 import typing
 
 from .conversation_attribute_updated_by_admin import ConversationAttributeUpdatedByAdmin
+from .conversation_attribute_updated_by_user import ConversationAttributeUpdatedByUser
 from .conversation_attribute_updated_by_workflow import ConversationAttributeUpdatedByWorkflow
+from .conversation_sla_applied_by_rule import ConversationSlaAppliedByRule
+from .conversation_sla_applied_by_workflow import ConversationSlaAppliedByWorkflow
+from .conversation_sla_paused import ConversationSlaPaused
+from .conversation_sla_removed import ConversationSlaRemoved
+from .conversation_sla_target_missed import ConversationSlaTargetMissed
+from .conversation_sla_unpaused import ConversationSlaUnpaused
+from .conversation_tags_updated import ConversationTagsUpdated
 from .custom_action_finished import CustomActionFinished
 from .custom_action_started import CustomActionStarted
 from .operator_workflow_event import OperatorWorkflowEvent
+from .priority_changed import PriorityChanged
+from .snoozed import Snoozed
 
 EventDetails = typing.Union[
     ConversationAttributeUpdatedByWorkflow,
     ConversationAttributeUpdatedByAdmin,
+    ConversationAttributeUpdatedByUser,
     CustomActionStarted,
     CustomActionFinished,
     OperatorWorkflowEvent,
+    ConversationTagsUpdated,
+    Snoozed,
+    PriorityChanged,
+    ConversationSlaAppliedByRule,
+    ConversationSlaAppliedByWorkflow,
+    ConversationSlaTargetMissed,
+    ConversationSlaPaused,
+    ConversationSlaUnpaused,
+    ConversationSlaRemoved,
 ]

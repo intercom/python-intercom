@@ -7,15 +7,10 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2
 from ...core.unchecked_base_model import UncheckedBaseModel
 
 
-class ConversationAttributeUpdatedByAdminValue(UncheckedBaseModel):
+class ConversationAttributeUpdatedByUserAttribute(UncheckedBaseModel):
     name: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Current value of the CDA updated
-    """
-
-    previous: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Previous value of the CDA
+    Name of the CDA updated
     """
 
     if IS_PYDANTIC_V2:

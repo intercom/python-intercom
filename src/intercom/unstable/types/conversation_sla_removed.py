@@ -7,15 +7,14 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2
 from ...core.unchecked_base_model import UncheckedBaseModel
 
 
-class ConversationAttributeUpdatedByAdminValue(UncheckedBaseModel):
-    name: typing.Optional[str] = pydantic.Field(default=None)
+class ConversationSlaRemoved(UncheckedBaseModel):
     """
-    Current value of the CDA updated
+    Contains basic SLA information when removed for conversation part type <code>conversation_sla_removed</code>.
     """
 
-    previous: typing.Optional[str] = pydantic.Field(default=None)
+    sla_name: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Previous value of the CDA
+    Name of the SLA that was removed
     """
 
     if IS_PYDANTIC_V2:

@@ -27,6 +27,7 @@ if typing.TYPE_CHECKING:
     from .export.client import AsyncExportClient, ExportClient
     from .help_centers.client import AsyncHelpCentersClient, HelpCentersClient
     from .internal_articles.client import AsyncInternalArticlesClient, InternalArticlesClient
+    from .ip_allowlist.client import AsyncIpAllowlistClient, IpAllowlistClient
     from .jobs.client import AsyncJobsClient, JobsClient
     from .messages.client import AsyncMessagesClient, MessagesClient
     from .news.client import AsyncNewsClient, NewsClient
@@ -120,6 +121,7 @@ class Intercom:
         self._data_export: typing.Optional[DataExportClient] = None
         self._help_centers: typing.Optional[HelpCentersClient] = None
         self._internal_articles: typing.Optional[InternalArticlesClient] = None
+        self._ip_allowlist: typing.Optional[IpAllowlistClient] = None
         self._companies: typing.Optional[CompaniesClient] = None
         self._contacts: typing.Optional[ContactsClient] = None
         self._notes: typing.Optional[NotesClient] = None
@@ -206,6 +208,14 @@ class Intercom:
 
             self._internal_articles = InternalArticlesClient(client_wrapper=self._client_wrapper)
         return self._internal_articles
+
+    @property
+    def ip_allowlist(self):
+        if self._ip_allowlist is None:
+            from .ip_allowlist.client import IpAllowlistClient  # noqa: E402
+
+            self._ip_allowlist = IpAllowlistClient(client_wrapper=self._client_wrapper)
+        return self._ip_allowlist
 
     @property
     def companies(self):
@@ -461,6 +471,7 @@ class AsyncIntercom:
         self._data_export: typing.Optional[AsyncDataExportClient] = None
         self._help_centers: typing.Optional[AsyncHelpCentersClient] = None
         self._internal_articles: typing.Optional[AsyncInternalArticlesClient] = None
+        self._ip_allowlist: typing.Optional[AsyncIpAllowlistClient] = None
         self._companies: typing.Optional[AsyncCompaniesClient] = None
         self._contacts: typing.Optional[AsyncContactsClient] = None
         self._notes: typing.Optional[AsyncNotesClient] = None
@@ -547,6 +558,14 @@ class AsyncIntercom:
 
             self._internal_articles = AsyncInternalArticlesClient(client_wrapper=self._client_wrapper)
         return self._internal_articles
+
+    @property
+    def ip_allowlist(self):
+        if self._ip_allowlist is None:
+            from .ip_allowlist.client import AsyncIpAllowlistClient  # noqa: E402
+
+            self._ip_allowlist = AsyncIpAllowlistClient(client_wrapper=self._client_wrapper)
+        return self._ip_allowlist
 
     @property
     def companies(self):
