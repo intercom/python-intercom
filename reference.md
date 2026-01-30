@@ -2975,6 +2975,163 @@ client.internal_articles.search_internal_articles(
 </dl>
 </details>
 
+## IP Allowlist
+<details><summary><code>client.ip_allowlist.<a href="src/intercom/ip_allowlist/client.py">get_ip_allowlist</a>()</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve the current IP allowlist configuration for the workspace.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.ip_allowlist.get_ip_allowlist()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.ip_allowlist.<a href="src/intercom/ip_allowlist/client.py">update_ip_allowlist</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update the IP allowlist configuration for the workspace.
+
+{% admonition type="warning" name="Lockout Protection" %}
+  The API will reject updates that would lock out the caller's IP address. Ensure your current IP is included in the allowlist when enabling the feature.
+{% /admonition %}
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.ip_allowlist.update_ip_allowlist(
+    enabled=True,
+    ip_allowlist=["192.168.1.0/24", "10.0.0.1"],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**type:** `typing.Optional[str]` — String representing the object's type. Always has the value `ip_allowlist`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**enabled:** `typing.Optional[bool]` — Whether the IP allowlist is enabled for the workspace.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ip_allowlist:** `typing.Optional[typing.Sequence[str]]` 
+
+List of allowed IP addresses and/or IP ranges in CIDR notation.
+Examples:
+- Single IP: `192.168.0.1`
+- IP range: `192.168.0.1/24` (allows 192.168.0.0 - 192.168.0.255)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Companies
 <details><summary><code>client.companies.<a href="src/intercom/companies/client.py">retrieve</a>(...)</code></summary>
 <dl>
@@ -17340,6 +17497,14 @@ client.unstable.contacts.update_contact(
 <dl>
 <dd>
 
+**language_override:** `typing.Optional[str]` — A preferred language setting for the contact, used by Intercom as the language of Fin and the Messenger even if their browser has a different setting. Supports ISO 639-1 two-letter language codes. If an unsupported code is supplied, the field will be set to null.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **custom_attributes:** `typing.Optional[typing.Dict[str, typing.Any]]` — The custom attributes which are set for the contact
     
 </dd>
@@ -20189,6 +20354,78 @@ client.unstable.conversations.detach_contact_from_conversation(
 </dl>
 </details>
 
+<details><summary><code>client.unstable.conversations.<a href="src/intercom/unstable/conversations/client.py">list_handling_events</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List all pause/resume events for a conversation. These events track when teammates paused or resumed handling a conversation.
+
+Requires the `read_conversations` OAuth scope.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.conversations.list_handling_events(
+    id="123",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The identifier for the conversation as given by Intercom.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.unstable.conversations.<a href="src/intercom/unstable/conversations/client.py">redact_conversation</a>(...)</code></summary>
 <dl>
 <dd>
@@ -22013,6 +22250,83 @@ client.unstable.data_export.download_data_export(
 <dd>
 
 **job_identifier:** `str` — job_identifier
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Workflows
+<details><summary><code>client.unstable.workflows.<a href="src/intercom/unstable/workflows/client.py">export_workflow</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Export a workflow configuration by its ID. This endpoint returns the complete workflow definition including its steps, targeting rules, and attributes.
+
+This endpoint is designed for EU Data Act compliance, allowing customers to export their workflow configurations.
+
+{% admonition type="warning" name="Unstable API" %}
+  This API is currently in the Unstable version. Its behavior may change in future releases.
+{% /admonition %}
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from intercom import Intercom
+
+client = Intercom(
+    token="YOUR_TOKEN",
+)
+client.unstable.workflows.export_workflow(
+    id="12345",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The unique identifier for the workflow
     
 </dd>
 </dl>

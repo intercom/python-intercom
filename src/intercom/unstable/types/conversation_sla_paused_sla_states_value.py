@@ -7,15 +7,15 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2
 from ...core.unchecked_base_model import UncheckedBaseModel
 
 
-class ConversationAttributeUpdatedByAdminValue(UncheckedBaseModel):
-    name: typing.Optional[str] = pydantic.Field(default=None)
+class ConversationSlaPausedSlaStatesValue(UncheckedBaseModel):
+    status: typing.Optional[typing.Literal["paused"]] = pydantic.Field(default=None)
     """
-    Current value of the CDA updated
+    Status of this specific target (always paused)
     """
 
-    previous: typing.Optional[str] = pydantic.Field(default=None)
+    seconds_remaining: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Previous value of the CDA
+    Time remaining when paused
     """
 
     if IS_PYDANTIC_V2:

@@ -3,5 +3,6 @@
 import typing
 
 AiAgentResolutionState = typing.Union[
-    typing.Literal["assumed_resolution", "confirmed_resolution", "escalated", "negative_feedback"], typing.Any
+    typing.Literal["assumed_resolution", "confirmed_resolution", "escalated", "negative_feedback", "procedure_handoff"],
+    typing.Any,
 ]

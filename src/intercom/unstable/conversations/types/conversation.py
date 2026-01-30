@@ -6,6 +6,7 @@ import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 from ....core.unchecked_base_model import UncheckedBaseModel
 from ...ai_agent.types.ai_agent import AiAgent
+from ...companies.types.company import Company
 from ...types.conversation_contacts import ConversationContacts
 from ...types.conversation_first_contact_reply import ConversationFirstContactReply
 from ...types.conversation_parts import ConversationParts
@@ -94,6 +95,11 @@ class Conversation(UncheckedBaseModel):
     company_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The ID of the company that the conversation is associated with. The unique identifier for the company which is given by Intercom.
+    """
+
+    company: typing.Optional[Company] = pydantic.Field(default=None)
+    """
+    The company associated with the conversation.
     """
 
     tags: typing.Optional[Tags] = None

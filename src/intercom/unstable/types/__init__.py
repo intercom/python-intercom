@@ -68,6 +68,9 @@ if typing.TYPE_CHECKING:
     from .conversation_attribute_updated_by_admin import ConversationAttributeUpdatedByAdmin
     from .conversation_attribute_updated_by_admin_attribute import ConversationAttributeUpdatedByAdminAttribute
     from .conversation_attribute_updated_by_admin_value import ConversationAttributeUpdatedByAdminValue
+    from .conversation_attribute_updated_by_user import ConversationAttributeUpdatedByUser
+    from .conversation_attribute_updated_by_user_attribute import ConversationAttributeUpdatedByUserAttribute
+    from .conversation_attribute_updated_by_user_value import ConversationAttributeUpdatedByUserValue
     from .conversation_attribute_updated_by_workflow import ConversationAttributeUpdatedByWorkflow
     from .conversation_attribute_updated_by_workflow_attribute import ConversationAttributeUpdatedByWorkflowAttribute
     from .conversation_attribute_updated_by_workflow_value import ConversationAttributeUpdatedByWorkflowValue
@@ -84,9 +87,24 @@ if typing.TYPE_CHECKING:
     from .conversation_parts import ConversationParts
     from .conversation_rating import ConversationRating
     from .conversation_response_time import ConversationResponseTime
+    from .conversation_sla_applied_by_rule import ConversationSlaAppliedByRule
+    from .conversation_sla_applied_by_rule_sla_definition import ConversationSlaAppliedByRuleSlaDefinition
+    from .conversation_sla_applied_by_workflow import ConversationSlaAppliedByWorkflow
+    from .conversation_sla_applied_by_workflow_sla_definition import ConversationSlaAppliedByWorkflowSlaDefinition
+    from .conversation_sla_paused import ConversationSlaPaused
+    from .conversation_sla_paused_current_sla_status import ConversationSlaPausedCurrentSlaStatus
+    from .conversation_sla_paused_sla_states_value import ConversationSlaPausedSlaStatesValue
+    from .conversation_sla_removed import ConversationSlaRemoved
+    from .conversation_sla_target_missed import ConversationSlaTargetMissed
+    from .conversation_sla_target_missed_current_sla_status import ConversationSlaTargetMissedCurrentSlaStatus
+    from .conversation_sla_target_missed_sla_states_value import ConversationSlaTargetMissedSlaStatesValue
+    from .conversation_sla_target_missed_sla_states_value_status import ConversationSlaTargetMissedSlaStatesValueStatus
+    from .conversation_sla_target_missed_sla_target_type import ConversationSlaTargetMissedSlaTargetType
+    from .conversation_sla_unpaused import ConversationSlaUnpaused
     from .conversation_source import ConversationSource
     from .conversation_source_type import ConversationSourceType
     from .conversation_statistics import ConversationStatistics
+    from .conversation_tags_updated import ConversationTagsUpdated
     from .conversation_teammates import ConversationTeammates
     from .create_article_request import CreateArticleRequest
     from .create_article_request_state import CreateArticleRequestState
@@ -148,6 +166,9 @@ if typing.TYPE_CHECKING:
     from .file_attribute import FileAttribute
     from .group_content import GroupContent
     from .group_translated_content import GroupTranslatedContent
+    from .handling_event import HandlingEvent
+    from .handling_event_list import HandlingEventList
+    from .handling_event_type import HandlingEventType
     from .internal_article_list import InternalArticleList
     from .linked_object import LinkedObject
     from .linked_object_category import LinkedObjectCategory
@@ -175,6 +196,9 @@ if typing.TYPE_CHECKING:
     from .paginated_response_type import PaginatedResponseType
     from .part_attachment import PartAttachment
     from .phone_switch import PhoneSwitch
+    from .priority_changed import PriorityChanged
+    from .priority_changed_current_priority import PriorityChangedCurrentPriority
+    from .priority_changed_previous_priority import PriorityChangedPreviousPriority
     from .quick_reply_option import QuickReplyOption
     from .recipient import Recipient
     from .recipient_type import RecipientType
@@ -199,6 +223,7 @@ if typing.TYPE_CHECKING:
     from .sla_applied import SlaApplied
     from .sla_applied_sla_status import SlaAppliedSlaStatus
     from .snooze_conversation_request import SnoozeConversationRequest
+    from .snoozed import Snoozed
     from .social_profile import SocialProfile
     from .starting_after_paging import StartingAfterPaging
     from .subscription_type_list import SubscriptionTypeList
@@ -210,6 +235,8 @@ if typing.TYPE_CHECKING:
     from .tags import Tags
     from .team_list import TeamList
     from .team_priority_level import TeamPriorityLevel
+    from .teammate_reference import TeammateReference
+    from .teammate_reference_type import TeammateReferenceType
     from .ticket_custom_attributes import TicketCustomAttributes
     from .ticket_custom_attributes_value import TicketCustomAttributesValue
     from .ticket_list import TicketList
@@ -244,6 +271,9 @@ if typing.TYPE_CHECKING:
     from .whatsapp_message_status_list_events_item_status import WhatsappMessageStatusListEventsItemStatus
     from .whatsapp_message_status_list_pages import WhatsappMessageStatusListPages
     from .whatsapp_message_status_list_pages_next import WhatsappMessageStatusListPagesNext
+    from .workflow_export import WorkflowExport
+    from .workflow_export_workflow import WorkflowExportWorkflow
+    from .workflow_export_workflow_state import WorkflowExportWorkflowState
 _dynamic_imports: typing.Dict[str, str] = {
     "ActivityLog": ".activity_log",
     "ActivityLogActivityType": ".activity_log_activity_type",
@@ -307,6 +337,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationAttributeUpdatedByAdmin": ".conversation_attribute_updated_by_admin",
     "ConversationAttributeUpdatedByAdminAttribute": ".conversation_attribute_updated_by_admin_attribute",
     "ConversationAttributeUpdatedByAdminValue": ".conversation_attribute_updated_by_admin_value",
+    "ConversationAttributeUpdatedByUser": ".conversation_attribute_updated_by_user",
+    "ConversationAttributeUpdatedByUserAttribute": ".conversation_attribute_updated_by_user_attribute",
+    "ConversationAttributeUpdatedByUserValue": ".conversation_attribute_updated_by_user_value",
     "ConversationAttributeUpdatedByWorkflow": ".conversation_attribute_updated_by_workflow",
     "ConversationAttributeUpdatedByWorkflowAttribute": ".conversation_attribute_updated_by_workflow_attribute",
     "ConversationAttributeUpdatedByWorkflowValue": ".conversation_attribute_updated_by_workflow_value",
@@ -323,9 +356,24 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationParts": ".conversation_parts",
     "ConversationRating": ".conversation_rating",
     "ConversationResponseTime": ".conversation_response_time",
+    "ConversationSlaAppliedByRule": ".conversation_sla_applied_by_rule",
+    "ConversationSlaAppliedByRuleSlaDefinition": ".conversation_sla_applied_by_rule_sla_definition",
+    "ConversationSlaAppliedByWorkflow": ".conversation_sla_applied_by_workflow",
+    "ConversationSlaAppliedByWorkflowSlaDefinition": ".conversation_sla_applied_by_workflow_sla_definition",
+    "ConversationSlaPaused": ".conversation_sla_paused",
+    "ConversationSlaPausedCurrentSlaStatus": ".conversation_sla_paused_current_sla_status",
+    "ConversationSlaPausedSlaStatesValue": ".conversation_sla_paused_sla_states_value",
+    "ConversationSlaRemoved": ".conversation_sla_removed",
+    "ConversationSlaTargetMissed": ".conversation_sla_target_missed",
+    "ConversationSlaTargetMissedCurrentSlaStatus": ".conversation_sla_target_missed_current_sla_status",
+    "ConversationSlaTargetMissedSlaStatesValue": ".conversation_sla_target_missed_sla_states_value",
+    "ConversationSlaTargetMissedSlaStatesValueStatus": ".conversation_sla_target_missed_sla_states_value_status",
+    "ConversationSlaTargetMissedSlaTargetType": ".conversation_sla_target_missed_sla_target_type",
+    "ConversationSlaUnpaused": ".conversation_sla_unpaused",
     "ConversationSource": ".conversation_source",
     "ConversationSourceType": ".conversation_source_type",
     "ConversationStatistics": ".conversation_statistics",
+    "ConversationTagsUpdated": ".conversation_tags_updated",
     "ConversationTeammates": ".conversation_teammates",
     "CreateArticleRequest": ".create_article_request",
     "CreateArticleRequestState": ".create_article_request_state",
@@ -387,6 +435,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "FileAttribute": ".file_attribute",
     "GroupContent": ".group_content",
     "GroupTranslatedContent": ".group_translated_content",
+    "HandlingEvent": ".handling_event",
+    "HandlingEventList": ".handling_event_list",
+    "HandlingEventType": ".handling_event_type",
     "InternalArticleList": ".internal_article_list",
     "LinkedObject": ".linked_object",
     "LinkedObjectCategory": ".linked_object_category",
@@ -412,6 +463,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "PaginatedResponseType": ".paginated_response_type",
     "PartAttachment": ".part_attachment",
     "PhoneSwitch": ".phone_switch",
+    "PriorityChanged": ".priority_changed",
+    "PriorityChangedCurrentPriority": ".priority_changed_current_priority",
+    "PriorityChangedPreviousPriority": ".priority_changed_previous_priority",
     "QuickReplyOption": ".quick_reply_option",
     "Recipient": ".recipient",
     "RecipientType": ".recipient_type",
@@ -434,6 +488,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "SlaApplied": ".sla_applied",
     "SlaAppliedSlaStatus": ".sla_applied_sla_status",
     "SnoozeConversationRequest": ".snooze_conversation_request",
+    "Snoozed": ".snoozed",
     "SocialProfile": ".social_profile",
     "StartingAfterPaging": ".starting_after_paging",
     "SubscriptionTypeList": ".subscription_type_list",
@@ -445,6 +500,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Tags": ".tags",
     "TeamList": ".team_list",
     "TeamPriorityLevel": ".team_priority_level",
+    "TeammateReference": ".teammate_reference",
+    "TeammateReferenceType": ".teammate_reference_type",
     "TicketCustomAttributes": ".ticket_custom_attributes",
     "TicketCustomAttributesValue": ".ticket_custom_attributes_value",
     "TicketList": ".ticket_list",
@@ -479,6 +536,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "WhatsappMessageStatusListEventsItemStatus": ".whatsapp_message_status_list_events_item_status",
     "WhatsappMessageStatusListPages": ".whatsapp_message_status_list_pages",
     "WhatsappMessageStatusListPagesNext": ".whatsapp_message_status_list_pages_next",
+    "WorkflowExport": ".workflow_export",
+    "WorkflowExportWorkflow": ".workflow_export_workflow",
+    "WorkflowExportWorkflowState": ".workflow_export_workflow_state",
 }
 
 
@@ -566,6 +626,9 @@ __all__ = [
     "ConversationAttributeUpdatedByAdmin",
     "ConversationAttributeUpdatedByAdminAttribute",
     "ConversationAttributeUpdatedByAdminValue",
+    "ConversationAttributeUpdatedByUser",
+    "ConversationAttributeUpdatedByUserAttribute",
+    "ConversationAttributeUpdatedByUserValue",
     "ConversationAttributeUpdatedByWorkflow",
     "ConversationAttributeUpdatedByWorkflowAttribute",
     "ConversationAttributeUpdatedByWorkflowValue",
@@ -582,9 +645,24 @@ __all__ = [
     "ConversationParts",
     "ConversationRating",
     "ConversationResponseTime",
+    "ConversationSlaAppliedByRule",
+    "ConversationSlaAppliedByRuleSlaDefinition",
+    "ConversationSlaAppliedByWorkflow",
+    "ConversationSlaAppliedByWorkflowSlaDefinition",
+    "ConversationSlaPaused",
+    "ConversationSlaPausedCurrentSlaStatus",
+    "ConversationSlaPausedSlaStatesValue",
+    "ConversationSlaRemoved",
+    "ConversationSlaTargetMissed",
+    "ConversationSlaTargetMissedCurrentSlaStatus",
+    "ConversationSlaTargetMissedSlaStatesValue",
+    "ConversationSlaTargetMissedSlaStatesValueStatus",
+    "ConversationSlaTargetMissedSlaTargetType",
+    "ConversationSlaUnpaused",
     "ConversationSource",
     "ConversationSourceType",
     "ConversationStatistics",
+    "ConversationTagsUpdated",
     "ConversationTeammates",
     "CreateArticleRequest",
     "CreateArticleRequestState",
@@ -646,6 +724,9 @@ __all__ = [
     "FileAttribute",
     "GroupContent",
     "GroupTranslatedContent",
+    "HandlingEvent",
+    "HandlingEventList",
+    "HandlingEventType",
     "InternalArticleList",
     "LinkedObject",
     "LinkedObjectCategory",
@@ -671,6 +752,9 @@ __all__ = [
     "PaginatedResponseType",
     "PartAttachment",
     "PhoneSwitch",
+    "PriorityChanged",
+    "PriorityChangedCurrentPriority",
+    "PriorityChangedPreviousPriority",
     "QuickReplyOption",
     "Recipient",
     "RecipientType",
@@ -693,6 +777,7 @@ __all__ = [
     "SlaApplied",
     "SlaAppliedSlaStatus",
     "SnoozeConversationRequest",
+    "Snoozed",
     "SocialProfile",
     "StartingAfterPaging",
     "SubscriptionTypeList",
@@ -704,6 +789,8 @@ __all__ = [
     "Tags",
     "TeamList",
     "TeamPriorityLevel",
+    "TeammateReference",
+    "TeammateReferenceType",
     "TicketCustomAttributes",
     "TicketCustomAttributesValue",
     "TicketList",
@@ -738,4 +825,7 @@ __all__ = [
     "WhatsappMessageStatusListEventsItemStatus",
     "WhatsappMessageStatusListPages",
     "WhatsappMessageStatusListPagesNext",
+    "WorkflowExport",
+    "WorkflowExportWorkflow",
+    "WorkflowExportWorkflowState",
 ]

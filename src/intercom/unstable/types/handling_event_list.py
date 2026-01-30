@@ -5,17 +5,17 @@ import typing
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 from ...core.unchecked_base_model import UncheckedBaseModel
+from .handling_event import HandlingEvent
 
 
-class ConversationAttributeUpdatedByAdminValue(UncheckedBaseModel):
-    name: typing.Optional[str] = pydantic.Field(default=None)
+class HandlingEventList(UncheckedBaseModel):
     """
-    Current value of the CDA updated
+    A list of handling events for a conversation
     """
 
-    previous: typing.Optional[str] = pydantic.Field(default=None)
+    handling_events: typing.Optional[typing.List[HandlingEvent]] = pydantic.Field(default=None)
     """
-    Previous value of the CDA
+    Array of handling events
     """
 
     if IS_PYDANTIC_V2:

@@ -353,6 +353,7 @@ class RawContactsClient:
         last_seen_at: typing.Optional[int] = OMIT,
         owner_id: typing.Optional[int] = OMIT,
         unsubscribed_from_emails: typing.Optional[bool] = OMIT,
+        language_override: typing.Optional[str] = OMIT,
         custom_attributes: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[UpdateContactResponse]:
@@ -400,6 +401,9 @@ class RawContactsClient:
         unsubscribed_from_emails : typing.Optional[bool]
             Whether the contact is unsubscribed from emails
 
+        language_override : typing.Optional[str]
+            A preferred language setting for the contact, used by Intercom as the language of Fin and the Messenger even if their browser has a different setting. Supports ISO 639-1 two-letter language codes. If an unsupported code is supplied, the field will be set to null.
+
         custom_attributes : typing.Optional[typing.Dict[str, typing.Any]]
             The custom attributes which are set for the contact
 
@@ -425,6 +429,7 @@ class RawContactsClient:
                 "last_seen_at": last_seen_at,
                 "owner_id": owner_id,
                 "unsubscribed_from_emails": unsubscribed_from_emails,
+                "language_override": language_override,
                 "custom_attributes": custom_attributes,
             },
             headers={
@@ -1329,6 +1334,7 @@ class AsyncRawContactsClient:
         last_seen_at: typing.Optional[int] = OMIT,
         owner_id: typing.Optional[int] = OMIT,
         unsubscribed_from_emails: typing.Optional[bool] = OMIT,
+        language_override: typing.Optional[str] = OMIT,
         custom_attributes: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[UpdateContactResponse]:
@@ -1376,6 +1382,9 @@ class AsyncRawContactsClient:
         unsubscribed_from_emails : typing.Optional[bool]
             Whether the contact is unsubscribed from emails
 
+        language_override : typing.Optional[str]
+            A preferred language setting for the contact, used by Intercom as the language of Fin and the Messenger even if their browser has a different setting. Supports ISO 639-1 two-letter language codes. If an unsupported code is supplied, the field will be set to null.
+
         custom_attributes : typing.Optional[typing.Dict[str, typing.Any]]
             The custom attributes which are set for the contact
 
@@ -1401,6 +1410,7 @@ class AsyncRawContactsClient:
                 "last_seen_at": last_seen_at,
                 "owner_id": owner_id,
                 "unsubscribed_from_emails": unsubscribed_from_emails,
+                "language_override": language_override,
                 "custom_attributes": custom_attributes,
             },
             headers={

@@ -130,7 +130,7 @@ class Contact(UncheckedBaseModel):
 
     language_override: typing.Optional[str] = pydantic.Field(default=None)
     """
-    A preferred language setting for the contact, used by the Intercom Messenger even if their browser settings change.
+    A preferred language setting for the contact, used by Intercom as the language of Fin and the Messenger even if their browser has a different setting. Supports ISO 639-1 two-letter language codes. If an unsupported code is supplied, the field will be set to null.
     """
 
     browser: typing.Optional[str] = pydantic.Field(default=None)

@@ -41,6 +41,7 @@ if typing.TYPE_CHECKING:
     from .ticket_types.client import AsyncTicketTypesClient, TicketTypesClient
     from .tickets.client import AsyncTicketsClient, TicketsClient
     from .visitors.client import AsyncVisitorsClient, VisitorsClient
+    from .workflows.client import AsyncWorkflowsClient, WorkflowsClient
 
 
 class UnstableClient:
@@ -65,6 +66,7 @@ class UnstableClient:
         self._data_attributes: typing.Optional[DataAttributesClient] = None
         self._data_events: typing.Optional[DataEventsClient] = None
         self._data_export: typing.Optional[DataExportClient] = None
+        self._workflows: typing.Optional[WorkflowsClient] = None
         self._jobs: typing.Optional[JobsClient] = None
         self._macros: typing.Optional[MacrosClient] = None
         self._messages: typing.Optional[MessagesClient] = None
@@ -237,6 +239,14 @@ class UnstableClient:
         return self._data_export
 
     @property
+    def workflows(self):
+        if self._workflows is None:
+            from .workflows.client import WorkflowsClient  # noqa: E402
+
+            self._workflows = WorkflowsClient(client_wrapper=self._client_wrapper)
+        return self._workflows
+
+    @property
     def jobs(self):
         if self._jobs is None:
             from .jobs.client import JobsClient  # noqa: E402
@@ -379,6 +389,7 @@ class AsyncUnstableClient:
         self._data_attributes: typing.Optional[AsyncDataAttributesClient] = None
         self._data_events: typing.Optional[AsyncDataEventsClient] = None
         self._data_export: typing.Optional[AsyncDataExportClient] = None
+        self._workflows: typing.Optional[AsyncWorkflowsClient] = None
         self._jobs: typing.Optional[AsyncJobsClient] = None
         self._macros: typing.Optional[AsyncMacrosClient] = None
         self._messages: typing.Optional[AsyncMessagesClient] = None
@@ -549,6 +560,14 @@ class AsyncUnstableClient:
 
             self._data_export = AsyncDataExportClient(client_wrapper=self._client_wrapper)
         return self._data_export
+
+    @property
+    def workflows(self):
+        if self._workflows is None:
+            from .workflows.client import AsyncWorkflowsClient  # noqa: E402
+
+            self._workflows = AsyncWorkflowsClient(client_wrapper=self._client_wrapper)
+        return self._workflows
 
     @property
     def jobs(self):

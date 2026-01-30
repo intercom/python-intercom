@@ -165,6 +165,7 @@ if typing.TYPE_CHECKING:
     from .group_content import GroupContent
     from .group_translated_content import GroupTranslatedContent
     from .internal_article_list import InternalArticleList
+    from .ip_allowlist import IpAllowlist
     from .linked_object import LinkedObject
     from .linked_object_category import LinkedObjectCategory
     from .linked_object_list import LinkedObjectList
@@ -428,6 +429,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "GroupContent": ".group_content",
     "GroupTranslatedContent": ".group_translated_content",
     "InternalArticleList": ".internal_article_list",
+    "IpAllowlist": ".ip_allowlist",
     "LinkedObject": ".linked_object",
     "LinkedObjectCategory": ".linked_object_category",
     "LinkedObjectList": ".linked_object_list",
@@ -711,6 +713,7 @@ __all__ = [
     "GroupContent",
     "GroupTranslatedContent",
     "InternalArticleList",
+    "IpAllowlist",
     "LinkedObject",
     "LinkedObjectCategory",
     "LinkedObjectList",

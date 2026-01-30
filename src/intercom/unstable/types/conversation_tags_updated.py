@@ -7,15 +7,19 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2
 from ...core.unchecked_base_model import UncheckedBaseModel
 
 
-class ConversationAttributeUpdatedByAdminValue(UncheckedBaseModel):
-    name: typing.Optional[str] = pydantic.Field(default=None)
+class ConversationTagsUpdated(UncheckedBaseModel):
     """
-    Current value of the CDA updated
+    Contains details about tags that were added or removed from a conversation for conversation part type <code>conversation_tags_updated</code>.
     """
 
-    previous: typing.Optional[str] = pydantic.Field(default=None)
+    tags_added: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
-    Previous value of the CDA
+    Array of tag names that were added
+    """
+
+    tags_removed: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    Array of tag names that were removed
     """
 
     if IS_PYDANTIC_V2:
