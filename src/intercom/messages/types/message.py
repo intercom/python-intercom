@@ -43,7 +43,7 @@ class Message(UncheckedBaseModel):
     The type of message that was sent. Can be email, inapp, facebook or twitter.
     """
 
-    conversation_id: typing.Optional[str] = pydantic.Field(default=None)
+    conversation_id: str = pydantic.Field()
     """
     The associated conversation_id
     """

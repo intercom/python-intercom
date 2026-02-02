@@ -12,7 +12,7 @@ class DataEvent(UncheckedBaseModel):
     Data events are used to notify Intercom of changes to your data.
     """
 
-    type: typing.Optional[typing.Literal["event"]] = pydantic.Field(default=None)
+    type: typing.Literal["event"] = pydantic.Field(default="event")
     """
     The type of the object
     """

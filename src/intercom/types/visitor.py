@@ -18,17 +18,17 @@ class Visitor(UncheckedBaseModel):
     Visitors are useful for representing anonymous people that have not yet been identified. They usually represent website visitors. Visitors are not visible in Intercom platform. The Visitors resource provides methods to fetch, update, convert and delete.
     """
 
-    type: typing.Optional[typing.Literal["visitor"]] = pydantic.Field(default=None)
+    type: typing.Literal["visitor"] = pydantic.Field(default="visitor")
     """
     Value is 'visitor'
     """
 
-    id: typing.Optional[str] = pydantic.Field(default=None)
+    id: str = pydantic.Field()
     """
     The Intercom defined id representing the Visitor.
     """
 
-    user_id: typing.Optional[str] = pydantic.Field(default=None)
+    user_id: str = pydantic.Field()
     """
     Automatically generated identifier for the Visitor.
     """

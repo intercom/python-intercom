@@ -26,12 +26,12 @@ class Conversation(UncheckedBaseModel):
     Conversations are how you can communicate with users in Intercom. They are created when a contact replies to an outbound message, or when one admin directly sends a message to a single contact.
     """
 
-    type: typing.Optional[str] = pydantic.Field(default=None)
+    type: str = pydantic.Field()
     """
     Always conversation.
     """
 
-    id: typing.Optional[str] = pydantic.Field(default=None)
+    id: str = pydantic.Field()
     """
     The id representing the conversation.
     """
@@ -41,12 +41,12 @@ class Conversation(UncheckedBaseModel):
     The title given to the conversation.
     """
 
-    created_at: typing.Optional[int] = pydantic.Field(default=None)
+    created_at: int = pydantic.Field()
     """
     The time the conversation was created.
     """
 
-    updated_at: typing.Optional[int] = pydantic.Field(default=None)
+    updated_at: int = pydantic.Field()
     """
     The last time the conversation was updated.
     """
@@ -61,17 +61,17 @@ class Conversation(UncheckedBaseModel):
     If set this is the time in the future when this conversation will be marked as open. i.e. it will be in a snoozed state until this time. i.e. it will be in a snoozed state until this time.
     """
 
-    open: typing.Optional[bool] = pydantic.Field(default=None)
+    open: bool = pydantic.Field()
     """
     Indicates whether a conversation is open (true) or closed (false).
     """
 
-    state: typing.Optional[ConversationState] = pydantic.Field(default=None)
+    state: ConversationState = pydantic.Field()
     """
     Can be set to "open", "closed" or "snoozed".
     """
 
-    read: typing.Optional[bool] = pydantic.Field(default=None)
+    read: bool = pydantic.Field()
     """
     Indicates whether a conversation has been read.
     """
@@ -98,10 +98,10 @@ class Conversation(UncheckedBaseModel):
 
     tags: typing.Optional[Tags] = None
     conversation_rating: typing.Optional[ConversationRating] = None
-    source: typing.Optional[ConversationSource] = None
-    contacts: typing.Optional[ConversationContacts] = None
+    source: ConversationSource
+    contacts: ConversationContacts
     teammates: typing.Optional[ConversationTeammates] = None
-    custom_attributes: typing.Optional[CustomAttributes] = None
+    custom_attributes: CustomAttributes
     first_contact_reply: typing.Optional[ConversationFirstContactReply] = None
     sla_applied: typing.Optional[SlaApplied] = None
     statistics: typing.Optional[ConversationStatistics] = None

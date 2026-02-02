@@ -22,10 +22,10 @@ class BaseClientWrapper:
 
     def get_headers(self) -> typing.Dict[str, str]:
         headers: typing.Dict[str, str] = {
-            "User-Agent": "python-intercom/5.0.1",
+            "User-Agent": "python-intercom/5.0.2",
             "X-Fern-Language": "Python",
             "X-Fern-SDK-Name": "python-intercom",
-            "X-Fern-SDK-Version": "5.0.1",
+            "X-Fern-SDK-Version": "5.0.2",
             **(self.get_custom_headers() or {}),
         }
         headers["Authorization"] = f"Bearer {self._get_token()}"
