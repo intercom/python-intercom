@@ -17,12 +17,12 @@ class Contact(UncheckedBaseModel):
     Contacts represent your leads and users in Intercom.
     """
 
-    type: typing.Optional[typing.Literal["contact"]] = pydantic.Field(default=None)
+    type: typing.Literal["contact"] = pydantic.Field(default="contact")
     """
     The type of object.
     """
 
-    id: typing.Optional[str] = pydantic.Field(default=None)
+    id: str = pydantic.Field()
     """
     The unique identifier for the contact which is given by Intercom.
     """
@@ -32,12 +32,12 @@ class Contact(UncheckedBaseModel):
     The unique identifier for the contact which is provided by the Client.
     """
 
-    workspace_id: typing.Optional[str] = pydantic.Field(default=None)
+    workspace_id: str = pydantic.Field()
     """
     The id of the workspace which the contact belongs to.
     """
 
-    role: typing.Optional[str] = pydantic.Field(default=None)
+    role: str = pydantic.Field()
     """
     The role of the contact.
     """
@@ -67,27 +67,27 @@ class Contact(UncheckedBaseModel):
     The id of an admin that has been assigned account ownership of the contact.
     """
 
-    has_hard_bounced: typing.Optional[bool] = pydantic.Field(default=None)
+    has_hard_bounced: bool = pydantic.Field()
     """
     Whether the contact has had an email sent to them hard bounce.
     """
 
-    marked_email_as_spam: typing.Optional[bool] = pydantic.Field(default=None)
+    marked_email_as_spam: bool = pydantic.Field()
     """
     Whether the contact has marked an email sent to them as spam.
     """
 
-    unsubscribed_from_emails: typing.Optional[bool] = pydantic.Field(default=None)
+    unsubscribed_from_emails: bool = pydantic.Field()
     """
     Whether the contact is unsubscribed from emails.
     """
 
-    created_at: typing.Optional[int] = pydantic.Field(default=None)
+    created_at: int = pydantic.Field()
     """
     (UNIX timestamp) The time when the contact was created.
     """
 
-    updated_at: typing.Optional[int] = pydantic.Field(default=None)
+    updated_at: int = pydantic.Field()
     """
     (UNIX timestamp) The time when the contact was last updated.
     """

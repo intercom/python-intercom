@@ -19,30 +19,30 @@ class Ticket(UncheckedBaseModel):
     Tickets are how you track requests from your users.
     """
 
-    type: typing.Optional[typing.Literal["ticket"]] = pydantic.Field(default=None)
+    type: typing.Literal["ticket"] = pydantic.Field(default="ticket")
     """
     Always ticket
     """
 
-    id: typing.Optional[str] = pydantic.Field(default=None)
+    id: str = pydantic.Field()
     """
     The unique identifier for the ticket which is given by Intercom.
     """
 
-    ticket_id: typing.Optional[str] = pydantic.Field(default=None)
+    ticket_id: str = pydantic.Field()
     """
     The ID of the Ticket used in the Intercom Inbox and Messenger. Do not use ticket_id for API queries.
     """
 
-    category: typing.Optional[TicketCategory] = pydantic.Field(default=None)
+    category: TicketCategory = pydantic.Field()
     """
     Category of the Ticket.
     """
 
-    ticket_attributes: typing.Optional[TicketCustomAttributes] = None
+    ticket_attributes: TicketCustomAttributes
     ticket_state: typing.Optional[TicketState] = None
     ticket_type: typing.Optional[TicketType] = None
-    contacts: typing.Optional[TicketContacts] = None
+    contacts: TicketContacts
     admin_assignee_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The id representing the admin assigned to the ticket.
